@@ -1,0 +1,97 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Struct template result</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../../header/boost/convert/api_hpp.html" title="Header &lt;boost/convert/api.hpp&gt;">
+<link rel="prev" href="../../header/boost/convert/api_hpp.html" title="Header &lt;boost/convert/api.hpp&gt;">
+<link rel="next" href="../convert.html" title="Struct template convert">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../../header/boost/convert/api_hpp.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../../header/boost/convert/api_hpp.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="../convert.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+<div class="refentry">
+<a name="boost.conversion.result"></a><div class="titlepage"></div>
+<div class="refnamediv">
+<h2><span class="refentrytitle">Struct template result</span></h2>
+<p>boost::conversion::result &#8212; Encapsulation of the conversion result. </p>
+</div>
+<h2 xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv-title">Synopsis</h2>
+<div xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv"><pre class="synopsis"><span class="comment">// In header: &lt;<a class="link" href="../../header/boost/convert/api_hpp.html" title="Header &lt;boost/convert/api.hpp&gt;">boost/convert/api.hpp</a>&gt;
+
+</span><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeOut<span class="special">&gt;</span> 
+<span class="keyword">struct</span> <a class="link" href="result.html" title="Struct template result">result</a> <span class="special">{</span>
+  <span class="comment">// types</span>
+  <span class="keyword">typedef</span> <a class="link" href="../safebool.html" title="Struct template safebool">boost::safebool</a><span class="special">&lt;</span> <a class="link" href="result.html" title="Struct template result">result</a> <span class="special">&gt;</span>   <a name="boost.conversion.result.safebool"></a><span class="identifier">safebool</span><span class="special">;</span>         
+  <span class="keyword">typedef</span> <span class="identifier">TypeOut</span>                     <a name="boost.conversion.result.out_type"></a><span class="identifier">out_type</span><span class="special">;</span>         
+  <span class="keyword">typedef</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="identifier">out_type</span> <span class="special">&gt;</span> <a name="boost.conversion.result.optional_out_type"></a><span class="identifier">optional_out_type</span><span class="special">;</span>
+
+  <span class="keyword">enum</span> <a name="boost.conversion.result.status"></a>status <span class="special">{</span> good, bad, throw_bad <span class="special">}</span><span class="special">;</span>
+
+  <span class="comment">// <a class="link" href="result.html#boost.conversion.resultconstruct-copy-destruct">construct/copy/destruct</a></span>
+  <a class="link" href="result.html#id215399-bb"><span class="identifier">result</span></a><span class="special">(</span><span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">,</span> <span class="identifier">status</span><span class="special">)</span><span class="special">;</span>
+  <a class="link" href="result.html#id215411-bb"><span class="identifier">result</span></a><span class="special">(</span><span class="identifier">optional_out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">,</span> <span class="identifier">status</span><span class="special">)</span><span class="special">;</span>
+
+  <span class="comment">// <a class="link" href="result.html#id215362-bb">public member functions</a></span>
+  <a class="link" href="result.html#id215365-bb"><span class="keyword">operator</span> <span class="keyword">typename</span> <span class="identifier">safebool</span><span class="special">::</span><span class="identifier">type</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span> <a class="link" href="result.html#id215382-bb"><span class="identifier">value</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+<span class="special">}</span><span class="special">;</span></pre></div>
+<div class="refsect1">
+<a name="id841265"></a><h2>Description</h2>
+<div class="refsect2">
+<a name="id841268"></a><h3>
+<a name="boost.conversion.resultconstruct-copy-destruct"></a><code class="computeroutput">result</code> 
+        public
+       construct/copy/destruct</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1">
+<li class="listitem"><pre class="literallayout"><a name="id215399-bb"></a><span class="identifier">result</span><span class="special">(</span><span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span> v<span class="special">,</span> <span class="identifier">status</span> s<span class="special">)</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><a name="id215411-bb"></a><span class="identifier">result</span><span class="special">(</span><span class="identifier">optional_out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span> v<span class="special">,</span> <span class="identifier">status</span> s<span class="special">)</span><span class="special">;</span></pre></li>
+</ol></div>
+</div>
+<div class="refsect2">
+<a name="id841392"></a><h3>
+<a name="id215362-bb"></a><code class="computeroutput">result</code> public member functions</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1">
+<li class="listitem">
+<pre class="literallayout"><a name="id215365-bb"></a><span class="keyword">operator</span> <span class="keyword">typename</span> <span class="identifier">safebool</span><span class="special">::</span><span class="identifier">type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre>
+<p>Implicit conversion to safe-bool to allow checking the success of the conversion. For example, </p>
+<pre class="programlisting">     convert&lt;foo&gt;::result result = convert&lt;foo&gt;::from(str, fallback_value);
+     if ( result) conversion succeeded
+     if (!result) conversion failed
+</pre>
+<p> </p>
+</li>
+<li class="listitem">
+<pre class="literallayout"><span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span> <a name="id215382-bb"></a><span class="identifier">value</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre>
+<p>Retrieve the actual result (value) of the conversion. For example, </p>
+<pre class="programlisting">     convert&lt;foo_type&gt;::result result = convert&lt;foo_type&gt;::from(str, foo_value);
+     if (result)
+     {
+         foo_type value = result.value();  // Safe to retrieve the result
+     }
+</pre>
+<p> </p>
+</li>
+</ol></div>
+</div>
+</div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../../header/boost/convert/api_hpp.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../../header/boost/convert/api_hpp.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="../convert.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

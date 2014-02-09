@@ -1,0 +1,110 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Getting Started</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="prev" href="convert_motivation.html" title="Motivation">
+<link rel="next" href="convert_better_conv.html" title="Better Conversion-Failure Check With convert&lt;&gt;::result">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_motivation.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_better_conv.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_convert_library.convert_started"></a><a class="link" href="convert_started.html" title="Getting Started">Getting Started</a>
+</h2></div></div></div>
+<p>
+      In its simplest form the conversion functionality is typically deployed as
+      follows:
+    </p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>
+
+<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails
+</span><span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Returns -1 if the conversion fails
+</span></pre>
+<p>
+      For those familiar with <span class="emphasis"><em>boost::lexical_cast</em></span> the first
+      deployment should look identical and as a drop-in replacement for <span class="emphasis"><em>lexical_cast&lt;int&gt;(str)</em></span>.
+      The requirements for the Target/Destination type (<span class="emphasis"><em>int</em></span>
+      in the example above) and the behavior of <span class="emphasis"><em>boost::convert</em></span>
+      are the same as for <span class="emphasis"><em>boost::lexical_cast</em></span>. Namely, when
+      the requested conversion fails, an exception is thrown as there is no other
+      way to indicate a conversion failure.
+    </p>
+<p>
+      The second interface takes a default/fallback value (the second parameter).
+      That value is returned if/when the requested conversion fails. Often the fact
+      of returning the provided fallback value can uniquely identify conversion failure.
+      Consequently, by default this second interface does not throw.
+    </p>
+<p>
+      Additionally, as an already constructed (fallback) object is provided explicitly,
+      the latter interface does not impose the <span class="emphasis"><em>DefaultConstructibility</em></span>
+      requirement on to the Target type. That might be quite a deal-breaker for user-defined
+      types that do not have default constructors (see the <span class="emphasis"><em>direction</em></span>
+      example further).
+    </p>
+<p>
+      The described interface is sufficient and well-suited for a wide variety of
+      conversion deployments. For example, an application is expected to read external
+      configuration files, to convert and to incorporate those configuration settings.
+      The application needs to stay operational and to maintain its internal integrity
+      despite the not-too-remote possibility of reading invalid configuration settings.
+      A typical processing flow might be to read a new configuration parameter and
+      try converting it. If the conversion fails, then use some fallback value instead,
+      log an error message and move on. Like the following
+    </p>
+<pre class="programlisting"><span class="identifier">type1</span> <span class="identifier">p1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">type1</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">string_value_1</span><span class="special">,</span> <span class="identifier">fallback_1</span><span class="special">);</span>
+<span class="identifier">type2</span> <span class="identifier">p2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">type2</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">string_value_2</span><span class="special">,</span> <span class="identifier">fallback_2</span><span class="special">);</span>
+
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">p1</span> <span class="special">==</span> <span class="identifier">fallback_1</span><span class="special">)</span> <span class="identifier">message</span><span class="special">(</span><span class="string">"bad string_value_1"</span><span class="special">);</span>
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">p2</span> <span class="special">==</span> <span class="identifier">fallback_2</span><span class="special">)</span> <span class="identifier">message</span><span class="special">(</span><span class="string">"bad string_value_2"</span><span class="special">);</span>
+
+<span class="special">...</span> <span class="identifier">proceed</span> <span class="identifier">with</span> <span class="identifier">whatever</span> <span class="identifier">parameters</span> <span class="identifier">we</span><span class="error">'</span><span class="identifier">ve</span> <span class="identifier">got</span><span class="special">.</span>
+</pre>
+<p>
+      In these circumstances the deployment of <span class="emphasis"><em>boost::convert</em></span>
+      looks considerably more natural compared to <span class="emphasis"><em>boost::lexical_cast</em></span>
+      deployment which achieves that same result with
+    </p>
+<pre class="programlisting"><span class="identifier">type</span> <span class="identifier">p1</span> <span class="special">=</span> <span class="identifier">fallback_1</span><span class="special">;</span>
+
+<span class="keyword">try</span>
+<span class="special">{</span>
+    <span class="identifier">p1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">type1</span><span class="special">&gt;(</span><span class="identifier">string_value_1</span><span class="special">);</span>
+<span class="special">}</span>
+<span class="keyword">catch</span> <span class="special">...</span>
+<span class="special">{</span>
+    <span class="identifier">message</span><span class="special">(</span><span class="string">"bad string_value_1"</span><span class="special">);</span>
+<span class="special">}</span>
+</pre>
+<p>
+      In these circumstances (and quite often in general) a conversion failure is
+      not <span class="emphasis"><em>exceptional</em></span> enough to justify throwing an exception.
+      However, the constraints of the <span class="emphasis"><em>boost::lexical_cast</em></span> interface
+      seem to define the behavior (rather than the other way around) as the throw-on-failure
+      seems the only available choice to indicate conversion failure.
+    </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_motivation.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_better_conv.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

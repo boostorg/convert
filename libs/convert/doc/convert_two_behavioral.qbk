@@ -1,0 +1,10 @@
+[section:convert_two_behavioral Two Behavioral Policies]
+
+The examples above demonstrate two interfaces behave differently with regard to handling conversion failures. These two behavioral policies can be summarized as follows:
+
+# when the fallback value is provided, return the conversion result if successful, otherwise return the provided fallback value;
+# when no fallback value provided, return the conversion result if successful, otherwise throw (as there is nothing to return).
+
+Returning /convert::result/ does not change these behavior but only /delay/ their application or execution. Namely, an attempt to retrieve a value from a failed-to-convert /convert::result/ will throw or return the provided fallback value depending on the form of the conversion request used.
+
+[endsect]

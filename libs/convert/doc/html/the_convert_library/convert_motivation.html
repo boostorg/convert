@@ -1,0 +1,75 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Motivation</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="prev" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="next" href="convert_started.html" title="Getting Started">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../index.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_started.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_convert_library.convert_motivation"></a><a class="link" href="convert_motivation.html" title="Motivation">Motivation</a>
+</h2></div></div></div>
+<p>
+      My project used textual configuration files extensively and was processing
+      and preparing considerable amounts of data in XML for interprocess communications
+      (tasks fairly common these days). Consequently, I had a need for a library
+      that would provide unifying and extendable interface to convert various data
+      between their 'native' (internal to an application) binary representations
+      and external (predominantly textual, string-based) representations.
+    </p>
+<p>
+      The <span class="emphasis"><em>boost::lexical_cast</em></span> library (with its orthogonal design
+      and extendable deployment) looked very promising and was by far the preferred
+      candidate compared to others (such as C functions, the <span class="emphasis"><em>std::stringstream</em></span>,
+      etc., see <a href="http://www.gotw.ca/publications/mill19.htm" target="_top">The String
+      Formatters of Manor Farm by H. Sutter</a> for the discussion of alternatives).
+    </p>
+<p>
+      Unfortunately, many user types/classes did not meet <span class="emphasis"><em>lexical_cast</em></span>
+      requirements; the <span class="emphasis"><em>lexical_cast</em></span> behavior of throwing an
+      exception for a conversion failure was difficult to work with; additional conversion
+      formatting and locale support were needed, etc.
+    </p>
+<p>
+      After discussions with Kevlin Henney (the <span class="emphasis"><em>lexical_cast</em></span>
+      author) and in the Boost Developers forum it was collectively decided that
+      the requested extensions were not compatible with the idea of what <span class="emphasis"><em>lexical_cast</em></span>
+      embodied and a dedicated family of conversion functions with richer interfaces
+      was needed. That decision resulted in the development and the subsequent submission
+      of the <span class="emphasis"><em>Boost.Convert</em></span> library described in this document.
+    </p>
+<p>
+      <span class="emphasis"><em>Boost.Convert</em></span> was born out of the need for string-to-type
+      and type-to-string conversions and due to limitations of <span class="emphasis"><em>boost::lexical_cast</em></span>.
+      However, <span class="emphasis"><em>Boost.Convert</em></span> interface is intentionally generic
+      to accommodate any type-to-type conversions if needed. Judging from <a href="http://www.boostpro.com/vault/index.php?action=downloadfile&amp;filename=conversion.zip&amp;directory=Utilities&amp;" target="_top">the
+      Conversion Library submission by Vicente Botet (currently in the Boost Review
+      Queue)</a> such a need might indeed exist. If so, such functionality can
+      be implemented within the <span class="emphasis"><em>Boost.Convert</em></span> framework and
+      accessed uniformly via <span class="emphasis"><em>Boost.Convert</em></span> interface.
+    </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../index.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_started.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

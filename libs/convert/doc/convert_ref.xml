@@ -1,0 +1,80 @@
+<?xml version="1.0" standalone="yes"?>
+<library-reference id="convert_reference"><title>Convert Reference</title><header name="boost/convert.hpp"><para>Public interface to the Boost.Convert framework. Includes all of the supporting headers. </para></header><header name="boost/convert/api.hpp"><para>Defines the Boost.Convert interface </para><namespace name="boost"><struct name="convert"><template>
+      <template-type-parameter name="TypeOut"/>
+      <template-type-parameter name="EnableOut"/>
+    </template><purpose>Boost.Convert framework public interface. </purpose><struct name="format"><purpose>Work in progress. </purpose></struct><typedef name="result"><type><classname>conversion::result</classname>&lt; TypeOut &gt;</type></typedef><method-group name="public static functions"><method name="from" cv=""><type>static converter&lt; TypeIn &gt;</type><template>
+          <template-type-parameter name="TypeIn"/>
+        </template><parameter name="value_in"><paramtype>TypeIn const &amp;</paramtype></parameter><description><para>Conversion API with syntax and behavior similar to boost::lexical_cast, i.e. it throws (std::invalid_argument) if conversion fails. TODO. Need to pass boost::optional&lt;TypeOut&gt; instead of constructing with the default constructors. </para></description></method><method name="from" cv=""><type>static converter&lt; TypeIn &gt;</type><template>
+          <template-type-parameter name="TypeIn"/>
+          <template-type-parameter name="FallbackType"/>
+        </template><parameter name="value_in"><paramtype>TypeIn const &amp;</paramtype></parameter><parameter name="fallback_value"><paramtype>FallbackType const &amp;</paramtype></parameter><description><para>Returns the 'fallback_value' if conversion fails. Throws nothing by itself. </para></description></method><method name="from" cv=""><type>static converter&lt; TypeIn &gt;</type><template>
+          <template-type-parameter name="TypeIn"/>
+        </template><description><para>Create an empty converter. To be used with algorithms or directly. TODO. Need to pass boost::optional&lt;TypeIn&gt; and boost::optional&lt;TypeOut&gt; instead of constructing with the default constructors. </para></description></method></method-group></struct><namespace name="conversion"><struct name="result"><template>
+      <template-type-parameter name="TypeOut"/>
+    </template><purpose>Encapsulation of the conversion result. </purpose><enum name="status"><enumvalue name="good"/><enumvalue name="bad"/><enumvalue name="throw_bad"/></enum><typedef name="safebool"><type><classname>boost::safebool</classname>&lt; <classname>result</classname> &gt;</type></typedef><typedef name="out_type"><type>TypeOut</type></typedef><typedef name="optional_out_type"><type>boost::optional&lt; out_type &gt;</type></typedef><method-group name="public member functions"><method name="conversion-operator" cv="const"><type>typename safebool::type</type><description><para>Implicit conversion to safe-bool to allow checking the success of the conversion. For example, <programlisting>     convert&lt;foo&gt;::result result = convert&lt;foo&gt;::from(str, fallback_value);
+     if ( result) conversion succeeded
+     if (!result) conversion failed
+</programlisting> </para></description></method><method name="value" cv="const"><type>out_type const &amp;</type><description><para>Retrieve the actual result (value) of the conversion. For example, <programlisting>     convert&lt;foo_type&gt;::result result = convert&lt;foo_type&gt;::from(str, foo_value);
+     if (result)
+     {
+         foo_type value = result.value();  // Safe to retrieve the result
+     }
+</programlisting> </para></description></method></method-group><constructor><parameter name="v"><paramtype>out_type const &amp;</paramtype></parameter><parameter name="s"><paramtype>status</paramtype></parameter></constructor><constructor><parameter name="v"><paramtype>optional_out_type const &amp;</paramtype></parameter><parameter name="s"><paramtype>status</paramtype></parameter></constructor></struct><namespace name="parameter"><function name="BOOST_PARAMETER_KEYWORD"><type/><parameter name=""><paramtype>type</paramtype></parameter><parameter name=""><paramtype>throw_</paramtype></parameter><purpose>Specify throw-on-failure behavior explicitly. </purpose></function><function name="BOOST_PARAMETER_KEYWORD"><type/><parameter name=""><paramtype>type</paramtype></parameter><parameter name=""><paramtype>locale_</paramtype></parameter><purpose>Specify locale. </purpose></function><function name="BOOST_PARAMETER_KEYWORD"><type/><parameter name=""><paramtype>type</paramtype></parameter><parameter name=""><paramtype>fallback_</paramtype></parameter><purpose>Provide fallback value. </purpose></function><function name="BOOST_PARAMETER_KEYWORD"><type/><parameter name=""><paramtype>type</paramtype></parameter><parameter name=""><paramtype>format_</paramtype></parameter><purpose>Not used. Work in progress. </purpose></function></namespace></namespace></namespace></header><header name="boost/convert/boost_parameter_ext.hpp"><namespace name="boost"><namespace name="parameter"><struct name="parameter_type"><template>
+      <template-type-parameter name="ArgsT"/>
+      <template-type-parameter name="KeywordTagT"/>
+    </template><typedef name="type"><type>void</type></typedef></struct><struct-specialization name="parameter_type"><template>
+      <template-type-parameter name="ArgT"/>
+      <template-type-parameter name="KeywordTagT"/>
+    </template><specialization><template-arg>aux::tagged_argument&lt; KeywordTagT</template-arg><template-arg>ArgT &gt;</template-arg><template-arg>KeywordTagT</template-arg></specialization><typedef name="type"><type>aux::tagged_argument&lt; KeywordTagT, ArgT &gt;::value_type</type></typedef></struct-specialization><struct-specialization name="parameter_type"><template>
+      <template-type-parameter name="KeywordTagT1"/>
+      <template-type-parameter name="ArgT"/>
+      <template-type-parameter name="KeywordTagT2"/>
+    </template><specialization><template-arg>aux::tagged_argument&lt; KeywordTagT1</template-arg><template-arg>ArgT &gt;</template-arg><template-arg>KeywordTagT2</template-arg></specialization><typedef name="type"><type>void</type></typedef></struct-specialization><struct-specialization name="parameter_type"><template>
+      <template-type-parameter name="ArgT"/>
+      <template-type-parameter name="TailT"/>
+      <template-type-parameter name="KeywordTagT"/>
+    </template><specialization><template-arg>aux::arg_list&lt; aux::tagged_argument&lt; KeywordTagT</template-arg><template-arg>ArgT &gt;</template-arg><template-arg>TailT &gt;</template-arg><template-arg>KeywordTagT</template-arg></specialization><typedef name="type"><type>aux::tagged_argument&lt; KeywordTagT, ArgT &gt;::value_type</type></typedef></struct-specialization><struct-specialization name="parameter_type"><template>
+      <template-type-parameter name="KeywordTagT1"/>
+      <template-type-parameter name="ArgT"/>
+      <template-type-parameter name="TailT"/>
+      <template-type-parameter name="KeywordTagT2"/>
+    </template><specialization><template-arg>aux::arg_list&lt; aux::tagged_argument&lt; KeywordTagT1</template-arg><template-arg>ArgT &gt;</template-arg><template-arg>TailT &gt;</template-arg><template-arg>KeywordTagT2</template-arg></specialization><inherit access="public">boost::parameter::parameter_type&lt; TailT, KeywordTagT2 &gt;</inherit></struct-specialization></namespace></namespace></header><header name="boost/convert/converter_base.hpp"><namespace name="boost"/></header><header name="boost/convert/stream_based_string_convertor.hpp"><namespace name="boost"/></header><header name="boost/convert/string_sfinae.hpp"><para>Defines various string-related type checks </para><namespace name="boost"/></header><header name="boost/convert/string_to_bool.hpp"><para>Implements string-to-bool converter </para><namespace name="boost"/></header><header name="boost/convert/string_to_type.hpp"><para>Implements string-to-type converter </para><namespace name="boost"/></header><header name="boost/convert/type_to_bool.hpp"><namespace name="boost"><struct-specialization name="convert"><template>
+    </template><specialization><template-arg>bool</template-arg></specialization><typedef name="result"><type><classname>conversion::result</classname>&lt; bool &gt;</type></typedef><method-group name="public static functions"><method name="from" cv=""><type>static converter&lt; TypeIn &gt;</type><template>
+          <template-type-parameter name="TypeIn"/>
+        </template><parameter name="value_in"><paramtype>TypeIn const &amp;</paramtype><default>TypeIn()</default></parameter></method><method name="from" cv=""><type>static converter&lt; TypeIn &gt;</type><template>
+          <template-type-parameter name="TypeIn"/>
+        </template><parameter name="value_in"><paramtype>TypeIn const &amp;</paramtype></parameter><parameter name="fallback_value"><paramtype>bool</paramtype></parameter></method></method-group></struct-specialization></namespace></header><header name="boost/convert/type_to_string.hpp"><namespace name="boost"><struct-specialization name="convert"><template>
+      <template-type-parameter name="StringOut"/>
+    </template><specialization><template-arg>StringOut</template-arg><template-arg>typename boost::enable_if&lt; convert_detail::is_std_string&lt; StringOut &gt; &gt;::type</template-arg></specialization><purpose>Partial specialization for conversions to std::string. </purpose><typedef name="result"><type><classname>conversion::result</classname>&lt; StringOut &gt;</type></typedef><method-group name="public static functions"><method name="from" cv=""><type>static <emphasis>unspecified</emphasis></type><template>
+          <template-type-parameter name="TypeIn"/>
+        </template><parameter name="value_in"><paramtype>TypeIn const &amp;</paramtype><default>TypeIn()</default></parameter></method><method name="from" cv=""><type>static <emphasis>unspecified</emphasis></type><template>
+          <template-type-parameter name="TypeIn"/>
+          <template-type-parameter name="DefaultStringOut"/>
+        </template><parameter name="value_in"><paramtype>TypeIn const &amp;</paramtype></parameter><parameter name="default_str"><paramtype>DefaultStringOut const &amp;</paramtype></parameter></method></method-group></struct-specialization></namespace></header><header name="boost/convert/workarounds.hpp"/><header name="boost/safebool.hpp"><namespace name="boost"><struct name="safebool"><template>
+      <template-type-parameter name="T"/>
+    </template><purpose>Generalization of the Safe-Bool Technique. </purpose><description><para>An implicit conversion to bool (operator bool() const) is very much idiomatic and is often deployed in constructs like "if (foo)" and "if (!foo)" (with no explicit op!() defined). However, sadly, implementing "operator bool()" is *wrong* as that conversion kicks in far too often and unexpectedly. Like in "foo == 1", "foo+1", "1+foo" or potentially during lexical_cast&lt;string&gt;(foo) (if there are no op&gt;&gt;() and op&lt;&lt;() defined). Consequently, that "implicit
+    conversion to bool" functionality has to be implemented in an indirect and somewhat awkward way via an implicit conversion to some other type. The best type for the purpose appears to be a pointer to a member function. For more see the chapter 7.7 in Alexandrescu's "Modern C++ Design" and the article at <ulink url="http://www.artima.com/cppsource/safebool.html">http://www.artima.com/cppsource/safebool.html</ulink> by Bjorn Karlsson.<sbr/>
+<sbr/>
+ Deployment: <programlisting> struct Foo
+ { ...
+     operator safebool&lt;Foo&gt;::type() const { return safebool&lt;Foo&gt;(condition); }
+ };
+ template&lt;class T&gt;
+ struct Moo // for a template class
+ { ...
+     operator typename safebool&lt;Moo&gt;::type() const { return safebool&lt;Moo&gt;(condition); }
+ };
+ template&lt;class T&gt;
+ struct Zoo // with convenience typedefs
+ { ...
+     typedef safebool&lt;Zoo&gt; safebool;
+     typedef typename safebool::type safebool_type;
+
+     operator safebool_type() const { return safebool(condition); }
+ };
+</programlisting> safebool needs to be a template to make the returned safebool&lt;Foo&gt;::type type unique. Without it different classes would return the same safebool::type type that would make possible relational operators between unrelated types. Like <programlisting>     struct Foo { operator safebool::type() const { return safebool(...); }};
+     struct Moo { operator safebool::type() const { return safebool(...); }};
+     Foo foo;
+     Zoo zoo;
+     if (foo == zoo) Valid (but wrong) comparison between unrelated types.
+</programlisting> </para></description><typedef name="type"><type>void(safebool::*</type></typedef><method-group name="public member functions"><method name="conversion-operator" cv="const"><type>type</type></method></method-group><constructor><parameter name="v"><paramtype>bool</paramtype></parameter></constructor><method-group name="private member functions"><method name="true_" cv="const"><type>void</type></method></method-group></struct></namespace></header></library-reference>

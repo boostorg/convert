@@ -1,0 +1,66 @@
+[section:convert_better_conv Better Conversion-Failure Check With convert<>::result]
+
+After the call below 'i2' will have the value of -1 (the supplied fallback value) due to conversion failure:
+
+ int i2 = convert<int>::from("not an int", -1); // after the call i2 = -1
+
+ if (i2 == -1) failed to convert
+
+Checking the return value as above is certainly straight-forward and convenient. Unfortunately, it is not always entirely correct as -1 is returned for the conversion failure and for the conversion success when the supplied string happens to be "-1". That non-determinism is a known limitation of this basic interface. Still, for a surprising number of applications it is adequate as it is quite common to still have "spare" values outside the valid range. Such values (outside the valid range) are suitable to indicate conversion failures (say, INT_MAX for integers) without introducing the above-mentioned behavioral non-determinism. 
+
+More so, it is not that uncommon for applications to ignore conversion failures altogether and proceed with the supplied default/fallback value.
+
+Having said that, there are applications which do not fall in to any of the categories mentioned above. Those applications still require the conversion-failure condition clearly detected and, therefore, require a reliable conversion-failure detection. 
+
+For such applications the /lexical_cast/-like throw-on-failure interface might be adequate:
+
+ try
+ {
+     int i1 = convert<int>::from(str); // Throws if the conversion fails
+     ...
+ }
+ catch (std::invalid_argument const& ex)
+ {
+     Conversion failed
+ }
+
+However, throwing an exception might not always be the desirable behavior (not to mention the heaviness of the ['try/catch] interface which does not seem exactly fitting on such a low level). 
+
+More so, some classes might fail to meet that requirement for the Target type to be /DefaultConstructible/. The following /direction/ class is one such example. It has only two (/direction::up/ and /direction::dn/) states available (i.e. no "spare" values to indicate conversion failure) and is not /DefaultConstructible/:
+
+ struct direction
+ {
+     enum value_type { up, dn };
+     direction(value_type value) : value_(value) {}
+     private: value_type value_;
+ };
+
+For such a class the call below will not compile (due to the /DefaultConstructible/ Target type requirement):
+
+ direction dir = convert<direction>::from(str);  // Does not compile
+
+More so, the following is no good either as it does not provide a reliable detection of a conversion failure:
+
+ direction dir = convert<direction>::from(str, direction::up); 
+ 
+ if (dir == up_dir) ... // Was it a failure or a successful "up" conversion?
+
+For situations like that the library provides the following interface:
+
+ convert<direction>::result res = convert<direction>::from(str, up_dir); 
+ if (res) conversion succeeded
+ if (!res) conversion failed
+ direction dir = res.value(); // Retrieve the conversion result
+
+The /convert::result/ class has an implicit safe-bool conversion operator that allows to check the success of the conversion. The actual result of the conversion is retrieved with /convert::result::value()/.
+
+That same /convert::result/ could be deployed to work around the throwing behavior of the /lexical_cast/-like interface:
+
+ // This call does not throw.
+ convert<int>::result res = convert<int>::from("not an int"); 
+ // An attempt to retrieve a failed-conversion value will throw.
+ int i1 = res.value();
+ // Check the success first and retrieve the value if available.
+ int i2 = res ? res.value() : -1;
+
+[endsect]

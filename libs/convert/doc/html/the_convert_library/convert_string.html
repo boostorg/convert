@@ -1,0 +1,65 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>String-To-String Conversions</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="prev" href="convert_locale.html" title="Locale-Based Conversions">
+<link rel="next" href="convert_algorithms.html" title="Using Boost.Convert with Standard Algorithms">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_locale.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_algorithms.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_convert_library.convert_string"></a><a class="link" href="convert_string.html" title="String-To-String Conversions">String-To-String Conversions</a>
+</h2></div></div></div>
+<p>
+      The string-to-string conversion is currently provided in a somewhat experimental
+      form as it is yet to be seen if such functionality is indeed generates much
+      interest. Still, I do not see the <span class="emphasis"><em>Boost.Convert</em></span> interface
+      unsuitable for conversions like
+    </p>
+<pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span> <span class="identifier">utf8</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">utf32_str</span><span class="special">);</span>
+<span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span> <span class="identifier">utf8</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">mbcs_str</span><span class="special">);</span>
+</pre>
+<p>
+      More so, a more practical (and not as remote) deployment of the string-to-string
+      conversion might be demonstrated by the following snippet (taken from the library
+      unit test):
+    </p>
+<pre class="programlisting"><span class="identifier">string</span> <span class="identifier">encrypted</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">naked_str</span><span class="special">)</span> <span class="special">&gt;&gt;</span> <span class="identifier">my_cypher</span><span class="special">;</span>
+<span class="identifier">string</span> <span class="identifier">decrypted</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">encrypted_str</span><span class="special">)</span> <span class="special">&gt;&gt;</span> <span class="identifier">my_cypher</span><span class="special">;</span>
+</pre>
+<p>
+      Where <span class="emphasis"><em>my_cypher</em></span> is a custom manipulator with the following
+      signature
+    </p>
+<pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">basic_ios</span><span class="special">&lt;</span><span class="keyword">char</span><span class="special">&gt;&amp;</span> <span class="identifier">my_cypher</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">basic_ios</span><span class="special">&lt;</span><span class="keyword">char</span><span class="special">&gt;&amp;</span> <span class="identifier">stream</span><span class="special">)</span>
+</pre>
+<p>
+      With the above-mentioned manipulator applied <span class="emphasis"><em>boost::convert</em></span>
+      keeps the type (<span class="emphasis"><em>std::string</em></span>) of the source but changes
+      (encrypts or decrypts) its representation. See <span class="emphasis"><em>libs/convert/test/test_convert.cpp</em></span>
+      for the implementation of that manipulator.
+    </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_locale.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_algorithms.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+[section:convert_motivation Motivation]
+
+My project used textual configuration files extensively and was processing and preparing considerable amounts of data in XML for interprocess communications (tasks fairly
+common these days). Consequently, I had a need for a library that would provide unifying and extendable interface to convert various data between their 'native' (internal to an application) binary representations and external (predominantly textual, string-based) representations. 
+
+The /boost::lexical_cast/ library (with its orthogonal design and extendable deployment) looked very promising and was by far the preferred candidate compared to others (such as C functions, the /std::stringstream/, etc., see __ref_2__ for the discussion of alternatives). 
+
+Unfortunately, many user types\/classes did not meet /lexical_cast/ requirements; the /lexical_cast/ behavior of throwing an exception for a conversion failure was difficult to work with; additional conversion formatting and locale support were needed, etc. 
+
+After discussions with Kevlin Henney (the /lexical_cast/ author) and in the Boost Developers forum it was collectively decided that the requested extensions were not compatible with the idea of what /lexical_cast/ embodied and a dedicated family of conversion functions with richer interfaces was needed. That decision resulted in the development and the subsequent submission of the /Boost.Convert/ library described in this document.
+
+/Boost.Convert/ was born out of the need for string-to-type and type-to-string conversions and due to limitations of /boost::lexical_cast/. However, /Boost.Convert/ interface is intentionally generic to accommodate any type-to-type conversions if needed. Judging from __ref_3__ such a need might indeed exist. If so, such functionality can be implemented within the /Boost.Convert/ framework and accessed uniformly via /Boost.Convert/ interface.
+
+[endsect]

@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="yes"?>
+<library-reference id="convert_reference">
+    <title>Convert Reference</title>
+    <header name="boost/convert/string_to_bool.hpp">
+        <namespace name="boost"/>
+    </header>
+    <header name="boost/convert/string_to_type.hpp"><namespace name="boost"/>
+    </header>
+    <header name="boost/convert/type_to_string.hpp"><namespace name="boost"><struct-specialization name="convert"><template>
+      <template-type-parameter name="StringOut"/>
+    </template><specialization><template-arg>StringOut</template-arg><template-arg>typename boost::enable_if&lt; convert_detail::is_std_string&lt; StringOut &gt; &gt;::type</template-arg></specialization><typedef name="result"><type><emphasis>unspecified</emphasis></type></typedef><method-group name="public static functions"><method name="from" cv=""><type>static <emphasis>unspecified</emphasis></type><template>
+          <template-type-parameter name="TypeIn"/>
+        </template><parameter name="value_in"><paramtype>TypeIn const &amp;</paramtype><default>TypeIn()</default></parameter></method><method name="from" cv=""><type>static <emphasis>unspecified</emphasis></type><template>
+          <template-type-parameter name="TypeIn"/>
+          <template-type-parameter name="DefaultStringOut"/>
+        </template><parameter name="value_in"><paramtype>TypeIn const &amp;</paramtype></parameter><parameter name="default_str"><paramtype>DefaultStringOut const &amp;</paramtype></parameter></method></method-group></struct-specialization></namespace>
+    </header>
+</library-reference>

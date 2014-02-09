@@ -1,0 +1,131 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Chapter&#160;1.&#160;The Convert Library 1.0</title>
+<link rel="stylesheet" href="boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="next" href="the_convert_library/convert_motivation.html" title="Motivation">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav"><a accesskey="n" href="the_convert_library/convert_motivation.html"><img src="images/next.png" alt="Next"></a></div>
+<div class="chapter">
+<div class="titlepage"><div>
+<div><h2 class="title">
+<a name="convert"></a>Chapter&#160;1.&#160;The Convert Library 1.0</h2></div>
+<div><div class="author"><h3 class="author">
+<span class="firstname">Vladimir</span> <span class="surname">Batov</span>
+</h3></div></div>
+<div><p class="copyright">Copyright &#169; 2009 -2011 Vladimir Batov</p></div>
+<div><div class="legalnotice">
+<a name="id824625"></a><p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></div>
+</div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt><span class="section"><a href="index.html#the_convert_library.convert_intro">Introduction</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_motivation.html">Motivation</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_started.html">Getting Started</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_better_conv.html">Better Conversion-Failure
+    Check With convert&lt;&gt;::result</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_two_behavioral.html">Two Behavioral
+    Policies</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_requirements.html">Requirements
+    on the Argument and Result Types</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_integration.html">Integration of
+    User-Defined Types</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_modified.html">Modifying Throwing
+    Behavior</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_formatted.html">Formatted Conversions</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_locale.html">Locale-Based Conversions</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_string.html">String-To-String Conversions</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_algorithms.html">Using Boost.Convert
+    with Standard Algorithms</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_direct.html">Accessing Converters
+    Directly</a></span></dt>
+<dt><span class="section"><a href="the_convert_library/convert_more_converters.html">More About
+    Converters, Customization, Optimization and Performance</a></span></dt>
+<dt><span class="section"><a href="convert_reference.html">Convert Reference</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="convert_reference.html#header.boost.convert_hpp">Header &lt;boost/convert.hpp&gt;</a></span></dt>
+<dt><span class="section"><a href="header/boost/convert/api_hpp.html">Header &lt;boost/convert/api.hpp&gt;</a></span></dt>
+<dd><dl></dl></dd>
+<dt><span class="section"><a href="header/boost/convert/boost_parameter_ext_hpp.html">Header &lt;boost/convert/boost_parameter_ext.hpp&gt;</a></span></dt>
+<dd><dl></dl></dd>
+<dt><span class="section"><a href="header/boost/convert/converter_base_hpp.html">Header &lt;boost/convert/converter_base.hpp&gt;</a></span></dt>
+<dt><span class="section"><a href="header/boost/convert/stream_based_string_convertor_hpp.html">Header &lt;boost/convert/stream_based_string_convertor.hpp&gt;</a></span></dt>
+<dt><span class="section"><a href="header/boost/convert/string_sfinae_hpp.html">Header &lt;boost/convert/string_sfinae.hpp&gt;</a></span></dt>
+<dt><span class="section"><a href="header/boost/convert/string_to_bool_hpp.html">Header &lt;boost/convert/string_to_bool.hpp&gt;</a></span></dt>
+<dt><span class="section"><a href="header/boost/convert/string_to_type_hpp.html">Header &lt;boost/convert/string_to_type.hpp&gt;</a></span></dt>
+<dt><span class="section"><a href="header/boost/convert/type_to_bool_hpp.html">Header &lt;boost/convert/type_to_bool.hpp&gt;</a></span></dt>
+<dd><dl></dl></dd>
+<dt><span class="section"><a href="header/boost/convert/type_to_string_hpp.html">Header &lt;boost/convert/type_to_string.hpp&gt;</a></span></dt>
+<dd><dl></dl></dd>
+<dt><span class="section"><a href="header/boost/safebool_hpp.html">Header &lt;boost/safebool.hpp&gt;</a></span></dt>
+<dd><dl></dl></dd>
+</dl></dd>
+<dt><span class="section"><a href="the_convert_library/convert_acknowledgements.html">Acknowledgements</a></span></dt>
+<dt><span class="section"><a href="index/s17.html">Index</a></span></dt>
+</dl>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_convert_library.convert_intro"></a><a class="link" href="index.html#the_convert_library.convert_intro" title="Introduction">Introduction</a>
+</h2></div></div></div>
+<p>
+      <span class="emphasis"><em>Boost.Convert</em></span> builds on the <span class="emphasis"><em>boost::lexical_cast</em></span>
+      (see <a href="http://www.boost.org/doc/libs/1_38_0/libs/conversion/lexical_cast.htm" target="_top"><span class="emphasis"><em>lexical_cast</em></span>
+      documentation</a>) experience and still offers simple, minimal interface,
+      familiar conversion behavior and more:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          throwing and non-throwing behavior when conversion fails;
+        </li>
+<li class="listitem">
+          support for the default/fallback value to be returned when conversion fails;
+        </li>
+<li class="listitem">
+          two types of the conversion-failure check - basic/simple and better/safe;
+        </li>
+<li class="listitem">
+          formatting support based on the standard <span class="emphasis"><em>std::streams</em></span>
+          and <span class="emphasis"><em>std::stream</em></span>-based manipulators (like <span class="emphasis"><em>std::hex</em></span>,
+          <span class="emphasis"><em>std::scientific</em></span>, etc.);
+        </li>
+<li class="listitem">
+          support for different locales;
+        </li>
+<li class="listitem">
+          support for <span class="emphasis"><em>boost::range</em></span>-compliant char and <span class="emphasis"><em>wchar_t</em></span>-based
+          string containers (std::string, std::wstring, char const*, wchar_t const*,
+          char array[], etc.);
+        </li>
+<li class="listitem">
+          no DefaultConstructibility requirement for the Target/Destination type;
+        </li>
+<li class="listitem">
+          extendibility and additional room to grow.
+        </li>
+</ul></div>
+<p>
+      It needs to be mentioned though that <span class="emphasis"><em>Boost.Convert</em></span> is
+      not an attempt to provide a full-blown parser<span class="emphasis"><em>generator. For serious
+      parsing tasks one might like to consider /Boost.Spirit</em></span>.
+    </p>
+</div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"><p><small>Last revised: April 11, 2011 at 20:57:51 GMT</small></p></td>
+<td align="right"><div class="copyright-footer"></div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav"><a accesskey="n" href="the_convert_library/convert_motivation.html"><img src="images/next.png" alt="Next"></a></div>
+</body>
+</html>

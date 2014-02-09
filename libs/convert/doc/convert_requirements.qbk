@@ -1,0 +1,10 @@
+[section:convert_requirements Requirements on the Argument and Result Types]
+
+At present string-to-type and type-to-string conversions are /std::stream/-based (as /boost::lexical_cast/ is) and, therefore, for those conversions the requirements on the argument and result types are as follows: 
+
+* TypeIn is OutputStreamable of a string-related type - a char or wchar_t-based container compatible with the /boost::range/ concept;
+* TypeOut is InputStreamable with a std::istream& operator>>(std::istream&, TypeOut&) defined; 
+* TypeOut is CopyConstructible. 
+* TypeOut is DefaultConstructible when the fallback return value is not provided explicitly.
+
+[endsect]

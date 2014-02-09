@@ -1,0 +1,24 @@
+[section:convert_design Design Notes]
+
+The following design decisions have been made that ultimately led to the /Boost.Convert/ in its current form and shape:
+
+1) Actual converter declaration and implementation need to be separate from and orthogonal to the actual /Boost.Convert/ framework. So, different converters can be written and easily deployed on when-needed basis. 
+
+2) How to feed the converter to the framework. To deploy converter's functionality we most likely need an instance of the specified converter to apply conversions. That instance has to be created by the framework or by the user. It is better created by the user outside and independent of the /Boost.Convert/ framework. That way it is user's responsibility  and freedom to create the respective converter instance as they like and supply whatever parameters the might need. With that in mind the API becomes
+
+boost::convert<int>::from(string, converter const& =some_default_converter())
+
+rather than
+
+template<class TypeOut, class Converter> boost::convert
+
+3) Possible Familiar lexical_cast-like interface
+
+namespace boost
+{
+    template<class TypeOut, class TypeIn, class Converter>
+    boost::convert<TypeOut>::result
+    lexcast(TypeIn const&, Converter const& =some_default_converter());
+}
+
+[endsect]

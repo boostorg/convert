@@ -1,0 +1,66 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Struct convert&lt;bool&gt;</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../header/boost/convert/type_to_bool_hpp.html" title="Header &lt;boost/convert/type_to_bool.hpp&gt;">
+<link rel="prev" href="../header/boost/convert/type_to_bool_hpp.html" title="Header &lt;boost/convert/type_to_bool.hpp&gt;">
+<link rel="next" href="../header/boost/convert/type_to_string_hpp.html" title="Header &lt;boost/convert/type_to_string.hpp&gt;">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../header/boost/convert/type_to_bool_hpp.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../header/boost/convert/type_to_bool_hpp.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="../header/boost/convert/type_to_string_hpp.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="refentry">
+<a name="boost.convert_bool_id266619"></a><div class="titlepage"></div>
+<div class="refnamediv">
+<h2><span class="refentrytitle">Struct convert&lt;bool&gt;</span></h2>
+<p>boost::convert&lt;bool&gt;</p>
+</div>
+<h2 xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv-title">Synopsis</h2>
+<div xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv"><pre class="synopsis"><span class="comment">// In header: &lt;<a class="link" href="../header/boost/convert/type_to_bool_hpp.html" title="Header &lt;boost/convert/type_to_bool.hpp&gt;">boost/convert/type_to_bool.hpp</a>&gt;
+
+</span>
+<span class="keyword">struct</span> <a class="link" href="convert_bool_id266619.html" title="Struct convert&lt;bool&gt;">convert</a><span class="special">&lt;</span><span class="keyword">bool</span><span class="special">&gt;</span> <span class="special">{</span>
+  <span class="comment">// types</span>
+  <span class="keyword">typedef</span> <a class="link" href="conversion/result.html" title="Struct template result">conversion::result</a><span class="special">&lt;</span> <span class="keyword">bool</span> <span class="special">&gt;</span> <a name="boost.convert_bool_id266619.result"></a><span class="identifier">result</span><span class="special">;</span>
+
+  <span class="comment">// <a class="link" href="convert_bool_id266619.html#id266634-bb">public static functions</a></span>
+  <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeIn<span class="special">&gt;</span> 
+    <span class="keyword">static</span> <span class="identifier">converter</span><span class="special">&lt;</span> <span class="identifier">TypeIn</span> <span class="special">&gt;</span> <a class="link" href="convert_bool_id266619.html#id266637-bb"><span class="identifier">from</span></a><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span> <span class="special">=</span> <span class="identifier">TypeIn</span><span class="special">(</span><span class="special">)</span><span class="special">)</span><span class="special">;</span>
+  <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeIn<span class="special">&gt;</span> 
+    <span class="keyword">static</span> <span class="identifier">converter</span><span class="special">&lt;</span> <span class="identifier">TypeIn</span> <span class="special">&gt;</span> <a class="link" href="convert_bool_id266619.html#id266658-bb"><span class="identifier">from</span></a><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">,</span> <span class="keyword">bool</span><span class="special">)</span><span class="special">;</span>
+<span class="special">}</span><span class="special">;</span></pre></div>
+<div class="refsect1">
+<a name="id844405"></a><h2>Description</h2>
+<div class="refsect2">
+<a name="id844409"></a><h3>
+<a name="id266634-bb"></a><code class="computeroutput">convert</code> public static functions</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1">
+<li class="listitem"><pre class="literallayout"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeIn<span class="special">&gt;</span> 
+  <span class="keyword">static</span> <span class="identifier">converter</span><span class="special">&lt;</span> <span class="identifier">TypeIn</span> <span class="special">&gt;</span> <a name="id266637-bb"></a><span class="identifier">from</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span> value_in <span class="special">=</span> <span class="identifier">TypeIn</span><span class="special">(</span><span class="special">)</span><span class="special">)</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeIn<span class="special">&gt;</span> 
+  <span class="keyword">static</span> <span class="identifier">converter</span><span class="special">&lt;</span> <span class="identifier">TypeIn</span> <span class="special">&gt;</span> 
+  <a name="id266658-bb"></a><span class="identifier">from</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span> value_in<span class="special">,</span> <span class="keyword">bool</span> fallback_value<span class="special">)</span><span class="special">;</span></pre></li>
+</ol></div>
+</div>
+</div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../header/boost/convert/type_to_bool_hpp.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../header/boost/convert/type_to_bool_hpp.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="../header/boost/convert/type_to_string_hpp.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

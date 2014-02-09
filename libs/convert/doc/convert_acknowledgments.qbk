@@ -1,0 +1,9 @@
+[section:convert_acknowledgements Acknowledgements]
+
+Many thanks to Kevlin Henney and Dave Abrahams for their /lexical_cast/-related insights and explanations. 
+
+Many thanks to Robert Stewart for his continuous and unwavering involvement, Hartmut Kaiser, Andrey Semashev, Scott McMurray, Anders Dalvander, Andrzej Krzemienski, Andrew Troschinetz, Alexander Nasonov, Jeff Flinn and all the Boosters participated in the related /lexical_cast/ and /convert/ discussions for expressing their views, opinions and suggestions. In many ways the library has been influenced and shaped by them.
+
+Special thanks to Edward Diener the Boost Review Manager for administrative and technical help, guidance and advice.
+
+[endsect]

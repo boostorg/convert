@@ -1,0 +1,76 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Modifying Throwing Behavior</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="prev" href="convert_integration.html" title="Integration of User-Defined Types">
+<link rel="next" href="convert_formatted.html" title="Formatted Conversions">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_integration.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_formatted.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_convert_library.convert_modified"></a><a class="link" href="convert_modified.html" title="Modifying Throwing Behavior">Modifying Throwing
+    Behavior</a>
+</h2></div></div></div>
+<p>
+      In the previous <span class="emphasis"><em>direction</em></span>-related examples the non-throwing
+      (by default) interface might have been used out of necessity as the throw-on-failure
+      interface could not be deployed due to lack of the default constructor. Still,
+      the throw-on-failure behavior might be the preferred choice. There are two
+      ways to achieve that:
+    </p>
+<pre class="programlisting"><span class="keyword">try</span>
+<span class="special">{</span>
+    <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">result</span> <span class="identifier">res</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">direction</span><span class="special">::</span><span class="identifier">up</span><span class="special">);</span> 
+    <span class="keyword">if</span> <span class="special">(!</span><span class="identifier">res</span><span class="special">)</span> <span class="keyword">throw</span> <span class="identifier">an</span> <span class="identifier">exception</span> <span class="identifier">of</span> <span class="identifier">your</span> <span class="identifier">choice</span>
+    <span class="special">...</span>
+<span class="special">}</span>
+<span class="keyword">catch</span> <span class="special">(</span><span class="identifier">exception</span><span class="special">-</span><span class="identifier">of</span><span class="special">-</span><span class="identifier">your</span><span class="special">-</span><span class="identifier">choice</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">ex</span><span class="special">)</span>
+<span class="special">{</span>
+   <span class="special">...</span> <span class="comment">// Process conversion failure
+</span><span class="special">}</span>
+</pre>
+<p>
+      or alternatively
+    </p>
+<pre class="programlisting"><span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>
+<span class="keyword">using</span> <span class="keyword">namespace</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">parameter</span><span class="special">;</span>
+
+<span class="keyword">try</span>
+<span class="special">{</span>
+    <span class="identifier">direction</span> <span class="identifier">dir</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">up_dir</span><span class="special">)(</span><span class="identifier">throw_</span> <span class="special">=</span> <span class="keyword">true</span><span class="special">);</span>  
+    <span class="special">...</span>
+<span class="special">}</span>
+<span class="keyword">catch</span> <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">invalid_argument</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">ex</span><span class="special">)</span>
+<span class="special">{</span>
+   <span class="special">...</span> <span class="comment">// Process conversion failure
+</span><span class="special">}</span>
+</pre>
+<p>
+      The additional <span class="emphasis"><em>(throw_ = true)</em></span> directive changes the default
+      behavior and forces to throw a <span class="emphasis"><em>std::invalid_argument</em></span> if
+      the conversion fails.
+    </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_integration.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_formatted.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

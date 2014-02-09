@@ -1,0 +1,19 @@
+[section:convert_string String-To-String Conversions]
+
+The string-to-string conversion is currently provided in a somewhat experimental form as it is yet to be seen if such functionality is indeed generates much interest. Still, I do not see the /Boost.Convert/ interface unsuitable for conversions like
+
+ std::u8string utf8 = convert<std::u8string>::from(utf32_str);
+ std::u8string utf8 = convert<std::u8string>::from(mbcs_str);
+
+More so, a more practical (and not as remote) deployment of the string-to-string conversion might be demonstrated by the following snippet (taken from the library unit test): 
+
+ string encrypted = convert<string>::from(naked_str) >> my_cypher;
+ string decrypted = convert<string>::from(encrypted_str) >> my_cypher;
+
+Where /my_cypher/ is a custom manipulator with the following signature
+
+ std::basic_ios<char>& my_cypher(std::basic_ios<char>& stream)
+
+With the above-mentioned manipulator applied /boost::convert/ keeps the type (/std::string/) of the source but changes (encrypts or decrypts) its representation. See ['libs/convert/test/test_convert.cpp] for the implementation of that manipulator.
+
+[endsect]

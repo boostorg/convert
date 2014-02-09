@@ -1,0 +1,43 @@
+[section:convert_started Getting Started]
+
+In its simplest form the conversion functionality is typically deployed as follows:
+
+ #include <boost/convert.hpp>
+
+ using boost::convert;
+
+ int i1 = convert<int>::from(str); // Throws if the conversion fails
+ int i2 = convert<int>::from(str, -1); // Returns -1 if the conversion fails
+
+For those familiar with /boost::lexical_cast/ the first deployment should look identical and as a drop-in replacement for /lexical_cast<int>(str)/. The requirements for the Target/Destination type (/int/ in the example above) and the behavior of /boost::convert/ are the same as for /boost::lexical_cast/. Namely, when the requested conversion fails, an exception is thrown as there is no other way to indicate a conversion failure. 
+
+The second interface takes a default/fallback value (the second parameter). That value is returned if/when the requested conversion fails. Often the fact of returning the provided fallback value can uniquely identify conversion failure. Consequently, by default this second interface does not throw.
+
+Additionally, as an already constructed (fallback) object is provided explicitly, the latter interface does not impose the /DefaultConstructibility/ requirement on to the Target type. That might be quite a deal-breaker for user-defined types that do not have default constructors (see the /direction/ example further).
+
+The described interface is sufficient and well-suited for a wide variety of conversion deployments. For example, an application is expected to read external configuration files, to convert and to incorporate those configuration settings. The application needs to stay operational and to maintain its internal integrity despite the not-too-remote possibility of reading invalid configuration settings. A typical processing flow might be to read a new configuration parameter and try converting it. If the conversion fails, then use some fallback value instead, log an error message and move on. Like the following
+
+ type1 p1 = convert<type1>::from(string_value_1, fallback_1);
+ type2 p2 = convert<type2>::from(string_value_2, fallback_2);
+
+ if (p1 == fallback_1) message("bad string_value_1");
+ if (p2 == fallback_2) message("bad string_value_2");
+
+ ... proceed with whatever parameters we've got.
+
+In these circumstances the deployment of /boost::convert/ looks considerably more natural compared to /boost::lexical_cast/ deployment which achieves that same result with
+
+ type p1 = fallback_1;
+
+ try
+ {
+     p1 = lexical_cast<type1>(string_value_1);
+ }
+ catch ...
+ {
+     message("bad string_value_1");
+ }
+
+In these circumstances (and quite often in general) a conversion failure is not /exceptional/ enough to justify throwing an exception. However, the constraints of the /boost::lexical_cast/ interface seem to define the behavior (rather than the other way around) as the throw-on-failure seems the only available choice to indicate conversion failure.
+
+[endsect]
