@@ -1,7 +1,5 @@
 [section:convert_intro Introduction]
 
-NOTE TO THE READER: /The described framework is not part of the Boost library collection/ even though it is referred to in the documentation as /Boost.Convert/ and the relevant code is under the /boost/ directory. It is done so as part of /Boost.Convert proposal/ preparation.
-
 /Boost.Convert/ builds on the /boost::lexical_cast/ experience and then takes those conversion\/transformation-related ideas further to provide a more flexible and extendible type-conversion framework, richer conversion-related configurability to better suit today's applications and programming needs. 
 
 The /Boost.Convert/ framework is split into two components

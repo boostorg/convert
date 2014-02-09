@@ -1,0 +1,5 @@
+[section:convert_foreword Foreword]
+
+/The described framework is not part of the Boost library collection/ even though it is referred to in the documentation as /Boost.Convert/ and the relevant code is under the /boost/ directory. It is done so as part of /Boost.Convert proposal/ preparation.
+
+[endsect]
