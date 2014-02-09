@@ -1,0 +1,59 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Requirements on the Argument and Result Types</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="prev" href="convert_two_behavioral.html" title="Two Behavioral Policies">
+<link rel="next" href="convert_integration.html" title="Integration of User-Defined Types">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_two_behavioral.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_integration.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_convert_library.convert_requirements"></a><a class="link" href="convert_requirements.html" title="Requirements on the Argument and Result Types">Requirements
+    on the Argument and Result Types</a>
+</h2></div></div></div>
+<p>
+      At present string-to-type and type-to-string conversions are <span class="emphasis"><em>std::stream</em></span>-based
+      (as <span class="emphasis"><em>boost::lexical_cast</em></span> is) and, therefore, for those
+      conversions the requirements on the argument and result types are as follows:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          TypeIn is OutputStreamable of a string-related type - a char or wchar_t-based
+          container compatible with the <span class="emphasis"><em>boost::range</em></span> concept;
+        </li>
+<li class="listitem">
+          TypeOut is InputStreamable with a std::istream&amp; operator&gt;&gt;(std::istream&amp;,
+          TypeOut&amp;) defined;
+        </li>
+<li class="listitem">
+          TypeOut is CopyConstructible.
+        </li>
+<li class="listitem">
+          TypeOut is DefaultConstructible when the fallback return value is not provided
+          explicitly.
+        </li>
+</ul></div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_two_behavioral.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_integration.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+#
+#   Copyright © 2009-2011 Vladimir Batov
+#
+#   This file is taken from the 'example' sandbox library
+#
+
+project convert
+    : requirements
+        <include>.&&$(BOOST_ROOT)
+    :
+        build-dir bin.v2
+    ;

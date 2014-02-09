@@ -1,0 +1,32 @@
+[section:convert_formatted Formatted Conversions]
+
+An important part of string-to-type and type-to-string conversions is formatting. Currently /Boost.Convert/ provides that functionality by deploying the standard /std::stream/-based formatting engine and familiar /std::stream/-based manipulators. For example,
+
+ char const*    hex_str = "FF"; // 255 in decimal
+ char const* double_str = "1.2345e-02";
+
+ // This call fails
+ int   bad = convert<int>::from(hex_str, -1);
+ // Apply hex formatting while converting from string
+ int     i = convert<int>::from(hex_str, -1) >> std::hex;
+ // Apply hex, uppercase, showbase formatting while converting to string
+ string si = convert<string>::from(i) 
+			 >> std::showbase >> std::uppercase >> std::hex;
+ double  d = convert<double>::from(double_str) 
+			 >> std::setprecision(4) >> std::scientific;
+ string sd = convert<string>::from(d) 
+			 >> std::setprecision(4) >> std::scientific;
+
+ BOOST_ASSERT(bad == -1); // Failed decimal conversion from "FF"
+ BOOST_ASSERT(i == 255); // Successful hex conversion from "FF"
+ BOOST_ASSERT(si == "0XFF");
+ BOOST_ASSERT(sd == double_str);
+
+Here, /convert/-based formatting is no better (or worse) than the standard /std::stream/-based formatting. In fact, under the hood it /is/ /std::stream/-based. For many basic formatting tasks it is entirely sufficient and it might be adequate for some more complex formatting tasks. Hard-to-deny advantages of that formatting engine are the familiar interface and deployment (it's not called /standard/ for nothing), instant re-use of available standard manipulators (like /std::hex/, etc.), extendibility (if one is familiar writing custom manipulators (see __ref_4__)). 
+
+That said, extending and customizing /std::stream/-based formatting might not be for everyone and /Boost.Convert/ should not be looked at as of any kind of a serious formatter. For serious formatting one should be looking at deploying comprehensive parsing and formatting libraries of their choice (say, /Boost.Spirit/ might be a worthy contender). Still, one does not need a big cannon for shooting ducks (not that I approve such an activity) as one does not need a comprehensive formatter when all that is needed is:
+
+ string s = convert<string>::from(i) >> std::hex;
+ double d = convert<double>::from(double_str) >> std::scientific;
+
+[endsect]

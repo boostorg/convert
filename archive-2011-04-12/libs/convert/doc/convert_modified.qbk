@@ -1,0 +1,33 @@
+[section:convert_modified Modifying Throwing Behavior]
+
+In the previous /direction/-related examples the non-throwing (by default) interface might have been used out of necessity as the throw-on-failure interface could not be deployed due to lack of the default constructor. Still, the throw-on-failure behavior might be the preferred choice. There are two ways to achieve that:  
+
+ try
+ {
+     convert<direction>::result res = convert<direction>::from(str, direction::up); 
+     if (!res) throw an exception of your choice
+     ...
+ }
+ catch (exception-of-your-choice const& ex)
+ {
+    ... // Process conversion failure
+ }
+
+or alternatively
+
+ using boost::convert;
+ using namespace boost::conversion::parameter;
+
+ try
+ {
+     direction dir = convert<direction>::from(str, up_dir)(throw_ = true);  
+     ...
+ }
+ catch (std::invalid_argument const& ex)
+ {
+    ... // Process conversion failure
+ }
+
+The additional /(throw_ = true)/ directive changes the default behavior and forces to throw a /std::invalid_argument/ if the conversion fails. 
+
+[endsect]

@@ -1,0 +1,137 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Better Conversion-Failure Check With convert&lt;&gt;::result</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="prev" href="convert_started.html" title="Getting Started">
+<link rel="next" href="convert_two_behavioral.html" title="Two Behavioral Policies">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_started.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_two_behavioral.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_convert_library.convert_better_conv"></a><a class="link" href="convert_better_conv.html" title="Better Conversion-Failure Check With convert&lt;&gt;::result">Better Conversion-Failure
+    Check With convert&lt;&gt;::result</a>
+</h2></div></div></div>
+<p>
+      After the call below 'i2' will have the value of -1 (the supplied fallback
+      value) due to conversion failure:
+    </p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="string">"not an int"</span><span class="special">,</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// after the call i2 = -1
+</span>
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">failed</span> <span class="identifier">to</span> <span class="identifier">convert</span>
+</pre>
+<p>
+      Checking the return value as above is certainly straight-forward and convenient.
+      Unfortunately, it is not always entirely correct as -1 is returned for the
+      conversion failure and for the conversion success when the supplied string
+      happens to be "-1". That non-determinism is a known limitation of
+      this basic interface. Still, for a surprising number of applications it is
+      adequate as it is quite common to still have "spare" values outside
+      the valid range. Such values (outside the valid range) are suitable to indicate
+      conversion failures (say, INT_MAX for integers) without introducing the above-mentioned
+      behavioral non-determinism.
+    </p>
+<p>
+      More so, it is not that uncommon for applications to ignore conversion failures
+      altogether and proceed with the supplied default/fallback value.
+    </p>
+<p>
+      Having said that, there are applications which do not fall in to any of the
+      categories mentioned above. Those applications still require the conversion-failure
+      condition clearly detected and, therefore, require a reliable conversion-failure
+      detection.
+    </p>
+<p>
+      For such applications the <span class="emphasis"><em>lexical_cast</em></span>-like throw-on-failure
+      interface might be adequate:
+    </p>
+<pre class="programlisting"><span class="keyword">try</span>
+<span class="special">{</span>
+    <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails
+</span>    <span class="special">...</span>
+<span class="special">}</span>
+<span class="keyword">catch</span> <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">invalid_argument</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">ex</span><span class="special">)</span>
+<span class="special">{</span>
+    <span class="identifier">Conversion</span> <span class="identifier">failed</span>
+<span class="special">}</span>
+</pre>
+<p>
+      However, throwing an exception might not always be the desirable behavior (not
+      to mention the heaviness of the <span class="emphasis"><em>try/catch</em></span> interface which
+      does not seem exactly fitting on such a low level).
+    </p>
+<p>
+      More so, some classes might fail to meet that requirement for the Target type
+      to be <span class="emphasis"><em>DefaultConstructible</em></span>. The following <span class="emphasis"><em>direction</em></span>
+      class is one such example. It has only two (<span class="emphasis"><em>direction::up</em></span>
+      and <span class="emphasis"><em>direction::dn</em></span>) states available (i.e. no "spare"
+      values to indicate conversion failure) and is not <span class="emphasis"><em>DefaultConstructible</em></span>:
+    </p>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">direction</span>
+<span class="special">{</span>
+    <span class="keyword">enum</span> <span class="identifier">value_type</span> <span class="special">{</span> <span class="identifier">up</span><span class="special">,</span> <span class="identifier">dn</span> <span class="special">};</span>
+    <span class="identifier">direction</span><span class="special">(</span><span class="identifier">value_type</span> <span class="identifier">value</span><span class="special">)</span> <span class="special">:</span> <span class="identifier">value_</span><span class="special">(</span><span class="identifier">value</span><span class="special">)</span> <span class="special">{}</span>
+    <span class="keyword">private</span><span class="special">:</span> <span class="identifier">value_type</span> <span class="identifier">value_</span><span class="special">;</span>
+<span class="special">};</span>
+</pre>
+<p>
+      For such a class the call below will not compile (due to the <span class="emphasis"><em>DefaultConstructible</em></span>
+      Target type requirement):
+    </p>
+<pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">);</span>  <span class="comment">// Does not compile
+</span></pre>
+<p>
+      More so, the following is no good either as it does not provide a reliable
+      detection of a conversion failure:
+    </p>
+<pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">direction</span><span class="special">::</span><span class="identifier">up</span><span class="special">);</span> 
+
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">dir</span> <span class="special">==</span> <span class="identifier">up_dir</span><span class="special">)</span> <span class="special">...</span> <span class="comment">// Was it a failure or a successful "up" conversion?
+</span></pre>
+<p>
+      For situations like that the library provides the following interface:
+    </p>
+<pre class="programlisting"><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">result</span> <span class="identifier">res</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">up_dir</span><span class="special">);</span> 
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">res</span><span class="special">)</span> <span class="identifier">conversion</span> <span class="identifier">succeeded</span>
+<span class="keyword">if</span> <span class="special">(!</span><span class="identifier">res</span><span class="special">)</span> <span class="identifier">conversion</span> <span class="identifier">failed</span>
+<span class="identifier">direction</span> <span class="identifier">dir</span> <span class="special">=</span> <span class="identifier">res</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Retrieve the conversion result
+</span></pre>
+<p>
+      The <span class="emphasis"><em>convert::result</em></span> class has an implicit safe-bool conversion
+      operator that allows to check the success of the conversion. The actual result
+      of the conversion is retrieved with <span class="emphasis"><em>convert::result::value()</em></span>.
+    </p>
+<p>
+      That same <span class="emphasis"><em>convert::result</em></span> could be deployed to work around
+      the throwing behavior of the <span class="emphasis"><em>lexical_cast</em></span>-like interface:
+    </p>
+<pre class="programlisting"><span class="comment">// This call does not throw.
+</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">result</span> <span class="identifier">res</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="string">"not an int"</span><span class="special">);</span> 
+<span class="comment">// An attempt to retrieve a failed-conversion value will throw.
+</span><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">res</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span>
+<span class="comment">// Check the success first and retrieve the value if available.
+</span><span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">res</span> <span class="special">?</span> <span class="identifier">res</span><span class="special">.</span><span class="identifier">value</span><span class="special">()</span> <span class="special">:</span> <span class="special">-</span><span class="number">1</span><span class="special">;</span>
+</pre>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_started.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_two_behavioral.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

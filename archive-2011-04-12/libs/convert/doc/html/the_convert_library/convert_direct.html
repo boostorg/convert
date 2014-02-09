@@ -1,0 +1,62 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Accessing Converters Directly</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="prev" href="convert_algorithms.html" title="Using Boost.Convert with Standard Algorithms">
+<link rel="next" href="convert_more_converters.html" title="More About Converters, Customization, Optimization and Performance">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_algorithms.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_more_converters.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_convert_library.convert_direct"></a><a class="link" href="convert_direct.html" title="Accessing Converters Directly">Accessing Converters
+    Directly</a>
+</h2></div></div></div>
+<p>
+      What happens when <span class="emphasis"><em>Boost.Convert</em></span> is used with algorithms
+      is that <span class="emphasis"><em>convert::from()</em></span> returns a configured converter
+      which is then fed to an algorithm. Those converters can be explicitly deployed
+      outside algorithms. For example,
+    </p>
+<pre class="programlisting"><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">converter</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;</span> <span class="identifier">hex_cvt</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;()</span> <span class="special">&gt;&gt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">;</span>
+<span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">converter</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;</span> <span class="identifier">dec_cvt</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">string</span><span class="special">(),</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span>
+<span class="comment">// convert&lt;int&gt;::converter&lt;string&gt; dec_cvt = convert&lt;int&gt;::from&lt;string&gt;()(fallback_ = -1); // Same as above
+</span>
+<span class="keyword">int</span> <span class="identifier">dec_result11</span> <span class="special">=</span> <span class="identifier">dec_cvt</span><span class="special">(</span><span class="string">"F"</span><span class="special">);</span> <span class="comment">// Conversion fails
+</span><span class="keyword">int</span> <span class="identifier">hex_result21</span> <span class="special">=</span> <span class="identifier">hex_cvt</span><span class="special">(</span><span class="string">"F"</span><span class="special">);</span> <span class="comment">// Conversion succeeds
+</span><span class="keyword">int</span> <span class="identifier">dec_result12</span> <span class="special">=</span> <span class="identifier">dec_cvt</span><span class="special">(</span><span class="string">"10"</span><span class="special">);</span> <span class="comment">// Returns 10
+</span><span class="keyword">int</span> <span class="identifier">hex_result22</span> <span class="special">=</span> <span class="identifier">hex_cvt</span><span class="special">(</span><span class="string">"10"</span><span class="special">);</span> <span class="comment">// Returns 16
+</span>
+<span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">dec_result11</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Failed conversion
+</span><span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">dec_result12</span> <span class="special">==</span> <span class="number">10</span><span class="special">);</span>
+<span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">hex_result21</span> <span class="special">==</span> <span class="number">15</span><span class="special">);</span>
+<span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">hex_result22</span> <span class="special">==</span> <span class="number">16</span><span class="special">);</span>
+</pre>
+<p>
+      A possible advantage of such a direct deployment might be that a converter
+      is configured once and then re-used by apllying the same conversion to a series
+      of values (as it is done with algorithms).
+    </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_algorithms.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_more_converters.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

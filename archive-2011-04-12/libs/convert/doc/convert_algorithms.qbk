@@ -1,0 +1,35 @@
+[section:convert_algorithms Using Boost.Convert with Standard Algorithms]
+
+Both described conversion interfaces can be used with standard algorithms and exhibit the same already familiar behavior:
+
+ std::vector<int>            integers;
+ boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int"}};
+
+ // With fallback value provided. No throwing. Added hex formatting.
+ std::transform(
+     strings.begin(),
+     strings.end(),
+     std::back_inserter(integers),
+     convert<int>::from(string(), -1) >> std::hex);
+
+ BOOST_ASSERT(integers[0] == 15);
+ BOOST_ASSERT(integers[1] == 16);
+ BOOST_ASSERT(integers[2] == 17);
+ BOOST_ASSERT(integers[3] == 18);
+ BOOST_ASSERT(integers[4] == -1); // Failed conversion
+
+ // Same as above. Alternative interface.
+ std::transform(
+     strings.begin(),
+     strings.end(),
+     std::back_inserter(integers),
+     convert<int>::from<string>()(fallback_ = -1) >> std::hex);
+
+ // No fallback valus provided, i.e. throws on failure.
+ std::transform(
+     strings.begin(),
+     strings.end(),
+     std::back_inserter(integers),
+     convert<int>::from<string>());
+
+[endsect]

@@ -1,0 +1,105 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Struct template safebool</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../header/boost/safebool_hpp.html" title="Header &lt;boost/safebool.hpp&gt;">
+<link rel="prev" href="../header/boost/safebool_hpp.html" title="Header &lt;boost/safebool.hpp&gt;">
+<link rel="next" href="../the_convert_library/convert_acknowledgements.html" title="Acknowledgements">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../header/boost/safebool_hpp.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../header/boost/safebool_hpp.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="../the_convert_library/convert_acknowledgements.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="refentry">
+<a name="boost.safebool"></a><div class="titlepage"></div>
+<div class="refnamediv">
+<h2><span class="refentrytitle">Struct template safebool</span></h2>
+<p>boost::safebool &#8212; Generalization of the Safe-Bool Technique. </p>
+</div>
+<h2 xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv-title">Synopsis</h2>
+<div xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv"><pre class="synopsis"><span class="comment">// In header: &lt;<a class="link" href="../header/boost/safebool_hpp.html" title="Header &lt;boost/safebool.hpp&gt;">boost/safebool.hpp</a>&gt;
+
+</span><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> T<span class="special">&gt;</span> 
+<span class="keyword">struct</span> <a class="link" href="safebool.html" title="Struct template safebool">safebool</a> <span class="special">{</span>
+  <span class="comment">// types</span>
+  <span class="keyword">typedef</span> <span class="keyword">void</span><span class="special">(</span><span class="identifier">safebool</span><span class="special">::</span><span class="special">*</span> <a name="boost.safebool.type"></a><span class="identifier">type</span><span class="special">;</span>
+
+  <span class="comment">// <a class="link" href="safebool.html#boost.safeboolconstruct-copy-destruct">construct/copy/destruct</a></span>
+  <a class="link" href="safebool.html#id266839-bb"><span class="identifier">safebool</span></a><span class="special">(</span><span class="keyword">bool</span><span class="special">)</span><span class="special">;</span>
+
+  <span class="comment">// <a class="link" href="safebool.html#id266828-bb">public member functions</a></span>
+  <a class="link" href="safebool.html#id266832-bb"><span class="keyword">operator</span> <span class="identifier">type</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+
+  <span class="comment">// <a class="link" href="safebool.html#id266845-bb">private member functions</a></span>
+  <span class="keyword">void</span> <a class="link" href="safebool.html#id266848-bb"><span class="identifier">true_</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+<span class="special">}</span><span class="special">;</span></pre></div>
+<div class="refsect1">
+<a name="id845834"></a><h2>Description</h2>
+<p>An implicit conversion to bool (operator bool() const) is very much idiomatic and is often deployed in constructs like "if (foo)" and "if (!foo)" (with no explicit op!() defined). However, sadly, implementing "operator bool()" is *wrong* as that conversion kicks in far too often and unexpectedly. Like in "foo == 1", "foo+1", "1+foo" or potentially during lexical_cast&lt;string&gt;(foo) (if there are no op&gt;&gt;() and op&lt;&lt;() defined). Consequently, that "implicit
+    conversion to bool" functionality has to be implemented in an indirect and somewhat awkward way via an implicit conversion to some other type. The best type for the purpose appears to be a pointer to a member function. For more see the chapter 7.7 in Alexandrescu's "Modern C++ Design" and the article at <a href="http://www.artima.com/cppsource/safebool.html" target="_top">http://www.artima.com/cppsource/safebool.html</a> by Bjorn Karlsson.<br>
+<br>
+ Deployment: </p>
+<pre class="programlisting"> <span class="keyword">struct</span> <span class="identifier">Foo</span>
+ <span class="special">{</span> <span class="special">...</span>
+     <span class="keyword">operator</span> <span class="identifier">safebool</span><span class="special">&lt;</span><span class="identifier">Foo</span><span class="special">&gt;</span><span class="special">::</span><span class="identifier">type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span> <span class="special">{</span> <span class="keyword">return</span> <span class="identifier">safebool</span><span class="special">&lt;</span><span class="identifier">Foo</span><span class="special">&gt;</span><span class="special">(</span><span class="identifier">condition</span><span class="special">)</span><span class="special">;</span> <span class="special">}</span>
+ <span class="special">}</span><span class="special">;</span>
+ <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">class</span> <span class="identifier">T</span><span class="special">&gt;</span>
+ <span class="keyword">struct</span> <span class="identifier">Moo</span> <span class="comment">// for a template class</span>
+ <span class="special">{</span> <span class="special">...</span>
+     <span class="keyword">operator</span> <span class="keyword">typename</span> <span class="identifier">safebool</span><span class="special">&lt;</span><span class="identifier">Moo</span><span class="special">&gt;</span><span class="special">::</span><span class="identifier">type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span> <span class="special">{</span> <span class="keyword">return</span> <span class="identifier">safebool</span><span class="special">&lt;</span><span class="identifier">Moo</span><span class="special">&gt;</span><span class="special">(</span><span class="identifier">condition</span><span class="special">)</span><span class="special">;</span> <span class="special">}</span>
+ <span class="special">}</span><span class="special">;</span>
+ <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">class</span> <span class="identifier">T</span><span class="special">&gt;</span>
+ <span class="keyword">struct</span> <span class="identifier">Zoo</span> <span class="comment">// with convenience typedefs</span>
+ <span class="special">{</span> <span class="special">...</span>
+     <span class="keyword">typedef</span> <span class="identifier">safebool</span><span class="special">&lt;</span><span class="identifier">Zoo</span><span class="special">&gt;</span> <span class="identifier">safebool</span><span class="special">;</span>
+     <span class="keyword">typedef</span> <span class="keyword">typename</span> <span class="identifier">safebool</span><span class="special">::</span><span class="identifier">type</span> <span class="identifier">safebool_type</span><span class="special">;</span>
+
+     <span class="keyword">operator</span> <span class="identifier">safebool_type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span> <span class="special">{</span> <span class="keyword">return</span> <span class="identifier">safebool</span><span class="special">(</span><span class="identifier">condition</span><span class="special">)</span><span class="special">;</span> <span class="special">}</span>
+ <span class="special">}</span><span class="special">;</span>
+</pre>
+<p> safebool needs to be a template to make the returned safebool&lt;Foo&gt;::type type unique. Without it different classes would return the same safebool::type type that would make possible relational operators between unrelated types. Like </p>
+<pre class="programlisting">     <span class="keyword">struct</span> <span class="identifier">Foo</span> <span class="special">{</span> <span class="keyword">operator</span> <span class="identifier">safebool</span><span class="special">::</span><span class="identifier">type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span> <span class="special">{</span> <span class="keyword">return</span> <span class="identifier">safebool</span><span class="special">(</span><span class="special">...</span><span class="special">)</span><span class="special">;</span> <span class="special">}</span><span class="special">}</span><span class="special">;</span>
+     <span class="keyword">struct</span> <span class="identifier">Moo</span> <span class="special">{</span> <span class="keyword">operator</span> <span class="identifier">safebool</span><span class="special">::</span><span class="identifier">type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span> <span class="special">{</span> <span class="keyword">return</span> <span class="identifier">safebool</span><span class="special">(</span><span class="special">...</span><span class="special">)</span><span class="special">;</span> <span class="special">}</span><span class="special">}</span><span class="special">;</span>
+     <span class="identifier">Foo</span> <span class="identifier">foo</span><span class="special">;</span>
+     <span class="identifier">Zoo</span> <span class="identifier">zoo</span><span class="special">;</span>
+     <span class="keyword">if</span> <span class="special">(</span><span class="identifier">foo</span> <span class="special">==</span> <span class="identifier">zoo</span><span class="special">)</span> <span class="identifier">Valid</span> <span class="special">(</span><span class="identifier">but</span> <span class="identifier">wrong</span><span class="special">)</span> <span class="identifier">comparison</span> <span class="identifier">between</span> <span class="identifier">unrelated</span> <span class="identifier">types</span><span class="special">.</span>
+</pre>
+<p> </p>
+<div class="refsect2">
+<a name="id846710"></a><h3>
+<a name="boost.safeboolconstruct-copy-destruct"></a><code class="computeroutput">safebool</code> 
+        public
+       construct/copy/destruct</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><a name="id266839-bb"></a><span class="identifier">safebool</span><span class="special">(</span><span class="keyword">bool</span> v<span class="special">)</span><span class="special">;</span></pre></li></ol></div>
+</div>
+<div class="refsect2">
+<a name="id846764"></a><h3>
+<a name="id266828-bb"></a><code class="computeroutput">safebool</code> public member functions</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><a name="id266832-bb"></a><span class="keyword">operator</span> <span class="identifier">type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li></ol></div>
+</div>
+<div class="refsect2">
+<a name="id846823"></a><h3>
+<a name="id266845-bb"></a><code class="computeroutput">safebool</code> private member functions</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><span class="keyword">void</span> <a name="id266848-bb"></a><span class="identifier">true_</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li></ol></div>
+</div>
+</div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../header/boost/safebool_hpp.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../header/boost/safebool_hpp.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="../the_convert_library/convert_acknowledgements.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

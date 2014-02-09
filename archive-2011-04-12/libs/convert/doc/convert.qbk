@@ -1,0 +1,46 @@
+[/==============================================================================
+    Copyright (C) 2009-2011 Vladimir Batov
+
+    Use, modification and distribution is subject to the Boost Software
+    License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+    http://www.boost.org/LICENSE_1_0.txt)
+===============================================================================/]
+[library The Convert Library
+    [quickbook 1.5]
+    [version 1.0]
+    [id convert]
+    [dirname convert]
+    [copyright 2009-2011 Vladimir Batov]
+    [purpose Beyond boost::lexical_cast]
+    [category generic]
+    [authors [Batov, Vladimir]]
+    [source-mode c++]
+    [license
+        Distributed under the Boost Software License, Version 1.0.
+        (See accompanying file LICENSE_1_0.txt or copy at
+        [@http://www.boost.org/LICENSE_1_0.txt])
+    ]
+]
+ 
+[def __ref_1__ [@http://www.boost.org/doc/libs/1_38_0/libs/conversion/lexical_cast.htm /lexical_cast/ documentation]]
+[def __ref_2__ [@http://www.gotw.ca/publications/mill19.htm The String Formatters of Manor Farm by H. Sutter]]
+[def __ref_3__ [@http://www.boostpro.com/vault/index.php?action=downloadfile&filename=conversion.zip&directory=Utilities& the Conversion Library submission by Vicente Botet (currently in the Boost Review Queue)]]
+[def __ref_4__ [@http://www.cecalc.ula.ve/documentacion/tutoriales/PGICDK/doc/pgC++_lib/stdlibug/str_5412.htm "Stream Storage for Private Use: iword, pword, and xalloc" by Rogue Wave Software]]
+
+[include convert_intro.qbk]
+[include convert_motivation.qbk]
+[include convert_getting_started.qbk]
+[include convert_better_conversion.qbk]
+[include convert_two_behavioral.qbk]
+[include convert_requirements.qbk]
+[include convert_integration.qbk]
+[include convert_modified.qbk]
+[include convert_formatted.qbk]
+[include convert_locale.qbk]
+[include convert_string.qbk]
+[include convert_algorithms.qbk]
+[include convert_direct.qbk]
+[include convert_more_converters.qbk]
+[include convert_ref.qbk]
+[include convert_acknowledgments.qbk]
+[include convert_index.qbk]

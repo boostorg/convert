@@ -1,0 +1,20 @@
+[section:convert_more_converters More About Converters, Customization, Optimization and Performance]
+
+As have already been mentioned /convert::from()/ returns a configured implementation-defined converter for the specified /TypeIn-TypeOut/ conversion pair. Those type converters are the underlying engine of the /Boost.Convert/ framework and are largely remain hidden behind the /convert::from()/ on one end and the /convert::result/ on the other end (unless one decides to manipulate those converters directly as discussed in the previous section).
+
+That said, those converters do advertise themselves by providing the bulk of the conversion and behavior configuration interface that is applicable for the respective /TypeIn-TypeOut/ conversion pair. Like  
+
+ converter& operator()(throw_),
+ converter& operator()(locale_),
+ converter& operator()(fallback_)
+ converter& operator>>(Manipulator)
+
+interfaces discussed previously are, in fact, provided by those converters (where applicable). That is a peculiarity of the /Boost.Convert/ framework -- itself it defines very limited -- /convert::from()/ and /convert::result/ -- interface. The remaining (possibly quite extensive) interface is implementation-defined and is provided by the respective /TypeIn-TypeOut/ converters.
+
+For example, in its current implementation /Boost.Convert/ provides a generic /string-to-type/ converter and its optimized "specialization" for /string-to-bool/ conversions. Admittedly, the /string-to-bool/ converter is quite experimental (and probably insufficient). However, it does demonstrate the idea of optimization and customization.
+
+When the generic /string-to-type/ converter is /std::stream/-based (with everything else following), the /string-to-bool/ converter is lean and unsofisticated (and considerably more efficient). It does not accept any manipulators and is not even /std::stream/-based. It only accepts, "1, yes, true" or "0, no, false" as input.
+
+Consequently, new converters can be written for new and existing /TypeIn-TypeOut/ conversion pairs with functionality or performance in mind; incorporated into the Boost.Convert framework and, then, deployed uniformly via the Boost.Convert interface.
+
+[endsect]

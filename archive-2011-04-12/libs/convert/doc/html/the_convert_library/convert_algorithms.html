@@ -1,0 +1,71 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Using Boost.Convert with Standard Algorithms</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Convert Library 1.0">
+<link rel="prev" href="convert_string.html" title="String-To-String Conversions">
+<link rel="next" href="convert_direct.html" title="Accessing Converters Directly">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_string.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_direct.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_convert_library.convert_algorithms"></a><a class="link" href="convert_algorithms.html" title="Using Boost.Convert with Standard Algorithms">Using Boost.Convert
+    with Standard Algorithms</a>
+</h2></div></div></div>
+<p>
+      Both described conversion interfaces can be used with standard algorithms and
+      exhibit the same already familiar behavior:
+    </p>
+<pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>            <span class="identifier">integers</span><span class="special">;</span>
+<span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not an int"</span><span class="special">}};</span>
+
+<span class="comment">// With fallback value provided. No throwing. Added hex formatting.
+</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span>
+    <span class="identifier">strings</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span>
+    <span class="identifier">strings</span><span class="special">.</span><span class="identifier">end</span><span class="special">(),</span>
+    <span class="identifier">std</span><span class="special">::</span><span class="identifier">back_inserter</span><span class="special">(</span><span class="identifier">integers</span><span class="special">),</span>
+    <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">string</span><span class="special">(),</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="special">&gt;&gt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">);</span>
+
+<span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">0</span><span class="special">]</span> <span class="special">==</span> <span class="number">15</span><span class="special">);</span>
+<span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">1</span><span class="special">]</span> <span class="special">==</span> <span class="number">16</span><span class="special">);</span>
+<span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">2</span><span class="special">]</span> <span class="special">==</span> <span class="number">17</span><span class="special">);</span>
+<span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">3</span><span class="special">]</span> <span class="special">==</span> <span class="number">18</span><span class="special">);</span>
+<span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">4</span><span class="special">]</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Failed conversion
+</span>
+<span class="comment">// Same as above. Alternative interface.
+</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span>
+    <span class="identifier">strings</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span>
+    <span class="identifier">strings</span><span class="special">.</span><span class="identifier">end</span><span class="special">(),</span>
+    <span class="identifier">std</span><span class="special">::</span><span class="identifier">back_inserter</span><span class="special">(</span><span class="identifier">integers</span><span class="special">),</span>
+    <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;()(</span><span class="identifier">fallback_</span> <span class="special">=</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="special">&gt;&gt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">);</span>
+
+<span class="comment">// No fallback valus provided, i.e. throws on failure.
+</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span>
+    <span class="identifier">strings</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span>
+    <span class="identifier">strings</span><span class="special">.</span><span class="identifier">end</span><span class="special">(),</span>
+    <span class="identifier">std</span><span class="special">::</span><span class="identifier">back_inserter</span><span class="special">(</span><span class="identifier">integers</span><span class="special">),</span>
+    <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;());</span>
+</pre>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009 -2011 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_string.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_direct.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

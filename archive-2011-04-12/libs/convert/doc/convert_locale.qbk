@@ -1,0 +1,32 @@
+[section:convert_locale Locale-Based Conversions]
+
+Locales are deployed in a similar fashion: 
+
+ using namespace boost::conversion::parameter;
+
+ char const* double_str = "1.2345e-02";
+ double d = convert<double>::from(double_str)
+			 >> std::setprecision(4)
+			 >> std::scientific);
+ std::locale eng_locale ("");
+ std::locale rus_locale ("ru_RU.UTF-8");  // Linux-style locale
+ std::locale rus_locale ("Russian_Russia.1251"); // Windows-style locale
+
+ // Convert double to a string using Russian locale.
+ string d1 = convert<string>::from(d)(locale_ = rus_locale)
+			 >> std::setprecision(4) 
+			 >> std::scientific;
+ // Convert double to a string using English locale.
+ string d2 = convert<string>::from(d)(locale_ = eng_locale)
+			 >> std::setprecision(4)
+			 >> std::scientific;
+
+ printf("rus locale: %s. %s.\n", rus_locale.name().c_str(), d1.c_str());
+ printf("eng locale: %s. %s.\n", eng_locale.name().c_str(), d2.c_str());
+
+For the current locale being "en_AU" the code above will produce the following output (the difference is the comma or the dot between '1' and '2'):
+
+ rus locale: ru_RU.UTF-8. 1,2345e-02.
+ eng locale: en_AU.UTF-8. 1.2345e-02.
+
+[endsect]

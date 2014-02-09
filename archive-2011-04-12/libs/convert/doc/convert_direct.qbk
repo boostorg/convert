@@ -1,0 +1,21 @@
+[section:convert_direct Accessing Converters Directly]
+
+What happens when /Boost.Convert/ is used with algorithms is that /convert::from()/ returns a configured converter which is then fed to an algorithm. Those converters can be explicitly deployed outside algorithms. For example, 
+
+ convert<int>::converter<string> hex_cvt = convert<int>::from<string>() >> std::hex;
+ convert<int>::converter<string> dec_cvt = convert<int>::from(string(), -1);
+ // convert<int>::converter<string> dec_cvt = convert<int>::from<string>()(fallback_ = -1); // Same as above
+
+ int dec_result11 = dec_cvt("F"); // Conversion fails
+ int hex_result21 = hex_cvt("F"); // Conversion succeeds
+ int dec_result12 = dec_cvt("10"); // Returns 10
+ int hex_result22 = hex_cvt("10"); // Returns 16
+
+ BOOST_ASSERT(dec_result11 == -1); // Failed conversion
+ BOOST_ASSERT(dec_result12 == 10);
+ BOOST_ASSERT(hex_result21 == 15);
+ BOOST_ASSERT(hex_result22 == 16);
+
+A possible advantage of such a direct deployment might be that a converter is configured once and then re-used by apllying the same conversion to a series of values (as it is done with algorithms).
+
+[endsect]

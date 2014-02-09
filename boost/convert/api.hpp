@@ -3,7 +3,7 @@
 //
 // Boost.Convert library
 //
-// Copyright (c) 2009-2011 Vladimir Batov.
+// Copyright (c) 2009-2014 Vladimir Batov.
 // Many thanks to Robert Stewart, Scott McMurray, Andrey Semashev, Dave Abrahams,
 // Hartmut Kaiser, Anders Dalvander, Andrzej Krzemienski, Andrew Troschinetz and
 // all the Boosters participated in the related discussions and the review.
@@ -27,7 +27,6 @@ namespace boost
     template<class> struct convert;
 }
 
-/// Boost.Convert framework public interface
 template<class TypeOut>
 struct boost::convert
 {
@@ -56,22 +55,20 @@ struct boost::convert
     from(TypeIn const& value_in, Converter const& converter) //C1.
     {
         out_type result = out_type(); //C2
-        bool    success = converter.convert(value_in, result); //C3.
+        bool    success = converter.convert(value_in, result); //C3
         
         return success ? result_type(result, result_type::good) : result_type();
     }
-
     template<class TypeIn, class FallbackType, class Converter>
     static
     result_type
     from(TypeIn const& value_in, FallbackType const& fallback, Converter const& converter)
     {
-        out_type result = fallback; //C2
-        bool    success = converter.convert(value_in, result); //C3.
+        out_type result = out_type(fallback); //C2
+        bool    success = converter.convert(value_in, result); //C3
         
         return success ? result_type(result, result_type::good) : result_type(fallback, result_type::bad);
     }
-    /// To be used with algorithms.
     template<class TypeIn, class Converter>
     static
     algorithm_helper<TypeIn, Converter>
@@ -84,33 +81,17 @@ struct boost::convert
 template<class TypeOut>
 struct boost::convert<TypeOut>::result
 {
-	typedef typename boost::convert<out_type>::result this_type;
-	typedef boost::safebool<result>                    safebool;
+	typedef result                 this_type;
+	typedef boost::safebool<result> safebool;
     
     enum status { good, bad, throw_bad };
 
     result () : status_(throw_bad) {}
-    result (out_type const&          v, status s) : value_(v), status_(s) {}
-    result (optional_out_type const& v, status s) : value_(v), status_(s) {}
+    result (out_type const& v, status s) : value_(v), status_(s) {}
 
-    /// Implicit conversion to safe-bool to allow checking the success of the conversion.
-    /// For example,
-    /// @code
-    ///     convert<foo>::result result = convert<foo>::from(str, fallback_value);
-    ///     if ( result) conversion succeeded
-    ///     if (!result) conversion failed
-    /// @endcode
     operator typename safebool::type () const { return safebool(!operator!()); }
     bool                   operator! () const { return status_ != good; }
 
-    /// Retrieve the actual result (value) of the conversion.
-    /// For example,
-    /// @code
-    ///     if (convert<foo_type>::result result = convert<foo_type>::from(str))
-    ///     {
-    ///         foo_type value = result.value();  // Safe to retrieve the result
-    ///     }
-    /// @endcode
     out_type const& value() const
     {
         if (!value_ || status_ == throw_bad)
