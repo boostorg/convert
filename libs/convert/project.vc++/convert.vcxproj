@@ -78,15 +78,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\boost\convert\api.hpp" />
     <ClInclude Include="..\..\..\boost\convert\boost_parameter_ext.hpp" />
-    <ClInclude Include="..\..\..\boost\convert\converter_base.hpp" />
     <ClInclude Include="..\..\..\boost\convert\parameters.hpp" />
     <ClInclude Include="..\..\..\boost\safebool.hpp" />
     <ClInclude Include="..\..\..\boost\convert\sstream_based_converter.hpp" />
     <ClInclude Include="..\..\..\boost\convert\string_sfinae.hpp" />
-    <ClInclude Include="..\..\..\boost\convert\string_to_bool.hpp" />
-    <ClInclude Include="..\..\..\boost\convert\string_to_type.hpp" />
-    <ClInclude Include="..\..\..\boost\convert\type_to_bool.hpp" />
-    <ClInclude Include="..\..\..\boost\convert\type_to_string.hpp" />
     <ClInclude Include="..\..\..\boost\convert\workarounds.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
