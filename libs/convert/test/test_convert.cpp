@@ -1,6 +1,6 @@
 // Boost.Convert library test and usage example
 //
-// Copyright (c) 2009-2011 Vladimir Batov.
+// Copyright (c) 2009-2014 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <vector>
 #include <list>
+#include <stdio.h>
 
 using std::string;
 using std::wstring;
@@ -28,9 +29,8 @@ my_cypher(std::basic_ios<char>& stream)
     for (int c = 0; c = buf->sbumpc(), c != EOF; data += c);
 
     for (string::iterator it = data.begin(); it != data.end(); ++it)
-    {
         *it < 'A' ? buf->sputc(*it += cypher) : buf->sputc(*it -= cypher);
-    }
+
     return stream;
 }
 
@@ -46,6 +46,7 @@ struct direction
     friend std::istream& operator>>(std::istream& stream, direction& dir)
     {
         string str; stream >> str;
+
         /**/ if (str == "up") dir.value_ = up;
         else if (str == "dn") dir.value_ = dn;
         else stream.setstate(std::ios_base::failbit);
@@ -64,7 +65,7 @@ int
 main(int argc, char const* argv[])
 {
     ////////////////////////////////////////////////////////////////////////////
-    // Test string SFINAE in its various shapes and forms.
+    // Test string SFINAE.
     ////////////////////////////////////////////////////////////////////////////
 
     bool q01 = boost::convert_detail::is_any_string<std::string>::value;
@@ -156,7 +157,7 @@ main(int argc, char const* argv[])
 
     try
     {
-        int a020 = convert<int>::from(not_int_str, ccnv);
+        convert<int>::from(not_int_str, ccnv).value();
         BOOST_ASSERT(!"failed to throw");
     }
     catch (std::exception&)
@@ -198,7 +199,7 @@ main(int argc, char const* argv[])
 
     try
     {
-        int r010_value = r010.value(); // Throws on an attempt to retrieve the value.
+        r010.value(); // Throws on an attempt to retrieve the value.
         BOOST_ASSERT(!"failed to throw");
     }
     catch (std::exception&)
@@ -271,7 +272,7 @@ main(int argc, char const* argv[])
     ////////////////////////////////////////////////////////////////////////////
     try
     {
-        direction dir = convert<direction>::from("junk", direction::up, ccnv)(cnv::parameter::throw_on_failure = true);
+        convert<direction>::from("junk", direction::up, ccnv)(cnv::parameter::throw_on_failure = true).value();
         BOOST_ASSERT(!"failed to throw");
     }
     catch (std::exception&)
@@ -288,25 +289,27 @@ main(int argc, char const* argv[])
 #if defined(_MSC_VER)
     char const*  double_s01 = "1.2345E-002"; // Windows
 #elif defined(__GNUC__)
-    char const*  double_s01 = "1.2345e-02"; // Linux
+    char const*  double_s01 = "1.2345E-02"; // Linux
 #endif
-    int       hex_v01 = convert<   int>::from(hex1_str, 0, ccnv(std::hex));
-    int       hex_v02 = convert<   int>::from(hex2_str, 0, wcnv(std::hex));
+    int hex_v01 = convert<int>::from(hex1_str, 0, ccnv(std::hex));
+    int hex_v02 = convert<int>::from(hex2_str, 0, wcnv(std::hex));
+
+    BOOST_ASSERT(hex_v01 == 255);
+    BOOST_ASSERT(hex_v02 ==  15);
 
     ccnv(std::showbase)(std::uppercase)(std::hex);
 
-    string    hex_s01 = convert<string>::from(hex_v01, ccnv);
-    string    hex_s02 = convert<string>::from(hex_v02, ccnv);
+    string hex_s01 = convert<string>::from(hex_v01, ccnv);
+    string hex_s02 = convert<string>::from(hex_v02, ccnv);
+
+    BOOST_ASSERT(hex_s01 == "0XFF");
+    BOOST_ASSERT(hex_s02 ==  "0XF");
 
     ccnv(std::setprecision(4))(std::scientific);
 
     double double_v01 = convert<double>::from(double_s01, ccnv);
     string double_s02 = convert<string>::from(double_v01, ccnv);
 
-    BOOST_ASSERT(hex_v01 == 255);
-    BOOST_ASSERT(hex_v02 ==  15);
-    BOOST_ASSERT(hex_s01 == "0XFF");
-    BOOST_ASSERT(hex_s02 ==  "0XF");
     BOOST_ASSERT(double_s01 == double_s02);
 
     ////////////////////////////////////////////////////////////////////////////
@@ -328,8 +331,11 @@ main(int argc, char const* argv[])
     {
         std::locale rus_locale (rus_locale_name);
         std::locale eng_locale ("");
-        string double_rus = convert<string>::from(double_v01, ccnv(cnv::parameter::locale = rus_locale) >> std::setprecision(4) >> std::scientific).value();
-        string double_eng = convert<string>::from(double_v01, ccnv(cnv::parameter::locale = eng_locale) >> std::setprecision(4) >> std::scientific).value();
+
+        ccnv(std::setprecision(4))(std::scientific)(std::nouppercase);
+
+        string double_rus = convert<string>::from(double_v01, ccnv(rus_locale)).value();
+        string double_eng = convert<string>::from(double_v01, ccnv(eng_locale)).value();
 //      printf("rus locale=%s, presentation=%s.\n", rus_locale.name().c_str(), double_s02.c_str());
 //      printf("eng locale=%s, presentation=%s.\n", eng_locale.name().c_str(), double_s03.c_str());
 
@@ -401,7 +407,7 @@ main(int argc, char const* argv[])
         convert<string>::from<int>(ccnv >> std::dec));
 
     for (size_t k = 0; k < new_strings.size(); ++k)
-        printf("%d. %s\n", k, new_strings[k].c_str());
+        printf("%d. %s\n", int(k), new_strings[k].c_str());
 
     BOOST_ASSERT(new_strings[0] == "15");
     BOOST_ASSERT(new_strings[1] == "16");

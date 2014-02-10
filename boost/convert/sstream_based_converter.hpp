@@ -8,7 +8,6 @@
 #define BOOST_CONVERT_STREAM_BASED_STRING_CONVERTER_HPP
 
 #include "./string_sfinae.hpp"
-#include "./parameters.hpp"
 #include <sstream>
 
 namespace boost {
@@ -25,6 +24,8 @@ struct basic_stringstream_based_converter
     :
         stream_(std::ios_base::in | std::ios_base::out)
     {}
+
+
 
     template<typename StringOut, typename TypeIn>
     typename boost::enable_if_c<
@@ -49,12 +50,7 @@ struct basic_stringstream_based_converter
         return !stream_.fail() && !(stream_ >> result_out).fail();
     }
 
-    template<typename Arg>
-    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::locale, Arg> const& arg)
-    {
-        std::locale const& locale = arg[conversion::parameter::locale];
-        return (stream_.imbue(locale), *this);
-    }
+    this_type& operator()(std::locale const& locale) { return (stream_.imbue(locale), *this); }
 
     this_type& operator()(manipulator_type m) { return (stream_ >> m, *this); }
 
