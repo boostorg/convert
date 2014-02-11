@@ -5,7 +5,8 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include <boost.xtra/boost/convert/api.hpp>
-#include <boost.xtra/boost/convert/sstream_based_converter.hpp>
+#include <boost.xtra/boost/convert/lexical_cast_converter.hpp>
+#include <boost.xtra/boost/convert/sstream_converter.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <iomanip>
@@ -100,24 +101,37 @@ main(int argc, char const* argv[])
     std::vector<char> const vector_str (container_str, container_str + strlen(container_str));
     std::list<char> const     list_str (container_str, container_str + strlen(container_str));
 
-	boost::cstringstream_based_converter ccnv; // char converter
-	boost::wstringstream_based_converter wcnv; // wchar_t converter
+    boost::lexical_cast_based_converter  lcnv; // lexical_cast-based converter
+    boost::cstringstream_based_converter ccnv; // stringstream-based char converter
+	boost::wstringstream_based_converter wcnv; // stringstream-based wchar_t converter
 		
-	////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    // Testing lexical_cast-based converter.
+    ////////////////////////////////////////////////////////////////////////////
+
+    int l000 = convert<int>::from(not_int_str,   -1, lcnv).value();
+    int l001 = convert<int>::from(std_str,       -1, lcnv).value();
+    int l002 = convert<int>::from(c_str,         -1, lcnv).value();
+
+    BOOST_ASSERT(l000 ==  -1); // Failed conversion. No throw
+    BOOST_ASSERT(l001 == -11);
+    BOOST_ASSERT(l002 == -12);
+
+    ////////////////////////////////////////////////////////////////////////////
     // Testing various kinds of string containers.
     // Testing implicit conversion directly to TypeOut (int).
     // Testing with the fallback value value provided.
     // On failure returns the provided fallback value and DOES NOT THROW.
     ////////////////////////////////////////////////////////////////////////////
 
-    int a000 = convert<int>::from(not_int_str,   -1, ccnv);
-    int a001 = convert<int>::from(std_str,       -1, ccnv);
-    int a002 = convert<int>::from(c_str,         -1, ccnv);
-    int a003 = convert<int>::from(wstd_str,      -1, wcnv);
-    int a004 = convert<int>::from(wc_str,        -1, wcnv);
-    int a005 = convert<int>::from(array_str,     -1, ccnv);
-//  int a006 = convert<int>::from(vector_str,    -1, ccnv); support withdrawn
-//  int a007 = convert<int>::from(list_str,      -1, ccnv); support withdrawn
+    int a000 = convert<int>::from(not_int_str,   -1, ccnv).value();
+    int a001 = convert<int>::from(std_str,       -1, ccnv).value();
+    int a002 = convert<int>::from(c_str,         -1, ccnv).value();
+    int a003 = convert<int>::from(wstd_str,      -1, wcnv).value();
+    int a004 = convert<int>::from(wc_str,        -1, wcnv).value();
+    int a005 = convert<int>::from(array_str,     -1, ccnv).value();
+//  int a006 = convert<int>::from(vector_str,    -1, ccnv).value(); support withdrawn
+//  int a007 = convert<int>::from(list_str,      -1, ccnv).value(); support withdrawn
 
     BOOST_ASSERT(a000 ==  -1); // Failed conversion
     BOOST_ASSERT(a001 == -11);
@@ -164,11 +178,11 @@ main(int argc, char const* argv[])
     {
         // Expected behavior: received 'boost::convert failed' exception. All well.
     }
-    int a021 = convert<int>::from(std_str, ccnv);
-    int a022 = convert<int>::from(c_str, ccnv);
-    int a023 = convert<int>::from(wstd_str, wcnv);
-    int a024 = convert<int>::from(wc_str, wcnv);
-    int a025 = convert<int>::from(array_str, ccnv);
+    int a021 = convert<int>::from(std_str,   ccnv).value();
+    int a022 = convert<int>::from(c_str,     ccnv).value();
+    int a023 = convert<int>::from(wstd_str,  wcnv).value();
+    int a024 = convert<int>::from(wc_str,    wcnv).value();
+    int a025 = convert<int>::from(array_str, ccnv).value();
 
     BOOST_ASSERT(a021 == -11);
     BOOST_ASSERT(a022 == -12);
@@ -211,15 +225,15 @@ main(int argc, char const* argv[])
     // containers as the fallback values.
     ////////////////////////////////////////////////////////////////////////////
 
-    string                    s001 = convert< string>::from(-5, std_str, ccnv);
-    string                    s002 = convert< string>::from(-5, c_str, ccnv);
-    wstring                   s003 = convert<wstring>::from(-5, wstd_str, wcnv);
-    wstring                   s004 = convert<wstring>::from(-5, wc_str, wcnv);
-    string                    s005 = convert< string>::from(-5, array_str, ccnv);
-    convert< string>::result rs001 = convert< string>::from(-5, std_str, ccnv);
-    convert< string>::result rs002 = convert< string>::from(-5, c_str, ccnv);
-    convert<wstring>::result rs003 = convert<wstring>::from(-5, wstd_str, wcnv);
-    convert<wstring>::result rs004 = convert<wstring>::from(-5, wc_str, wcnv);
+    string                    s001 = convert< string>::from(-5, std_str,   ccnv).value();
+    string                    s002 = convert< string>::from(-5, c_str,     ccnv).value();
+    wstring                   s003 = convert<wstring>::from(-5, wstd_str,  wcnv).value();
+    wstring                   s004 = convert<wstring>::from(-5, wc_str,    wcnv).value();
+    string                    s005 = convert< string>::from(-5, array_str, ccnv).value();
+    convert< string>::result rs001 = convert< string>::from(-5, std_str,   ccnv);
+    convert< string>::result rs002 = convert< string>::from(-5, c_str,     ccnv);
+    convert<wstring>::result rs003 = convert<wstring>::from(-5, wstd_str,  wcnv);
+    convert<wstring>::result rs004 = convert<wstring>::from(-5, wc_str,    wcnv);
     convert< string>::result rs005 = convert< string>::from(-5, array_str, ccnv);
 
     BOOST_ASSERT(s001 ==  "-5"); BOOST_ASSERT(rs001 && rs001.value() ==  "-5");
@@ -232,8 +246,8 @@ main(int argc, char const* argv[])
     // Testing int-to-string conversion with no fallback value.
     ////////////////////////////////////////////////////////////////////////////
 
-    string                    s010 = convert< string>::from(-5, ccnv);
-    wstring                   s011 = convert<wstring>::from(-5, wcnv);
+    string                    s010 = convert< string>::from(-5, ccnv).value();
+    wstring                   s011 = convert<wstring>::from(-5, wcnv).value();
     convert< string>::result rs010 = convert< string>::from(-5, ccnv);
     convert<wstring>::result rs011 = convert<wstring>::from(-5, wcnv);
 
@@ -248,14 +262,14 @@ main(int argc, char const* argv[])
 
     direction  up_dir1 = direction::up;
     direction  dn_dir1 = direction::dn;
-    string up_dir1_str = convert<string>::from(up_dir1, ccnv);
-    string dn_dir1_str = convert<string>::from(dn_dir1, ccnv);
-    direction  up_dir2 = convert<direction>::from(up_dir1_str, dn_dir1, ccnv);
-    direction  dn_dir2 = convert<direction>::from(dn_dir1_str, up_dir1, ccnv);
-    direction  up_dir3 = convert<direction>::from(up_dir1_str, direction::dn, ccnv);
-    direction  dn_dir3 = convert<direction>::from(dn_dir1_str, direction::up, ccnv);
-//  direction  up_dir9 = convert<direction>::from(up_dir1_str, ccnv); // Doesn't compile. No def.ctor
-//  direction  dn_dir9 = convert<direction>::from(dn_dir1_str, ccnv); // Doesn't compile. No def.ctor
+    string up_dir1_str = convert<string>::from(up_dir1, ccnv).value();
+    string dn_dir1_str = convert<string>::from(dn_dir1, ccnv).value();
+    direction  up_dir2 = convert<direction>::from(up_dir1_str, dn_dir1, ccnv).value();
+    direction  dn_dir2 = convert<direction>::from(dn_dir1_str, up_dir1, ccnv).value();
+    direction  up_dir3 = convert<direction>::from(up_dir1_str, direction::dn, ccnv).value();
+    direction  dn_dir3 = convert<direction>::from(dn_dir1_str, direction::up, ccnv).value();
+//  direction  up_dir9 = convert<direction>::from(up_dir1_str, ccnv).value(); // Doesn't compile. No def.ctor
+//  direction  dn_dir9 = convert<direction>::from(dn_dir1_str, ccnv).value(); // Doesn't compile. No def.ctor
 
     convert<direction>::result up_dir4 = convert<direction>::from("junk", dn_dir1, ccnv);
 
@@ -291,24 +305,24 @@ main(int argc, char const* argv[])
 #elif defined(__GNUC__)
     char const*  double_s01 = "1.2345E-02"; // Linux
 #endif
-    int hex_v01 = convert<int>::from(hex1_str, 0, ccnv(std::hex));
-    int hex_v02 = convert<int>::from(hex2_str, 0, wcnv(std::hex));
+    int hex_v01 = convert<int>::from(hex1_str, 0, ccnv(std::hex)).value();
+    int hex_v02 = convert<int>::from(hex2_str, 0, wcnv(std::hex)).value();
 
     BOOST_ASSERT(hex_v01 == 255);
     BOOST_ASSERT(hex_v02 ==  15);
 
     ccnv(std::showbase)(std::uppercase)(std::hex);
 
-    string hex_s01 = convert<string>::from(hex_v01, ccnv);
-    string hex_s02 = convert<string>::from(hex_v02, ccnv);
+    string hex_s01 = convert<string>::from(hex_v01, ccnv).value();
+    string hex_s02 = convert<string>::from(hex_v02, ccnv).value();
 
     BOOST_ASSERT(hex_s01 == "0XFF");
     BOOST_ASSERT(hex_s02 ==  "0XF");
 
     ccnv(std::setprecision(4))(std::scientific);
 
-    double double_v01 = convert<double>::from(double_s01, ccnv);
-    string double_s02 = convert<string>::from(double_v01, ccnv);
+    double double_v01 = convert<double>::from(double_s01, ccnv).value();
+    string double_s02 = convert<string>::from(double_v01, ccnv).value();
 
     BOOST_ASSERT(double_s01 == double_s02);
 
@@ -463,10 +477,10 @@ main(int argc, char const* argv[])
     //BOOST_ASSERT( bool_res6 && bool_res6.value() == true);
     //BOOST_ASSERT(!bool_res7 && bool_res7.value() == true);
 
-    string bool_str1 = convert<string>::from(true,  "failed", ccnv);
-    string bool_str2 = convert<string>::from(false, "failed", ccnv);
-    string bool_str3 = convert<string>::from(1,     "failed", ccnv);
-    string bool_str4 = convert<string>::from(0,     "failed", ccnv);
+    string bool_str1 = convert<string>::from(true,  "failed", ccnv).value();
+    string bool_str2 = convert<string>::from(false, "failed", ccnv).value();
+    string bool_str3 = convert<string>::from(1,     "failed", ccnv).value();
+    string bool_str4 = convert<string>::from(0,     "failed", ccnv).value();
 
     //BOOST_ASSERT(bool_str1 == "1");
     //BOOST_ASSERT(bool_str2 == "0");

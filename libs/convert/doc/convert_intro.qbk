@@ -1,28 +1,8 @@
 [section:convert_intro Introduction]
 
-/Boost.Convert/ builds on the /boost::lexical_cast/ experience and then takes those conversion\/transformation-related ideas further to provide a more flexible and extendible type-conversion framework, richer conversion-related configurability to better suit today's applications and programming needs. 
+['Boost.Convert] builds on the /boost::lexical_cast/ original design and experience and takes those conversion\/transformation-related ideas further 
 
-The /Boost.Convert/ framework is split into two components
-
-* the /Boost.Convert/ API facade to provide simple, minimal and uniform deployment interface;
-* the library of pluggable converters to provide various type conversions and transformations with varying configurability and performance.
-
-The API facade implements familiar and new conversion\/transformation-related behavior such as:
-
-* configurable throwing and non-throwing failed-conversion behavior;
-* support for the default\/fallback value to be returned when conversion\/transformation fails;
-* two types of the conversion-failure check - basic/simple and better\/safe;
-* no DefaultConstructibility requirement for the Target\/Destination type;
-* support for standard algorithms.
-
-The library of pluggable converters is to be extended over time. At the moment with the current proposal only one proof-of-the-concept converter is supplied -- a string-to-type (and type-to-string) std::stringstream-based converter. Drawing on the standard /std::streams/-provided functionality it offers:
-
-* formatting support (like /std::hex/, /std::scientific/, etc.);
-* support for different locales;
-* /char/ and /wchar_t/ support.
-
-The provided converter is based on std::stringstream and it is far from being a speed devil. However, it might be quite useful and sufficient for applications with moderate performance-related requirements but extensive formatting, locale, processing flow, etc. requirements. Otherwise, a different converter (say, built on /Boost.Spirit/) is easily plugged in and deployed instead.
-
-/Boost.Convert/ is not limited to string-to-type and type-to-string conversions. In fact, the /Boost.Convert/ API facade is type-agnostic. Actually supported types are defined by the respective plugged converter. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed uniformly. For example, encryption by a string-to-string encrypting converter, etc.
+* to be applicable in a wider range of conversion-related use-cases, 
+* to provide a more flexible, extendible and configurable type-conversion framework. 
 
 [endsect]

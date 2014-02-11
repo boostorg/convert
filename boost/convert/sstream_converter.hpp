@@ -1,11 +1,11 @@
 // Boost.Convert library
 //
-// Copyright (c) 2009-2011 Vladimir Batov.
+// Copyright (c) 2009-2014 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#ifndef BOOST_CONVERT_STREAM_BASED_STRING_CONVERTER_HPP
-#define BOOST_CONVERT_STREAM_BASED_STRING_CONVERTER_HPP
+#ifndef BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
+#define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
 #include "./string_sfinae.hpp"
 #include <sstream>
@@ -25,7 +25,15 @@ struct basic_stringstream_based_converter
         stream_(std::ios_base::in | std::ios_base::out)
     {}
 
+    template<typename TypeOut, typename TypeIn>
+    boost::optional<TypeOut>
+    convert(TypeIn const& value_in)
+    {
+        TypeOut storage;
+        bool    success = this_type::convert(value_in, storage);
 
+        return success ? boost::optional<TypeOut>(storage) : boost::optional<TypeOut>();
+    }
 
     template<typename StringOut, typename TypeIn>
     typename boost::enable_if_c<
@@ -70,4 +78,4 @@ typedef basic_stringstream_based_converter<wchar_t> wstringstream_based_converte
 
 }
 
-#endif // BOOST_CONVERT_STREAM_BASED_STRING_CONVERTER_HPP
+#endif // BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP

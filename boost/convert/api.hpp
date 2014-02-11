@@ -89,8 +89,9 @@ struct boost::convert<TypeOut>::result
     result () : status_(throw_bad) {}
     result (out_type const& v, status s) : value_(v), status_(s) {}
 
-    operator typename safebool::type () const { return safebool(!operator!()); }
     bool                   operator! () const { return status_ != good; }
+    operator typename safebool::type () const { return safebool(!operator!()); }
+//  operator         out_type const& () const { return this_type::value(); }
 
     out_type const& value() const
     {
@@ -99,11 +100,8 @@ struct boost::convert<TypeOut>::result
 
         return value_.get();
     }
-	operator out_type const&() const
-	{ 
-		return this_type::value(); 
-	}
-    template<typename Arg>
+
+	template<typename Arg>
     this_type& 
     operator()(parameter::aux::tagged_argument<conversion::parameter::type::throw_on_failure, Arg> const& arg)
     {
