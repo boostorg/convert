@@ -1,31 +1,36 @@
 [section:convert_started Getting Started]
 
-In its simplest form the conversion functionality is typically deployed as follows:
+In its simplest form the conversion functionality might be deployed as follows:
 
- #include <boost/convert.hpp>
+ #include <boost/convert/api.hpp>
 
  using boost::convert;
 
- int i1 = convert<int>::from(str); // Throws if the conversion fails
- int i2 = convert<int>::from(str, -1); // Returns -1 if the conversion fails
+ boost::cstringstream_based_converter cnv; // stringstream-based char converter
 
-For those familiar with /boost::lexical_cast/ the first deployment should look identical and as a drop-in replacement for /lexical_cast<int>(str)/. The requirements for the Target/Destination type (/int/ in the example above) and the behavior of /boost::convert/ are the same as for /boost::lexical_cast/. Namely, when the requested conversion fails, an exception is thrown as there is no other way to indicate a conversion failure. 
+ int i1 = boost::lexical_cast<int>(str); // Throws if the conversion fails
+ int i2 = convert<int>::from(str, cnv).value(); // Throws if the conversion fails
+ int i3 = convert<int>::from(str, -1, cnv).value(); // Returns -1 if the conversion fails
 
-The second interface takes a default/fallback value (the second parameter). That value is returned if/when the requested conversion fails. Often the fact of returning the provided fallback value can uniquely identify conversion failure. Consequently, by default this second interface does not throw.
+These calls can be translated to plain English as "['Convert a string to int]" for the ['i1] and ['i2] calls and "['Convert a string to int and return -1 if the conversion fails]" for the ['i3] call. 
 
-Additionally, as an already constructed (fallback) object is provided explicitly, the latter interface does not impose the /DefaultConstructibility/ requirement on to the Target type. That might be quite a deal-breaker for user-defined types that do not have default constructors (see the /direction/ example further).
+The ['i1] and ['i2] deployments look sufficiently close and identical behaviorally. Namely, if the requested conversion fails, an exception is thrown. It is due to the fact that the user request -- "['Convert a string to int]" -- is far from comprehensive and lacks the specification for the failure use-case. Consequently, ['boost::lexical_cast] and ['boost::convert] take the liberty of handling that not-mentioned use-case in the standard way.
 
-The described interface is sufficient and well-suited for a wide variety of conversion deployments. For example, an application is expected to read external configuration files, to convert and to incorporate those configuration settings. The application needs to stay operational and to maintain its internal integrity despite the not-too-remote possibility of reading invalid configuration settings. A typical processing flow might be to read a new configuration parameter and try converting it. If the conversion fails, then use some fallback value instead, log an error message and move on. Like the following
+The second specification -- "['Convert a string to int and return -1 if the conversion fails]" -- is complete and processed "as ordered" with the provided fallback value (the second parameter) returned if the requested conversion fails. 
 
- type1 p1 = convert<type1>::from(string_value_1, fallback_1);
- type2 p2 = convert<type2>::from(string_value_2, fallback_2);
+The described interface might be sufficient for a wide variety of conversion deployments. For example, an application is expected to read external configuration files, to convert and to incorporate those configuration settings. The application needs to stay operational and to maintain its internal integrity despite the not-too-remote possibility of reading invalid configuration settings. A possible processing flow might be to read a new configuration parameter and to try converting it. If the conversion fails, use a fallback value, log a message and move on. For example:
 
- if (p1 == fallback_1) message("bad string_value_1");
- if (p2 == fallback_2) message("bad string_value_2");
+ boost::cstringstream_based_converter ccnv; // stringstream-based char converter
+
+ type1 p1 = convert<type1>::from(str1, fallback1, ccnv(std::hex)); // Read as hex
+ type2 p2 = convert<type2>::from(str2, fallback2, ccnv(std::dec)); // Read as decimal
+
+ if (p1 == fallback1) log("using fallback1");
+ if (p2 == fallback2) log("using fallback2");
 
  ... proceed with whatever parameters we've got.
 
-In these circumstances the deployment of /boost::convert/ looks considerably more natural compared to /boost::lexical_cast/ deployment which achieves that same result with
+In these circumstances the deployment of /boost::convert/ seems to look considerably shorter, more natural and to potentially be more efficient compared to ['boost::lexical_cast] deployment which achieves a similar (ignoring formatting) result with
 
  type p1 = fallback_1;
 
@@ -33,11 +38,11 @@ In these circumstances the deployment of /boost::convert/ looks considerably mor
  {
      p1 = lexical_cast<type1>(string_value_1);
  }
- catch ...
+ catch (...)
  {
-     message("bad string_value_1");
+     log("using fallback1");
  }
 
-In these circumstances (and quite often in general) a conversion failure is not /exceptional/ enough to justify throwing an exception. However, the constraints of the /boost::lexical_cast/ interface seem to define the behavior (rather than the other way around) as the throw-on-failure seems the only available choice to indicate conversion failure.
+Here the story of and the similarity with ['boost::lexical_cast] ends and the story of ['boost::convert] begins. 
 
 [endsect]

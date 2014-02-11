@@ -18,9 +18,9 @@ The API facade implements familiar and new conversion\/transformation-related be
 * no ['Default Constructibility] requirement for the Target\/Destination type;
 * support for standard algorithms.
 
-The library of pluggable converters does not depend on the ['Boost.Convert] API facade and is expected to be extended over time. At the moment with the current proposal only two proof-of-the-concept converters are supplied -- a string-to-type (and type-to-string) ['std::stringstream]-based and ['boost::lexical_cast]-based converters. 
+The library of pluggable converters does not depend on the ['Boost.Convert] API facade and is expected to be extended over time. At the moment with the current proposal only two proof-of-the-concept converters are supplied -- a string-to-type (and type-to-string) ['boost::lexical_cast]-based and ['std::stringstream]-based converters. 
 
-The ['boost::lexical_cast]-based converter demonstrates how the existing functionality can be incorporated in to the ['Boost.Convert] framework.
+The ['boost::lexical_cast]-based converter demonstrates how independent conversion libraries might be incorporated in to the ['Boost.Convert] framework.
 
 The ['std::stringstream]-based converter draws on the standard ['std::streams]-provided functionality it offers:
 
@@ -28,32 +28,8 @@ The ['std::stringstream]-based converter draws on the standard ['std::streams]-p
 * support for different locales;
 * /char/ and /wchar_t/ support.
 
-The provided converter is based on std::stringstream and it is far from being a speed devil. However, it might be quite useful and sufficient for applications with moderate performance-related requirements but extensive formatting, locale, processing flow, etc. requirements. Otherwise, a different converter (say, built on /Boost.Spirit/) is easily plugged in and deployed instead.
+The latter converter is based on std::stringstream and it is far from being a speed devil. However, it might be quite useful and sufficient for applications with moderate performance-related but extensive formatting, locale, processing flow, etc. requirements. Otherwise, a different converter (say, built on /Boost.Spirit/) might be plugged in and deployed instead.
 
-['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. Actually supported types are defined by the respective plugged converter. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed uniformly. For example, encryption by a string-to-string encrypting converter, etc.
-
-OLD DOC:
-
-
-The following design decisions have been made that ultimately led to the /Boost.Convert/ in its current form and shape:
-
-1) Actual converter declaration and implementation need to be separate from and orthogonal to the actual /Boost.Convert/ framework. So, different converters can be written and easily deployed on when-needed basis. 
-
-2) How to feed the converter to the framework. To deploy converter's functionality we most likely need an instance of the specified converter to apply conversions. That instance has to be created by the framework or by the user. It is better created by the user outside and independent of the /Boost.Convert/ framework. That way it is user's responsibility  and freedom to create the respective converter instance as they like and supply whatever parameters the might need. With that in mind the API becomes
-
-boost::convert<int>::from(string, converter const& =some_default_converter())
-
-rather than
-
-template<class TypeOut, class Converter> boost::convert
-
-3) Possible Familiar lexical_cast-like interface
-
-namespace boost
-{
-    template<class TypeOut, class TypeIn, class Converter>
-    boost::convert<TypeOut>::result
-    lexcast(TypeIn const&, Converter const& =some_default_converter());
-}
+An interesting side-effect of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. Actually supported types are defined by the respective plugged converter. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed uniformly. For example, encryption by a string-to-string encrypting converter, etc.
 
 [endsect]

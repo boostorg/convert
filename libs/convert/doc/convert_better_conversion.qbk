@@ -1,30 +1,25 @@
 [section:convert_better_conv Better Conversion-Failure Check With convert<>::result]
 
-After the call below 'i2' will have the value of -1 (the supplied fallback value) due to conversion failure:
-
- int i2 = convert<int>::from("not an int", -1); // after the call i2 = -1
+ int i2 = convert<int>::from("not an int", -1, cnv).value(); // after the call i2 = -1
 
  if (i2 == -1) failed to convert
 
-Checking the return value as above is certainly straight-forward and convenient. Unfortunately, it is not always entirely correct as -1 is returned for the conversion failure and for the conversion success when the supplied string happens to be "-1". That non-determinism is a known limitation of this basic interface. Still, for a surprising number of applications it is adequate as it is quite common to still have "spare" values outside the valid range. Such values (outside the valid range) are suitable to indicate conversion failures (say, INT_MAX for integers) without introducing the above-mentioned behavioral non-determinism. 
+Checking the return value as above is sufficiently straight-forward. Clearly, it is not always entirely correct as -1 might be returned due to a conversion failure and as the conversion result for the supplied "-1" string. The user needs to be aware of that non-determinism and a limitation of this basic interface. Still, such deployment might be adequate if there are "spare" values outside the valid range to indicate conversion failures (say, INT_MAX for integers) without introducing the above-mentioned behavioral non-determinism. More so, it might be not that uncommon for applications to ignore conversion failures altogether and to proceed with the supplied default/fallback value.
 
-More so, it is not that uncommon for applications to ignore conversion failures altogether and proceed with the supplied default/fallback value.
-
-Having said that, there are applications which do not fall in to any of the categories mentioned above. Those applications still require the conversion-failure condition clearly detected and, therefore, require a reliable conversion-failure detection. 
-
-For such applications the /lexical_cast/-like throw-on-failure interface might be adequate:
+Applications outside of the mentioned categories still require a conversion-failure condition reliably detected and processed accordingly. The ['boost::lexical_cast] answer to the problem is to throw on failure and ['boost::convert] supports that behavior: 
 
  try
  {
-     int i1 = convert<int>::from(str); // Throws if the conversion fails
+     int i1 = boost::lexical_cast<int>(str); // Throws if the conversion fails
+     int i2 = boost::convert<int>(str, cnv); // Throws if the conversion fails
      ...
  }
- catch (std::invalid_argument const& ex)
+ catch (...)
  {
      Conversion failed
  }
 
-However, throwing an exception might not always be the desirable behavior (not to mention the heaviness of the ['try/catch] interface which does not seem exactly fitting on such a low level). 
+However, throwing an exception might not always be the desirable behavior (not to mention the awkwardness and slowness of the ['try/catch] interface which might not be exactly fitting). 
 
 More so, some classes might fail to meet that requirement for the Target type to be /DefaultConstructible/. The following /direction/ class is one such example. It has only two (/direction::up/ and /direction::dn/) states available (i.e. no "spare" values to indicate conversion failure) and is not /DefaultConstructible/:
 
