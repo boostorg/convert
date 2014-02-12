@@ -26,7 +26,6 @@
 [def __ref_2__ [@http://www.gotw.ca/publications/mill19.htm The String Formatters of Manor Farm by H. Sutter]]
 [def __ref_4__ [@http://www.cecalc.ula.ve/documentacion/tutoriales/PGICDK/doc/pgC++_lib/stdlibug/str_5412.htm "Stream Storage for Private Use: iword, pword, and xalloc" by Rogue Wave Software]]
 
-[include convert_foreword.qbk]
 [include convert_intro.qbk]
 [include convert_motivation.qbk]
 [include convert_design.qbk]

@@ -5,8 +5,8 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#ifndef __BOOST_SAFE_BOOL_PUBLIC_HPP__
-#define __BOOST_SAFE_BOOL_PUBLIC_HPP__
+#ifndef BOOST_SAFEBOOL_HPP
+#define BOOST_SAFEBOOL_HPP
 
 namespace boost
 {
@@ -29,9 +29,9 @@ namespace boost
 ///     operator safebool<Foo>::type() const { return safebool<Foo>(condition); }
 /// };
 /// template<class T>
-/// struct Moo // for a template class
+/// struct Zoo // for a template class
 /// { ...
-///     operator typename safebool<Moo>::type() const { return safebool<Moo>(condition); }
+///     operator typename safebool<Zoo>::type() const { return safebool<Zoo>(condition); }
 /// };
 /// template<class T>
 /// struct Zoo // with convenience typedefs
@@ -42,12 +42,12 @@ namespace boost
 ///     operator safebool_type() const { return safebool(condition); }
 /// };
 /// @endcode
-/// safebool needs to be a template to make the returned safebool<Foo>::type type
-/// unique. Without it different classes would return the same safebool::type type
-/// that would make possible relational operators between unrelated types. Like
+/// safebool needs to be a template to make the returned safebool<Foo>::type unique.
+/// Without it different classes would return the same safebool::type that would
+/// make possible relational operators between unrelated types. Like
 /// @code
 ///     struct Foo { operator safebool::type() const { return safebool(...); }};
-///     struct Moo { operator safebool::type() const { return safebool(...); }};
+///     struct Zoo { operator safebool::type() const { return safebool(...); }};
 ///     Foo foo;
 ///     Zoo zoo;
 ///     if (foo == zoo) Valid (but wrong) comparison between unrelated types.
@@ -57,16 +57,17 @@ struct safebool
 {
     typedef void (safebool::*type)() const;
 
-    explicit safebool(bool v) : value_(v) {}
+    explicit safebool(bool v) : value_(v ? &safebool::true_ : 0) {}
 
-    operator type() const { return value_ ? &safebool::true_ : 0; }
+    operator  type () const { return  value_; }
+    bool operator! () const { return !value_; }
 
     private:
 
     void  true_ () const {};
-    bool value_;
+    type value_;
 };
 
 } // End of the namespace
 
-#endif // __BOOST_SAFE_BOOL_PUBLIC_HPP__
+#endif // BOOST_SAFEBOOL_HPP

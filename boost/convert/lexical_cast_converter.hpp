@@ -11,7 +11,7 @@
 
 namespace boost {
 
-struct lexical_cast_based_converter
+struct lexical_cast_converter
 {
     template<typename TypeOut, typename TypeIn>
     bool

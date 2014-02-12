@@ -1,17 +1,19 @@
-[section:convert_better_conv Better Conversion-Failure Check With convert<>::result]
+[section:convert_better_conv Getting Serious]
 
  int i2 = convert<int>::from("not an int", -1, cnv).value(); // after the call i2 = -1
 
  if (i2 == -1) failed to convert
 
-Checking the return value as above is sufficiently straight-forward. Clearly, it is not always entirely correct as -1 might be returned due to a conversion failure and as the conversion result for the supplied "-1" string. The user needs to be aware of that non-determinism and a limitation of this basic interface. Still, such deployment might be adequate if there are "spare" values outside the valid range to indicate conversion failures (say, INT_MAX for integers) without introducing the above-mentioned behavioral non-determinism. More so, it might be not that uncommon for applications to ignore conversion failures altogether and to proceed with the supplied default/fallback value.
+Checking the return value as above is sufficiently straightforward. Clearly, it is not always entirely correct as -1 might be returned due to a conversion failure and as the conversion result for the supplied "-1" string. The user needs to be aware of that non-determinism and the limitation of this basic interface. 
 
-Applications outside of the mentioned categories still require a conversion-failure condition reliably detected and processed accordingly. The ['boost::lexical_cast] answer to the problem is to throw on failure and ['boost::convert] supports that behavior: 
+Still, with a carefully chosen fallback value such deployment might be adequate when there are "spare" values outside the valid range to indicate conversion failures (say, INT_MAX for integers) without introducing the above-mentioned behavioral non-determinism. More so, it might be not that uncommon for applications to ignore conversion failures altogether and to proceed with the supplied default/fallback value.
+
+Applications outside these mentioned categories still require a conversion-failure condition reliably detected and processed accordingly. The ['boost::lexical_cast]'s answer to the problem is to throw on failure and ['boost::convert] supports that behavior as well: 
 
  try
  {
      int i1 = boost::lexical_cast<int>(str); // Throws if the conversion fails
-     int i2 = boost::convert<int>(str, cnv); // Throws if the conversion fails
+     int i2 = boost::convert<int>(str, cnv).value(); // Throws if the conversion fails
      ...
  }
  catch (...)
@@ -19,7 +21,71 @@ Applications outside of the mentioned categories still require a conversion-fail
      Conversion failed
  }
 
-However, throwing an exception might not always be the desirable behavior (not to mention the awkwardness and slowness of the ['try/catch] interface which might not be exactly fitting). 
+However, to better cater for the application's processing flow ['boost::convert] adds the flexibility of 
+
+* delaying the moment when the conversion-failure exception is thrown or 
+* avoiding the excepion altogether. 
+
+ convert<int>result r1 = boost::convert<int>(str1, cnv); // Does not throw on conversion failure
+ convert<int>result r2 = boost::convert<int>(str2, cnv); // Does not throw on conversion failure
+
+ int i1 = r1 ? r1.value() : some-other-value; // Safe to retrieve the result
+ int i2 = r2 ? r2.value() : some-other-value; // Safe to retrieve the result
+
+ try
+ {
+     int i1 = r1.value(); // Will throw if conversion failed
+     int i2 = r2.value(); // Will throw if conversion failed
+ }
+ catch (...)
+ {
+     Conversion failed
+ }
+
+Here ['convert<T>::result] comes to the fore as it is the actual type being returned by ['convert<T>::from]. As  ['boost::lexical_cast] does, ['convert<T>::result] undersores the fact that the conversion request is only a ['request] which may succeed but is also may fail. However, by design ['boost::lexical_cast] processes failure in a somewhat harsh and non-negociable manner.  ['convert<T>::result] chooses a softer approach and leaves the decision to the user. In my personal experience it is overwhelmingly avoiding exceptions altogether with something like:
+
+ if (r1)
+ {
+     int i1 = r1.value(); // Safe to retrieve the result
+     ...proceed
+ }
+
+Or
+
+ convert<int>result r1 = boost::convert<int>(str1, 5, cnv); // Does not throw on conversion failure
+ convert<int>result r2 = boost::convert<int>(str2, 6, cnv); // Does not throw on conversion failure
+
+ if (!r1) log("str1 conversion failed");
+ if (!r2) log("str2 conversion failed");
+
+ int i1 = r1.value(); // Does not throw
+ int i2 = r2.value(); // Does not throw
+
+ ...proceed
+
+a
+
+a
+
+a
+
+a
+
+a
+
+a
+
+a
+
+a
+
+a
+
+a
+
+a
+a
+
 
 More so, some classes might fail to meet that requirement for the Target type to be /DefaultConstructible/. The following /direction/ class is one such example. It has only two (/direction::up/ and /direction::dn/) states available (i.e. no "spare" values to indicate conversion failure) and is not /DefaultConstructible/:
 

@@ -19,9 +19,9 @@
 </h2></div></div></div>
 <p>
       Unlike monolithic Convert.V1 (submitted for a review and ultimately withdrawn
-      about three years ago) this version takes a different route. Design-wise, it
-      follows the proven design of <span class="emphasis"><em>boost::lexical_cast</em></span> which
-      provides
+      about three years ago) this V2 version takes a different route. Design-wise,
+      it follows the successful design of <span class="emphasis"><em>boost::lexical_cast</em></span>
+      which provides
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -34,8 +34,8 @@
         </li>
 </ul></div>
 <p>
-      The <span class="emphasis"><em>Boost.Convert</em></span> follows that original design and consists
-      of two components
+      The <span class="emphasis"><em>Boost.Convert</em></span> follows that design and consists of
+      two components
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -73,9 +73,9 @@
 <p>
       The library of pluggable converters does not depend on the <span class="emphasis"><em>Boost.Convert</em></span>
       API facade and is expected to be extended over time. At the moment with the
-      current proposal only two proof-of-the-concept converters are supplied -- a
-      string-to-type (and type-to-string) <span class="emphasis"><em>boost::lexical_cast</em></span>-based
-      and <span class="emphasis"><em>std::stringstream</em></span>-based converters.
+      current proposal only two proof-of-the-concept converters are supplied -- string-to-type
+      (and type-to-string) <span class="emphasis"><em>boost::lexical_cast</em></span>-based and <span class="emphasis"><em>std::stringstream</em></span>-based
+      converters.
     </p>
 <p>
       The <span class="emphasis"><em>boost::lexical_cast</em></span>-based converter demonstrates how
@@ -99,11 +99,12 @@
         </li>
 </ul></div>
 <p>
-      The latter converter is based on std::stringstream and it is far from being
-      a speed devil. However, it might be quite useful and sufficient for applications
+      The latter converter is based on std::stringstream and is far from being a
+      speed devil. However, it might be quite useful and sufficient for applications
       with moderate performance-related but extensive formatting, locale, processing
       flow, etc. requirements. Otherwise, a different converter (say, built on <span class="emphasis"><em>Boost.Spirit</em></span>)
-      might be plugged in and deployed instead.
+      might be plugged in and deployed instead as demonstrated by the <span class="emphasis"><em>boost::lexical_cast</em></span>-based
+      converter.
     </p>
 <p>
       An interesting side-effect of the described design is that <span class="emphasis"><em>Boost.Convert</em></span>

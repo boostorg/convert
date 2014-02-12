@@ -7,7 +7,7 @@
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="convert_design.html" title="Design Notes">
-<link rel="next" href="convert_better_conv.html" title="Better Conversion-Failure Check With convert&lt;&gt;::result">
+<link rel="next" href="convert_better_conv.html" title="Getting Serious">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
@@ -21,10 +21,11 @@
       In its simplest form the conversion functionality might be deployed as follows:
     </p>
 <pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">api</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">sstream_converter</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
 
 <span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>
 
-<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_based_converter</span> <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
+<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span> <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
 
 <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails</span>
 <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws if the conversion fails</span>
@@ -32,16 +33,16 @@
 </pre>
 <p>
       These calls can be translated to plain English as "<span class="emphasis"><em>Convert a
-      string to int</em></span>" for the <span class="emphasis"><em>i1</em></span> and <span class="emphasis"><em>i2</em></span>
-      calls and "<span class="emphasis"><em>Convert a string to int and return -1 if the conversion
-      fails</em></span>" for the <span class="emphasis"><em>i3</em></span> call.
+      string to int</em></span>" for <span class="emphasis"><em>i1</em></span> and <span class="emphasis"><em>i2</em></span>
+      and "<span class="emphasis"><em>Convert a string to int and return -1 if the conversion
+      fails</em></span>" for <span class="emphasis"><em>i3</em></span>.
     </p>
 <p>
       The <span class="emphasis"><em>i1</em></span> and <span class="emphasis"><em>i2</em></span> deployments look sufficiently
-      close and identical behaviorally. Namely, if the requested conversion fails,
-      an exception is thrown. It is due to the fact that the user request -- "<span class="emphasis"><em>Convert
-      a string to int</em></span>" -- is far from comprehensive and lacks the
-      specification for the failure use-case. Consequently, <span class="emphasis"><em>boost::lexical_cast</em></span>
+      close and, in fact, are identical behaviorally. Namely, if the requested conversion
+      fails, an exception is thrown. It is due to the fact that the user request
+      -- "<span class="emphasis"><em>Convert a string to int</em></span>" -- lacks the specification
+      for the failure use-case. Consequently, <span class="emphasis"><em>boost::lexical_cast</em></span>
       and <span class="emphasis"><em>boost::convert</em></span> take the liberty of handling that not-mentioned
       use-case in the standard way.
     </p>
@@ -52,45 +53,42 @@
       if the requested conversion fails.
     </p>
 <p>
-      The described interface might be sufficient for a wide variety of conversion
-      deployments. For example, an application is expected to read external configuration
-      files, to convert and to incorporate those configuration settings. The application
-      needs to stay operational and to maintain its internal integrity despite the
-      not-too-remote possibility of reading invalid configuration settings. A possible
-      processing flow might be to read a new configuration parameter and to try converting
-      it. If the conversion fails, use a fallback value, log a message and move on.
-      For example:
+      The described (very basic) interface might be sufficient for a variety of conversion
+      deployments. For example:
     </p>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_based_converter</span> <span class="identifier">ccnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span> <span class="identifier">ccnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
 
-<span class="identifier">type1</span> <span class="identifier">p1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">type1</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">fallback1</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">));</span> <span class="comment">// Read as hex</span>
-<span class="identifier">type2</span> <span class="identifier">p2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">type2</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">fallback2</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">));</span> <span class="comment">// Read as decimal</span>
+<span class="keyword">int</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">INT_MAX</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">));</span> <span class="comment">// Read as hex</span>
+<span class="keyword">int</span> <span class="identifier">num_windows</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">INT_MAX</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">));</span> <span class="comment">// Read as decimal</span>
 
-<span class="keyword">if</span> <span class="special">(</span><span class="identifier">p1</span> <span class="special">==</span> <span class="identifier">fallback1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"using fallback1"</span><span class="special">);</span>
-<span class="keyword">if</span> <span class="special">(</span><span class="identifier">p2</span> <span class="special">==</span> <span class="identifier">fallback2</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"using fallback2"</span><span class="special">);</span>
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">num_threads</span> <span class="special">==</span> <span class="identifier">INT_MAX</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_threads"</span><span class="special">),</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">default_num_threads</span><span class="special">;</span>
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">num_windows</span> <span class="special">==</span> <span class="identifier">INT_MAX</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_windows"</span><span class="special">),</span> <span class="identifier">num_windows</span> <span class="special">=</span> <span class="identifier">default_num_windows</span><span class="special">;</span>
 
-<span class="special">...</span> <span class="identifier">proceed</span> <span class="identifier">with</span> <span class="identifier">whatever</span> <span class="identifier">parameters</span> <span class="identifier">we</span><span class="error">'</span><span class="identifier">ve</span> <span class="identifier">got</span><span class="special">.</span>
+<span class="special">...</span> <span class="identifier">proceed</span>
 </pre>
 <p>
       In these circumstances the deployment of <span class="emphasis"><em>boost::convert</em></span>
-      seems to look considerably shorter, more natural and to potentially be more
-      efficient compared to <span class="emphasis"><em>boost::lexical_cast</em></span> deployment which
-      achieves a similar (ignoring formatting) result with
+      seems more compact and natural (your mileage may vary) and might be potentially
+      more efficient compared to <span class="emphasis"><em>boost::lexical_cast</em></span> deployment
+      which achieves a similar (ignoring formatting) result with something like
     </p>
-<pre class="programlisting"><span class="identifier">type</span> <span class="identifier">p1</span> <span class="special">=</span> <span class="identifier">fallback_1</span><span class="special">;</span>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">default_num_threads</span><span class="special">;</span>
 
 <span class="keyword">try</span>
 <span class="special">{</span>
-    <span class="identifier">p1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">type1</span><span class="special">&gt;(</span><span class="identifier">string_value_1</span><span class="special">);</span>
+    <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span>
 <span class="special">}</span>
 <span class="keyword">catch</span> <span class="special">(...)</span>
 <span class="special">{</span>
-    <span class="identifier">log</span><span class="special">(</span><span class="string">"using fallback1"</span><span class="special">);</span>
+    <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_threads"</span><span class="special">);</span>
 <span class="special">}</span>
 </pre>
 <p>
-      Here the story of and the similarity with <span class="emphasis"><em>boost::lexical_cast</em></span>
-      ends and the story of <span class="emphasis"><em>boost::convert</em></span> begins.
+      This is by-design the only behavior supported by <span class="emphasis"><em>boost::lexical_cast</em></span>.
+      Simple and straigtforward. Unfortunately, with such a simple interface it raises
+      (uninitiated) users' expectations quite high but it by-design casts out many
+      legitimate conversion-related deployment use-cases. That is the niche that
+      <span class="emphasis"><em>boost::convert</em></span> is trying to fill.
     </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

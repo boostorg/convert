@@ -14,12 +14,13 @@ namespace boost
 {
     namespace conversion
     {
-        namespace parameter
-        {
-            BOOST_PARAMETER_KEYWORD(type, throw_on_failure); ///< Specify throw-on-failure behavior explicitly.
-            BOOST_PARAMETER_KEYWORD(type,           locale); ///< Specify locale.
-            BOOST_PARAMETER_KEYWORD(type,         fallback); ///< Provide fallback value.
-        }
+        namespace detail { struct throw_on_failure_helper {}; }
+
+        typedef int detail::throw_on_failure_helper::* throw_on_failure_t;
+
+        throw_on_failure_t const throw_on_failure = (static_cast<throw_on_failure_t>(0)) ;
+
+        BOOST_PARAMETER_KEYWORD(type, fallback); ///< Provide fallback value.
     }
 }
 

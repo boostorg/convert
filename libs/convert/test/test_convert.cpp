@@ -101,21 +101,21 @@ main(int argc, char const* argv[])
     std::vector<char> const vector_str (container_str, container_str + strlen(container_str));
     std::list<char> const     list_str (container_str, container_str + strlen(container_str));
 
-    boost::lexical_cast_based_converter  lcnv; // lexical_cast-based converter
-    boost::cstringstream_based_converter ccnv; // stringstream-based char converter
-	boost::wstringstream_based_converter wcnv; // stringstream-based wchar_t converter
+    boost::lexical_cast_converter  lcnv; // lexical_cast-based converter
+    boost::cstringstream_converter ccnv; // stringstream-based char converter
+	boost::wstringstream_converter wcnv; // stringstream-based wchar_t converter
 		
     ////////////////////////////////////////////////////////////////////////////
     // Testing lexical_cast-based converter.
     ////////////////////////////////////////////////////////////////////////////
 
-    int l000 = convert<int>::from(not_int_str,   -1, lcnv).value();
-    int l001 = convert<int>::from(std_str,       -1, lcnv).value();
-    int l002 = convert<int>::from(c_str,         -1, lcnv).value();
+    int lc00 = convert<int>::from(not_int_str, lcnv).value_or(-1);
+    int lc01 = convert<int>::from(std_str,     lcnv).value_or(-1);
+    int lc02 = convert<int>::from(c_str,       lcnv).value_or(-1);
 
-    BOOST_ASSERT(l000 ==  -1); // Failed conversion. No throw
-    BOOST_ASSERT(l001 == -11);
-    BOOST_ASSERT(l002 == -12);
+    BOOST_ASSERT(lc00 ==  -1); // Failed conversion. No throw
+    BOOST_ASSERT(lc01 == -11);
+    BOOST_ASSERT(lc02 == -12);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing various kinds of string containers.
@@ -260,19 +260,22 @@ main(int argc, char const* argv[])
     // Testing conversions of a user-defined type
     ////////////////////////////////////////////////////////////////////////////
 
-    direction  up_dir1 = direction::up;
-    direction  dn_dir1 = direction::dn;
-    string up_dir1_str = convert<string>::from(up_dir1, ccnv).value();
-    string dn_dir1_str = convert<string>::from(dn_dir1, ccnv).value();
-    direction  up_dir2 = convert<direction>::from(up_dir1_str, dn_dir1, ccnv).value();
-    direction  dn_dir2 = convert<direction>::from(dn_dir1_str, up_dir1, ccnv).value();
-    direction  up_dir3 = convert<direction>::from(up_dir1_str, direction::dn, ccnv).value();
-    direction  dn_dir3 = convert<direction>::from(dn_dir1_str, direction::up, ccnv).value();
-//  direction  up_dir9 = convert<direction>::from(up_dir1_str, ccnv).value(); // Doesn't compile. No def.ctor
-//  direction  dn_dir9 = convert<direction>::from(dn_dir1_str, ccnv).value(); // Doesn't compile. No def.ctor
-
+    direction const            up_dir1 = direction::up;
+    direction const            dn_dir1 = direction::dn;
+    string                 up_dir0_str = convert<string>::from<direction>(direction::up, ccnv).value();
+    string                 dn_dir0_str = convert<string>::from<direction>(direction::dn, ccnv).value();
+    string                 up_dir1_str = convert<string>::from(up_dir1, ccnv).value();
+    string                 dn_dir1_str = convert<string>::from(dn_dir1, ccnv).value();
+    direction                  up_dir2 = convert<direction>::from(up_dir1_str, dn_dir1, ccnv).value();
+    direction                  dn_dir2 = convert<direction>::from(dn_dir1_str, up_dir1, ccnv).value();
+    direction                  up_dir3 = convert<direction>::from(up_dir1_str, direction::dn, ccnv).value();
+    direction                  dn_dir3 = convert<direction>::from(dn_dir1_str, direction::up, ccnv).value();
+//  direction                  up_dir9 = convert<direction>::from(up_dir1_str, ccnv).value(); // Doesn't compile. No def.ctor
+//  direction                  dn_dir9 = convert<direction>::from(dn_dir1_str, ccnv).value(); // Doesn't compile. No def.ctor
     convert<direction>::result up_dir4 = convert<direction>::from("junk", dn_dir1, ccnv);
 
+    BOOST_ASSERT(up_dir0_str == "up");
+    BOOST_ASSERT(dn_dir0_str == "dn");
     BOOST_ASSERT(up_dir1_str == "up");
     BOOST_ASSERT(dn_dir1_str == "dn");
     BOOST_ASSERT(up_dir2 == up_dir1);
@@ -286,7 +289,7 @@ main(int argc, char const* argv[])
     ////////////////////////////////////////////////////////////////////////////
     try
     {
-        convert<direction>::from("junk", direction::up, ccnv)(cnv::parameter::throw_on_failure = true).value();
+        convert<direction>::from("junk", direction::up, ccnv)(cnv::throw_on_failure).value();
         BOOST_ASSERT(!"failed to throw");
     }
     catch (std::exception&)
@@ -380,7 +383,7 @@ main(int argc, char const* argv[])
             strings.begin(),
             strings.end(),
             std::back_inserter(integers),
-            convert<int>::from<string>(ccnv >> std::hex));
+            convert<int>::from<string>(ccnv(std::hex)));
 
         BOOST_ASSERT(!"failed to throw");
     }
@@ -403,7 +406,7 @@ main(int argc, char const* argv[])
         strings.begin(),
         strings.end(),
         std::back_inserter(integers),
-        convert<int>::from<string>(ccnv(std::hex))(cnv::parameter::fallback = -1));
+        convert<int>::from<string>(ccnv(std::hex))(cnv::fallback = -1));
 
     BOOST_ASSERT(integers[0] == 15);
     BOOST_ASSERT(integers[1] == 16);
@@ -418,7 +421,7 @@ main(int argc, char const* argv[])
         integers.begin(),
         integers.end(),
         std::back_inserter(new_strings),
-        convert<string>::from<int>(ccnv >> std::dec));
+        convert<string>::from<int>(ccnv(std::dec)));
 
     for (size_t k = 0; k < new_strings.size(); ++k)
         printf("%d. %s\n", int(k), new_strings[k].c_str());
@@ -461,13 +464,13 @@ main(int argc, char const* argv[])
     // Testing string-to-bool and bool-to-string conversions
     ////////////////////////////////////////////////////////////////////////////
 
-    convert<bool>::result bool_res1 = convert<bool>::from("1",     false, ccnv);
-    convert<bool>::result bool_res2 = convert<bool>::from("true",  false, ccnv);
-    convert<bool>::result bool_res3 = convert<bool>::from("yes",   false, ccnv);
-    convert<bool>::result bool_res4 = convert<bool>::from(L"1",    false, wcnv);
-    convert<bool>::result bool_res5 = convert<bool>::from(L"true", false, wcnv);
-    convert<bool>::result bool_res6 = convert<bool>::from(L"yes",  false, wcnv);
-    convert<bool>::result bool_res7 = convert<bool>::from("junk",   true, ccnv);
+//    convert<bool>::result bool_res1 = convert<bool>::from("1",     false, ccnv);
+//    convert<bool>::result bool_res2 = convert<bool>::from("true",  false, ccnv);
+//    convert<bool>::result bool_res3 = convert<bool>::from("yes",   false, ccnv);
+//    convert<bool>::result bool_res4 = convert<bool>::from(L"1",    false, wcnv);
+//    convert<bool>::result bool_res5 = convert<bool>::from(L"true", false, wcnv);
+//    convert<bool>::result bool_res6 = convert<bool>::from(L"yes",  false, wcnv);
+//    convert<bool>::result bool_res7 = convert<bool>::from("junk",   true, ccnv);
 
     //BOOST_ASSERT( bool_res1 && bool_res1.value() == true);
     //BOOST_ASSERT( bool_res2 && bool_res2.value() == true);

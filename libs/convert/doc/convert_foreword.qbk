@@ -1,5 +1,0 @@
-[section:convert_foreword Foreword]
-
-[*The described framework is not part of the Boost library collection] even though in this document it is referred to as ['Boost.Convert] and the relevant code is under the ['boost] directory. It is done so in preparation for potential submission of the library to ['Boost].
-
-[endsect]

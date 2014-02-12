@@ -3,46 +3,47 @@
 In its simplest form the conversion functionality might be deployed as follows:
 
  #include <boost/convert/api.hpp>
+ #include <boost/convert/sstream_converter.hpp>
 
  using boost::convert;
 
- boost::cstringstream_based_converter cnv; // stringstream-based char converter
+ boost::cstringstream_converter cnv; // stringstream-based char converter
 
  int i1 = boost::lexical_cast<int>(str); // Throws if the conversion fails
  int i2 = convert<int>::from(str, cnv).value(); // Throws if the conversion fails
  int i3 = convert<int>::from(str, -1, cnv).value(); // Returns -1 if the conversion fails
 
-These calls can be translated to plain English as "['Convert a string to int]" for the ['i1] and ['i2] calls and "['Convert a string to int and return -1 if the conversion fails]" for the ['i3] call. 
+These calls can be translated to plain English as "['Convert a string to int]" for ['i1] and ['i2] and "['Convert a string to int and return -1 if the conversion fails]" for ['i3]. 
 
-The ['i1] and ['i2] deployments look sufficiently close and identical behaviorally. Namely, if the requested conversion fails, an exception is thrown. It is due to the fact that the user request -- "['Convert a string to int]" -- is far from comprehensive and lacks the specification for the failure use-case. Consequently, ['boost::lexical_cast] and ['boost::convert] take the liberty of handling that not-mentioned use-case in the standard way.
+The ['i1] and ['i2] deployments look sufficiently close and, in fact, are identical behaviorally. Namely, if the requested conversion fails, an exception is thrown. It is due to the fact that the user request -- "['Convert a string to int]" -- lacks the specification for the failure use-case. Consequently, ['boost::lexical_cast] and ['boost::convert] take the liberty of handling that not-mentioned use-case in the standard way.
 
 The second specification -- "['Convert a string to int and return -1 if the conversion fails]" -- is complete and processed "as ordered" with the provided fallback value (the second parameter) returned if the requested conversion fails. 
 
-The described interface might be sufficient for a wide variety of conversion deployments. For example, an application is expected to read external configuration files, to convert and to incorporate those configuration settings. The application needs to stay operational and to maintain its internal integrity despite the not-too-remote possibility of reading invalid configuration settings. A possible processing flow might be to read a new configuration parameter and to try converting it. If the conversion fails, use a fallback value, log a message and move on. For example:
+The described (very basic) interface might be sufficient for a variety of conversion deployments. For example:
 
- boost::cstringstream_based_converter ccnv; // stringstream-based char converter
+ boost::cstringstream_converter ccnv; // stringstream-based char converter
 
- type1 p1 = convert<type1>::from(str1, fallback1, ccnv(std::hex)); // Read as hex
- type2 p2 = convert<type2>::from(str2, fallback2, ccnv(std::dec)); // Read as decimal
+ int num_threads = convert<int>::from(str1, INT_MAX, ccnv(std::hex)); // Read as hex
+ int num_windows = convert<int>::from(str2, INT_MAX, ccnv(std::dec)); // Read as decimal
 
- if (p1 == fallback1) log("using fallback1");
- if (p2 == fallback2) log("using fallback2");
+ if (num_threads == INT_MAX) log("bad num_threads"), num_threads = default_num_threads;
+ if (num_windows == INT_MAX) log("bad num_windows"), num_windows = default_num_windows;
 
- ... proceed with whatever parameters we've got.
+ ... proceed
 
-In these circumstances the deployment of /boost::convert/ seems to look considerably shorter, more natural and to potentially be more efficient compared to ['boost::lexical_cast] deployment which achieves a similar (ignoring formatting) result with
+In these circumstances the deployment of ['boost::convert] seems more compact and natural (your mileage may vary) and might be potentially more efficient compared to ['boost::lexical_cast] deployment which achieves a similar (ignoring formatting) result with something like
 
- type p1 = fallback_1;
+ int num_threads = default_num_threads;
 
  try
  {
-     p1 = lexical_cast<type1>(string_value_1);
+     num_threads = lexical_cast<int>(str);
  }
  catch (...)
  {
-     log("using fallback1");
+     log("bad num_threads");
  }
 
-Here the story of and the similarity with ['boost::lexical_cast] ends and the story of ['boost::convert] begins. 
+This is by-design the only behavior supported by ['boost::lexical_cast]. Simple and straigtforward. Unfortunately, with such a simple interface it raises (uninitiated) users' expectations quite high but it by-design casts out many legitimate conversion-related deployment use-cases. That is the niche that ['boost::convert] is trying to fill.
 
 [endsect]

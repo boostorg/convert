@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Better Conversion-Failure Check With convert&lt;&gt;::result</title>
+<title>Getting Serious</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
@@ -15,34 +15,38 @@
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="the_boost_convert_library.convert_better_conv"></a><a class="link" href="convert_better_conv.html" title="Better Conversion-Failure Check With convert&lt;&gt;::result">Better Conversion-Failure
-    Check With convert&lt;&gt;::result</a>
+<a name="the_boost_convert_library.convert_better_conv"></a><a class="link" href="convert_better_conv.html" title="Getting Serious">Getting
+    Serious</a>
 </h2></div></div></div>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="string">"not an int"</span><span class="special">,</span> <span class="special">-</span><span class="number">1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// after the call i2 = -1</span>
 
 <span class="keyword">if</span> <span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">failed</span> <span class="identifier">to</span> <span class="identifier">convert</span>
 </pre>
 <p>
-      Checking the return value as above is sufficiently straight-forward. Clearly,
+      Checking the return value as above is sufficiently straightforward. Clearly,
       it is not always entirely correct as -1 might be returned due to a conversion
       failure and as the conversion result for the supplied "-1" string.
-      The user needs to be aware of that non-determinism and a limitation of this
-      basic interface. Still, such deployment might be adequate if there are "spare"
-      values outside the valid range to indicate conversion failures (say, INT_MAX
-      for integers) without introducing the above-mentioned behavioral non-determinism.
-      More so, it might be not that uncommon for applications to ignore conversion
-      failures altogether and to proceed with the supplied default/fallback value.
+      The user needs to be aware of that non-determinism and the limitation of this
+      basic interface.
     </p>
 <p>
-      Applications outside of the mentioned categories still require a conversion-failure
-      condition reliably detected and processed accordingly. The <span class="emphasis"><em>boost::lexical_cast</em></span>
+      Still, with a carefully chosen fallback value such deployment might be adequate
+      when there are "spare" values outside the valid range to indicate
+      conversion failures (say, INT_MAX for integers) without introducing the above-mentioned
+      behavioral non-determinism. More so, it might be not that uncommon for applications
+      to ignore conversion failures altogether and to proceed with the supplied default/fallback
+      value.
+    </p>
+<p>
+      Applications outside these mentioned categories still require a conversion-failure
+      condition reliably detected and processed accordingly. The <span class="emphasis"><em>boost::lexical_cast</em></span>'s
       answer to the problem is to throw on failure and <span class="emphasis"><em>boost::convert</em></span>
-      supports that behavior:
+      supports that behavior as well:
     </p>
 <pre class="programlisting"><span class="keyword">try</span>
 <span class="special">{</span>
     <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails</span>
-    <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails</span>
+    <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws if the conversion fails</span>
     <span class="special">...</span>
 <span class="special">}</span>
 <span class="keyword">catch</span> <span class="special">(...)</span>
@@ -50,6 +54,98 @@
     <span class="identifier">Conversion</span> <span class="identifier">failed</span>
 <span class="special">}</span>
 </pre>
+<p>
+      However, to better cater for the application's processing flow <span class="emphasis"><em>boost::convert</em></span>
+      adds the flexibility of
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          delaying the moment when the conversion-failure exception is thrown or
+        </li>
+<li class="listitem">
+          avoiding the excepion altogether.
+        </li>
+</ul></div>
+<pre class="programlisting"><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span><span class="identifier">result</span> <span class="identifier">r1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Does not throw on conversion failure</span>
+<span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span><span class="identifier">result</span> <span class="identifier">r2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Does not throw on conversion failure</span>
+
+<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">r1</span> <span class="special">?</span> <span class="identifier">r1</span><span class="special">.</span><span class="identifier">value</span><span class="special">()</span> <span class="special">:</span> <span class="identifier">some</span><span class="special">-</span><span class="identifier">other</span><span class="special">-</span><span class="identifier">value</span><span class="special">;</span> <span class="comment">// Safe to retrieve the result</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">r2</span> <span class="special">?</span> <span class="identifier">r2</span><span class="special">.</span><span class="identifier">value</span><span class="special">()</span> <span class="special">:</span> <span class="identifier">some</span><span class="special">-</span><span class="identifier">other</span><span class="special">-</span><span class="identifier">value</span><span class="special">;</span> <span class="comment">// Safe to retrieve the result</span>
+
+<span class="keyword">try</span>
+<span class="special">{</span>
+    <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">r1</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Will throw if conversion failed</span>
+    <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">r2</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Will throw if conversion failed</span>
+<span class="special">}</span>
+<span class="keyword">catch</span> <span class="special">(...)</span>
+<span class="special">{</span>
+    <span class="identifier">Conversion</span> <span class="identifier">failed</span>
+<span class="special">}</span>
+</pre>
+<p>
+      Here <span class="emphasis"><em>convert&lt;T&gt;::result</em></span> comes to the fore as it
+      is the actual type being returned by <span class="emphasis"><em>convert&lt;T&gt;::from</em></span>.
+      As <span class="emphasis"><em>boost::lexical_cast</em></span> does, <span class="emphasis"><em>convert&lt;T&gt;::result</em></span>
+      undersores the fact that the conversion request is only a <span class="emphasis"><em>request</em></span>
+      which may succeed but is also may fail. However, by design <span class="emphasis"><em>boost::lexical_cast</em></span>
+      processes failure in a somewhat harsh and non-negociable manner. <span class="emphasis"><em>convert&lt;T&gt;::result</em></span>
+      chooses a softer approach and leaves the decision to the user. In my personal
+      experience it is overwhelmingly avoiding exceptions altogether with something
+      like:
+    </p>
+<pre class="programlisting"><span class="keyword">if</span> <span class="special">(</span><span class="identifier">r1</span><span class="special">)</span>
+<span class="special">{</span>
+    <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">r1</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Safe to retrieve the result</span>
+    <span class="special">...</span><span class="identifier">proceed</span>
+<span class="special">}</span>
+</pre>
+<p>
+      Or
+    </p>
+<pre class="programlisting"><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span><span class="identifier">result</span> <span class="identifier">r1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str1</span><span class="special">,</span> <span class="number">5</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Does not throw on conversion failure</span>
+<span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span><span class="identifier">result</span> <span class="identifier">r2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str2</span><span class="special">,</span> <span class="number">6</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Does not throw on conversion failure</span>
+
+<span class="keyword">if</span> <span class="special">(!</span><span class="identifier">r1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"str1 conversion failed"</span><span class="special">);</span>
+<span class="keyword">if</span> <span class="special">(!</span><span class="identifier">r2</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"str2 conversion failed"</span><span class="special">);</span>
+
+<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">r1</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Does not throw</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">r2</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Does not throw</span>
+
+<span class="special">...</span><span class="identifier">proceed</span>
+</pre>
+<p>
+      a
+    </p>
+<p>
+      a
+    </p>
+<p>
+      a
+    </p>
+<p>
+      a
+    </p>
+<p>
+      a
+    </p>
+<p>
+      a
+    </p>
+<p>
+      a
+    </p>
+<p>
+      a
+    </p>
+<p>
+      a
+    </p>
+<p>
+      a
+    </p>
+<p>
+      a a
+    </p>
 <p>
       However, throwing an exception might not always be the desirable behavior (not
       to mention the awkwardness and slowness of the <span class="emphasis"><em>try/catch</em></span>

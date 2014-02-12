@@ -13,27 +13,17 @@
 namespace boost {
 
 template<class Char>
-struct basic_stringstream_based_converter
+struct basic_stringstream_converter
 {
     typedef Char                                 char_type;
-    typedef basic_stringstream_based_converter        this_type;
+    typedef basic_stringstream_converter        this_type;
     typedef std::basic_stringstream<char_type> stream_type;
     typedef std::ios_base& (*manipulator_type)(std::ios_base&) ;
 
-    basic_stringstream_based_converter() 
+    basic_stringstream_converter() 
     :
         stream_(std::ios_base::in | std::ios_base::out)
     {}
-
-    template<typename TypeOut, typename TypeIn>
-    boost::optional<TypeOut>
-    convert(TypeIn const& value_in)
-    {
-        TypeOut storage;
-        bool    success = this_type::convert(value_in, storage);
-
-        return success ? boost::optional<TypeOut>(storage) : boost::optional<TypeOut>();
-    }
 
     template<typename StringOut, typename TypeIn>
     typename boost::enable_if_c<
@@ -58,23 +48,19 @@ struct basic_stringstream_based_converter
         return !stream_.fail() && !(stream_ >> result_out).fail();
     }
 
-    this_type& operator()(std::locale const& locale) { return (stream_.imbue(locale), *this); }
-
-    this_type& operator()(manipulator_type m) { return (stream_ >> m, *this); }
+    this_type& operator() (std::locale const& locale) { return (stream_.imbue(locale), *this); }
+    this_type& operator() (manipulator_type m) { return (stream_ >> m, *this); }
 
     template<typename Manipulator>
     this_type& operator()(Manipulator m) { return (stream_ >> m, *this); }
-
-    template<typename Manipulator>
-    this_type& operator>> (Manipulator m) { return (stream_ >> m, *this); }
 
     private:
 
     mutable stream_type stream_;
 };
 
-typedef basic_stringstream_based_converter<char> cstringstream_based_converter;
-typedef basic_stringstream_based_converter<wchar_t> wstringstream_based_converter; 
+typedef basic_stringstream_converter<char> cstringstream_converter;
+typedef basic_stringstream_converter<wchar_t> wstringstream_converter; 
 
 }
 
