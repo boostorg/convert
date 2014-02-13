@@ -1,0 +1,40 @@
+[section:convert_default_constructible The ['Default Constructible] Requirement]
+
+More so, some classes might fail to meet that requirement for the Target type to be /DefaultConstructible/. The following /direction/ class is one such example. It has only two (/direction::up/ and /direction::dn/) states available (i.e. no "spare" values to indicate conversion failure) and is not /DefaultConstructible/:
+
+ struct direction
+ {
+     enum value_type { up, dn };
+     direction(value_type value) : value_(value) {}
+     private: value_type value_;
+ };
+
+For such a class the call below will not compile (due to the /DefaultConstructible/ Target type requirement):
+
+ direction dir = convert<direction>::from(str);  // Does not compile
+
+More so, the following is no good either as it does not provide a reliable detection of a conversion failure:
+
+ direction dir = convert<direction>::from(str, direction::up); 
+ 
+ if (dir == up_dir) ... // Was it a failure or a successful "up" conversion?
+
+For situations like that the library provides the following interface:
+
+ convert<direction>::result res = convert<direction>::from(str, up_dir); 
+ if (res) conversion succeeded
+ if (!res) conversion failed
+ direction dir = res.value(); // Retrieve the conversion result
+
+The /convert::result/ class has an implicit safe-bool conversion operator that allows to check the success of the conversion. The actual result of the conversion is retrieved with /convert::result::value()/.
+
+That same /convert::result/ could be deployed to work around the throwing behavior of the /lexical_cast/-like interface:
+
+ // This call does not throw.
+ convert<int>::result res = convert<int>::from("not an int"); 
+ // An attempt to retrieve a failed-conversion value will throw.
+ int i1 = res.value();
+ // Check the success first and retrieve the value if available.
+ int i2 = res ? res.value() : -1;
+
+[endsect]

@@ -7,11 +7,11 @@
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="convert_started.html" title="Getting Started">
-<link rel="next" href="convert_two_behavioral.html" title="Two Behavioral Policies">
+<link rel="next" href="convert_default_constructible.html" title="The Default Constructible Requirement">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="convert_started.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_two_behavioral.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="convert_started.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_default_constructible.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
@@ -86,7 +86,7 @@
       Here <span class="emphasis"><em>convert&lt;T&gt;::result</em></span> at last steps forward as
       it is the actual type being returned by <span class="emphasis"><em>convert&lt;T&gt;::from</em></span>.
     </p>
-<pre class="programlisting"><span class="identifier">The</span> <span class="identifier">intention</span> <span class="identifier">is</span> <span class="identifier">to</span> <span class="identifier">replace</span> <span class="special">[</span><span class="char">'convert&lt;T&gt;::result] with ['</span><span class="identifier">tr1</span><span class="special">::</span><span class="identifier">optional</span><span class="special">]</span> <span class="identifier">which</span> <span class="identifier">actually</span> <span class="identifier">provides</span> <span class="identifier">exactly</span> <span class="identifier">the</span> <span class="identifier">functionality</span> <span class="identifier">that</span> <span class="special">[</span><span class="error">'</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">result</span><span class="special">]</span> <span class="identifier">provides</span><span class="special">.</span>
+<pre class="programlisting"><span class="identifier">The</span> <span class="identifier">intention</span> <span class="identifier">is</span> <span class="identifier">to</span> <span class="identifier">ultimately</span> <span class="identifier">replace</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">result</span> <span class="identifier">with</span> <span class="identifier">tr1</span><span class="special">::</span><span class="identifier">optional</span> <span class="identifier">which</span> <span class="identifier">actually</span> <span class="identifier">provides</span> <span class="identifier">all</span> <span class="identifier">the</span> <span class="identifier">functionality</span> <span class="identifier">that</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">result</span> <span class="identifier">provides</span><span class="special">.</span>
 </pre>
 <p>
       As <span class="emphasis"><em>boost::lexical_cast</em></span> does, <span class="emphasis"><em>convert&lt;T&gt;::result</em></span>
@@ -94,113 +94,19 @@
       which may succeed but is also may fail. However, by design <span class="emphasis"><em>boost::lexical_cast</em></span>
       processes failure in a somewhat harsh and non-negociable manner. <span class="emphasis"><em>convert&lt;T&gt;::result</em></span>
       chooses a softer approach and leaves the decision to the user. In my personal
-      experience it is overwhelmingly avoiding exceptions altogether with something
-      like:
+      experience the choice would overwhelmingly be to avoid exceptions altogether
+      with something like:
     </p>
-<pre class="programlisting"><span class="keyword">if</span> <span class="special">(</span><span class="identifier">r1</span><span class="special">)</span>
-<span class="special">{</span>
-    <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">r1</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Safe to retrieve the result</span>
-    <span class="special">...</span><span class="identifier">proceed</span>
-<span class="special">}</span>
-</pre>
-<p>
-      Or
-    </p>
-<pre class="programlisting"><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span><span class="identifier">result</span> <span class="identifier">r1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str1</span><span class="special">,</span> <span class="number">5</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Does not throw on conversion failure</span>
-<span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span><span class="identifier">result</span> <span class="identifier">r2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str2</span><span class="special">,</span> <span class="number">6</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Does not throw on conversion failure</span>
+<pre class="programlisting"><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span><span class="identifier">result</span> <span class="identifier">r1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
+<span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span><span class="identifier">result</span> <span class="identifier">r2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
 
 <span class="keyword">if</span> <span class="special">(!</span><span class="identifier">r1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"str1 conversion failed"</span><span class="special">);</span>
 <span class="keyword">if</span> <span class="special">(!</span><span class="identifier">r2</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"str2 conversion failed"</span><span class="special">);</span>
 
-<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">r1</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Does not throw</span>
-<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">r2</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Does not throw</span>
+<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">r1</span> <span class="special">?</span> <span class="identifier">r1</span><span class="special">.</span><span class="identifier">value</span><span class="special">()</span> <span class="special">:</span> <span class="number">5</span><span class="special">;</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">r2</span><span class="special">.</span><span class="identifier">value_or</span><span class="special">(</span><span class="number">6</span><span class="special">);</span>
 
 <span class="special">...</span><span class="identifier">proceed</span>
-</pre>
-<p>
-      a
-    </p>
-<p>
-      a
-    </p>
-<p>
-      a
-    </p>
-<p>
-      a
-    </p>
-<p>
-      a
-    </p>
-<p>
-      a
-    </p>
-<p>
-      a
-    </p>
-<p>
-      a
-    </p>
-<p>
-      a
-    </p>
-<p>
-      a
-    </p>
-<p>
-      a a
-    </p>
-<p>
-      More so, some classes might fail to meet that requirement for the Target type
-      to be <span class="emphasis"><em>DefaultConstructible</em></span>. The following <span class="emphasis"><em>direction</em></span>
-      class is one such example. It has only two (<span class="emphasis"><em>direction::up</em></span>
-      and <span class="emphasis"><em>direction::dn</em></span>) states available (i.e. no "spare"
-      values to indicate conversion failure) and is not <span class="emphasis"><em>DefaultConstructible</em></span>:
-    </p>
-<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">direction</span>
-<span class="special">{</span>
-    <span class="keyword">enum</span> <span class="identifier">value_type</span> <span class="special">{</span> <span class="identifier">up</span><span class="special">,</span> <span class="identifier">dn</span> <span class="special">};</span>
-    <span class="identifier">direction</span><span class="special">(</span><span class="identifier">value_type</span> <span class="identifier">value</span><span class="special">)</span> <span class="special">:</span> <span class="identifier">value_</span><span class="special">(</span><span class="identifier">value</span><span class="special">)</span> <span class="special">{}</span>
-    <span class="keyword">private</span><span class="special">:</span> <span class="identifier">value_type</span> <span class="identifier">value_</span><span class="special">;</span>
-<span class="special">};</span>
-</pre>
-<p>
-      For such a class the call below will not compile (due to the <span class="emphasis"><em>DefaultConstructible</em></span>
-      Target type requirement):
-    </p>
-<pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">);</span>  <span class="comment">// Does not compile</span>
-</pre>
-<p>
-      More so, the following is no good either as it does not provide a reliable
-      detection of a conversion failure:
-    </p>
-<pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">direction</span><span class="special">::</span><span class="identifier">up</span><span class="special">);</span>
-
-<span class="keyword">if</span> <span class="special">(</span><span class="identifier">dir</span> <span class="special">==</span> <span class="identifier">up_dir</span><span class="special">)</span> <span class="special">...</span> <span class="comment">// Was it a failure or a successful "up" conversion?</span>
-</pre>
-<p>
-      For situations like that the library provides the following interface:
-    </p>
-<pre class="programlisting"><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">result</span> <span class="identifier">res</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">up_dir</span><span class="special">);</span>
-<span class="keyword">if</span> <span class="special">(</span><span class="identifier">res</span><span class="special">)</span> <span class="identifier">conversion</span> <span class="identifier">succeeded</span>
-<span class="keyword">if</span> <span class="special">(!</span><span class="identifier">res</span><span class="special">)</span> <span class="identifier">conversion</span> <span class="identifier">failed</span>
-<span class="identifier">direction</span> <span class="identifier">dir</span> <span class="special">=</span> <span class="identifier">res</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Retrieve the conversion result</span>
-</pre>
-<p>
-      The <span class="emphasis"><em>convert::result</em></span> class has an implicit safe-bool conversion
-      operator that allows to check the success of the conversion. The actual result
-      of the conversion is retrieved with <span class="emphasis"><em>convert::result::value()</em></span>.
-    </p>
-<p>
-      That same <span class="emphasis"><em>convert::result</em></span> could be deployed to work around
-      the throwing behavior of the <span class="emphasis"><em>lexical_cast</em></span>-like interface:
-    </p>
-<pre class="programlisting"><span class="comment">// This call does not throw.</span>
-<span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">result</span> <span class="identifier">res</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="string">"not an int"</span><span class="special">);</span>
-<span class="comment">// An attempt to retrieve a failed-conversion value will throw.</span>
-<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">res</span><span class="special">.</span><span class="identifier">value</span><span class="special">();</span>
-<span class="comment">// Check the success first and retrieve the value if available.</span>
-<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">res</span> <span class="special">?</span> <span class="identifier">res</span><span class="special">.</span><span class="identifier">value</span><span class="special">()</span> <span class="special">:</span> <span class="special">-</span><span class="number">1</span><span class="special">;</span>
 </pre>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
@@ -213,7 +119,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="convert_started.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_two_behavioral.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="convert_started.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_default_constructible.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>
