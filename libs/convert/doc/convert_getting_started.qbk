@@ -11,7 +11,7 @@ In its simplest form the conversion functionality might be deployed as follows:
 
  int i1 = boost::lexical_cast<int>(str); // Throws if the conversion fails
  int i2 = convert<int>::from(str, cnv).value(); // Throws if the conversion fails
- int i3 = convert<int>::from(str, -1, cnv).value(); // Returns -1 if the conversion fails
+ int i3 = convert<int>::from(str, cnv).value_or(-1); // Returns -1 if the conversion fails
 
 These calls can be translated to plain English as "['Convert a string to int]" for ['i1] and ['i2] and "['Convert a string to int and return -1 if the conversion fails]" for ['i3]. 
 
@@ -23,17 +23,24 @@ The described (very basic) interface might be sufficient for a variety of conver
 
  boost::cstringstream_converter ccnv; // stringstream-based char converter
 
- int num_threads = convert<int>::from(str1, INT_MAX, ccnv(std::hex)); // Read as hex
- int num_windows = convert<int>::from(str2, INT_MAX, ccnv(std::dec)); // Read as decimal
+ int num_threads = convert<int>::from(str1, ccnv(std::hex)).value_or(INT_MAX); // Read as hex
+ int num_windows = convert<int>::from(str2, ccnv(std::dec)).value_or(INT_MAX); // Read as decimal
 
  if (num_threads == INT_MAX) log("bad num_threads"), num_threads = default_num_threads;
  if (num_windows == INT_MAX) log("bad num_windows"), num_windows = default_num_windows;
 
  ... proceed
 
-In these circumstances the deployment of ['boost::convert] seems more compact and natural (your mileage may vary) and might be potentially more efficient compared to ['boost::lexical_cast] deployment which achieves a similar (ignoring formatting) result with something like
+Or even shorter, if we do not care logging failed conversions:
 
- int num_threads = default_num_threads;
+ int num_threads = convert<int>::from(str1, ccnv(std::hex)).value_or(default_num_threads); // Read as hex
+ int num_windows = convert<int>::from(str2, ccnv(std::dec)).value_or(default_num_windows); // Read as decimal
+
+ ... proceed
+
+In these circumstances the deployment of ['boost::convert] seems more compact and natural (your mileage may vary) and might be potentially more efficient compared to ['boost::lexical_cast] deployment which achieves a similar (excluding formatting) result with something like
+
+ int num_threads;
 
  try
  {
@@ -42,8 +49,9 @@ In these circumstances the deployment of ['boost::convert] seems more compact an
  catch (...)
  {
      log("bad num_threads");
+     num_threads = default_num_threads;
  }
 
-This is by-design the only behavior supported by ['boost::lexical_cast]. Simple and straigtforward. Unfortunately, with such a simple interface it raises (uninitiated) users' expectations quite high but it by-design casts out many legitimate conversion-related deployment use-cases. That is the niche that ['boost::convert] is trying to fill.
+This is ['boost::lexical_cast]'s only behavior. Simple and straigtforward. Unfortunately, it makes quite a few legitimate conversion-related deployment use-cases difficult\/awkward to implement. That is the niche that ['boost::convert] is trying to fill.
 
 [endsect]

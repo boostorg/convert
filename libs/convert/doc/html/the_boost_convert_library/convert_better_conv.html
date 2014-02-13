@@ -18,7 +18,7 @@
 <a name="the_boost_convert_library.convert_better_conv"></a><a class="link" href="convert_better_conv.html" title="Getting Serious">Getting
     Serious</a>
 </h2></div></div></div>
-<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="string">"not an int"</span><span class="special">,</span> <span class="special">-</span><span class="number">1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// after the call i2 = -1</span>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="string">"not an int"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// after the call i2 = -1</span>
 
 <span class="keyword">if</span> <span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">failed</span> <span class="identifier">to</span> <span class="identifier">convert</span>
 </pre>
@@ -38,8 +38,8 @@
       value.
     </p>
 <p>
-      Applications outside these mentioned categories still require a conversion-failure
-      condition reliably detected and processed accordingly. The <span class="emphasis"><em>boost::lexical_cast</em></span>'s
+      Applications outside these mentioned categories still require a conversion
+      failure reliably detected and processed accordingly. The <span class="emphasis"><em>boost::lexical_cast</em></span>'s
       answer to the problem is to throw on failure and <span class="emphasis"><em>boost::convert</em></span>
       supports that behavior as well:
     </p>
@@ -55,7 +55,7 @@
 <span class="special">}</span>
 </pre>
 <p>
-      However, to better cater for the application's processing flow <span class="emphasis"><em>boost::convert</em></span>
+      However, to cater for a wider range of processing flows <span class="emphasis"><em>boost::convert</em></span>
       adds the flexibility of
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
@@ -83,8 +83,12 @@
 <span class="special">}</span>
 </pre>
 <p>
-      Here <span class="emphasis"><em>convert&lt;T&gt;::result</em></span> comes to the fore as it
-      is the actual type being returned by <span class="emphasis"><em>convert&lt;T&gt;::from</em></span>.
+      Here <span class="emphasis"><em>convert&lt;T&gt;::result</em></span> at last steps forward as
+      it is the actual type being returned by <span class="emphasis"><em>convert&lt;T&gt;::from</em></span>.
+    </p>
+<pre class="programlisting"><span class="identifier">The</span> <span class="identifier">intention</span> <span class="identifier">is</span> <span class="identifier">to</span> <span class="identifier">replace</span> <span class="special">[</span><span class="char">'convert&lt;T&gt;::result] with ['</span><span class="identifier">tr1</span><span class="special">::</span><span class="identifier">optional</span><span class="special">]</span> <span class="identifier">which</span> <span class="identifier">actually</span> <span class="identifier">provides</span> <span class="identifier">exactly</span> <span class="identifier">the</span> <span class="identifier">functionality</span> <span class="identifier">that</span> <span class="special">[</span><span class="error">'</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">result</span><span class="special">]</span> <span class="identifier">provides</span><span class="special">.</span>
+</pre>
+<p>
       As <span class="emphasis"><em>boost::lexical_cast</em></span> does, <span class="emphasis"><em>convert&lt;T&gt;::result</em></span>
       undersores the fact that the conversion request is only a <span class="emphasis"><em>request</em></span>
       which may succeed but is also may fail. However, by design <span class="emphasis"><em>boost::lexical_cast</em></span>
@@ -145,11 +149,6 @@
     </p>
 <p>
       a a
-    </p>
-<p>
-      However, throwing an exception might not always be the desirable behavior (not
-      to mention the awkwardness and slowness of the <span class="emphasis"><em>try/catch</em></span>
-      interface which might not be exactly fitting).
     </p>
 <p>
       More so, some classes might fail to meet that requirement for the Target type

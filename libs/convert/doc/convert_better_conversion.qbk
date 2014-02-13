@@ -1,6 +1,6 @@
 [section:convert_better_conv Getting Serious]
 
- int i2 = convert<int>::from("not an int", -1, cnv).value(); // after the call i2 = -1
+ int i2 = convert<int>::from("not an int", cnv).value_or(-1); // after the call i2 = -1
 
  if (i2 == -1) failed to convert
 
@@ -8,7 +8,7 @@ Checking the return value as above is sufficiently straightforward. Clearly, it 
 
 Still, with a carefully chosen fallback value such deployment might be adequate when there are "spare" values outside the valid range to indicate conversion failures (say, INT_MAX for integers) without introducing the above-mentioned behavioral non-determinism. More so, it might be not that uncommon for applications to ignore conversion failures altogether and to proceed with the supplied default/fallback value.
 
-Applications outside these mentioned categories still require a conversion-failure condition reliably detected and processed accordingly. The ['boost::lexical_cast]'s answer to the problem is to throw on failure and ['boost::convert] supports that behavior as well: 
+Applications outside these mentioned categories still require a conversion failure reliably detected and processed accordingly. The ['boost::lexical_cast]'s answer to the problem is to throw on failure and ['boost::convert] supports that behavior as well: 
 
  try
  {
@@ -21,7 +21,7 @@ Applications outside these mentioned categories still require a conversion-failu
      Conversion failed
  }
 
-However, to better cater for the application's processing flow ['boost::convert] adds the flexibility of 
+However, to cater for a wider range of processing flows ['boost::convert] adds the flexibility of 
 
 * delaying the moment when the conversion-failure exception is thrown or 
 * avoiding the excepion altogether. 
@@ -42,7 +42,11 @@ However, to better cater for the application's processing flow ['boost::convert]
      Conversion failed
  }
 
-Here ['convert<T>::result] comes to the fore as it is the actual type being returned by ['convert<T>::from]. As  ['boost::lexical_cast] does, ['convert<T>::result] undersores the fact that the conversion request is only a ['request] which may succeed but is also may fail. However, by design ['boost::lexical_cast] processes failure in a somewhat harsh and non-negociable manner.  ['convert<T>::result] chooses a softer approach and leaves the decision to the user. In my personal experience it is overwhelmingly avoiding exceptions altogether with something like:
+Here ['convert<T>::result] at last steps forward as it is the actual type being returned by ['convert<T>::from]. 
+
+ The intention is to replace ['convert<T>::result] with ['tr1::optional] which actually provides exactly the functionality that ['convert<T>::result] provides.
+
+As  ['boost::lexical_cast] does, ['convert<T>::result] undersores the fact that the conversion request is only a ['request] which may succeed but is also may fail. However, by design ['boost::lexical_cast] processes failure in a somewhat harsh and non-negociable manner.  ['convert<T>::result] chooses a softer approach and leaves the decision to the user. In my personal experience it is overwhelmingly avoiding exceptions altogether with something like:
 
  if (r1)
  {

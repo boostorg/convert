@@ -31,15 +31,6 @@ namespace boost
 template<class TypeOut>
 struct boost::convert
 {
-    // C1. Conversion API with syntax and behavior similar to boost::lexical_cast.
-    //     Namely, if conversion fails, it (eventually in result.value()) throws std::invalid_argument.
-    // C2. When no fallback value is provided. out_type needs to be default-constructible (as for boost::lexical_cast).    
-    //     When a fallback value is provided, the temporary holding the conversion result is copy-constructed and,
-    //     therefore, out_type does not need to be default-constructible.
-    // C3. The ugly way of passing the return argument as a parameter is
-    //     to relieve the converter of the need to construct an instance of out_type.
-    //     That way we avoid the default-constructibility requirement when it can be avoided.
-
     struct                                  result;
     template<class, class> struct algorithm_helper;
 
@@ -47,7 +38,7 @@ struct boost::convert
 	typedef typename convert_detail::corrected<TypeOut>::type out_type;
 	typedef typename this_type::result                     result_type;
 
-    static out_type create_storage();
+    static out_type create_storage() { return out_type(); }
 
     template<class TypeIn, class Converter>
     static
@@ -68,14 +59,6 @@ struct boost::convert
         return algorithm_helper<TypeIn, Converter>(cnv);
     }
 };
-
-template<class TypeOut>
-inline
-typename boost::convert<TypeOut>::out_type
-boost::convert<TypeOut>::create_storage()
-{
-    return out_type();
-}
 
 // Used temporarily. To be replaced with tr1::optional or improved boost::optional.
 template<class TypeOut>

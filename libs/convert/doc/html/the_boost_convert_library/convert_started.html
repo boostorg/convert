@@ -29,7 +29,7 @@
 
 <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails</span>
 <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws if the conversion fails</span>
-<span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="special">-</span><span class="number">1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Returns -1 if the conversion fails</span>
+<span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Returns -1 if the conversion fails</span>
 </pre>
 <p>
       These calls can be translated to plain English as "<span class="emphasis"><em>Convert a
@@ -58,8 +58,8 @@
     </p>
 <pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span> <span class="identifier">ccnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
 
-<span class="keyword">int</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">INT_MAX</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">));</span> <span class="comment">// Read as hex</span>
-<span class="keyword">int</span> <span class="identifier">num_windows</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">INT_MAX</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">));</span> <span class="comment">// Read as decimal</span>
+<span class="keyword">int</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">INT_MAX</span><span class="special">);</span> <span class="comment">// Read as hex</span>
+<span class="keyword">int</span> <span class="identifier">num_windows</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">INT_MAX</span><span class="special">);</span> <span class="comment">// Read as decimal</span>
 
 <span class="keyword">if</span> <span class="special">(</span><span class="identifier">num_threads</span> <span class="special">==</span> <span class="identifier">INT_MAX</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_threads"</span><span class="special">),</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">default_num_threads</span><span class="special">;</span>
 <span class="keyword">if</span> <span class="special">(</span><span class="identifier">num_windows</span> <span class="special">==</span> <span class="identifier">INT_MAX</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_windows"</span><span class="special">),</span> <span class="identifier">num_windows</span> <span class="special">=</span> <span class="identifier">default_num_windows</span><span class="special">;</span>
@@ -67,12 +67,20 @@
 <span class="special">...</span> <span class="identifier">proceed</span>
 </pre>
 <p>
+      Or even shorter, if we do not care logging failed conversions:
+    </p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_num_threads</span><span class="special">);</span> <span class="comment">// Read as hex</span>
+<span class="keyword">int</span> <span class="identifier">num_windows</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_num_windows</span><span class="special">);</span> <span class="comment">// Read as decimal</span>
+
+<span class="special">...</span> <span class="identifier">proceed</span>
+</pre>
+<p>
       In these circumstances the deployment of <span class="emphasis"><em>boost::convert</em></span>
       seems more compact and natural (your mileage may vary) and might be potentially
       more efficient compared to <span class="emphasis"><em>boost::lexical_cast</em></span> deployment
-      which achieves a similar (ignoring formatting) result with something like
+      which achieves a similar (excluding formatting) result with something like
     </p>
-<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">default_num_threads</span><span class="special">;</span>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_threads</span><span class="special">;</span>
 
 <span class="keyword">try</span>
 <span class="special">{</span>
@@ -81,13 +89,13 @@
 <span class="keyword">catch</span> <span class="special">(...)</span>
 <span class="special">{</span>
     <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_threads"</span><span class="special">);</span>
+    <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">default_num_threads</span><span class="special">;</span>
 <span class="special">}</span>
 </pre>
 <p>
-      This is by-design the only behavior supported by <span class="emphasis"><em>boost::lexical_cast</em></span>.
-      Simple and straigtforward. Unfortunately, with such a simple interface it raises
-      (uninitiated) users' expectations quite high but it by-design casts out many
-      legitimate conversion-related deployment use-cases. That is the niche that
+      This is <span class="emphasis"><em>boost::lexical_cast</em></span>'s only behavior. Simple and
+      straigtforward. Unfortunately, it makes quite a few legitimate conversion-related
+      deployment use-cases difficult/awkward to implement. That is the niche that
       <span class="emphasis"><em>boost::convert</em></span> is trying to fill.
     </p>
 </div>
