@@ -24,15 +24,16 @@ Applications outside these mentioned categories still require a conversion failu
 However, to cater for a wider range of processing flows ['boost::convert] adds the flexibility of 
 
 * delaying the moment when the conversion-failure exception is thrown or 
-* avoiding the excepion altogether. 
+* avoiding the exception altogether. 
 
  convert<int>result r1 = boost::convert<int>(str1, cnv); // Does not throw on conversion failure
  convert<int>result r2 = boost::convert<int>(str2, cnv); // Does not throw on conversion failure
 
- int i1 = r1 ? r1.value() : some-other-value; // Safe to retrieve the result
- int i2 = r2 ? r2.value() : some-other-value; // Safe to retrieve the result
+ int i1 = r1 ? r1.value() : fallback_value; // Safe to retrieve the result
+ int i2 = r2 ? r2.value() : fallback_value; // Safe to retrieve the result
+ int i3 = boost::convert<int>(str3, cnv).value_or(fallback_value); // Does not throw
 
- try
+ try // processing of potential exceptions delayed
  {
      int i1 = r1.value(); // Will throw if conversion failed
      int i2 = r2.value(); // Will throw if conversion failed
