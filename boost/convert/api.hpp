@@ -6,10 +6,6 @@
 // Copyright (c) 2009-2014 Vladimir Batov.
 // Special thanks to Andrzej Krzemienski who suggested a far better design,
 // cleaner interface and separation of responsibilities.
-// Many thanks to Robert Stewart, Scott McMurray, Andrey Semashev, Dave Abrahams,
-// Hartmut Kaiser, Anders Dalvander, Andrew Troschinetz and all the Boosters
-// participated in the related discussions and the review.
-// In many ways the library has been influenced and shaped by them.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
@@ -19,20 +15,19 @@
 #include "./safebool.hpp"
 #include "./workarounds.hpp"
 #include "./string_sfinae.hpp"
-#include "./parameters.hpp"
 #include <boost/throw_exception.hpp>
 #include <stdexcept>
 
 namespace boost
 {
-    template<class> struct convert;
+    template<typename> struct convert;
 }
 
-template<class TypeOut>
+template<typename TypeOut>
 struct boost::convert
 {
-    struct                                  result;
-    template<class, class> struct algorithm_helper;
+    struct result;
+    template<typename, typename> struct algorithm_helper;
 
 	typedef boost::convert<TypeOut>	                         this_type;
 	typedef typename convert_detail::corrected<TypeOut>::type out_type;
@@ -40,7 +35,7 @@ struct boost::convert
 
     static out_type create_storage() { return out_type(); }
 
-    template<class TypeIn, class Converter>
+    template<typename TypeIn, typename Converter>
     static
     result_type
     from(TypeIn const& value_in, Converter const& converter) //C1.
@@ -51,7 +46,7 @@ struct boost::convert
         return success ? result : result(false);
     }
 
-    template<class TypeIn, class Converter>
+    template<typename TypeIn, typename Converter>
     static
     algorithm_helper<TypeIn, Converter>
     from(Converter const& cnv)
@@ -61,7 +56,7 @@ struct boost::convert
 };
 
 // Used temporarily. To be replaced with tr1::optional or improved boost::optional.
-template<class TypeOut>
+template<typename TypeOut>
 struct boost::convert<TypeOut>::result
 {
 	typedef result                 this_type;
@@ -81,7 +76,7 @@ struct boost::convert<TypeOut>::result
         return value_;
     }
 
-    template<class FallbackType>
+    template<typename FallbackType>
     out_type value_or(FallbackType const& fallback) const
     {
         return good_ ? value_ : fallback;
@@ -97,8 +92,8 @@ struct boost::convert<TypeOut>::result
     bool      good_;
 };
 
-template<class TypeOut>
-template<class TypeIn, class Converter>
+template<typename TypeOut>
+template<typename TypeIn, typename Converter>
 struct boost::convert<TypeOut>::algorithm_helper
 {
     struct with_fallback;
@@ -107,9 +102,9 @@ struct boost::convert<TypeOut>::algorithm_helper
 
     algorithm_helper(Converter const& cnv) : converter_(&cnv) {}
 
-    template<typename Arg>
+    template<typename FallbackType>
     with_fallback
-    operator()(parameter::aux::tagged_argument<conversion::type::fallback, Arg> const&);
+    value_or(FallbackType const&);
 
     TypeOut operator()(TypeIn const& value_in)
     {
@@ -127,8 +122,8 @@ struct boost::convert<TypeOut>::algorithm_helper
     Converter const* converter_;
 };
 
-template<class TypeOut>
-template<class TypeIn, class Converter>
+template<typename TypeOut>
+template<typename TypeIn, typename Converter>
 struct boost::convert<TypeOut>::algorithm_helper<TypeIn, Converter>::with_fallback
 :
     public boost::convert<TypeOut>::template algorithm_helper<TypeIn, Converter>
@@ -153,13 +148,13 @@ struct boost::convert<TypeOut>::algorithm_helper<TypeIn, Converter>::with_fallba
     out_type fallback_;
 };
 
-template<class TypeOut>
-template<class TypeIn, class Converter>
-template<typename Arg>
+template<typename TypeOut>
+template<typename TypeIn, typename Converter>
+template<typename FallbackType>
 typename boost::convert<TypeOut>::template algorithm_helper<TypeIn, Converter>::with_fallback
-boost::convert<TypeOut>::algorithm_helper<TypeIn, Converter>::operator()(parameter::aux::tagged_argument<conversion::type::fallback, Arg> const& arg)
+boost::convert<TypeOut>::algorithm_helper<TypeIn, Converter>::value_or(FallbackType const& fallback)
 {
-    return with_fallback(*this, arg[conversion::fallback]);
+    return with_fallback(*this, fallback);
 }
 
 #endif // BOOST_CONVERT_API_HPP

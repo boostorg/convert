@@ -1,0 +1,65 @@
+[section:convert_algorithms Boost.Convert with Standard Algorithms]
+
+The following code demonstrates the failed attempt to convert a few strings with ['boost::lexical_cast]:
+
+ array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
+ std::vector<int>     integers;
+
+ try
+ {
+    std::transform(
+        strings.begin(),
+        strings.end(),
+        std::back_inserter(integers),
+        boost::bind(boost::lexical_cast<int, std::string>, _1));
+
+        BOOST_ASSERT(!"We should not be here");
+ }
+ catch (std::exception&)
+ {
+    // No strings converted.
+ }
+
+The first take by ['boost::convert] is more successful but still not quite satisfactory (your mileage may vary):
+
+ array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
+ std::vector<int>     integers;
+
+ try
+ {
+   std::transform(
+        strings.begin(),
+        strings.end(),
+        std::back_inserter(integers),
+        convert<int>::from<string>(ccnv(std::hex)));
+
+        BOOST_ASSERT(!"We should not be here");
+ }
+ catch (std::exception&)
+ {
+    // Only the first four strings converted. Failed to convert the last one.
+
+    BOOST_ASSERT(integers[0] == 15);
+    BOOST_ASSERT(integers[1] == 16);
+    BOOST_ASSERT(integers[2] == 17);
+    BOOST_ASSERT(integers[3] == 18);
+ }
+
+And at last a fully working version:
+
+ array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
+ std::vector<int>     integers;
+
+ std::transform(
+    strings.begin(),
+    strings.end(),
+    std::back_inserter(integers),
+    convert<int>::from<string>(ccnv(std::hex)).value_or(-1));
+
+ BOOST_ASSERT(integers[0] == 15);
+ BOOST_ASSERT(integers[1] == 16);
+ BOOST_ASSERT(integers[2] == 17);
+ BOOST_ASSERT(integers[3] == 18);
+ BOOST_ASSERT(integers[4] == -1); // Failed conversion
+
+[endsect]

@@ -14,11 +14,25 @@
 #include <list>
 #include <stdio.h>
 
+namespace { namespace local
+{
+#if defined(_MSC_VER)
+    bool const is_msc = true;
+    bool const is_gcc = false;
+#elif defined(__GNUC__)
+    bool const is_msc = false;
+    bool const is_gcc = true;
+#else
+#error "Add here."
+#endif
+
+    int const num_cycles = 1000000;
+}}
+
 using std::string;
 using std::wstring;
 using boost::array;
 using boost::convert;
-namespace cnv = boost::conversion;
 
 std::basic_ios<char>&
 my_cypher(std::basic_ios<char>& stream)
@@ -34,6 +48,33 @@ my_cypher(std::basic_ios<char>& stream)
 
     return stream;
 }
+
+struct direction_with_default
+{
+    typedef direction_with_default this_type;
+
+    enum value_type { no, up, dn };
+
+    direction_with_default(value_type v =no) : value_(v) {}
+
+    friend std::istream& operator>>(std::istream& stream, this_type& dir)
+    {
+        string str; stream >> str;
+
+        /**/ if (str == "up") dir.value_ = up;
+        else if (str == "dn") dir.value_ = dn;
+        else if (str == "no") dir.value_ = no;
+        else stream.setstate(std::ios_base::failbit);
+
+        return stream;
+    }
+    friend std::ostream& operator<<(std::ostream& stream, this_type const& dir)
+    {
+        return stream << (dir.value_ == up ? "up" : dir.value_ == dn ? "dn" : "no");
+    }
+
+    private: value_type value_;
+};
 
 struct direction
 {
@@ -56,7 +97,7 @@ struct direction
     }
     friend std::ostream& operator<<(std::ostream& stream, direction const& dir)
     {
-        return (stream << (dir.value_ == up ? "up" : "dn"));
+        return stream << (dir.value_ == up ? "up" : "dn");
     }
 
     private: value_type value_;
@@ -271,8 +312,7 @@ main(int argc, char const* argv[])
     direction                  dn_dir2 = convert<direction>::from(dn_dir1_str, ccnv).value();
     direction                  up_dir3 = convert<direction>::from(up_dir1_str, ccnv).value();
     direction                  dn_dir3 = convert<direction>::from(dn_dir1_str, ccnv).value();
-//  direction                  up_dir9 = convert<direction>::from(up_dir1_str, ccnv).value(); // Doesn't compile. No def.ctor
-//  direction                  dn_dir9 = convert<direction>::from(dn_dir1_str, ccnv).value(); // Doesn't compile. No def.ctor
+    direction                  dn_dir4 = convert<direction>::from("junk", ccnv).value_or(direction::dn);
     convert<direction>::result up_dir4 = convert<direction>::from("junk", ccnv);
 
     BOOST_ASSERT(up_dir0_str == "up");
@@ -283,34 +323,119 @@ main(int argc, char const* argv[])
     BOOST_ASSERT(dn_dir2 == dn_dir1);
     BOOST_ASSERT(up_dir3 == direction::up);
     BOOST_ASSERT(dn_dir3 == direction::dn);
+    BOOST_ASSERT(dn_dir4 == direction::dn);
     BOOST_ASSERT(!up_dir4); // Failed conversion
+
+    double p1 = clock();
+
+    for (int k = 0; k < local::num_cycles; ++k)
+        boost::lexical_cast<direction_with_default>("up");
+
+    double p2 = clock();
+
+    for (int k = 0; k < local::num_cycles; ++k)
+        boost::convert<direction_with_default>::from("up", ccnv);
+
+    double p3 = clock();
+
+    printf("convert=%.2f, lexical_cast=%.2f\n", (p3 - p2) / CLOCKS_PER_SEC, (p2 - p1) / CLOCKS_PER_SEC);
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Testing with algorithms
+    ////////////////////////////////////////////////////////////////////////////
+
+    array<char const*, 5>   strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
+    std::vector<int>       integers;
+    std::vector<string> new_strings;
+
+    ////////////////////////////////////////////////////////////////////////////
+    // String to integer conversion.
+    // No explicit fallback, i.e. throws on failure. Hex formatting.
+    ////////////////////////////////////////////////////////////////////////////
+    try
+    {
+        std::transform(
+            strings.begin(),
+            strings.end(),
+            std::back_inserter(integers),
+            boost::bind(boost::lexical_cast<int, std::string>, _1));
+
+        BOOST_ASSERT(!"We should not be here");
+    }
+    catch (std::exception&)
+    {
+        // Expected behavior.
+        printf("boost::lexical_cast processed: %d entries.\n", int(integers.size()));
+    }
+    try
+    {
+        std::transform(
+            strings.begin(),
+            strings.end(),
+            std::back_inserter(integers),
+            convert<int>::from<string>(ccnv(std::hex)));
+
+        BOOST_ASSERT(!"We should not be here");
+    }
+    catch (std::exception&)
+    {
+        // Expected behavior.
+        printf("boost::convert processed: %d entries.\n", int(integers.size()));
+    }
+    BOOST_ASSERT(integers[0] == 15);
+    BOOST_ASSERT(integers[1] == 16);
+    BOOST_ASSERT(integers[2] == 17);
+    BOOST_ASSERT(integers[3] == 18);
+
+    integers.clear();
+
+    ////////////////////////////////////////////////////////////////////////////
+    // String to integer conversion. Explicit fallback, i.e. no throwing. Hex formatting.
+    ////////////////////////////////////////////////////////////////////////////
+    std::transform(
+        strings.begin(),
+        strings.end(),
+        std::back_inserter(integers),
+        convert<int>::from<string>(ccnv(std::hex)).value_or(-1));
+
+    BOOST_ASSERT(integers[0] == 15);
+    BOOST_ASSERT(integers[1] == 16);
+    BOOST_ASSERT(integers[2] == 17);
+    BOOST_ASSERT(integers[3] == 18);
+    BOOST_ASSERT(integers[4] == -1); // Failed conversion
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing formatters/manipulators
     ////////////////////////////////////////////////////////////////////////////
 
-    string         hex1_str = "0xFF"; // 255
-    wchar_t const* hex2_str = L"0xF"; // 15
-#if defined(_MSC_VER)
-    char const*  double_s01 = "1.2345E-002"; // Windows
-#elif defined(__GNUC__)
-    char const*  double_s01 = "1.2345E-02"; // Linux
-#endif
-    int hex_v01 = convert<int>::from(hex1_str, ccnv(std::hex)).value_or(0);
-    int hex_v02 = convert<int>::from(hex2_str, wcnv(std::hex)).value_or(0);
+    try
+    {
+        boost::lexical_cast<int>("FF");
+        BOOST_ASSERT(!"We should not be here");
+    }
+    catch (...)
+    {
+    }
 
-    BOOST_ASSERT(hex_v01 == 255);
-    BOOST_ASSERT(hex_v02 ==  15);
+    int hex_v01 = convert<int>::from("FF", ccnv(std::hex)).value_or(0);
+    int hex_v02 = convert<int>::from(L"F", wcnv(std::hex)).value_or(0);
+    int hex_v03 = convert<int>::from("FF", ccnv(std::dec)).value_or(-5);
+    int hex_v04 = convert<int>::from(L"F", wcnv(std::dec)).value_or(-5);
+
+    BOOST_ASSERT(hex_v01 == 255); // "FF"
+    BOOST_ASSERT(hex_v02 ==  15); // L"F"
+    BOOST_ASSERT(hex_v03 ==  -5);
+    BOOST_ASSERT(hex_v04 ==  -5);
 
     ccnv(std::showbase)(std::uppercase)(std::hex);
 
-    string hex_s01 = convert<string>::from(hex_v01, ccnv).value();
-    string hex_s02 = convert<string>::from(hex_v02, ccnv).value();
+    BOOST_ASSERT(convert<string>::from(255, ccnv).value() == "0XFF");
+    BOOST_ASSERT(convert<string>::from( 15, ccnv).value() ==  "0XF");
 
-    BOOST_ASSERT(hex_s01 == "0XFF");
-    BOOST_ASSERT(hex_s02 ==  "0XF");
-
-    ccnv(std::setprecision(4))(std::scientific);
+    char const*  double_s01 = local::is_msc ? "1.2345E-002"
+                            : local::is_gcc ? "1.2345E-02"
+                            : "";
+    ccnv(std::setprecision(4))(std::scientific)(std::uppercase);
 
     double double_v01 = convert<double>::from(double_s01, ccnv).value();
     string double_s02 = convert<string>::from(double_v01, ccnv).value();
@@ -321,31 +446,18 @@ main(int argc, char const* argv[])
     // Testing locale
     ////////////////////////////////////////////////////////////////////////////
 
-#if defined(_MSC_VER)
-    char const* rus_locale_name = "Russian_Russia.1251";
-    char const*    rus_expected = "1,2345E-002";
-    char const*    eng_expected = "1.2345E-002";
-#elif defined(__CYGWIN__)
-#error What is the locale name on Cygwin?
-#elif defined(__GNUC__)
-    char const* rus_locale_name = "ru_RU.UTF-8";
-    char const*    rus_expected = "1,2345e-02";
-    char const*    eng_expected = "1.2345e-02";
-#endif
+    char const* rus_locale_name = local::is_msc ? "Russian_Russia.1251"
+                                : local::is_gcc ? "ru_RU.UTF-8"
+                                : "";
+    char const*    rus_expected = local::is_msc ? "1,235E-002" : local::is_gcc ? "1,235e-02" : "";
+    char const*    eng_expected = local::is_msc ? "1.235E-002" : local::is_gcc ? "1.235e-02" : "";
+    std::locale      rus_locale;
+    std::locale      eng_locale;
+
     try
     {
-        std::locale rus_locale (rus_locale_name);
-        std::locale eng_locale ("");
-
-        ccnv(std::setprecision(4))(std::scientific)(std::nouppercase);
-
-        string double_rus = convert<string>::from(double_v01, ccnv(rus_locale)).value();
-        string double_eng = convert<string>::from(double_v01, ccnv(eng_locale)).value();
-//      printf("rus locale=%s, presentation=%s.\n", rus_locale.name().c_str(), double_s02.c_str());
-//      printf("eng locale=%s, presentation=%s.\n", eng_locale.name().c_str(), double_s03.c_str());
-
-        BOOST_ASSERT(double_rus == rus_expected);
-        BOOST_ASSERT(double_eng == eng_expected);
+        rus_locale = std::locale(rus_locale_name);
+        eng_locale = std::locale("");
     }
     catch (...)
     {
@@ -353,54 +465,15 @@ main(int argc, char const* argv[])
         exit(1);
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    // Testing boost::convert with algorithms
-    ////////////////////////////////////////////////////////////////////////////
+    ccnv(std::setprecision(3))(std::nouppercase);
 
-    array<char const*, 5>   strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
-    std::vector<int>       integers;
-    std::vector<string> new_strings;
+    string double_rus = convert<string>::from(double_v01, ccnv(rus_locale)).value();
+    string double_eng = convert<string>::from(double_v01, ccnv(eng_locale)).value();
+    printf("rus locale=%s, presentation=%s.\n", rus_locale.name().c_str(), double_rus.c_str());
+    printf("eng locale=%s, presentation=%s.\n", eng_locale.name().c_str(), double_eng.c_str());
 
-    ////////////////////////////////////////////////////////////////////////////
-    // String to integer conversion
-    // No explicit fallback value parameter. i.e. throws on failure. Hex formatting.
-    ////////////////////////////////////////////////////////////////////////////
-    try
-    {
-        std::transform(
-            strings.begin(),
-            strings.end(),
-            std::back_inserter(integers),
-            convert<int>::from<string>(ccnv(std::hex)));
-
-        BOOST_ASSERT(!"failed to throw");
-    }
-    catch (std::exception&)
-    {
-        // Expected behavior: received 'boost::convert failed' exception. All well.
-    }
-    BOOST_ASSERT(integers[0] == 15);
-    BOOST_ASSERT(integers[1] == 16);
-    BOOST_ASSERT(integers[2] == 17);
-    BOOST_ASSERT(integers[3] == 18);
-
-    integers.clear();
-
-    ////////////////////////////////////////////////////////////////////////////
-    // String to integer conversion
-    // Explicit fallback parameter, i.e. no throwing. Hex formatting.
-    ////////////////////////////////////////////////////////////////////////////
-    std::transform(
-        strings.begin(),
-        strings.end(),
-        std::back_inserter(integers),
-        convert<int>::from<string>(ccnv(std::hex))(cnv::fallback = -1));
-
-    BOOST_ASSERT(integers[0] == 15);
-    BOOST_ASSERT(integers[1] == 16);
-    BOOST_ASSERT(integers[2] == 17);
-    BOOST_ASSERT(integers[3] == 18);
-    BOOST_ASSERT(integers[4] == -1); // Failed conversion
+    BOOST_ASSERT(double_rus == rus_expected);
+    BOOST_ASSERT(double_eng == eng_expected);
 
     ////////////////////////////////////////////////////////////////////////////
     // int-to-string conversion. No explicit fallback value.
@@ -437,18 +510,6 @@ main(int argc, char const* argv[])
     //BOOST_ASSERT(s37 ==  "-17");
 
     ////////////////////////////////////////////////////////////////////////////
-    // Testing custom manipulators.
-    // I do not really know how to write manipulators.
-    // Wrote my_cypher just to demonstrate the idea.
-    ////////////////////////////////////////////////////////////////////////////
-
-    //string encrypted = convert<string>::from("ABC", ccnv >> my_cypher);
-    //string decrypted = convert<string>::from(encrypted, ccnv >> my_cypher);
-
-    //BOOST_ASSERT(encrypted == "123");
-    //BOOST_ASSERT(decrypted == "ABC");
-
-    ////////////////////////////////////////////////////////////////////////////
     // Testing string-to-bool and bool-to-string conversions
     ////////////////////////////////////////////////////////////////////////////
 
@@ -477,6 +538,20 @@ main(int argc, char const* argv[])
     //BOOST_ASSERT(bool_str2 == "0");
     //BOOST_ASSERT(bool_str3 == "1");
     //BOOST_ASSERT(bool_str4 == "0");
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Testing custom manipulators.
+    // I do not really know how to write manipulators.
+    // Wrote my_cypher just to demonstrate the idea.
+    ////////////////////////////////////////////////////////////////////////////
+
+//    ccnv(my_cypher);
+//
+//    string encrypted = convert<string>::from("ABC", ccnv).value();
+//    string decrypted = convert<string>::from(encrypted, ccnv).value();
+//
+//    BOOST_ASSERT(encrypted == "123");
+//    BOOST_ASSERT(decrypted == "ABC");
 
     printf("Test completed successfully.\n");
     return 0;

@@ -1,0 +1,25 @@
+[section Converters]
+
+The ['boost::convert] facade API plays an important role as it is reponsible for and provides a uniform interface and consistent behavior. However, it is the respective plugged-in converter who does the hard work of turning integers to strings and strings to custom-types, etc., i.e. the hard work of actual type conversion\/transformation. 
+
+For a converter to be plugged in to the ['boost::convert] framework it needs to provide
+
+ template<typename TypeOut, typename TypeIn>
+ bool convert(TypeIn const& value_in, TypeOut& result_out) const;
+
+if that is a general-purpose converter capable of handling many types (like string-to-type and type-to-string conversions). Alternatively, a purpose-built custom converter might only care to provide 
+
+ bool convert(TypeIn const& value_in, TypeOut& result_out) const;
+
+if its sole purpose is to handle one particular conversion\/transformation of TypeIn to TypeOut. For example, a converter from the operating-system-specific MBCS string format to the UCS-2 or UCS-4 (depending on wchar_t size) does not seem like such a crazy idea:
+
+ bool convert(std::string const& value_in, std::wstring& result_out) const;
+
+['boost::convert] has been designed with the following in mind:
+
+* converters do not use and are not aware of the ['boost::convert] framework;
+* converters are not concerned with task of creating a temporary storage for the conversion result; that storage is provided by the ['boost::convert] framework.
+
+
+[endsect]
+

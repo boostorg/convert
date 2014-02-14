@@ -1,0 +1,31 @@
+[section ['boost::lexical_cast]-Based Converter]
+
+The converter is deployed with
+
+ #include <boost/convert/lexical_cast_converter.hpp>
+
+The purpose of the converter is 
+
+* to make use of the ['boost::lexical_cast] functionality and performance (see __ref_5__) that many people have become accustomed to and comfortable with;
+* to demonstrate how independent conversion\/transformation-related functionality can be incorporated in to the ['boost::convert] framework.
+
+ struct lexical_cast_converter
+ {
+    template<typename TypeOut, typename TypeIn>
+    bool
+    convert(TypeIn const& value_in, TypeOut& result_out) const
+    {
+        try
+        {
+            result_out = boost::lexical_cast<TypeOut>(value_in);
+            return true;
+        }
+        catch (...)
+        {
+            return false;
+        }
+    }
+ };
+
+[endsect]
+
