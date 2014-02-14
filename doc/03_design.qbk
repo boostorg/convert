@@ -2,20 +2,20 @@
 
 Unlike monolithic Convert.V1 (submitted for a review and ultimately withdrawn about three years ago) this V2 version takes a different route. Design-wise, it follows the successful design of ['boost::lexical_cast] which provides 
 
-* a uniform API facade to deploy the relevant functionalty and 
+* an API facade to deploy the relevant functionalty uniformly and 
 * the means to plug a particular type in to the ['boost::lexical_cast] framework; namely, ['operator>>(std::istream&)] and ['operator<<(std::ostream&)]).
 
-The ['Boost.Convert] follows that design and consists of two components
+['Boost.Convert] follows that design and also consists of two components
 
-* the ['Boost.Convert] API facade to provide simple, minimal and uniform deployment interface;
+* the API facade to provide simple, minimal and uniform deployment interface;
 * the extendible library of pluggable converters to provide various type conversions and transformations with varying configurability and performance.
 
 The API facade implements familiar and new conversion\/transformation-related behavior such as:
 
 * configurable throwing and non-throwing failed-conversion behavior;
 * support for the default\/fallback value to be returned when conversion\/transformation fails;
-* two types of the conversion-failure check - basic/simple and better\/safe;
-* no ['Default Constructibility] requirement for the Target\/Destination type;
+* two types of the conversion-failure check - basic/simple and generic;
+* means to deploy types not satisfying the ['Default Constructibility] requirement;
 * support for standard algorithms.
 
 The library of pluggable converters does not depend on the ['Boost.Convert] API facade and is expected to be extended over time. At the moment with the current proposal only two proof-of-the-concept converters are supplied -- string-to-type (and type-to-string) ['boost::lexical_cast]-based and ['std::stringstream]-based converters. 
@@ -24,11 +24,11 @@ The ['boost::lexical_cast]-based converter demonstrates how independent conversi
 
 The ['std::stringstream]-based converter draws on the standard ['std::streams]-provided functionality it offers:
 
-* formatting support (like /std::hex/, /std::scientific/, etc.);
+* formatting support based on standard manipulators (like /std::hex/, /std::scientific/, etc.);
 * support for different locales;
 * /char/ and /wchar_t/ support.
 
-The latter converter is based on std::stringstream and is far from being a speed devil. However, it might be quite useful and sufficient for applications with moderate performance-related but extensive formatting, locale, processing flow, etc. requirements. Otherwise, a different converter (say, built on /Boost.Spirit/) might be plugged in and deployed instead as demonstrated by the ['boost::lexical_cast]-based converter.
+The latter converter is based on std::stringstream. It might be quite useful and sufficient for applications with moderate performance-related but extensive formatting, locale, process flow, etc. requirements. Otherwise, a different converter with limited functionality but better performance (say, built on /Boost.Spirit/) might be plugged in and deployed instead as demonstrated by the ['boost::lexical_cast]-based converter.
 
 An interesting side-effect of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. Actually supported types are defined by the respective plugged converter. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed uniformly. For example, encryption by a string-to-string encrypting converter, etc.
 

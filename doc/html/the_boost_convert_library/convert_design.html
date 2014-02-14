@@ -25,7 +25,7 @@
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          a uniform API facade to deploy the relevant functionalty and
+          an API facade to deploy the relevant functionalty uniformly and
         </li>
 <li class="listitem">
           the means to plug a particular type in to the <span class="emphasis"><em>boost::lexical_cast</em></span>
@@ -34,13 +34,12 @@
         </li>
 </ul></div>
 <p>
-      The <span class="emphasis"><em>Boost.Convert</em></span> follows that design and consists of
+      <span class="emphasis"><em>Boost.Convert</em></span> follows that design and also consists of
       two components
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          the <span class="emphasis"><em>Boost.Convert</em></span> API facade to provide simple, minimal
-          and uniform deployment interface;
+          the API facade to provide simple, minimal and uniform deployment interface;
         </li>
 <li class="listitem">
           the extendible library of pluggable converters to provide various type
@@ -60,11 +59,11 @@
           fails;
         </li>
 <li class="listitem">
-          two types of the conversion-failure check - basic/simple and better/safe;
+          two types of the conversion-failure check - basic/simple and generic;
         </li>
 <li class="listitem">
-          no <span class="emphasis"><em>Default Constructibility</em></span> requirement for the Target/Destination
-          type;
+          means to deploy types not satisfying the <span class="emphasis"><em>Default Constructibility</em></span>
+          requirement;
         </li>
 <li class="listitem">
           support for standard algorithms.
@@ -88,8 +87,8 @@
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          formatting support (like <span class="emphasis"><em>std::hex</em></span>, <span class="emphasis"><em>std::scientific</em></span>,
-          etc.);
+          formatting support based on standard manipulators (like <span class="emphasis"><em>std::hex</em></span>,
+          <span class="emphasis"><em>std::scientific</em></span>, etc.);
         </li>
 <li class="listitem">
           support for different locales;
@@ -99,12 +98,12 @@
         </li>
 </ul></div>
 <p>
-      The latter converter is based on std::stringstream and is far from being a
-      speed devil. However, it might be quite useful and sufficient for applications
-      with moderate performance-related but extensive formatting, locale, processing
-      flow, etc. requirements. Otherwise, a different converter (say, built on <span class="emphasis"><em>Boost.Spirit</em></span>)
-      might be plugged in and deployed instead as demonstrated by the <span class="emphasis"><em>boost::lexical_cast</em></span>-based
-      converter.
+      The latter converter is based on std::stringstream. It might be quite useful
+      and sufficient for applications with moderate performance-related but extensive
+      formatting, locale, process flow, etc. requirements. Otherwise, a different
+      converter with limited functionality but better performance (say, built on
+      <span class="emphasis"><em>Boost.Spirit</em></span>) might be plugged in and deployed instead
+      as demonstrated by the <span class="emphasis"><em>boost::lexical_cast</em></span>-based converter.
     </p>
 <p>
       An interesting side-effect of the described design is that <span class="emphasis"><em>Boost.Convert</em></span>

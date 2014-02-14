@@ -5,13 +5,13 @@
 <link rel="stylesheet" href="../../boostbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
-<link rel="up" href="../convert.html#idp62928928" title="Description">
-<link rel="prev" href="algorithm_helper__idm26160.html" title="Struct template algorithm_helper&lt;TypeIn, Converter&gt;">
+<link rel="up" href="../convert.html#idp35590960" title="Description">
+<link rel="prev" href="algorithm_helper__idm26240.html" title="Struct template algorithm_helper&lt;TypeIn, Converter&gt;">
 <link rel="next" href="../../header/boost/convert/lexical_cast_converter_hpp.html" title="Header &lt;boost/convert/lexical_cast_converter.hpp&gt;">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="algorithm_helper__idm26160.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../convert.html#idp62928928"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="../../header/boost/convert/lexical_cast_converter_hpp.html"><img src="../../images/next.png" alt="Next"></a>
+<a accesskey="p" href="algorithm_helper__idm26240.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../convert.html#idp35590960"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="../../header/boost/convert/lexical_cast_converter_hpp.html"><img src="../../images/next.png" alt="Next"></a>
 </div>
 <div class="refentry">
 <a name="boost.convert.result"></a><div class="titlepage"></div>
@@ -30,42 +30,42 @@
   <span class="keyword">typedef</span> <a class="link" href="../safebool.html" title="Struct template safebool">boost::safebool</a><span class="special">&lt;</span> <a class="link" href="result.html" title="Struct result">result</a> <span class="special">&gt;</span> <a name="boost.convert.result.safebool"></a><span class="identifier">safebool</span><span class="special">;</span> 
 
   <span class="comment">// <a class="link" href="result.html#boost.convert.resultconstruct-copy-destruct">construct/copy/destruct</a></span>
-  <a class="link" href="result.html#idm7216-bb"><span class="identifier">result</span></a><span class="special">(</span><span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">)</span><span class="special">;</span>
+  <a class="link" href="result.html#idm7296-bb"><span class="identifier">result</span></a><span class="special">(</span><span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">)</span><span class="special">;</span>
 
-  <span class="comment">// <a class="link" href="result.html#idm12992-bb">public member functions</a></span>
-  <span class="keyword">bool</span> <a class="link" href="result.html#idm12592-bb"><span class="keyword">operator</span><span class="special">!</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
-  <a class="link" href="result.html#idm11632-bb"><span class="keyword">operator</span> <span class="keyword">typename</span> <span class="identifier">safebool</span><span class="special">::</span><span class="identifier">type</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
-  <span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span> <a class="link" href="result.html#idm10672-bb"><span class="identifier">value</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <span class="comment">// <a class="link" href="result.html#idm13072-bb">public member functions</a></span>
+  <span class="keyword">bool</span> <a class="link" href="result.html#idm12672-bb"><span class="keyword">operator</span><span class="special">!</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <a class="link" href="result.html#idm11712-bb"><span class="keyword">operator</span> <span class="keyword">typename</span> <span class="identifier">safebool</span><span class="special">::</span><span class="identifier">type</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span> <a class="link" href="result.html#idm10752-bb"><span class="identifier">value</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
   <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> FallbackType<span class="special">&gt;</span> 
-    <span class="identifier">out_type</span> <a class="link" href="result.html#idm9712-bb"><span class="identifier">value_or</span></a><span class="special">(</span><span class="identifier">FallbackType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+    <span class="identifier">out_type</span> <a class="link" href="result.html#idm9792-bb"><span class="identifier">value_or</span></a><span class="special">(</span><span class="identifier">FallbackType</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
 
-  <span class="comment">// <a class="link" href="result.html#idm6400-bb">private member functions</a></span>
-  <a class="link" href="result.html#boost.convert.result.this_type">this_type</a> <span class="special">&amp;</span> <a class="link" href="result.html#idm6032-bb"><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span></a><span class="special">(</span><span class="keyword">bool</span><span class="special">)</span><span class="special">;</span>
+  <span class="comment">// <a class="link" href="result.html#idm6480-bb">private member functions</a></span>
+  <a class="link" href="result.html#boost.convert.result.this_type">this_type</a> <span class="special">&amp;</span> <a class="link" href="result.html#idm6112-bb"><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span></a><span class="special">(</span><span class="keyword">bool</span><span class="special">)</span><span class="special">;</span>
 <span class="special">}</span><span class="special">;</span></pre></div>
 <div class="refsect1">
-<a name="idp63154320"></a><h2>Description</h2>
+<a name="idp35816192"></a><h2>Description</h2>
 <div class="refsect2">
-<a name="idp63154736"></a><h3>
+<a name="idp35816608"></a><h3>
 <a name="boost.convert.resultconstruct-copy-destruct"></a><code class="computeroutput">result</code> 
         public
        construct/copy/destruct</h3>
-<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><a name="idm7216-bb"></a><span class="identifier">result</span><span class="special">(</span><span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span> v<span class="special">)</span><span class="special">;</span></pre></li></ol></div>
+<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><a name="idm7296-bb"></a><span class="identifier">result</span><span class="special">(</span><span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span> v<span class="special">)</span><span class="special">;</span></pre></li></ol></div>
 </div>
 <div class="refsect2">
-<a name="idp63162592"></a><h3>
-<a name="idm12992-bb"></a><code class="computeroutput">result</code> public member functions</h3>
+<a name="idp35824416"></a><h3>
+<a name="idm13072-bb"></a><code class="computeroutput">result</code> public member functions</h3>
 <div class="orderedlist"><ol class="orderedlist" type="1">
-<li class="listitem"><pre class="literallayout"><span class="keyword">bool</span> <a name="idm12592-bb"></a><span class="keyword">operator</span><span class="special">!</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
-<li class="listitem"><pre class="literallayout"><a name="idm11632-bb"></a><span class="keyword">operator</span> <span class="keyword">typename</span> <span class="identifier">safebool</span><span class="special">::</span><span class="identifier">type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
-<li class="listitem"><pre class="literallayout"><span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span> <a name="idm10672-bb"></a><span class="identifier">value</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><span class="keyword">bool</span> <a name="idm12672-bb"></a><span class="keyword">operator</span><span class="special">!</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><a name="idm11712-bb"></a><span class="keyword">operator</span> <span class="keyword">typename</span> <span class="identifier">safebool</span><span class="special">::</span><span class="identifier">type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><span class="identifier">out_type</span> <span class="keyword">const</span> <span class="special">&amp;</span> <a name="idm10752-bb"></a><span class="identifier">value</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
 <li class="listitem"><pre class="literallayout"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> FallbackType<span class="special">&gt;</span> 
-  <span class="identifier">out_type</span> <a name="idm9712-bb"></a><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">FallbackType</span> <span class="keyword">const</span> <span class="special">&amp;</span> fallback<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+  <span class="identifier">out_type</span> <a name="idm9792-bb"></a><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">FallbackType</span> <span class="keyword">const</span> <span class="special">&amp;</span> fallback<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
 </ol></div>
 </div>
 <div class="refsect2">
-<a name="idp63192832"></a><h3>
-<a name="idm6400-bb"></a><code class="computeroutput">result</code> private member functions</h3>
-<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><a class="link" href="result.html#boost.convert.result.this_type">this_type</a> <span class="special">&amp;</span> <a name="idm6032-bb"></a><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span><span class="special">(</span><span class="keyword">bool</span> good<span class="special">)</span><span class="special">;</span></pre></li></ol></div>
+<a name="idp35854656"></a><h3>
+<a name="idm6480-bb"></a><code class="computeroutput">result</code> private member functions</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><a class="link" href="result.html#boost.convert.result.this_type">this_type</a> <span class="special">&amp;</span> <a name="idm6112-bb"></a><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span><span class="special">(</span><span class="keyword">bool</span> good<span class="special">)</span><span class="special">;</span></pre></li></ol></div>
 </div>
 </div>
 </div>
@@ -79,7 +79,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="algorithm_helper__idm26160.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../convert.html#idp62928928"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="../../header/boost/convert/lexical_cast_converter_hpp.html"><img src="../../images/next.png" alt="Next"></a>
+<a accesskey="p" href="algorithm_helper__idm26240.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../convert.html#idp35590960"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="../../header/boost/convert/lexical_cast_converter_hpp.html"><img src="../../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>

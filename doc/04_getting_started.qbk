@@ -13,7 +13,7 @@ In its simplest form the conversion functionality might be deployed as follows:
  int i2 = convert<int>::from(str, cnv).value(); // Throws if the conversion fails
  int i3 = convert<int>::from(str, cnv).value_or(-1); // Returns -1 if the conversion fails
 
-These calls can be translated to plain English as "['Convert a string to int]" for ['i1] and ['i2] and "['Convert a string to int and return -1 if the conversion fails]" for ['i3]. 
+These calls can be interpreted as "['Convert a string to int]" for ['i1] and ['i2] and "['Convert a string to int and return -1 if the conversion fails]" for ['i3]. 
 
 The ['i1] and ['i2] deployments look sufficiently close and, in fact, are identical behaviorally. Namely, if the requested conversion fails, an exception is thrown. It is due to the fact that the user request -- "['Convert a string to int]" -- lacks the specification for the failure use-case. Consequently, ['boost::lexical_cast] and ['boost::convert] take the liberty of handling that not-mentioned use-case in the standard way.
 
