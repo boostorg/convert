@@ -1,8 +1,6 @@
-#
-#   Copyright � 2009-2014 Vladimir Batov
+#   Copyright 2009-2014 Vladimir Batov
 #
 #   This file is taken from the 'example' sandbox library
-#
 
 ##
 ##  IMPORTANT NOTE: This file MUST NOT be copied over a boost installation

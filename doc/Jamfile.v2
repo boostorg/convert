@@ -1,6 +1,6 @@
 # Convert documentation Jamfile
 #
-# Copyright � 2009-2014 Vladimir Batov
+# Copyright 2009-2014 Vladimir Batov
 #
 
 using quickbook ;
@@ -18,7 +18,7 @@ if --enable-index in  [ modules.peek : ARGV ]
    project convert_doc : requirements
              <auto-index>on
              <auto-index-script>index.idx
-             <auto-index-prefix>../../../
+             <auto-index-prefix>.
              <auto-index-verbose>on
              <format>html:<auto-index-internal>on
              <format>html:<xsl:param>generate.index=0
@@ -34,8 +34,7 @@ else
 
 doxygen convert_ref
   :
-    $(here)/../../../boost/convert/api.hpp
-    [ glob $(here)/../../../boost/convert/*.hpp ]
+    [ glob $(here)/../boost/convert/*.hpp ]
   : 
     <doxygen:param>PROJECT_NAME="CONVERT"
     <doxygen:param>PROJECT_NUMBER=3
@@ -48,7 +47,7 @@ doxygen convert_ref
 
 xml convert
   :
-    convert.qbk
+    00_convert.qbk
   :
     <dependency>convert_ref
 ;
@@ -94,7 +93,7 @@ install images : [ glob $(BOOST_ROOT)/doc/src/images/*.png ]
     : <location>html/images ;
 install pdfinstall
     : standalone
-    : <location>$(here) <install-type>PDF <name>convert.pdf
+    : <location>.. <install-type>PDF <name>convert.pdf
     ;
 explicit css ;
 explicit images ;
