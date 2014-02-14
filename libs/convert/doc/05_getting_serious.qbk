@@ -49,8 +49,8 @@ Here ['convert<T>::result] steps forward as the actual type returned by ['conver
 
 Both ['boost::lexical_cast] and ['convert<T>::result] undersore the fact that the conversion request is only a ['request] which may succeed but is also may fail. However, by design ['boost::lexical_cast] processes failure in a somewhat harsh and non-negociable manner.  ['convert<T>::result] chooses a softer approach and leaves the decision to the user. In my personal experience the choice has overwhelmingly been to avoid exceptions altogether with process-flow variations similar to:
 
- convert<int>result r1 = boost::convert<int>(str1, cnv);
- convert<int>result r2 = boost::convert<int>(str2, cnv);
+ convert<int>::result r1 = boost::convert<int>(str1, cnv);
+ convert<int>::result r2 = boost::convert<int>(str2, cnv);
 
  if (!r1) log("str1 conversion failed");
  if (!r2) log("str2 conversion failed");
