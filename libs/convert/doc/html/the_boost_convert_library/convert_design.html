@@ -1,0 +1,132 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Design Notes</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
+<link rel="prev" href="convert_motivation.html" title="Motivation">
+<link rel="next" href="convert_started.html" title="Getting Started">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="convert_motivation.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_started.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_boost_convert_library.convert_design"></a><a class="link" href="convert_design.html" title="Design Notes">Design Notes</a>
+</h2></div></div></div>
+<p>
+      Unlike monolithic Convert.V1 (submitted for a review and ultimately withdrawn
+      about three years ago) this V2 version takes a different route. Design-wise,
+      it follows the successful design of <span class="emphasis"><em>boost::lexical_cast</em></span>
+      which provides
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          a uniform API facade to deploy the relevant functionalty and
+        </li>
+<li class="listitem">
+          the means to plug a particular type in to the <span class="emphasis"><em>boost::lexical_cast</em></span>
+          framework; namely, <span class="emphasis"><em>operator&gt;&gt;(std::istream&amp;)</em></span>
+          and <span class="emphasis"><em>operator&lt;&lt;(std::ostream&amp;)</em></span>).
+        </li>
+</ul></div>
+<p>
+      The <span class="emphasis"><em>Boost.Convert</em></span> follows that design and consists of
+      two components
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          the <span class="emphasis"><em>Boost.Convert</em></span> API facade to provide simple, minimal
+          and uniform deployment interface;
+        </li>
+<li class="listitem">
+          the extendible library of pluggable converters to provide various type
+          conversions and transformations with varying configurability and performance.
+        </li>
+</ul></div>
+<p>
+      The API facade implements familiar and new conversion/transformation-related
+      behavior such as:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          configurable throwing and non-throwing failed-conversion behavior;
+        </li>
+<li class="listitem">
+          support for the default/fallback value to be returned when conversion/transformation
+          fails;
+        </li>
+<li class="listitem">
+          two types of the conversion-failure check - basic/simple and better/safe;
+        </li>
+<li class="listitem">
+          no <span class="emphasis"><em>Default Constructibility</em></span> requirement for the Target/Destination
+          type;
+        </li>
+<li class="listitem">
+          support for standard algorithms.
+        </li>
+</ul></div>
+<p>
+      The library of pluggable converters does not depend on the <span class="emphasis"><em>Boost.Convert</em></span>
+      API facade and is expected to be extended over time. At the moment with the
+      current proposal only two proof-of-the-concept converters are supplied -- string-to-type
+      (and type-to-string) <span class="emphasis"><em>boost::lexical_cast</em></span>-based and <span class="emphasis"><em>std::stringstream</em></span>-based
+      converters.
+    </p>
+<p>
+      The <span class="emphasis"><em>boost::lexical_cast</em></span>-based converter demonstrates how
+      independent conversion libraries might be incorporated in to the <span class="emphasis"><em>Boost.Convert</em></span>
+      framework.
+    </p>
+<p>
+      The <span class="emphasis"><em>std::stringstream</em></span>-based converter draws on the standard
+      <span class="emphasis"><em>std::streams</em></span>-provided functionality it offers:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          formatting support (like <span class="emphasis"><em>std::hex</em></span>, <span class="emphasis"><em>std::scientific</em></span>,
+          etc.);
+        </li>
+<li class="listitem">
+          support for different locales;
+        </li>
+<li class="listitem">
+          <span class="emphasis"><em>char</em></span> and <span class="emphasis"><em>wchar_t</em></span> support.
+        </li>
+</ul></div>
+<p>
+      The latter converter is based on std::stringstream and is far from being a
+      speed devil. However, it might be quite useful and sufficient for applications
+      with moderate performance-related but extensive formatting, locale, processing
+      flow, etc. requirements. Otherwise, a different converter (say, built on <span class="emphasis"><em>Boost.Spirit</em></span>)
+      might be plugged in and deployed instead as demonstrated by the <span class="emphasis"><em>boost::lexical_cast</em></span>-based
+      converter.
+    </p>
+<p>
+      An interesting side-effect of the described design is that <span class="emphasis"><em>Boost.Convert</em></span>
+      is not limited to string-to-type and type-to-string conversions. In fact, the
+      <span class="emphasis"><em>Boost.Convert</em></span> API facade is type-agnostic. Actually supported
+      types are defined by the respective plugged converter. Consequently, a wide
+      range of conversion/transformation-related tasks can be addressed and deployed
+      uniformly. For example, encryption by a string-to-string encrypting converter,
+      etc.
+    </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009-2014 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="convert_motivation.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_started.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>
