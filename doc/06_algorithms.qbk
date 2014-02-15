@@ -1,6 +1,6 @@
 [section:convert_algorithms Boost.Convert with Standard Algorithms]
 
-The following code demonstrates the failed attempt to convert a few strings with ['boost::lexical_cast]:
+The following code demonstrates a failed attempt to convert a few strings with ['boost::lexical_cast]:
 
  array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
  std::vector<int>     integers;

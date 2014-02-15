@@ -52,6 +52,6 @@ So far the deployment of ['boost::convert] seems more compact and natural (your 
      num_threads = default_num_threads;
  }
 
-This is by-design ['boost::lexical_cast]'s only behavior. Simple, straigtforward and comprehensible. Unfortunately, it makes quite a few legitimate process flows difficult\/awkward to implement. That is the niche that ['boost::convert] is trying to fill.
+By design this is ['boost::lexical_cast]'s only behavior. Simple and straightforward. Unfortunately, it makes quite a few legitimate process flows difficult and awkward to implement. That is the niche that ['boost::convert] is trying to fill.
 
 [endsect]
