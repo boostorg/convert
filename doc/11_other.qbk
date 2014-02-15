@@ -16,6 +16,6 @@ Where /my_cypher/ is a custom manipulator with the following signature
 
  std::basic_ios<char>& my_cypher(std::basic_ios<char>&)
 
-With the above-mentioned manipulator applied /boost::convert/ keeps the type (/std::string/) of the source but changes (encrypts or decrypts) its representation. See ['libs/convert/test/test_convert.cpp] for the implementation of that manipulator.
+With the above-mentioned manipulator applied /boost::convert/ keeps the type (/std::string/) of the source but changes (encrypts or decrypts) its representation. See ['test/test_convert.cpp] for the unit test source code.
 
 [endsect]

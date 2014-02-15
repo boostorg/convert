@@ -2,7 +2,7 @@
 
 In order for a type to be integrated into the ['boost::lexical_cast] framework that type needs to be ['Default Constructible]. Deeply in the bowels of the implementation a temporary-storage instance of the Target type is created and then populated with the conversion result. The ['boost::lexical_cast] implementation chooses the default constructor to create such an instance. For more details see __ref_1__. 
 
-['boost::convert] also creates a temporary-storage instance of the Target type that the plugged-in converter then populates with the conversion result. By default that temporary-storage is created by
+['boost::convert] also creates a temporary-storage instance of the Target type that the plugged-in converter then populates with the conversion result. By default that temporary-storage is created with
 
  namespace boost
  {
@@ -14,7 +14,7 @@ In order for a type to be integrated into the ['boost::lexical_cast] framework t
     }
  }
 
-and, therefore, the ['Default Constructible] requirement is also the default requirement of ['boost::convert]. 
+and, therefore, the ['Default Constructible] requirement is also the default requirement of ['Boost.Convert]. 
 
 A well-designed type (in my opinion, anyway) should only have meaningful and unambiguous constructors... and the default constructor is not necessarily one of them. Consider the following ['direction] type as one such example. The type has only two meaningful states and is not ['Default Constructible]:
 
@@ -30,7 +30,7 @@ For such a type the call below will not compile (due to the ['Default Constructi
  direction dir1 = lexical_cast<direction>(str); // Does not compile
  direction dir2 = convert<direction>::from(str).value(); // Does not compile
 
-However, ['boost::convert] will be able to handle such a type with little help from the user. What ['boost::convert] needs is the instructions ['how] to create that mentioned temporary-storage:
+However, ['Boost.Convert] is able to handle such a type with little help from the user. What is needed is the instructions ['how] to create that mentioned temporary-storage:
 
  namespace boost
  {

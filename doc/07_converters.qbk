@@ -15,10 +15,10 @@ if its sole purpose is to handle one particular conversion\/transformation of Ty
 
  bool convert(std::string const& value_in, std::wstring& result_out) const;
 
-['boost::convert] has been designed with the following in mind:
+The ['Boost.Convert] framework has been designed with the following requirements in mind:
 
-* converters do not use and are not aware of the ['boost::convert] framework;
-* converters are not concerned with task of creating a temporary storage for the conversion result; that storage is provided by the ['boost::convert] framework.
+* converters do not use and are not aware of the Boost.Convert framework and\/or API facade;
+* converters are not concerned with the task of creating a temporary storage for the conversion result; that storage is provided by the framework.
 
 
 [endsect]
