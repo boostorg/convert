@@ -1,6 +1,6 @@
 [section ['std::stringstream]-Based Converter]
 
-[*Please note:] ['the converter is currently a work-in-progress. Suggesstions are most welcomed. Changes are to be expected.]
+[*Please note:] ['the converter is currently a work-in-progress. Suggestions are most welcomed. Changes are to be expected.]
 
 The converter is deployed with
 
@@ -89,7 +89,7 @@ Locale support is similar to the formatting support as demonstrated by the follo
 [endsect]
 [section Integration of User-Defined Types]
 
-As the converter uses ['std::stringstream] to do actual conversions it carries over the ['std::stringstream]-imposed requirements on to the types used for conversion (as ['boost::lexical_cast] does):
+As the converter uses ['std::stringstream] to do actual conversions it carries over the ['std::stringstream]-imposed requirements (as ['boost::lexical_cast] does):
 
 * ['TypeIn] needs to be ['Output Streamable];
 * ['TypeOut] needs to be ['Input Streamable]; 
@@ -158,11 +158,11 @@ The converter, as ['boost::lexical_cast], provides ['string-to-type] and ['type-
 
  printf("convert=/lcast=%.2f/%.2f\n", (p3 - p2) / CLOCKS_PER_SEC, (p2 - p1) / CLOCKS_PER_SEC);
 
-Performance was tested for a user-defined ['direction] type with the code above. On a Linux box ['boost::convert] performed twice as fast compared to ['boost::lexical_cast] 1.54. Truth be told the test was not fair. Unfortunately, it could not possibly be fair due to different underlying designs.
+Performance was tested for a user-defined ['direction] type with the code above. On a Linux box ['boost::convert] performed twice as fast compared to ['boost::lexical_cast] 1.54. Unfortunately but unavoidably the test was not exactly fair due to different underlying designs.
 
-Due to ['Boost.Convert] design the standard ['Boost.Convert] usage pattern is to create a converter or converters once and then re-use them (as in the code above). Consequently, performance-wise this converter probably takes the fourth (['std::stringstream without construction]) column of the __ref_5__ table. 
+The standard ['Boost.Convert] usage pattern is to create a converter or converters once and then re-use them (as in the code above). Consequently, performance-wise this deployment pattern is likely to represent the fourth (['std::stringstream without construction]) column of the __ref_5__ table. 
 
-In turn, for user-defined types ['boost::lexical_cast] also deploys the standard ['stream] framework. However, due to its design ['boost::lexical_cast] creates and then destroys an instance of a stream type for every function call and, consequently, probably takes the third (['std::stringstream with construction]) much slower column of the __ref_5__ table. 
+In turn, for user-defined types ['boost::lexical_cast] also deploys the standard ['stream] framework. However, due to its design ['boost::lexical_cast] creates and then destroys an instance of a stream type for every function call and, consequently, probably takes the third (['std::stringstream with construction]) and much slower column of the __ref_5__ table. 
 
 [endsect]
 [endsect]
