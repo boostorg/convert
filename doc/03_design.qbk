@@ -28,8 +28,8 @@ The ['std::stringstream]-based converter draws on the standard ['std::streams] f
 * support for different locales;
 * /char/ and /wchar_t/ support.
 
-I find it quite useful for applications with moderate performance-related but extensive formatting, locale, process flow, etc. requirements. For speedier and non-fancy conversions of basic types, the ['boost::lexical_cast]-based converter might be a better option. Alternatively, a different converter (say, built on ['Boost.Spirit]) might be plugged in and deployed instead as demonstrated by the ['boost::lexical_cast]-based converter.
+I find it quite useful for applications with moderate performance-related but extensive formatting, locale, process flow, etc. requirements. For non-fancy but speedier conversions of basic types, the ['boost::lexical_cast]-based converter might be a better option. Alternatively, a different converter (say, built on ['Boost.Spirit]) might be plugged in and deployed instead as demonstrated by the ['boost::lexical_cast]-based converter.
 
-An interesting side-effect of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. The plugged-in converter dictates what types are supported or not. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly]. For example, encryption by a string-to-string encrypting converter, etc.
+An interesting side-effect of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. The plugged-in converter ultimately dictates what types are supported or not. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters. For example, encryption by a string-to-string encrypting converter, etc.
 
 [endsect]

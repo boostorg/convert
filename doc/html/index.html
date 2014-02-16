@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="boostbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
-<link rel="next" href="the_boost_convert_library/convert_motivation.html" title="Motivation">
+<link rel="next" href="the_boost_convert_library/convert_design.html" title="Design Notes">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<div class="spirit-nav"><a accesskey="n" href="the_boost_convert_library/convert_motivation.html"><img src="images/next.png" alt="Next"></a></div>
+<div class="spirit-nav"><a accesskey="n" href="the_boost_convert_library/convert_design.html"><img src="images/next.png" alt="Next"></a></div>
 <div class="chapter">
 <div class="titlepage"><div>
 <div><h2 class="title">
@@ -27,12 +27,10 @@
 <div class="toc">
 <p><b>Table of Contents</b></p>
 <dl>
-<dt><span class="section"><a href="index.html#the_boost_convert_library.convert_intro">Introduction</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/convert_motivation.html">Motivation</a></span></dt>
+<dt><span class="section"><a href="index.html#the_boost_convert_library.introduction">Introduction</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/convert_design.html">Design Notes</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/convert_started.html">Getting Started</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/convert_getting_serious.html">Getting
-    Serious</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/getting_started.html">Getting Started</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/getting_serious.html">Getting Serious</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/convert_algorithms.html">Boost.Convert
     with Standard Algorithms</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/converters.html">Converters</a></span></dt>
@@ -49,7 +47,8 @@
       of User-Defined Types</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/__std__stringstream__based_converter/performance.html">Performance</a></span></dt>
 </dl></dd>
-<dt><span class="section"><a href="the_boost_convert_library/convert_default_constructible.html">The
+<dt><span class="section"><a href="the_boost_convert_library/type_requirements.html">Type Requirements</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/the___default_constructible__type_requirement.html">The
     <span class="emphasis"><em>Default Constructible</em></span> Type Requirement</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/other_conversions.html">Other Conversions</a></span></dt>
 <dt><span class="section"><a href="convert_reference.html">Convert Reference</a></span></dt>
@@ -64,18 +63,19 @@
 <dd><dl></dl></dd>
 <dt><span class="section"><a href="header/boost/convert/string_sfinae_hpp.html">Header &lt;boost/convert/string_sfinae.hpp&gt;</a></span></dt>
 </dl></dd>
+<dt><span class="section"><a href="the_boost_convert_library/motivation.html">Motivation</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/convert_acknowledgements.html">Acknowledgements</a></span></dt>
-<dt><span class="section"><a href="index/s14.html">Index</a></span></dt>
+<dt><span class="section"><a href="index/s15.html">Index</a></span></dt>
 </dl>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="the_boost_convert_library.convert_intro"></a><a class="link" href="index.html#the_boost_convert_library.convert_intro" title="Introduction">Introduction</a>
+<a name="the_boost_convert_library.introduction"></a><a class="link" href="index.html#the_boost_convert_library.introduction" title="Introduction">Introduction</a>
 </h2></div></div></div>
 <p>
       <span class="emphasis"><em>Boost.Convert</em></span> builds on the <span class="emphasis"><em>boost::lexical_cast</em></span>
-      original design and experience and takes those conversion/transformation-related
-      ideas further
+      design and experience and takes those conversion/transformation-related ideas
+      further
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -87,19 +87,58 @@
         </li>
 </ul></div>
 <p>
-      Please note that <span class="bold"><strong>the described framework is not part
-      of the Boost library collection</strong></span> even though in this document it
-      is referred to as <span class="emphasis"><em>Boost.Convert</em></span> and the relevant code
-      is under the <span class="emphasis"><em>boost</em></span> directory. It is done so in preparation
-      for potential submission of the library to <span class="emphasis"><em>Boost</em></span>.
+      <span class="emphasis"><em>Boost.Convert</em></span> has a modular design and what it can ultimately
+      do is to a large extend defined by a pluggable <span class="emphasis"><em>converter</em></span>
+      component. For example, one of the converters supplied with the proposal and
+      discussed in the document is a <span class="emphasis"><em>std::stringstream</em></span>-based
+      converter. With that converter deployed <span class="emphasis"><em>Boost.Convert</em></span>
+      provides:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          string-to-type and type-to-string conversions;
+        </li>
+<li class="listitem">
+          formatting support based on standard manipulators (like <span class="emphasis"><em>std::hex</em></span>,
+          <span class="emphasis"><em>std::scientific</em></span>, etc.);
+        </li>
+<li class="listitem">
+          support for different locales;
+        </li>
+<li class="listitem">
+          <span class="emphasis"><em>char</em></span> and <span class="emphasis"><em>wchar_t</em></span> support;
+        </li>
+<li class="listitem">
+          flexible throwing and non-throwing failed-conversion behavior;
+        </li>
+<li class="listitem">
+          support for the fallback value to be returned when conversion/transformation
+          fails;
+        </li>
+<li class="listitem">
+          two types of the conversion-failure check - quick/simple and generic;
+        </li>
+<li class="listitem">
+          means to deploy types that do no meet the <span class="emphasis"><em>Default Constructibility</em></span>
+          requirement;
+        </li>
+<li class="listitem">
+          support for standard algorithms.
+        </li>
+</ul></div>
+<p>
+      <span class="bold"><strong>Please note that the described framework is not part
+      of the Boost library collection even though in this document it is referred
+      to as <span class="emphasis"><em>Boost.Convert</em></span>. It is done so in preparation for
+      potential submission of the library to <span class="emphasis"><em>Boost</em></span>.</strong></span>
     </p>
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: February 14, 2014 at 22:00:40 GMT</small></p></td>
+<td align="left"><p><small>Last revised: February 16, 2014 at 20:46:18 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>
-<div class="spirit-nav"><a accesskey="n" href="the_boost_convert_library/convert_motivation.html"><img src="images/next.png" alt="Next"></a></div>
+<div class="spirit-nav"><a accesskey="n" href="the_boost_convert_library/convert_design.html"><img src="images/next.png" alt="Next"></a></div>
 </body>
 </html>

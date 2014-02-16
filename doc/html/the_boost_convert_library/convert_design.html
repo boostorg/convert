@@ -6,12 +6,12 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
-<link rel="prev" href="convert_motivation.html" title="Motivation">
-<link rel="next" href="convert_started.html" title="Getting Started">
+<link rel="prev" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
+<link rel="next" href="getting_started.html" title="Getting Started">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="convert_motivation.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_started.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="../index.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="getting_started.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
@@ -25,7 +25,7 @@
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          an API facade to deploy the relevant functionalty uniformly and
+          an API facade to deploy the relevant functionality uniformly and
         </li>
 <li class="listitem">
           the means to plug a particular type in to the <span class="emphasis"><em>boost::lexical_cast</em></span>
@@ -35,34 +35,33 @@
 </ul></div>
 <p>
       <span class="emphasis"><em>Boost.Convert</em></span> follows that design and also consists of
-      two components
+      two components:
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
           the API facade to provide simple, minimal and uniform deployment interface;
         </li>
 <li class="listitem">
-          the extendible library of pluggable converters to provide various type
-          conversions and transformations with varying configurability and performance.
+          the extendible library of pluggable converters.
         </li>
 </ul></div>
 <p>
-      The API facade implements familiar and new conversion/transformation-related
+      The API facade implements new and familiar conversion/transformation-related
       behavior such as:
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          configurable throwing and non-throwing failed-conversion behavior;
+          flexible throwing and non-throwing failed-conversion behavior;
         </li>
 <li class="listitem">
-          support for the default/fallback value to be returned when conversion/transformation
+          support for the fallback value to be returned when conversion/transformation
           fails;
         </li>
 <li class="listitem">
-          two types of the conversion-failure check - basic/simple and generic;
+          two types of the conversion-failure check - quick/simple and generic;
         </li>
 <li class="listitem">
-          means to deploy types not satisfying the <span class="emphasis"><em>Default Constructibility</em></span>
+          means to deploy types that do no meet the <span class="emphasis"><em>Default Constructibility</em></span>
           requirement;
         </li>
 <li class="listitem">
@@ -71,19 +70,19 @@
 </ul></div>
 <p>
       The library of pluggable converters does not depend on the <span class="emphasis"><em>Boost.Convert</em></span>
-      API facade and is expected to be extended over time. At the moment with the
-      current proposal only two proof-of-the-concept converters are supplied -- string-to-type
-      (and type-to-string) <span class="emphasis"><em>boost::lexical_cast</em></span>-based and <span class="emphasis"><em>std::stringstream</em></span>-based
+      API facade and is designed to be extended over time. With the current proposal
+      only two proof-of-the-concept converters are supplied -- string-to-type (and
+      type-to-string) <span class="emphasis"><em>boost::lexical_cast</em></span>-based and <span class="emphasis"><em>std::stringstream</em></span>-based
       converters.
     </p>
 <p>
       The <span class="emphasis"><em>boost::lexical_cast</em></span>-based converter demonstrates how
-      independent conversion libraries might be incorporated in to the <span class="emphasis"><em>Boost.Convert</em></span>
+      independent conversion facilities might be incorporated in to the <span class="emphasis"><em>Boost.Convert</em></span>
       framework.
     </p>
 <p>
       The <span class="emphasis"><em>std::stringstream</em></span>-based converter draws on the standard
-      <span class="emphasis"><em>std::streams</em></span>-provided functionality it offers:
+      <span class="emphasis"><em>std::streams</em></span> functionality and provides:
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -98,21 +97,22 @@
         </li>
 </ul></div>
 <p>
-      The latter converter is based on std::stringstream. It might be quite useful
-      and sufficient for applications with moderate performance-related but extensive
-      formatting, locale, process flow, etc. requirements. Otherwise, a different
-      converter with limited functionality but better performance (say, built on
-      <span class="emphasis"><em>Boost.Spirit</em></span>) might be plugged in and deployed instead
-      as demonstrated by the <span class="emphasis"><em>boost::lexical_cast</em></span>-based converter.
+      I find it quite useful for applications with moderate performance-related but
+      extensive formatting, locale, process flow, etc. requirements. For non-fancy
+      but speedier conversions of basic types, the <span class="emphasis"><em>boost::lexical_cast</em></span>-based
+      converter might be a better option. Alternatively, a different converter (say,
+      built on <span class="emphasis"><em>Boost.Spirit</em></span>) might be plugged in and deployed
+      instead as demonstrated by the <span class="emphasis"><em>boost::lexical_cast</em></span>-based
+      converter.
     </p>
 <p>
       An interesting side-effect of the described design is that <span class="emphasis"><em>Boost.Convert</em></span>
       is not limited to string-to-type and type-to-string conversions. In fact, the
-      <span class="emphasis"><em>Boost.Convert</em></span> API facade is type-agnostic. Actually supported
-      types are defined by the respective plugged converter. Consequently, a wide
-      range of conversion/transformation-related tasks can be addressed and deployed
-      uniformly. For example, encryption by a string-to-string encrypting converter,
-      etc.
+      <span class="emphasis"><em>Boost.Convert</em></span> API facade is type-agnostic. The plugged-in
+      converter ultimately dictates what types are supported or not. Consequently,
+      a wide range of conversion/transformation-related tasks can be addressed and
+      deployed <span class="emphasis"><em>uniformly</em></span> by plugging-in special-purpose converters.
+      For example, encryption by a string-to-string encrypting converter, etc.
     </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
@@ -125,7 +125,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="convert_motivation.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="convert_started.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="../index.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="getting_started.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>

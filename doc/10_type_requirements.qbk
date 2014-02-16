@@ -24,7 +24,7 @@ Additional requirements might be imposed by the respective converter. For exampl
 
 (Not too) deeply in the bowels of the implementation a temporary-storage instance of the ['TypeOut] type is created and then populated with the conversion result. The ['boost::lexical_cast] implementation chooses the default constructor to create such an instance. Consequently, the ['TypeOut] type needs to be ['Default Constructible]. For more details see __ref_1__. 
 
-['Boost.Convert also creates a temporary-storage instance of the ['TypeOut] type that the respective converter then populates with the conversion result. By default that temporary-storage is created with
+['Boost.Convert] also creates a temporary-storage instance of the ['TypeOut] type that the respective converter then populates with the conversion result. By default that temporary-storage is created with
 
  namespace boost
  {
@@ -47,12 +47,12 @@ A well-designed type (in my opinion, anyway) should only have meaningful and una
      private: value_type value_;
  };
 
-For such a type the call below will not compile (due to the ['Default Constructible] requirement):
+For such a type the calls below will not compile (due to the ['Default Constructible] requirement):
 
  direction dir1 = lexical_cast<direction>(str); // Does not compile
  direction dir2 = convert<direction>::from(str).value(); // Does not compile
 
-However, ['Boost.Convert] is able to handle such a type with little help from the user. What is needed is the instructions ['how] to create that mentioned temporary-storage:
+However, ['Boost.Convert] is able to handle such a type with little help from the user -- the instructions ['how] to create that mentioned temporary-storage:
 
  namespace boost
  {
@@ -64,6 +64,7 @@ However, ['Boost.Convert] is able to handle such a type with little help from th
 
 Now the conversion code compiles:
 
+ direction dir1 = lexical_cast<direction>(str); // Does not compile
  direction dir2 = convert<direction>::from(str).value(); // Compiles
 
 [endsect]

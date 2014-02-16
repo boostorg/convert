@@ -1,10 +1,11 @@
 *~
+bin.v2/
 
 #################
 ## Eclipse
 #################
 
-.project/
+.project
 .settings/
 .cproject
 

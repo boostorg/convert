@@ -128,8 +128,8 @@ struct boost::convert<TypeOut>::algorithm_helper<TypeIn, Converter>::with_fallba
 :
     public boost::convert<TypeOut>::template algorithm_helper<TypeIn, Converter>
 {
-    typedef with_fallback                                                         this_type;
-    typedef typename boost::convert<TypeOut>::algorithm_helper<TypeIn, Converter> base_type;
+    typedef with_fallback                                                this_type;
+    typedef boost::convert<TypeOut>::algorithm_helper<TypeIn, Converter> base_type;
 
     with_fallback(base_type const& ah, TypeOut const& fallback)
     :

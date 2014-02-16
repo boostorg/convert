@@ -2,7 +2,7 @@
 
 The ['boost::convert] facade API plays an important role as it is responsible for and provides a uniform interface and consistent behavior. However, it is the respective plugged-in converter who does the hard work of turning integers to strings and strings to custom-types, etc., i.e. the hard work of actual type conversion\/transformation. 
 
-For a converter to be plugged in to the ['boost::convert] framework it needs to be ['callable] with the following signature:
+For a converter to be plugged in to the ['Boost.Convert] framework it needs to be ['callable] with the following signature:
 
  template<typename TypeOut, typename TypeIn>
  bool operator()(TypeIn const& value_in, TypeOut& result_out) const;
@@ -14,6 +14,10 @@ if that is a general-purpose converter capable of handling many types (like stri
 if its sole purpose is to handle one particular conversion\/transformation of TypeIn to TypeOut. For example, a converter from the operating-system-specific MBCS string format to the UCS-2 or UCS-4 (depending on wchar_t size) does not seem like such a crazy idea:
 
  bool operator()(std::string const& value_in, std::wstring& result_out) const;
+
+Alternatively again, an ad-hoc in-place ['callabble] might be provided as a converter. For example, 
+
+ int v = convert<int>::from(c_str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
 
 The ['Boost.Convert] framework has been designed with the following requirements in mind:
 

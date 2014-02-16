@@ -28,17 +28,17 @@
   <span class="keyword">typedef</span> <span class="keyword">void</span><span class="special">(</span><span class="identifier">safebool</span><span class="special">::</span><span class="special">*</span> <a name="boost.safebool.type"></a><span class="identifier">type</span><span class="special">;</span>
 
   <span class="comment">// <a class="link" href="safebool.html#boost.safeboolconstruct-copy-destruct">construct/copy/destruct</a></span>
-  <span class="keyword">explicit</span> <a class="link" href="safebool.html#idp6461120-bb"><span class="identifier">safebool</span></a><span class="special">(</span><span class="keyword">bool</span><span class="special">)</span><span class="special">;</span>
+  <span class="keyword">explicit</span> <a class="link" href="safebool.html#idp6527632-bb"><span class="identifier">safebool</span></a><span class="special">(</span><span class="keyword">bool</span><span class="special">)</span><span class="special">;</span>
 
-  <span class="comment">// <a class="link" href="safebool.html#idp6459024-bb">public member functions</a></span>
-  <a class="link" href="safebool.html#idp6459392-bb"><span class="keyword">operator</span> <span class="identifier">type</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
-  <span class="keyword">bool</span> <a class="link" href="safebool.html#idp6460256-bb"><span class="keyword">operator</span><span class="special">!</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <span class="comment">// <a class="link" href="safebool.html#idp6525536-bb">public member functions</a></span>
+  <a class="link" href="safebool.html#idp6525904-bb"><span class="keyword">operator</span> <span class="identifier">type</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <span class="keyword">bool</span> <a class="link" href="safebool.html#idp6526768-bb"><span class="keyword">operator</span><span class="special">!</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
 
-  <span class="comment">// <a class="link" href="safebool.html#idp6462112-bb">private member functions</a></span>
-  <span class="keyword">void</span> <a class="link" href="safebool.html#idp6462480-bb"><span class="identifier">true_</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <span class="comment">// <a class="link" href="safebool.html#idp6528624-bb">private member functions</a></span>
+  <span class="keyword">void</span> <a class="link" href="safebool.html#idp6528992-bb"><span class="identifier">true_</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
 <span class="special">}</span><span class="special">;</span></pre></div>
 <div class="refsect1">
-<a name="idp35954032"></a><h2>Description</h2>
+<a name="idp6708944"></a><h2>Description</h2>
 <p>An implicit conversion to bool (operator bool() const) is very much idiomatic and is often deployed in constructs like "if (foo)" and "if (!foo)" (with no explicit op!() defined). However, sadly, implementing "operator bool()" is *wrong* as that conversion kicks in far too often and unexpectedly. Like in "foo == 1", "foo+1", "1+foo" or potentially during lexical_cast&lt;string&gt;(foo) (if there are no op&gt;&gt;() and op&lt;&lt;() defined). Consequently, that "implicit
     conversion to bool" functionality has to be implemented in an indirect and somewhat awkward way via an implicit conversion to some other type. The best type for the purpose appears to be a pointer to a member function. For more see the chapter 7.7 in Alexandrescu's "Modern C++ Design" and the article at <a href="http://www.artima.com/cppsource/safebool.html" target="_top">http://www.artima.com/cppsource/safebool.html</a> by Bjorn Karlsson.<br>
 <br>
@@ -70,24 +70,24 @@
 </pre>
 <p> </p>
 <div class="refsect2">
-<a name="idp36059024"></a><h3>
+<a name="idp6813984"></a><h3>
 <a name="boost.safeboolconstruct-copy-destruct"></a><code class="computeroutput">safebool</code> 
         public
        construct/copy/destruct</h3>
-<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><span class="keyword">explicit</span> <a name="idp6461120-bb"></a><span class="identifier">safebool</span><span class="special">(</span><span class="keyword">bool</span> v<span class="special">)</span><span class="special">;</span></pre></li></ol></div>
+<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><span class="keyword">explicit</span> <a name="idp6527632-bb"></a><span class="identifier">safebool</span><span class="special">(</span><span class="keyword">bool</span> v<span class="special">)</span><span class="special">;</span></pre></li></ol></div>
 </div>
 <div class="refsect2">
-<a name="idp36066288"></a><h3>
-<a name="idp6459024-bb"></a><code class="computeroutput">safebool</code> public member functions</h3>
+<a name="idp6821184"></a><h3>
+<a name="idp6525536-bb"></a><code class="computeroutput">safebool</code> public member functions</h3>
 <div class="orderedlist"><ol class="orderedlist" type="1">
-<li class="listitem"><pre class="literallayout"><a name="idp6459392-bb"></a><span class="keyword">operator</span> <span class="identifier">type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
-<li class="listitem"><pre class="literallayout"><span class="keyword">bool</span> <a name="idp6460256-bb"></a><span class="keyword">operator</span><span class="special">!</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><a name="idp6525904-bb"></a><span class="keyword">operator</span> <span class="identifier">type</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><span class="keyword">bool</span> <a name="idp6526768-bb"></a><span class="keyword">operator</span><span class="special">!</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
 </ol></div>
 </div>
 <div class="refsect2">
-<a name="idp36078816"></a><h3>
-<a name="idp6462112-bb"></a><code class="computeroutput">safebool</code> private member functions</h3>
-<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><span class="keyword">void</span> <a name="idp6462480-bb"></a><span class="identifier">true_</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li></ol></div>
+<a name="idp6833776"></a><h3>
+<a name="idp6528624-bb"></a><code class="computeroutput">safebool</code> private member functions</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><span class="keyword">void</span> <a name="idp6528992-bb"></a><span class="identifier">true_</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li></ol></div>
 </div>
 </div>
 </div>

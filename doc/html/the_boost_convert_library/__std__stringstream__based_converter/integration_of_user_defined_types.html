@@ -21,8 +21,7 @@
 <p>
         As the converter uses <span class="emphasis"><em>std::stringstream</em></span> to do actual
         conversions it carries over the <span class="emphasis"><em>std::stringstream</em></span>-imposed
-        requirements on to the types used for conversion (as <span class="emphasis"><em>boost::lexical_cast</em></span>
-        does):
+        requirements (as <span class="emphasis"><em>boost::lexical_cast</em></span> does):
       </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -33,10 +32,11 @@
           </li>
 </ul></div>
 <p>
-        Consequently, in practical terms the mechanism for integrating a user-defined
-        type into the <span class="emphasis"><em>Boost.Convert</em></span> framework is the same as
-        for <span class="emphasis"><em>boost::lexical_cast</em></span>. That is, the type needs to
-        have following operators defined:
+        In practical terms the mechanism for integrating a user-defined type into
+        the <span class="emphasis"><em>Boost.Convert</em></span> framework (for deployment with this
+        described <span class="emphasis"><em>std::stringstream</em></span>-based converter) is the
+        same as for <span class="emphasis"><em>boost::lexical_cast</em></span>. That is, the respective
+        type needs to have following operators defined:
       </p>
 <pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">istream</span><span class="special">&amp;</span> <span class="keyword">operator</span><span class="special">&gt;&gt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">istream</span><span class="special">&amp;,</span> <span class="identifier">TypeOut</span><span class="special">&amp;);</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream</span><span class="special">&amp;</span> <span class="keyword">operator</span><span class="special">&lt;&lt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream</span><span class="special">&amp;,</span> <span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;);</span>

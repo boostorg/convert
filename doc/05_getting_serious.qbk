@@ -4,14 +4,14 @@
 
  if (i2 == -1) failed to convert
 
-The code above is sufficiently straightforward. A wrinkle though is that it is not entirely generic and deterministic as -1 might be the result of a conversion failure or the successful conversion of the "-1" string. Still, with "spare" values available outside the valid\/sensible range to indicate conversion failures (say, INT_MAX for integers), such deployment might be quite adequate without introducing the above-mentioned behavioral non-determinism. More so, it might be not that uncommon for applications to ignore conversion failures altogether and to simply proceed with the supplied fallback value.
+The code above is sufficiently straightforward. A wrinkle though is that it is not entirely generic and deterministic as -1 might be the result of a conversion failure or the successful conversion of the "-1" string. Still, with "spare" values available outside the valid\/sensible range to indicate conversion failures such deployment might be quite adequate without introducing the above-mentioned behavioral non-determinism. More so, it might be not that uncommon for applications to ignore conversion failures altogether and to simply proceed with the supplied fallback value.
 
 Applications outside these mentioned categories still require a conversion failure reliably detected and processed accordingly. The ['boost::lexical_cast]'s answer to the problem is to throw on failure and ['boost::convert] supports that behavior as well: 
 
  try
  {
      int i1 = boost::lexical_cast<int>(str); // Throws if the conversion fails
-     int i2 = boost::convert<int>(str, cnv).value(); // Throws if the conversion fails
+     int i2 = boost::convert<int>::from(str, cnv).value(); // Throws if the conversion fails
      ...
  }
  catch (...)
@@ -24,8 +24,8 @@ However, to cater for a wider range of deployment use-cases ['boost::convert] ad
 * delaying the moment when the conversion-failure exception is thrown or 
 * avoiding the exception altogether. 
 
- convert::<int>result r1 = convert<int>(str1, cnv); // Does not throw on conversion failure
- convert::<int>result r2 = convert<int>(str2, cnv); // Does not throw on conversion failure
+ convert<int>::result r1 = convert<int>::from(str1, cnv); // Does not throw on conversion failure
+ convert<int>::result r2 = convert<int>::from(str2, cnv); // Does not throw on conversion failure
 
  try // Delayed processing of potential exceptions
  {
@@ -40,17 +40,17 @@ However, to cater for a wider range of deployment use-cases ['boost::convert] ad
  // Exceptions are avoided altogether
  int i1 = r1 ? r1.value() : fallback_value;
  int i2 = r2 ? r2.value() : fallback_value;
- int i3 = convert<int>(str3, cnv).value_or(fallback_value);
+ int i3 = convert<int>::from(str3, cnv).value_or(fallback_value);
 
 Here ['convert<T>::result] steps forward as the actual type returned by ['convert<T>::from] which until now we avoided by immediately calling its value-accessor methods:
 
- int i1 = convert<int>(str1, cnv).value();
- int i2 = convert<int>(str2, cnv).value_or(fallback_value);
+ int i1 = convert<int>::from(str1, cnv).value();
+ int i2 = convert<int>::from(str2, cnv).value_or(fallback_value);
 
 Both ['lexical_cast] and ['convert<T>::result] behavior reflect the fact that a conversion request is only a ['request] which may succeed but is also may fail. However, from the user perspective ['lexical_cast] processes failure in a somewhat harsh and non-negotiable manner.  ['convert<T>::result] takes a softer approach and leaves the decision to the user. In my personal experience the choice has overwhelmingly been to avoid exceptions altogether with process-flow variations similar to:
 
- convert<int>::result r1 = convert<int>(str1, cnv);
- convert<int>::result r2 = convert<int>(str2, cnv);
+ convert<int>::result r1 = convert<int>::from(str1, cnv);
+ convert<int>::result r2 = convert<int>::from(str2, cnv);
 
  if (!r1) log("str1 conversion failed");
  if (!r2) log("str2 conversion failed");

@@ -17,6 +17,6 @@
 * means to deploy types that do no meet the ['Default Constructibility] requirement;
 * support for standard algorithms.
 
-[*Please note that the described framework is not part of the Boost library collection even though in this document it is referred to as ['Boost.Convert] and the relevant code is under the ['boost] directory. It is done so in preparation for potential submission of the library to ['Boost].]
+[*Please note that the described framework is not part of the Boost library collection even though in this document it is referred to as ['Boost.Convert]. It is done so in preparation for potential submission of the library to ['Boost].]
 
 [endsect]

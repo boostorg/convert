@@ -350,11 +350,11 @@ main(int argc, char const* argv[])
     double p2 = clock();
 
     for (int k = 0; k < local::num_cycles; ++k)
-        boost::convert<direction_with_default>::from("up", ccnv);
+        boost::convert<direction_with_default>::from("up", ccnv).value();
 
     double p3 = clock();
 
-    printf("convert/lcast=%.2f/%.2f\n", (p3 - p2) / CLOCKS_PER_SEC, (p2 - p1) / CLOCKS_PER_SEC);
+    printf("convert/lcast=%.2f/%.2f seconds.\n", (p3 - p2) / CLOCKS_PER_SEC, (p2 - p1) / CLOCKS_PER_SEC);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing with algorithms

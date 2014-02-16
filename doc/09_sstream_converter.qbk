@@ -17,7 +17,7 @@ The purpose of this converter is to provide conversion-related formatting and lo
 
 Formatting support is provided by the underlying ['std::stringstream]. Consequently, ['sstream_converter] API heavily borrows formatting metaphors from this underlying component. One such metaphor is the ['manipulator] represented by ['std::hex], ['std::dec], ['std::uppercase], ['std::scientific], etc.
 
-The following code demonstrates how the converter is configured on-the-fly to read strings in the ['std::hex] or ['std::dec] format:
+The following code demonstrates how the converter is configured on-the-fly to read ['char] and ['wchar_t] strings in the ['std::hex] or ['std::dec] format:
 
  using boost::convert;
 
@@ -152,13 +152,17 @@ This described converter provides ['string-to-type] and ['type-to-string] conver
  double p2 = clock();
 
  for (int k = 0; k < num_cycles; ++k)
-    boost::convert<direction>::from("up", ccnv);
+    boost::convert<direction>::from("up", ccnv).value();
 
  double p3 = clock();
 
- printf("convert=/lcast=%.2f/%.2f\n", (p3 - p2) / CLOCKS_PER_SEC, (p2 - p1) / CLOCKS_PER_SEC);
+ printf("convert=/lcast=%.2f/%.2f seconds\n", (p3 - p2) / CLOCKS_PER_SEC, (p2 - p1) / CLOCKS_PER_SEC);
 
-Performance was tested for a user-defined ['direction] type with the code above. On a Linux box ['boost::convert] performed twice as fast compared to ['boost::lexical_cast] 1.54. Unfortunately but unavoidably the test was not exactly fair due to different underlying designs.
+Performance was tested for a user-defined ['direction] type with the code above. On a Linux box ['boost::convert] performed twice as fast compared to ['boost::lexical_cast] v1.54 producing the following output:
+
+ convert/lcast=0.25/0.52 seconds.
+
+Unfortunately but unavoidably the test is not exactly fair due to different underlying designs.
 
 The standard ['Boost.Convert] usage pattern is to create a converter or converters once and then re-use them (as in the code above). Consequently, performance-wise this deployment pattern is likely to represent the fourth (['std::stringstream without construction]) column of the __ref_5__ table. 
 

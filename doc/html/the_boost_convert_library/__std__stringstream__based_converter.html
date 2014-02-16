@@ -29,7 +29,7 @@
 </dl></div>
 <p>
       <span class="bold"><strong>Please note:</strong></span> <span class="emphasis"><em>the converter is currently
-      a work-in-progress. Suggesstions are most welcomed. Changes are to be expected.</em></span>
+      a work-in-progress. Suggestions are most welcomed. Changes are to be expected.</em></span>
     </p>
 <p>
       The converter is deployed with
@@ -37,19 +37,9 @@
 <pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">sstream_converter</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
 </pre>
 <p>
-      The converter, as <span class="emphasis"><em>boost::lexical_cast</em></span>, provides <span class="emphasis"><em>string-to-type</em></span>
-      and <span class="emphasis"><em>type-to-string</em></span> conversions. However, their priorities
-      are quite different. For basic (<span class="emphasis"><em>int</em></span>, etc.) types <span class="emphasis"><em>boost::lexical_cast</em></span>
-      performance has been optimized quite dramatically (see <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html" target="_top"><span class="emphasis"><em>lexical_cast</em></span>
-      performance</a>). Therefore, if speed is your primary objective and your
-      needs do not go beyond basic types, then deploying <span class="emphasis"><em>boost::lexical_cast</em></span>
-      (directly or via this <span class="emphasis"><em>Boost.Convert</em></span> framework) might be
-      a better option.
-    </p>
-<p>
       The purpose of this converter is to provide conversion-related formatting and
       locale support which are not present in <span class="emphasis"><em>boost::lexical_cast</em></span>.
-      Advantages of <span class="emphasis"><em>std::stream</em></span>-based formatting engine are
+      Advantages of a <span class="emphasis"><em>std::stream</em></span>-based formatting engine are
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -81,9 +71,9 @@
         etc.
       </p>
 <p>
-        The following code demonstrates the converter is configured on-the-fly to
-        read strings in a certain (<span class="emphasis"><em>std::hex</em></span> or <span class="emphasis"><em>std::dec</em></span>)
-        format:
+        The following code demonstrates how the converter is configured on-the-fly
+        to read <span class="emphasis"><em>char</em></span> and <span class="emphasis"><em>wchar_t</em></span> strings
+        in the <span class="emphasis"><em>std::hex</em></span> or <span class="emphasis"><em>std::dec</em></span> format:
       </p>
 <pre class="programlisting"><span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>
 
