@@ -47,17 +47,6 @@ struct basic_stringstream_converter
 
         return !stream_.fail() && !(stream_ >> result_out).fail();
     }
-    template<typename StringOut, typename StringIn>
-    typename boost::enable_if_c<
-        convert_detail::is_any_string<StringIn>::value && convert_detail::is_any_string<StringOut>::value,
-        bool>::type
-    convert(StringIn const& value_in, StringOut& result_out) const
-    {
-        stream_.clear();        // Clear the flags
-        stream_.str(value_in);  // Set the content of the stream
-
-        return !stream_.fail() && !(stream_ >> result_out).fail();
-    }
 
     this_type& operator() (std::locale const& locale) { return (stream_.imbue(locale), *this); }
     this_type& operator() (manipulator_type m) { return (stream_ >> m, *this); }
