@@ -8,3 +8,12 @@
 .settings/
 .cproject
 
+Debug/
+*.vcxproj*
+*.sln
+*.suo
+*.sdf
+*.opensdf
+
+
+
