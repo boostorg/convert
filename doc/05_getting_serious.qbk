@@ -1,4 +1,4 @@
-[section:convert_getting_serious Getting Serious]
+[section Getting Serious]
 
  int i2 = convert<int>::from("not an int", cnv).value_or(-1); // after the call i2 = -1
 
@@ -24,10 +24,10 @@ However, to cater for a wider range of deployment use-cases ['boost::convert] ad
 * delaying the moment when the conversion-failure exception is thrown or 
 * avoiding the exception altogether. 
 
- convert::<int>result r1 = boost::convert<int>(str1, cnv); // Does not throw on conversion failure
- convert::<int>result r2 = boost::convert<int>(str2, cnv); // Does not throw on conversion failure
+ convert::<int>result r1 = convert<int>(str1, cnv); // Does not throw on conversion failure
+ convert::<int>result r2 = convert<int>(str2, cnv); // Does not throw on conversion failure
 
- try // Processing of potential exceptions delayed
+ try // Delayed processing of potential exceptions
  {
      int i1 = r1.value(); // Will throw if conversion failed
      int i2 = r2.value(); // Will throw if conversion failed
@@ -40,17 +40,17 @@ However, to cater for a wider range of deployment use-cases ['boost::convert] ad
  // Exceptions are avoided altogether
  int i1 = r1 ? r1.value() : fallback_value;
  int i2 = r2 ? r2.value() : fallback_value;
- int i3 = boost::convert<int>(str3, cnv).value_or(fallback_value);
+ int i3 = convert<int>(str3, cnv).value_or(fallback_value);
 
 Here ['convert<T>::result] steps forward as the actual type returned by ['convert<T>::from] which until now we avoided by immediately calling its value-accessor methods:
 
- int i1 = boost::convert<int>(str1, cnv).value();
- int i2 = boost::convert<int>(str2, cnv).value_or(fallback_value);
+ int i1 = convert<int>(str1, cnv).value();
+ int i2 = convert<int>(str2, cnv).value_or(fallback_value);
 
-Both ['boost::lexical_cast] and ['convert<T>::result] underscore the fact that a conversion request is only a ['request] which may succeed but is also may fail. However, from the user perspective ['boost::lexical_cast] processes failure in a somewhat harsh and non-negotiable manner.  ['convert<T>::result] chooses a softer approach and leaves the decision to the user. In my personal experience the choice has overwhelmingly been to avoid exceptions altogether with process-flow variations similar to:
+Both ['lexical_cast] and ['convert<T>::result] behavior reflect the fact that a conversion request is only a ['request] which may succeed but is also may fail. However, from the user perspective ['lexical_cast] processes failure in a somewhat harsh and non-negotiable manner.  ['convert<T>::result] takes a softer approach and leaves the decision to the user. In my personal experience the choice has overwhelmingly been to avoid exceptions altogether with process-flow variations similar to:
 
- convert<int>::result r1 = boost::convert<int>(str1, cnv);
- convert<int>::result r2 = boost::convert<int>(str2, cnv);
+ convert<int>::result r1 = convert<int>(str1, cnv);
+ convert<int>::result r2 = convert<int>(str2, cnv);
 
  if (!r1) log("str1 conversion failed");
  if (!r2) log("str2 conversion failed");
@@ -60,6 +60,6 @@ Both ['boost::lexical_cast] and ['convert<T>::result] underscore the fact that a
 
  ...proceed
 
-[*Please note:] ['convert<T>::result] is a temporary\/transient type and is to be replaced with ['tr1::optional<T>] which actually provides all the necessary functionality and interface.
+[*Please note: ['convert<T>::result] is a temporary\/transient type and is to be replaced with ['tr1::optional<T>] which actually provides all the necessary functionality and interface.]
 
 [endsect]

@@ -108,6 +108,14 @@ namespace boost
     template<> inline direction convert<direction>::create_storage() { return direction(direction::up); }
 }
 
+template<typename Type>
+bool
+assign(Type& value_out, Type const& value_in)
+{
+    value_out = value_in;
+    return true;
+}
+
 int
 main(int argc, char const* argv[])
 {
@@ -151,6 +159,14 @@ main(int argc, char const* argv[])
     boost::cstringstream_converter ccnv; // stringstream-based char converter
 	boost::wstringstream_converter wcnv; // stringstream-based wchar_t converter
 		
+    ////////////////////////////////////////////////////////////////////////////
+    // Testing crazy in-place converter.
+    ////////////////////////////////////////////////////////////////////////////
+
+    int lc99 = convert<int>::from(c_str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
+
+    BOOST_ASSERT(lc99 == -12);
+
     ////////////////////////////////////////////////////////////////////////////
     // Testing lexical_cast-based converter.
     ////////////////////////////////////////////////////////////////////////////
@@ -338,7 +354,7 @@ main(int argc, char const* argv[])
 
     double p3 = clock();
 
-    printf("convert=%.2f, lexical_cast=%.2f\n", (p3 - p2) / CLOCKS_PER_SEC, (p2 - p1) / CLOCKS_PER_SEC);
+    printf("convert/lcast=%.2f/%.2f\n", (p3 - p2) / CLOCKS_PER_SEC, (p2 - p1) / CLOCKS_PER_SEC);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing with algorithms
@@ -449,8 +465,8 @@ main(int argc, char const* argv[])
     char const* rus_locale_name = local::is_msc ? "Russian_Russia.1251"
                                 : local::is_gcc ? "ru_RU.UTF-8"
                                 : "";
-    char const*    rus_expected = local::is_msc ? "1,235E-002" : local::is_gcc ? "1,235e-02" : "";
-    char const*    eng_expected = local::is_msc ? "1.235E-002" : local::is_gcc ? "1.235e-02" : "";
+    char const*    rus_expected = local::is_msc ? "1,235e-002" : local::is_gcc ? "1,235e-02" : "";
+    char const*    eng_expected = local::is_msc ? "1.235e-002" : local::is_gcc ? "1.235e-02" : "";
     std::locale      rus_locale;
     std::locale      eng_locale;
 

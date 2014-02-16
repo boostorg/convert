@@ -22,8 +22,9 @@ The following code demonstrates a failed attempt to convert a few strings with [
 
 The first take by ['boost::convert] is more successful but still not quite satisfactory (your mileage may vary):
 
- array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
- std::vector<int>     integers;
+ boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
+ std::vector<int>            integers;
+ boost::cstringstream_converter   cnv; // stringstream-based char converter
 
  try
  {
@@ -31,7 +32,7 @@ The first take by ['boost::convert] is more successful but still not quite satis
         strings.begin(),
         strings.end(),
         std::back_inserter(integers),
-        convert<int>::from<string>(ccnv(std::hex)));
+        convert<int>::from<string>(cnv(std::hex)));
 
         BOOST_ASSERT(!"We should not be here");
  }
@@ -47,8 +48,9 @@ The first take by ['boost::convert] is more successful but still not quite satis
 
 And at last a fully working version:
 
- array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
- std::vector<int>     integers;
+ boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
+ std::vector<int>            integers;
+ boost::cstringstream_converter   cnv; // stringstream-based char converter
 
  std::transform(
     strings.begin(),

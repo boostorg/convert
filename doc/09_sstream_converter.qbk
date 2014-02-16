@@ -79,7 +79,7 @@ Locale support is similar to the formatting support as demonstrated by the follo
  // Change to lower precision and to lower case.
  ccnv(std::setprecision(3))(std::nouppercase);
 
- // Convert the double back to Russian- and English-format strings.
+ // Convert the double back to Russian- and English-locale strings.
  string double_rus = convert<string>::from(double_v, ccnv(rus_locale)).value();
  string double_eng = convert<string>::from(double_v, ccnv(eng_locale)).value();
 
@@ -128,7 +128,7 @@ For example,
      return stream << (dir.value_ == up ? "up" : dir.value_ == dn ? "dn" : "no");
  }
 
-That allows handling conversions of user-defined types uniformly via the /boost::convert/ interface:
+That allows handling conversions of user-defined types uniformly via the ['boost::convert] interface:
 
  using boost::convert;
 
@@ -140,7 +140,7 @@ That allows handling conversions of user-defined types uniformly via the /boost:
 [endsect]
 [section Performance]
 
-The converter, as ['boost::lexical_cast], provides ['string-to-type] and ['type-to-string] conversions. However, their priorities are quite different. For basic (['int], etc.) types ['boost::lexical_cast] performance has been optimized quite dramatically (see __ref_5__). Therefore, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['boost::lexical_cast] (directly or via the ['Boost.Convert] framework) might be a better option. However, for user-defined types it appears to be quite a different story.
+This described converter provides ['string-to-type] and ['type-to-string] conversions as ['boost::lexical_cast] does. However, the priorities of these mentioned converters are quite different. For basic (['int], etc.) types ['boost::lexical_cast] performance has been optimized quite dramatically (see __ref_5__). Therefore, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['boost::lexical_cast] (directly or via the ['Boost.Convert] framework) might be a better option. However, for user-defined types it appears to be quite a different story.
 
  boost::cstringstream_converter ccnv; // stringstream-based char converter
  int const num_cycles = 1000000;
@@ -162,7 +162,7 @@ Performance was tested for a user-defined ['direction] type with the code above.
 
 The standard ['Boost.Convert] usage pattern is to create a converter or converters once and then re-use them (as in the code above). Consequently, performance-wise this deployment pattern is likely to represent the fourth (['std::stringstream without construction]) column of the __ref_5__ table. 
 
-In turn, for user-defined types ['boost::lexical_cast] also deploys the standard ['stream] framework. However, due to its design ['boost::lexical_cast] creates and then destroys an instance of a stream type for every function call and, consequently, probably takes the third (['std::stringstream with construction]) and much slower column of the __ref_5__ table. 
+In turn, ['boost::lexical_cast] also deploys the standard ['stream] framework for user-defined types. However, due to its design ['boost::lexical_cast] creates and then destroys an instance of a stream type for every function call and, consequently, probably takes the third (['std::stringstream with construction]) and much slower column of the __ref_5__ table. 
 
 [endsect]
 [endsect]

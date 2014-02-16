@@ -13,7 +13,7 @@ The purpose of the converter is
  {
     template<typename TypeOut, typename TypeIn>
     bool
-    convert(TypeIn const& value_in, TypeOut& result_out) const
+    operator()(TypeIn const& value_in, TypeOut& result_out) const
     {
         try
         {

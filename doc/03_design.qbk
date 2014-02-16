@@ -5,31 +5,31 @@ Unlike monolithic Convert.V1 (submitted for a review and ultimately withdrawn ab
 * an API facade to deploy the relevant functionality uniformly and 
 * the means to plug a particular type in to the ['boost::lexical_cast] framework; namely, ['operator>>(std::istream&)] and ['operator<<(std::ostream&)]).
 
-['Boost.Convert] follows that design and also consists of two components
+['Boost.Convert] follows that design and also consists of two components:
 
 * the API facade to provide simple, minimal and uniform deployment interface;
-* the extendible library of pluggable converters to provide various type conversions and transformations with varying configurability and performance.
+* the extendible library of pluggable converters.
 
 The API facade implements new and familiar conversion\/transformation-related behavior such as:
 
-* configurable throwing and non-throwing failed-conversion behavior;
+* flexible throwing and non-throwing failed-conversion behavior;
 * support for the fallback value to be returned when conversion\/transformation fails;
 * two types of the conversion-failure check - quick/simple and generic;
 * means to deploy types that do no meet the ['Default Constructibility] requirement;
 * support for standard algorithms.
 
-The library of pluggable converters does not depend on the ['Boost.Convert] API facade and is designed to be extended over time. At the moment with the current proposal only two proof-of-the-concept converters are supplied -- string-to-type (and type-to-string) ['boost::lexical_cast]-based and ['std::stringstream]-based converters. 
+The library of pluggable converters does not depend on the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal only two proof-of-the-concept converters are supplied -- string-to-type (and type-to-string) ['boost::lexical_cast]-based and ['std::stringstream]-based converters. 
 
 The ['boost::lexical_cast]-based converter demonstrates how independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
 
-The ['std::stringstream]-based converter draws on the standard ['std::streams] functionality it provides:
+The ['std::stringstream]-based converter draws on the standard ['std::streams] functionality and provides:
 
 * formatting support based on standard manipulators (like /std::hex/, /std::scientific/, etc.);
 * support for different locales;
 * /char/ and /wchar_t/ support.
 
-I already find it quite useful for applications with moderate performance-related but extensive formatting, locale, process flow, etc. requirements. For speedier and non-fancy conversions of basic types, the ['boost::lexical_cast]-based converter might be a better option. Alternatively, a different converter (say, built on /Boost.Spirit/) might be plugged in and deployed instead as demonstrated by the ['boost::lexical_cast]-based converter.
+I find it quite useful for applications with moderate performance-related but extensive formatting, locale, process flow, etc. requirements. For speedier and non-fancy conversions of basic types, the ['boost::lexical_cast]-based converter might be a better option. Alternatively, a different converter (say, built on ['Boost.Spirit]) might be plugged in and deployed instead as demonstrated by the ['boost::lexical_cast]-based converter.
 
-An interesting side-effect of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. The plugged-in converter dictates what types are supported or not. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed uniformly. For example, encryption by a string-to-string encrypting converter, etc.
+An interesting side-effect of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. The plugged-in converter dictates what types are supported or not. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly]. For example, encryption by a string-to-string encrypting converter, etc.
 
 [endsect]
