@@ -4,14 +4,15 @@ An interesting side-effect of the described design is that ['Boost.Convert] is n
 
 As an experiment the unit test (['test/test_convert.cpp]) applies the following string-to-string conversion:
 
- cnv(my_cypher);
+ string encrypted = convert<string>::from("ABC", my_cypher).value();
+ string decrypted = convert<string>::from(encrypted, my_cypher).value();
 
- string encrypted = convert<string>::from(naked_str, cnv);
- string decrypted = convert<string>::from(encrypted_str, cnv);
+ BOOST_ASSERT(encrypted == "123");
+ BOOST_ASSERT(decrypted == "ABC");
 
 The code above does not do type conversion. Instead it does string transformation -- encryption or decryption.
 
-I personally do not immetiately see the ['Boost.Convert] framework unsuitable for conversions like
+Similarly I personally do not immediately see as objectionable:
 
  std::u8string utf8 = convert<std::u8string>::from(utf32_str, cnv);
  std::u8string utf8 = convert<std::u8string>::from(mbcs_str, cnv);

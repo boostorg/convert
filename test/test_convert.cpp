@@ -34,19 +34,17 @@ using std::wstring;
 using boost::array;
 using boost::convert;
 
-std::basic_ios<char>&
-my_cypher(std::basic_ios<char>& stream)
+bool
+my_cypher(std::string const& value_in, std::string& value_out)
 {
-    std::streambuf* buf = stream.rdbuf();
-    size_t       cypher = 'A' - '1';
-    string         data;
+    size_t const cypher = 'A' - '1';
 
-    for (int c = 0; c = buf->sbumpc(), c != EOF; data += c);
+    value_out = value_in;
 
-    for (string::iterator it = data.begin(); it != data.end(); ++it)
-        *it < 'A' ? buf->sputc(*it += cypher) : buf->sputc(*it -= cypher);
+    for (string::iterator it = value_out.begin(); it != value_out.end(); ++it)
+        (*it < 'A') ? (*it += cypher) : (*it -= cypher);
 
-    return stream;
+    return true;
 }
 
 struct direction_with_default
@@ -510,22 +508,6 @@ main(int argc, char const* argv[])
     BOOST_ASSERT(new_strings[4] == "-1");
 
     ////////////////////////////////////////////////////////////////////////////
-    // Testing string-to-string conversion
-    ////////////////////////////////////////////////////////////////////////////
-
-    //string  s31 = convert< string>::from(std_str, ccnv);
-    //string  s32 = convert< string>::from(c_str, ccnv);
-    //wstring s35 = convert<wstring>::from(wstd_str, ccnv);
-    //wstring s36 = convert<wstring>::from(wc_str, ccnv);
-    //string  s37 = convert< string>::from(array_str, ccnv);
-
-    //BOOST_ASSERT(s31 ==  "-11");
-    //BOOST_ASSERT(s32 ==  "-12");
-    //BOOST_ASSERT(s35 == L"-15");
-    //BOOST_ASSERT(s36 == L"-16");
-    //BOOST_ASSERT(s37 ==  "-17");
-
-    ////////////////////////////////////////////////////////////////////////////
     // Testing string-to-bool and bool-to-string conversions
     ////////////////////////////////////////////////////////////////////////////
 
@@ -536,38 +518,34 @@ main(int argc, char const* argv[])
 //    convert<bool>::result bool_res5 = convert<bool>::from(L"true", false, wcnv);
 //    convert<bool>::result bool_res6 = convert<bool>::from(L"yes",  false, wcnv);
 //    convert<bool>::result bool_res7 = convert<bool>::from("junk",   true, ccnv);
-
-    //BOOST_ASSERT( bool_res1 && bool_res1.value() == true);
-    //BOOST_ASSERT( bool_res2 && bool_res2.value() == true);
-    //BOOST_ASSERT( bool_res3 && bool_res3.value() == true);
-    //BOOST_ASSERT( bool_res4 && bool_res4.value() == true);
-    //BOOST_ASSERT( bool_res5 && bool_res5.value() == true);
-    //BOOST_ASSERT( bool_res6 && bool_res6.value() == true);
-    //BOOST_ASSERT(!bool_res7 && bool_res7.value() == true);
-
-    string bool_str1 = convert<string>::from(true,  ccnv).value_or("failed");
-    string bool_str2 = convert<string>::from(false, ccnv).value_or("failed");
-    string bool_str3 = convert<string>::from(1,     ccnv).value_or("failed");
-    string bool_str4 = convert<string>::from(0,     ccnv).value_or("failed");
-
-    //BOOST_ASSERT(bool_str1 == "1");
-    //BOOST_ASSERT(bool_str2 == "0");
-    //BOOST_ASSERT(bool_str3 == "1");
-    //BOOST_ASSERT(bool_str4 == "0");
+//
+//    BOOST_ASSERT( bool_res1 && bool_res1.value() == true);
+//    BOOST_ASSERT( bool_res2 && bool_res2.value() == true);
+//    BOOST_ASSERT( bool_res3 && bool_res3.value() == true);
+//    BOOST_ASSERT( bool_res4 && bool_res4.value() == true);
+//    BOOST_ASSERT( bool_res5 && bool_res5.value() == true);
+//    BOOST_ASSERT( bool_res6 && bool_res6.value() == true);
+//    BOOST_ASSERT(!bool_res7 && bool_res7.value() == true);
+//
+//    string bool_str1 = convert<string>::from(true,  ccnv).value_or("failed");
+//    string bool_str2 = convert<string>::from(false, ccnv).value_or("failed");
+//    string bool_str3 = convert<string>::from(1,     ccnv).value_or("failed");
+//    string bool_str4 = convert<string>::from(0,     ccnv).value_or("failed");
+//
+//    BOOST_ASSERT(bool_str1 == "1");
+//    BOOST_ASSERT(bool_str2 == "0");
+//    BOOST_ASSERT(bool_str3 == "1");
+//    BOOST_ASSERT(bool_str4 == "0");
 
     ////////////////////////////////////////////////////////////////////////////
-    // Testing custom manipulators.
-    // I do not really know how to write manipulators.
-    // Wrote my_cypher just to demonstrate the idea.
+    // Testing custom converter.
     ////////////////////////////////////////////////////////////////////////////
 
-//    ccnv(my_cypher);
-//
-//    string encrypted = convert<string>::from("ABC", ccnv).value();
-//    string decrypted = convert<string>::from(encrypted, ccnv).value();
-//
-//    BOOST_ASSERT(encrypted == "123");
-//    BOOST_ASSERT(decrypted == "ABC");
+    string encrypted = convert<string>::from("ABC", my_cypher).value();
+    string decrypted = convert<string>::from(encrypted, my_cypher).value();
+
+    BOOST_ASSERT(encrypted == "123");
+    BOOST_ASSERT(decrypted == "ABC");
 
     printf("Test completed successfully.\n");
     return 0;

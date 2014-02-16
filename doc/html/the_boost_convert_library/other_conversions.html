@@ -29,18 +29,18 @@
       As an experiment the unit test (<span class="emphasis"><em>test/test_convert.cpp</em></span>)
       applies the following string-to-string conversion:
     </p>
-<pre class="programlisting"><span class="identifier">cnv</span><span class="special">(</span><span class="identifier">my_cypher</span><span class="special">);</span>
+<pre class="programlisting"><span class="identifier">string</span> <span class="identifier">encrypted</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="string">"ABC"</span><span class="special">,</span> <span class="identifier">my_cypher</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
+<span class="identifier">string</span> <span class="identifier">decrypted</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">encrypted</span><span class="special">,</span> <span class="identifier">my_cypher</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
 
-<span class="identifier">string</span> <span class="identifier">encrypted</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">naked_str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
-<span class="identifier">string</span> <span class="identifier">decrypted</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">encrypted_str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
+<span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">encrypted</span> <span class="special">==</span> <span class="string">"123"</span><span class="special">);</span>
+<span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">decrypted</span> <span class="special">==</span> <span class="string">"ABC"</span><span class="special">);</span>
 </pre>
 <p>
       The code above does not do type conversion. Instead it does string transformation
       -- encryption or decryption.
     </p>
 <p>
-      I personally do not immetiately see the <span class="emphasis"><em>Boost.Convert</em></span>
-      framework unsuitable for conversions like
+      Similarly I personally do not immediately see as objectionable:
     </p>
 <pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span> <span class="identifier">utf8</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">utf32_str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span> <span class="identifier">utf8</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">mbcs_str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
