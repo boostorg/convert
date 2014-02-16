@@ -41,7 +41,7 @@ struct boost::convert
     from(TypeIn const& value_in, Converter const& converter) //C1.
     {
         result_type result (this_type::create_storage()); //C2
-        bool       success = converter.convert(value_in, result.value_); //C3
+        bool       success = converter(value_in, result.value_); //C3
         
         return success ? result : result(false);
     }
@@ -109,7 +109,7 @@ struct boost::convert<TypeOut>::algorithm_helper
     TypeOut operator()(TypeIn const& value_in)
     {
         out_type result = boost::convert<TypeOut>::create_storage();
-        bool       good = converter_->convert(value_in, result);
+        bool       good = (*converter_)(value_in, result);
         
         if (!good)
             BOOST_THROW_EXCEPTION(std::invalid_argument("boost::convert failed"));
@@ -140,7 +140,7 @@ struct boost::convert<TypeOut>::algorithm_helper<TypeIn, Converter>::with_fallba
     TypeOut operator()(TypeIn const& value_in)
     {
         out_type result = boost::convert<TypeOut>::create_storage();
-        bool       good = converter_->convert(value_in, result);
+        bool       good = (*converter_)(value_in, result);
 
         return good ? result : fallback_;
     }

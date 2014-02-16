@@ -15,7 +15,7 @@ struct lexical_cast_converter
 {
     template<typename TypeOut, typename TypeIn>
     bool
-    convert(TypeIn const& value_in, TypeOut& result_out) const
+    operator()(TypeIn const& value_in, TypeOut& result_out) const
     {
         try
         {

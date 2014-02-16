@@ -29,7 +29,7 @@ struct basic_stringstream_converter
     typename boost::enable_if_c<
 		!convert_detail::is_any_string<TypeIn>::value && convert_detail::is_any_string<StringOut>::value, 
 		bool>::type
-    convert(TypeIn const& value_in, StringOut& result_out) const
+    operator()(TypeIn const& value_in, StringOut& result_out) const
     {
 		stream_.clear();            // Clear the flags
         stream_.str(StringOut());   // Clear/empty the content of the stream 
@@ -40,7 +40,7 @@ struct basic_stringstream_converter
     typename boost::enable_if_c<
 		convert_detail::is_any_string<StringIn>::value && !convert_detail::is_any_string<TypeOut>::value, 
 		bool>::type
-    convert(StringIn const& value_in, TypeOut& result_out) const
+    operator()(StringIn const& value_in, TypeOut& result_out) const
     {
 		stream_.clear();        // Clear the flags
         stream_.str(value_in);  // Set the content of the stream 
