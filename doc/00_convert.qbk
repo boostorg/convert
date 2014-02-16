@@ -28,7 +28,6 @@
 [def __ref_5__ [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html /lexical_cast/ performance]]
 
 [include 01_introduction.qbk]
-[include 02_motivation.qbk]
 [include 03_design.qbk]
 [include 04_getting_started.qbk]
 [include 05_getting_serious.qbk]
@@ -39,5 +38,6 @@
 [include 10_default_constructible.qbk]
 [include 11_other.qbk]
 [include 97_ref.qbk]
+[include 02_motivation.qbk]
 [include 98_acknowledgments.qbk]
 [include 99_index.qbk]

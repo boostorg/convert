@@ -1,10 +1,22 @@
-[section:convert_intro Introduction]
+[section Introduction]
 
-['Boost.Convert] builds on the ['boost::lexical_cast] original design and experience and takes those conversion\/transformation-related ideas further 
+['Boost.Convert] builds on the ['boost::lexical_cast] design and experience and takes those conversion\/transformation-related ideas further 
 
 * to be applicable to a wider range of conversion-related deployment scenarios, 
 * to provide a more flexible, extensible and configurable type-conversion framework. 
 
-Please note that [*the described framework is not part of the Boost library collection] even though in this document it is referred to as ['Boost.Convert] and the relevant code is under the ['boost] directory. It is done so in preparation for potential submission of the library to ['Boost].
+['Boost.Convert] has a modular design and what it can ultimately do is to a large extend defined by a pluggable ['converter] component. For example, one of the converters supplied with the proposal and discussed in the document is a ['std::stringstream]-based converter. With that converter deployed ['Boost.Convert] provides:
+
+* string-to-type and type-to-string conversions;
+* formatting support based on standard manipulators (like /std::hex/, /std::scientific/, etc.);
+* support for different locales;
+* /char/ and /wchar_t/ support;
+* flexible throwing and non-throwing failed-conversion behavior;
+* support for the fallback value to be returned when conversion\/transformation fails;
+* two types of the conversion-failure check - quick/simple and generic;
+* means to deploy types that do no meet the ['Default Constructibility] requirement;
+* support for standard algorithms.
+
+[*Please note that the described framework is not part of the Boost library collection even though in this document it is referred to as ['Boost.Convert] and the relevant code is under the ['boost] directory. It is done so in preparation for potential submission of the library to ['Boost].]
 
 [endsect]

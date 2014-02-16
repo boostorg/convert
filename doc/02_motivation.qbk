@@ -1,4 +1,4 @@
-[section:convert_motivation Motivation]
+[section Motivation]
 
 I have been using textual configuration files extensively, also processing and preparing considerable amounts of data in XML. Consequently, I had a need for a library that would provide a ['uniform and extendible] interface to convert various data between their internal binary representations and external (predominantly textual) representations. 
 
