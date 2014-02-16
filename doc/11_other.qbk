@@ -1,6 +1,6 @@
 [section Other Conversions]
 
-An interesting side-effect of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. The ['Boost.Convert] API facade is type-agnostic and the plugged-in converter ultimately dictates what type transformations are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters.
+An interesting side-effect of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. The ['Boost.Convert] API facade is type-agnostic and the plugged-in converter ultimately dictates what type transformations are available. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters.
 
 As an experiment the unit test (['test/test_convert.cpp]) applies the following string-to-string conversion:
 
@@ -10,7 +10,7 @@ As an experiment the unit test (['test/test_convert.cpp]) applies the following 
  BOOST_ASSERT(encrypted == "123");
  BOOST_ASSERT(decrypted == "ABC");
 
-The code above does not do type conversion. Instead it does string transformation -- encryption or decryption.
+The code above does not do type conversion. Instead it applies a string transformation.
 
 Similarly I personally do not immediately see as objectionable:
 
