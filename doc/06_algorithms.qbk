@@ -20,7 +20,7 @@ The following code demonstrates a failed attempt to convert a few strings with [
     // No strings converted.
  }
 
-The first take by ['boost::convert] is more successful but still not quite satisfactory (your mileage may vary) as conversion is interrupded when ['boost::convert] comes across an invalid input:
+The first take by ['boost::convert] is more successful but still not quite satisfactory (your mileage may vary) as conversion is interrupted when ['boost::convert] comes across an invalid input:
 
  boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
  std::vector<int>            integers;
