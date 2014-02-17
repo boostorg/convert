@@ -27,7 +27,7 @@ The API facade implements new and familiar conversion\/transformation-related be
 
 The library of pluggable converters does not depend on the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal two proof-of-the-concept converters are supplied -- string-to-type (and type-to-string) ['boost::lexical_cast]-based and ['std::stringstream]-based converters. 
 
-The ['boost::lexical_cast]-based converter demonstrates how independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
+The ['boost::lexical_cast]-based converter demonstrates how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
 
 The ['std::stringstream]-based converter draws on the standard ['std::streams] functionality and provides:
 
@@ -48,6 +48,6 @@ For example, the following snippet converts an array of strings representing hex
     std::back_inserter(integers),
     convert<int>::from<string>(ccnv(std::hex)).value_or(INT_MAX));
 
-An interesting side-effect of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. The plugged-in converter ultimately dictates what types and conversion are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters. For example, encryption by a string-to-string encrypting converter, etc.
+An interesting feature of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. The plugged-in converter ultimately dictates what types and conversion are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters. For example, encryption by a string-to-string encrypting converter, etc.
 
 [endsect]
