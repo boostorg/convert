@@ -27,7 +27,6 @@
 [def __ref_5__ [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html /lexical_cast/ performance]]
 
 [include 01_introduction.qbk]
-[include 03_design.qbk]
 [include 04_getting_started.qbk]
 [include 05_getting_serious.qbk]
 [include 06_algorithms.qbk]
