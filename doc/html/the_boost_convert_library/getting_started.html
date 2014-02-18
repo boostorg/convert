@@ -1,0 +1,114 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Getting Started</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
+<link rel="prev" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
+<link rel="next" href="getting_serious.html" title="Getting Serious">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="../index.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="getting_serious.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_boost_convert_library.getting_started"></a><a class="link" href="getting_started.html" title="Getting Started">Getting Started</a>
+</h2></div></div></div>
+<p>
+      In its simplest form the conversion functionality might be deployed as follows:
+    </p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">api</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">sstream_converter</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>
+
+<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span> <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
+
+<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws if the conversion fails</span>
+<span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Returns -1 if the conversion fails</span>
+</pre>
+<p>
+      These calls can be interpreted as "<span class="emphasis"><em>Convert a string to int</em></span>"
+      for <span class="emphasis"><em>i1</em></span> and <span class="emphasis"><em>i2</em></span> and "<span class="emphasis"><em>Convert
+      a string to int and return -1 if the conversion fails</em></span>" for
+      <span class="emphasis"><em>i3</em></span>.
+    </p>
+<p>
+      The <span class="emphasis"><em>i1</em></span> and <span class="emphasis"><em>i2</em></span> deployments look sufficiently
+      close and, in fact, are identical behaviorally. Namely, if the requested conversion
+      fails, an exception is thrown. The user request -- "<span class="emphasis"><em>Convert
+      a string to int</em></span>" -- lacks the specification for the failure
+      use-case. Consequently, <span class="emphasis"><em>boost::lexical_cast</em></span> and <span class="emphasis"><em>boost::convert</em></span>
+      resort to handling that not-mentioned use-case in the standard way.
+    </p>
+<p>
+      The second specification -- "<span class="emphasis"><em>Convert a string to int and return
+      -1 if the conversion fails</em></span>" -- is complete and processed "as
+      ordered" with the provided fallback value returned if the requested conversion
+      fails.
+    </p>
+<p>
+      The described (very basic) interface might be sufficient for a variety of conversion
+      deployments. For example:
+    </p>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span> <span class="identifier">ccnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
+
+<span class="keyword">int</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">INT_MAX</span><span class="special">);</span> <span class="comment">// Read as hex</span>
+<span class="keyword">int</span> <span class="identifier">num_windows</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">INT_MAX</span><span class="special">);</span> <span class="comment">// Read as decimal</span>
+
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">num_threads</span> <span class="special">==</span> <span class="identifier">INT_MAX</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_threads"</span><span class="special">),</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">default_num_threads</span><span class="special">;</span>
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">num_windows</span> <span class="special">==</span> <span class="identifier">INT_MAX</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_windows"</span><span class="special">),</span> <span class="identifier">num_windows</span> <span class="special">=</span> <span class="identifier">default_num_windows</span><span class="special">;</span>
+
+<span class="special">...</span> <span class="identifier">proceed</span>
+</pre>
+<p>
+      Or even shorter, if we do not care logging:
+    </p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_num_threads</span><span class="special">);</span> <span class="comment">// Read as hex</span>
+<span class="keyword">int</span> <span class="identifier">num_windows</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_num_windows</span><span class="special">);</span> <span class="comment">// Read as decimal</span>
+
+<span class="special">...</span> <span class="identifier">proceed</span>
+</pre>
+<p>
+      So far the deployment of <span class="emphasis"><em>boost::convert</em></span> seems more compact
+      and natural (your mileage may vary) and might be potentially more efficient
+      compared to <span class="emphasis"><em>boost::lexical_cast</em></span> deployment which achieves
+      a similar (excluding formatting) result with something like
+    </p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_threads</span><span class="special">;</span>
+
+<span class="keyword">try</span>
+<span class="special">{</span>
+    <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span>
+<span class="special">}</span>
+<span class="keyword">catch</span> <span class="special">(...)</span>
+<span class="special">{</span>
+    <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_threads"</span><span class="special">);</span>
+    <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">default_num_threads</span><span class="special">;</span>
+<span class="special">}</span>
+</pre>
+<p>
+      By design this is <span class="emphasis"><em>boost::lexical_cast</em></span>'s only behavior.
+      Simple and straightforward. Unfortunately, it makes quite a few legitimate
+      process/program flows difficult and awkward to implement. That is the niche
+      that <span class="emphasis"><em>Boost.Convert</em></span> is trying to fill.
+    </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009-2014 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../index.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="getting_serious.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Type Requirements</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
+<link rel="prev" href="__std__stringstream__based_converter/performance.html" title="Performance">
+<link rel="next" href="the___default_constructible__type_requirement.html" title="The Default Constructible Type Requirement">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="__std__stringstream__based_converter/performance.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="the___default_constructible__type_requirement.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="the_boost_convert_library.type_requirements"></a><a class="link" href="type_requirements.html" title="Type Requirements">Type Requirements</a>
+</h2></div></div></div>
+<p>
+      In order for a user-defined type to be integrated into the <span class="emphasis"><em>boost::lexical_cast</em></span>
+      framework:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          TypeOut needs to be <span class="emphasis"><em>Copy Constructible</em></span>;
+        </li>
+<li class="listitem">
+          TypeOut needs to be <span class="emphasis"><em>Default Constructible</em></span>;
+        </li>
+<li class="listitem">
+          TypeOut needs to be <span class="emphasis"><em>Input Streamable</em></span>;
+        </li>
+<li class="listitem">
+          TypeIn needs to be <span class="emphasis"><em>Output Streamable</em></span>.
+        </li>
+</ul></div>
+<p>
+      The first two requirements are imposed by the <span class="emphasis"><em>boost::lexical_cast</em></span>
+      design and implementation and the last two requirements by the underlying
+      <span class="emphasis"><em>std::stringstream</em></span> engine.
+    </p>
+<p>
+      In turn, the <span class="emphasis"><em>Boost.Convert</em></span> API facade has the following
+      requirements:
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          TypeOut needs to be <span class="emphasis"><em>Copy Constructible</em></span>;
+        </li>
+<li class="listitem">
+          TypeOut needs to be <span class="emphasis"><em>Default Constructible</em></span> by default.
+        </li>
+</ul></div>
+<p>
+      Additional requirements might be imposed by the respective converter. For example,
+      both mentioned -- <span class="emphasis"><em>boost::lexical_cast</em></span>-based and <span class="emphasis"><em>std::stringstream</em></span>-based
+      -- converters require
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          TypeIn to be <span class="emphasis"><em>Output Streamable</em></span>;
+        </li>
+<li class="listitem">
+          TypeOut to be <span class="emphasis"><em>Input Streamable</em></span>.
+        </li>
+</ul></div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009-2014 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. (See accompanying
+        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="__std__stringstream__based_converter/performance.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="the___default_constructible__type_requirement.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>
