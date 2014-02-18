@@ -38,7 +38,7 @@ Additional requirements might be imposed by the respective converter. For exampl
 
 and, therefore, the ['Default Constructible] requirement is also the ['default] requirement of the ['Boost.Convert] framework. 
 
-A well-designed type (in my opinion, anyway) should only have meaningful and unambiguous constructors... and the default constructor is not always and necessarily one of them. Consider the following ['direction] type as one such example. The type has only two meaningful states and is not ['Default Constructible]:
+A well-designed type (in my opinion, anyway) should only have meaningful and unambiguous constructors... and the default constructor is not always and necessarily one of them. Consider the following ['direction] type as one such example.
 
  struct direction
  {
@@ -47,7 +47,7 @@ A well-designed type (in my opinion, anyway) should only have meaningful and una
      private: value_type value_;
  };
 
-For such a type the calls below will not compile (due to the ['Default Constructible] requirement):
+The type has no ['default] state, is not ['Default Constructible] and, consequently, the following calls do not compile:
 
  direction dir1 = lexical_cast<direction>(str); // Does not compile
  direction dir2 = convert<direction>::from(str).value(); // Does not compile
@@ -62,7 +62,7 @@ However, ['Boost.Convert] is able to handle such a type with little help from th
     }
  }
 
-Now the conversion code compiles:
+ ...
 
  direction dir1 = lexical_cast<direction>(str); // Does not compile
  direction dir2 = convert<direction>::from(str).value(); // Compiles

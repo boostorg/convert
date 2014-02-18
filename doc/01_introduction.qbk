@@ -19,7 +19,7 @@ Unlike monolithic Convert.V1 (submitted for a review and ultimately withdrawn ab
 
 The API facade implements new and familiar conversion\/transformation-related behavior such as:
 
-* flexible throwing and non-throwing failed-conversion behavior;
+* flexible throwing, delayed-throwing and non-throwing failed-conversion behavior;
 * support for the fallback value to be returned when conversion\/transformation fails;
 * two types of the conversion-failure check - quick/simple and generic;
 * means to deploy types that do no meet the ['Default Constructibility] requirement;
@@ -36,7 +36,7 @@ The ['std::stringstream]-based converter draws on the standard ['std::streams] f
 * support for different locales;
 * /char/ and /wchar_t/ support.
 
-For example, the following snippet converts an array of strings representing hexadecimal numbers to integers and assigns INT_MAX to those which fail to convert:
+For example, the following snippet converts an array of integers from their textual hexadecimal represention and assigns INT_MAX to those which fail to convert:
 
  boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
  std::vector<int>            integers;
@@ -48,6 +48,6 @@ For example, the following snippet converts an array of strings representing hex
     std::back_inserter(integers),
     convert<int>::from<string>(ccnv(std::hex)).value_or(INT_MAX));
 
-An interesting feature of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. The plugged-in converter ultimately dictates what types and conversion are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters. For example, encryption by a string-to-string encrypting converter, etc.
+An interesting (yet to be explored) feature is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. The plugged-in converter ultimately dictates what types and conversions are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters. For example, encryption by a string-to-string encrypting converter, etc.
 
 [endsect]

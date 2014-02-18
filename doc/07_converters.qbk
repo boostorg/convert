@@ -1,8 +1,8 @@
 [section Converters]
 
-The ['boost::convert] facade API plays an important role as it is responsible for and provides a uniform interface and consistent behavior. However, it is the respective plugged-in converter who does the hard work of turning integers to strings and strings to custom-types, etc., i.e. the hard work of actual type conversion\/transformation. 
+The ['Boost.Convert] facade API plays an important role as it is responsible for and provides a uniform interface and ensures consistent behavior. However, it is the respective plugged-in converter who does the hard work of turning integers to strings and strings to custom-types, etc., i.e. the hard work of actual type conversion\/transformation. 
 
-For a converter to be plugged in to the ['Boost.Convert] framework it needs to be ['callable] with the following signature:
+For a converter to be plugged in to the ['Boost.Convert] framework it needs to be a ['callable] with the following signature:
 
  template<typename TypeOut, typename TypeIn>
  bool operator()(TypeIn const& value_in, TypeOut& result_out) const;
@@ -19,7 +19,13 @@ Alternatively again, an ad-hoc in-place ['callabble] might be provided as a conv
 
  int v = convert<int>::from(c_str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
 
-The ['Boost.Convert] framework has been designed with the following requirements in mind:
+or even an old-fashioned function:
+
+ extern bool my_converter(std::string const&, int&);
+
+ int v = convert<int>::from(c_str, my_converter).value_or(-1);
+
+With regard to converters the ['Boost.Convert] framework has been designed with the following requirements in mind:
 
 * converters do not rely on and are not aware of the Boost.Convert framework;
 * converters are not concerned with the task of creating a temporary storage for the conversion result; that storage is provided by the framework.
