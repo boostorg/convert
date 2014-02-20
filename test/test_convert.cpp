@@ -357,21 +357,27 @@ main(int argc, char const* argv[])
            (p3 - p2) / CLOCKS_PER_SEC);
 
     double p4 = clock();
-    int     v = 0;
 
     for (int k = 0; k < local::num_cycles; ++k)
+    {
+        int v = 0;
         sscanf("12345", "%d", &v);
-
+        BOOST_ASSERT(v == 12345);
+    }
     double p5 = clock();
 
     for (int k = 0; k < local::num_cycles; ++k)
-        boost::lexical_cast<int>("12345");
-
+    {
+        int v = boost::lexical_cast<int>("12345");
+        BOOST_ASSERT(v == 12345);
+    }
     double p6 = clock();
 
     for (int k = 0; k < local::num_cycles; ++k)
-        boost::convert<int>::from("12345", ccnv).value();
-
+    {
+        int v = boost::convert<int>::from("12345", ccnv).value();
+        BOOST_ASSERT(v == 12345);
+    }
     double p7 = clock();
 
     printf("scanf/lcast/convert=%.2f/%.2f/%.2f seconds.\n",

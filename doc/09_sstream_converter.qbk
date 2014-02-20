@@ -159,11 +159,11 @@ This described converter provides ['string-to-type] and ['type-to-string] conver
 
  printf("lcast/convert=%.2f/%.2f seconds\n", (p2 - p1) / CLOCKS_PER_SEC, (p3 - p2) / CLOCKS_PER_SEC);
 
-Performance was tested for the user-defined ['direction] type (mentioned in the previous chapter) with the code above. On a Linux box ['boost::convert] performed twice as fast compared to ['boost::lexical_cast] v1.54 producing the following output:
+Performance was tested for the user-defined ['direction] type (mentioned in the previous chapter) with the code above. On a Linux box (compiled with gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3) ['boost::convert] performed twice as fast compared to ['boost::lexical_cast] v1.54 producing the following output:
 
  lcast/convert=0.52/0.25 seconds.
 
-A similar test for the ['int] type showed that ['boost::convert] was not really that far behind:
+A similar test (see ['test/test_convert.cpp]) for the ['int] type showed that ['boost::convert] was not really that far behind:
 
  scanf/lcast/convert=0.12/0.16/0.20 seconds.
 

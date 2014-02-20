@@ -106,9 +106,9 @@ struct boost::convert<TypeOut>::algorithm_helper
     with_fallback
     value_or(FallbackType const&);
 
-    out_type const& operator()(TypeIn const& value_in)
+    TypeOut operator()(TypeIn const& value_in)
     {
-        out_type result = boost::convert<out_type>::create_storage();
+        out_type result = boost::convert<TypeOut>::create_storage();
         bool       good = (*converter_)(value_in, result);
         
         if (!good)
