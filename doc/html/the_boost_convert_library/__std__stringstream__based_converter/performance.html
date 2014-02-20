@@ -48,14 +48,15 @@
 <p>
         Performance was tested for the user-defined <span class="emphasis"><em>direction</em></span>
         type (mentioned in the previous chapter) with the code above. On a Linux
-        box <span class="emphasis"><em>boost::convert</em></span> performed twice as fast compared
-        to <span class="emphasis"><em>boost::lexical_cast</em></span> v1.54 producing the following
-        output:
+        box (compiled with gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3) <span class="emphasis"><em>boost::convert</em></span>
+        performed twice as fast compared to <span class="emphasis"><em>boost::lexical_cast</em></span>
+        v1.54 producing the following output:
       </p>
 <pre class="programlisting"><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">convert</span><span class="special">=</span><span class="number">0.52</span><span class="special">/</span><span class="number">0.25</span> <span class="identifier">seconds</span><span class="special">.</span>
 </pre>
 <p>
-        A similar test for the <span class="emphasis"><em>int</em></span> type showed that <span class="emphasis"><em>boost::convert</em></span>
+        A similar test (see <span class="emphasis"><em>test/test_convert.cpp</em></span>) for the
+        <span class="emphasis"><em>int</em></span> type showed that <span class="emphasis"><em>boost::convert</em></span>
         was not really that far behind:
       </p>
 <pre class="programlisting"><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">convert</span><span class="special">=</span><span class="number">0.12</span><span class="special">/</span><span class="number">0.16</span><span class="special">/</span><span class="number">0.20</span> <span class="identifier">seconds</span><span class="special">.</span>

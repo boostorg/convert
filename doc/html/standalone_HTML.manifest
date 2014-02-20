@@ -14,14 +14,14 @@ the_boost_convert_library/other_conversions.html
 convert_reference.html
 boost/convert.html
 boost/convert/algorithm_helper.html
-boost/convert/algorithm_helper__idm26128.html
+boost/convert/algorithm_helper__idm26240.html
 boost/convert/result.html
 header/boost/convert/lexical_cast_converter_hpp.html
 boost/lexical_cast_converter.html
 header/boost/convert/safebool_hpp.html
 boost/safebool.html
 header/boost/convert/sstream_converter_hpp.html
-boost/basic_stringstr_idp6310688.html
+boost/basic_stringstr_idp6230128.html
 header/boost/convert/string_sfinae_hpp.html
 the_boost_convert_library/motivation.html
 the_boost_convert_library/references.html
