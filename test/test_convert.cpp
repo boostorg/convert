@@ -352,7 +352,32 @@ main(int argc, char const* argv[])
 
     double p3 = clock();
 
-    printf("convert/lcast=%.2f/%.2f seconds.\n", (p3 - p2) / CLOCKS_PER_SEC, (p2 - p1) / CLOCKS_PER_SEC);
+    printf("lcast/convert=%.2f/%.2f seconds.\n",
+           (p2 - p1) / CLOCKS_PER_SEC,
+           (p3 - p2) / CLOCKS_PER_SEC);
+
+    double p4 = clock();
+    int     v = 0;
+
+    for (int k = 0; k < local::num_cycles; ++k)
+        sscanf("12345", "%d", &v);
+
+    double p5 = clock();
+
+    for (int k = 0; k < local::num_cycles; ++k)
+        boost::lexical_cast<int>("12345");
+
+    double p6 = clock();
+
+    for (int k = 0; k < local::num_cycles; ++k)
+        boost::convert<int>::from("12345", ccnv).value();
+
+    double p7 = clock();
+
+    printf("scanf/lcast/convert=%.2f/%.2f/%.2f seconds.\n",
+           (p5 - p4) / CLOCKS_PER_SEC,
+           (p6 - p5) / CLOCKS_PER_SEC,
+           (p7 - p6) / CLOCKS_PER_SEC);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing with algorithms
