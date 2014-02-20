@@ -15,7 +15,7 @@ if its sole purpose is to handle one particular conversion\/transformation of Ty
 
  bool operator()(std::string const& value_in, std::wstring& result_out) const;
 
-Alternatively again, an ad-hoc in-place ['callabble] might be provided as a converter. For example, 
+Alternatively again, an ad-hoc in-place ['callable] might be provided as a converter. For example, 
 
  int v = convert<int>::from(c_str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
 
@@ -27,7 +27,7 @@ or even an old-fashioned function:
 
 With regard to converters the ['Boost.Convert] framework has been designed with the following requirements in mind:
 
-* converters do not rely on and are not aware of the Boost.Convert framework;
+* converters do not rely on and are not aware of the ['Boost.Convert] framework;
 * converters are not concerned with the task of creating a temporary storage for the conversion result; that storage is provided by the framework.
 
 [endsect]

@@ -1,18 +1,18 @@
 [section Introduction]
 
-[*Please note that the described framework is not part of the Boost library collection even though in this document it is referred to as ['Boost.Convert]. It is done so in preparation for potential submission of the library to ['Boost].]
+[*Please note that the described framework is not part of the Boost library collection even though in this document it is referred to as ['Boost.Convert]. This is done in preparation for potential submission of the library to ['Boost].]
 
 ['Boost.Convert] builds on the ['boost::lexical_cast] design and experience and takes those conversion\/transformation-related ideas further 
 
 * to be applicable to a wider range of conversion-related deployment scenarios, 
 * to provide a more flexible, extensible and configurable type-conversion framework. 
 
-Unlike monolithic Convert.V1 (submitted for a review and ultimately withdrawn about three years ago) this V2 version takes a different route. Design-wise, it follows the successful design of ['boost::lexical_cast] which provides 
+The ['boost::lexical_cast] framework essentially consists of:
 
 * an API facade to deploy the relevant functionality uniformly and 
 * the means to plug a particular type in to the ['boost::lexical_cast] framework; namely, ['operator>>(std::istream&)] and ['operator<<(std::ostream&)]).
 
-['Boost.Convert] follows that design and also consists of two components:
+['Boost.Convert] follows that successful design and also consists of two components:
 
 * the API facade to provide simple, minimal and uniform deployment interface;
 * the extendible library of pluggable converters.
@@ -25,7 +25,7 @@ The API facade implements new and familiar conversion\/transformation-related be
 * means to deploy types that do no meet the ['Default Constructibility] requirement;
 * support for standard algorithms.
 
-The library of pluggable converters does not depend on the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal two proof-of-the-concept converters are supplied -- string-to-type (and type-to-string) ['boost::lexical_cast]-based and ['std::stringstream]-based converters. 
+The library of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal two proof-of-the-concept converters are supplied -- string-to-type (and type-to-string) ['boost::lexical_cast]-based and ['std::stringstream]-based converters. 
 
 The ['boost::lexical_cast]-based converter demonstrates how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
 

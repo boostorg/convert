@@ -48,7 +48,7 @@
 <pre class="programlisting"><span class="keyword">bool</span> <span class="keyword">operator</span><span class="special">()(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">value_in</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">wstring</span><span class="special">&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
 </pre>
 <p>
-      Alternatively again, an ad-hoc in-place <span class="emphasis"><em>callabble</em></span> might
+      Alternatively again, an ad-hoc in-place <span class="emphasis"><em>callable</em></span> might
       be provided as a converter. For example,
     </p>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">v</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">c_str</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">bind</span><span class="special">(</span><span class="identifier">assign</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;,</span> <span class="identifier">_2</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">bind</span><span class="special">(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;,</span> <span class="identifier">_1</span><span class="special">))).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span>
@@ -66,7 +66,8 @@
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          converters do not rely on and are not aware of the Boost.Convert framework;
+          converters do not rely on and are not aware of the <span class="emphasis"><em>Boost.Convert</em></span>
+          framework;
         </li>
 <li class="listitem">
           converters are not concerned with the task of creating a temporary storage

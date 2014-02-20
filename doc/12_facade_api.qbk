@@ -1,0 +1,13 @@
+[section Ode to Component Design]
+
+When looked at the ['boost::convert::from()] in isolation the facade API does very little on its own. Still, it is an important artefact of the component design. The component (software and industrial) design is essential for any system of reasonable size and longevity.
+
+Its distinctive quality is that it is driven by interfaces, "connectors". Those allow varying components to be plugged-in together and to communicate in order to work in cooperation.
+
+In the component design known behavior and familiar/compatible interfaces are important and are the characteristics that allow many different pieces/components to work in cooperation and to form a system. 
+
+Statistically any serious software system (of reasonable size and longevity) spends eighty percent (meaning it is really important) of its total time in the maintenance phase with software entropy or complexity increasing over time. The component design is the only 
+
+It allows chanto plug an electrical device into an electric wall socket without even thinking about. Ttrying it in a different country might be a very frustrating and often impossible excersice. 
+
+

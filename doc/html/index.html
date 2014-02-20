@@ -63,8 +63,9 @@
 <dt><span class="section"><a href="header/boost/convert/string_sfinae_hpp.html">Header &lt;boost/convert/string_sfinae.hpp&gt;</a></span></dt>
 </dl></dd>
 <dt><span class="section"><a href="the_boost_convert_library/motivation.html">Motivation</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/references.html">References</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/convert_acknowledgements.html">Acknowledgements</a></span></dt>
-<dt><span class="section"><a href="index/s14.html">Index</a></span></dt>
+<dt><span class="section"><a href="index/s15.html">Index</a></span></dt>
 </dl>
 </div>
 <div class="section">
@@ -74,8 +75,8 @@
 <p>
       <span class="bold"><strong>Please note that the described framework is not part
       of the Boost library collection even though in this document it is referred
-      to as <span class="emphasis"><em>Boost.Convert</em></span>. It is done so in preparation for
-      potential submission of the library to <span class="emphasis"><em>Boost</em></span>.</strong></span>
+      to as <span class="emphasis"><em>Boost.Convert</em></span>. This is done in preparation for potential
+      submission of the library to <span class="emphasis"><em>Boost</em></span>.</strong></span>
     </p>
 <p>
       <span class="emphasis"><em>Boost.Convert</em></span> builds on the <span class="emphasis"><em>boost::lexical_cast</em></span>
@@ -92,10 +93,8 @@
         </li>
 </ul></div>
 <p>
-      Unlike monolithic Convert.V1 (submitted for a review and ultimately withdrawn
-      about three years ago) this V2 version takes a different route. Design-wise,
-      it follows the successful design of <span class="emphasis"><em>boost::lexical_cast</em></span>
-      which provides
+      The <span class="emphasis"><em>boost::lexical_cast</em></span> framework essentially consists
+      of:
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -108,8 +107,8 @@
         </li>
 </ul></div>
 <p>
-      <span class="emphasis"><em>Boost.Convert</em></span> follows that design and also consists of
-      two components:
+      <span class="emphasis"><em>Boost.Convert</em></span> follows that successful design and also
+      consists of two components:
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -144,7 +143,7 @@
         </li>
 </ul></div>
 <p>
-      The library of pluggable converters does not depend on the <span class="emphasis"><em>Boost.Convert</em></span>
+      The library of pluggable converters is independent of the <span class="emphasis"><em>Boost.Convert</em></span>
       API facade and is designed to be extended over time. With the current proposal
       two proof-of-the-concept converters are supplied -- string-to-type (and type-to-string)
       <span class="emphasis"><em>boost::lexical_cast</em></span>-based and <span class="emphasis"><em>std::stringstream</em></span>-based
@@ -201,7 +200,7 @@
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: February 18, 2014 at 01:02:06 GMT</small></p></td>
+<td align="left"><p><small>Last revised: February 20, 2014 at 22:23:00 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>

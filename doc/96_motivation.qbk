@@ -2,7 +2,7 @@
 
 I have been using textual configuration files extensively, also processing and preparing considerable amounts of data in XML. Consequently, I had a need for a library that would provide a ['uniform and extendible] interface to convert various data between their internal binary representations and external (predominantly textual) representations. 
 
-The ['boost::lexical_cast] library (with its orthogonal design and extendible deployment) looked very promising and was by far the preferred candidate compared to others (such as C functions, the ['std::stringstream] API, etc., see __ref_2__ for the discussion of alternatives). 
+The ['boost::lexical_cast] library (with its orthogonal design and extendible deployment) looked very promising and was by far the preferred candidate compared to others (such as C functions, the ['std::stringstream] API, etc., see [link 2 \[2\]] for the discussion of alternatives). 
 
 Unfortunately, 
 

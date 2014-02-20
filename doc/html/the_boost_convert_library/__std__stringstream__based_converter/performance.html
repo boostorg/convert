@@ -22,12 +22,12 @@
         <span class="emphasis"><em>type-to-string</em></span> conversions as <span class="emphasis"><em>boost::lexical_cast</em></span>
         does. However, the priorities of these two converters are quite different.
         For basic (<span class="emphasis"><em>int</em></span>, etc.) types <span class="emphasis"><em>boost::lexical_cast</em></span>
-        performance has been optimized quite dramatically (see <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html" target="_top"><span class="emphasis"><em>lexical_cast</em></span>
-        performance</a>). Therefore, if speed is your primary objective and your
-        needs do not go beyond basic types, then deploying <span class="emphasis"><em>boost::lexical_cast</em></span>
-        (directly or via the <span class="emphasis"><em>Boost.Convert</em></span> framework) might
-        be a better option. However, for user-defined types it appears to be quite
-        a different story.
+        performance has been optimized (see <a class="link" href="../references.html#5">[5]</a>). Therefore,
+        if speed is your primary objective and your needs do not go beyond basic
+        types, then deploying <span class="emphasis"><em>boost::lexical_cast</em></span> (directly
+        or via the <span class="emphasis"><em>Boost.Convert</em></span> framework) might be a better
+        option. However, for user-defined types it appears to be quite a different
+        story.
       </p>
 <pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span> <span class="identifier">ccnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
 <span class="keyword">int</span> <span class="keyword">const</span> <span class="identifier">num_cycles</span> <span class="special">=</span> <span class="number">1000000</span><span class="special">;</span>
@@ -43,7 +43,7 @@
 
 <span class="keyword">double</span> <span class="identifier">p3</span> <span class="special">=</span> <span class="identifier">clock</span><span class="special">();</span>
 
-<span class="identifier">printf</span><span class="special">(</span><span class="string">"convert=/lcast=%.2f/%.2f seconds\n"</span><span class="special">,</span> <span class="special">(</span><span class="identifier">p3</span> <span class="special">-</span> <span class="identifier">p2</span><span class="special">)</span> <span class="special">/</span> <span class="identifier">CLOCKS_PER_SEC</span><span class="special">,</span> <span class="special">(</span><span class="identifier">p2</span> <span class="special">-</span> <span class="identifier">p1</span><span class="special">)</span> <span class="special">/</span> <span class="identifier">CLOCKS_PER_SEC</span><span class="special">);</span>
+<span class="identifier">printf</span><span class="special">(</span><span class="string">"lcast/convert=%.2f/%.2f seconds\n"</span><span class="special">,</span> <span class="special">(</span><span class="identifier">p2</span> <span class="special">-</span> <span class="identifier">p1</span><span class="special">)</span> <span class="special">/</span> <span class="identifier">CLOCKS_PER_SEC</span><span class="special">,</span> <span class="special">(</span><span class="identifier">p3</span> <span class="special">-</span> <span class="identifier">p2</span><span class="special">)</span> <span class="special">/</span> <span class="identifier">CLOCKS_PER_SEC</span><span class="special">);</span>
 </pre>
 <p>
         Performance was tested for the user-defined <span class="emphasis"><em>direction</em></span>
@@ -52,7 +52,13 @@
         to <span class="emphasis"><em>boost::lexical_cast</em></span> v1.54 producing the following
         output:
       </p>
-<pre class="programlisting"><span class="identifier">convert</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">=</span><span class="number">0.25</span><span class="special">/</span><span class="number">0.52</span> <span class="identifier">seconds</span><span class="special">.</span>
+<pre class="programlisting"><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">convert</span><span class="special">=</span><span class="number">0.52</span><span class="special">/</span><span class="number">0.25</span> <span class="identifier">seconds</span><span class="special">.</span>
+</pre>
+<p>
+        A similar test for the <span class="emphasis"><em>int</em></span> type showed that <span class="emphasis"><em>boost::convert</em></span>
+        was not really that far behind:
+      </p>
+<pre class="programlisting"><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">convert</span><span class="special">=</span><span class="number">0.12</span><span class="special">/</span><span class="number">0.16</span><span class="special">/</span><span class="number">0.20</span> <span class="identifier">seconds</span><span class="special">.</span>
 </pre>
 <p>
         Unfortunately but unavoidably the test is not exactly fair due to different
@@ -63,8 +69,7 @@
         a converter or converters once and then re-use them (as in the code above).
         Consequently, performance-wise this deployment pattern is likely to represent
         the fourth (<span class="emphasis"><em>std::stringstream without construction</em></span>)
-        column of the <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html" target="_top"><span class="emphasis"><em>lexical_cast</em></span>
-        performance</a> table.
+        column of the <a class="link" href="../references.html#5">[5]</a> table.
       </p>
 <p>
         In turn, <span class="emphasis"><em>boost::lexical_cast</em></span> also deploys the standard
@@ -72,8 +77,7 @@
         to its design <span class="emphasis"><em>boost::lexical_cast</em></span> creates and then destroys
         an instance of a stream type every time the function is called and, consequently,
         probably belongs with the third (<span class="emphasis"><em>std::stringstream with construction</em></span>)
-        and much slower column of the <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html" target="_top"><span class="emphasis"><em>lexical_cast</em></span>
-        performance</a> table.
+        and much slower column of the <a class="link" href="../references.html#5">[5]</a> table.
       </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

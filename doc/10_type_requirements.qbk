@@ -1,6 +1,6 @@
 [section Type Requirements]
 
-In order for a user-defined type to be integrated into the ['boost::lexical_cast] framework:
+In order for a user-defined type to be integrated into the ['boost::lexical_cast] framework (at least until 1.47; see [link 3 \[3\]]):
 
 * TypeOut needs to be ['Copy Constructible];
 * TypeOut needs to be ['Default Constructible];
@@ -22,7 +22,7 @@ Additional requirements might be imposed by the respective converter. For exampl
 [endsect]
 [section The ['Default Constructible] Type Requirement]
 
-(Not too) deeply in the bowels of the implementation a temporary-storage instance of the ['TypeOut] type is created and then populated with the conversion result. The ['boost::lexical_cast] implementation chooses the default constructor to create such an instance. Consequently, the ['TypeOut] type needs to be ['Default Constructible]. For more details see __ref_1__. 
+(Not too) deeply in the bowels of the implementation a temporary-storage instance of the ['TypeOut] type is created and then populated with the conversion result. The ['boost::lexical_cast] implementation chooses the default constructor to create such an instance. Consequently, the ['TypeOut] type needs to be ['Default Constructible]. For more details see [link 4 \[4\]]. 
 
 ['Boost.Convert] also creates a temporary-storage instance of the ['TypeOut] type that the respective converter then populates with the conversion result. By default that temporary-storage is created with
 
@@ -38,7 +38,7 @@ Additional requirements might be imposed by the respective converter. For exampl
 
 and, therefore, the ['Default Constructible] requirement is also the ['default] requirement of the ['Boost.Convert] framework. 
 
-A well-designed type (in my opinion, anyway) should only have meaningful and unambiguous constructors... and the default constructor is not always and necessarily one of them. Consider the following ['direction] type as one such example.
+A well-designed type (in my opinion, anyway) should only have meaningful and unambiguous constructors... and the default constructor is not always and necessarily one of them. Consider the following ['direction] type as one such example:
 
  struct direction
  {

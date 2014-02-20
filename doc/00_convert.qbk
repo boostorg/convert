@@ -21,11 +21,6 @@
     ]
 ]
  
-[def __ref_1__ [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast.html /lexical_cast/ documentation]]
-[def __ref_2__ [@http://www.gotw.ca/publications/mill19.htm The String Formatters of Manor Farm by H. Sutter]]
-[def __ref_4__ [@http://www.cecalc.ula.ve/documentacion/tutoriales/PGICDK/doc/pgC++_lib/stdlibug/str_5412.htm "Stream Storage for Private Use: iword, pword, and xalloc" by Rogue Wave Software]]
-[def __ref_5__ [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html /lexical_cast/ performance]]
-
 [include 01_introduction.qbk]
 [include 04_getting_started.qbk]
 [include 05_getting_serious.qbk]
@@ -35,7 +30,8 @@
 [include 09_sstream_converter.qbk]
 [include 10_type_requirements.qbk]
 [include 11_other.qbk]
-[include 97_ref.qbk]
-[include 02_motivation.qbk]
+[include 90_ref.qbk]
+[include 96_motivation.qbk]
+[include 97_references.qbk]
 [include 98_acknowledgments.qbk]
 [include 99_index.qbk]

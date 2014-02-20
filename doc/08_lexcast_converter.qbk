@@ -6,7 +6,7 @@ The converter is deployed with
 
 The purpose of the converter is 
 
-* to make use of the ['boost::lexical_cast] functionality and performance (see __ref_5__) that many people have become accustomed to and comfortable with;
+* to make use of the ['boost::lexical_cast] functionality and performance (see see [link 5 \[5\]]) that many people have become accustomed to and comfortable with;
 * to demonstrate how existing independent conversion\/transformation-related facilities might be incorporated in to the ['Boost.Convert] framework.
 
  struct lexical_cast_converter
