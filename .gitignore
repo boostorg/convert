@@ -10,6 +10,7 @@ bin.v2/
 .cproject
 
 Debug/
+Release/
 *.vcxproj*
 *.sln
 *.suo

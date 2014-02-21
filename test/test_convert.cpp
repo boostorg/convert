@@ -71,6 +71,8 @@ struct direction_with_default
         return stream << (dir.value_ == up ? "up" : dir.value_ == dn ? "dn" : "no");
     }
 
+    value_type value() const { return value_; }
+
     private: value_type value_;
 };
 
@@ -114,9 +116,66 @@ assign(Type& value_out, Type const& value_in)
     return true;
 }
 
+#define randomize_str(k) (str[4 - k % 5] = 49 + k % 9, str)
+
+static
+void
+performance_test()
+{
+    boost::cstringstream_converter cnv; // stringstream-based char converter
+    
+    char const* const input[] = { "no", "up", "dn" };
+    int                   sum = 0;
+    char                str[] = "12345";
+    double const           p1 = clock();
+
+    for (int k = 0; k < local::num_cycles; ++k)
+        sum += boost::lexical_cast<direction_with_default>(input[k % 3]).value();
+
+    double p2 = clock();
+
+    for (int k = 0; k < local::num_cycles; ++k)
+        sum += boost::convert<direction_with_default>::from(input[k % 3], cnv).value().value();
+
+    double p3 = clock();
+
+    printf("for user-defined type: lcast/convert=%.2f/%.2f seconds.\n",
+           (p2 - p1) / CLOCKS_PER_SEC,
+           (p3 - p2) / CLOCKS_PER_SEC);
+
+    double p4 = clock();
+
+    for (int k = 0; k < local::num_cycles; ++k)
+    {
+        int v;
+        sscanf(randomize_str(k), "%d", &v);
+        sum += v;
+    }
+    double p5 = clock();
+
+    for (int k = 0; k < local::num_cycles; ++k)
+        sum += boost::lexical_cast<int>(randomize_str(k));
+
+    double p6 = clock();
+
+    for (int k = 0; k < local::num_cycles; ++k)
+        sum += boost::convert<int>::from(randomize_str(k), cnv).value();
+
+    double p7 = clock();
+
+    printf("for int type: scanf/lcast/convert=%.2f/%.2f/%.2f seconds.\n",
+           (p5 - p4) / CLOCKS_PER_SEC,
+           (p6 - p5) / CLOCKS_PER_SEC,
+           (p7 - p6) / CLOCKS_PER_SEC);
+    
+    printf("Ignored output (to prevent performance tests optimized out: %d.\n", sum);
+}
+
 int
 main(int argc, char const* argv[])
 {
+    performance_test();
+
     ////////////////////////////////////////////////////////////////////////////
     // Test string SFINAE.
     ////////////////////////////////////////////////////////////////////////////
@@ -339,51 +398,6 @@ main(int argc, char const* argv[])
     BOOST_ASSERT(dn_dir3 == direction::dn);
     BOOST_ASSERT(dn_dir4 == direction::dn);
     BOOST_ASSERT(!up_dir4); // Failed conversion
-
-    double p1 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-        boost::lexical_cast<direction_with_default>("up");
-
-    double p2 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-        boost::convert<direction_with_default>::from("up", ccnv).value();
-
-    double p3 = clock();
-
-    printf("lcast/convert=%.2f/%.2f seconds.\n",
-           (p2 - p1) / CLOCKS_PER_SEC,
-           (p3 - p2) / CLOCKS_PER_SEC);
-
-    double p4 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-    {
-        int v = 0;
-        sscanf("12345", "%d", &v);
-        BOOST_ASSERT(v == 12345);
-    }
-    double p5 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-    {
-        int v = boost::lexical_cast<int>("12345");
-        BOOST_ASSERT(v == 12345);
-    }
-    double p6 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-    {
-        int v = boost::convert<int>::from("12345", ccnv).value();
-        BOOST_ASSERT(v == 12345);
-    }
-    double p7 = clock();
-
-    printf("scanf/lcast/convert=%.2f/%.2f/%.2f seconds.\n",
-           (p5 - p4) / CLOCKS_PER_SEC,
-           (p6 - p5) / CLOCKS_PER_SEC,
-           (p7 - p6) / CLOCKS_PER_SEC);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing with algorithms
