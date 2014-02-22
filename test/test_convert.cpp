@@ -7,6 +7,7 @@
 #include <boost.convert/boost/convert/api.hpp>
 #include <boost.convert/boost/convert/lexical_cast_converter.hpp>
 #include <boost.convert/boost/convert/sstream_converter.hpp>
+#include <boost.convert/boost/convert/scanf_converter.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <iomanip>
@@ -122,7 +123,8 @@ static
 void
 performance_test()
 {
-    boost::cstringstream_converter cnv; // stringstream-based char converter
+    boost::scanf_converter         scnv;
+    boost::cstringstream_converter ccnv;
     
     char const* const input[] = { "no", "up", "dn" };
     int                   sum = 0;
@@ -135,7 +137,7 @@ performance_test()
     double p2 = clock();
 
     for (int k = 0; k < local::num_cycles; ++k)
-        sum += boost::convert<direction_with_default>::from(input[k % 3], cnv).value().value();
+        sum += boost::convert<direction_with_default>::from(input[k % 3], ccnv).value().value();
 
     double p3 = clock();
 
@@ -159,14 +161,20 @@ performance_test()
     double p6 = clock();
 
     for (int k = 0; k < local::num_cycles; ++k)
-        sum += boost::convert<int>::from(randomize_str(k), cnv).value();
+        sum += boost::convert<int>::from(randomize_str(k), ccnv).value();
 
     double p7 = clock();
 
-    printf("for int type: scanf/lcast/convert=%.2f/%.2f/%.2f seconds.\n",
+    for (int k = 0; k < local::num_cycles; ++k)
+        sum += boost::convert<int>::from(randomize_str(k), scnv).value();
+
+    double p8 = clock();
+
+    printf("for int type: scanf/lcast/sstream-convert/scanf-convert=%.2f/%.2f/%.2f/%.2f seconds.\n",
            (p5 - p4) / CLOCKS_PER_SEC,
            (p6 - p5) / CLOCKS_PER_SEC,
-           (p7 - p6) / CLOCKS_PER_SEC);
+           (p7 - p6) / CLOCKS_PER_SEC,
+           (p8 - p7) / CLOCKS_PER_SEC);
     
     printf("Ignored output (to prevent performance tests optimized out: %d.\n", sum);
 }

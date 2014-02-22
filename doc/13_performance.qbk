@@ -1,0 +1,63 @@
+[section Performance]
+
+The performance of ['Boost.Convert] entirely depends on the converter deployed. Several ['string-to-type] conversion facilities have been tested. Namely,
+
+* the scanf() function;
+* ['boost::lexical_cast];
+* ['Boost.Convert] with the ['std::stringstream]-based converter plugged in;
+* ['Boost.Convert] with the ['scanf]-based converter plugged in.
+
+ boost::cstringstream_converter cnv;
+ int const num_cycles = 1000000;
+ double p1 = clock();
+
+ for (int k = 0; k < num_cycles; ++k)
+    boost::lexical_cast<direction>(str);
+
+ double p2 = clock();
+
+ for (int k = 0; k < num_cycles; ++k)
+    boost::convert<direction>::from(str, cnv).value();
+
+ double p3 = clock();
+
+ printf("lcast/convert=%.2f/%.2f seconds\n", (p2 - p1) / CLOCKS_PER_SEC, (p3 - p2) / CLOCKS_PER_SEC);
+
+Performance was tested for the ['integer] type and the user-defined ['direction] type (described later in the documentation) with the code ['conceptually] as above (see the actual code in ['test/test_convert.cpp]). On Cygwin platform compiled with gcc 4.8.2 I had the following results:
+
+ $ g++ -O0 test_convert.cpp -I../..
+ for user-defined type: lcast/convert=6.17/4.62 seconds.
+ for int type: scanf/lcast/sstream-convert/scanf-convert=1.11/1.75/2.66/1.23 seconds.
+
+ $ g++ -O3 test_convert.cpp -I../..
+ for user-defined type: lcast/convert=5.45/4.11 seconds.
+ for int type: scanf/lcast/sstream-convert/scanf-convert=1.08/1.17/2.34/1.06 seconds.
+
+That same code compiled with MS Visual C++ 2010 Express showed greater differences when compiled non-optimized and optimized-for-speed:
+
+ Not optimized:
+ for user-defined type: lcast/convert=19.06/14.31 seconds.
+ for int type: scanf/lcast/sstream-convert/scanf-convert=3.03/1.22/24.11/6.50 seconds.
+
+ Optimized for speed:
+ for user-defined type: lcast/convert=6.36/2.97 seconds.
+ for int type: scanf/lcast/sstream-convert/scanf-convert=0.69/0.84/5.59/0.83 seconds.
+
+That same code compiled on a Ubuntu box (compiled with gcc 4.6.3) produced the following result:
+
+ for user-defined type: lcast/convert=0.52/0.25 seconds.
+ for int type: scanf/lcast/convert=0.12/0.16/0.20 seconds.
+
+Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that considerable performance gains are achieved with optimized compilation. Optimized times are the ones to be seriously looked at and analyzed. They show that for something as basic as string-to-int ['scanf()] still comes ahead of the pack (despite ['lexical_cast] performance table ([link 5 \[5\]]) claiming otherwise). 
+
+Not surprisingly ['Boost.Convert] with the ['scanf]-based converter comes equal or close second and given its type-safety and interface-related benefits should probably be the first choice for basic conversions.
+ 
+For user-defined types only two converters were tested -- ['boost::lexical_cast] and ['Boost.Convert] with the ['std::stringstream]-based converter. Other conversion facilities did not provide the necessary functionality.
+
+Both converters provide ['string-to-type] and ['type-to-string] conversions. However, the priorities of these two converters are quite different. For basic (['int], etc.) types ['boost::lexical_cast] performance has been optimized (see [link 5 \[5\]]). Therefore, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['boost::lexical_cast] (directly or via the ['Boost.Convert] framework) might be an option to explore. However, for user-defined types it appears to be quite a different story with ['Boost.Convert] consistently outperforming ['boost::lexical_cast] in the tests.
+
+These results for user-defined types probably reflect different underlying designs. The standard ['Boost.Convert] usage pattern is to create a converter or converters once and then re-use them (as in the code above). Consequently, performance-wise this deployment pattern is likely to represent the fourth (['std::stringstream without construction]) column of the [link 5 \[5\]] table. 
+
+In turn, ['boost::lexical_cast] also deploys the standard ['stream] framework for user-defined types. However, due to its design ['boost::lexical_cast] creates and then destroys an instance of a stream type every time the function is called and, consequently, probably belongs with the third (['std::stringstream with construction]) and much slower column of the [link 5 \[5\]] table. 
+
+[endsect]

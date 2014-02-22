@@ -31,7 +31,7 @@ struct boost::convert
 
 	typedef boost::convert<TypeOut>	                         this_type;
 	typedef typename convert_detail::corrected<TypeOut>::type out_type;
-	typedef typename this_type::result                     result_type;
+	typedef typename boost::convert<out_type>::result      result_type;
 
     static out_type create_storage() { return out_type(); }
 

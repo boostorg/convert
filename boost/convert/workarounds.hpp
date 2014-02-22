@@ -12,6 +12,7 @@
 #if defined(_MSC_VER)
 #   pragma warning(disable: 4348)
 #   pragma warning(disable: 4800)
+#   pragma warning(disable: 4996)
 #endif
 
 #endif // __BOOST_CONVERT_WORKAROUNDS_PRIVATE_HPP__

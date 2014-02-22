@@ -25,9 +25,9 @@ The API facade implements new and familiar conversion\/transformation-related be
 * means to deploy types that do no meet the ['Default Constructibility] requirement;
 * support for standard algorithms.
 
-The library of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal two proof-of-the-concept converters are supplied -- string-to-type (and type-to-string) ['boost::lexical_cast]-based and ['std::stringstream]-based converters. 
+The library of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal three proof-of-the-concept converters are supplied -- string-to-type (and type-to-string) ['boost::lexical_cast]-based, ['scanf]-based and ['std::stringstream]-based converters. 
 
-The ['boost::lexical_cast]-based converter demonstrates how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
+The  ['scanf]-based and ['boost::lexical_cast]-based converters demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
 
 The ['std::stringstream]-based converter draws on the standard ['std::streams] functionality and provides:
 
