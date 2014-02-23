@@ -11,6 +11,10 @@
 #include "./parameters.hpp"
 #include <sstream>
 
+#define CNV_FUNC(NAME, TYPE)    \
+    this_type&                  \
+    operator()(parameter::aux::tagged_argument<conversion::parameter::type::NAME, TYPE> const& arg)
+
 namespace boost {
 
 template<class Char>
@@ -35,7 +39,7 @@ struct basic_stringstream_converter
 		stream_.clear();            // Clear the flags
         stream_.str(StringOut());   // Clear/empty the content of the stream 
 
-        return (!stream_.fail()  && !(stream_ << value_in).fail()) ? (result_out = stream_.str(), true) : false;
+        return !(stream_ << value_in).fail() ? (result_out = stream_.str(), true) : false;
     }
     template<typename TypeOut, typename StringIn>
     typename boost::enable_if_c<
@@ -46,7 +50,7 @@ struct basic_stringstream_converter
 		stream_.clear();        // Clear the flags
         stream_.str(value_in);  // Set the content of the stream 
 
-        return !stream_.fail() && !(stream_ >> result_out).fail();
+        return !(stream_ >> result_out).fail();
     }
 
     this_type& operator() (std::locale const& locale) { return (stream_.imbue(locale), *this); }
@@ -55,29 +59,25 @@ struct basic_stringstream_converter
     template<typename Manipulator>
     this_type& operator()(Manipulator m) { return (stream_ >> m, *this); }
 
-    template<typename Arg>
-    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::locale, Arg> const& arg)
+    CNV_FUNC(locale, std::locale const&)
     {
         std::locale const& locale = arg[conversion::parameter::locale];
         stream_.imbue(locale);
         return *this;
     }
-    template<typename Arg>
-    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::precision, Arg> const& arg)
+    CNV_FUNC(precision, int const)
     {
         int precision = arg[conversion::parameter::precision];
         stream_.precision(precision);
         return *this;
     }
-    template<typename Arg>
-    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::uppercase, Arg> const& arg)
+    CNV_FUNC(uppercase, bool const)
     {
         bool uppercase = arg[conversion::parameter::uppercase];
-        uppercase ? stream_.setf(std::ios::uppercase) : stream_.unsetf(std::ios::uppercase);
+        uppercase ? (void) stream_.setf(std::ios::uppercase) : stream_.unsetf(std::ios::uppercase);
         return *this;
     }
-    template<typename Arg>
-    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::base, Arg> const& arg)
+    CNV_FUNC(base, conversion::base::type const)
     {
         conversion::base::type base = arg[conversion::parameter::base];
         
@@ -88,8 +88,7 @@ struct basic_stringstream_converter
         
         return *this;
     }
-    template<typename Arg>
-    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::notation, Arg> const& arg)
+    CNV_FUNC(notation, conversion::notation::type const)
     {
         conversion::notation::type notation = arg[conversion::parameter::notation];
         
@@ -109,5 +108,7 @@ typedef basic_stringstream_converter<char> cstringstream_converter;
 typedef basic_stringstream_converter<wchar_t> wstringstream_converter; 
 
 }
+
+#undef CNV_FUNC
 
 #endif // BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
