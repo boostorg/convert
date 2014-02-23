@@ -43,11 +43,14 @@ For batch-processing it might be more efficient to configure the converter once:
  BOOST_ASSERT(convert<string>::from(255, ccnv).value() == "0XFF");
  BOOST_ASSERT(convert<string>::from( 15, ccnv).value() ==  "0XF");
 
-An alternative formatting interface is being extended and explored:
+An alternative (more generic) formatting interface is being extended and explored:
 
- namespace cnv = boost::conversion::parameter;
+ namespace cnv = boost::conversion;
+ namespace arg = boost::conversion::parameter;
  
- ccnv(cnv::base = 10)(cnv::uppercase = false)(cnv::notation = boost::conversion::notation::scientific);
+ ccnv(arg::base = cnv::base::dec)
+     (arg::uppercase = false)
+     (arg::notation = cnv::notation::scientific);
  
 which is equivalent of the ['manipulator]-based variant:
  

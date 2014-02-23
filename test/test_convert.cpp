@@ -36,7 +36,9 @@ using std::string;
 using std::wstring;
 using boost::array;
 using boost::convert;
-namespace cnv = boost::conversion::parameter;
+
+namespace cnv = boost::conversion;
+namespace arg = boost::conversion::parameter;
 
 bool
 my_cypher(std::string const& value_in, std::string& value_out)
@@ -471,7 +473,7 @@ main(int argc, char const* argv[])
         strings.begin(),
         strings.end(),
         std::back_inserter(integers),
-        convert<int>::from<string>(ccnv(cnv::base = 16)).value_or(-1));
+        convert<int>::from<string>(ccnv(arg::base = cnv::base::hex)).value_or(-1));
 
     BOOST_ASSERT(integers[0] == 15);
     BOOST_ASSERT(integers[1] == 16);
@@ -511,9 +513,9 @@ main(int argc, char const* argv[])
                             : local::is_gcc ? "1.2345E-02"
                             : "";
 //  ccnv(std::setprecision(4))(std::uppercase)(std::scientific);
-    ccnv(cnv::precision = 4)
-        (cnv::uppercase = true)
-        (cnv::notation = boost::conversion::notation::scientific);
+    ccnv(arg::precision = 4)
+        (arg::uppercase = true)
+        (arg::notation = cnv::notation::scientific);
 
     double double_v01 = convert<double>::from(double_s01, ccnv).value();
     string double_s02 = convert<string>::from(double_v01, ccnv).value();
@@ -544,7 +546,7 @@ main(int argc, char const* argv[])
     }
 
 //  ccnv(std::setprecision(3))(std::nouppercase);
-    ccnv(cnv::precision = 3)(cnv::uppercase = false);
+    ccnv(arg::precision = 3)(arg::uppercase = false);
 
     string double_rus = convert<string>::from(double_v01, ccnv(rus_locale)).value();
     string double_eng = convert<string>::from(double_v01, ccnv(eng_locale)).value();

@@ -13,6 +13,7 @@ namespace boost
 {
     namespace conversion
     {
+        struct base { enum type { dec, hex, oct };};
         struct notation { enum type { fixed, scientific };};
 
         namespace parameter

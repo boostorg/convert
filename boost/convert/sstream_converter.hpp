@@ -79,11 +79,11 @@ struct basic_stringstream_converter
     template<typename Arg>
     this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::base, Arg> const& arg)
     {
-        int base = arg[conversion::parameter::base];
+        conversion::base::type base = arg[conversion::parameter::base];
         
-        /**/ if (base == 10) stream_.setf(std::ios::dec);
-        else if (base == 16) stream_.setf(std::ios::hex);
-        else if (base ==  8) stream_.setf(std::ios::oct);
+        /**/ if (base == conversion::base::dec) stream_.setf(std::ios::dec);
+        else if (base == conversion::base::hex) stream_.setf(std::ios::hex);
+        else if (base == conversion::base::oct) stream_.setf(std::ios::oct);
         else BOOST_ASSERT(!"Not implemented");
         
         return *this;
