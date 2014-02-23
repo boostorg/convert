@@ -12,34 +12,27 @@ Performance was tested for string conversions to the ['integer] type and the use
 
  $ g++ -O0 test_convert.cpp (Cygwin)
  string-to-user-defined type: lcast/convert=6.09/4.59 seconds.
- string-to-int: scanf/lcast=1.09/1.77. converters sstream/scanf/mixed=2.67/1.19/0.42 seconds.
+ string-to-int: scanf/lcast=1.09/1.77. converters sstream/scanf/strtol=2.67/1.19/0.42 seconds.
 
  $ g++ -O3 test_convert.cpp (Cygwin)
  string-to-user-defined type: lcast/convert=5.47/4.16 seconds.
- string-to-int: scanf/lcast=1.06/1.19. converters sstream/scanf/mixed=2.36/1.08/0.28 seconds.
- int-to-string-to-int: lcast/cnv-sstream/cnv-scanf/cnv-mixed=3.78/3.41/4.33/3.41 seconds.
+ string-to-int: scanf/lcast=1.06/1.19. converters sstream/scanf/strtol=2.36/1.08/0.28 seconds.
 
 That same code compiled with MS Visual C++ 2010 Express showed greater differences when compiled non-optimized and optimized-for-speed:
 
  Not optimized:
  string-to-user-defined type: lcast/convert=18.98/14.25 seconds.
- string-to-int: scanf/lcast=3.05/1.22. converters sstream/scanf/mixed=24.14/6.39/1.23 seconds.
+ string-to-int: scanf/lcast=3.05/1.22. converters sstream/scanf/strtol=24.14/6.39/1.23 seconds.
 
  Optimized for speed:
  string-to-user-defined type: lcast/convert=6.30/2.97 seconds.
- string-to-int: scanf/lcast=0.77/0.86. converters sstream/scanf/mixed=5.66/0.81/0.28 seconds.
- int-to-string-to-int: lcast/cnv-sstream/cnv-scanf/cnv-mixed=2.19/11.33/2.44/1.89 seconds.
+ string-to-int: scanf/lcast=0.77/0.86. converters sstream/scanf/strtol=5.66/0.81/0.28 seconds.
   
 That same code compiled on a Ubuntu box (compiled with gcc 4.6.3) produced the following result:
 
  ...
 
 Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that considerable performance is to be gained via optimized compilation. Optimized times are the ones to be seriously looked at and analyzed. They show that for something as basic as string-to-int the ['strtol]-based converter comes far ahead of the rest. ['scanf()] comes next (despite ['lexical_cast] performance table ([link 5 \[5\]]) claiming otherwise). Not surprisingly ['Boost.Convert] with the ['scanf]-based converter comes equal or close to ['scanf()]. 
-
-Interestingly gcc gave quite close results for all tested conversions for the int-to-string-to-int round trip conversion:
-
- $ g++ -O3 test_convert.cpp (Cygwin)
- int-to-string-to-int: lcast/cnv-sstream/cnv-scanf/cnv-mixed=3.78/3.41/4.33/3.41 seconds.
 
 For user-defined types only two converters were tested -- ['boost::lexical_cast] and ['Boost.Convert] with the ['std::stringstream]-based converter. Other conversion facilities did not provide that functionality.
 

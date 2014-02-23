@@ -7,7 +7,7 @@
 #ifndef BOOST_CONVERT_DETAILS_HPP
 #define BOOST_CONVERT_DETAILS_HPP
 
-#include "./parameters.hpp"
+#include "../parameters.hpp"
 
 #define CONVERTER_PARAM_FUNC(PARAM_NAME, PARAM_TYPE)    \
     this_type&                                          \

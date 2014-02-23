@@ -12,9 +12,9 @@
 #ifndef BOOST_CONVERT_API_HPP
 #define BOOST_CONVERT_API_HPP
 
-#include "./safebool.hpp"
-#include "./workarounds.hpp"
-#include "./string_sfinae.hpp"
+#include "./details/safebool.hpp"
+#include "./details/workarounds.hpp"
+#include "./details/string_sfinae.hpp"
 #include <boost/throw_exception.hpp>
 #include <stdexcept>
 

@@ -5,10 +5,10 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include "../include/api.hpp"
-#include "../include/lexical_cast_converter.hpp"
-#include "../include/sstream_converter.hpp"
-#include "../include/scanf_converter.hpp"
-#include "../include/mixed_converter.hpp"
+#include "../include/converter/lexical_cast.hpp"
+#include "../include/converter/sstream.hpp"
+#include "../include/converter/scanf.hpp"
+#include "../include/converter/strtol.hpp"
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <iomanip>
@@ -139,36 +139,24 @@ assign(Type& value_out, Type const& value_in)
 
 static
 void
-test_mixed_converter()
+test_printf_converter()
 {
-    boost::mixed_converter cnv;
+    boost::printf_converter cnv;
 
+    BOOST_ASSERT("255" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::dec)).value_or("bad"));
+    BOOST_ASSERT( "ff" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::hex)).value_or("bad"));
+    BOOST_ASSERT("377" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::oct)).value_or("bad"));
+}
+
+template<typename Converter>
+void
+test_string_to_type_converter(Converter const& cnv)
+{
     BOOST_ASSERT( 255 == boost::convert<int>::from("255", cnv(arg::base = cnv::base::dec)).value_or(999));
     BOOST_ASSERT( 999 == boost::convert<int>::from( "FF", cnv(arg::base = cnv::base::dec)).value_or(999));
     BOOST_ASSERT( 255 == boost::convert<int>::from( "FF", cnv(arg::base = cnv::base::hex)).value_or(999));
     BOOST_ASSERT( 173 == boost::convert<int>::from("255", cnv(arg::base = cnv::base::oct)).value_or(999));
     BOOST_ASSERT( 999 != boost::convert<double>::from("1.23", cnv).value_or(999));
-
-    BOOST_ASSERT( "255" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::dec)).value_or("bad"));
-    BOOST_ASSERT("0xff" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::hex)).value_or("bad"));
-    BOOST_ASSERT("0377" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::oct)).value_or("bad"));
-}
-
-static
-void
-test_printf_converter()
-{
-    boost::scanf_converter cnv;
-
-    BOOST_ASSERT( 255 == boost::convert<int>::from( "255", cnv(arg::base = cnv::base::dec)).value_or(999));
-    BOOST_ASSERT( 999 == boost::convert<int>::from("FF", cnv(arg::base = cnv::base::dec)).value_or(999));
-//  BOOST_ASSERT( 255 == boost::convert<int>::from("FF", cnv(arg::base = cnv::base::hex)).value_or(999));
-//  BOOST_ASSERT( 173 == boost::convert<int>::from( "255", cnv(arg::base = cnv::base::oct)).value_or(999));
-    BOOST_ASSERT( 999 != boost::convert<double>::from("1.23", cnv).value_or(999));
-
-    BOOST_ASSERT( "255" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::dec)).value_or("bad"));
-    BOOST_ASSERT("0xff" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::hex)).value_or("bad"));
-    BOOST_ASSERT("0377" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::oct)).value_or("bad"));
 }
 
 static
@@ -204,7 +192,7 @@ static
 void
 performance_test2()
 {
-    boost::mixed_converter         mcnv;
+    boost::strtol_converter        tcnv;
     boost::scanf_converter         scnv;
     boost::cstringstream_converter ccnv;
     
@@ -221,10 +209,10 @@ performance_test2()
 
     double p3 = clock(); RUN_STR_TO_INT(ccnv);
     double p4 = clock(); RUN_STR_TO_INT(scnv);
-    double p5 = clock(); RUN_STR_TO_INT(mcnv);
+    double p5 = clock(); RUN_STR_TO_INT(tcnv);
     double p6 = clock();
 
-    printf("string-to-int: scanf/lcast=%.2f/%.2f. converters sstream/scanf/mixed=%.2f/%.2f/%.2f seconds.\n",
+    printf("string-to-int: scanf/lcast=%.2f/%.2f. cnv sstream/scanf/strtol=%.2f/%.2f/%.2f seconds.\n",
            (p2 - p1) / CLOCKS_PER_SEC,
            (p3 - p2) / CLOCKS_PER_SEC,
            (p4 - p3) / CLOCKS_PER_SEC,
@@ -236,7 +224,8 @@ static
 void
 performance_test3()
 {
-    boost::mixed_converter         mcnv;
+#ifdef sfdfsdasdasda
+	boost::mixed_converter         mcnv;
     boost::scanf_converter         scnv;
     boost::cstringstream_converter ccnv;
     
@@ -258,13 +247,15 @@ performance_test3()
            (p3 - p2) / CLOCKS_PER_SEC,
            (p4 - p3) / CLOCKS_PER_SEC,
            (p5 - p4) / CLOCKS_PER_SEC);
+#endif
 }
 
 int
 main(int argc, char const* argv[])
 {
-    test_printf_converter();
-    test_mixed_converter();
+    test_string_to_type_converter(boost::strtol_converter()); 
+    test_string_to_type_converter(boost::scanf_converter()); 
+    test_printf_converter(); 
     
     performance_test1();
     performance_test2();

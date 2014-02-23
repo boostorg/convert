@@ -7,8 +7,8 @@
 #ifndef BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 #define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
-#include "./string_sfinae.hpp"
-#include "./details.hpp"
+#include "../details/string_sfinae.hpp"
+#include "../details/details.hpp"
 #include <sstream>
 
 namespace boost 

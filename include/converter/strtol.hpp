@@ -4,47 +4,27 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#ifndef BOOST_CONVERT_MIXED_CONVERTER_HPP
-#define BOOST_CONVERT_MIXED_CONVERTER_HPP
+#ifndef BOOST_CONVERT_STRTOL_CONVERTER_HPP
+#define BOOST_CONVERT_STRTOL_CONVERTER_HPP
 
-#include "./string_sfinae.hpp"
-#include "./details.hpp"
+#include "../details/string_sfinae.hpp"
 #include <stdlib.h>
 
 namespace boost 
 {
-    struct mixed_converter;
+    struct strtol_converter;
 }
-// 
-// fcvt() for double-to-string. http://www.indiabix.com/technical/c/strings/4
-//
-struct boost::mixed_converter
-{
-    typedef boost::mixed_converter this_type;
 
-    mixed_converter()
+struct boost::strtol_converter
+{
+    typedef boost::strtol_converter this_type;
+
+    strtol_converter()
     :
         base_(10)
     {}
-
-    bool operator()(int value_in, std::string& result_out) const
-    {
-        char const* format = base_ == 10 ? "%d"
-                           : base_ == 16 ? "0x%x"
-                           : base_ ==  8 ? "0%o" : (BOOST_ASSERT(0), (char const*) 0);
-        int const    bufsz = 256;
-        char     buf[bufsz];
-        int       num_chars = snprintf(buf, bufsz, format, value_in);
-        bool        success = num_chars < bufsz;
-
-        if (success) result_out = buf;
-        
-        return success;
-    }
-
-
-
-    bool operator()(std::string const& v, int&               r) const { return operator()(v.c_str(), r); }
+	
+	bool operator()(std::string const& v, int&               r) const { return operator()(v.c_str(), r); }
     bool operator()(std::string const& v, long int&          r) const { return operator()(v.c_str(), r); }
     bool operator()(std::string const& v, unsigned long int& r) const { return operator()(v.c_str(), r); }
     bool operator()(std::string const& v, double&            r) const { return operator()(v.c_str(), r); }
@@ -86,8 +66,8 @@ struct boost::mixed_converter
         return result_out != ULONG_MAX && cnv_end == str_end;
     }
 
-    this_type&
-    operator()(parameter::aux::tag<conversion::parameter::type::base, conversion::base::type const>::type const& arg)
+    this_type const&
+    operator()(parameter::aux::tag<conversion::parameter::type::base, conversion::base::type const>::type const& arg) const
     {
         boost::conversion::base::type base = arg[conversion::parameter::base];
         
@@ -100,7 +80,7 @@ struct boost::mixed_converter
     
     private:
 
-    int base_;
+    int mutable base_;
 };
 
-#endif // BOOST_CONVERT_MIXED_CONVERTER_HPP
+#endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP
