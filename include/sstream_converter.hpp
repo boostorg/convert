@@ -61,25 +61,25 @@ struct boost::basic_stringstream_converter
     template<typename Manipulator>
     this_type& operator()(Manipulator m) { return (stream_ >> m, *this); }
 
-    CONVERTER_PARAM_FUNC(locale, std::locale const&)
+    CONVERTER_PARAM_FUNC(locale, std::locale)
     {
         std::locale const& locale = arg[conversion::parameter::locale];
         stream_.imbue(locale);
         return *this;
     }
-    CONVERTER_PARAM_FUNC(precision, int const)
+    CONVERTER_PARAM_FUNC(precision, int)
     {
         int precision = arg[conversion::parameter::precision];
         stream_.precision(precision);
         return *this;
     }
-    CONVERTER_PARAM_FUNC(uppercase, bool const)
+    CONVERTER_PARAM_FUNC(uppercase, bool)
     {
         bool uppercase = arg[conversion::parameter::uppercase];
         uppercase ? (void) stream_.setf(std::ios::uppercase) : stream_.unsetf(std::ios::uppercase);
         return *this;
     }
-    CONVERTER_PARAM_FUNC(base, boost::conversion::base::type const)
+    CONVERTER_PARAM_FUNC(base, boost::conversion::base::type)
     {
         conversion::base::type base = arg[conversion::parameter::base];
         
@@ -90,7 +90,7 @@ struct boost::basic_stringstream_converter
         
         return *this;
     }
-    CONVERTER_PARAM_FUNC(notation, boost::conversion::notation::type const)
+    CONVERTER_PARAM_FUNC(notation, boost::conversion::notation::type)
     {
         conversion::notation::type notation = arg[conversion::parameter::notation];
         

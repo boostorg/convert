@@ -11,6 +11,6 @@
 
 #define CONVERTER_PARAM_FUNC(PARAM_NAME, PARAM_TYPE)    \
     this_type&                                          \
-    operator()(boost::parameter::aux::tagged_argument<boost::conversion::parameter::type::PARAM_NAME, PARAM_TYPE> const& arg)
+    operator()(boost::parameter::aux::tag<boost::conversion::parameter::type::PARAM_NAME, PARAM_TYPE const>::type const& arg)
 
 #endif // BOOST_CONVERT_DETAILS_HPP

@@ -70,7 +70,7 @@ struct boost::mixed_converter
     }
 
     this_type&
-    operator()(parameter::aux::tagged_argument<conversion::parameter::type::base, boost::conversion::base::type const> const& arg)
+    operator()(parameter::aux::tag<conversion::parameter::type::base, conversion::base::type const>::type const& arg)
     {
         base_ = arg[conversion::parameter::base];
         return *this;
