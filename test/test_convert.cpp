@@ -129,6 +129,19 @@ assign(Type& value_out, Type const& value_in)
 
 static
 void
+test_mixed_converter()
+{
+    boost::mixed_converter cnv;
+
+    BOOST_ASSERT( 255 == boost::convert<int>::from( "255", cnv(arg::base = cnv::base::dec)).value_or(999));
+    BOOST_ASSERT( 999 == boost::convert<int>::from("0XFF", cnv(arg::base = cnv::base::dec)).value_or(999));
+    BOOST_ASSERT( 255 == boost::convert<int>::from("0XFF", cnv(arg::base = cnv::base::hex)).value_or(999));
+    BOOST_ASSERT( 173 == boost::convert<int>::from( "255", cnv(arg::base = cnv::base::oct)).value_or(999));
+    BOOST_ASSERT(1.23 == boost::convert<double>::from("1.23", cnv).value_or(999));
+}
+
+static
+void
 performance_test1()
 {
     boost::cstringstream_converter cnv;
@@ -191,6 +204,8 @@ performance_test2()
 int
 main(int argc, char const* argv[])
 {
+    test_mixed_converter();
+    
     performance_test1();
     performance_test2();
 

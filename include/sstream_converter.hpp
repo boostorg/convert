@@ -8,17 +8,19 @@
 #define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
 #include "./string_sfinae.hpp"
-#include "./parameters.hpp"
+#include "./details.hpp"
 #include <sstream>
 
-#define CNV_FUNC(NAME, TYPE)    \
-    this_type&                  \
-    operator()(parameter::aux::tagged_argument<conversion::parameter::type::NAME, TYPE> const& arg)
+namespace boost 
+{
+    template<class Char> struct basic_stringstream_converter;
 
-namespace boost {
+    typedef basic_stringstream_converter<char> cstringstream_converter;
+    typedef basic_stringstream_converter<wchar_t> wstringstream_converter; 
+}
 
 template<class Char>
-struct basic_stringstream_converter
+struct boost::basic_stringstream_converter
 {
     typedef Char                                     char_type;
     typedef basic_stringstream_converter             this_type;
@@ -59,25 +61,25 @@ struct basic_stringstream_converter
     template<typename Manipulator>
     this_type& operator()(Manipulator m) { return (stream_ >> m, *this); }
 
-    CNV_FUNC(locale, std::locale const&)
+    CONVERTER_PARAM_FUNC(locale, std::locale const&)
     {
         std::locale const& locale = arg[conversion::parameter::locale];
         stream_.imbue(locale);
         return *this;
     }
-    CNV_FUNC(precision, int const)
+    CONVERTER_PARAM_FUNC(precision, int const)
     {
         int precision = arg[conversion::parameter::precision];
         stream_.precision(precision);
         return *this;
     }
-    CNV_FUNC(uppercase, bool const)
+    CONVERTER_PARAM_FUNC(uppercase, bool const)
     {
         bool uppercase = arg[conversion::parameter::uppercase];
         uppercase ? (void) stream_.setf(std::ios::uppercase) : stream_.unsetf(std::ios::uppercase);
         return *this;
     }
-    CNV_FUNC(base, conversion::base::type const)
+    CONVERTER_PARAM_FUNC(base, boost::conversion::base::type const)
     {
         conversion::base::type base = arg[conversion::parameter::base];
         
@@ -88,7 +90,7 @@ struct basic_stringstream_converter
         
         return *this;
     }
-    CNV_FUNC(notation, conversion::notation::type const)
+    CONVERTER_PARAM_FUNC(notation, boost::conversion::notation::type const)
     {
         conversion::notation::type notation = arg[conversion::parameter::notation];
         
@@ -104,11 +106,6 @@ struct basic_stringstream_converter
     mutable stream_type stream_;
 };
 
-typedef basic_stringstream_converter<char> cstringstream_converter;
-typedef basic_stringstream_converter<wchar_t> wstringstream_converter; 
-
-}
-
-#undef CNV_FUNC
+#undef CONVERTER_PARAM_FUNC
 
 #endif // BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
