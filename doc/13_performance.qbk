@@ -10,11 +10,11 @@ The performance of ['Boost.Convert] entirely depends on the converter deployed. 
 
 Performance was tested for string conversions to the ['integer] type and the user-defined ['direction] type (described later in the documentation). See the actual code in ['test/test_convert.cpp]. On Cygwin platform compiled with gcc 4.8.2 I had the following results:
 
- $ g++ -O0 test_convert.cpp -I../..
+ $ g++ -O0 test_convert.cpp
  string-to-user-defined type: lcast/convert=6.09/4.59 seconds.
  string-to-int: scanf/lcast=1.09/1.77. converters sstream/scanf/mixed=2.67/1.19/0.42 seconds.
 
- $ g++ -O3 test_convert.cpp -I../..
+ $ g++ -O3 test_convert.cpp
  string-to-user-defined type: lcast/convert=5.47/4.16 seconds.
  string-to-int: scanf/lcast=1.06/1.19. converters sstream/scanf/mixed=2.36/1.08/0.28 seconds.
 

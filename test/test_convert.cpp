@@ -138,6 +138,10 @@ test_mixed_converter()
     BOOST_ASSERT( 255 == boost::convert<int>::from("0XFF", cnv(arg::base = cnv::base::hex)).value_or(999));
     BOOST_ASSERT( 173 == boost::convert<int>::from( "255", cnv(arg::base = cnv::base::oct)).value_or(999));
     BOOST_ASSERT(1.23 == boost::convert<double>::from("1.23", cnv).value_or(999));
+
+    BOOST_ASSERT( "255" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::dec)).value_or("bad"));
+    BOOST_ASSERT("0xff" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::hex)).value_or("bad"));
+    BOOST_ASSERT("0377" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::oct)).value_or("bad"));
 }
 
 static
