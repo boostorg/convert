@@ -88,6 +88,17 @@ struct basic_stringstream_converter
         
         return *this;
     }
+    template<typename Arg>
+    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::notation, Arg> const& arg)
+    {
+        conversion::notation::type notation = arg[conversion::parameter::notation];
+        
+        /**/ if (notation == conversion::notation::     fixed) stream_.setf(std::ios::fixed);
+        else if (notation == conversion::notation::scientific) stream_.setf(std::ios::scientific);
+        else BOOST_ASSERT(!"Not implemented");
+        
+        return *this;
+    }
 
     private:
 

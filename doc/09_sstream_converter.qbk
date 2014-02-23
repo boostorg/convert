@@ -6,8 +6,9 @@ The converter is deployed with
 
  #include <boost/convert/sstream_converter.hpp>
 
-The purpose of this converter is to provide conversion-related formatting and locale support not present in ['boost::lexical_cast]. Advantages of a ['std::stream]-based formatting engine are 
+The purpose of this converter is to provide conversion-related formatting and locale support not present in ['boost::lexical_cast]. Advantages of a ['std::stream]-based engine are 
 
+* availability and maturity;
 * formatting and locale support;
 * familiar interface and deployment;
 * instant re-use of available standard manipulators (['std::hex], etc.);
@@ -42,8 +43,17 @@ For batch-processing it might be more efficient to configure the converter once:
  BOOST_ASSERT(convert<string>::from(255, ccnv).value() == "0XFF");
  BOOST_ASSERT(convert<string>::from( 15, ccnv).value() ==  "0XF");
 
-[endsect]
+An alternative formatting interface is being extended and explored:
 
+ namespace cnv = boost::conversion::parameter;
+ 
+ ccnv(cnv::base = 10)(cnv::uppercase = false)(cnv::notation = boost::conversion::notation::scientific);
+ 
+which is equivalent of the ['manipulator]-based variant:
+ 
+ ccnv(std::dec)(std::nouppercase)(std::scientific);
+ 
+[endsect]
 [section Locale Support]
 
 Locale support is similar to the formatting support as demonstrated by the following example (the Linux version):

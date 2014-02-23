@@ -510,7 +510,10 @@ main(int argc, char const* argv[])
     char const*  double_s01 = local::is_msc ? "1.2345E-002"
                             : local::is_gcc ? "1.2345E-02"
                             : "";
-    ccnv(std::setprecision(4))(std::scientific)(std::uppercase);
+//  ccnv(std::setprecision(4))(std::uppercase)(std::scientific);
+    ccnv(cnv::precision = 4)
+        (cnv::uppercase = true)
+        (cnv::notation = boost::conversion::notation::scientific);
 
     double double_v01 = convert<double>::from(double_s01, ccnv).value();
     string double_s02 = convert<string>::from(double_v01, ccnv).value();
