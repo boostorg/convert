@@ -2,6 +2,8 @@
 
 [*Please note that the described framework is not part of the Boost library collection even though in this document it is referred to as ['Boost.Convert]. This is done in preparation for potential submission of the library to ['Boost].]
 
+The main purpose of the framework is to channel various conversion facilities through one uniform interface and to provide generic consistent behavior -- one of the factors in improving productivity and code-correctness in commercial s/w development environment.
+
 ['Boost.Convert] builds on the ['boost::lexical_cast] design and experience and takes those conversion\/transformation-related ideas further 
 
 * to be applicable to a wider range of conversion-related deployment scenarios, 
@@ -25,18 +27,23 @@ The API facade implements new and familiar conversion\/transformation-related be
 * means to deploy types that do no meet the ['Default Constructibility] requirement;
 * support for standard algorithms.
 
-The library of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal three proof-of-the-concept converters are supplied -- string-to-type (and type-to-string) ['boost::lexical_cast]-based, ['scanf]-based and ['std::stringstream]-based converters. 
+The library of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal a few proof-of-the-concept string-to-type (and type-to-string) converters are supplied:
 
-The  ['scanf]-based and ['boost::lexical_cast]-based converters demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
+* ['boost::lexical_cast]-based, 
+* ['scanf]-based,
+* ['strtol]-based, 
+* ['std::stringstream]-based.
+
+The first three converters are meant to demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
 
 The ['std::stringstream]-based converter draws on the standard ['std::streams] functionality and provides:
 
 * string-to-type and type-to-string conversions;
-* formatting support based on standard manipulators (like /std::hex/, /std::scientific/, etc.);
+* formatting support (precision, base, upper/lower-case, scientific, etc.);
 * support for different locales;
 * /char/ and /wchar_t/ support.
 
-For example, the following snippet converts an array of integers from their textual hexadecimal represention and assigns INT_MAX to those which fail to convert:
+For example, the following snippet converts an array of integers from their textual hexadecimal representation and assigns INT_MAX to those which fail to convert:
 
  boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
  std::vector<int>            integers;

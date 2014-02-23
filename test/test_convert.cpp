@@ -8,6 +8,7 @@
 #include <boost.convert/boost/convert/lexical_cast_converter.hpp>
 #include <boost.convert/boost/convert/sstream_converter.hpp>
 #include <boost.convert/boost/convert/scanf_converter.hpp>
+#include <boost.convert/boost/convert/mixed_converter.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <iomanip>
@@ -28,12 +29,14 @@ namespace { namespace local
 #endif
 
     int const num_cycles = 1000000;
+    int volatile     sum = 0;
 }}
 
 using std::string;
 using std::wstring;
 using boost::array;
 using boost::convert;
+namespace cnv = boost::conversion::parameter;
 
 bool
 my_cypher(std::string const& value_in, std::string& value_out)
@@ -117,72 +120,77 @@ assign(Type& value_out, Type const& value_in)
     return true;
 }
 
-#define randomize_str(k) (str[4 - k % 5] = 49 + k % 9, str)
+#define RANDOMIZE_STR(k) (str[4 - k % 5] = 49 + k % 9, str)
+#define RUN_STR_TO_INT(try_converter) \
+    for (int k = 0; k < local::num_cycles; ++k) \
+        local::sum += boost::convert<int>::from(RANDOMIZE_STR(k), try_converter).value();
 
 static
 void
-performance_test()
+performance_test1()
 {
-    boost::scanf_converter         scnv;
-    boost::cstringstream_converter ccnv;
+    boost::cstringstream_converter cnv;
     
     char const* const input[] = { "no", "up", "dn" };
-    int                   sum = 0;
     char                str[] = "12345";
     double const           p1 = clock();
 
     for (int k = 0; k < local::num_cycles; ++k)
-        sum += boost::lexical_cast<direction_with_default>(input[k % 3]).value();
+    {
+        direction_with_default dir = boost::lexical_cast<direction_with_default>(input[k % 3]);
+        local::sum += dir.value(); // Make sure dir is not optimized out
+    }
+    double p2 = clock();
+
+    for (int k = 0; k < local::num_cycles; ++k)
+    {
+        direction_with_default dir = boost::convert<direction_with_default>::from(input[k % 3], cnv).value();
+        local::sum += dir.value(); // Make sure dir is not optimized out
+    }
+    double p3 = clock();
+
+    printf("string-to-user-defined type: lcast/convert=%.2f/%.2f seconds.\n",
+           (p2 - p1) / CLOCKS_PER_SEC,
+           (p3 - p2) / CLOCKS_PER_SEC);
+}
+
+static
+void
+performance_test2()
+{
+    boost::mixed_converter         mcnv;
+    boost::scanf_converter         scnv;
+    boost::cstringstream_converter ccnv;
+    
+    char      str[] = "12345";
+    double const p1 = clock();
+
+    for (int v, k = 0; k < local::num_cycles; ++k)
+        sscanf(RANDOMIZE_STR(k), "%d", &v);
 
     double p2 = clock();
 
     for (int k = 0; k < local::num_cycles; ++k)
-        sum += boost::convert<direction_with_default>::from(input[k % 3], ccnv).value().value();
+        local::sum += boost::lexical_cast<int>(RANDOMIZE_STR(k));
 
-    double p3 = clock();
-
-    printf("for user-defined type: lcast/convert=%.2f/%.2f seconds.\n",
-           (p2 - p1) / CLOCKS_PER_SEC,
-           (p3 - p2) / CLOCKS_PER_SEC);
-
-    double p4 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-    {
-        int v;
-        sscanf(randomize_str(k), "%d", &v);
-        sum += v;
-    }
-    double p5 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-        sum += boost::lexical_cast<int>(randomize_str(k));
-
+    double p3 = clock(); RUN_STR_TO_INT(ccnv);
+    double p4 = clock(); RUN_STR_TO_INT(scnv);
+    double p5 = clock(); RUN_STR_TO_INT(mcnv);
     double p6 = clock();
 
-    for (int k = 0; k < local::num_cycles; ++k)
-        sum += boost::convert<int>::from(randomize_str(k), ccnv).value();
-
-    double p7 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-        sum += boost::convert<int>::from(randomize_str(k), scnv).value();
-
-    double p8 = clock();
-
-    printf("for int type: scanf/lcast/sstream-convert/scanf-convert=%.2f/%.2f/%.2f/%.2f seconds.\n",
+    printf("string-to-int: scanf/lcast=%.2f/%.2f. converters sstream/scanf/mixed=%.2f/%.2f/%.2f seconds.\n",
+           (p2 - p1) / CLOCKS_PER_SEC,
+           (p3 - p2) / CLOCKS_PER_SEC,
+           (p4 - p3) / CLOCKS_PER_SEC,
            (p5 - p4) / CLOCKS_PER_SEC,
-           (p6 - p5) / CLOCKS_PER_SEC,
-           (p7 - p6) / CLOCKS_PER_SEC,
-           (p8 - p7) / CLOCKS_PER_SEC);
-    
-    printf("Ignored output (to prevent performance tests optimized out: %d.\n", sum);
+           (p6 - p5) / CLOCKS_PER_SEC);
 }
 
 int
 main(int argc, char const* argv[])
 {
-    performance_test();
+    performance_test1();
+    performance_test2();
 
     ////////////////////////////////////////////////////////////////////////////
     // Test string SFINAE.
@@ -463,7 +471,7 @@ main(int argc, char const* argv[])
         strings.begin(),
         strings.end(),
         std::back_inserter(integers),
-        convert<int>::from<string>(ccnv(std::hex)).value_or(-1));
+        convert<int>::from<string>(ccnv(cnv::base = 16)).value_or(-1));
 
     BOOST_ASSERT(integers[0] == 15);
     BOOST_ASSERT(integers[1] == 16);
@@ -532,7 +540,8 @@ main(int argc, char const* argv[])
         exit(1);
     }
 
-    ccnv(std::setprecision(3))(std::nouppercase);
+//  ccnv(std::setprecision(3))(std::nouppercase);
+    ccnv(cnv::precision = 3)(cnv::uppercase = false);
 
     string double_rus = convert<string>::from(double_v01, ccnv(rus_locale)).value();
     string double_eng = convert<string>::from(double_v01, ccnv(eng_locale)).value();
@@ -551,8 +560,8 @@ main(int argc, char const* argv[])
         std::back_inserter(new_strings),
         convert<string>::from<int>(ccnv(std::dec)));
 
-    for (size_t k = 0; k < new_strings.size(); ++k)
-        printf("%d. %s\n", int(k), new_strings[k].c_str());
+//  for (size_t k = 0; k < new_strings.size(); ++k)
+//      printf("%d. %s\n", int(k), new_strings[k].c_str());
 
     BOOST_ASSERT(new_strings[0] == "15");
     BOOST_ASSERT(new_strings[1] == "16");

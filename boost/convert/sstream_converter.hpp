@@ -8,6 +8,7 @@
 #define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
 #include "./string_sfinae.hpp"
+#include "./parameters.hpp"
 #include <sstream>
 
 namespace boost {
@@ -15,10 +16,10 @@ namespace boost {
 template<class Char>
 struct basic_stringstream_converter
 {
-    typedef Char                                 char_type;
-    typedef basic_stringstream_converter        this_type;
-    typedef std::basic_stringstream<char_type> stream_type;
-    typedef std::ios_base& (*manipulator_type)(std::ios_base&) ;
+    typedef Char                                     char_type;
+    typedef basic_stringstream_converter             this_type;
+    typedef std::basic_stringstream<char_type>     stream_type;
+    typedef std::ios_base& (*manipulator_type)(std::ios_base&);
 
     basic_stringstream_converter() 
     :
@@ -53,6 +54,40 @@ struct basic_stringstream_converter
 
     template<typename Manipulator>
     this_type& operator()(Manipulator m) { return (stream_ >> m, *this); }
+
+    template<typename Arg>
+    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::locale, Arg> const& arg)
+    {
+        std::locale const& locale = arg[conversion::parameter::locale];
+        stream_.imbue(locale);
+        return *this;
+    }
+    template<typename Arg>
+    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::precision, Arg> const& arg)
+    {
+        int precision = arg[conversion::parameter::precision];
+        stream_.precision(precision);
+        return *this;
+    }
+    template<typename Arg>
+    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::uppercase, Arg> const& arg)
+    {
+        bool uppercase = arg[conversion::parameter::uppercase];
+        uppercase ? stream_.setf(std::ios::uppercase) : stream_.unsetf(std::ios::uppercase);
+        return *this;
+    }
+    template<typename Arg>
+    this_type& operator()(parameter::aux::tagged_argument<conversion::parameter::type::base, Arg> const& arg)
+    {
+        int base = arg[conversion::parameter::base];
+        
+        /**/ if (base == 10) stream_.setf(std::ios::dec);
+        else if (base == 16) stream_.setf(std::ios::hex);
+        else if (base ==  8) stream_.setf(std::ios::oct);
+        else BOOST_ASSERT(!"Not implemented");
+        
+        return *this;
+    }
 
     private:
 
