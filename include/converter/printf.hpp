@@ -7,83 +7,81 @@
 #ifndef BOOST_CONVERT_PRINTF_CONVERTER_HPP
 #define BOOST_CONVERT_PRINTF_CONVERTER_HPP
 
-#include "../details/string_sfinae.hpp"
+#include "./base.hpp"
 #include <stdio.h>
-
-// 
-// fcvt() for double-to-string. http://www.indiabix.com/technical/c/strings/4
-//
 
 namespace boost 
 {
     struct printf_converter;
-
-    namespace convert_detail
-    {
-        typedef boost::mpl::vector<
-            double,
-            int,
-            unsigned int,
-            short int,
-            unsigned short int,
-            long int,
-            unsigned long int> managed_types;
-
-        char const* d_format[] = // must be in sync with managed_types.
-        {
-            "%f", "%d", "%u", "%hd", "%hu", "%ld", "%lu"
-        };
-        char const* x_format[] = // must be in sync with managed_types.
-        {
-            "%f", "%x", "%x", "%hx", "%hx", "%lx", "%lx"
-        };
-        char const* o_format[] = // must be in sync with managed_types.
-        {
-            "%f", "%o", "%o", "%ho", "%ho", "%lo", "%lo"
-        };
-    }
 }
 
-struct boost::printf_converter
+struct boost::printf_converter : public boost::converter_base
 {
     typedef boost::printf_converter this_type;
+    typedef boost::converter_base   base_type;
 
-    printf_converter()
-    :
-        base_(boost::conversion::base::dec)
-    {}
+    CONVERT_FUNC_SET_BASE;
+    CONVERT_FUNC_SET_PRECISION;
+    CONVERT_FUNC_SET_UPPERCASE;
 
-    template<typename StringOut, typename TypeIn>
-    typename boost::enable_if_c<
-		!convert_detail::is_any_string<TypeIn>::value && convert_detail::is_any_string<StringOut>::value, 
-		bool>::type
-    operator()(TypeIn const& value_in, StringOut& result_out) const
+    template<typename TypeIn>
+    typename boost::disable_if<convert_detail::is_any_string<TypeIn>, bool>::type
+    operator()(TypeIn const& value_in, std::string& result_out) const
     {
-        typedef typename boost::mpl::find<convert_detail::managed_types, TypeIn>::type type_iterator;
-        typedef typename type_iterator::pos                                                 type_pos;
-
-        char const* format = base_ == conversion::base::dec ? boost::convert_detail::d_format[type_pos::value]
-                           : base_ == conversion::base::hex ? boost::convert_detail::x_format[type_pos::value]
-                           : base_ == conversion::base::oct ? boost::convert_detail::o_format[type_pos::value] : (BOOST_ASSERT(0), (char const*) 0);
         int const    bufsz = 256;
         char     buf[bufsz];
-        int       num_chars = snprintf(buf, bufsz, format, value_in);
+        int       num_chars = snprintf(buf, bufsz, format(pos<TypeIn>()), value_in);
         bool        success = num_chars < bufsz;
 
         if (success) result_out = buf;
-        
+
         return success;
     }
-    this_type const&
-    operator()(parameter::aux::tag<conversion::parameter::type::base, conversion::base::type const>::type const& arg) const
+    template<typename TypeOut>
+    typename boost::disable_if<convert_detail::is_any_string<TypeOut>, bool>::type
+    operator()(std::string const& value_in, TypeOut& result_out) const
     {
-        base_ = arg[conversion::parameter::base];
-        return *this;
+        return this_type::operator()(value_in.c_str(), result_out);
     }
-    
-	private:
+    template<typename TypeOut>
+    typename boost::disable_if<convert_detail::is_any_string<TypeOut>, bool>::type
+    operator()(char const* value_in, TypeOut& result_out) const
+    {
+        int num_read = sscanf(value_in, format(pos<TypeOut>()), &result_out);
 
-    boost::conversion::base::type mutable base_;
+        return num_read == 1;
+    }
+
+    private:
+
+    template<typename Type>
+    int
+    pos() const
+    {
+        typedef boost::mpl::vector<double,
+                                   int, unsigned int,
+                                   short int, unsigned short int,
+                                   long int, unsigned long int
+                                   > managed_types;
+
+        typedef typename boost::mpl::find<managed_types, Type>::type type_iterator;
+        typedef typename type_iterator::pos                               type_pos;
+
+        return type_pos::value;
+    }
+
+    char const* format(int pos) const
+    {
+        char const* d_format[] = { "%f", "%d", "%u", "%hd", "%hu", "%ld", "%lu" }; // Must match managed_types
+        char const* x_format[] = { "%f", "%x", "%x", "%hx", "%hx", "%lx", "%lx" }; // Must match managed_types
+        char const* o_format[] = { "%f", "%o", "%o", "%ho", "%ho", "%lo", "%lo" }; // Must match managed_types
+        char const*     format = base_ == 10 ? d_format[pos]
+                               : base_ == 16 ? x_format[pos]
+                               : base_ ==  8 ? o_format[pos]
+                               : (BOOST_ASSERT(0), (char const*) 0);
+
+        return format;
+    }
 };
 
 #endif // BOOST_CONVERT_PRINTF_CONVERTER_HPP

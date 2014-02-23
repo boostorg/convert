@@ -25,7 +25,6 @@
       Support</a></span></dt>
 <dt><span class="section"><a href="__std__stringstream__based_converter/integration_of_user_defined_types.html">Integration
       of User-Defined Types</a></span></dt>
-<dt><span class="section"><a href="__std__stringstream__based_converter/performance.html">Performance</a></span></dt>
 </dl></div>
 <p>
       <span class="bold"><strong>Please note:</strong></span> <span class="emphasis"><em>the converter is currently
@@ -39,9 +38,12 @@
 <p>
       The purpose of this converter is to provide conversion-related formatting and
       locale support not present in <span class="emphasis"><em>boost::lexical_cast</em></span>. Advantages
-      of a <span class="emphasis"><em>std::stream</em></span>-based formatting engine are
+      of a <span class="emphasis"><em>std::stream</em></span>-based engine are
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          availability and maturity;
+        </li>
 <li class="listitem">
           formatting and locale support;
         </li>
@@ -98,6 +100,23 @@
 
 <span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="number">255</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">()</span> <span class="special">==</span> <span class="string">"0XFF"</span><span class="special">);</span>
 <span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span> <span class="number">15</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">()</span> <span class="special">==</span>  <span class="string">"0XF"</span><span class="special">);</span>
+</pre>
+<p>
+        An alternative (more generic) formatting interface is being extended and
+        explored:
+      </p>
+<pre class="programlisting"><span class="keyword">namespace</span> <span class="identifier">cnv</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">;</span>
+<span class="keyword">namespace</span> <span class="identifier">arg</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">parameter</span><span class="special">;</span>
+
+<span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">arg</span><span class="special">::</span><span class="identifier">base</span> <span class="special">=</span> <span class="identifier">cnv</span><span class="special">::</span><span class="identifier">base</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)</span>
+    <span class="special">(</span><span class="identifier">arg</span><span class="special">::</span><span class="identifier">uppercase</span> <span class="special">=</span> <span class="keyword">false</span><span class="special">)</span>
+    <span class="special">(</span><span class="identifier">arg</span><span class="special">::</span><span class="identifier">notation</span> <span class="special">=</span> <span class="identifier">cnv</span><span class="special">::</span><span class="identifier">notation</span><span class="special">::</span><span class="identifier">scientific</span><span class="special">);</span>
+</pre>
+<p>
+        which is equivalent to the following <span class="emphasis"><em>manipulator</em></span>-based
+        variant:
+      </p>
+<pre class="programlisting"><span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">nouppercase</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">scientific</span><span class="special">);</span>
 </pre>
 </div>
 </div>

@@ -52,7 +52,7 @@ An alternative (more generic) formatting interface is being extended and explore
      (arg::uppercase = false)
      (arg::notation = cnv::notation::scientific);
  
-which is equivalent of the ['manipulator]-based variant:
+which is equivalent to the following ['manipulator]-based variant:
  
  ccnv(std::dec)(std::nouppercase)(std::scientific);
  

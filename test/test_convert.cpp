@@ -4,35 +4,8 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include "../include/api.hpp"
-#include "../include/converter/lexical_cast.hpp"
-#include "../include/converter/sstream.hpp"
-#include "../include/converter/scanf.hpp"
-#include "../include/converter/strtol.hpp"
-#include <boost/array.hpp>
-#include <boost/bind.hpp>
-#include <iomanip>
-#include <vector>
-#include <list>
-#include <iostream>
-#include <stdio.h>
-
-namespace { namespace local
-{
-#if defined(_MSC_VER)
-    bool const is_msc = true;
-    bool const is_gcc = false;
-#elif defined(__GNUC__)
-    bool const is_msc = false;
-    bool const is_gcc = true;
-#else
-#error "Add here."
-#endif
-
-    int const num_cycles = 1000000;
-    int volatile     sum = 0;
-    std::string      str;
-}}
+#include "./test.hpp"
+#include "./performance.cpp"
 
 using std::string;
 using std::wstring;
@@ -55,87 +28,6 @@ my_cypher(std::string const& value_in, std::string& value_out)
     return true;
 }
 
-struct direction_with_default
-{
-    typedef direction_with_default this_type;
-
-    enum value_type { no, up, dn };
-
-    direction_with_default(value_type v =no) : value_(v) {}
-
-    friend std::istream& operator>>(std::istream& stream, this_type& dir)
-    {
-        string str; stream >> str;
-
-        /**/ if (str == "up") dir.value_ = up;
-        else if (str == "dn") dir.value_ = dn;
-        else if (str == "no") dir.value_ = no;
-        else stream.setstate(std::ios_base::failbit);
-
-        return stream;
-    }
-    friend std::ostream& operator<<(std::ostream& stream, this_type const& dir)
-    {
-        return stream << (dir.value_ == up ? "up" : dir.value_ == dn ? "dn" : "no");
-    }
-
-    value_type value() const { return value_; }
-
-    private: value_type value_;
-};
-
-struct direction
-{
-    // Note: the class does NOT have the default constructor.
-
-    enum value_type { up, dn };
-
-    direction(value_type value) : value_(value) {}
-    bool operator==(direction const& that) const { return value_ == that.value_; }
-
-    friend std::istream& operator>>(std::istream& stream, direction& dir)
-    {
-        string str; stream >> str;
-
-        /**/ if (str == "up") dir.value_ = up;
-        else if (str == "dn") dir.value_ = dn;
-        else stream.setstate(std::ios_base::failbit);
-
-        return stream;
-    }
-    friend std::ostream& operator<<(std::ostream& stream, direction const& dir)
-    {
-        return stream << (dir.value_ == up ? "up" : "dn");
-    }
-
-    private: value_type value_;
-};
-
-namespace boost
-{
-    template<> inline direction convert<direction>::create_storage() { return direction(direction::up); }
-}
-
-template<typename Type>
-bool
-assign(Type& value_out, Type const& value_in)
-{
-    value_out = value_in;
-    return true;
-}
-
-#define RANDOMIZE_STR(k) (str[4 - k % 5] = 49 + k % 9, str)
-#define RUN_STR_TO_INT(try_converter) \
-    for (int k = 0; k < local::num_cycles; ++k) \
-        local::sum += convert<int>::from(RANDOMIZE_STR(k), try_converter).value();
-#define RUN_INT_TO_STR(try_converter)                                           \
-    for (int k = 0; k < local::num_cycles; ++k)                                 \
-    {                                                                           \
-        std::string str = convert<std::string>::from(k, try_converter).value(); \
-        int         res = k - convert<int>::from(str, try_converter).value();   \
-        BOOST_ASSERT(res == 0);                                                 \
-        local::sum += res;                                                      \
-    }
 
 template<typename Converter>
 void
@@ -157,107 +49,22 @@ test_string_to_type_converter(Converter const& cnv)
     BOOST_ASSERT( 999 != boost::convert<double>::from("1.23", cnv).value_or(999));
 }
 
-static
-void
-performance_test1()
+template<typename Type>
+bool
+assign(Type& value_out, Type const& value_in)
 {
-    boost::cstringstream_converter cnv;
-    
-    char const* const input[] = { "no", "up", "dn" };
-    char                str[] = "12345";
-    double const           p1 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-    {
-        direction_with_default dir = boost::lexical_cast<direction_with_default>(input[k % 3]);
-        local::sum += dir.value(); // Make sure dir is not optimized out
-    }
-    double p2 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-    {
-        direction_with_default dir = boost::convert<direction_with_default>::from(input[k % 3], cnv).value();
-        local::sum += dir.value(); // Make sure dir is not optimized out
-    }
-    double p3 = clock();
-
-    printf("string-to-user-defined type: lcast/convert=%.2f/%.2f seconds.\n",
-           (p2 - p1) / CLOCKS_PER_SEC,
-           (p3 - p2) / CLOCKS_PER_SEC);
-}
-
-static
-void
-performance_test2()
-{
-    boost::strtol_converter        tcnv;
-    boost::scanf_converter         scnv;
-    boost::cstringstream_converter ccnv;
-    
-    char      str[] = "12345";
-    double const p1 = clock();
-
-    for (int v, k = 0; k < local::num_cycles; ++k)
-        sscanf(RANDOMIZE_STR(k), "%d", &v);
-
-    double p2 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-        local::sum += boost::lexical_cast<int>(RANDOMIZE_STR(k));
-
-    double p3 = clock(); RUN_STR_TO_INT(ccnv);
-    double p4 = clock(); RUN_STR_TO_INT(scnv);
-    double p5 = clock(); RUN_STR_TO_INT(tcnv);
-    double p6 = clock();
-
-    printf("string-to-int: scanf/lcast=%.2f/%.2f. cnv sstream/scanf/strtol=%.2f/%.2f/%.2f seconds.\n",
-           (p2 - p1) / CLOCKS_PER_SEC,
-           (p3 - p2) / CLOCKS_PER_SEC,
-           (p4 - p3) / CLOCKS_PER_SEC,
-           (p5 - p4) / CLOCKS_PER_SEC,
-           (p6 - p5) / CLOCKS_PER_SEC);
-}
-
-static
-void
-performance_test3()
-{
-#ifdef sfdfsdasdasda
-	boost::mixed_converter         mcnv;
-    boost::scanf_converter         scnv;
-    boost::cstringstream_converter ccnv;
-    
-    double const p1 = clock();
-
-    for (int k = 0; k < local::num_cycles; ++k)
-    {
-        std::string str = boost::lexical_cast<std::string>(k);
-        int         res = k - boost::lexical_cast<int>(str); BOOST_ASSERT(res == 0);
-        local::sum += k - res;
-    }
-    double p2 = clock(); RUN_INT_TO_STR(ccnv);
-    double p3 = clock(); RUN_INT_TO_STR(scnv);
-    double p4 = clock(); RUN_INT_TO_STR(mcnv);
-    double p5 = clock();
-
-    printf("int-to-string-to-int: lcast/cnv-sstream/cnv-scanf/cnv-mixed=%.2f/%.2f/%.2f/%.2f seconds.\n",
-           (p2 - p1) / CLOCKS_PER_SEC,
-           (p3 - p2) / CLOCKS_PER_SEC,
-           (p4 - p3) / CLOCKS_PER_SEC,
-           (p5 - p4) / CLOCKS_PER_SEC);
-#endif
+    value_out = value_in;
+    return true;
 }
 
 int
 main(int argc, char const* argv[])
 {
     test_string_to_type_converter(boost::strtol_converter()); 
-    test_string_to_type_converter(boost::scanf_converter()); 
+    test_string_to_type_converter(boost::printf_converter());
 	test_type_to_string_converter(boost::printf_converter());
     
-    performance_test1();
-    performance_test2();
-    performance_test3();
+    test::performance();
 
     ////////////////////////////////////////////////////////////////////////////
     // Test string SFINAE.
@@ -574,8 +381,8 @@ main(int argc, char const* argv[])
     BOOST_ASSERT(convert<string>::from(255, ccnv).value() == "0XFF");
     BOOST_ASSERT(convert<string>::from( 15, ccnv).value() ==  "0XF");
 
-    char const*  double_s01 = local::is_msc ? "1.2345E-002"
-                            : local::is_gcc ? "1.2345E-02"
+    char const*  double_s01 = test::is_msc ? "1.2345E-002"
+                            : test::is_gcc ? "1.2345E-02"
                             : "";
 //  ccnv(std::setprecision(4))(std::uppercase)(std::scientific);
     ccnv(arg::precision = 4)
@@ -591,11 +398,11 @@ main(int argc, char const* argv[])
     // Testing locale
     ////////////////////////////////////////////////////////////////////////////
 
-    char const* rus_locale_name = local::is_msc ? "Russian_Russia.1251"
-                                : local::is_gcc ? "ru_RU.UTF-8"
+    char const* rus_locale_name = test::is_msc ? "Russian_Russia.1251"
+                                : test::is_gcc ? "ru_RU.UTF-8"
                                 : "";
-    char const*    rus_expected = local::is_msc ? "1,235e-002" : local::is_gcc ? "1,235e-02" : "";
-    char const*    eng_expected = local::is_msc ? "1.235e-002" : local::is_gcc ? "1.235e-02" : "";
+    char const*    rus_expected = test::is_msc ? "1,235e-002" : test::is_gcc ? "1,235e-02" : "";
+    char const*    eng_expected = test::is_msc ? "1.235e-002" : test::is_gcc ? "1.235e-02" : "";
     std::locale      rus_locale;
     std::locale      eng_locale;
 

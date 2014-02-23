@@ -9,12 +9,7 @@ The main purpose of the framework is to channel various conversion facilities th
 * to be applicable to a wider range of conversion-related deployment scenarios, 
 * to provide a more flexible, extensible and configurable type-conversion framework. 
 
-The ['boost::lexical_cast] framework essentially consists of:
-
-* an API facade to deploy the relevant functionality uniformly and 
-* the means to plug a particular type in to the ['boost::lexical_cast] framework; namely, ['operator>>(std::istream&)] and ['operator<<(std::ostream&)]).
-
-['Boost.Convert] follows that successful design and also consists of two components:
+['Boost.Convert] consists of two components:
 
 * the API facade to provide simple, minimal and uniform deployment interface;
 * the extendible library of pluggable converters.
@@ -30,11 +25,11 @@ The API facade implements new and familiar conversion\/transformation-related be
 The library of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal a few proof-of-the-concept string-to-type (and type-to-string) converters are supplied:
 
 * ['boost::lexical_cast]-based, 
-* ['scanf]-based,
+* ['printf\/scanf]-based,
 * ['strtol]-based, 
 * ['std::stringstream]-based.
 
-The first three converters are meant to demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
+The first three converters are meant to demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework. Although the ['printf\/scanf]-based and ['strtol]-based converters do provide some basic formatting support. 
 
 The ['std::stringstream]-based converter draws on the standard ['std::streams] functionality and provides:
 

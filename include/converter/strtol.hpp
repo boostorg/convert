@@ -7,7 +7,7 @@
 #ifndef BOOST_CONVERT_STRTOL_CONVERTER_HPP
 #define BOOST_CONVERT_STRTOL_CONVERTER_HPP
 
-#include "../details/string_sfinae.hpp"
+#include "./base.hpp"
 #include <stdlib.h>
 
 namespace boost 
@@ -15,16 +15,16 @@ namespace boost
     struct strtol_converter;
 }
 
-struct boost::strtol_converter
+struct boost::strtol_converter : public boost::converter_base
 {
     typedef boost::strtol_converter this_type;
+    typedef boost::converter_base   base_type;
 
-    strtol_converter()
-    :
-        base_(10)
-    {}
-	
-	bool operator()(std::string const& v, int&               r) const { return operator()(v.c_str(), r); }
+    CONVERT_FUNC_SET_BASE;
+    CONVERT_FUNC_SET_PRECISION;
+    CONVERT_FUNC_SET_UPPERCASE;
+
+ 	bool operator()(std::string const& v, int&               r) const { return operator()(v.c_str(), r); }
     bool operator()(std::string const& v, long int&          r) const { return operator()(v.c_str(), r); }
     bool operator()(std::string const& v, unsigned long int& r) const { return operator()(v.c_str(), r); }
     bool operator()(std::string const& v, double&            r) const { return operator()(v.c_str(), r); }
@@ -65,22 +65,6 @@ struct boost::strtol_converter
 
         return result_out != ULONG_MAX && cnv_end == str_end;
     }
-
-    this_type const&
-    operator()(parameter::aux::tag<conversion::parameter::type::base, conversion::base::type const>::type const& arg) const
-    {
-        boost::conversion::base::type base = arg[conversion::parameter::base];
-        
-        base_ = base == conversion::base::dec ? 10
-              : base == conversion::base::hex ? 16
-              : base == conversion::base::oct ? 8 : 0;
-
-        return *this;
-    }
-    
-    private:
-
-    int mutable base_;
 };
 
 #endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP
