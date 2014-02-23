@@ -137,12 +137,10 @@ assign(Type& value_out, Type const& value_in)
         local::sum += res;                                                      \
     }
 
-static
+template<typename Converter>
 void
-test_printf_converter()
+test_type_to_string_converter(Converter const& cnv)
 {
-    boost::printf_converter cnv;
-
     BOOST_ASSERT("255" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::dec)).value_or("bad"));
     BOOST_ASSERT( "ff" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::hex)).value_or("bad"));
     BOOST_ASSERT("377" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::oct)).value_or("bad"));
@@ -255,7 +253,7 @@ main(int argc, char const* argv[])
 {
     test_string_to_type_converter(boost::strtol_converter()); 
     test_string_to_type_converter(boost::scanf_converter()); 
-    test_printf_converter(); 
+	test_type_to_string_converter(boost::printf_converter());
     
     performance_test1();
     performance_test2();

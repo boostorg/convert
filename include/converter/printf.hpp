@@ -74,16 +74,16 @@ struct boost::printf_converter
         
         return success;
     }
-    this_type&
-    operator()(parameter::aux::tag<conversion::parameter::type::base, conversion::base::type const>::type const& arg)
+    this_type const&
+    operator()(parameter::aux::tag<conversion::parameter::type::base, conversion::base::type const>::type const& arg) const
     {
         base_ = arg[conversion::parameter::base];
         return *this;
     }
     
-    private:
+	private:
 
-    boost::conversion::base::type base_;
+    boost::conversion::base::type mutable base_;
 };
 
 #endif // BOOST_CONVERT_PRINTF_CONVERTER_HPP
