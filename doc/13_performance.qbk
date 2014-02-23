@@ -10,13 +10,14 @@ The performance of ['Boost.Convert] entirely depends on the converter deployed. 
 
 Performance was tested for string conversions to the ['integer] type and the user-defined ['direction] type (described later in the documentation). See the actual code in ['test/test_convert.cpp]. On Cygwin platform compiled with gcc 4.8.2 I had the following results:
 
- $ g++ -O0 test_convert.cpp
+ $ g++ -O0 test_convert.cpp (Cygwin)
  string-to-user-defined type: lcast/convert=6.09/4.59 seconds.
  string-to-int: scanf/lcast=1.09/1.77. converters sstream/scanf/mixed=2.67/1.19/0.42 seconds.
 
- $ g++ -O3 test_convert.cpp
+ $ g++ -O3 test_convert.cpp (Cygwin)
  string-to-user-defined type: lcast/convert=5.47/4.16 seconds.
  string-to-int: scanf/lcast=1.06/1.19. converters sstream/scanf/mixed=2.36/1.08/0.28 seconds.
+ int-to-string-to-int: lcast/cnv-sstream/cnv-scanf/cnv-mixed=3.78/3.41/4.33/3.41 seconds.
 
 That same code compiled with MS Visual C++ 2010 Express showed greater differences when compiled non-optimized and optimized-for-speed:
 
@@ -27,13 +28,19 @@ That same code compiled with MS Visual C++ 2010 Express showed greater differenc
  Optimized for speed:
  string-to-user-defined type: lcast/convert=6.30/2.97 seconds.
  string-to-int: scanf/lcast=0.77/0.86. converters sstream/scanf/mixed=5.66/0.81/0.28 seconds.
-
+ int-to-string-to-int: lcast/cnv-sstream/cnv-scanf/cnv-mixed=2.19/11.33/2.44/1.89 seconds.
+  
 That same code compiled on a Ubuntu box (compiled with gcc 4.6.3) produced the following result:
 
  ...
 
-Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that considerable performance is to be gained via optimized compilation. Optimized times are the ones to be seriously looked at and analyzed. They show that for something as basic as string-to-int the ['strtol]-based converter comes far ahead of the rest. ['scanf()] comes next (despite ['lexical_cast] performance table ([link 5 \[5\]]) claiming otherwise). Not surprisingly ['Boost.Convert] with the ['scanf]-based converter comes equal or close to ['scanf()]. Given type-safety and interface-related benefits provided by the ['Boost.Convert] framework it (with appropriate converters) should probably be the first choice for basic conversions.
- 
+Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that considerable performance is to be gained via optimized compilation. Optimized times are the ones to be seriously looked at and analyzed. They show that for something as basic as string-to-int the ['strtol]-based converter comes far ahead of the rest. ['scanf()] comes next (despite ['lexical_cast] performance table ([link 5 \[5\]]) claiming otherwise). Not surprisingly ['Boost.Convert] with the ['scanf]-based converter comes equal or close to ['scanf()]. 
+
+Interestingly gcc gave quite close results for all tested conversions for the int-to-string-to-int round trip conversion:
+
+ $ g++ -O3 test_convert.cpp (Cygwin)
+ int-to-string-to-int: lcast/cnv-sstream/cnv-scanf/cnv-mixed=3.78/3.41/4.33/3.41 seconds.
+
 For user-defined types only two converters were tested -- ['boost::lexical_cast] and ['Boost.Convert] with the ['std::stringstream]-based converter. Other conversion facilities did not provide that functionality.
 
 Both converters provide ['string-to-type] and ['type-to-string] conversions. However, their priorities are quite different. For basic (['int], etc.) types ['boost::lexical_cast] performance has been optimized (see [link 5 \[5\]]). Therefore, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['boost::lexical_cast] (directly or via the ['Boost.Convert] framework) might be an option to explore. However, for user-defined types it appears to be quite a different story with ['Boost.Convert] consistently outperforming ['boost::lexical_cast] in the tests.
@@ -42,4 +49,6 @@ These results probably reflect different underlying designs. The standard ['Boos
 
 In turn, ['boost::lexical_cast] also deploys the standard ['stream] framework for user-defined types. However, due to its design ['boost::lexical_cast] creates and then destroys an instance of a stream type every time the function is called and, consequently, probably belongs with the third (['std::stringstream with construction]) and much slower column of the [link 5 \[5\]] table. 
 
+Based on the performance data I tend to conclude that, given type-safety and benefits provided by the ['Boost.Convert] framework, it (with appropriate converters) should probably be the first choice for conversion-related tasks.
+ 
 [endsect]

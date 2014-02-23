@@ -24,14 +24,14 @@ struct boost::mixed_converter
 
     mixed_converter()
     :
-        base_(boost::conversion::base::dec)
+        base_(10)
     {}
 
     bool operator()(int value_in, std::string& result_out) const
     {
-        char const* format = base_ == conversion::base::dec ? "%d"
-                           : base_ == conversion::base::hex ? "0x%x"
-                           : base_ == conversion::base::oct ? "0%o" : (BOOST_ASSERT(0), (char const*) 0);
+        char const* format = base_ == 10 ? "%d"
+                           : base_ == 16 ? "0x%x"
+                           : base_ ==  8 ? "0%o" : (BOOST_ASSERT(0), (char const*) 0);
         int const    bufsz = 256;
         char     buf[bufsz];
         int       num_chars = snprintf(buf, bufsz, format, value_in);
@@ -60,37 +60,28 @@ struct boost::mixed_converter
     }
     bool operator()(char const* value_in, int& result_out) const
     {
-        int            base = base_ == conversion::base::dec ? 10
-                            : base_ == conversion::base::hex ? 16
-                            : base_ == conversion::base::oct ? 8 : 0;
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
-        long int     result = strtol(value_in, &cnv_end, base);
+        long int     result = strtol(value_in, &cnv_end, base_);
         bool        success = INT_MIN <= result && result <= INT_MAX && cnv_end == str_end;
 
         return success ? (result_out = int(result), success) : success;
     }
     bool operator()(char const* value_in, long int& result_out) const
     {
-        int            base = base_ == conversion::base::dec ? 10
-                            : base_ == conversion::base::hex ? 16
-                            : base_ == conversion::base::oct ? 8 : 0;
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
         
-        result_out = strtol(value_in, &cnv_end, base);
+        result_out = strtol(value_in, &cnv_end, base_);
 
         return result_out != LONG_MIN && result_out != LONG_MAX && cnv_end == str_end;
     }
     bool operator()(char const* value_in, unsigned long int& result_out) const
     {
-        int            base = base_ == conversion::base::dec ? 10
-                            : base_ == conversion::base::hex ? 16
-                            : base_ == conversion::base::oct ? 8 : 0;
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
         
-        result_out = strtoul(value_in, &cnv_end, base);
+        result_out = strtoul(value_in, &cnv_end, base_);
 
         return result_out != ULONG_MAX && cnv_end == str_end;
     }
@@ -98,13 +89,18 @@ struct boost::mixed_converter
     this_type&
     operator()(parameter::aux::tag<conversion::parameter::type::base, conversion::base::type const>::type const& arg)
     {
-        base_ = arg[conversion::parameter::base];
+        boost::conversion::base::type base = arg[conversion::parameter::base];
+        
+        base_ = base == conversion::base::dec ? 10
+              : base == conversion::base::hex ? 16
+              : base == conversion::base::oct ? 8 : 0;
+
         return *this;
     }
     
     private:
 
-    boost::conversion::base::type base_;
+    int base_;
 };
 
 #endif // BOOST_CONVERT_MIXED_CONVERTER_HPP
