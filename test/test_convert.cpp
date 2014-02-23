@@ -4,11 +4,11 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include <boost.convert/boost/convert/api.hpp>
-#include <boost.convert/boost/convert/lexical_cast_converter.hpp>
-#include <boost.convert/boost/convert/sstream_converter.hpp>
-#include <boost.convert/boost/convert/scanf_converter.hpp>
-#include <boost.convert/boost/convert/mixed_converter.hpp>
+#include "../include/api.hpp"
+#include "../include/lexical_cast_converter.hpp"
+#include "../include/sstream_converter.hpp"
+#include "../include/scanf_converter.hpp"
+#include "../include/mixed_converter.hpp"
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <iomanip>
