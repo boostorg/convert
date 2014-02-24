@@ -77,7 +77,7 @@ namespace boost
 
 struct test
 {
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__CYGWIN__) 
     static bool const    is_msc = true;
     static bool const    is_gcc = false;
     static int const num_cycles = 1000000;
