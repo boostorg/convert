@@ -1,33 +1,33 @@
 [section Performance]
 
-The performance of ['Boost.Convert] entirely depends on the converter deployed. The mentioned convertors have been tested as part of the ['Boost.Convert] framework. Raw ['scanf()] and ['boost::lexical_cast] have also been tested but showed identical results (when tests are built optimized) to when they were deployed through the ['Boost.Convert] framework. Consequently, for brevity those raw ['scanf()] and ['boost::lexical_cast] results are not shown here.
+The performance of ['Boost.Convert] entirely depends on the converter deployed. The mentioned convertors have been tested as part of the ['Boost.Convert] framework. Raw ['scanf()] and ['boost::lexical_cast] have also been tested but showed identical results (when tests are built optimized) to when they were deployed through the ['Boost.Convert] framework. Consequently, for brevity those raw ['scanf()] and ['boost::lexical_cast] results are not shown here. The C++11 family of ['std::to_string()], ['std::stoi()], etc. were not tested due to unavailablility.
 
 Performance was tested for string conversions to the ['integer] type and the user-defined ['direction] type (described later in the documentation). See the actual code in ['test/performance.cpp]. On a Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
 
  g++ -O3 test_convert.cpp
  str-to-int: strtol/scanf/lcast/sstream=0.28/1.15/0.45/1.70 seconds.
- int-to-str-to-int: scanf/lcast/sstream=3.39/1.55/3.14 seconds.
+ int-to-str: ltostr/scanf/lcast/sstream=1.50/2.17/1.11/1.73 seconds.
  str-to-user-type: lcast/sstream=3.26/2.58 seconds.
 
  g++ -O0 test_convert.cpp
- str-to-int: strtol/scanf/lcast/sstream=0.48/1.42/1.52/2.06 seconds.
- int-to-str-to-int: scanf/lcast/sstream=3.88/4.48/3.82 seconds.
- str-to-user-type: lcast/sstream=5.04/2.87 seconds.
+ str-to-int: strtol/scanf/lcast/sstream=0.49/1.40/1.56/2.00 seconds.
+ int-to-str: ltostr/scanf/lcast/sstream=3.10/2.62/2.42/2.52 seconds.
+ str-to-user-type: lcast/sstream=4.94/3.19 seconds.
 
-On the Cygwin platform compiled with gcc 4.8.2 I tests produced the following results:
+On the Cygwin platform compiled with gcc 4.8.2:
 
  g++ -O3 test_convert.cpp
  str-to-int: strtol/scanf/lcast/sstream=0.28/1.20/1.22/2.42 seconds.
  int-to-str: strtol/scanf/lcast/sstream=1.31/2.94/2.62/2.03 seconds.
  str-to-user-type: lcast/sstream=7.44/4.61 seconds.
  
-That same code compiled with MS Visual C++ 2010 Express optimized for speed:
+Compiled with MS Visual C++ 2010 Express optimized for speed:
 
  str-to-int: strtol/scanf/lcast/sstream=0.28/0.89/1.03/6.20 seconds.
  int-to-str: ltostr/scanf/lcast/sstream=1.11/1.86/1.91/5.92 seconds.
  str-to-user-type: lcast/sstream=6.81/3.30 seconds.
 
-Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that considerable performance is to be gained via optimized compilation. Optimized times are the ones to be looked at and analyzed. They show that for basic string-to-int (and back) conversions the ['strtol\/ltostr]-based converter comes well ahead of the rest. ['printf\/scanf]-based and ['lexical_cast]-based converters exchange their places depending on the platform. 
+Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that considerable performance is to be gained via optimized compilation. Optimized times are the ones to be looked at and analyzed. 
 
 For user-defined types only two converters were tested -- ['boost::lexical_cast]-based and the ['std::stringstream]-based converter. Other conversion facilities did not provide that functionality.
 

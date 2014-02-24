@@ -11,7 +11,7 @@ The main purpose of the framework is to channel various conversion facilities th
 
 ['Boost.Convert] consists of two components:
 
-* the API facade to provide simple, minimal and uniform deployment interface;
+* the API facade to provide simple, minimal and uniform deployment interface and behavior;
 * the extendible library of pluggable converters.
 
 The API facade implements new and familiar conversion\/transformation-related behavior such as:

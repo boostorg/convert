@@ -79,8 +79,6 @@ inline
 std::string
 boost::strtol_converter::ltostr(long int num, unsigned int base) 
 { 
-	BOOST_ASSERT(2 <= base && base <= 36); 
-	
 	if (!num) return "0";
 
 	int const     strsz = 256;
@@ -92,7 +90,7 @@ boost::strtol_converter::ltostr(long int num, unsigned int base)
 	
 	for (; num && beg < pos; num /= base) 
 	{ 
-		char remainder = (char) (num % base); 
+		int remainder = num % base;
 		
 		if (remainder < 10) *(--pos) = remainder + '0'; 
 		else                *(--pos) = remainder - 10 + 'A'; 
