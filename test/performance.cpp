@@ -48,24 +48,20 @@ performance_string_to_int(Converter const& try_converter)
 
 template<typename Converter>
 double
-performance_int_to_string_to_int(Converter const& try_converter)
+performance_int_to_string(Converter const& try_converter)
 {
-    int   sum = 0;
-    double p1 = clock();
+    std::vector<std::string> res; res.reserve(test::num_cycles);
+	double                    p1 = clock();
 
     for (int k = 0; k < test::num_cycles; ++k)
-    {
-        std::string str = boost::convert<std::string>::from(k, try_converter).value();
-        int         res = boost::convert<int>::from(str, try_converter).value();
+        res.push_back(boost::convert<std::string>::from(k, try_converter).value());
 
-        BOOST_ASSERT(res == k);
+    double p2 = clock();
 
-        sum += k - res;
-    }
-    double   p2 = clock();
-    int use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_ASSERT(use_sum == 0);
+    for (int k = 0; k < test::num_cycles; ++k)
+        BOOST_ASSERT(k == boost::convert<int>::from(res[k], try_converter).value());
 
-    return (p2 - p1) / CLOCKS_PER_SEC + use_sum;
+    return (p2 - p1) / CLOCKS_PER_SEC;
 }
 
 void
@@ -77,11 +73,11 @@ test::performance()
            performance_string_to_int(boost:: lexical_cast_converter()),
            performance_string_to_int(boost::cstringstream_converter()));
 
-    printf("int-to-str-to-int: strtol/scanf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
-           performance_int_to_string_to_int(boost::       strtol_converter()),
-           performance_int_to_string_to_int(boost::       printf_converter()),
-           performance_int_to_string_to_int(boost:: lexical_cast_converter()),
-           performance_int_to_string_to_int(boost::cstringstream_converter()));
+	printf("int-to-str: ltostr/scanf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
+           performance_int_to_string(boost::       strtol_converter()),
+           performance_int_to_string(boost::       printf_converter()),
+           performance_int_to_string(boost:: lexical_cast_converter()),
+           performance_int_to_string(boost::cstringstream_converter()));
 
     printf("str-to-user-type: lcast/sstream=%.2f/%.2f seconds.\n",
            performance_string_to_type(boost:: lexical_cast_converter()),

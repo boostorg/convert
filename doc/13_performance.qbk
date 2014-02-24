@@ -17,15 +17,15 @@ Performance was tested for string conversions to the ['integer] type and the use
 On the Cygwin platform compiled with gcc 4.8.2 I tests produced the following results:
 
  g++ -O3 test_convert.cpp
- str-to-int: strtol/scanf/lcast/sstream=0.27/1.09/1.14/2.45 seconds.
- int-to-str-to-int: strtol/scanf/lcast/sstream=2.23/4.53/4.50/3.44 seconds.
- str-to-user-type: lcast/sstream=7.41/4.42 seconds.
+ str-to-int: strtol/scanf/lcast/sstream=0.28/1.20/1.22/2.42 seconds.
+ int-to-str: strtol/scanf/lcast/sstream=1.31/2.94/2.62/2.03 seconds.
+ str-to-user-type: lcast/sstream=7.44/4.61 seconds.
  
 That same code compiled with MS Visual C++ 2010 Express optimized for speed:
 
- str-to-int: strtol/scanf/lcast/sstream=0.27/0.86/0.97/5.70 seconds.
- int-to-str-to-int: strtol/scanf/lcast/sstream=1.30/2.61/2.83/11.88 seconds.
- str-to-user-type: lcast/sstream=6.77/3.14 seconds.
+ str-to-int: strtol/scanf/lcast/sstream=0.28/0.89/1.03/6.20 seconds.
+ int-to-str: ltostr/scanf/lcast/sstream=1.11/1.86/1.91/5.92 seconds.
+ str-to-user-type: lcast/sstream=6.81/3.30 seconds.
 
 Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that considerable performance is to be gained via optimized compilation. Optimized times are the ones to be looked at and analyzed. They show that for basic string-to-int (and back) conversions the ['strtol\/ltostr]-based converter comes well ahead of the rest. ['printf\/scanf]-based and ['lexical_cast]-based converters exchange their places depending on the platform. 
 

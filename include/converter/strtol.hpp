@@ -83,24 +83,24 @@ boost::strtol_converter::ltostr(long int num, unsigned int base)
 	
 	if (!num) return "0";
 
-	int const  strsz = 256;
-	char  str[strsz];
-	int    sign_size = (num < 0) ? (num = -num, 1) : 0;
-	char* const  beg = str + sign_size;
-	char* const  end = str + strsz; // The end
-	char*        pos = end;
+	int const     strsz = 256;
+	char     str[strsz];
+	int const sign_size = (num < 0) ? (num = -num, 1) : 0;
+	char* const     beg = str + sign_size;
+	char* const     end = str + strsz;
+	char*           pos = end;
 	
-	for (--pos; beg < pos && num; num /= base, --pos) 
+	for (; num && beg < pos; num /= base) 
 	{ 
 		char remainder = (char) (num % base); 
 		
-		if (remainder <= 9) *pos = remainder + '0'; 
-		else                *pos = remainder - 10 + 'A'; 
+		if (remainder < 10) *(--pos) = remainder + '0'; 
+		else                *(--pos) = remainder - 10 + 'A'; 
 	} 
 	if (sign_size) 
 		*(--pos) = '-'; 
 	
-	return std::string(++pos, end); 
+	return std::string(pos, end); 
 } 
 
 #endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP
