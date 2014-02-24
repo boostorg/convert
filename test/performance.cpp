@@ -71,13 +71,14 @@ performance_int_to_string_to_int(Converter const& try_converter)
 void
 test::performance()
 {
-    printf("str-to-int: strtol/scanf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
+	printf("str-to-int: strtol/scanf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
            performance_string_to_int(boost::       strtol_converter()),
            performance_string_to_int(boost::       printf_converter()),
            performance_string_to_int(boost:: lexical_cast_converter()),
            performance_string_to_int(boost::cstringstream_converter()));
 
-    printf("int-to-str-to-int: scanf/lcast/sstream=%.2f/%.2f/%.2f seconds.\n",
+    printf("int-to-str-to-int: strtol/scanf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
+           performance_int_to_string_to_int(boost::       strtol_converter()),
            performance_int_to_string_to_int(boost::       printf_converter()),
            performance_int_to_string_to_int(boost:: lexical_cast_converter()),
            performance_int_to_string_to_int(boost::cstringstream_converter()));

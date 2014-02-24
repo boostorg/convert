@@ -5,7 +5,9 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include "./test.hpp"
+#if !defined(_MSC_VER)
 #include "./performance.cpp"
+#endif
 
 using std::string;
 using std::wstring;

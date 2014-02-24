@@ -65,6 +65,42 @@ struct boost::strtol_converter : public boost::converter_base
 
         return result_out != ULONG_MAX && cnv_end == str_end;
     }
+
+    bool operator()(int value_in, std::string& result_out) const
+    {
+        this_type::ltostr(value_in, base_).swap(result_out);
+
+        return true;
+    }
+	static std::string ltostr(long int num, unsigned int base);
 };
+
+inline
+std::string
+boost::strtol_converter::ltostr(long int num, unsigned int base) 
+{ 
+	BOOST_ASSERT(2 <= base && base <= 36); 
+	
+	if (!num) return "0";
+
+	int const  strsz = 256;
+	char  str[strsz];
+	int    sign_size = (num < 0) ? (num = -num, 1) : 0;
+	char* const  beg = str + sign_size;
+	char* const  end = str + strsz; // The end
+	char*        pos = end;
+	
+	for (--pos; beg < pos && num; num /= base, --pos) 
+	{ 
+		char remainder = (char) (num % base); 
+		
+		if (remainder <= 9) *pos = remainder + '0'; 
+		else                *pos = remainder - 10 + 'A'; 
+	} 
+	if (sign_size) 
+		*(--pos) = '-'; 
+	
+	return std::string(++pos, end); 
+} 
 
 #endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP
