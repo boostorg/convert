@@ -16,8 +16,8 @@ performance_string_to_type(Converter const& try_converter)
 
     for (int k = 0; k < test::num_cycles; ++k)
     {
-        direction_with_default dir = boost::convert<direction_with_default>::from(input[k % 3], try_converter).value();
-        int                    res = dir.value();
+        change chg = boost::convert<change>::from(input[k % 3], try_converter).value();
+        int    res = chg.value();
 
         BOOST_ASSERT(res == k % 3);
 

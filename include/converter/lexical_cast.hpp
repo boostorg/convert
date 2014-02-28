@@ -1,5 +1,4 @@
 // Boost.Convert library
-//
 // Copyright (c) 2009-2014 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
@@ -9,9 +8,12 @@
 
 #include <boost/lexical_cast.hpp>
 
-namespace boost {
+namespace boost 
+{
+    struct lexical_cast_converter;
+}
 
-struct lexical_cast_converter
+struct boost::lexical_cast_converter
 {
     template<typename TypeOut, typename TypeIn>
     bool
@@ -28,7 +30,5 @@ struct lexical_cast_converter
         }
     }
 };
-
-}
 
 #endif // BOOST_CONVERT_LEXICAL_CAST_BASED_CONVERTER_HPP

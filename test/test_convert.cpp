@@ -6,6 +6,7 @@
 
 #include "./test.hpp"
 #if !defined(_MSC_VER)
+#include "./sfinae.cpp"
 #include "./performance.cpp"
 #endif
 
@@ -33,7 +34,7 @@ my_cypher(std::string const& value_in, std::string& value_out)
 
 template<typename Converter>
 void
-test_type_to_string_converter(Converter const& cnv)
+test::type_to_string(Converter const& cnv)
 {
     BOOST_ASSERT("255" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::dec)).value_or("bad"));
     BOOST_ASSERT( "ff" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::hex)).value_or("bad"));
@@ -42,7 +43,7 @@ test_type_to_string_converter(Converter const& cnv)
 
 template<typename Converter>
 void
-test_string_to_type_converter(Converter const& cnv)
+test::string_to_type(Converter const& cnv)
 {
     BOOST_ASSERT( 255 == boost::convert<int>::from("255", cnv(arg::base = cnv::base::dec)).value_or(999));
     BOOST_ASSERT( 999 == boost::convert<int>::from( "FF", cnv(arg::base = cnv::base::dec)).value_or(999));
@@ -62,37 +63,11 @@ assign(Type& value_out, Type const& value_in)
 int
 main(int argc, char const* argv[])
 {
-    test_string_to_type_converter(boost::strtol_converter()); 
-    test_string_to_type_converter(boost::printf_converter());
-	test_type_to_string_converter(boost::printf_converter());
-    
-    test::performance();
-
-    ////////////////////////////////////////////////////////////////////////////
-    // Test string SFINAE.
-    ////////////////////////////////////////////////////////////////////////////
-
-    bool q01 = boost::convert_detail::is_any_string<std::string>::value;
-    bool q02 = boost::convert_detail::is_any_string<char const*>::value;
-    bool q03 = boost::convert_detail::is_any_string<std::wstring>::value;
-    bool q04 = boost::convert_detail::is_any_string<wchar_t const*>::value;
-    bool q05 = boost::convert_detail::is_any_string<char []>::value;
-    bool q06 = boost::convert_detail::is_any_string<wchar_t []>::value;
-    bool q07 = boost::convert_detail::is_any_string<std::vector<char> >::value;
-    bool q08 = boost::convert_detail::is_any_string<std::list<wchar_t> >::value;
-    bool q98 = boost::convert_detail::is_any_string<int>::value;
-    bool q99 = boost::convert_detail::is_any_string<direction>::value;
-
-    BOOST_ASSERT( q01);
-    BOOST_ASSERT( q02);
-    BOOST_ASSERT( q03);
-    BOOST_ASSERT( q04);
-    BOOST_ASSERT( q05);
-    BOOST_ASSERT( q06);
-    BOOST_ASSERT(!q07); // Support withdrawn. So, evaluates to false.
-    BOOST_ASSERT(!q08); // Support withdrawn. So, evaluates to false.
-    BOOST_ASSERT(!q98);
-    BOOST_ASSERT(!q99);
+	test::sfinae();
+	test::performance();
+    test::string_to_type(boost::strtol_converter()); 
+    test::string_to_type(boost::printf_converter());
+	test::type_to_string(boost::printf_converter());
 
     string const           not_int_str = "not an int";
     string const               std_str = "-11";

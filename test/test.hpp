@@ -14,13 +14,13 @@
 #include <iostream>
 #include <stdio.h>
 
-struct direction_with_default
+struct change
 {
-    typedef direction_with_default this_type;
+    typedef change this_type;
 
     enum value_type { no, up, dn };
 
-    direction_with_default(value_type v =no) : value_(v) {}
+    change(value_type v =no) : value_(v) {}
 
     friend std::istream& operator>>(std::istream& stream, this_type& dir)
     {
@@ -93,7 +93,11 @@ struct test
 #error "Add here."
 #endif
 
+    static void      sfinae();
     static void performance();
+
+	template<typename Converter> static void type_to_string(Converter const&);
+	template<typename Converter> static void string_to_type(Converter const&);
 };
 
 #endif // BOOST_CONVERT_TEST_HPP

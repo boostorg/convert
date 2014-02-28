@@ -2,7 +2,7 @@
 
 The performance of ['Boost.Convert] entirely depends on the converter deployed. The mentioned convertors have been tested as part of the ['Boost.Convert] framework. Raw ['scanf()] and ['boost::lexical_cast] have also been tested but showed identical results (when tests are built optimized) to when they were deployed through the ['Boost.Convert] framework. Consequently, for brevity those raw ['scanf()] and ['boost::lexical_cast] results are not shown here. The C++11 family of ['std::to_string()], ['std::stoi()], etc. were not tested due to unavailablility.
 
-Performance was tested for string conversions to the ['integer] type and the user-defined ['direction] type (described later in the documentation). See the actual code in ['test/performance.cpp]. On a Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
+Performance was tested for string conversions to the ['integer] type and a user-defined type. See the actual code in ['test/performance.cpp]. On a Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
 
  g++ -O3 test_convert.cpp
  str-to-int: strtol/scanf/lcast/sstream=0.28/1.15/0.45/1.70 seconds.

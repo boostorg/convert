@@ -115,18 +115,18 @@ In practical terms the mechanism for integrating a user-defined type into the ['
 
 For example,
 
- struct direction
+ struct change
  {
      enum value_type { no, up, dn };
 
-     direction(value_type v =no) : value_(v) {}
+     change(value_type v =no) : value_(v) {}
 
-     friend std::istream& operator>>(std::istream&, direction&)
-     friend std::ostream& operator<<(std::ostream&, direction const&);
+     friend std::istream& operator>>(std::istream&, change&)
+     friend std::ostream& operator<<(std::ostream&, change const&);
     
      private: value_type value_;
  };
- std::istream& operator>>(std::istream& stream, direction& dir)
+ std::istream& operator>>(std::istream& stream, change& dir)
  {
      string str;
      stream >> str;
@@ -137,7 +137,7 @@ For example,
 
      return stream;
  }
- std::ostream& operator<<(std::ostream& stream, direction const& dir)
+ std::ostream& operator<<(std::ostream& stream, change const& dir)
  {
      return stream << (dir.value_ == up ? "up" : dir.value_ == dn ? "dn" : "no");
  }
@@ -149,7 +149,7 @@ That allows handling conversions of user-defined types with plugged-in ['std::st
  boost::cstringstream_converter cnv; // stringstream-based char converter
 
  int i = convert<int>::from(str, cnv).value();
- direction d = convert<direction>::from(str, cnv).value();
+ change c = convert<change>::from(str, cnv).value();
 
 [endsect]
 [endsect]
