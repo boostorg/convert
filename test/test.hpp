@@ -94,10 +94,14 @@ struct test
 #endif
 
     static void      sfinae();
+    static void  algorithms();
     static void performance();
 
 	template<typename Converter> static void type_to_string(Converter const&);
 	template<typename Converter> static void string_to_type(Converter const&);
 };
+
+namespace cnv = boost::conversion;
+namespace arg = boost::conversion::parameter;
 
 #endif // BOOST_CONVERT_TEST_HPP

@@ -1,5 +1,4 @@
 // Boost.Convert library test and usage example
-//
 // Copyright (c) 2009-2014 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
@@ -7,16 +6,13 @@
 #include "./test.hpp"
 #if !defined(_MSC_VER)
 #include "./sfinae.cpp"
+#include "./algorithms.cpp"
 #include "./performance.cpp"
 #endif
 
 using std::string;
 using std::wstring;
-using boost::array;
 using boost::convert;
-
-namespace cnv = boost::conversion;
-namespace arg = boost::conversion::parameter;
 
 bool
 my_cypher(std::string const& value_in, std::string& value_out)
@@ -64,10 +60,11 @@ int
 main(int argc, char const* argv[])
 {
 	test::sfinae();
-	test::performance();
     test::string_to_type(boost::strtol_converter()); 
     test::string_to_type(boost::printf_converter());
 	test::type_to_string(boost::printf_converter());
+	test::algorithms();
+	test::performance();
 
     string const           not_int_str = "not an int";
     string const               std_str = "-11";
@@ -267,70 +264,6 @@ main(int argc, char const* argv[])
     BOOST_ASSERT(!up_dir4); // Failed conversion
 
     ////////////////////////////////////////////////////////////////////////////
-    // Testing with algorithms
-    ////////////////////////////////////////////////////////////////////////////
-
-    array<char const*, 5>   strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
-    std::vector<int>       integers;
-    std::vector<string> new_strings;
-
-    ////////////////////////////////////////////////////////////////////////////
-    // String to integer conversion.
-    // No explicit fallback, i.e. throws on failure. Hex formatting.
-    ////////////////////////////////////////////////////////////////////////////
-    try
-    {
-        std::transform(
-            strings.begin(),
-            strings.end(),
-            std::back_inserter(integers),
-            boost::bind(boost::lexical_cast<int, std::string>, _1));
-
-        BOOST_ASSERT(!"We should not be here");
-    }
-    catch (std::exception&)
-    {
-        // Expected behavior.
-        printf("boost::lexical_cast processed: %d entries.\n", int(integers.size()));
-    }
-    try
-    {
-        std::transform(
-            strings.begin(),
-            strings.end(),
-            std::back_inserter(integers),
-            convert<int>::from<string>(ccnv(std::hex)));
-
-        BOOST_ASSERT(!"We should not be here");
-    }
-    catch (std::exception&)
-    {
-        // Expected behavior.
-        printf("boost::convert processed: %d entries.\n", int(integers.size()));
-    }
-    BOOST_ASSERT(integers[0] == 15);
-    BOOST_ASSERT(integers[1] == 16);
-    BOOST_ASSERT(integers[2] == 17);
-    BOOST_ASSERT(integers[3] == 18);
-
-    integers.clear();
-
-    ////////////////////////////////////////////////////////////////////////////
-    // String to integer conversion. Explicit fallback, i.e. no throwing. Hex formatting.
-    ////////////////////////////////////////////////////////////////////////////
-    std::transform(
-        strings.begin(),
-        strings.end(),
-        std::back_inserter(integers),
-        convert<int>::from<string>(ccnv(arg::base = cnv::base::hex)).value_or(-1));
-
-    BOOST_ASSERT(integers[0] == 15);
-    BOOST_ASSERT(integers[1] == 16);
-    BOOST_ASSERT(integers[2] == 17);
-    BOOST_ASSERT(integers[3] == 18);
-    BOOST_ASSERT(integers[4] == -1); // Failed conversion
-
-    ////////////////////////////////////////////////////////////////////////////
     // Testing formatters/manipulators
     ////////////////////////////////////////////////////////////////////////////
 
@@ -404,24 +337,6 @@ main(int argc, char const* argv[])
 
     BOOST_ASSERT(double_rus == rus_expected);
     BOOST_ASSERT(double_eng == eng_expected);
-
-    ////////////////////////////////////////////////////////////////////////////
-    // int-to-string conversion. No explicit fallback value.
-    ////////////////////////////////////////////////////////////////////////////
-    std::transform(
-        integers.begin(),
-        integers.end(),
-        std::back_inserter(new_strings),
-        convert<string>::from<int>(ccnv(std::dec)));
-
-//  for (size_t k = 0; k < new_strings.size(); ++k)
-//      printf("%d. %s\n", int(k), new_strings[k].c_str());
-
-    BOOST_ASSERT(new_strings[0] == "15");
-    BOOST_ASSERT(new_strings[1] == "16");
-    BOOST_ASSERT(new_strings[2] == "17");
-    BOOST_ASSERT(new_strings[3] == "18");
-    BOOST_ASSERT(new_strings[4] == "-1");
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing string-to-bool and bool-to-string conversions

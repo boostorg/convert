@@ -32,22 +32,32 @@ namespace boost
 template<typename TypeOut>
 struct boost::convert
 {
-    struct result;
+	// C1. TypeOut needs to be normalized as, say, "char const*" might be provided when
+	//     std::string will be used instead (as we have to have storage for the conversion result).
+	// C2. TypeIn oth the other hand needs to be passed in to the Converter as-is.
+	//     That way the converter will be able to optimize the conversion based on that TypeIn type.
+	// C3. convert::from() allocates storage for the conversion result.
+	//     The Pascal-style passing of the out_type& to the converter is ugly. However, it
+	//     a) ensures the consistent requirement with regard to "out_type" 
+	//        (rather than every converter imposing their own);
+	//     b) relieves the converter of that responsibility and makes writing converters easier.
+	
+	struct result;
     template<typename, typename> struct algorithm_helper;
 
 	typedef boost::convert<TypeOut>	                         this_type;
-	typedef typename convert_detail::corrected<TypeOut>::type out_type;
-	typedef typename boost::convert<out_type>::result      result_type;
+	typedef typename convert_detail::corrected<TypeOut>::type out_type; //C1
+	typedef typename boost::convert<out_type>::result      result_type; //C1
 
     static out_type create_storage() { return out_type(); }
 
     template<typename TypeIn, typename Converter>
     static
     result_type
-    from(TypeIn const& value_in, Converter const& converter) //C1.
+    from(TypeIn const& value_in, Converter const& converter)
     {
-        result_type result (this_type::create_storage()); //C2
-        bool       success = converter(value_in, result.value_); //C3
+        result_type result (this_type::create_storage()); //C1,C3
+        bool       success = converter(value_in, result.value_); //C1,C2,C3
         
         return success ? result : result(false);
     }
