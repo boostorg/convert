@@ -92,12 +92,11 @@
 <p>
       Both <span class="emphasis"><em>lexical_cast</em></span> and <span class="emphasis"><em>convert&lt;T&gt;::result</em></span>
       behavior reflect the fact that a conversion request is only a <span class="emphasis"><em>request</em></span>
-      which may succeed but is also may fail. However, from the user perspective
-      <span class="emphasis"><em>lexical_cast</em></span> processes failure in a somewhat harsh and
-      non-negotiable manner. <span class="emphasis"><em>convert&lt;T&gt;::result</em></span> takes
-      a softer approach and leaves the decision to the user. In my personal experience
-      the choice has overwhelmingly been to avoid exceptions altogether with program
-      flows similar to:
+      which may succeed but also may fail. However, from the user perspective <span class="emphasis"><em>lexical_cast</em></span>
+      processes failure in a somewhat harsh and non-negotiable manner. <span class="emphasis"><em>convert&lt;T&gt;::result</em></span>
+      takes a softer approach and leaves the decision to the user. In my personal
+      experience the choice has overwhelmingly been to avoid exceptions altogether
+      with program flows similar to:
     </p>
 <pre class="programlisting"><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">result</span> <span class="identifier">r1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
 <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">result</span> <span class="identifier">r2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
