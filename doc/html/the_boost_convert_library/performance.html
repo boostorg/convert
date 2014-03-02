@@ -30,8 +30,7 @@
     </p>
 <p>
       Performance was tested for string conversions to the <span class="emphasis"><em>integer</em></span>
-      type and the user-defined <span class="emphasis"><em>direction</em></span> type (described later
-      in the documentation). See the actual code in <span class="emphasis"><em>test/performance.cpp</em></span>.
+      type and a user-defined type. See the actual code in <span class="emphasis"><em>test/performance.cpp</em></span>.
       On a Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
     </p>
 <pre class="programlisting"><span class="identifier">g</span><span class="special">++</span> <span class="special">-</span><span class="identifier">O3</span> <span class="identifier">test_convert</span><span class="special">.</span><span class="identifier">cpp</span>
@@ -83,10 +82,9 @@
 <p>
       These results probably reflect different underlying designs. The standard
       <span class="emphasis"><em>Boost.Convert</em></span> usage pattern is to create a converter or
-      converters once and then re-use them (as in the code above). Consequently,
-      performance-wise this deployment pattern is likely to represent the fourth
-      (<span class="emphasis"><em>std::stringstream without construction</em></span>) column of the
-      <a class="link" href="references.html#5">[5]</a> table.
+      converters once and then re-use them. Consequently, performance-wise this deployment
+      pattern is likely to represent the fourth (<span class="emphasis"><em>std::stringstream without
+      construction</em></span>) column of the <a class="link" href="references.html#5">[5]</a> table.
     </p>
 <p>
       In turn, <span class="emphasis"><em>boost::lexical_cast</em></span> also deploys the standard
