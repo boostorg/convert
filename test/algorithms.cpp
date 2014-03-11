@@ -57,6 +57,7 @@ test::algorithms()
     ////////////////////////////////////////////////////////////////////////////
     // String to integer conversion. Explicit fallback, i.e. no throwing. Hex formatting.
     ////////////////////////////////////////////////////////////////////////////
+
     std::transform(
         strings.begin(),
         strings.end(),
@@ -70,9 +71,33 @@ test::algorithms()
     BOOST_ASSERT(integers[3] == 18);
     BOOST_ASSERT(integers[4] == -1); // Failed conversion
 
+#ifdef NOT_AVAILABLE_UNTIL_CPP11
+
+    std::vector<boost::convert<int>::result> opt_ints;
+
+    std::transform(
+        strings.begin(),
+        strings.end(),
+        std::back_inserter(opt_ints),
+        boost::convert<int>::from<std::string>(ccnv(arg::base = cnv::base::hex)));
+
+    BOOST_ASSERT(opt_ints.size() == 5);
+    BOOST_ASSERT( opt_ints[0]);
+    BOOST_ASSERT( opt_ints[1]);
+    BOOST_ASSERT( opt_ints[2]);
+    BOOST_ASSERT( opt_ints[3]);
+    BOOST_ASSERT(!opt_ints[4]); // Failed conversion
+    BOOST_ASSERT(opt_ints[0].value() == 15);
+    BOOST_ASSERT(opt_ints[1].value() == 16);
+    BOOST_ASSERT(opt_ints[2].value() == 17);
+    BOOST_ASSERT(opt_ints[3].value() == 18);
+
+#endif
+
     ////////////////////////////////////////////////////////////////////////////
     // int-to-string conversion. No explicit fallback value.
     ////////////////////////////////////////////////////////////////////////////
+
     std::transform(
         integers.begin(),
         integers.end(),
@@ -85,4 +110,7 @@ test::algorithms()
     BOOST_ASSERT(new_strings[2] == "17");
     BOOST_ASSERT(new_strings[3] == "18");
     BOOST_ASSERT(new_strings[4] == "-1");
+
+
+
 }

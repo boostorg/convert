@@ -4,9 +4,9 @@
 
 The converter is deployed with
 
- #include <boost/convert/sstream_converter.hpp>
+ #include <boost/convert/converter/sstream.hpp>
 
-The purpose of this converter is to provide conversion-related formatting and locale support not present in ['boost::lexical_cast]. Advantages of a ['std::stream]-based engine are 
+Its purpose is to provide conversion-related formatting and locale support not present in ['boost::lexical_cast]. Advantages of a ['std::stream]-based engine are 
 
 * availability and maturity;
 * formatting and locale support;
@@ -16,7 +16,7 @@ The purpose of this converter is to provide conversion-related formatting and lo
 
 [section Formatting Support]
 
-Formatting support is provided by the underlying ['std::stringstream]. Consequently, ['sstream_converter] API heavily borrows formatting metaphors from this underlying component. One such metaphor is the ['manipulator] represented by ['std::hex], ['std::dec], ['std::uppercase], ['std::scientific], etc.
+Formatting support is provided by the underlying ['std::stringstream]. Consequently, the API heavily borrows formatting metaphors from this underlying component. One such metaphor is the ['manipulator] represented by ['std::hex], ['std::dec], ['std::uppercase], ['std::scientific], etc.
 
 The following code demonstrates how the converter is configured on-the-fly to read ['char] and ['wchar_t] strings in the ['std::hex] or ['std::dec] format:
 
@@ -61,7 +61,7 @@ which is equivalent to the following ['manipulator]-based variant:
 
 Locale support is similar to the formatting support as demonstrated by the following example (the Linux version):
 
- #include <boost/convert/sstream_converter.hpp>
+ #include <boost/convert/converter/sstream.hpp>
 
  using boost::convert;
 

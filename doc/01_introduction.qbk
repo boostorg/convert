@@ -2,9 +2,9 @@
 
 [*Please note that the described framework is not part of the Boost library collection even though in this document it is referred to as ['Boost.Convert]. This is done in preparation for potential submission of the library to ['Boost].]
 
-The main purpose of the framework is to channel various conversion facilities through one uniform interface and to provide generic consistent behavior -- one of the factors in improving productivity and code-correctness in commercial s/w development environment.
+The main purpose of the framework is to unify and to deploy various conversion facilities through one uniform interface, to provide generic consistent behavior -- one of the factors in improving productivity and code-correctness in commercial s/w development environment.
 
-['Boost.Convert] builds on the ['boost::lexical_cast] design and experience and takes those conversion\/transformation-related ideas further 
+['Boost.Convert] builds on the ['boost::lexical_cast] experience and takes those conversion\/transformation-related ideas further 
 
 * to be applicable to a wider range of conversion-related deployment scenarios, 
 * to provide a more flexible, extensible and configurable type-conversion framework. 
@@ -13,6 +13,8 @@ The main purpose of the framework is to channel various conversion facilities th
 
 * the API facade to provide simple, minimal and uniform deployment interface and behavior;
 * the extendible library of pluggable converters.
+
+The API facade ['specifies and formalizes the contract] between the user and actual conversion facilities. That minimizes dependency of the application-domain (user) code on any particular infrastructure (conversion) API. New (quicker or richer in functionality or domain-specific) converters can be deployed later in the development process and with minimal or no impact on the existing code base as long as those converters conform to that specified contract. 
 
 The API facade implements new and familiar conversion\/transformation-related behavior such as:
 

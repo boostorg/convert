@@ -18,30 +18,30 @@
 <a name="the_boost_convert_library.performance"></a><a class="link" href="performance.html" title="Performance">Performance</a>
 </h2></div></div></div>
 <p>
-      The performance of <span class="emphasis"><em>Boost.Convert</em></span> entirely depends on the
-      converter deployed. The mentioned convertors have been tested as part of the
-      <span class="emphasis"><em>Boost.Convert</em></span> framework. Raw <span class="emphasis"><em>scanf()</em></span>
-      and <span class="emphasis"><em>boost::lexical_cast</em></span> have also been tested but showed
-      identical results (when tests are built optimized) to when they were deployed
-      through the <span class="emphasis"><em>Boost.Convert</em></span> framework. Consequently, for
-      brevity those raw <span class="emphasis"><em>scanf()</em></span> and <span class="emphasis"><em>boost::lexical_cast</em></span>
+      The performance of <span class="emphasis"><em>Boost.Convert</em></span> depends entirely on the
+      converter deployed. The previously mentioned convertors have been tested as
+      part of the <span class="emphasis"><em>Boost.Convert</em></span> framework (see <span class="emphasis"><em>test/performance.cpp</em></span>).
+      Raw <span class="emphasis"><em>scanf()</em></span> and <span class="emphasis"><em>boost::lexical_cast</em></span>
+      have also been tested but showed identical results (when tests are built optimized)
+      to when they were deployed through the <span class="emphasis"><em>Boost.Convert</em></span> framework.
+      Consequently, for brevity those raw <span class="emphasis"><em>scanf()</em></span> and <span class="emphasis"><em>boost::lexical_cast</em></span>
       results are not shown here. The C++11 family of <span class="emphasis"><em>std::to_string()</em></span>,
-      <span class="emphasis"><em>std::stoi()</em></span>, etc. were not tested due to unavailablility.
+      <span class="emphasis"><em>std::stoi()</em></span>, etc. were not tested due to present unavailablility.
     </p>
 <p>
       Performance was tested for string conversions to the <span class="emphasis"><em>integer</em></span>
-      type and a user-defined type. See the actual code in <span class="emphasis"><em>test/performance.cpp</em></span>.
-      On a Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
+      type and to a user-defined type. On a Ubuntu box (compiled with gcc 4.6.3)
+      tests produced the following results:
     </p>
-<pre class="programlisting"><span class="identifier">g</span><span class="special">++</span> <span class="special">-</span><span class="identifier">O3</span> <span class="identifier">test_convert</span><span class="special">.</span><span class="identifier">cpp</span>
-<span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="keyword">int</span><span class="special">:</span> <span class="identifier">strtol</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">=</span><span class="number">0.28</span><span class="special">/</span><span class="number">1.15</span><span class="special">/</span><span class="number">0.45</span><span class="special">/</span><span class="number">1.70</span> <span class="identifier">seconds</span><span class="special">.</span>
-<span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">ltostr</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">=</span><span class="number">1.50</span><span class="special">/</span><span class="number">2.17</span><span class="special">/</span><span class="number">1.11</span><span class="special">/</span><span class="number">1.73</span> <span class="identifier">seconds</span><span class="special">.</span>
-<span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">user</span><span class="special">-</span><span class="identifier">type</span><span class="special">:</span> <span class="identifier">lcast</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">=</span><span class="number">3.26</span><span class="special">/</span><span class="number">2.58</span> <span class="identifier">seconds</span><span class="special">.</span>
-
-<span class="identifier">g</span><span class="special">++</span> <span class="special">-</span><span class="identifier">O0</span> <span class="identifier">test_convert</span><span class="special">.</span><span class="identifier">cpp</span>
+<pre class="programlisting"><span class="identifier">g</span><span class="special">++</span> <span class="special">-</span><span class="identifier">O0</span> <span class="identifier">test_convert</span><span class="special">.</span><span class="identifier">cpp</span> <span class="special">&lt;---</span> <span class="identifier">NON</span><span class="special">-</span><span class="identifier">OPTIMIZED</span>
 <span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="keyword">int</span><span class="special">:</span> <span class="identifier">strtol</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">=</span><span class="number">0.49</span><span class="special">/</span><span class="number">1.40</span><span class="special">/</span><span class="number">1.56</span><span class="special">/</span><span class="number">2.00</span> <span class="identifier">seconds</span><span class="special">.</span>
 <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">ltostr</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">=</span><span class="number">3.10</span><span class="special">/</span><span class="number">2.62</span><span class="special">/</span><span class="number">2.42</span><span class="special">/</span><span class="number">2.52</span> <span class="identifier">seconds</span><span class="special">.</span>
 <span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">user</span><span class="special">-</span><span class="identifier">type</span><span class="special">:</span> <span class="identifier">lcast</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">=</span><span class="number">4.94</span><span class="special">/</span><span class="number">3.19</span> <span class="identifier">seconds</span><span class="special">.</span>
+
+<span class="identifier">g</span><span class="special">++</span> <span class="special">-</span><span class="identifier">O3</span> <span class="identifier">test_convert</span><span class="special">.</span><span class="identifier">cpp</span> <span class="special">&lt;---</span> <span class="identifier">OPTIMIZED</span>
+<span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="keyword">int</span><span class="special">:</span> <span class="identifier">strtol</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">=</span><span class="number">0.28</span><span class="special">/</span><span class="number">1.15</span><span class="special">/</span><span class="number">0.45</span><span class="special">/</span><span class="number">1.70</span> <span class="identifier">seconds</span><span class="special">.</span>
+<span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">ltostr</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">=</span><span class="number">1.50</span><span class="special">/</span><span class="number">2.17</span><span class="special">/</span><span class="number">1.11</span><span class="special">/</span><span class="number">1.73</span> <span class="identifier">seconds</span><span class="special">.</span>
+<span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">user</span><span class="special">-</span><span class="identifier">type</span><span class="special">:</span> <span class="identifier">lcast</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">=</span><span class="number">3.26</span><span class="special">/</span><span class="number">2.58</span> <span class="identifier">seconds</span><span class="special">.</span>
 </pre>
 <p>
       On the Cygwin platform compiled with gcc 4.8.2:
@@ -60,23 +60,40 @@
 </pre>
 <p>
       Non-optimized times are more of a curiosity -- to demonstrate (and to remind)
-      that considerable performance is to be gained via optimized compilation. Optimized
-      times are the ones to be looked at and analyzed.
+      that a noticeable performance improvement is to be gained via optimized compilation.
+      Optimized times are the ones to be looked at and analyzed.
     </p>
 <p>
-      For user-defined types only two converters were tested -- <span class="emphasis"><em>boost::lexical_cast</em></span>-based
-      and the <span class="emphasis"><em>std::stringstream</em></span>-based converter. Other conversion
+      For user-defined types two converters -- <span class="emphasis"><em>boost::lexical_cast</em></span>-based
+      and <span class="emphasis"><em>std::stringstream</em></span>-based -- were tested. Other conversion
       facilities did not provide that functionality.
     </p>
 <p>
       Both converters provide <span class="emphasis"><em>string-to-type</em></span> and <span class="emphasis"><em>type-to-string</em></span>
-      conversions. However, their priorities are quite different. For basic (<span class="emphasis"><em>int</em></span>,
-      etc.) types <span class="emphasis"><em>boost::lexical_cast</em></span> performance has been optimized
-      (see <a class="link" href="references.html#5">[5]</a>). Therefore, if speed is your primary objective
-      and your needs do not go beyond basic types, then deploying <span class="emphasis"><em>boost::lexical_cast</em></span>
+      conversions; both deploy the same -- std::sstream -- conversion engine and
+      I suspect both share the same noble goal -- to provide a uniform conversion
+      interface and an extendible conversion framework where new types can be plugged
+      in to the framework via:
+    </p>
+<pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">istream</span><span class="special">&amp;</span> <span class="keyword">operator</span><span class="special">&gt;&gt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">istream</span><span class="special">&amp;,</span> <span class="identifier">TypeOut</span><span class="special">&amp;);</span>
+<span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream</span><span class="special">&amp;</span> <span class="keyword">operator</span><span class="special">&lt;&lt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream</span><span class="special">&amp;,</span> <span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;);</span>
+</pre>
+<p>
+      Unfortunately that comes at a price as <span class="emphasis"><em>std::sstream</em></span>-based
+      conversions of the basic (<span class="emphasis"><em>int</em></span>, etc.) types are comparatively
+      slow. Consequently, for basic types <span class="emphasis"><em>boost::lexical_cast</em></span>
+      implementation has been optimized (see <a class="link" href="references.html#5">[5]</a>) to exclude
+      <span class="emphasis"><em>std::sstream</em></span>. <span class="emphasis"><em>Boost.Convert</em></span> also
+      provides that "optimization" functionality via pluggable converters.
+      Consequently, if speed is your primary objective and your needs do not go beyond
+      basic types, then deploying <span class="emphasis"><em>std::to_string/std::stoi</em></span>,
+      <span class="emphasis"><em>strtol</em></span>, <span class="emphasis"><em>printf/scanf</em></span>, <span class="emphasis"><em>boost::lexical_cast</em></span>
       (directly or via the <span class="emphasis"><em>Boost.Convert</em></span> framework) might be
-      an option to explore. However, for user-defined types it appears to be quite
-      a different story with <span class="emphasis"><em>Boost.Convert</em></span> consistently outperforming
+      an option to explore.
+    </p>
+<p>
+      However, for user-defined types it appears to be quite a different story with
+      the <span class="emphasis"><em>std::stringstream</em></span>-based converter consistently outperforming
       <span class="emphasis"><em>boost::lexical_cast</em></span> in the tests.
     </p>
 <p>

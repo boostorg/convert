@@ -64,4 +64,14 @@ And at last a fully working version (with a conversion-failure fallback value pr
  BOOST_ASSERT(integers[3] == 18);
  BOOST_ASSERT(integers[4] == -1); // Failed conversion
 
+The following ['convert<int>::result]-based version is not available with pre-C++11 compilers:
+
+ std::vector<convert<int>::result> opt_ints;
+
+ std::transform(
+    strings.begin(),
+    strings.end(),
+    std::back_inserter(opt_ints),
+    convert<int>::from<std::string>(ccnv(std::hex)));
+
 [endsect]

@@ -96,6 +96,7 @@ struct test
     static void      sfinae();
     static void  algorithms();
     static void performance();
+    static void encryption ();
 
 	template<typename Converter> static void type_to_string(Converter const&);
 	template<typename Converter> static void string_to_type(Converter const&);

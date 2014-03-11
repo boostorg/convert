@@ -1,6 +1,8 @@
 [section Getting Started]
 
-In its simplest form the conversion functionality might be deployed as follows:
+Given the ubiquity of and the familiarity of the programming community with ['boost::lexical_cast], here and further in the documentation ['boost::lexical_cast] is often mentioned as a reference. 
+
+In its simplest form the ['Boost.Convert] functionality might be deployed as follows:
 
  #include <boost/convert/api.hpp>
  #include <boost/convert/sstream_converter.hpp>
@@ -13,7 +15,7 @@ In its simplest form the conversion functionality might be deployed as follows:
  int i2 = convert<int>::from(str, cnv).value(); // Throws if the conversion fails
  int i3 = convert<int>::from(str, cnv).value_or(-1); // Returns -1 if the conversion fails
 
-These calls can be interpreted as "['Convert a string to int]" for ['i1] and ['i2] and "['Convert a string to int and return -1 if the conversion fails]" for ['i3]. 
+The above calls can be interpreted as "['Convert a string to int]" for ['i1] and ['i2] and "['Convert a string to int and return -1 if the conversion fails]" for ['i3]. 
 
 The ['i1] and ['i2] deployments look sufficiently close and, in fact, are identical behaviorally. Namely, if the requested conversion fails, an exception is thrown. The user request -- "['Convert a string to int]" -- lacks the specification for the failure use-case. Consequently, ['boost::lexical_cast] and ['boost::convert] resort to handling that not-mentioned use-case in the standard way.
 
@@ -38,7 +40,7 @@ Or even shorter, if we do not care logging:
 
  ... proceed
 
-So far the deployment of ['boost::convert] seems more compact and natural (your mileage may vary) and might be potentially more efficient compared to ['boost::lexical_cast] deployment which achieves a similar (excluding formatting) result with something like
+So far the deployment of ['boost::convert] seems more compact and natural (your mileage may vary) and might be potentially more efficient compared to ['boost::lexical_cast] deployment which achieves a similar (excluding ['hex] and ['decimal] formatting) result with something like
 
  int num_threads;
 

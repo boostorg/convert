@@ -2,7 +2,7 @@
 
 The converter is deployed with
 
- #include <boost/convert/lexical_cast_converter.hpp>
+ #include <boost/convert/converter/lexical_cast.hpp>
 
 The purpose of the converter is 
 

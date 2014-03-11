@@ -18,7 +18,13 @@
 <a name="the_boost_convert_library.getting_started"></a><a class="link" href="getting_started.html" title="Getting Started">Getting Started</a>
 </h2></div></div></div>
 <p>
-      In its simplest form the conversion functionality might be deployed as follows:
+      Given the ubiquity of and the familiarity of the programming community with
+      <span class="emphasis"><em>boost::lexical_cast</em></span>, here and further in the documentation
+      <span class="emphasis"><em>boost::lexical_cast</em></span> is often mentioned as a reference.
+    </p>
+<p>
+      In its simplest form the <span class="emphasis"><em>Boost.Convert</em></span> functionality might
+      be deployed as follows:
     </p>
 <pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">api</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
 <span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">sstream_converter</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
@@ -32,7 +38,7 @@
 <span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Returns -1 if the conversion fails</span>
 </pre>
 <p>
-      These calls can be interpreted as "<span class="emphasis"><em>Convert a string to int</em></span>"
+      The above calls can be interpreted as "<span class="emphasis"><em>Convert a string to int</em></span>"
       for <span class="emphasis"><em>i1</em></span> and <span class="emphasis"><em>i2</em></span> and "<span class="emphasis"><em>Convert
       a string to int and return -1 if the conversion fails</em></span>" for
       <span class="emphasis"><em>i3</em></span>.
@@ -77,7 +83,8 @@
       So far the deployment of <span class="emphasis"><em>boost::convert</em></span> seems more compact
       and natural (your mileage may vary) and might be potentially more efficient
       compared to <span class="emphasis"><em>boost::lexical_cast</em></span> deployment which achieves
-      a similar (excluding formatting) result with something like
+      a similar (excluding <span class="emphasis"><em>hex</em></span> and <span class="emphasis"><em>decimal</em></span>
+      formatting) result with something like
     </p>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_threads</span><span class="special">;</span>
 

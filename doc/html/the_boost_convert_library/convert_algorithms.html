@@ -90,6 +90,18 @@
 <span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">3</span><span class="special">]</span> <span class="special">==</span> <span class="number">18</span><span class="special">);</span>
 <span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">4</span><span class="special">]</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Failed conversion</span>
 </pre>
+<p>
+      The following <span class="emphasis"><em>convert&lt;int&gt;::result</em></span>-based version
+      is not available with pre-C++11 compilers:
+    </p>
+<pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">result</span><span class="special">&gt;</span> <span class="identifier">opt_ints</span><span class="special">;</span>
+
+<span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span>
+   <span class="identifier">strings</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span>
+   <span class="identifier">strings</span><span class="special">.</span><span class="identifier">end</span><span class="special">(),</span>
+   <span class="identifier">std</span><span class="special">::</span><span class="identifier">back_inserter</span><span class="special">(</span><span class="identifier">opt_ints</span><span class="special">),</span>
+   <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)));</span>
+</pre>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>

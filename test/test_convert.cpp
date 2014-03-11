@@ -8,25 +8,12 @@
 #include "./sfinae.cpp"
 #include "./algorithms.cpp"
 #include "./performance.cpp"
+#include "./encryption.cpp"
 #endif
 
 using std::string;
 using std::wstring;
 using boost::convert;
-
-bool
-my_cypher(std::string const& value_in, std::string& value_out)
-{
-    size_t const cypher = 'A' - '1';
-
-    value_out = value_in;
-
-    for (string::iterator it = value_out.begin(); it != value_out.end(); ++it)
-        (*it < 'A') ? (*it += cypher) : (*it -= cypher);
-
-    return true;
-}
-
 
 template<typename Converter>
 void
@@ -65,6 +52,7 @@ main(int argc, char const* argv[])
 	test::type_to_string(boost::printf_converter());
 	test::algorithms();
 	test::performance();
+	test::encryption();
 
     string const           not_int_str = "not an int";
     string const               std_str = "-11";
@@ -367,16 +355,6 @@ main(int argc, char const* argv[])
 //    BOOST_ASSERT(bool_str2 == "0");
 //    BOOST_ASSERT(bool_str3 == "1");
 //    BOOST_ASSERT(bool_str4 == "0");
-
-    ////////////////////////////////////////////////////////////////////////////
-    // Testing custom converter.
-    ////////////////////////////////////////////////////////////////////////////
-
-    string encrypted = convert<string>::from("ABC", my_cypher).value();
-    string decrypted = convert<string>::from(encrypted, my_cypher).value();
-
-    BOOST_ASSERT(encrypted == "123");
-    BOOST_ASSERT(decrypted == "ABC");
 
     printf("Test completed successfully.\n");
     return 0;

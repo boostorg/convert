@@ -12,7 +12,7 @@ The first two requirements are imposed by the ['boost::lexical_cast] design and 
 In turn, the ['Boost.Convert] API facade has the following requirements:
 
 * TypeOut needs to be ['Copy Constructible];
-* TypeOut needs to be ['Default Constructible] by default.
+* TypeOut needs to be ['Default Constructible] by ['default].
 
 Additional requirements might be imposed by the respective converter. For example, both mentioned -- ['boost::lexical_cast]-based and ['std::stringstream]-based -- converters require
 

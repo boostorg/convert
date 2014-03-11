@@ -101,6 +101,7 @@ struct boost::convert<TypeOut>::result
     private:
 
 	friend struct boost::convert<TypeOut>;
+    template<typename, typename> friend struct boost::convert<TypeOut>::algorithm_helper;
 
     this_type& operator()(bool good) { return (good_ = good, *this); }
 
@@ -126,7 +127,7 @@ struct boost::convert<TypeOut>::algorithm_helper
     {
         out_type result = boost::convert<TypeOut>::create_storage();
         bool       good = (*converter_)(value_in, result);
-        
+
         if (!good)
             BOOST_THROW_EXCEPTION(std::invalid_argument("boost::convert failed"));
 

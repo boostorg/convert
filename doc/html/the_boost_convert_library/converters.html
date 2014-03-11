@@ -21,8 +21,8 @@
       The <span class="emphasis"><em>Boost.Convert</em></span> facade API plays an important role as
       it is responsible for and provides a uniform interface and ensures consistent
       behavior. However, it is the respective plugged-in converter who does the hard
-      work of turning integers to strings and strings to custom-types, etc., i.e.
-      the hard work of actual type conversion/transformation.
+      work of turning integers into strings and strings into custom-types, etc.,
+      i.e. the hard work of actual type conversion/transformation.
     </p>
 <p>
       For a converter to be plugged in to the <span class="emphasis"><em>Boost.Convert</em></span>
@@ -43,7 +43,7 @@
       if its sole purpose is to handle one particular conversion/transformation of
       TypeIn to TypeOut. For example, a converter from the operating-system-specific
       MBCS string format to the UCS-2 or UCS-4 (depending on wchar_t size) does not
-      seem like such a crazy idea:
+      seem like such a unreasonable idea:
     </p>
 <pre class="programlisting"><span class="keyword">bool</span> <span class="keyword">operator</span><span class="special">()(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">value_in</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">wstring</span><span class="special">&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
 </pre>

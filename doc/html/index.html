@@ -74,15 +74,14 @@
       submission of the library to <span class="emphasis"><em>Boost</em></span>.</strong></span>
     </p>
 <p>
-      The main purpose of the framework is to channel various conversion facilities
-      through one uniform interface and to provide generic consistent behavior --
-      one of the factors in improving productivity and code-correctness in commercial
+      The main purpose of the framework is to unify and to deploy various conversion
+      facilities through one uniform interface, to provide generic consistent behavior
+      -- one of the factors in improving productivity and code-correctness in commercial
       s/w development environment.
     </p>
 <p>
       <span class="emphasis"><em>Boost.Convert</em></span> builds on the <span class="emphasis"><em>boost::lexical_cast</em></span>
-      design and experience and takes those conversion/transformation-related ideas
-      further
+      experience and takes those conversion/transformation-related ideas further
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -105,6 +104,15 @@
           the extendible library of pluggable converters.
         </li>
 </ul></div>
+<p>
+      The API facade <span class="emphasis"><em>specifies and formalizes the contract</em></span> between
+      the user and actual conversion facilities. That minimizes dependency of the
+      application-domain (user) code on any particular infrastructure (conversion)
+      API. New (quicker or richer in functionality or domain-specific) converters
+      can be deployed later in the development process and with minimal or no impact
+      on the existing code base as long as those converters conform to that specified
+      contract.
+    </p>
 <p>
       The API facade implements new and familiar conversion/transformation-related
       behavior such as:
@@ -200,7 +208,7 @@
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: March 02, 2014 at 22:31:24 GMT</small></p></td>
+<td align="left"><p><small>Last revised: March 11, 2014 at 01:40:09 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>
