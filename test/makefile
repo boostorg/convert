@@ -1,7 +1,7 @@
 DEVROOT			=	$(HOME)/dev
 DEVMAKE			=	$(DEVROOT)/make
 
-cflags			=	-I../..
+cflags			=	-I../include
 target			=	test-convert.exe
 sources			=	test_convert.cpp
 

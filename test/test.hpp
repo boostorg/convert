@@ -1,11 +1,11 @@
 #ifndef BOOST_CONVERT_TEST_HPP
 #define BOOST_CONVERT_TEST_HPP
 
-#include "../include/api.hpp"
-#include "../include/converter/lexical_cast.hpp"
-#include "../include/converter/sstream.hpp"
-#include "../include/converter/printf.hpp"
-#include "../include/converter/strtol.hpp"
+#include <boost/convert/api.hpp>
+#include <boost/convert/converter/lexical_cast.hpp>
+#include <boost/convert/converter/sstream.hpp>
+#include <boost/convert/converter/printf.hpp>
+#include <boost/convert/converter/strtol.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <iomanip>
