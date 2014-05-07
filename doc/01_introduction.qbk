@@ -1,7 +1,5 @@
 [section Introduction]
 
-[*Please note that the described framework is not part of the Boost library collection even though in this document it is referred to as ['Boost.Convert]. This is done in preparation for potential submission of the library to ['Boost].]
-
 The main purpose of the framework is to unify and to deploy various conversion facilities through one consistent interface, to provide generic consistent behavior -- one of the factors in improving productivity and code-correctness in commercial s/w development environment.
 
 ['Boost.Convert] builds on the ['boost::lexical_cast] experience and takes those conversion\/transformation-related ideas further 

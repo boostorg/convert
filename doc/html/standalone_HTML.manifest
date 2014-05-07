@@ -14,12 +14,12 @@ the_boost_convert_library/other_conversions.html
 convert_reference.html
 boost/convert.html
 boost/convert/algorithm_helper.html
-boost/convert/algorithm_helper__idm26160.html
+boost/convert/algorithm_helper__idm26240.html
 boost/convert/result.html
-header//home/vbatov/dev/boost_convert/include/parameters_hpp.html
+header/boost/convert/parameters_hpp.html
 boost/conversion/base.html
 boost/conversion/notation.html
 the_boost_convert_library/motivation.html
 the_boost_convert_library/references.html
-the_boost_convert_library/convert_acknowledgements.html
+the_boost_convert_library/acknowledgements.html
 index/s16.html
