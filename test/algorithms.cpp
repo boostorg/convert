@@ -25,12 +25,12 @@ test::algorithms()
             std::back_inserter(integers),
             boost::bind(boost::lexical_cast<int, std::string>, _1));
 
-        BOOST_ASSERT(!"Failed to throw");
+        BOOST_TEST(!"Failed to throw");
     }
     catch (std::exception&)
     {
         // Expected behavior.
-        BOOST_ASSERT(integers.size() == 0);
+        BOOST_TEST(integers.size() == 0);
     }
     try
     {
@@ -40,17 +40,17 @@ test::algorithms()
             std::back_inserter(integers),
             boost::convert<int>::from<std::string>(ccnv(std::hex)));
 
-        BOOST_ASSERT(!"Failed to throw");
+        BOOST_TEST(!"Failed to throw");
     }
     catch (std::exception&)
     {
         // Expected behavior.
-        BOOST_ASSERT(integers.size() == 4);
+        BOOST_TEST(integers.size() == 4);
     }
-    BOOST_ASSERT(integers[0] == 15);
-    BOOST_ASSERT(integers[1] == 16);
-    BOOST_ASSERT(integers[2] == 17);
-    BOOST_ASSERT(integers[3] == 18);
+    BOOST_TEST(integers[0] == 15);
+    BOOST_TEST(integers[1] == 16);
+    BOOST_TEST(integers[2] == 17);
+    BOOST_TEST(integers[3] == 18);
 
     integers.clear();
 
@@ -64,12 +64,12 @@ test::algorithms()
         std::back_inserter(integers),
         boost::convert<int>::from<std::string>(ccnv(arg::base = cnv::base::hex)).value_or(-1));
 
-    BOOST_ASSERT(integers.size() == 5);
-    BOOST_ASSERT(integers[0] == 15);
-    BOOST_ASSERT(integers[1] == 16);
-    BOOST_ASSERT(integers[2] == 17);
-    BOOST_ASSERT(integers[3] == 18);
-    BOOST_ASSERT(integers[4] == -1); // Failed conversion
+    BOOST_TEST(integers.size() == 5);
+    BOOST_TEST(integers[0] == 15);
+    BOOST_TEST(integers[1] == 16);
+    BOOST_TEST(integers[2] == 17);
+    BOOST_TEST(integers[3] == 18);
+    BOOST_TEST(integers[4] == -1); // Failed conversion
 
 #ifdef NOT_AVAILABLE_UNTIL_CPP11
 
@@ -81,16 +81,16 @@ test::algorithms()
         std::back_inserter(opt_ints),
         boost::convert<int>::from<std::string>(ccnv(arg::base = cnv::base::hex)));
 
-    BOOST_ASSERT(opt_ints.size() == 5);
-    BOOST_ASSERT( opt_ints[0]);
-    BOOST_ASSERT( opt_ints[1]);
-    BOOST_ASSERT( opt_ints[2]);
-    BOOST_ASSERT( opt_ints[3]);
-    BOOST_ASSERT(!opt_ints[4]); // Failed conversion
-    BOOST_ASSERT(opt_ints[0].value() == 15);
-    BOOST_ASSERT(opt_ints[1].value() == 16);
-    BOOST_ASSERT(opt_ints[2].value() == 17);
-    BOOST_ASSERT(opt_ints[3].value() == 18);
+    BOOST_TEST(opt_ints.size() == 5);
+    BOOST_TEST( opt_ints[0]);
+    BOOST_TEST( opt_ints[1]);
+    BOOST_TEST( opt_ints[2]);
+    BOOST_TEST( opt_ints[3]);
+    BOOST_TEST(!opt_ints[4]); // Failed conversion
+    BOOST_TEST(opt_ints[0].value() == 15);
+    BOOST_TEST(opt_ints[1].value() == 16);
+    BOOST_TEST(opt_ints[2].value() == 17);
+    BOOST_TEST(opt_ints[3].value() == 18);
 
 #endif
 
@@ -104,12 +104,12 @@ test::algorithms()
         std::back_inserter(new_strings),
         boost::convert<std::string>::from<int>(ccnv(std::dec)));
 
-    BOOST_ASSERT(new_strings.size() == 5);
-    BOOST_ASSERT(new_strings[0] == "15");
-    BOOST_ASSERT(new_strings[1] == "16");
-    BOOST_ASSERT(new_strings[2] == "17");
-    BOOST_ASSERT(new_strings[3] == "18");
-    BOOST_ASSERT(new_strings[4] == "-1");
+    BOOST_TEST(new_strings.size() == 5);
+    BOOST_TEST(new_strings[0] == "15");
+    BOOST_TEST(new_strings[1] == "16");
+    BOOST_TEST(new_strings[2] == "17");
+    BOOST_TEST(new_strings[3] == "18");
+    BOOST_TEST(new_strings[4] == "-1");
 
 
 

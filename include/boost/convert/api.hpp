@@ -1,16 +1,13 @@
-/// \file boost/convert.hpp
-/// Public interface to the Boost.Convert framework.
-//
 // Boost.Convert library
 // Copyright (c) 2009-2014 Vladimir Batov.
 //
 // Many thanks to 
-// Andrzej Krzemienski for helping great deal to partition responsibilities and to ultimately pave
-// the way for the tr1::optional deployment;
-// Edward Diener the Boost Review Manager for helping with the converters' design, his continuous
-// involvement, technical and administrative help, guidance and advice;
-// Kevlin Henney and Dave Abrahams for their ['lexical_cast]-related insights and explanations;
-// Rob Stewart and Alex Hagen-Zanker for making sure the performance tests work as they should.
+// *) Andrzej Krzemienski for helping great deal to partition responsibilities and to ultimately pave
+//    the way for the tr1::optional deployment;
+// *) Edward Diener the Boost Review Manager for helping with the converters' design, his continuous
+//    involvement, technical and administrative help, guidance and advice;
+// *) Kevlin Henney and Dave Abrahams for their ['lexical_cast]-related insights and explanations;
+// *) Rob Stewart and Alex Hagen-Zanker for making sure the performance tests work as they should.
 // 
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
@@ -18,9 +15,9 @@
 #ifndef BOOST_CONVERT_API_HPP
 #define BOOST_CONVERT_API_HPP
 
-#include "./detail/safebool.hpp"
-#include "./detail/workarounds.hpp"
-#include "./detail/string.hpp"
+#include <boost/convert/detail/safebool.hpp>
+#include <boost/convert/detail/workarounds.hpp>
+#include <boost/convert/detail/string.hpp>
 #include <boost/throw_exception.hpp>
 #include <stdexcept>
 

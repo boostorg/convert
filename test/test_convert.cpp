@@ -9,6 +9,7 @@
 #include "./algorithms.cpp"
 #include "./performance.cpp"
 #include "./encryption.cpp"
+#include "./callable.cpp"
 #endif
 
 using std::string;
@@ -19,28 +20,20 @@ template<typename Converter>
 void
 test::type_to_string(Converter const& cnv)
 {
-    BOOST_ASSERT("255" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::dec)).value_or("bad"));
-    BOOST_ASSERT( "ff" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::hex)).value_or("bad"));
-    BOOST_ASSERT("377" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::oct)).value_or("bad"));
+    BOOST_TEST("255" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::dec)).value_or("bad"));
+    BOOST_TEST( "ff" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::hex)).value_or("bad"));
+    BOOST_TEST("377" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::oct)).value_or("bad"));
 }
 
 template<typename Converter>
 void
 test::string_to_type(Converter const& cnv)
 {
-    BOOST_ASSERT( 255 == boost::convert<int>::from("255", cnv(arg::base = cnv::base::dec)).value_or(999));
-    BOOST_ASSERT( 999 == boost::convert<int>::from( "FF", cnv(arg::base = cnv::base::dec)).value_or(999));
-    BOOST_ASSERT( 255 == boost::convert<int>::from( "FF", cnv(arg::base = cnv::base::hex)).value_or(999));
-    BOOST_ASSERT( 173 == boost::convert<int>::from("255", cnv(arg::base = cnv::base::oct)).value_or(999));
-    BOOST_ASSERT( 999 != boost::convert<double>::from("1.23", cnv).value_or(999));
-}
-
-template<typename Type>
-bool
-assign(Type& value_out, Type const& value_in)
-{
-    value_out = value_in;
-    return true;
+    BOOST_TEST( 255 == boost::convert<int>::from("255", cnv(arg::base = cnv::base::dec)).value_or(999));
+    BOOST_TEST( 999 == boost::convert<int>::from( "FF", cnv(arg::base = cnv::base::dec)).value_or(999));
+    BOOST_TEST( 255 == boost::convert<int>::from( "FF", cnv(arg::base = cnv::base::hex)).value_or(999));
+    BOOST_TEST( 173 == boost::convert<int>::from("255", cnv(arg::base = cnv::base::oct)).value_or(999));
+    BOOST_TEST( 999 != boost::convert<double>::from("1.23", cnv).value_or(999));
 }
 
 int
@@ -52,7 +45,8 @@ main(int argc, char const* argv[])
 	test::type_to_string(boost::printf_converter());
 	test::algorithms();
 	test::performance();
-	test::encryption();
+    test::encryption();
+    test::callables();
 
     string const           not_int_str = "not an int";
     string const               std_str = "-11";
@@ -69,14 +63,6 @@ main(int argc, char const* argv[])
 	boost::wstringstream_converter wcnv; // stringstream-based wchar_t converter
 		
     ////////////////////////////////////////////////////////////////////////////
-    // Testing crazy in-place converter.
-    ////////////////////////////////////////////////////////////////////////////
-
-    int lc99 = convert<int>::from(c_str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
-
-    BOOST_ASSERT(lc99 == -12);
-
-    ////////////////////////////////////////////////////////////////////////////
     // Testing lexical_cast-based converter.
     ////////////////////////////////////////////////////////////////////////////
 
@@ -84,9 +70,9 @@ main(int argc, char const* argv[])
     int lc01 = convert<int>::from(std_str,     lcnv).value_or(-1);
     int lc02 = convert<int>::from(c_str,       lcnv).value_or(-1);
 
-    BOOST_ASSERT(lc00 ==  -1); // Failed conversion. No throw
-    BOOST_ASSERT(lc01 == -11);
-    BOOST_ASSERT(lc02 == -12);
+    BOOST_TEST(lc00 ==  -1); // Failed conversion. No throw
+    BOOST_TEST(lc01 == -11);
+    BOOST_TEST(lc02 == -12);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing various kinds of string containers.
@@ -102,12 +88,12 @@ main(int argc, char const* argv[])
     int a004 = convert<int>::from(wc_str,      wcnv).value_or(-1);
     int a005 = convert<int>::from(array_str,   ccnv).value_or(-1);
 
-    BOOST_ASSERT(a000 ==  -1); // Failed conversion
-    BOOST_ASSERT(a001 == -11);
-    BOOST_ASSERT(a002 == -12);
-    BOOST_ASSERT(a003 == -13);
-    BOOST_ASSERT(a004 == -14);
-    BOOST_ASSERT(a005 == -15);
+    BOOST_TEST(a000 ==  -1); // Failed conversion
+    BOOST_TEST(a001 == -11);
+    BOOST_TEST(a002 == -12);
+    BOOST_TEST(a003 == -13);
+    BOOST_TEST(a004 == -14);
+    BOOST_TEST(a005 == -15);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing with the fallback value value provided.
@@ -123,12 +109,12 @@ main(int argc, char const* argv[])
     convert<int>::result r004 = convert<int>::from(wc_str,      wcnv);
     convert<int>::result r005 = convert<int>::from(array_str,   ccnv);
 
-    BOOST_ASSERT(!r000); // Failed conversion
-    BOOST_ASSERT( r001 && r001.value() == -11);
-    BOOST_ASSERT( r002 && r002.value() == -12);
-    BOOST_ASSERT( r003 && r003.value() == -13);
-    BOOST_ASSERT( r004 && r004.value() == -14);
-    BOOST_ASSERT( r005 && r005.value() == -15);
+    BOOST_TEST(!r000); // Failed conversion
+    BOOST_TEST( r001 && r001.value() == -11);
+    BOOST_TEST( r002 && r002.value() == -12);
+    BOOST_TEST( r003 && r003.value() == -13);
+    BOOST_TEST( r004 && r004.value() == -14);
+    BOOST_TEST( r005 && r005.value() == -15);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing without a fallback value provided.
@@ -139,7 +125,7 @@ main(int argc, char const* argv[])
     try
     {
         convert<int>::from(not_int_str, ccnv).value();
-        BOOST_ASSERT(!"failed to throw");
+        BOOST_TEST(!"failed to throw");
     }
     catch (std::exception&)
     {
@@ -151,11 +137,11 @@ main(int argc, char const* argv[])
     int a024 = convert<int>::from(wc_str,    wcnv).value();
     int a025 = convert<int>::from(array_str, ccnv).value();
 
-    BOOST_ASSERT(a021 == -11);
-    BOOST_ASSERT(a022 == -12);
-    BOOST_ASSERT(a023 == -13);
-    BOOST_ASSERT(a024 == -14);
-    BOOST_ASSERT(a025 == -15);
+    BOOST_TEST(a021 == -11);
+    BOOST_TEST(a022 == -12);
+    BOOST_TEST(a023 == -13);
+    BOOST_TEST(a024 == -14);
+    BOOST_TEST(a025 == -15);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing convert<>::result interface.
@@ -171,17 +157,17 @@ main(int argc, char const* argv[])
     convert<int>::result r014 = convert<int>::from(wc_str, wcnv);
     convert<int>::result r015 = convert<int>::from(array_str, ccnv);
 
-    BOOST_ASSERT(!r010); // Failed conversion
-    BOOST_ASSERT( r011 && r011.value() == -11);
-    BOOST_ASSERT( r012 && r012.value() == -12);
-    BOOST_ASSERT( r013 && r013.value() == -13);
-    BOOST_ASSERT( r014 && r014.value() == -14);
-    BOOST_ASSERT( r015 && r015.value() == -15);
+    BOOST_TEST(!r010); // Failed conversion
+    BOOST_TEST( r011 && r011.value() == -11);
+    BOOST_TEST( r012 && r012.value() == -12);
+    BOOST_TEST( r013 && r013.value() == -13);
+    BOOST_TEST( r014 && r014.value() == -14);
+    BOOST_TEST( r015 && r015.value() == -15);
 
     try
     {
         r010.value(); // Throws on an attempt to retrieve the value.
-        BOOST_ASSERT(!"failed to throw");
+        BOOST_TEST(!"failed to throw");
     }
     catch (std::exception&)
     {
@@ -203,11 +189,11 @@ main(int argc, char const* argv[])
     convert<wstring>::result rs004 = convert<wstring>::from(-5, wcnv);
     convert< string>::result rs005 = convert< string>::from(-5, ccnv);
 
-    BOOST_ASSERT(s001 ==  "-5"); BOOST_ASSERT(rs001 && rs001.value() ==  "-5");
-    BOOST_ASSERT(s002 ==  "-5"); BOOST_ASSERT(rs002 && rs002.value() ==  "-5");
-    BOOST_ASSERT(s003 == L"-5"); BOOST_ASSERT(rs003 && rs003.value() == L"-5");
-    BOOST_ASSERT(s004 == L"-5"); BOOST_ASSERT(rs004 && rs004.value() == L"-5");
-    BOOST_ASSERT(s005 ==  "-5"); BOOST_ASSERT(rs005 && rs005.value() ==  "-5");
+    BOOST_TEST(s001 ==  "-5"); BOOST_TEST(rs001 && rs001.value() ==  "-5");
+    BOOST_TEST(s002 ==  "-5"); BOOST_TEST(rs002 && rs002.value() ==  "-5");
+    BOOST_TEST(s003 == L"-5"); BOOST_TEST(rs003 && rs003.value() == L"-5");
+    BOOST_TEST(s004 == L"-5"); BOOST_TEST(rs004 && rs004.value() == L"-5");
+    BOOST_TEST(s005 ==  "-5"); BOOST_TEST(rs005 && rs005.value() ==  "-5");
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing int-to-string conversion with no fallback value.
@@ -218,10 +204,10 @@ main(int argc, char const* argv[])
     convert< string>::result rs010 = convert< string>::from(-5, ccnv);
     convert<wstring>::result rs011 = convert<wstring>::from(-5, wcnv);
 
-    BOOST_ASSERT( s010 ==  "-5");
-    BOOST_ASSERT( s011 == L"-5");
-    BOOST_ASSERT(rs010 && rs010.value() ==  "-5");
-    BOOST_ASSERT(rs011 && rs011.value() == L"-5");
+    BOOST_TEST( s010 ==  "-5");
+    BOOST_TEST( s011 == L"-5");
+    BOOST_TEST(rs010 && rs010.value() ==  "-5");
+    BOOST_TEST(rs011 && rs011.value() == L"-5");
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing conversions of a user-defined type
@@ -240,16 +226,16 @@ main(int argc, char const* argv[])
     direction                  dn_dir4 = convert<direction>::from("junk", ccnv).value_or(direction::dn);
     convert<direction>::result up_dir4 = convert<direction>::from("junk", ccnv);
 
-    BOOST_ASSERT(up_dir0_str == "up");
-    BOOST_ASSERT(dn_dir0_str == "dn");
-    BOOST_ASSERT(up_dir1_str == "up");
-    BOOST_ASSERT(dn_dir1_str == "dn");
-    BOOST_ASSERT(up_dir2 == up_dir1);
-    BOOST_ASSERT(dn_dir2 == dn_dir1);
-    BOOST_ASSERT(up_dir3 == direction::up);
-    BOOST_ASSERT(dn_dir3 == direction::dn);
-    BOOST_ASSERT(dn_dir4 == direction::dn);
-    BOOST_ASSERT(!up_dir4); // Failed conversion
+    BOOST_TEST(up_dir0_str == "up");
+    BOOST_TEST(dn_dir0_str == "dn");
+    BOOST_TEST(up_dir1_str == "up");
+    BOOST_TEST(dn_dir1_str == "dn");
+    BOOST_TEST(up_dir2 == up_dir1);
+    BOOST_TEST(dn_dir2 == dn_dir1);
+    BOOST_TEST(up_dir3 == direction::up);
+    BOOST_TEST(dn_dir3 == direction::dn);
+    BOOST_TEST(dn_dir4 == direction::dn);
+    BOOST_TEST(!up_dir4); // Failed conversion
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing formatters/manipulators
@@ -258,7 +244,7 @@ main(int argc, char const* argv[])
     try
     {
         boost::lexical_cast<int>("FF");
-        BOOST_ASSERT(!"We should not be here");
+        BOOST_TEST(!"We should not be here");
     }
     catch (...)
     {
@@ -269,15 +255,15 @@ main(int argc, char const* argv[])
     int hex_v03 = convert<int>::from("FF", ccnv(std::dec)).value_or(-5);
     int hex_v04 = convert<int>::from(L"F", wcnv(std::dec)).value_or(-5);
 
-    BOOST_ASSERT(hex_v01 == 255); // "FF"
-    BOOST_ASSERT(hex_v02 ==  15); // L"F"
-    BOOST_ASSERT(hex_v03 ==  -5);
-    BOOST_ASSERT(hex_v04 ==  -5);
+    BOOST_TEST(hex_v01 == 255); // "FF"
+    BOOST_TEST(hex_v02 ==  15); // L"F"
+    BOOST_TEST(hex_v03 ==  -5);
+    BOOST_TEST(hex_v04 ==  -5);
 
     ccnv(std::showbase)(std::uppercase)(std::hex);
 
-    BOOST_ASSERT(convert<string>::from(255, ccnv).value() == "0XFF");
-    BOOST_ASSERT(convert<string>::from( 15, ccnv).value() ==  "0XF");
+    BOOST_TEST(convert<string>::from(255, ccnv).value() == "0XFF");
+    BOOST_TEST(convert<string>::from( 15, ccnv).value() ==  "0XF");
 
     char const*  double_s01 = test::is_msc ? "1.2345E-002"
                             : test::is_gcc ? "1.2345E-02"
@@ -290,7 +276,7 @@ main(int argc, char const* argv[])
     double double_v01 = convert<double>::from(double_s01, ccnv).value();
     string double_s02 = convert<string>::from(double_v01, ccnv).value();
 
-    BOOST_ASSERT(double_s01 == double_s02);
+    BOOST_TEST(double_s01 == double_s02);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing locale
@@ -323,8 +309,8 @@ main(int argc, char const* argv[])
     printf("rus locale=%s, presentation=%s.\n", rus_locale.name().c_str(), double_rus.c_str());
     printf("eng locale=%s, presentation=%s.\n", eng_locale.name().c_str(), double_eng.c_str());
 
-    BOOST_ASSERT(double_rus == rus_expected);
-    BOOST_ASSERT(double_eng == eng_expected);
+    BOOST_TEST(double_rus == rus_expected);
+    BOOST_TEST(double_eng == eng_expected);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing string-to-bool and bool-to-string conversions
@@ -338,24 +324,23 @@ main(int argc, char const* argv[])
 //    convert<bool>::result bool_res6 = convert<bool>::from(L"yes",  false, wcnv);
 //    convert<bool>::result bool_res7 = convert<bool>::from("junk",   true, ccnv);
 //
-//    BOOST_ASSERT( bool_res1 && bool_res1.value() == true);
-//    BOOST_ASSERT( bool_res2 && bool_res2.value() == true);
-//    BOOST_ASSERT( bool_res3 && bool_res3.value() == true);
-//    BOOST_ASSERT( bool_res4 && bool_res4.value() == true);
-//    BOOST_ASSERT( bool_res5 && bool_res5.value() == true);
-//    BOOST_ASSERT( bool_res6 && bool_res6.value() == true);
-//    BOOST_ASSERT(!bool_res7 && bool_res7.value() == true);
+//    BOOST_TEST( bool_res1 && bool_res1.value() == true);
+//    BOOST_TEST( bool_res2 && bool_res2.value() == true);
+//    BOOST_TEST( bool_res3 && bool_res3.value() == true);
+//    BOOST_TEST( bool_res4 && bool_res4.value() == true);
+//    BOOST_TEST( bool_res5 && bool_res5.value() == true);
+//    BOOST_TEST( bool_res6 && bool_res6.value() == true);
+//    BOOST_TEST(!bool_res7 && bool_res7.value() == true);
 //
 //    string bool_str1 = convert<string>::from(true,  ccnv).value_or("failed");
 //    string bool_str2 = convert<string>::from(false, ccnv).value_or("failed");
 //    string bool_str3 = convert<string>::from(1,     ccnv).value_or("failed");
 //    string bool_str4 = convert<string>::from(0,     ccnv).value_or("failed");
 //
-//    BOOST_ASSERT(bool_str1 == "1");
-//    BOOST_ASSERT(bool_str2 == "0");
-//    BOOST_ASSERT(bool_str3 == "1");
-//    BOOST_ASSERT(bool_str4 == "0");
+//    BOOST_TEST(bool_str1 == "1");
+//    BOOST_TEST(bool_str2 == "0");
+//    BOOST_TEST(bool_str3 == "1");
+//    BOOST_TEST(bool_str4 == "0");
 
-    printf("Test completed successfully.\n");
-    return 0;
+    return boost::report_errors();
 }

@@ -1,5 +1,5 @@
-#ifndef __BOOST_PARAMETER_EXT_PRIVATE_HPP__
-#define __BOOST_PARAMETER_EXT_PRIVATE_HPP__
+#ifndef BOOST_PARAMETER_EXT_PRIVATE_HPP
+#define BOOST_PARAMETER_EXT_PRIVATE_HPP
 
 #include <boost/parameter/keyword.hpp>
 
@@ -54,5 +54,5 @@ struct parameter_type<
 
 }} // boost::parameter
 
-#endif // __BOOST_PARAMETER_EXT_PRIVATE_HPP__
+#endif // BOOST_PARAMETER_EXT_PRIVATE_HPP
 

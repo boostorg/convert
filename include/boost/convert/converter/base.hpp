@@ -6,7 +6,7 @@
 #ifndef BOOST_CONVERT_CONVERTER_BASE_HPP
 #define BOOST_CONVERT_CONVERTER_BASE_HPP
 
-#include "../parameters.hpp"
+#include <boost/convert/parameters.hpp>
 
 namespace boost 
 {
@@ -60,5 +60,9 @@ struct boost::converter_base
     this_type const&                                                                                                        \
     operator()(parameter::aux::tag<conversion::parameter::type::uppercase, bool const>::type const& arg) const              \
     { return (base_type::operator()(arg), *this);  }
+
+#define CONVERTER_PARAM_FUNC(PARAM_NAME, PARAM_TYPE)    \
+    this_type&                                          \
+    operator()(boost::parameter::aux::tag<boost::conversion::parameter::type::PARAM_NAME, PARAM_TYPE const>::type const& arg)
 
 #endif // BOOST_CONVERT_CONVERTER_BASE_HPP

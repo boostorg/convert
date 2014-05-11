@@ -6,8 +6,8 @@
 #ifndef BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 #define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
-#include "../detail/string.hpp"
-#include "../detail/details.hpp"
+#include <boost/convert/converter/base.hpp>
+#include <boost/convert/detail/string.hpp>
 #include <sstream>
 
 namespace boost 
@@ -104,7 +104,5 @@ struct boost::basic_stringstream_converter
 
     mutable stream_type stream_;
 };
-
-#undef CONVERTER_PARAM_FUNC
 
 #endif // BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP

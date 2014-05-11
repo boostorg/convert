@@ -5,8 +5,8 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#ifndef __BOOST_CONVERT_STRING_SFINAE_HPP__
-#define __BOOST_CONVERT_STRING_SFINAE_HPP__
+#ifndef BOOST_CONVERT_DETAIL_STRING_SFINAE_HPP
+#define BOOST_CONVERT_DETAIL_STRING_SFINAE_HPP
 
 #include <boost/type_traits.hpp>
 #include <boost/type_traits/decay.hpp>
@@ -144,4 +144,4 @@ struct corrected<String, typename boost::enable_if<is_any_string<String> >::type
 
 }}
 
-#endif // __BOOST_CONVERT_STRING_SFINAE_HPP__
+#endif // BOOST_CONVERT_DETAIL_STRING_SFINAE_HPP

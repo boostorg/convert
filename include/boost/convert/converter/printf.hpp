@@ -6,7 +6,7 @@
 #ifndef BOOST_CONVERT_PRINTF_CONVERTER_HPP
 #define BOOST_CONVERT_PRINTF_CONVERTER_HPP
 
-#include "./base.hpp"
+#include <boost/convert/converter/base.hpp>
 #include <stdio.h>
 
 namespace boost 

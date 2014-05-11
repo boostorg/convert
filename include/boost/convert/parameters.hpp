@@ -6,7 +6,7 @@
 #ifndef BOOST_CONVERT_PARAMETERS_HPP
 #define BOOST_CONVERT_PARAMETERS_HPP
 
-#include "./detail/boost_parameter_ext.hpp"
+#include <boost/convert/detail/boost_parameter_ext.hpp>
 
 namespace boost
 {

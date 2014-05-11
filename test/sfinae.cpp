@@ -23,14 +23,14 @@ test::sfinae()
     bool q98 = boost::convert_detail::is_any_string<int>::value;
     bool q99 = boost::convert_detail::is_any_string<direction>::value;
 
-    BOOST_ASSERT( q01);
-    BOOST_ASSERT( q02);
-    BOOST_ASSERT( q03);
-    BOOST_ASSERT( q04);
-    BOOST_ASSERT( q05);
-    BOOST_ASSERT( q06);
-    BOOST_ASSERT(!q07); // Support withdrawn. So, evaluates to false.
-    BOOST_ASSERT(!q08); // Support withdrawn. So, evaluates to false.
-    BOOST_ASSERT(!q98);
-    BOOST_ASSERT(!q99);
+    BOOST_TEST( q01);
+    BOOST_TEST( q02);
+    BOOST_TEST( q03);
+    BOOST_TEST( q04);
+    BOOST_TEST( q05);
+    BOOST_TEST( q06);
+    BOOST_TEST(!q07); // Support withdrawn. So, evaluates to false.
+    BOOST_TEST(!q08); // Support withdrawn. So, evaluates to false.
+    BOOST_TEST(!q98);
+    BOOST_TEST(!q99);
 }

@@ -4,8 +4,8 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#ifndef __BOOST_CONVERT_WORKAROUNDS_PRIVATE_HPP__
-#define __BOOST_CONVERT_WORKAROUNDS_PRIVATE_HPP__
+#ifndef BOOST_CONVERT_DETAIL_WORKAROUNDS_HPP
+#define BOOST_CONVERT_DETAIL_WORKAROUNDS_HPP
 
 #include <boost/version.hpp>
 
@@ -17,4 +17,4 @@
 #   define snprintf _snprintf
 #endif
 
-#endif // __BOOST_CONVERT_WORKAROUNDS_PRIVATE_HPP__
+#endif // BOOST_CONVERT_DETAIL_WORKAROUNDS_HPP

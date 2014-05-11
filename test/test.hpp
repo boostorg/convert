@@ -8,6 +8,7 @@
 #include <boost/convert/converter/strtol.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
+#include <boost/detail/lightweight_test.hpp>
 #include <iomanip>
 #include <vector>
 #include <list>
@@ -93,10 +94,11 @@ struct test
 #error "Add here."
 #endif
 
-    static void      sfinae();
-    static void  algorithms();
-    static void performance();
-    static void encryption ();
+    static void      sfinae ();
+    static void  algorithms ();
+    static void performance ();
+    static void  encryption ();
+    static void   callables ();
 
 	template<typename Converter> static void type_to_string(Converter const&);
 	template<typename Converter> static void string_to_type(Converter const&);
