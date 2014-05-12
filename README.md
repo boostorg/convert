@@ -1,5 +1,3 @@
-Boost.Convert
-==========
 [Documentation](http://yet-another-user.github.io/boost.convert)
 ==========
 
