@@ -6,5 +6,5 @@ those conversion/transformation-related ideas further
 
 Please note: the library is not part of the Boost library collection even though here and in the accompanying documentation it is referred to as Boost.Convert and the relevant code is under the boost directory. It is done so in preparation for potential submission of the library to Boost.
 
-**Full documentation is available [here](http://yet-another-user.github.io/boost.convert).**
+**HTML documentation is available [here](http://yet-another-user.github.io/boost.convert).**
 
