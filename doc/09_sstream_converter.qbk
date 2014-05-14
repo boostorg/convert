@@ -88,7 +88,7 @@ Locale support is similar to the formatting support as demonstrated by the follo
  ccnv(std::setprecision(4))(std::scientific)(std::uppercase);
 
  // Convert the original string to binary double.
- double double_v = convert<double>::from(double_s01, ccnv).value();
+ double double_v = convert<double>::from(double_str, ccnv).value();
 
  // Change the format to lower precision and to lower case.
  ccnv(std::setprecision(3))(std::nouppercase);
