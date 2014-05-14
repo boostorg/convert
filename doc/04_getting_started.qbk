@@ -5,7 +5,7 @@ Given the ubiquity of and the familiarity of the programming community with ['bo
 In its simplest form the ['Boost.Convert] functionality might be deployed as follows:
 
  #include <boost/convert/api.hpp>
- #include <boost/convert/sstream_converter.hpp>
+ #include <boost/convert/converter/sstream.hpp>
 
  using boost::convert;
 
