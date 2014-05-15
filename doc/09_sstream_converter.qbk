@@ -6,19 +6,19 @@ The converter is deployed with
 
  #include <boost/convert/converter/sstream.hpp>
 
-Its purpose is to provide conversion-related formatting and locale support not present in ['boost::lexical_cast]. Advantages of a ['std::stream]-based engine are 
+Its purpose is to provide conversion-related formatting and locale support not available with `boost::lexical_cast`. Advantages of deploying a `std::stream`-based engine are 
 
 * availability and maturity;
 * formatting and locale support;
 * familiar interface and deployment;
-* instant re-use of available standard manipulators (['std::hex], etc.);
+* instant re-use of available standard manipulators (`std::hex`, etc.);
 * extendibility (via custom manipulators (see [link 1 \[1\]])).
 
 [section Formatting Support]
 
-Formatting support is provided by the underlying ['std::stringstream]. Consequently, the API heavily borrows formatting metaphors from this underlying component. One such metaphor is the ['manipulator] represented by ['std::hex], ['std::dec], ['std::uppercase], ['std::scientific], etc.
+Formatting support is provided by the underlying `std::stringstream`. Consequently, the API heavily borrows formatting metaphors from this underlying component. One such metaphor is the ['manipulator] represented by `std::hex`, `std::dec`, `std::uppercase`, `std::scientific`, etc.
 
-The following code demonstrates how the converter is configured on-the-fly to read ['char] and ['wchar_t] strings in the ['std::hex] or ['std::dec] format:
+The following code demonstrates how `char` and `wchar_t` strings can be read in the `std::hex` or `std::dec` format:
 
  using boost::convert;
 
@@ -43,7 +43,7 @@ For batch-processing it might be more efficient to configure the converter once:
  BOOST_ASSERT(convert<string>::from(255, ccnv).value() == "0XFF");
  BOOST_ASSERT(convert<string>::from( 15, ccnv).value() ==  "0XF");
 
-An alternative (more generic) formatting interface is being extended and explored:
+An alternative (more generic) formatting interface is currently being extended and explored:
 
  namespace cnv = boost::conversion;
  namespace arg = boost::conversion::parameter;
@@ -103,12 +103,12 @@ Locale support is similar to the formatting support as demonstrated by the follo
 [endsect]
 [section Integration of User-Defined Types]
 
-As the converter uses ['std::stringstream] to do actual conversions it carries over the ['std::stringstream]-imposed requirements (as ['boost::lexical_cast] does):
+As the converter uses `std::stringstream` to do actual conversions it carries over the `std::stringstream`-imposed requirements (as, in fact, `boost::lexical_cast` does):
 
 * ['TypeIn] needs to be ['Output Streamable];
 * ['TypeOut] needs to be ['Input Streamable]; 
 
-In practical terms the mechanism for integrating a user-defined type into the ['Boost.Convert] framework (for deployment with this described ['std::stringstream]-based converter) is the same as for ['boost::lexical_cast]. That is, the respective type needs to have the following operators defined:
+In practical terms the mechanism for integrating a user-defined type into the ['Boost.Convert] framework (for deployment with this described `std::stringstream`-based converter) is the same as for `boost::lexical_cast`. That is, the respective type needs to have the following operators defined:
 
  std::istream& operator>>(std::istream&, TypeOut&);
  std::ostream& operator<<(std::ostream&, TypeIn const&);
@@ -142,7 +142,7 @@ For example,
      return stream << (dir.value_ == up ? "up" : dir.value_ == dn ? "dn" : "no");
  }
 
-That allows handling conversions of user-defined types with plugged-in ['std::stringstream]-based converter:
+That allows handling conversions of user-defined types with plugged-in `std::stringstream`-based converter:
 
  using boost::convert;
 

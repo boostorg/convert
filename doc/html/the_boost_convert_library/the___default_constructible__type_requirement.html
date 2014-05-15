@@ -21,10 +21,11 @@
 <p>
       (Not too) deeply in the bowels of the implementation a temporary-storage instance
       of the <span class="emphasis"><em>TypeOut</em></span> type is created and then populated with
-      the conversion result. The <span class="emphasis"><em>boost::lexical_cast</em></span> implementation
-      chooses the default constructor to create such an instance. Consequently, the
-      <span class="emphasis"><em>TypeOut</em></span> type needs to be <span class="emphasis"><em>Default Constructible</em></span>.
-      For more details see <a class="link" href="references.html#4">[4]</a>.
+      the conversion result. The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      implementation chooses the default constructor to create such an instance.
+      Consequently, the <span class="emphasis"><em>TypeOut</em></span> type needs to be <span class="emphasis"><em>Default
+      Constructible</em></span>. For more details see <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      documentation</a>.
     </p>
 <p>
       <span class="emphasis"><em>Boost.Convert</em></span> also creates a temporary-storage instance
@@ -50,8 +51,7 @@
 <p>
       A well-designed type (in my opinion, anyway) should only have meaningful and
       unambiguous constructors... and the default constructor is not always and necessarily
-      one of them. Consider the following <span class="emphasis"><em>direction</em></span> type as
-      one such example:
+      one of them. Consider the following as one such example:
     </p>
 <pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">direction</span>
 <span class="special">{</span>
@@ -61,8 +61,9 @@
 <span class="special">};</span>
 </pre>
 <p>
-      The type has no <span class="emphasis"><em>default</em></span> state, is not <span class="emphasis"><em>Default
-      Constructible</em></span> and, consequently, the following calls do not compile:
+      The <code class="computeroutput"><span class="identifier">direction</span></code> type has no default
+      state. It is not <span class="emphasis"><em>Default Constructible</em></span> and, consequently,
+      the following calls do not compile:
     </p>
 <pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Does not compile</span>
 <span class="identifier">direction</span> <span class="identifier">dir2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Does not compile</span>

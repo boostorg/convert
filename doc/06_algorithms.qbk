@@ -1,8 +1,8 @@
-[section:convert_algorithms Boost.Convert with Standard Algorithms]
+[section Boost.Convert with Standard Algorithms]
 
-The following code demonstrates a failed attempt to convert a few strings with ['boost::lexical_cast]:
+The following code demonstrates a failed attempt to convert a few strings with `boost::lexical_cast`:
 
- array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
+ array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
  std::vector<int>     integers;
 
  try
@@ -20,9 +20,9 @@ The following code demonstrates a failed attempt to convert a few strings with [
     // No strings converted.
  }
 
-The first take by ['boost::convert] is more successful (it knows how to handle the hexadecimal format) but still not quite satisfactory (your mileage may vary) as conversion is interrupted when ['boost::convert] comes across an invalid input:
+The first take by ['Boost.Convert] is more successful (it knows how to handle the hexadecimal format) but still not quite satisfactory (your mileage may vary) as conversion is interrupted when ['Boost.Convert] comes across an invalid input:
 
- boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
+ boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
  std::vector<int>            integers;
  boost::cstringstream_converter   cnv; // stringstream-based char converter
 
@@ -48,7 +48,7 @@ The first take by ['boost::convert] is more successful (it knows how to handle t
 
 And at last a fully working version (with a conversion-failure fallback value provided):
 
- boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
+ boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
  std::vector<int>            integers;
  boost::cstringstream_converter   cnv; // stringstream-based char converter
 
@@ -64,7 +64,7 @@ And at last a fully working version (with a conversion-failure fallback value pr
  BOOST_ASSERT(integers[3] == 18);
  BOOST_ASSERT(integers[4] == -1); // Failed conversion
 
-The following ['convert<int>::result]-based version is not available with pre-C++11 compilers:
+The following `convert<int>::result`-based version is not available with pre-C++11 compilers:
 
  std::vector<convert<int>::result> opt_ints;
 

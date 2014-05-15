@@ -19,8 +19,8 @@
 </h2></div></div></div>
 <p>
       Given the ubiquity of and the familiarity of the programming community with
-      <span class="emphasis"><em>boost::lexical_cast</em></span>, here and further in the documentation
-      <span class="emphasis"><em>boost::lexical_cast</em></span> is often mentioned as a reference.
+      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>, here and further in the documentation
+      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> is often mentioned as a reference.
     </p>
 <p>
       In its simplest form the <span class="emphasis"><em>Boost.Convert</em></span> functionality might
@@ -39,17 +39,18 @@
 </pre>
 <p>
       The above calls can be interpreted as "<span class="emphasis"><em>Convert a string to int</em></span>"
-      for <span class="emphasis"><em>i1</em></span> and <span class="emphasis"><em>i2</em></span> and "<span class="emphasis"><em>Convert
-      a string to int and return -1 if the conversion fails</em></span>" for
-      <span class="emphasis"><em>i3</em></span>.
+      for <code class="computeroutput"><span class="identifier">i1</span></code> and <code class="computeroutput"><span class="identifier">i2</span></code>
+      and "<span class="emphasis"><em>Convert a string to int and return -1 if the conversion
+      fails</em></span>" for <code class="computeroutput"><span class="identifier">i3</span></code>.
     </p>
 <p>
-      The <span class="emphasis"><em>i1</em></span> and <span class="emphasis"><em>i2</em></span> deployments look sufficiently
-      close and, in fact, are identical behaviorally. Namely, if the requested conversion
-      fails, an exception is thrown. The user request -- "<span class="emphasis"><em>Convert
-      a string to int</em></span>" -- lacks the specification for the failure
-      use-case. Consequently, <span class="emphasis"><em>boost::lexical_cast</em></span> and <span class="emphasis"><em>boost::convert</em></span>
-      resort to handling that not-mentioned use-case in the standard way.
+      The <code class="computeroutput"><span class="identifier">i1</span></code> and <code class="computeroutput"><span class="identifier">i2</span></code>
+      deployments look sufficiently close and, in fact, are identical behaviorally.
+      Namely, if the requested conversion fails, an exception is thrown. The user
+      request -- "<span class="emphasis"><em>Convert a string to int</em></span>" -- lacks
+      the specification for the failure use-case. Consequently, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> resort to handling that not-mentioned
+      use-case in the standard way.
     </p>
 <p>
       The second specification -- "<span class="emphasis"><em>Convert a string to int and return
@@ -80,11 +81,11 @@
 <span class="special">...</span> <span class="identifier">proceed</span>
 </pre>
 <p>
-      So far the deployment of <span class="emphasis"><em>boost::convert</em></span> seems more compact
-      and natural (your mileage may vary) and might be potentially more efficient
-      compared to <span class="emphasis"><em>boost::lexical_cast</em></span> deployment which achieves
-      a similar (excluding <span class="emphasis"><em>hex</em></span> and <span class="emphasis"><em>decimal</em></span>
-      formatting) result with something like
+      So far the deployment of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
+      seems more compact and natural (your mileage may vary) and might be potentially
+      more efficient compared to <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      deployment which achieves a similar (excluding <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span></code> and
+      <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span></code> formatting) result with something like
     </p>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_threads</span><span class="special">;</span>
 
@@ -99,10 +100,10 @@
 <span class="special">}</span>
 </pre>
 <p>
-      By design this is <span class="emphasis"><em>boost::lexical_cast</em></span>'s only behavior.
-      Simple and straightforward. Unfortunately, it makes quite a few legitimate
-      process/program flows difficult and awkward to implement. That is the niche
-      that <span class="emphasis"><em>Boost.Convert</em></span> is trying to fill.
+      By design this is <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>'s only behavior. Fairly straightforward
+      and comprehesible. Unfortunately, it makes quite a few legitimate process/program
+      flows difficult and awkward to implement. That is the niche that <span class="emphasis"><em>Boost.Convert</em></span>
+      is trying to fill.
     </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

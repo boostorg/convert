@@ -11,7 +11,7 @@ if that is a general-purpose converter capable of handling many types (like stri
 
  bool operator()(TypeIn const& value_in, TypeOut& result_out) const;
 
-if its sole purpose is to handle one particular conversion\/transformation of TypeIn to TypeOut. For example, a converter from the operating-system-specific MBCS string format to the UCS-2 or UCS-4 (depending on wchar_t size) does not seem like such a unreasonable idea:
+if its sole purpose is to handle one particular conversion\/transformation of ['TypeIn] to ['TypeOut]. For example, a converter from the operating-system-specific MBCS string format to the UCS-2 or UCS-4 (depending on `wchar_t` size) does not seem like such an unreasonable idea:
 
  bool operator()(std::string const& value_in, std::wstring& result_out) const;
 
@@ -19,7 +19,7 @@ Alternatively again, an ad-hoc in-place ['callable] might be provided as a conve
 
  int v = convert<int>::from(c_str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
 
-or even an old-fashioned function:
+or an old-fashioned function:
 
  extern bool my_converter(std::string const&, int&);
 

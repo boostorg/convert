@@ -25,9 +25,9 @@
       and external (predominantly textual) representations.
     </p>
 <p>
-      The <span class="emphasis"><em>boost::lexical_cast</em></span> library (with its orthogonal design
-      and extendible deployment) looked very promising and was by far the preferred
-      candidate compared to others (such as C functions, the <span class="emphasis"><em>std::stringstream</em></span>
+      The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> library (with its orthogonal
+      design and extendible deployment) looked very promising and was by far the
+      preferred candidate compared to others (such as C functions, the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>
       API, etc., see <a class="link" href="references.html#2">[2]</a> for the discussion of alternatives).
     </p>
 <p>
@@ -35,7 +35,7 @@
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          many deployed user types simply did not meet <span class="emphasis"><em>boost::lexical_cast</em></span>
+          many deployed user types simply did not meet <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
           requirements (namely, <span class="emphasis"><em>Default Constructibility</em></span>);
         </li>
 <li class="listitem">
@@ -52,14 +52,14 @@
         </li>
 </ul></div>
 <p>
-      The original hope was to see <span class="emphasis"><em>boost::lexical_cast</em></span> extended
-      to be applicable to a wider range of use-cases. However, after discussions
-      with Kevlin Henney (the <span class="emphasis"><em>boost::lexical_cast</em></span> author) and
-      in the Boost Developers forum it was collectively decided that the requested
-      extensions were not compatible with the original design and the idea of what
-      <span class="emphasis"><em>boost::lexical_cast</em></span> embodied and, therefore, a new component
-      with richer interface and functionality was needed. That decision resulted
-      in the development and the subsequent submission of the <span class="emphasis"><em>Boost.Convert</em></span>
+      The original hope was to see <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      extended to be applicable to a wider range of use-cases. However, after discussions
+      with Kevlin Henney (the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      author) and in the Boost Developers forum it was collectively decided that
+      the requested extensions were not compatible with the original design and the
+      idea of what <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> embodied and, therefore, a new
+      component with richer interface and functionality was needed. That decision
+      resulted in the development and the subsequent submission of the <span class="emphasis"><em>Boost.Convert</em></span>
       library described in this document.
     </p>
 </div>

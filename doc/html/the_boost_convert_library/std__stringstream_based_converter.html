@@ -37,8 +37,8 @@
 </pre>
 <p>
       Its purpose is to provide conversion-related formatting and locale support
-      not present in <span class="emphasis"><em>boost::lexical_cast</em></span>. Advantages of a <span class="emphasis"><em>std::stream</em></span>-based
-      engine are
+      not available with <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>. Advantages of deploying a
+      <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>-based engine are
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -51,7 +51,7 @@
           familiar interface and deployment;
         </li>
 <li class="listitem">
-          instant re-use of available standard manipulators (<span class="emphasis"><em>std::hex</em></span>,
+          instant re-use of available standard manipulators (<code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span></code>,
           etc.);
         </li>
 <li class="listitem">
@@ -64,16 +64,17 @@
       Support</a>
 </h3></div></div></div>
 <p>
-        Formatting support is provided by the underlying <span class="emphasis"><em>std::stringstream</em></span>.
+        Formatting support is provided by the underlying <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>.
         Consequently, the API heavily borrows formatting metaphors from this underlying
         component. One such metaphor is the <span class="emphasis"><em>manipulator</em></span> represented
-        by <span class="emphasis"><em>std::hex</em></span>, <span class="emphasis"><em>std::dec</em></span>, <span class="emphasis"><em>std::uppercase</em></span>,
-        <span class="emphasis"><em>std::scientific</em></span>, etc.
+        by <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span></code>, <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span></code>,
+        <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">uppercase</span></code>, <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">scientific</span></code>,
+        etc.
       </p>
 <p>
-        The following code demonstrates how the converter is configured on-the-fly
-        to read <span class="emphasis"><em>char</em></span> and <span class="emphasis"><em>wchar_t</em></span> strings
-        in the <span class="emphasis"><em>std::hex</em></span> or <span class="emphasis"><em>std::dec</em></span> format:
+        The following code demonstrates how <code class="computeroutput"><span class="keyword">char</span></code>
+        and <code class="computeroutput"><span class="keyword">wchar_t</span></code> strings can be read
+        in the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span></code> or <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span></code> format:
       </p>
 <pre class="programlisting"><span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>
 
@@ -101,8 +102,8 @@
 <span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span> <span class="number">15</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">()</span> <span class="special">==</span>  <span class="string">"0XF"</span><span class="special">);</span>
 </pre>
 <p>
-        An alternative (more generic) formatting interface is being extended and
-        explored:
+        An alternative (more generic) formatting interface is currently being extended
+        and explored:
       </p>
 <pre class="programlisting"><span class="keyword">namespace</span> <span class="identifier">cnv</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">;</span>
 <span class="keyword">namespace</span> <span class="identifier">arg</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">parameter</span><span class="special">;</span>

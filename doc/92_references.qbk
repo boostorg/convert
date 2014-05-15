@@ -2,12 +2,8 @@
 
 1. [#1] [@http://www.cecalc.ula.ve/documentacion/tutoriales/PGICDK/doc/pgC++_lib/stdlibug/str_5412.htm Rogue Wave Software. Stream Storage for Private Use: iword, pword, and xalloc]
 
-2. [#5] [@http://www.gotw.ca/publications/mill19.htm H. Sutter. The String Formatters of Manor Farm]
+2. [#2] [@http://www.gotw.ca/publications/mill19.htm H. Sutter. The String Formatters of Manor Farm]
 
-3. [#3] [@http://www.boost.org/doc/libs/1_47_0/libs/conversion/lexical_cast.htm ['boost::lexical_cast] 1.47 Documentation]
-
-4. [#4] [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast.html ['boost::lexical_cast] 1.55 Documentation]
-
-5. [#2] [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html ['boost::lexical_cast] 1.55 Performance]
+3. [#3] [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html `boost::lexical_cast` 1.55 Performance]
 
 [endsect]

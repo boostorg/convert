@@ -4,7 +4,7 @@ Many thanks to
 
 * Andrzej Krzemienski for helping great deal to partition responsibilities and to ultimately pave the way for the tr1::optional deployment;
 * Edward Diener the Boost Review Manager for helping with the converters' design, his continuous involvement, technical and administrative help, guidance and advice;
-* Kevlin Henney and Dave Abrahams for their ['lexical_cast]-related insights and explanations;
+* Kevlin Henney and Dave Abrahams for their `lexical_cast`-related insights and explanations;
 * Rob Stewart and Alex Hagen-Zanker for making sure the performance tests work as they should.
 
 [endsect]

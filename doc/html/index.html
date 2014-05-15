@@ -30,7 +30,7 @@
 <dt><span class="section"><a href="index.html#the_boost_convert_library.introduction">Introduction</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/getting_started.html">Getting Started</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/getting_serious.html">Getting Serious</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/convert_algorithms.html">Boost.Convert
+<dt><span class="section"><a href="the_boost_convert_library/boost_convert_with_standard_algorithms.html">Boost.Convert
     with Standard Algorithms</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/performance.html">Performance</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/converters.html">Converters</a></span></dt>
@@ -69,9 +69,9 @@
 <th align="left">Note</th>
 </tr>
 <tr><td align="left" valign="top"><p>
-      The described framework is not part of the Boost library collection even though
-      in this document it is referred to as <span class="emphasis"><em>Boost.Convert</em></span>. This
-      is done in preparation for potential submission of the library to <span class="emphasis"><em>Boost</em></span>.
+      The described framework is not part of the <span class="emphasis"><em>Boost</em></span> library
+      collection even though in this document it is referred to as <span class="emphasis"><em>Boost.Convert</em></span>.
+      This is done in preparation for potential submission of the library to <span class="emphasis"><em>Boost</em></span>.
     </p></td></tr>
 </table></div>
 <div class="section">
@@ -79,13 +79,13 @@
 <a name="the_boost_convert_library.introduction"></a><a class="link" href="index.html#the_boost_convert_library.introduction" title="Introduction">Introduction</a>
 </h2></div></div></div>
 <p>
-      The main purpose of the framework is to unify and to deploy various conversion
-      facilities through one consistent interface, to provide generic consistent
-      behavior -- one of the factors in improving productivity and code-correctness
-      in commercial s/w development environment.
+      The main purpose of the framework is to <span class="emphasis"><em>unify and to uniformly deploy</em></span>
+      various conversion facilities through one consistent interface, to provide
+      generic consistent behavior -- one of the factors in improving productivity
+      and code-correctness in commercial software development environment.
     </p>
 <p>
-      <span class="emphasis"><em>Boost.Convert</em></span> builds on the <span class="emphasis"><em>boost::lexical_cast</em></span>
+      <span class="emphasis"><em>Boost.Convert</em></span> builds on the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       experience and takes those conversion/transformation-related ideas further
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
@@ -150,27 +150,28 @@
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          <span class="emphasis"><em>boost::lexical_cast</em></span>-based,
+          <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>-based,
         </li>
 <li class="listitem">
-          <span class="emphasis"><em>printf/scanf</em></span>-based,
+          <code class="computeroutput"><span class="identifier">printf</span><span class="special">/</span><span class="identifier">scanf</span></code>-based,
         </li>
 <li class="listitem">
-          <span class="emphasis"><em>strtol</em></span>-based,
+          <code class="computeroutput"><span class="identifier">strtol</span></code>-based,
         </li>
 <li class="listitem">
-          <span class="emphasis"><em>std::stringstream</em></span>-based.
+          <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based.
         </li>
 </ul></div>
 <p>
       The first three converters are meant to demonstrate how existing and independent
       conversion facilities might be incorporated in to the <span class="emphasis"><em>Boost.Convert</em></span>
-      framework. Although the <span class="emphasis"><em>printf/scanf</em></span>-based and <span class="emphasis"><em>strtol</em></span>-based
-      converters do provide some basic formatting support.
+      framework. Although the <code class="computeroutput"><span class="identifier">printf</span><span class="special">/</span><span class="identifier">scanf</span></code>-based
+      and <code class="computeroutput"><span class="identifier">strtol</span></code>-based converters
+      do provide some basic formatting support.
     </p>
 <p>
-      The <span class="emphasis"><em>std::stringstream</em></span>-based converter draws on the standard
-      <span class="emphasis"><em>std::streams</em></span> functionality and provides:
+      The <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based converter draws on the
+      standard <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">streams</span></code> functionality and provides:
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -183,7 +184,8 @@
           support for different locales;
         </li>
 <li class="listitem">
-          <span class="emphasis"><em>char</em></span> and <span class="emphasis"><em>wchar_t</em></span> support.
+          <code class="computeroutput"><span class="keyword">char</span></code> and <code class="computeroutput"><span class="keyword">wchar_t</span></code>
+          support.
         </li>
 </ul></div>
 <p>
@@ -213,7 +215,7 @@
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: May 14, 2014 at 00:37:40 GMT</small></p></td>
+<td align="left"><p><small>Last revised: May 15, 2014 at 03:40:03 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>

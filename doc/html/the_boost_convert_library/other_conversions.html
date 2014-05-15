@@ -18,11 +18,11 @@
 <a name="the_boost_convert_library.other_conversions"></a><a class="link" href="other_conversions.html" title="Other Conversions">Other Conversions</a>
 </h2></div></div></div>
 <p>
-      An interesting (yet to be explored) feature of the described design is that
-      <span class="emphasis"><em>Boost.Convert</em></span> is not limited to string-to-type and type-to-string
-      conversions. The <span class="emphasis"><em>Boost.Convert</em></span> API facade is type-agnostic
-      and the plugged-in converter ultimately dictates what type transformations
-      are available. Consequently, a wide range of conversion/transformation-related
+      An interesting (and yet to be explored) feature of the described design is
+      that <span class="emphasis"><em>Boost.Convert</em></span> is not limited to string-to-type and
+      type-to-string conversions. The <span class="emphasis"><em>Boost.Convert</em></span> API facade
+      is type-agnostic and the plugged-in converter ultimately dictates what type
+      transformations are available. Consequently, a wide range of conversion/transformation-related
       tasks can be addressed and deployed <span class="emphasis"><em>uniformly</em></span> by plugging-in
       special-purpose converters.
     </p>
@@ -42,7 +42,8 @@
       "ABC" form.
     </p>
 <p>
-      Similarly I personally do not immediately see as objectionable:
+      Similarly I personally do not immediately see as objectionable string transformations
+      like:
     </p>
 <pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span> <span class="identifier">utf8</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">utf32_str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span> <span class="identifier">utf8</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">u8string</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">mbcs_str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>

@@ -15,14 +15,14 @@
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="the_boost_convert_library.convert_algorithms"></a><a class="link" href="convert_algorithms.html" title="Boost.Convert with Standard Algorithms">Boost.Convert
+<a name="the_boost_convert_library.boost_convert_with_standard_algorithms"></a><a class="link" href="boost_convert_with_standard_algorithms.html" title="Boost.Convert with Standard Algorithms">Boost.Convert
     with Standard Algorithms</a>
 </h2></div></div></div>
 <p>
       The following code demonstrates a failed attempt to convert a few strings with
-      <span class="emphasis"><em>boost::lexical_cast</em></span>:
+      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>:
     </p>
-<pre class="programlisting"><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not int"</span> <span class="special">}};</span>
+<pre class="programlisting"><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not an int"</span> <span class="special">}};</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>     <span class="identifier">integers</span><span class="special">;</span>
 
 <span class="keyword">try</span>
@@ -41,12 +41,12 @@
 <span class="special">}</span>
 </pre>
 <p>
-      The first take by <span class="emphasis"><em>boost::convert</em></span> is more successful (it
+      The first take by <span class="emphasis"><em>Boost.Convert</em></span> is more successful (it
       knows how to handle the hexadecimal format) but still not quite satisfactory
-      (your mileage may vary) as conversion is interrupted when <span class="emphasis"><em>boost::convert</em></span>
+      (your mileage may vary) as conversion is interrupted when <span class="emphasis"><em>Boost.Convert</em></span>
       comes across an invalid input:
     </p>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not int"</span> <span class="special">}};</span>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not an int"</span> <span class="special">}};</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>            <span class="identifier">integers</span><span class="special">;</span>
 <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span>   <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
 
@@ -74,7 +74,7 @@
       And at last a fully working version (with a conversion-failure fallback value
       provided):
     </p>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not int"</span> <span class="special">}};</span>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not an int"</span> <span class="special">}};</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>            <span class="identifier">integers</span><span class="special">;</span>
 <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span>   <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
 
@@ -91,8 +91,8 @@
 <span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">4</span><span class="special">]</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Failed conversion</span>
 </pre>
 <p>
-      The following <span class="emphasis"><em>convert&lt;int&gt;::result</em></span>-based version
-      is not available with pre-C++11 compilers:
+      The following <code class="computeroutput"><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">result</span></code>-based
+      version is not available with pre-C++11 compilers:
     </p>
 <pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">result</span><span class="special">&gt;</span> <span class="identifier">opt_ints</span><span class="special">;</span>
 

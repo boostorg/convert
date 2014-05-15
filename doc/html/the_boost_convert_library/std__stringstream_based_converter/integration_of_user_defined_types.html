@@ -19,9 +19,10 @@
       of User-Defined Types</a>
 </h3></div></div></div>
 <p>
-        As the converter uses <span class="emphasis"><em>std::stringstream</em></span> to do actual
-        conversions it carries over the <span class="emphasis"><em>std::stringstream</em></span>-imposed
-        requirements (as <span class="emphasis"><em>boost::lexical_cast</em></span> does):
+        As the converter uses <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>
+        to do actual conversions it carries over the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-imposed
+        requirements (as, in fact, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+        does):
       </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -34,9 +35,9 @@
 <p>
         In practical terms the mechanism for integrating a user-defined type into
         the <span class="emphasis"><em>Boost.Convert</em></span> framework (for deployment with this
-        described <span class="emphasis"><em>std::stringstream</em></span>-based converter) is the
-        same as for <span class="emphasis"><em>boost::lexical_cast</em></span>. That is, the respective
-        type needs to have the following operators defined:
+        described <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based converter) is the same
+        as for <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>. That is, the respective type
+        needs to have the following operators defined:
       </p>
 <pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">istream</span><span class="special">&amp;</span> <span class="keyword">operator</span><span class="special">&gt;&gt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">istream</span><span class="special">&amp;,</span> <span class="identifier">TypeOut</span><span class="special">&amp;);</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream</span><span class="special">&amp;</span> <span class="keyword">operator</span><span class="special">&lt;&lt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream</span><span class="special">&amp;,</span> <span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;);</span>
@@ -72,7 +73,7 @@
 <span class="special">}</span>
 </pre>
 <p>
-        That allows handling conversions of user-defined types with plugged-in <span class="emphasis"><em>std::stringstream</em></span>-based
+        That allows handling conversions of user-defined types with plugged-in <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based
         converter:
       </p>
 <pre class="programlisting"><span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>

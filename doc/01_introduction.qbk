@@ -1,8 +1,8 @@
 [section Introduction]
 
-The main purpose of the framework is to unify and to deploy various conversion facilities through one consistent interface, to provide generic consistent behavior -- one of the factors in improving productivity and code-correctness in commercial s/w development environment.
+The main purpose of the framework is to ['unify and to uniformly deploy] various conversion facilities through one consistent interface, to provide generic consistent behavior -- one of the factors in improving productivity and code-correctness in commercial software development environment.
 
-['Boost.Convert] builds on the ['boost::lexical_cast] experience and takes those conversion\/transformation-related ideas further 
+['Boost.Convert] builds on the `boost::lexical_cast` experience and takes those conversion\/transformation-related ideas further 
 
 * to be applicable to a wider range of conversion-related deployment scenarios, 
 * to provide a more flexible, extensible and configurable type-conversion framework. 
@@ -24,19 +24,19 @@ The API facade implements new and familiar conversion\/transformation-related be
 
 The library of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal a few proof-of-the-concept string-to-type (and type-to-string) converters are supplied:
 
-* ['boost::lexical_cast]-based, 
-* ['printf\/scanf]-based,
-* ['strtol]-based, 
-* ['std::stringstream]-based.
+* `boost::lexical_cast`-based, 
+* `printf/scanf`-based,
+* `strtol`-based, 
+* `std::stringstream`-based.
 
-The first three converters are meant to demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework. Although the ['printf\/scanf]-based and ['strtol]-based converters do provide some basic formatting support. 
+The first three converters are meant to demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework. Although the `printf/scanf`-based and `strtol`-based converters do provide some basic formatting support. 
 
-The ['std::stringstream]-based converter draws on the standard ['std::streams] functionality and provides:
+The `std::stringstream`-based converter draws on the standard `std::streams` functionality and provides:
 
 * string-to-type and type-to-string conversions;
 * formatting support (precision, base, upper/lower-case, scientific, etc.);
 * support for different locales;
-* /char/ and /wchar_t/ support.
+* `char` and `wchar_t` support.
 
 For example, the following snippet converts an array of integers from their textual hexadecimal representation and assigns INT_MAX to those which fail to convert:
 

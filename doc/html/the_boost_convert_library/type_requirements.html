@@ -18,27 +18,28 @@
 <a name="the_boost_convert_library.type_requirements"></a><a class="link" href="type_requirements.html" title="Type Requirements">Type Requirements</a>
 </h2></div></div></div>
 <p>
-      In order for a user-defined type to be integrated into the <span class="emphasis"><em>boost::lexical_cast</em></span>
-      framework (at least until 1.47; see <a class="link" href="references.html#3">[3]</a>):
+      In order for a user-defined type to be integrated into the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      framework (at least until 1.47; see <a href="http://www.boost.org/doc/libs/1_47_0/libs/conversion/lexical_cast.htm" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      1.47 documentation</a>):
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          TypeOut needs to be <span class="emphasis"><em>Copy Constructible</em></span>;
+          <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Copy Constructible</em></span>;
         </li>
 <li class="listitem">
-          TypeOut needs to be <span class="emphasis"><em>Default Constructible</em></span>;
+          <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Default Constructible</em></span>;
         </li>
 <li class="listitem">
-          TypeOut needs to be <span class="emphasis"><em>Input Streamable</em></span>;
+          <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Input Streamable</em></span>;
         </li>
 <li class="listitem">
-          TypeIn needs to be <span class="emphasis"><em>Output Streamable</em></span>.
+          <span class="emphasis"><em>TypeIn</em></span> needs to be <span class="emphasis"><em>Output Streamable</em></span>.
         </li>
 </ul></div>
 <p>
-      The first two requirements are imposed by the <span class="emphasis"><em>boost::lexical_cast</em></span>
+      The first two requirements are imposed by the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       design and implementation and the last two requirements by the underlying
-      <span class="emphasis"><em>std::stringstream</em></span> engine.
+      <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code> engine.
     </p>
 <p>
       In turn, the <span class="emphasis"><em>Boost.Convert</em></span> API facade has the following
@@ -46,23 +47,24 @@
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          TypeOut needs to be <span class="emphasis"><em>Copy Constructible</em></span>;
+          <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Copy Constructible</em></span>;
         </li>
 <li class="listitem">
-          TypeOut needs to be <span class="emphasis"><em>Default Constructible</em></span> by <span class="emphasis"><em>default</em></span>.
+          <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Default Constructible</em></span>
+          by <span class="emphasis"><em>default</em></span>.
         </li>
 </ul></div>
 <p>
       Additional requirements might be imposed by the respective converter. For example,
-      both mentioned -- <span class="emphasis"><em>boost::lexical_cast</em></span>-based and <span class="emphasis"><em>std::stringstream</em></span>-based
+      both mentioned -- <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>-based and <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based
       -- converters require
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          TypeIn to be <span class="emphasis"><em>Output Streamable</em></span>;
+          <span class="emphasis"><em>TypeIn</em></span> to be <span class="emphasis"><em>Output Streamable</em></span>;
         </li>
 <li class="listitem">
-          TypeOut to be <span class="emphasis"><em>Input Streamable</em></span>.
+          <span class="emphasis"><em>TypeOut</em></span> to be <span class="emphasis"><em>Input Streamable</em></span>.
         </li>
 </ul></div>
 </div>
