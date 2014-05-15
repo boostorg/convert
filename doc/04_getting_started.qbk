@@ -1,6 +1,6 @@
 [section Getting Started]
 
-Given the ubiquity of and the familiarity of the programming community with `boost::lexical_cast`, here and further in the documentation `boost::lexical_cast` is often mentioned as a reference. 
+[note Given the ubiquity of and the familiarity of the programming community with `boost::lexical_cast`, here and further in the documentation `boost::lexical_cast` is often mentioned as a reference.]
 
 In its simplest form the ['Boost.Convert] functionality might be deployed as follows:
 

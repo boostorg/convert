@@ -114,7 +114,7 @@
       the user and actual conversion facilities. That minimizes dependency of the
       application-domain (user) code on any particular infrastructure (conversion)
       API. New (quicker or richer in functionality or domain-specific) converters
-      can be deployed later in the development process and with minimal or no impact
+      can be deployed later in the development cycle and with minimal or no impact
       on the existing code base as long as those converters conform to that specified
       contract.
     </p>
@@ -156,7 +156,7 @@
           <code class="computeroutput"><span class="identifier">printf</span><span class="special">/</span><span class="identifier">scanf</span></code>-based,
         </li>
 <li class="listitem">
-          <code class="computeroutput"><span class="identifier">strtol</span></code>-based,
+          <code class="computeroutput"><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">ltostr</span></code>-based,
         </li>
 <li class="listitem">
           <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based.
@@ -193,7 +193,7 @@
       textual hexadecimal representation and assigns INT_MAX to those which fail
       to convert:
     </p>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not int"</span> <span class="special">}};</span>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not an int"</span> <span class="special">}};</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>            <span class="identifier">integers</span><span class="special">;</span>
 <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span>   <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
 
@@ -215,7 +215,7 @@
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: May 15, 2014 at 03:40:03 GMT</small></p></td>
+<td align="left"><p><small>Last revised: May 15, 2014 at 04:25:36 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>
