@@ -48,7 +48,7 @@ For example, the following snippet converts an array of integers from their text
     strings.begin(),
     strings.end(),
     std::back_inserter(integers),
-    convert<int>::from<string>(ccnv(std::hex)).value_or(INT_MAX));
+    convert<int>::from<string>(cnv(std::hex)).value_or(INT_MAX));
 
 An interesting (yet to be explored) feature is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. In fact, the ['Boost.Convert] API facade is type-agnostic. The plugged-in converter ultimately dictates what types and conversions are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters. For example, encryption by a string-to-string encrypting converter, etc.
 
