@@ -1,10 +1,10 @@
 [section Getting Serious]
 
- int i2 = convert<int>::from("not an int", cnv).value_or(-1); // after the call i2 = -1
+ int i2 = convert<int>::from("not an int", cnv).value_or(-1); // after the call i2 == -1
 
  if (i2 == -1) failed to convert
 
-The code above is sufficiently straightforward. A wrinkle though is that it is not entirely generic and deterministic as -1 might be the result of a conversion failure or the successful conversion of the "-1" string. Still, with "spare" values available outside the valid\/sensible range to indicate conversion failures such deployment might be adequate without introducing the above-mentioned behavioral non-determinism. Alternatively, it might be not that uncommon for applications to ignore conversion failures altogether and to simply proceed with the supplied fallback value.
+The code above is sufficiently straightforward. A limitation though is that it is not entirely deterministic as -1 might be the result of a conversion failure or the successful conversion of the "-1" string. Still, with "spare" values available outside the valid\/sensible range to indicate conversion failures such deployment might be adequate without introducing the above-mentioned behavioral non-determinism. Alternatively, it might be not that uncommon for applications to ignore conversion failures altogether and to simply proceed with the supplied fallback value.
 
 Applications outside these mentioned categories still require a conversion failure reliably detected and processed accordingly. The `boost::lexical_cast`'s answer to the problem is to throw on failure and ['Boost.Convert] supports that behavior as well: 
 
@@ -41,7 +41,7 @@ However, to cater for a wider range of program-flow variations, ['Boost.Convert]
 
  // Exceptions are avoided altogether
  int i1 = r1 ? r1.value() : fallback_value;
- int i2 = r2 ? r2.value() : fallback_value;
+ int i2 = r2.value_or(fallback_value);
  int i3 = convert<int>::from(str3, cnv).value_or(fallback_value);
 
 Here `convert<T>::result` steps forward as the actual type returned by `convert<T>::from` which until now we avoided by immediately calling its value-accessor methods:

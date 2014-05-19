@@ -31,7 +31,7 @@ struct boost::convert
 {
 	// C1. TypeOut needs to be normalized as, say, "char const*" might be provided when
 	//     std::string will be used instead (as we have to have storage for the conversion result).
-	// C2. TypeIn oth the other hand needs to be passed in to the Converter as-is.
+	// C2. TypeIn on the other hand needs to be passed in to the Converter as-is.
 	//     That way the converter will be able to optimize the conversion based on that TypeIn type.
 	// C3. convert::from() allocates storage for the conversion result.
 	//     The Pascal-style passing of the out_type& to the converter is ugly. However, it
