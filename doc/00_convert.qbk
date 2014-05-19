@@ -4,35 +4,36 @@
     Use, modification and distribution is subject to the Boost Software
     License, Version 1.0. (See a copy at http://www.boost.org/LICENSE_1_0.txt)
 ===============================================================================/]
+
 [library The Boost Convert Library
     [quickbook 1.5]
     [version 2.0]
     [id convert]
     [dirname convert]
     [copyright 2009-2014 Vladimir Batov]
-    [purpose Beyond boost::lexical_cast]
+    [purpose Conversions Beyond boost::lexical_cast]
     [category generic]
     [authors [Batov, Vladimir]]
     [source-mode c++]
     [license
         Distributed under the Boost Software License, Version 1.0.
-        (See accompanying file LICENSE_1_0.txt or copy at
-        [@http://www.boost.org/LICENSE_1_0.txt])
+        (See at [@http://www.boost.org/LICENSE_1_0.txt])
     ]
 ]
  
 [note The described framework is not part of the ['Boost] library collection even though in this document it is referred to as ['Boost.Convert]. This is done in preparation for potential submission of the library to ['Boost].]
 
 [include 01_introduction.qbk]
-[include 04_getting_started.qbk]
-[include 05_getting_serious.qbk]
-[include 06_algorithms.qbk]
+[include 02_getting_started.qbk]
+[include 03_getting_serious.qbk]
+[include 04_algorithms.qbk]
 [include 13_performance.qbk]
 [include 07_converters.qbk]
 [include 08_lexcast_converter.qbk]
 [include 09_sstream_converter.qbk]
 [include 10_type_requirements.qbk]
 [include 11_other.qbk]
+[include 12_design_notes.qbk]
 [include 91_motivation.qbk]
 [include 93_acknowledgments.qbk]
 [include 92_references.qbk]
