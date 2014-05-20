@@ -37,11 +37,11 @@ test::callables()
     char const* const str = "-12";
 
     // Testing old-function-based converter.
-    int v01 = convert<int>::from(str, plain_old_func).value_or(-1);
+    int v01 = boost::cnv<int>(str, plain_old_func).value_or(-1);
     // Testing boost::function-based converter.
-    int v02 = convert<int>::from(str, boost_func(plain_old_func)).value_or(-1);
+    int v02 = boost::cnv<int>(str, boost_func(plain_old_func)).value_or(-1);
     // Testing crazy boost::bind-based converter.
-    int v03 = convert<int>::from(str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
+    int v03 = boost::cnv<int>(str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
 
     BOOST_TEST(v01 == -12);
     BOOST_TEST(v02 == -12);

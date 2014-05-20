@@ -38,8 +38,7 @@ test::algorithms()
             strings.begin(),
             strings.end(),
             std::back_inserter(integers),
-//          boost::convert<int>::from<std::string>(ccnv(std::hex)));
-            boost::cnv<int, std::string>(ccnv(std::hex)));
+            boost::cnv<int>(ccnv(std::hex)));
 
         BOOST_TEST(!"Failed to throw");
     }
@@ -63,8 +62,7 @@ test::algorithms()
         strings.begin(),
         strings.end(),
         std::back_inserter(integers),
-//      boost::convert<int>::from<std::string>(ccnv(arg::base = cnv::base::hex)).value_or(-1));
-        boost::cnv<int, std::string>(ccnv(arg::base = cnv::base::hex)).value_or(-1));
+        boost::cnv<int>(ccnv(arg::base = cnv::base::hex)).value_or(-1));
 
     BOOST_TEST(integers.size() == 5);
     BOOST_TEST(integers[0] == 15);
@@ -81,7 +79,7 @@ test::algorithms()
         strings.begin(),
         strings.end(),
         std::back_inserter(opt_ints),
-        boost::convert<int>::from<std::string>(ccnv(arg::base = cnv::base::hex)));
+        boost::cnv<int>(ccnv(arg::base = cnv::base::hex)));
 
     BOOST_TEST(opt_ints.size() == 5);
     BOOST_TEST( opt_ints[0]);
@@ -104,7 +102,7 @@ test::algorithms()
         integers.begin(),
         integers.end(),
         std::back_inserter(new_strings),
-        boost::convert<std::string>::from<int>(ccnv(std::dec)));
+        boost::cnv<std::string>(ccnv(std::dec)));
 
     BOOST_TEST(new_strings.size() == 5);
     BOOST_TEST(new_strings[0] == "15");

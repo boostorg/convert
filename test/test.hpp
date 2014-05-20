@@ -23,20 +23,20 @@ struct change
 
     change(value_type v =no) : value_(v) {}
 
-    friend std::istream& operator>>(std::istream& stream, this_type& dir)
+    friend std::istream& operator>>(std::istream& stream, this_type& chg)
     {
         std::string str; stream >> str;
 
-        /**/ if (str == "up") dir.value_ = up;
-        else if (str == "dn") dir.value_ = dn;
-        else if (str == "no") dir.value_ = no;
+        /**/ if (str == "up") chg.value_ = up;
+        else if (str == "dn") chg.value_ = dn;
+        else if (str == "no") chg.value_ = no;
         else stream.setstate(std::ios_base::failbit);
 
         return stream;
     }
-    friend std::ostream& operator<<(std::ostream& stream, this_type const& dir)
+    friend std::ostream& operator<<(std::ostream& stream, this_type const& chg)
     {
-        return stream << (dir.value_ == up ? "up" : dir.value_ == dn ? "dn" : "no");
+        return stream << (chg.value_ == up ? "up" : chg.value_ == dn ? "dn" : "no");
     }
 
     value_type value() const { return value_; }
@@ -73,7 +73,7 @@ struct direction
 
 namespace boost
 {
-    template<> inline direction convert<direction>::create_storage() { return direction(direction::up); }
+    template<> inline direction allocate_storage<direction>() { return direction(direction::up); }
 }
 
 struct test
