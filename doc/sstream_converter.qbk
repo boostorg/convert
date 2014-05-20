@@ -20,16 +20,14 @@ Formatting support is provided by the underlying `std::stringstream`. Consequent
 
 The following code demonstrates how `char` and `wchar_t` strings can be read in the `std::hex` or `std::dec` format:
 
- using boost::convert;
-
  boost::cstringstream_converter ccnv; // stringstream-based char converter
  boost::wstringstream_converter wcnv; // stringstream-based wchar_t converter
 
  // int v00 = boost::lexical_cast<int>("FF"); // Fails. Throws.
- int v01 = convert<int>::from("FF", ccnv(std::hex)).value_or(0);
- int v02 = convert<int>::from(L"F", wcnv(std::hex)).value_or(0);
- int v03 = convert<int>::from("FF", ccnv(std::dec)).value_or(-5);
- int v04 = convert<int>::from(L"F", wcnv(std::dec)).value_or(-5);
+ int v01 = boost::convert<int>("FF", ccnv(std::hex)).value_or(0);
+ int v02 = boost::convert<int>(L"F", wcnv(std::hex)).value_or(0);
+ int v03 = boost::convert<int>("FF", ccnv(std::dec)).value_or(-5);
+ int v04 = boost::convert<int>(L"F", wcnv(std::dec)).value_or(-5);
 
  BOOST_ASSERT(v01 == 255); // "FF"
  BOOST_ASSERT(v02 ==  15); // L"F"
@@ -40,8 +38,8 @@ For batch-processing it might be more efficient to configure the converter once:
 
  ccnv(std::showbase)(std::uppercase)(std::hex);
 
- BOOST_ASSERT(convert<string>::from(255, ccnv).value() == "0XFF");
- BOOST_ASSERT(convert<string>::from( 15, ccnv).value() ==  "0XF");
+ BOOST_ASSERT(boost::convert<string>(255, ccnv).value() == "0XFF");
+ BOOST_ASSERT(boost::convert<string>( 15, ccnv).value() ==  "0XF");
 
 An alternative (more generic) formatting interface is currently being extended and explored:
 
@@ -63,8 +61,6 @@ Locale support is similar to the formatting support as demonstrated by the follo
 
  #include <boost/convert/converter/sstream.hpp>
 
- using boost::convert;
-
  boost::cstringstream_converter ccnv; // stringstream-based char converter
 
  char const*   double_str = "1.2345E-02"; // Upper-case. Separated by a dot.
@@ -76,7 +72,7 @@ Locale support is similar to the formatting support as demonstrated by the follo
  try
  {
     rus_locale = std::locale("ru_RU.UTF-8");
-    eng_locale = std::locale("");
+    eng_locale = std::locale("en_US.UTF-8");
  }
  catch (...)
  {
@@ -88,14 +84,14 @@ Locale support is similar to the formatting support as demonstrated by the follo
  ccnv(std::setprecision(4))(std::scientific)(std::uppercase);
 
  // Convert the original string to binary double.
- double double_v = convert<double>::from(double_str, ccnv).value();
+ double double_v = boost::convert<double>(double_str, ccnv).value();
 
  // Change the format to lower precision and to lower case.
  ccnv(std::setprecision(3))(std::nouppercase);
 
  // Convert the double back to Russian- and English-locale strings.
- string double_rus = convert<string>::from(double_v, ccnv(rus_locale)).value();
- string double_eng = convert<string>::from(double_v, ccnv(eng_locale)).value();
+ string double_rus = boost::convert<string>(double_v, ccnv(rus_locale)).value();
+ string double_eng = boost::convert<string>(double_v, ccnv(eng_locale)).value();
 
  BOOST_ASSERT(double_rus == rus_expected);
  BOOST_ASSERT(double_eng == eng_expected);
@@ -126,30 +122,28 @@ For example,
     
      private: value_type value_;
  };
- std::istream& operator>>(std::istream& stream, change& dir)
+ std::istream& operator>>(std::istream& stream, change& chg)
  {
      string str;
      stream >> str;
-     /**/ if (str == "up") dir.value_ = up;
-     else if (str == "dn") dir.value_ = dn;
-     else if (str == "no") dir.value_ = no;
+     /**/ if (str == "up") chg.value_ = up;
+     else if (str == "dn") chg.value_ = dn;
+     else if (str == "no") chg.value_ = no;
      else stream.setstate(std::ios_base::failbit);
 
      return stream;
  }
- std::ostream& operator<<(std::ostream& stream, change const& dir)
+ std::ostream& operator<<(std::ostream& stream, change const& chg)
  {
-     return stream << (dir.value_ == up ? "up" : dir.value_ == dn ? "dn" : "no");
+     return stream << (chg.value_ == up ? "up" : chg.value_ == dn ? "dn" : "no");
  }
 
 That allows handling conversions of user-defined types with plugged-in `std::stringstream`-based converter:
 
- using boost::convert;
-
  boost::cstringstream_converter cnv; // stringstream-based char converter
 
- int i = convert<int>::from(str, cnv).value();
- change c = convert<change>::from(str, cnv).value();
+ int    i = boost::convert<int>(str, cnv).value();
+ change c = boost::convert<change>(str, cnv).value();
 
 [endsect]
 [endsect]

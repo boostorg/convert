@@ -133,10 +133,10 @@
    <span class="identifier">strings</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span>
    <span class="identifier">strings</span><span class="special">.</span><span class="identifier">end</span><span class="special">(),</span>
    <span class="identifier">std</span><span class="special">::</span><span class="identifier">back_inserter</span><span class="special">(</span><span class="identifier">integers</span><span class="special">),</span>
-   <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">INT_MAX</span><span class="special">));</span>
+   <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">INT_MAX</span><span class="special">));</span>
 </pre>
 <p>
-      An interesting (and hardly explored) quality is that <span class="emphasis"><em>Boost.Convert</em></span>
+      An interesting (and yet to be explored) property is that <span class="emphasis"><em>Boost.Convert</em></span>
       is not limited to string-to-type and type-to-string conversions. The <span class="emphasis"><em>Boost.Convert</em></span>
       API facade is type-agnostic and the plugged-in converter ultimately dictates
       what types and conversions are supported. Consequently, a wide range of conversion/transformation-related

@@ -32,7 +32,7 @@ The first take by ['Boost.Convert] is more successful (it knows how to handle th
         strings.begin(),
         strings.end(),
         std::back_inserter(integers),
-        convert<int>::from<string>(cnv(std::hex)));
+        boost::convert<int>(cnv(std::hex)));
 
         BOOST_ASSERT(!"We should not be here");
  }
@@ -56,7 +56,7 @@ And at last a fully working version (with a conversion-failure fallback value pr
     strings.begin(),
     strings.end(),
     std::back_inserter(integers),
-    convert<int>::from<string>(cnv(std::hex)).value_or(-1));
+    boost::convert<int>(cnv(std::hex)).value_or(-1));
 
  BOOST_ASSERT(integers[0] == 15);
  BOOST_ASSERT(integers[1] == 16);
@@ -64,14 +64,14 @@ And at last a fully working version (with a conversion-failure fallback value pr
  BOOST_ASSERT(integers[3] == 18);
  BOOST_ASSERT(integers[4] == -1); // Failed conversion
 
-The following `convert<int>::result`-based version is not available with pre-C++11 compilers:
+The following `boost::conversion::result`-based version is not available with pre-C++11 compilers:
 
- std::vector<convert<int>::result> opt_ints;
+ std::vector<boost::conversion::result<int>> opt_ints;
 
  std::transform(
     strings.begin(),
     strings.end(),
     std::back_inserter(opt_ints),
-    convert<int>::from<std::string>(cnv(std::hex)));
+    boost::convert<int>(cnv(std::hex)));
 
 [endsect]

@@ -47,7 +47,7 @@ doxygen convert_ref
 
 xml convert
   :
-    00_convert.qbk
+    00_main.qbk
   :
     <dependency>convert_ref
 ;

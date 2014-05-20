@@ -28,12 +28,7 @@ Additional requirements might be imposed by the respective converter. For exampl
 
  namespace boost
  {
-    template<class TypeOut> 
-    TypeOut 
-    convert<TypeOut>::create_storage() 
-    { 
-        return TypeOut(); 
-    }
+    template<typename T> T allocate_storage() { return T(); }
  }
 
 and, therefore, the ['Default Constructible] requirement is also the ['default] requirement of the ['Boost.Convert] framework. 
@@ -49,14 +44,14 @@ A well-designed type (in my opinion, anyway) should only have meaningful and una
 
 The `direction` type has no default state. It is not ['Default Constructible] and, consequently, the following calls do not compile:
 
- direction dir1 = lexical_cast<direction>(str); // Does not compile
- direction dir2 = convert<direction>::from(str).value(); // Does not compile
+ direction dir1 = boost::lexical_cast<direction>(str); // Does not compile
+ direction dir2 = boost::convert<direction>(str).value(); // Does not compile
 
 However, ['Boost.Convert] is able to handle such a type with little help from the user -- the instructions ['how] to create that mentioned temporary-storage:
 
  namespace boost
  {
-    template<> inline direction convert<direction>::create_storage() 
+    template<> inline direction allocate_storage<direction>() 
     { 
         return direction(direction::up); 
     }
@@ -64,7 +59,7 @@ However, ['Boost.Convert] is able to handle such a type with little help from th
 
  ...
 
- direction dir1 = lexical_cast<direction>(str); // Does not compile
- direction dir2 = convert<direction>::from(str).value(); // Compiles
+ direction dir1 = boost::lexical_cast<direction>(str); // Does not compile
+ direction dir2 = boost::convert<direction>(str).value(); // Compiles
 
 [endsect]

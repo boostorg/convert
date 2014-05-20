@@ -6,23 +6,23 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
-<link rel="prev" href="performance.html" title="Performance">
+<link rel="prev" href="boost_convert_with_standard_algorithms.html" title="Boost.Convert with Standard Algorithms">
 <link rel="next" href="boost__lexical_cast_based_converter.html" title="boost::lexical_cast-Based Converter">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="performance.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="boost__lexical_cast_based_converter.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="boost_convert_with_standard_algorithms.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="boost__lexical_cast_based_converter.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
 <a name="the_boost_convert_library.converters"></a><a class="link" href="converters.html" title="Converters">Converters</a>
 </h2></div></div></div>
 <p>
-      The <span class="emphasis"><em>Boost.Convert</em></span> facade API plays its role as it is responsible
-      for and provides a uniform interface and ensures consistent behavior. However,
-      it is the respective plugged-in converter who does the hard work of turning
-      custom-types into strings and strings into custom-types, etc., i.e. the hard
-      work of actual type conversion/transformation.
+      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
+      plays its role by providing a uniform interface and ensuring consistent behavior.
+      However, it is the respective plugged-in converter which does the hard work
+      of turning custom-types into strings and strings into custom-types, etc., i.e.
+      the actual conversion/transformation.
     </p>
 <p>
       For a converter to be plugged in to the <span class="emphasis"><em>Boost.Convert</em></span>
@@ -52,14 +52,14 @@
       Alternatively again, an ad-hoc in-place <span class="emphasis"><em>callable</em></span> might
       be provided as a converter. For example,
     </p>
-<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">v</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">c_str</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">bind</span><span class="special">(</span><span class="identifier">assign</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;,</span> <span class="identifier">_2</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">bind</span><span class="special">(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;,</span> <span class="identifier">_1</span><span class="special">))).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">v</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">bind</span><span class="special">(</span><span class="identifier">assign</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;,</span> <span class="identifier">_2</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">bind</span><span class="special">(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;,</span> <span class="identifier">_1</span><span class="special">))).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span>
 </pre>
 <p>
       or an old-fashioned function:
     </p>
 <pre class="programlisting"><span class="keyword">extern</span> <span class="keyword">bool</span> <span class="identifier">my_converter</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="keyword">int</span><span class="special">&amp;);</span>
 
-<span class="keyword">int</span> <span class="identifier">v</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">c_str</span><span class="special">,</span> <span class="identifier">my_converter</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span>
+<span class="keyword">int</span> <span class="identifier">v</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">my_converter</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span>
 </pre>
 <p>
       With regard to converters the <span class="emphasis"><em>Boost.Convert</em></span> framework
@@ -85,7 +85,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="performance.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="boost__lexical_cast_based_converter.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="boost_convert_with_standard_algorithms.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="boost__lexical_cast_based_converter.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>
