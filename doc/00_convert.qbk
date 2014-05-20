@@ -23,6 +23,7 @@
  
 [note The described framework is not part of the ['Boost] library collection even though in this document it is referred to as ['Boost.Convert]. This is done in preparation for potential submission of the library to ['Boost].]
 
+[include 01_rationale.qbk]
 [include 01_introduction.qbk]
 [include 02_getting_started.qbk]
 [include 03_getting_serious.qbk]
@@ -33,7 +34,6 @@
 [include 09_sstream_converter.qbk]
 [include 10_type_requirements.qbk]
 [include 11_other.qbk]
-[include 91_motivation.qbk]
 [include 93_acknowledgments.qbk]
 [include 92_references.qbk]
 [include 98_ref.qbk]

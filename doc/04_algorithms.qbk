@@ -56,7 +56,7 @@ And at last a fully working version (with a conversion-failure fallback value pr
     strings.begin(),
     strings.end(),
     std::back_inserter(integers),
-    convert<int>::from<string>(ccnv(std::hex)).value_or(-1));
+    convert<int>::from<string>(cnv(std::hex)).value_or(-1));
 
  BOOST_ASSERT(integers[0] == 15);
  BOOST_ASSERT(integers[1] == 16);
@@ -72,6 +72,6 @@ The following `convert<int>::result`-based version is not available with pre-C++
     strings.begin(),
     strings.end(),
     std::back_inserter(opt_ints),
-    convert<int>::from<std::string>(ccnv(std::hex)));
+    convert<int>::from<std::string>(cnv(std::hex)));
 
 [endsect]

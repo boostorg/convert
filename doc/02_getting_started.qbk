@@ -54,6 +54,6 @@ So far the deployment of `boost::convert` seems more compact and natural (your m
      num_threads = default_num_threads;
  }
 
-By design this is `boost::lexical_cast`'s only behavior. Fairly straightforward and comprehensible. Unfortunately, it makes quite a few legitimate process\/program flows difficult and awkward to implement. That is the niche that ['Boost.Convert] is trying to fill.
+By design this is `boost::lexical_cast`'s only behavior. Fairly straightforward and comprehensible. Unfortunately, it makes quite a few legitimate process\/program flows difficult and awkward to implement. ['Boost.Convert] adds flexibility and convenience.
 
 [endsect]
