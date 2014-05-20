@@ -20,20 +20,20 @@ template<typename Converter>
 void
 test::type_to_string(Converter const& cnv)
 {
-    BOOST_TEST("255" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::dec)).value_or("bad"));
-    BOOST_TEST( "ff" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::hex)).value_or("bad"));
-    BOOST_TEST("377" == boost::convert<std::string>::from(255, cnv(arg::base = cnv::base::oct)).value_or("bad"));
+    BOOST_TEST("255" == boost::cnv<std::string>(255, cnv(arg::base = cnv::base::dec)).value_or("bad"));
+    BOOST_TEST( "ff" == boost::cnv<std::string>(255, cnv(arg::base = cnv::base::hex)).value_or("bad"));
+    BOOST_TEST("377" == boost::cnv<std::string>(255, cnv(arg::base = cnv::base::oct)).value_or("bad"));
 }
 
 template<typename Converter>
 void
 test::string_to_type(Converter const& cnv)
 {
-    BOOST_TEST( 255 == boost::convert<int>::from("255", cnv(arg::base = cnv::base::dec)).value_or(999));
-    BOOST_TEST( 999 == boost::convert<int>::from( "FF", cnv(arg::base = cnv::base::dec)).value_or(999));
-    BOOST_TEST( 255 == boost::convert<int>::from( "FF", cnv(arg::base = cnv::base::hex)).value_or(999));
-    BOOST_TEST( 173 == boost::convert<int>::from("255", cnv(arg::base = cnv::base::oct)).value_or(999));
-    BOOST_TEST( 999 != boost::convert<double>::from("1.23", cnv).value_or(999));
+    BOOST_TEST( 255 == boost::cnv<int>("255", cnv(arg::base = cnv::base::dec)).value_or(999));
+    BOOST_TEST( 999 == boost::cnv<int>( "FF", cnv(arg::base = cnv::base::dec)).value_or(999));
+    BOOST_TEST( 255 == boost::cnv<int>( "FF", cnv(arg::base = cnv::base::hex)).value_or(999));
+    BOOST_TEST( 173 == boost::cnv<int>("255", cnv(arg::base = cnv::base::oct)).value_or(999));
+    BOOST_TEST( 999 != boost::cnv<double>("1.23", cnv).value_or(999));
 }
 
 int

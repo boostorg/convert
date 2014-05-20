@@ -27,14 +27,19 @@
 <a name="header.boost.convert.api_hpp"></a>Header &lt;<a href="../../../../boost/convert/api.hpp" target="_top">boost/convert/api.hpp</a>&gt;</h3></div></div></div>
 <pre class="synopsis"><span class="keyword">namespace</span> <span class="identifier">boost</span> <span class="special">{</span>
   <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeOut<span class="special">&gt;</span> <span class="keyword">struct</span> <a class="link" href="boost/convert.html" title="Struct template convert">convert</a><span class="special">;</span>
+  <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeOut<span class="special">,</span> <span class="keyword">typename</span> TypeIn<span class="special">,</span> <span class="keyword">typename</span> Converter<span class="special">&gt;</span> 
+    <a class="link" href="boost/convert.html" title="Struct template convert">convert</a><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span><span class="special">::</span><span class="identifier">result_type</span> 
+    <a name="boost.cnv_idp6846896"></a><span class="identifier">cnv</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span> value_in<span class="special">,</span> <span class="identifier">Converter</span> <span class="keyword">const</span> <span class="special">&amp;</span> converter<span class="special">)</span><span class="special">;</span>
+  <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeOut<span class="special">,</span> <span class="keyword">typename</span> TypeIn<span class="special">,</span> <span class="keyword">typename</span> Converter<span class="special">&gt;</span> 
+    <a class="link" href="boost/convert.html" title="Struct template convert">boost::convert</a><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span><span class="special">::</span><span class="keyword">template</span> <span class="identifier">algorithm_helper</span><span class="special">&lt;</span> <span class="identifier">TypeIn</span><span class="special">,</span> <span class="identifier">Converter</span> <span class="special">&gt;</span> 
+    <a name="boost.cnv_idp6850768"></a><span class="identifier">cnv</span><span class="special">(</span><span class="identifier">Converter</span> <span class="keyword">const</span> <span class="special">&amp;</span> cnv<span class="special">)</span><span class="special">;</span>
 <span class="special">}</span></pre>
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>
 <td align="right"><div class="copyright-footer">Copyright &#169; 2009-2014 Vladimir Batov<p>
-        Distributed under the Boost Software License, Version 1.0. (See accompanying
-        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+        Distributed under the Boost Software License, Version 1.0. See copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>.
       </p>
 </div></td>
 </tr></table>

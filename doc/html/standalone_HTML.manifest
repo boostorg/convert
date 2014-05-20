@@ -1,4 +1,5 @@
 index.html
+the_boost_convert_library/introduction.html
 the_boost_convert_library/getting_started.html
 the_boost_convert_library/getting_serious.html
 the_boost_convert_library/boost_convert_with_standard_algorithms.html
@@ -11,13 +12,12 @@ the_boost_convert_library/std__stringstream_based_converter/integration_of_user_
 the_boost_convert_library/type_requirements.html
 the_boost_convert_library/the___default_constructible__type_requirement.html
 the_boost_convert_library/other_conversions.html
-the_boost_convert_library/motivation.html
 the_boost_convert_library/acknowledgements.html
 the_boost_convert_library/references.html
 convert_reference.html
 boost/convert.html
 boost/convert/algorithm_helper.html
-boost/convert/algorithm_helper__idm26272.html
+boost/convert/algorithm_helper__idm26160.html
 boost/convert/result.html
 header/boost/convert/parameters_hpp.html
 boost/conversion/base.html

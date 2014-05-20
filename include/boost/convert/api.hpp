@@ -174,4 +174,20 @@ boost::convert<TypeOut>::algorithm_helper<TypeIn, Converter>::value_or(FallbackT
     return with_fallback(*this, fallback);
 }
 
+namespace boost
+{
+    template<typename TypeOut, typename TypeIn, typename Converter>
+    typename convert<TypeOut>::result_type
+    cnv(TypeIn const& value_in, Converter const& converter)
+    {
+        return boost::convert<TypeOut>::from(value_in, converter);
+    }
+    template<typename TypeOut, typename TypeIn, typename Converter>
+    typename boost::convert<TypeOut>::template algorithm_helper<TypeIn, Converter>
+    cnv(Converter const& cnv)
+    {
+        return boost::convert<TypeOut>::template from<TypeIn>(cnv);
+    }
+}
+
 #endif // BOOST_CONVERT_API_HPP

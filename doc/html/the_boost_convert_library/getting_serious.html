@@ -17,25 +17,27 @@
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
 <a name="the_boost_convert_library.getting_serious"></a><a class="link" href="getting_serious.html" title="Getting Serious">Getting Serious</a>
 </h2></div></div></div>
-<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="string">"not an int"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// after the call i2 = -1</span>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="string">"not an int"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// after the call i2 == -1</span>
 
 <span class="keyword">if</span> <span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">failed</span> <span class="identifier">to</span> <span class="identifier">convert</span>
 </pre>
 <p>
-      The code above is sufficiently straightforward. A wrinkle though is that it
-      is not entirely generic and deterministic as -1 might be the result of a conversion
-      failure or the successful conversion of the "-1" string. Still, with
-      "spare" values available outside the valid/sensible range to indicate
-      conversion failures such deployment might be adequate without introducing the
-      above-mentioned behavioral non-determinism. Alternatively, it might be not
-      that uncommon for applications to ignore conversion failures altogether and
-      to simply proceed with the supplied fallback value.
+      The code above is sufficiently straightforward but, unfortunately, is not entirely
+      deterministic as -1 might be the result of a conversion failure or the successful
+      conversion of the "-1" string. Still, "spare" values might
+      be available outside the valid/sensible range to indicate conversion failures.
+      If so, such deployment might be adequate without introducing that mentioned
+      behavioral non-determinism.
+    </p>
+<p>
+      Alternatively, it might be not that uncommon to ignore conversion failures
+      altogether and to simply proceed with the supplied fallback value.
     </p>
 <p>
       Applications outside these mentioned categories still require a conversion
       failure reliably detected and processed accordingly. The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>'s
-      answer to the problem is to throw on failure and <span class="emphasis"><em>Boost.Convert</em></span>
-      supports that behavior as well:
+      answer is to throw on failure and <span class="emphasis"><em>Boost.Convert</em></span> supports
+      that behavior as well:
     </p>
 <pre class="programlisting"><span class="keyword">try</span>
 <span class="special">{</span>
@@ -78,7 +80,7 @@
 
 <span class="comment">// Exceptions are avoided altogether</span>
 <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">r1</span> <span class="special">?</span> <span class="identifier">r1</span><span class="special">.</span><span class="identifier">value</span><span class="special">()</span> <span class="special">:</span> <span class="identifier">fallback_value</span><span class="special">;</span>
-<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">r2</span> <span class="special">?</span> <span class="identifier">r2</span><span class="special">.</span><span class="identifier">value</span><span class="special">()</span> <span class="special">:</span> <span class="identifier">fallback_value</span><span class="special">;</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">r2</span><span class="special">.</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">fallback_value</span><span class="special">);</span>
 <span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str3</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">fallback_value</span><span class="special">);</span>
 </pre>
 <p>
@@ -89,11 +91,22 @@
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
 <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">fallback_value</span><span class="special">);</span>
 </pre>
+<div class="note"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="../images/note.png"></td>
+<th align="left">Note</th>
+</tr>
+<tr><td align="left" valign="top"><p>
+        <code class="computeroutput"><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">result</span></code> is a temporary and transient type
+        and is to be replaced with <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">tr2</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;</span></code> which
+        actually provides all the necessary functionality and interface.
+      </p></td></tr>
+</table></div>
 <p>
-      Both <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> and <code class="computeroutput"><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">result</span></code> behavior reflect the fact that a conversion
-      request is only a <span class="emphasis"><em>request</em></span> which may succeed but also may
-      fail. However, from the user perspective <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-      processes failure in a somewhat harsh and non-negotiable manner. <code class="computeroutput"><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">result</span></code>
+      Both <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
+      behavior reflect the fact that a conversion request is only a <span class="emphasis"><em>request</em></span>
+      which may succeed but also may fail. However, from the user perspective <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      processes failure in a somewhat harsh and non-negotiable manner. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
       takes a softer approach and leaves the decision to the user. In my personal
       experience the choice has overwhelmingly been to avoid exceptions altogether
       with program flows similar to:
@@ -109,23 +122,11 @@
 
 <span class="special">...</span><span class="identifier">proceed</span>
 </pre>
-<div class="note"><table border="0" summary="Note">
-<tr>
-<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="../images/note.png"></td>
-<th align="left">Note</th>
-</tr>
-<tr><td align="left" valign="top"><p>
-        <code class="computeroutput"><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;::</span><span class="identifier">result</span></code> is a temporary and transient type
-        and is to be replaced with <code class="computeroutput"><span class="identifier">tr1</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">T</span><span class="special">&gt;</span></code>
-        which actually provides all the necessary functionality and interface.
-      </p></td></tr>
-</table></div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>
 <td align="right"><div class="copyright-footer">Copyright &#169; 2009-2014 Vladimir Batov<p>
-        Distributed under the Boost Software License, Version 1.0. (See accompanying
-        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+        Distributed under the Boost Software License, Version 1.0. See copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>.
       </p>
 </div></td>
 </tr></table>
