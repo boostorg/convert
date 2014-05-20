@@ -15,17 +15,12 @@
 #ifndef BOOST_CONVERT_API_HPP
 #define BOOST_CONVERT_API_HPP
 
+#include <boost/convert/forward.hpp>
 #include <boost/convert/detail/workarounds.hpp>
 #include <boost/convert/detail/algorithm_helper.hpp>
 #include <boost/convert/result.hpp>
 
 namespace boost
-{
-    template<typename> struct convert;
-}
-
-template<typename TypeOut>
-struct boost::convert
 {
 	// C1. TypeOut needs to be normalized as, say, "char const*" might be provided when
 	//     std::string will be used instead (as we have to have storage for the conversion result).
@@ -36,35 +31,23 @@ struct boost::convert
 	//     a) ensures the consistent requirement with regard to "out_type" 
 	//        (rather than every converter imposing their own);
 	//     b) relieves the converter of that responsibility and makes writing converters easier.
-	
-	typedef boost::convert<TypeOut>	                         this_type;
-	typedef typename convert_detail::corrected<TypeOut>::type out_type; //C1
-	typedef typename boost::conversion::result<out_type>   result_type; //C1
 
-    template<typename TypeIn, typename Converter>
-    static
-    result_type
-    from(TypeIn const& value_in, Converter const& converter)
+	template<typename TypeOut, typename TypeIn, typename Converter>
+    boost::conversion::result<TypeOut>
+	convert(TypeIn const& value_in, Converter const& converter)
     {
-        result_type result (boost::allocate_storage<out_type>()); //C1,C3
+    	typedef typename convert_detail::corrected<TypeOut>::type out_type; //C1
+    	typedef boost::conversion::result<out_type>            result_type; //C1
+
+    	result_type result (boost::allocate_storage<out_type>()); //C1,C3
         bool       success = converter(value_in, result.value_); //C1,C2,C3
         
         return success ? result : result(false);
     }
-};
-
-namespace boost
-{
-    template<typename TypeOut, typename TypeIn, typename Converter>
-    boost::conversion::result<TypeOut>
-    cnv(TypeIn const& value_in, Converter const& converter)
-    {
-        return boost::convert<TypeOut>::from(value_in, converter);
-    }
 
     template<typename TypeOut, typename Converter>
     typename boost::conversion::algorithm_helper<TypeOut, Converter>
-    cnv(Converter const& cnv)
+    convert(Converter const& cnv)
     {
         return boost::conversion::algorithm_helper<TypeOut, Converter>(cnv);
     }

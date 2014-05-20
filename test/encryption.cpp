@@ -24,8 +24,8 @@ test::encryption()
     // Testing custom converter.
     ////////////////////////////////////////////////////////////////////////////
 
-    string encrypted = boost::cnv<string>("ABC", my_cypher).value();
-    string decrypted = boost::cnv<string>(encrypted, my_cypher).value();
+    string encrypted = boost::convert<string>("ABC", my_cypher).value();
+    string decrypted = boost::convert<string>(encrypted, my_cypher).value();
 
     BOOST_TEST(encrypted == "123");
     BOOST_TEST(decrypted == "ABC");

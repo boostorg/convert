@@ -15,7 +15,7 @@ performance_string_to_type(Converter const& try_converter)
 
     for (int k = 0; k < test::num_cycles; ++k)
     {
-        change chg = boost::cnv<change>(input[k % 3], try_converter).value();
+        change chg = boost::convert<change>(input[k % 3], try_converter).value();
         int    res = chg.value();
 
         BOOST_TEST(res == k % 3);
@@ -37,7 +37,7 @@ performance_string_to_int(Converter const& try_converter)
     double  p1 = clock();
 
     for (int k = 0; k < test::num_cycles; ++k)
-        sum += boost::cnv<int>((str[4 - k % 5] = 49 + k % 9, str), try_converter).value();
+        sum += boost::convert<int>((str[4 - k % 5] = 49 + k % 9, str), try_converter).value();
 
     double   p2 = clock();
     int use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
@@ -53,12 +53,12 @@ performance_int_to_string(Converter const& try_converter)
 	double                    p1 = clock();
 
     for (int k = 0; k < test::num_cycles; ++k)
-        res.push_back(boost::cnv<std::string>(k, try_converter).value());
+        res.push_back(boost::convert<std::string>(k, try_converter).value());
 
     double p2 = clock();
 
     for (int k = 0; k < test::num_cycles; ++k)
-        BOOST_TEST(k == boost::cnv<int>(res[k], try_converter).value());
+        BOOST_TEST(k == boost::convert<int>(res[k], try_converter).value());
 
     return (p2 - p1) / CLOCKS_PER_SEC;
 }

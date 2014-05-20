@@ -7,15 +7,12 @@
 #ifndef BOOST_CONVERT_RESULT_HPP
 #define BOOST_CONVERT_RESULT_HPP
 
+#include <boost/convert/forward.hpp>
 #include <boost/convert/detail/safebool.hpp>
 #include <boost/convert/detail/string.hpp>
 #include <boost/throw_exception.hpp>
 #include <stdexcept>
 
-namespace boost
-{
-	template<typename> struct convert;
-}
 namespace boost { namespace conversion
 {
 	// Used temporarily. To be replaced with std::tr2::optional or improved boost::optional.
@@ -48,7 +45,10 @@ namespace boost { namespace conversion
 
 		private:
 
-		friend struct boost::convert<TypeOut>;
+		template<typename Type_Out, typename TypeIn, typename Converter>
+		friend
+		boost::conversion::result<Type_Out>
+		boost::convert(TypeIn const& value_in, Converter const& converter);
 
 		this_type& operator()(bool good) { return (good_ = good, *this); }
 

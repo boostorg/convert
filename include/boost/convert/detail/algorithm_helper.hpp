@@ -7,16 +7,13 @@
 #ifndef BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
 #define BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
 
-#include <boost/convert/allocate_storage.hpp>
+#include <boost/convert/forward.hpp>
 #include <boost/convert/detail/string.hpp>
 #include <boost/throw_exception.hpp>
 #include <stdexcept>
 
 namespace boost { namespace conversion
 {
-	template<typename, typename> struct algorithm_helper;
-	template<typename, typename> struct algorithm_helper_with_fallback;
-
 	template<typename TypeOut, typename Converter>
 	struct algorithm_helper
 	{
