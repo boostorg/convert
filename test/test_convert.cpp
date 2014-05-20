@@ -96,17 +96,17 @@ main(int argc, char const* argv[])
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing with the fallback value value provided.
-    // Testing implicit conversion to boost::cnv<TypeOut>::result.
-    // boost::cnv<>::result exhibits the SAME behavior, i.e.
+    // Testing implicit conversion to conversion::result<TypeOut>.
+    // conversion::result<> exhibits the SAME behavior, i.e.
     // on failure it returns the provided fallback value and DOES NOT THROW.
     ////////////////////////////////////////////////////////////////////////////
 
-    boost::convert<int>::result r000 = boost::cnv<int>(not_int_str, ccnv);
-    boost::convert<int>::result r001 = boost::cnv<int>(std_str,     ccnv);
-    boost::convert<int>::result r002 = boost::cnv<int>(c_str,       ccnv);
-    boost::convert<int>::result r003 = boost::cnv<int>(wstd_str,    wcnv);
-    boost::convert<int>::result r004 = boost::cnv<int>(wc_str,      wcnv);
-    boost::convert<int>::result r005 = boost::cnv<int>(array_str,   ccnv);
+    boost::conversion::result<int> r000 = boost::cnv<int>(not_int_str, ccnv);
+    boost::conversion::result<int> r001 = boost::cnv<int>(std_str,     ccnv);
+    boost::conversion::result<int> r002 = boost::cnv<int>(c_str,       ccnv);
+    boost::conversion::result<int> r003 = boost::cnv<int>(wstd_str,    wcnv);
+    boost::conversion::result<int> r004 = boost::cnv<int>(wc_str,      wcnv);
+    boost::conversion::result<int> r005 = boost::cnv<int>(array_str,   ccnv);
 
     BOOST_TEST(!r000); // Failed conversion
     BOOST_TEST( r001 && r001.value() == -11);
@@ -143,18 +143,18 @@ main(int argc, char const* argv[])
     BOOST_TEST(a025 == -15);
 
     ////////////////////////////////////////////////////////////////////////////
-    // Testing boost::cnv<>::result interface.
-    // boost::cnv<>::result exhibits the SAME (but delayed) behavior, i.e.
+    // Testing conversion::result<> interface.
+    // conversion::result exhibits the SAME (but delayed) behavior, i.e.
     // for failed conversion it throws on an attempt to retrieve the value
     // as there is nothing to return.
     ////////////////////////////////////////////////////////////////////////////
 
-    boost::convert<int>::result r010 = boost::cnv<int>(not_int_str, ccnv);
-    boost::convert<int>::result r011 = boost::cnv<int>(std_str, ccnv);
-    boost::convert<int>::result r012 = boost::cnv<int>(c_str, ccnv);
-    boost::convert<int>::result r013 = boost::cnv<int>(wstd_str, wcnv);
-    boost::convert<int>::result r014 = boost::cnv<int>(wc_str, wcnv);
-    boost::convert<int>::result r015 = boost::cnv<int>(array_str, ccnv);
+    boost::conversion::result<int> r010 = boost::cnv<int>(not_int_str, ccnv);
+    boost::conversion::result<int> r011 = boost::cnv<int>(std_str, ccnv);
+    boost::conversion::result<int> r012 = boost::cnv<int>(c_str, ccnv);
+    boost::conversion::result<int> r013 = boost::cnv<int>(wstd_str, wcnv);
+    boost::conversion::result<int> r014 = boost::cnv<int>(wc_str, wcnv);
+    boost::conversion::result<int> r015 = boost::cnv<int>(array_str, ccnv);
 
     BOOST_TEST(!r010); // Failed conversion
     BOOST_TEST( r011 && r011.value() == -11);
@@ -182,11 +182,11 @@ main(int argc, char const* argv[])
     wstring                   s003 = boost::cnv<wstring>(-5, wcnv).value_or(wstd_str);
     wstring                   s004 = boost::cnv<wstring>(-5, wcnv).value_or(wc_str);
     string                    s005 = boost::cnv< string>(-5, ccnv).value_or(array_str);
-    boost::convert< string>::result rs001 = boost::cnv< string>(-5, ccnv);
-    boost::convert< string>::result rs002 = boost::cnv< string>(-5, ccnv);
-    boost::convert<wstring>::result rs003 = boost::cnv<wstring>(-5, wcnv);
-    boost::convert<wstring>::result rs004 = boost::cnv<wstring>(-5, wcnv);
-    boost::convert< string>::result rs005 = boost::cnv< string>(-5, ccnv);
+    boost::conversion::result< string> rs001 = boost::cnv< string>(-5, ccnv);
+    boost::conversion::result< string> rs002 = boost::cnv< string>(-5, ccnv);
+    boost::conversion::result<wstring> rs003 = boost::cnv<wstring>(-5, wcnv);
+    boost::conversion::result<wstring> rs004 = boost::cnv<wstring>(-5, wcnv);
+    boost::conversion::result< string> rs005 = boost::cnv< string>(-5, ccnv);
 
     BOOST_TEST(s001 ==  "-5"); BOOST_TEST(rs001 && rs001.value() ==  "-5");
     BOOST_TEST(s002 ==  "-5"); BOOST_TEST(rs002 && rs002.value() ==  "-5");
@@ -200,8 +200,8 @@ main(int argc, char const* argv[])
 
     string                    s010 = boost::cnv< string>(-5, ccnv).value();
     wstring                   s011 = boost::cnv<wstring>(-5, wcnv).value();
-    boost::convert< string>::result rs010 = boost::cnv< string>(-5, ccnv);
-    boost::convert<wstring>::result rs011 = boost::cnv<wstring>(-5, wcnv);
+    boost::conversion::result< string> rs010 = boost::cnv< string>(-5, ccnv);
+    boost::conversion::result<wstring> rs011 = boost::cnv<wstring>(-5, wcnv);
 
     BOOST_TEST( s010 ==  "-5");
     BOOST_TEST( s011 == L"-5");
@@ -223,7 +223,7 @@ main(int argc, char const* argv[])
     direction                  up_dir3 = boost::cnv<direction>(up_dir1_str, ccnv).value();
     direction                  dn_dir3 = boost::cnv<direction>(dn_dir1_str, ccnv).value();
     direction                  dn_dir4 = boost::cnv<direction>("junk", ccnv).value_or(direction::dn);
-    boost::convert<direction>::result up_dir4 = boost::cnv<direction>("junk", ccnv);
+    boost::conversion::result<direction> up_dir4 = boost::cnv<direction>("junk", ccnv);
 
     BOOST_TEST(up_dir0_str == "up");
     BOOST_TEST(dn_dir0_str == "dn");
@@ -312,13 +312,13 @@ main(int argc, char const* argv[])
     // Testing string-to-bool and bool-to-string conversions
     ////////////////////////////////////////////////////////////////////////////
 
-//    boost::convert<bool>::result bool_res1 = boost::cnv<bool>("1",     false, ccnv);
-//    boost::convert<bool>::result bool_res2 = boost::cnv<bool>("true",  false, ccnv);
-//    boost::convert<bool>::result bool_res3 = boost::cnv<bool>("yes",   false, ccnv);
-//    boost::convert<bool>::result bool_res4 = boost::cnv<bool>(L"1",    false, wcnv);
-//    boost::convert<bool>::result bool_res5 = boost::cnv<bool>(L"true", false, wcnv);
-//    boost::convert<bool>::result bool_res6 = boost::cnv<bool>(L"yes",  false, wcnv);
-//    boost::convert<bool>::result bool_res7 = boost::cnv<bool>("junk",   true, ccnv);
+//    boost::conversion::result<bool>t bool_res1 = boost::cnv<bool>("1",     false, ccnv);
+//    boost::conversion::result<bool>t bool_res2 = boost::cnv<bool>("true",  false, ccnv);
+//    boost::conversion::result<bool>t bool_res3 = boost::cnv<bool>("yes",   false, ccnv);
+//    boost::conversion::result<bool>t bool_res4 = boost::cnv<bool>(L"1",    false, wcnv);
+//    boost::conversion::result<bool>t bool_res5 = boost::cnv<bool>(L"true", false, wcnv);
+//    boost::conversion::result<bool>t bool_res6 = boost::cnv<bool>(L"yes",  false, wcnv);
+//    boost::conversion::result<bool>t bool_res7 = boost::cnv<bool>("junk",   true, ccnv);
 //
 //    BOOST_TEST( bool_res1 && bool_res1.value() == true);
 //    BOOST_TEST( bool_res2 && bool_res2.value() == true);

@@ -73,7 +73,7 @@ test::algorithms()
 
 #ifdef NOT_AVAILABLE_UNTIL_CPP11
 
-    std::vector<boost::convert<int>::result> opt_ints;
+    std::vector<conversion::result<int> > opt_ints;
 
     std::transform(
         strings.begin(),

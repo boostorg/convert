@@ -15,9 +15,9 @@
 #ifndef BOOST_CONVERT_API_HPP
 #define BOOST_CONVERT_API_HPP
 
-#include <boost/convert/detail/safebool.hpp>
 #include <boost/convert/detail/workarounds.hpp>
 #include <boost/convert/detail/algorithm_helper.hpp>
+#include <boost/convert/result.hpp>
 
 namespace boost
 {
@@ -37,11 +37,9 @@ struct boost::convert
 	//        (rather than every converter imposing their own);
 	//     b) relieves the converter of that responsibility and makes writing converters easier.
 	
-	struct result;
-
 	typedef boost::convert<TypeOut>	                         this_type;
 	typedef typename convert_detail::corrected<TypeOut>::type out_type; //C1
-	typedef typename boost::convert<out_type>::result      result_type; //C1
+	typedef typename boost::conversion::result<out_type>   result_type; //C1
 
     template<typename TypeIn, typename Converter>
     static
@@ -55,47 +53,10 @@ struct boost::convert
     }
 };
 
-// Used temporarily. To be replaced with tr1::optional or improved boost::optional.
-template<typename TypeOut>
-struct boost::convert<TypeOut>::result
-{
-	typedef result                 this_type;
-	typedef boost::safebool<result> safebool;
-    
-    result (out_type const& v) : value_(v), good_(true) {}
-
-    bool                   operator! () const { return !good_; }
-    operator typename safebool::type () const { return safebool(!operator!()); }
-//  operator         out_type const& () const { return this_type::value(); }
-
-    out_type const& value() const
-    {
-        if (!good_)
-            BOOST_THROW_EXCEPTION(std::invalid_argument("boost::convert failed"));
-
-        return value_;
-    }
-
-    template<typename FallbackType>
-    out_type value_or(FallbackType const& fallback) const
-    {
-        return good_ ? value_ : fallback;
-    }
-
-    private:
-
-	friend struct boost::convert<TypeOut>;
-
-    this_type& operator()(bool good) { return (good_ = good, *this); }
-
-	out_type value_;
-    bool      good_;
-};
-
 namespace boost
 {
     template<typename TypeOut, typename TypeIn, typename Converter>
-    typename convert<TypeOut>::result_type
+    boost::conversion::result<TypeOut>
     cnv(TypeIn const& value_in, Converter const& converter)
     {
         return boost::convert<TypeOut>::from(value_in, converter);
