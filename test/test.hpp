@@ -74,6 +74,7 @@ struct test
     static void   string_to_int ();
     static void  string_to_bool ();
     static void       user_type ();
+    static void   force_in_type ();
 
 	template<typename Converter> static void type_to_string(Converter const&);
 	template<typename Converter> static void string_to_type(Converter const&);

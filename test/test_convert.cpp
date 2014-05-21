@@ -28,6 +28,23 @@ test::string_to_type(Converter const& cnv)
     BOOST_TEST( 999 != boost::convert<double>("1.23", cnv).value_or(999));
 }
 
+void
+test::force_in_type()
+{
+    boost::cstringstream_converter cnv;
+
+    string s1 = boost::convert<string>(-1, cnv).value();
+    string s2 = boost::convert<string, unsigned int>(-1, cnv).value();
+    char const* expected = sizeof(unsigned int) == 4
+                         ? "4294967295"
+                         : 0;
+    if (expected)
+    {
+        BOOST_TEST(s1 == "-1");
+        BOOST_TEST(s2 == expected);
+    }
+}
+
 int
 main(int argc, char const* argv[])
 {
@@ -39,6 +56,7 @@ main(int argc, char const* argv[])
     test::string_to_type(boost::printf_converter());
     test::type_to_string(boost::printf_converter());
     test::user_type();
+    test::force_in_type();
     test::manipulators();
     test::locale();
     test::algorithms();
