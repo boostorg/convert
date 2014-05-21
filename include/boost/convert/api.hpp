@@ -22,11 +22,9 @@
 
 namespace boost
 {
-	// C1. TypeOut needs to be normalized as, say, "char const*" might be provided when
-	//     std::string will be used instead (as we have to have storage for the conversion result).
-	// C2. TypeIn on the other hand needs to be passed in to the Converter as-is.
+	// C2. TypeIn is passed in to the Converter as-is.
 	//     That way the converter will be able to optimize the conversion based on that TypeIn type.
-	// C3. convert::from() allocates storage for the conversion result.
+	// C3. convert() allocates storage for the conversion result.
 	//     The Pascal-style passing of the out_type& to the converter is ugly. However, it
 	//     a) ensures the consistent requirement with regard to "out_type" 
 	//        (rather than every converter imposing their own);
@@ -36,11 +34,8 @@ namespace boost
     boost::conversion::result<TypeOut>
 	convert(TypeIn const& value_in, Converter const& converter)
     {
-    	typedef typename convert_detail::corrected<TypeOut>::type out_type; //C1
-    	typedef boost::conversion::result<out_type>            result_type; //C1
-
-    	result_type result (boost::allocate_storage<out_type>()); //C1,C3
-        bool       success = converter(value_in, result.value_); //C1,C2,C3
+    	conversion::result<TypeOut> result (boost::allocate_storage<TypeOut>()); //C3
+        bool                       success = converter(value_in, result.value_); //C2,C3
         
         return success ? result : result(false);
     }

@@ -7,7 +7,7 @@
 #define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
 #include <boost/convert/converter/base.hpp>
-#include <boost/convert/detail/string.hpp>
+#include <boost/convert/detail/string_sfinae.hpp>
 #include <sstream>
 
 namespace boost 
@@ -33,7 +33,7 @@ struct boost::basic_stringstream_converter
 
     template<typename StringOut, typename TypeIn>
     typename boost::enable_if_c<
-		!convert_detail::is_any_string<TypeIn>::value && convert_detail::is_any_string<StringOut>::value, 
+		!conversion::is_any_string<TypeIn>::value && conversion::is_any_string<StringOut>::value, 
 		bool>::type
     operator()(TypeIn const& value_in, StringOut& result_out) const
     {
@@ -44,7 +44,7 @@ struct boost::basic_stringstream_converter
     }
     template<typename TypeOut, typename StringIn>
     typename boost::enable_if_c<
-		convert_detail::is_any_string<StringIn>::value && !convert_detail::is_any_string<TypeOut>::value, 
+		conversion::is_any_string<StringIn>::value && !conversion::is_any_string<TypeOut>::value, 
 		bool>::type
     operator()(StringIn const& value_in, TypeOut& result_out) const
     {

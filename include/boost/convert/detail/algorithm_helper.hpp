@@ -8,7 +8,6 @@
 #define BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
 
 #include <boost/convert/forward.hpp>
-#include <boost/convert/detail/string.hpp>
 #include <boost/throw_exception.hpp>
 #include <stdexcept>
 
@@ -17,9 +16,6 @@ namespace boost { namespace conversion
 	template<typename TypeOut, typename Converter>
 	struct algorithm_helper
 	{
-		typedef algorithm_helper                                 this_type;
-		typedef typename convert_detail::corrected<TypeOut>::type out_type; //C1
-
 		algorithm_helper(Converter const& cnv) : converter_(&cnv) {}
 
 		template<typename FallbackType>
@@ -28,8 +24,8 @@ namespace boost { namespace conversion
 
 		template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
 		{
-			out_type result = boost::allocate_storage<TypeOut>();
-			bool       good = (*converter_)(value_in, result);
+			TypeOut result = boost::allocate_storage<TypeOut>();
+			bool      good = (*converter_)(value_in, result);
 
 			if (!good)
 				BOOST_THROW_EXCEPTION(std::invalid_argument("boost::convert failed"));
@@ -47,9 +43,8 @@ namespace boost { namespace conversion
 	:
 		public algorithm_helper<TypeOut, Converter>
 	{
-		typedef algorithm_helper_with_fallback                   this_type;
-		typedef algorithm_helper<TypeOut, Converter>             base_type;
-		typedef typename convert_detail::corrected<TypeOut>::type out_type; //C1
+		typedef algorithm_helper_with_fallback       this_type;
+		typedef algorithm_helper<TypeOut, Converter> base_type;
 
 		algorithm_helper_with_fallback(base_type const& ah, TypeOut const& fallback)
 		:
@@ -59,13 +54,13 @@ namespace boost { namespace conversion
 
 		template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
 		{
-			out_type result = boost::allocate_storage<TypeOut>();
-			bool       good = (*base_type::converter_)(value_in, result);
+			TypeOut result = boost::allocate_storage<TypeOut>();
+			bool      good = (*base_type::converter_)(value_in, result);
 
 			return good ? result : fallback_;
 		}
 
-		out_type fallback_;
+		TypeOut fallback_;
 	};
 }}
 

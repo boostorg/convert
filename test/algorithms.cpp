@@ -5,12 +5,62 @@
 
 #include "./test.hpp"
 
+static
 void
-test::algorithms()
+user_type_to_strings()
+{
+    boost::array<change, 3>             changes1 = {{ change::no, change::up, change::dn }};
+    boost::array<change::value_type, 3> changes2 = {{ change::no, change::up, change::dn }};
+    std::vector<std::string>            strings1;
+    std::vector<std::string>            strings2;
+    boost::cstringstream_converter           cnv;
+
+    std::transform(changes1.begin(), changes1.end(), std::back_inserter(strings1), boost::convert<std::string>(cnv));
+    std::transform(changes2.begin(), changes2.end(), std::back_inserter(strings2), boost::convert<std::string>(cnv));
+
+    BOOST_TEST(strings1.size() == 3);
+    BOOST_TEST(strings1[0] == "no");
+    BOOST_TEST(strings1[1] == "up");
+    BOOST_TEST(strings1[2] == "dn");
+
+    BOOST_TEST(strings2.size() == 3);
+    BOOST_TEST(strings2[0] == "0");
+    BOOST_TEST(strings2[1] == "1");
+    BOOST_TEST(strings2[2] == "2");
+    printf("%s\n", strings2[0].c_str());
+    printf("%s\n", strings2[1].c_str());
+    printf("%s\n", strings2[2].c_str());
+}
+
+static
+void
+ints_to_strings()
+{
+    boost::array<int, 4>      integers = {{ 15, 16, 17, 18 }};
+    std::vector<std::string>   strings;
+    boost::cstringstream_converter cnv;
+
+    cnv(std::hex)(std::uppercase)(std::showbase);
+
+    std::transform(
+        integers.begin(),
+        integers.end(),
+        std::back_inserter(strings),
+        boost::convert<std::string>(cnv));
+
+    BOOST_TEST(strings.size() == 4);
+    BOOST_TEST(strings[0] ==  "0XF");
+    BOOST_TEST(strings[1] == "0X10");
+    BOOST_TEST(strings[2] == "0X11");
+    BOOST_TEST(strings[3] == "0X12");
+}
+
+static
+void
+strings_to_ints()
 {
     boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
     std::vector<int>            integers;
-    std::vector<std::string> new_strings;
     boost::cstringstream_converter  ccnv; // stringstream-based char converter
 
     ////////////////////////////////////////////////////////////////////////////
@@ -73,7 +123,7 @@ test::algorithms()
 
 #ifdef NOT_AVAILABLE_UNTIL_CPP11
 
-    std::vector<conversion::result<int> > opt_ints;
+    std::vector<conversion::result<int>> opt_ints;
 
     std::transform(
         strings.begin(),
@@ -93,24 +143,12 @@ test::algorithms()
     BOOST_TEST(opt_ints[3].value() == 18);
 
 #endif
+}
 
-    ////////////////////////////////////////////////////////////////////////////
-    // int-to-string conversion. No explicit fallback value.
-    ////////////////////////////////////////////////////////////////////////////
-
-    std::transform(
-        integers.begin(),
-        integers.end(),
-        std::back_inserter(new_strings),
-        boost::convert<std::string>(ccnv(std::dec)));
-
-    BOOST_TEST(new_strings.size() == 5);
-    BOOST_TEST(new_strings[0] == "15");
-    BOOST_TEST(new_strings[1] == "16");
-    BOOST_TEST(new_strings[2] == "17");
-    BOOST_TEST(new_strings[3] == "18");
-    BOOST_TEST(new_strings[4] == "-1");
-
-
-
+void
+test::algorithms()
+{
+    strings_to_ints();
+    ints_to_strings();
+    user_type_to_strings();
 }
