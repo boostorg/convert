@@ -46,4 +46,14 @@ test::manipulators()
 
     BOOST_TEST(boost::convert<string>(255, ccnv).value() == "0XFF");
     BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "0XF");
+
+    ccnv(std::noshowbase)(std::nouppercase)(std::oct);
+
+    BOOST_TEST(boost::convert<string>(255, ccnv).value() == "377");
+    BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "17");
+
+    ccnv(std::showbase)(arg::uppercase = true)(arg::base = cnv::base::hex);
+
+    BOOST_TEST(boost::convert<string>(255, ccnv).value() == "0XFF");
+    BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "0XF");
 }

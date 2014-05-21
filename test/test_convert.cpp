@@ -39,11 +39,11 @@ main(int argc, char const* argv[])
     test::string_to_type(boost::printf_converter());
     test::type_to_string(boost::printf_converter());
     test::user_type();
+    test::manipulators();
+    test::locale();
     test::algorithms();
     test::lcast_converter();
     test::callables();
-    test::manipulators();
-    test::locale();
     test::encryption();
     test::performance();
 

@@ -55,7 +55,7 @@ struct boost::basic_stringstream_converter
     }
 
     this_type& operator() (std::locale const& locale) { return (stream_.imbue(locale), *this); }
-    this_type& operator() (manipulator_type m) { return (stream_ >> m, *this); }
+    this_type& operator() (manipulator_type m) { return (m(stream_), *this); }
 
     template<typename Manipulator>
     this_type& operator()(Manipulator m) { return (stream_ >> m, *this); }
@@ -82,9 +82,9 @@ struct boost::basic_stringstream_converter
     {
         conversion::base::type base = arg[conversion::parameter::base];
         
-        /**/ if (base == conversion::base::dec) stream_.setf(std::ios::dec);
-        else if (base == conversion::base::hex) stream_.setf(std::ios::hex);
-        else if (base == conversion::base::oct) stream_.setf(std::ios::oct);
+        /**/ if (base == conversion::base::dec) std::dec(stream_);
+        else if (base == conversion::base::hex) std::hex(stream_);
+        else if (base == conversion::base::oct) std::oct(stream_);
         else BOOST_ASSERT(!"Not implemented");
         
         return *this;
@@ -93,8 +93,8 @@ struct boost::basic_stringstream_converter
     {
         conversion::notation::type notation = arg[conversion::parameter::notation];
         
-        /**/ if (notation == conversion::notation::     fixed) stream_.setf(std::ios::fixed);
-        else if (notation == conversion::notation::scientific) stream_.setf(std::ios::scientific);
+        /**/ if (notation == conversion::notation::     fixed)      std::fixed(stream_);
+        else if (notation == conversion::notation::scientific) std::scientific(stream_);
         else BOOST_ASSERT(!"Not implemented");
         
         return *this;
