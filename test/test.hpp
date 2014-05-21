@@ -44,38 +44,6 @@ struct change
     private: value_type value_;
 };
 
-struct direction
-{
-    // Note: the class does NOT have the default constructor.
-
-    enum value_type { up, dn };
-
-    direction(value_type value) : value_(value) {}
-    bool operator==(direction const& that) const { return value_ == that.value_; }
-
-    friend std::istream& operator>>(std::istream& stream, direction& dir)
-    {
-        std::string str; stream >> str;
-
-        /**/ if (str == "up") dir.value_ = up;
-        else if (str == "dn") dir.value_ = dn;
-        else stream.setstate(std::ios_base::failbit);
-
-        return stream;
-    }
-    friend std::ostream& operator<<(std::ostream& stream, direction const& dir)
-    {
-        return stream << (dir.value_ == up ? "up" : "dn");
-    }
-
-    private: value_type value_;
-};
-
-namespace boost
-{
-    template<> inline direction allocate_storage<direction>() { return direction(direction::up); }
-}
-
 struct test
 {
 #if defined(_MSC_VER)
@@ -94,11 +62,18 @@ struct test
 #error "Add here."
 #endif
 
-    static void      sfinae ();
-    static void  algorithms ();
-    static void performance ();
-    static void  encryption ();
-    static void   callables ();
+    static void          sfinae ();
+    static void      algorithms ();
+    static void     performance ();
+    static void      encryption ();
+    static void       callables ();
+    static void          locale ();
+    static void    manipulators ();
+    static void lcast_converter ();
+    static void   int_to_string ();
+    static void   string_to_int ();
+    static void  string_to_bool ();
+    static void       user_type ();
 
 	template<typename Converter> static void type_to_string(Converter const&);
 	template<typename Converter> static void string_to_type(Converter const&);

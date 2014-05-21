@@ -5,6 +5,11 @@
 
 #include "./test.hpp"
 
+namespace { namespace local
+{
+    struct a_struct {};
+}}
+
 void
 test::sfinae()
 {
@@ -21,7 +26,7 @@ test::sfinae()
     bool q07 = boost::convert_detail::is_any_string<std::vector<char> >::value;
     bool q08 = boost::convert_detail::is_any_string<std::list<wchar_t> >::value;
     bool q98 = boost::convert_detail::is_any_string<int>::value;
-    bool q99 = boost::convert_detail::is_any_string<direction>::value;
+    bool q99 = boost::convert_detail::is_any_string<local::a_struct>::value;
 
     BOOST_TEST( q01);
     BOOST_TEST( q02);

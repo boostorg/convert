@@ -3,7 +3,7 @@ DEVMAKE			=	$(DEVROOT)/make
 
 cflags			=	-I../include
 target			=	test-convert.exe
-sources			=	test_convert.cpp
+sources			=	$(wildcard *.cpp)
 
 include $(DEVMAKE)/makefile
 
