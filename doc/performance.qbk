@@ -5,28 +5,28 @@ The performance of ['Boost.Convert] depends entirely on the converter deployed. 
 Performance was tested for string conversions to the `int` type and to a user-defined type. On a 12.04 Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
 
  g++ -O0 test_convert.cpp <--- NON-OPTIMIZED
- str-to-int: strtol/scanf/lcast/sstream=0.49/1.40/1.56/2.00 seconds.
+ str-to-int: strtol/scanf/lcast/sstream=0.49/1.40/1.56/1.77 seconds.
  int-to-str: ltostr/prntf/lcast/sstream=3.10/2.62/2.42/2.52 seconds.
  str-to-user-type: lcast/sstream=4.94/3.19 seconds.
 
  g++ -O3 test_convert.cpp <--- OPTIMIZED
- str-to-int: strtol/scanf/lcast/sstream=0.28/1.15/0.45/1.70 seconds.
+ str-to-int: strtol/scanf/lcast/sstream=0.28/1.15/0.45/1.23 seconds.
  int-to-str: ltostr/prntf/lcast/sstream=1.50/2.17/1.11/1.73 seconds.
- str-to-user-type: lcast/sstream=3.26/2.58 seconds.
- user-type-to-str: lcast/sstream=5.22/1.30 seconds.
+ str-to-user-type: lcast/sstream=3.58/1.99 seconds.
+ user-type-to-str: lcast/sstream=6.22/1.32 seconds.
 
 [note Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that a noticeable performance improvement is to be gained via optimized compilation. Optimized times are the ones to be looked at and analyzed.]
 
 On the Cygwin platform compiled with gcc 4.8.2:
 
  g++ -O3 test_convert.cpp
- str-to-int: strtol/scanf/lcast/sstream=0.28/1.20/1.22/2.42 seconds.
+ str-to-int: strtol/scanf/lcast/sstream=0.28/1.20/1.22/1.82 seconds.
  int-to-str: ltostr/prntf/lcast/sstream=1.31/2.94/2.62/2.03 seconds.
  str-to-user-type: lcast/sstream=7.44/4.61 seconds.
  
 Compiled with MS Visual C++ 2010 Express optimized for speed:
 
- str-to-int: strtol/scanf/lcast/sstream=0.28/0.89/1.03/6.20 seconds.
+ str-to-int: strtol/scanf/lcast/sstream=0.28/0.89/1.03/4.65 seconds.
  int-to-str: ltostr/prntf/lcast/sstream=1.11/1.86/1.91/5.92 seconds.
  str-to-user-type: lcast/sstream=6.81/3.30 seconds.
 

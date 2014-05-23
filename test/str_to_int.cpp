@@ -31,19 +31,19 @@ test::string_to_int()
     // On failure returns the provided fallback value and DOES NOT THROW.
     ////////////////////////////////////////////////////////////////////////////
 
-    int const a000 = boost::convert<int>(not_int_str, ccnv).value_or(-1);
-    int const a001 = boost::convert<int>(std_str,     ccnv).value_or(-1);
-    int const a002 = boost::convert<int>(c_str,       ccnv).value_or(-1);
-    int const a003 = boost::convert<int>(wstd_str,    wcnv).value_or(-1);
-    int const a004 = boost::convert<int>(wc_str,      wcnv).value_or(-1);
-    int const a005 = boost::convert<int>(array_str,   ccnv).value_or(-1);
+    int const a00 = boost::convert<int>(not_int_str, ccnv).value_or(-1);
+    int const a01 = boost::convert<int>(std_str,     ccnv).value_or(-1);
+    int const a02 = boost::convert<int>(c_str,       ccnv).value_or(-1);
+    int const a03 = boost::convert<int>(wstd_str,    wcnv).value_or(-1);
+    int const a04 = boost::convert<int>(wc_str,      wcnv).value_or(-1);
+    int const a05 = boost::convert<int>(array_str,   ccnv).value_or(-1);
 
-    BOOST_TEST(a000 ==  -1); // Failed conversion
-    BOOST_TEST(a001 == -11);
-    BOOST_TEST(a002 == -12);
-    BOOST_TEST(a003 == -13);
-    BOOST_TEST(a004 == -14);
-    BOOST_TEST(a005 == -15);
+    BOOST_TEST(a00 ==  -1); // Failed conversion
+    BOOST_TEST(a01 == -11);
+    BOOST_TEST(a02 == -12);
+    BOOST_TEST(a03 == -13);
+    BOOST_TEST(a04 == -14);
+    BOOST_TEST(a05 == -15);
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing with the fallback value value provided.
@@ -92,4 +92,35 @@ test::string_to_int()
     BOOST_TEST(a023 == -13);
     BOOST_TEST(a024 == -14);
     BOOST_TEST(a025 == -15);
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Testing conversion::result<> interface.
+    // conversion::result exhibits the SAME (but delayed) behavior, i.e.
+    // for failed conversion it throws on an attempt to retrieve the value
+    // as there is nothing to return.
+    ////////////////////////////////////////////////////////////////////////////
+
+    cnv::result<int> const r010 = boost::convert<int>(not_int_str, ccnv);
+    cnv::result<int> const r011 = boost::convert<int>(std_str, ccnv);
+    cnv::result<int> const r012 = boost::convert<int>(c_str, ccnv);
+    cnv::result<int> const r013 = boost::convert<int>(wstd_str, wcnv);
+    cnv::result<int> const r014 = boost::convert<int>(wc_str, wcnv);
+    cnv::result<int> const r015 = boost::convert<int>(array_str, ccnv);
+
+    BOOST_TEST(!r010); // Failed conversion
+    BOOST_TEST( r011 && r011.value() == -11);
+    BOOST_TEST( r012 && r012.value() == -12);
+    BOOST_TEST( r013 && r013.value() == -13);
+    BOOST_TEST( r014 && r014.value() == -14);
+    BOOST_TEST( r015 && r015.value() == -15);
+
+    try
+    {
+        r010.value(); // Throws on an attempt to retrieve the value.
+        BOOST_TEST(!"failed to throw");
+    }
+    catch (std::exception&)
+    {
+        // Expected behavior: received 'boost::convert failed' exception. All well.
+    }
 }

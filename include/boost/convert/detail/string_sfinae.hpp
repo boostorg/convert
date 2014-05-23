@@ -111,24 +111,35 @@ struct string_range
 };
 
 template<class String>
-struct string_range<String, typename boost::enable_if<is_c_string<String> >::type>
+struct string_range<String, typename boost::enable_if<is_c_string_of<String, char> >::type>
 {
     typedef typename boost::range_value<String>::type char_type;
-    typedef char_type*                                 iterator;
+    typedef char_type const*                           iterator;
 
     static iterator       begin (String const& s) { return s; }
-    static iterator         end (String const& s) { return s + strlen(s); }
+//  static iterator         end (String const& s) { return s + strlen(s); }
     static std::streamsize size (String const& s) { return std::streamsize(strlen(s)); }
+};
+
+template<class String>
+struct string_range<String, typename boost::enable_if<is_c_string_of<String, wchar_t> >::type>
+{
+    typedef typename boost::range_value<String>::type char_type;
+    typedef char_type const*                           iterator;
+
+    static iterator       begin (String const& s) { return s; }
+//  static iterator         end (String const& s) { return s + strlen(s); }
+    static std::streamsize size (String const& s) { return std::streamsize(wcslen(s)); }
 };
 
 template<class String>
 struct string_range<String, typename boost::enable_if<is_std_string<String> >::type>
 {
     typedef typename boost::range_value<String>::type char_type;
-    typedef typename String::iterator                  iterator;
+    typedef char_type const*                  iterator;
 
-    static iterator       begin (String const& s) { return s.begin(); }
-    static iterator         end (String const& s) { return s.end(); }
+    static iterator       begin (String const& s) { return &*s.begin(); }
+//  static iterator         end (String const& s) { return s.end(); }
     static std::streamsize size (String const& s) { return std::streamsize(s.size()); }
 };
 

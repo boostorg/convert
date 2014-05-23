@@ -57,34 +57,4 @@ test::int_to_string()
     BOOST_TEST(rs11 && rs11.value() ==  "-1");
     BOOST_TEST(rs12 && rs12.value() == L"-2");
 
-    ////////////////////////////////////////////////////////////////////////////
-    // Testing conversion::result<> interface.
-    // conversion::result exhibits the SAME (but delayed) behavior, i.e.
-    // for failed conversion it throws on an attempt to retrieve the value
-    // as there is nothing to return.
-    ////////////////////////////////////////////////////////////////////////////
-
-    cnv::result<int> const r010 = boost::convert<int>(not_int_str, ccnv);
-    cnv::result<int> const r011 = boost::convert<int>(std_str, ccnv);
-    cnv::result<int> const r012 = boost::convert<int>(c_str, ccnv);
-    cnv::result<int> const r013 = boost::convert<int>(wstd_str, wcnv);
-    cnv::result<int> const r014 = boost::convert<int>(wc_str, wcnv);
-    cnv::result<int> const r015 = boost::convert<int>(array_str, ccnv);
-
-    BOOST_TEST(!r010); // Failed conversion
-    BOOST_TEST( r011 && r011.value() == -11);
-    BOOST_TEST( r012 && r012.value() == -12);
-    BOOST_TEST( r013 && r013.value() == -13);
-    BOOST_TEST( r014 && r014.value() == -14);
-    BOOST_TEST( r015 && r015.value() == -15);
-
-    try
-    {
-        r010.value(); // Throws on an attempt to retrieve the value.
-        BOOST_TEST(!"failed to throw");
-    }
-    catch (std::exception&)
-    {
-        // Expected behavior: received 'boost::convert failed' exception. All well.
-    }
 }

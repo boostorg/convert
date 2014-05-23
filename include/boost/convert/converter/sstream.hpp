@@ -24,7 +24,9 @@ struct boost::basic_stringstream_converter
     typedef Char                                                             char_type;
     typedef basic_stringstream_converter                                     this_type;
     typedef std::basic_stringstream<char_type>                             stream_type;
-    typedef detail::parser_buf<std::basic_streambuf<char_type>, char_type> buffer_type;
+    typedef std::basic_istream<char_type>                                 istream_type;
+    typedef std::basic_streambuf<char_type>                                buffer_type;
+    typedef detail::parser_buf<buffer_type, char_type>                     parser_type;
     typedef std::basic_string<char_type>                                   string_type;
     typedef std::ios_base& (*manipulator_type)(std::ios_base&);
 
@@ -48,15 +50,29 @@ struct boost::basic_stringstream_converter
 		bool>::type
     operator()(StringIn const& string_in, TypeOut& result_out) const
     {
-        // A lot of optimization is to be done here.
-        // See shr_using_base_class(InputStreamable& output) in lexical_cast.hpp
+        typedef conversion::string_range<StringIn> str_range;
+
+        istream_type& istream = stream_;
+        parser_type    strbuf;
+        buffer_type*   oldbuf = istream.rdbuf();
+        char_type const*  beg = str_range::begin(string_in);
+        std::streamsize    sz = str_range::size(string_in);
 
         stream_.clear();        // Clear the flags
-        stream_.str(string_in); // Set the content of the stream
+//      stream_.str(string_in); // Copy the content to the internal buffer
+//      stream_ >> result_out;
 
-        stream_ >> result_out;
+        // The code below (pretty much stolen from shr_using_base_class(InputStreamable& output) in lexical_cast.hpp
+        // uses the provided string_in as the buffer and, consequently, avoids the overhead associated with
+        // stream_.str(string_in) -- copying of the content into internal buffer.
 
-        return !stream_.fail() && stream_.eof();
+        strbuf.setbuf(const_cast<char_type*>(beg), sz);
+        istream.rdbuf(&strbuf);
+        istream >> result_out;
+        bool result = !istream.fail() && istream.eof();
+        istream.rdbuf(oldbuf);
+
+        return result;
     }
 
     this_type& operator() (std::locale const& locale) { return (stream_.imbue(locale), *this); }
