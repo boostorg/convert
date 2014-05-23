@@ -8,7 +8,7 @@
 using std::string;
 
 void
-test::manipulators()
+test::sstream_manipulators()
 {
     try
     {

@@ -8,7 +8,7 @@
 using std::string;
 
 void
-test::locale()
+test::sstream_locale()
 {
     boost::cstringstream_converter cnv;
 

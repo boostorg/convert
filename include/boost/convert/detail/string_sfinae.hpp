@@ -18,7 +18,7 @@ using ::boost::type_traits::yes_type;
 using ::boost::type_traits:: no_type;
 
 template<class String, class Char>
-class is_string
+class is_c_string_of
 {
     typedef
         typename boost::remove_const<
@@ -31,32 +31,58 @@ class is_string
 
     static no_type  test (...);
     static yes_type test (Char*);
-    template<class T, class A> static yes_type test (std::basic_string<Char,T,A>*);
-
-    // Support for Char-based range-like containers (std::list<char>, etc) have been
-    // disabled as the attempt seems overzealous and in addition some unexpected
-    // types seem to jump in (like boost::regex) which happen to define container-like
-    // properties.
-//     template<class C> static yes_type test (
-//         C/*ontainer*/ const*,
-//         typename boost::enable_if<boost::is_same<typename C::value_type, Char> >::type* =0,
-//         typename C::const_iterator* =0);
 
     public:
 
     BOOST_STATIC_CONSTANT(bool, value = (sizeof(yes_type) == sizeof(test(ptr_type(0)))));
 };
 
+template<class String, class Char>
+class is_std_string_of
+{
+    typedef
+        typename boost::remove_const<
+            typename boost::remove_pointer<
+                typename boost::remove_reference<String>::type
+            >::type
+        >::type* ptr_type;
+
+    static no_type  test (...);
+    template<class T, class A> static yes_type test (std::basic_string<Char,T,A>*);
+
+    public:
+
+    BOOST_STATIC_CONSTANT(bool, value = (sizeof(yes_type) == sizeof(test(ptr_type(0)))));
+};
+
+template<class String>
+struct is_c_string
+{
+    BOOST_STATIC_CONSTANT(bool, value = (is_c_string_of<String, char>::value || is_c_string_of<String, wchar_t>::value));
+};
+
+template<class String>
+struct is_std_string
+{
+    BOOST_STATIC_CONSTANT(bool, value = (is_std_string_of<String, char>::value || is_std_string_of<String, wchar_t>::value));
+};
+
+template<class String, class Char>
+struct is_string_of
+{
+    BOOST_STATIC_CONSTANT(bool, value = (is_c_string_of<String, Char>::value || is_std_string_of<String, Char>::value));
+};
+
 template<class T>
 struct is_char_string
 {
-    BOOST_STATIC_CONSTANT(bool, value = (is_string<T, char>::value));
+    BOOST_STATIC_CONSTANT(bool, value = (is_string_of<T, char>::value));
 };
 
 template<class T>
 struct is_wide_string
 {
-    BOOST_STATIC_CONSTANT(bool, value = (is_string<T, wchar_t>::value));
+    BOOST_STATIC_CONSTANT(bool, value = (is_string_of<T, wchar_t>::value));
 };
 
 template<class T>
@@ -76,6 +102,34 @@ struct corrected<String, typename boost::enable_if<is_any_string<String> >::type
 {
     typedef typename boost::range_value<String>::type char_type;
     typedef std::basic_string<char_type>                   type;
+};
+
+template<class Type, class Enable =void>
+struct string_range
+{
+    typedef Type type;
+};
+
+template<class String>
+struct string_range<String, typename boost::enable_if<is_c_string<String> >::type>
+{
+    typedef typename boost::range_value<String>::type char_type;
+    typedef char_type*                                 iterator;
+
+    static iterator       begin (String const& s) { return s; }
+    static iterator         end (String const& s) { return s + strlen(s); }
+    static std::streamsize size (String const& s) { return std::streamsize(strlen(s)); }
+};
+
+template<class String>
+struct string_range<String, typename boost::enable_if<is_std_string<String> >::type>
+{
+    typedef typename boost::range_value<String>::type char_type;
+    typedef typename String::iterator                  iterator;
+
+    static iterator       begin (String const& s) { return s.begin(); }
+    static iterator         end (String const& s) { return s.end(); }
+    static std::streamsize size (String const& s) { return std::streamsize(s.size()); }
 };
 
 }}

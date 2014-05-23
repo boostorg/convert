@@ -62,19 +62,20 @@ struct test
 #error "Add here."
 #endif
 
-    static void          sfinae ();
-    static void      algorithms ();
-    static void     performance ();
-    static void      encryption ();
-    static void       callables ();
-    static void          locale ();
-    static void    manipulators ();
-    static void lcast_converter ();
-    static void   int_to_string ();
-    static void   string_to_int ();
-    static void  string_to_bool ();
-    static void       user_type ();
-    static void   force_in_type ();
+    static void               sfinae ();
+    static void           algorithms ();
+    static void          performance ();
+    static void           encryption ();
+    static void            callables ();
+    static void      lcast_converter ();
+    static void    sstream_converter ();
+    static void       sstream_locale ();
+    static void sstream_manipulators ();
+    static void        int_to_string ();
+    static void        string_to_int ();
+    static void       string_to_bool ();
+    static void            user_type ();
+    static void        force_in_type ();
 
 	template<typename Converter> static void type_to_string(Converter const&);
 	template<typename Converter> static void string_to_type(Converter const&);

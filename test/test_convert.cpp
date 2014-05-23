@@ -57,10 +57,11 @@ main(int argc, char const* argv[])
     test::type_to_string(boost::printf_converter());
     test::user_type();
     test::force_in_type();
-    test::manipulators();
-    test::locale();
-    test::algorithms();
     test::lcast_converter();
+    test::sstream_converter();
+    test::sstream_manipulators();
+    test::sstream_locale();
+    test::algorithms();
     test::callables();
     test::encryption();
     test::performance();

@@ -21,9 +21,11 @@ namespace boost
 template<class Char>
 struct boost::basic_stringstream_converter
 {
-    typedef Char                                     char_type;
-    typedef basic_stringstream_converter             this_type;
-    typedef std::basic_stringstream<char_type>     stream_type;
+    typedef Char                                                             char_type;
+    typedef basic_stringstream_converter                                     this_type;
+    typedef std::basic_stringstream<char_type>                             stream_type;
+    typedef detail::parser_buf<std::basic_streambuf<char_type>, char_type> buffer_type;
+    typedef std::basic_string<char_type>                                   string_type;
     typedef std::ios_base& (*manipulator_type)(std::ios_base&);
 
     basic_stringstream_converter() 
@@ -31,27 +33,30 @@ struct boost::basic_stringstream_converter
         stream_(std::ios_base::in | std::ios_base::out)
     {}
 
-    template<typename StringOut, typename TypeIn>
-    typename boost::enable_if_c<
-		!conversion::is_any_string<TypeIn>::value && conversion::is_any_string<StringOut>::value, 
-		bool>::type
-    operator()(TypeIn const& value_in, StringOut& result_out) const
+    template<typename TypeIn>
+    typename boost::enable_if_c<!conversion::is_any_string<TypeIn>::value, bool>::type
+    operator()(TypeIn const& value_in, string_type& string_out) const
     {
 		stream_.clear();            // Clear the flags
-        stream_.str(StringOut());   // Clear/empty the content of the stream 
+        stream_.str(string_type()); // Clear/empty the content of the stream
 
-        return !(stream_ << value_in).fail() ? (result_out = stream_.str(), true) : false;
+        return !(stream_ << value_in).fail() ? (string_out = stream_.str(), true) : false;
     }
     template<typename TypeOut, typename StringIn>
     typename boost::enable_if_c<
 		conversion::is_any_string<StringIn>::value && !conversion::is_any_string<TypeOut>::value, 
 		bool>::type
-    operator()(StringIn const& value_in, TypeOut& result_out) const
+    operator()(StringIn const& string_in, TypeOut& result_out) const
     {
-		stream_.clear();        // Clear the flags
-        stream_.str(value_in);  // Set the content of the stream 
+        // A lot of optimization is to be done here.
+        // See shr_using_base_class(InputStreamable& output) in lexical_cast.hpp
 
-        return !(stream_ >> result_out).fail();
+        stream_.clear();        // Clear the flags
+        stream_.str(string_in); // Set the content of the stream
+
+        stream_ >> result_out;
+
+        return !stream_.fail() && stream_.eof();
     }
 
     this_type& operator() (std::locale const& locale) { return (stream_.imbue(locale), *this); }
