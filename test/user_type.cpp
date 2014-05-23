@@ -37,7 +37,7 @@ struct direction
 
 namespace boost
 {
-    template<> inline direction allocate_storage<direction>() { return direction(direction::up); }
+    template<> inline direction make_default<direction>() { return direction(direction::up); }
 }
 
 void

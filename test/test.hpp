@@ -62,6 +62,7 @@ struct test
 #error "Add here."
 #endif
 
+    static void           scratchpad ();
     static void               sfinae ();
     static void           algorithms ();
     static void          performance ();

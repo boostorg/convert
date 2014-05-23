@@ -24,7 +24,7 @@ namespace boost { namespace conversion
 
 		template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
 		{
-			TypeOut result = boost::allocate_storage<TypeOut>();
+			TypeOut result = boost::make_default<TypeOut>();
 			bool      good = (*converter_)(value_in, result);
 
 			if (!good)
@@ -54,7 +54,7 @@ namespace boost { namespace conversion
 
 		template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
 		{
-			TypeOut result = boost::allocate_storage<TypeOut>();
+			TypeOut result = boost::make_default<TypeOut>();
 			bool      good = (*base_type::converter_)(value_in, result);
 
 			return good ? result : fallback_;
