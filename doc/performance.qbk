@@ -13,6 +13,7 @@ Performance was tested for string conversions to the `int` type and to a user-de
  str-to-int: strtol/scanf/lcast/sstream=0.28/1.15/0.45/1.70 seconds.
  int-to-str: ltostr/prntf/lcast/sstream=1.50/2.17/1.11/1.73 seconds.
  str-to-user-type: lcast/sstream=3.26/2.58 seconds.
+ user-type-to-str: lcast/sstream=5.22/1.30 seconds.
 
 [note Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that a noticeable performance improvement is to be gained via optimized compilation. Optimized times are the ones to be looked at and analyzed.]
 

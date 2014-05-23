@@ -5,6 +5,8 @@
 
 #include "./test.hpp"
 
+using std::string;
+
 template<typename Converter>
 double
 performance_string_to_type(Converter const& try_converter)
@@ -20,7 +22,30 @@ performance_string_to_type(Converter const& try_converter)
 
         BOOST_TEST(res == k % 3);
 
-        sum += res; // Make sure dir is not optimized out
+        sum += res; // Make sure chg is not optimized out
+    }
+    double   p2 = clock();
+    int use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
+
+    return (p2 - p1) / CLOCKS_PER_SEC + use_sum;
+}
+
+template<typename Converter>
+double
+performance_type_to_string(Converter const& try_converter)
+{
+    boost::array<change, 3>   input = {{ change::no, change::up, change::dn }};
+    boost::array<string, 3> results = {{ "no", "up", "dn" }};
+    int                         sum = 0;
+    double                       p1 = clock();
+
+    for (int k = 0; k < test::num_cycles; ++k)
+    {
+        string res = boost::convert<string>(input[k % 3], try_converter).value();
+
+        BOOST_TEST(res == results[k % 3]);
+
+        sum += res[0]; // Make sure res is not optimized out
     }
     double   p2 = clock();
     int use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
@@ -50,7 +75,7 @@ double
 performance_int_to_string(Converter const& try_converter)
 {
     std::vector<std::string> res; res.reserve(test::num_cycles);
-	double                    p1 = clock();
+    double                    p1 = clock();
 
     for (int k = 0; k < test::num_cycles; ++k)
         res.push_back(boost::convert<std::string>(k, try_converter).value());
@@ -81,4 +106,7 @@ test::performance()
     printf("str-to-user-type: lcast/sstream=%.2f/%.2f seconds.\n",
            performance_string_to_type(boost:: lexical_cast_converter()),
            performance_string_to_type(boost::cstringstream_converter()));
+    printf("user-type-to-str: lcast/sstream=%.2f/%.2f seconds.\n",
+           performance_type_to_string(boost:: lexical_cast_converter()),
+           performance_type_to_string(boost::cstringstream_converter()));
 }
