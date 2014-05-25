@@ -34,7 +34,7 @@ namespace boost
     boost::conversion::result<TypeOut>
 	convert(TypeIn const& value_in, Converter const& converter)
     {
-    	conversion::result<TypeOut> result (boost::allocate_storage<TypeOut>()); //C3
+    	conversion::result<TypeOut> result (boost::make_default<TypeOut>()); //C3
         bool                       success = converter(value_in, result.value_); //C2,C3
         
         return success ? result : result(false);

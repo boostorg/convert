@@ -17,6 +17,14 @@ Performance was tested for string conversions to the `int` type and to a user-de
 
 [note Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that a noticeable performance improvement is to be gained via optimized compilation. Optimized times are the ones to be looked at and analyzed.]
 
+ boost.convert/test >> uname -a
+ Linux 3.13.0-24-generic #47-Ubuntu SMP ... i686 GNU/Linux
+ boost.convert/test >> g++ -O3 *.cpp -I../include -I../../boost_1_55_0
+ str-to-int: strtol/scanf/lcast/sstream=2.39/9.52/3.97/9.56 seconds.
+ int-to-str: ltostr/prntf/lcast/sstream=7.51/13.65/8.91/13.37 seconds.
+ str-to-user-type: lcast/sstream=27.46/13.97 seconds.
+ user-type-to-str: lcast/sstream=52.87/11.07 seconds.
+
 On the Cygwin platform compiled with gcc 4.8.2:
 
  g++ -O3 test_convert.cpp
