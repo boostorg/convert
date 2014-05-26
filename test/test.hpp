@@ -6,6 +6,7 @@
 #include <boost/convert/converter/sstream.hpp>
 #include <boost/convert/converter/printf.hpp>
 #include <boost/convert/converter/strtol.hpp>
+#include <boost/convert/converter/spirit.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <boost/detail/lightweight_test.hpp>
