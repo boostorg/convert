@@ -5,6 +5,8 @@
 
 #include "./test.hpp"
 
+using std::string;
+
 template<typename Converter>
 double
 performance_string_to_type(Converter const& try_converter)
@@ -15,12 +17,12 @@ performance_string_to_type(Converter const& try_converter)
 
     for (int k = 0; k < test::num_cycles; ++k)
     {
-        change chg = boost::convert<change>::from(input[k % 3], try_converter).value();
+        change chg = boost::convert<change>(input[k % 3], try_converter).value();
         int    res = chg.value();
 
         BOOST_TEST(res == k % 3);
 
-        sum += res; // Make sure dir is not optimized out
+        sum += res; // Make sure chg is not optimized out
     }
     double   p2 = clock();
     int use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
@@ -30,17 +32,71 @@ performance_string_to_type(Converter const& try_converter)
 
 template<typename Converter>
 double
-performance_string_to_int(Converter const& try_converter)
+performance_type_to_string(Converter const& try_converter)
 {
-    char str[] = "12345";
-    int    sum = 0;
-    double  p1 = clock();
+    boost::array<change, 3>   input = {{ change::no, change::up, change::dn }};
+    boost::array<string, 3> results = {{ "no", "up", "dn" }};
+    int                         sum = 0;
+    double                       p1 = clock();
 
     for (int k = 0; k < test::num_cycles; ++k)
-        sum += boost::convert<int>::from((str[4 - k % 5] = 49 + k % 9, str), try_converter).value();
+    {
+        string res = boost::convert<string>(input[k % 3], try_converter).value();
 
+        BOOST_TEST(res == results[k % 3]);
+
+        sum += res[0]; // Make sure res is not optimized out
+    }
     double   p2 = clock();
     int use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
+
+    return (p2 - p1) / CLOCKS_PER_SEC + use_sum;
+}
+
+static
+int
+str_to_int_spirit(std::string const& str)
+{
+    std::string::const_iterator i = str.begin();
+    int result;
+
+    if (!boost::spirit::qi::parse(i, str.end(), boost::spirit::int_, result))
+        BOOST_ASSERT(0);
+
+    BOOST_ASSERT(i == str.end()); // ensure the whole string was parsed
+
+    return result;
+}
+
+double
+performance_string_to_int_spirit()
+{
+    std::string str = "12345";
+    int         sum = 0;
+    double const p1 = clock();
+
+    for (int k = 0; k < test::num_cycles; ++k)
+        sum += str_to_int_spirit((str[4 - k % 5] = 49 + k % 9, str));
+
+    double const   p2 = clock();
+    int const use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
+
+    return (p2 - p1) / CLOCKS_PER_SEC + use_sum;
+}
+
+template<typename Converter>
+double
+performance_string_to_int(Converter const& try_converter)
+{
+    std::string  str = "12345";
+    int          sum = 0;
+    double const  p1 = clock();
+
+    for (int k = 0; k < test::num_cycles; ++k)
+        sum += boost::convert<int>((str[4 - k % 5] = 49 + k % 9, str), try_converter).value();
+
+    double const   p2 = clock();
+    int const use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
 
     return (p2 - p1) / CLOCKS_PER_SEC + use_sum;
 }
@@ -50,15 +106,15 @@ double
 performance_int_to_string(Converter const& try_converter)
 {
     std::vector<std::string> res; res.reserve(test::num_cycles);
-	double                    p1 = clock();
+    double const              p1 = clock();
 
     for (int k = 0; k < test::num_cycles; ++k)
-        res.push_back(boost::convert<std::string>::from(k, try_converter).value());
+        res.push_back(boost::convert<std::string>(k, try_converter).value());
 
-    double p2 = clock();
+    double const p2 = clock();
 
     for (int k = 0; k < test::num_cycles; ++k)
-        BOOST_TEST(k == boost::convert<int>::from(res[k], try_converter).value());
+        BOOST_TEST(k == boost::convert<int>(res[k], try_converter).value());
 
     return (p2 - p1) / CLOCKS_PER_SEC;
 }
@@ -66,6 +122,10 @@ performance_int_to_string(Converter const& try_converter)
 void
 test::performance()
 {
+    printf("str-to-int spirit: raw/cnv=%.2f/%.2f seconds.\n",
+           performance_string_to_int_spirit(),
+           performance_string_to_int(boost::spirit_converter()));
+
     printf("str-to-int: strtol/scanf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
            performance_string_to_int(boost::       strtol_converter()),
            performance_string_to_int(boost::       printf_converter()),
@@ -81,4 +141,7 @@ test::performance()
     printf("str-to-user-type: lcast/sstream=%.2f/%.2f seconds.\n",
            performance_string_to_type(boost:: lexical_cast_converter()),
            performance_string_to_type(boost::cstringstream_converter()));
+    printf("user-type-to-str: lcast/sstream=%.2f/%.2f seconds.\n",
+           performance_type_to_string(boost:: lexical_cast_converter()),
+           performance_type_to_string(boost::cstringstream_converter()));
 }

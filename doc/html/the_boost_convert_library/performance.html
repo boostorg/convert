@@ -6,12 +6,12 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
-<link rel="prev" href="boost_convert_with_standard_algorithms.html" title="Boost.Convert with Standard Algorithms">
-<link rel="next" href="converters.html" title="Converters">
+<link rel="prev" href="the___default_constructible__type_requirement.html" title="The Default Constructible Type Requirement">
+<link rel="next" href="other_conversions.html" title="Other Conversions">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="boost_convert_with_standard_algorithms.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="converters.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="the___default_constructible__type_requirement.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="other_conversions.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
@@ -19,7 +19,7 @@
 </h2></div></div></div>
 <p>
       The performance of <span class="emphasis"><em>Boost.Convert</em></span> depends entirely on the
-      converter deployed. The previously mentioned convertors have been tested as
+      converter deployed. The previously mentioned converters have been tested as
       part of the <span class="emphasis"><em>Boost.Convert</em></span> framework (see <span class="emphasis"><em>test/performance.cpp</em></span>).
       Raw <code class="computeroutput"><span class="identifier">scanf</span><span class="special">()</span></code>
       and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> have also been tested but, when
@@ -29,7 +29,7 @@
       and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> results are not shown here.
       The C++11 family of <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">to_string</span><span class="special">()</span></code>,
       <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stoi</span><span class="special">()</span></code>, etc.
-      were not tested due to unavailablility.
+      were not tested due to unavailability.
     </p>
 <p>
       Performance was tested for string conversions to the <code class="computeroutput"><span class="keyword">int</span></code>
@@ -97,18 +97,16 @@
       an option to explore.
     </p>
 <p>
-      However, for user-defined types it appears to be quite a different story with
-      the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based converter consistently
-      outperforming <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> in the tests. These results
-      probably reflect different underlying designs.
+      For user-defined types it appears to be quite a different story with the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based
+      converter consistently outperforming <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      in the tests. These results probably reflect different underlying designs.
     </p>
 <p>
       The standard <span class="emphasis"><em>Boost.Convert</em></span> usage pattern is to create
       a converter or converters once and then re-use them. In turn, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-      also deploys the standard <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">sstream</span></code>
-      framework for user-defined types. However, due to its design <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-      creates and then destroys an instance of a stream type every time the function
-      is called. The <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      also deploys the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">sstream</span></code> engine for user-defined types. However,
+      due to its design <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> creates and then destroys an
+      instance of a stream type every time the function is called. The <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       performance</a> table indicates that the "std::stringstream with construction"
       operation is considerably more expensive compared to "std::stringstream
       without construction".
@@ -123,14 +121,13 @@
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>
 <td align="right"><div class="copyright-footer">Copyright &#169; 2009-2014 Vladimir Batov<p>
-        Distributed under the Boost Software License, Version 1.0. (See accompanying
-        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+        Distributed under the Boost Software License, Version 1.0. See copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>.
       </p>
 </div></td>
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="boost_convert_with_standard_algorithms.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="converters.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="the___default_constructible__type_requirement.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="other_conversions.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>

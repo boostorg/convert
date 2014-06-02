@@ -7,13 +7,11 @@ In its simplest form the ['Boost.Convert] functionality might be deployed as fol
  #include <boost/convert/api.hpp>
  #include <boost/convert/converter/sstream.hpp>
 
- using boost::convert;
-
  boost::cstringstream_converter cnv; // stringstream-based char converter
 
  int i1 = boost::lexical_cast<int>(str); // Throws if the conversion fails
- int i2 = convert<int>::from(str, cnv).value(); // Throws if the conversion fails
- int i3 = convert<int>::from(str, cnv).value_or(-1); // Returns -1 if the conversion fails
+ int i2 = boost::convert<int>(str, cnv).value(); // Throws if the conversion fails
+ int i3 = boost::convert<int>(str, cnv).value_or(-1); // Returns -1 if the conversion fails
 
 The above calls can be interpreted as "['convert a string to int]" for `i1` and `i2` and "['convert a string to int and return -1 if the conversion fails]" for `i3`. 
 
@@ -25,8 +23,8 @@ The described (very basic) interface might be sufficient for a variety of conver
 
  boost::cstringstream_converter cnv; // stringstream-based char converter
 
- int num_threads = convert<int>::from(str1, cnv(std::hex)).value_or(INT_MAX); // Read as hex
- int num_windows = convert<int>::from(str2, cnv(std::dec)).value_or(INT_MAX); // Read as decimal
+ int num_threads = boost::convert<int>(str1, cnv(std::hex)).value_or(INT_MAX); // Read as hex
+ int num_windows = boost::convert<int>(str2, cnv(std::dec)).value_or(INT_MAX); // Read as decimal
 
  if (num_threads == INT_MAX) log("bad num_threads"), num_threads = default_num_threads;
  if (num_windows == INT_MAX) log("bad num_windows"), num_windows = default_num_windows;
@@ -35,18 +33,18 @@ The described (very basic) interface might be sufficient for a variety of conver
 
 Or even shorter, if we do not care logging:
 
- int num_threads = convert<int>::from(str1, cnv(std::hex)).value_or(default_num_threads); // Read as hex
- int num_windows = convert<int>::from(str2, cnv(std::dec)).value_or(default_num_windows); // Read as decimal
+ int num_threads = boost::convert<int>(str1, cnv(std::hex)).value_or(default_num_threads); // Read as hex
+ int num_windows = boost::convert<int>(str2, cnv(std::dec)).value_or(default_num_windows); // Read as decimal
 
  ... proceed
 
-So far the deployment of `boost::convert` seems more compact and natural (your mileage may vary) and might be potentially more efficient compared to `boost::lexical_cast` deployment which achieves similar (excluding formatting) results with:
+So far the deployment of `boost::convert()` seems more compact and natural (your mileage may vary) and might be potentially more efficient compared to `boost::lexical_cast` deployment which achieves similar (excluding formatting) results with:
 
  int num_threads;
 
  try
  {
-     num_threads = lexical_cast<int>(str);
+     num_threads = boost::lexical_cast<int>(str);
  }
  catch (...)
  {
@@ -54,6 +52,6 @@ So far the deployment of `boost::convert` seems more compact and natural (your m
      num_threads = default_num_threads;
  }
 
-By design this is `boost::lexical_cast`'s only behavior. Fairly straightforward and comprehensible. Unfortunately, it makes quite a few legitimate process\/program flows difficult and awkward to implement. That is the niche that ['Boost.Convert] is trying to fill.
+By design this is `boost::lexical_cast`'s only behavior. Fairly straightforward and comprehensible. Unfortunately, it makes quite a few legitimate process\/program flows difficult and awkward to implement. ['Boost.Convert] adds new functionality, flexibility and convenience.
 
 [endsect]

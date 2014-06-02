@@ -6,6 +6,7 @@
 #include <boost/convert/converter/sstream.hpp>
 #include <boost/convert/converter/printf.hpp>
 #include <boost/convert/converter/strtol.hpp>
+#include <boost/convert/converter/spirit.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <boost/detail/lightweight_test.hpp>
@@ -23,58 +24,26 @@ struct change
 
     change(value_type v =no) : value_(v) {}
 
-    friend std::istream& operator>>(std::istream& stream, this_type& dir)
+    friend std::istream& operator>>(std::istream& stream, this_type& chg)
     {
         std::string str; stream >> str;
 
-        /**/ if (str == "up") dir.value_ = up;
-        else if (str == "dn") dir.value_ = dn;
-        else if (str == "no") dir.value_ = no;
+        /**/ if (str == "up") chg.value_ = up;
+        else if (str == "dn") chg.value_ = dn;
+        else if (str == "no") chg.value_ = no;
         else stream.setstate(std::ios_base::failbit);
 
         return stream;
     }
-    friend std::ostream& operator<<(std::ostream& stream, this_type const& dir)
+    friend std::ostream& operator<<(std::ostream& stream, this_type const& chg)
     {
-        return stream << (dir.value_ == up ? "up" : dir.value_ == dn ? "dn" : "no");
+        return stream << (chg.value_ == up ? "up" : chg.value_ == dn ? "dn" : "no");
     }
 
     value_type value() const { return value_; }
 
     private: value_type value_;
 };
-
-struct direction
-{
-    // Note: the class does NOT have the default constructor.
-
-    enum value_type { up, dn };
-
-    direction(value_type value) : value_(value) {}
-    bool operator==(direction const& that) const { return value_ == that.value_; }
-
-    friend std::istream& operator>>(std::istream& stream, direction& dir)
-    {
-        std::string str; stream >> str;
-
-        /**/ if (str == "up") dir.value_ = up;
-        else if (str == "dn") dir.value_ = dn;
-        else stream.setstate(std::ios_base::failbit);
-
-        return stream;
-    }
-    friend std::ostream& operator<<(std::ostream& stream, direction const& dir)
-    {
-        return stream << (dir.value_ == up ? "up" : "dn");
-    }
-
-    private: value_type value_;
-};
-
-namespace boost
-{
-    template<> inline direction convert<direction>::create_storage() { return direction(direction::up); }
-}
 
 struct test
 {
@@ -94,11 +63,21 @@ struct test
 #error "Add here."
 #endif
 
-    static void      sfinae ();
-    static void  algorithms ();
-    static void performance ();
-    static void  encryption ();
-    static void   callables ();
+    static void           scratchpad ();
+    static void               sfinae ();
+    static void           algorithms ();
+    static void          performance ();
+    static void           encryption ();
+    static void            callables ();
+    static void      lcast_converter ();
+    static void    sstream_converter ();
+    static void       sstream_locale ();
+    static void sstream_manipulators ();
+    static void        int_to_string ();
+    static void        string_to_int ();
+    static void       string_to_bool ();
+    static void            user_type ();
+    static void        force_in_type ();
 
 	template<typename Converter> static void type_to_string(Converter const&);
 	template<typename Converter> static void string_to_type(Converter const&);

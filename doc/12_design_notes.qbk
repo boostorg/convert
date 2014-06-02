@@ -7,7 +7,7 @@ It does not take long to realize that `boost::convert()` by itself does very lit
 
 The purpose of `boost::convert()` is to formalize, advertize and enforce a ['contract] between the user (service consumer) and the developer (service provider).
 
-
+That ultimately minimizes dependency of the application-domain (user) code on any particular infrastructure (conversion) API. New converters can be introduced and deployed later in the development cycle, with minimal or no impact on the existing code base as long as those converters conform to that specified contract. 
 
 
 Based on that contract the consumer knows what to expect

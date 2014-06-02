@@ -24,7 +24,7 @@ struct boost::printf_converter : public boost::converter_base
     CONVERT_FUNC_SET_UPPERCASE;
 
     template<typename TypeIn>
-    typename boost::disable_if<convert_detail::is_any_string<TypeIn>, bool>::type
+    typename boost::disable_if<conversion::is_any_string<TypeIn>, bool>::type
     operator()(TypeIn const& value_in, std::string& result_out) const
     {
         int const    bufsz = 256;
@@ -37,13 +37,13 @@ struct boost::printf_converter : public boost::converter_base
         return success;
     }
     template<typename TypeOut>
-    typename boost::disable_if<convert_detail::is_any_string<TypeOut>, bool>::type
+    typename boost::disable_if<conversion::is_any_string<TypeOut>, bool>::type
     operator()(std::string const& value_in, TypeOut& result_out) const
     {
         return this_type::operator()(value_in.c_str(), result_out);
     }
     template<typename TypeOut>
-    typename boost::disable_if<convert_detail::is_any_string<TypeOut>, bool>::type
+    typename boost::disable_if<conversion::is_any_string<TypeOut>, bool>::type
     operator()(char const* value_in, TypeOut& result_out) const
     {
         int num_read = sscanf(value_in, format(pos<TypeOut>()), &result_out);

@@ -1,6 +1,6 @@
 [section Converters]
 
-The ['Boost.Convert] facade API plays its role as it is responsible for and provides a uniform interface and ensures consistent behavior. However, it is the respective plugged-in converter who does the hard work of turning custom-types into strings and strings into custom-types, etc., i.e. the hard work of actual type conversion\/transformation. 
+`boost::convert()` plays its role by providing a uniform interface and ensuring consistent behavior. However, it is the respective plugged-in converter which does the hard work of turning custom-types into strings and strings into custom-types, etc., i.e. the actual conversion\/transformation. 
 
 For a converter to be plugged in to the ['Boost.Convert] framework it needs to be a ['callable] with the following signature:
 
@@ -17,13 +17,13 @@ if its sole purpose is to handle one particular conversion\/transformation of ['
 
 Alternatively again, an ad-hoc in-place ['callable] might be provided as a converter. For example, 
 
- int v = convert<int>::from(c_str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
+ int v = boost::convert<int>(str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
 
 or an old-fashioned function:
 
  extern bool my_converter(std::string const&, int&);
 
- int v = convert<int>::from(c_str, my_converter).value_or(-1);
+ int v = boost::convert<int>(str, my_converter).value_or(-1);
 
 With regard to converters the ['Boost.Convert] framework has been designed with the following requirements in mind:
 

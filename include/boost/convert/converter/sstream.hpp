@@ -7,7 +7,7 @@
 #define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
 #include <boost/convert/converter/base.hpp>
-#include <boost/convert/detail/string.hpp>
+#include <boost/convert/detail/string_sfinae.hpp>
 #include <sstream>
 
 namespace boost 
@@ -21,9 +21,13 @@ namespace boost
 template<class Char>
 struct boost::basic_stringstream_converter
 {
-    typedef Char                                     char_type;
-    typedef basic_stringstream_converter             this_type;
-    typedef std::basic_stringstream<char_type>     stream_type;
+    typedef Char                                                             char_type;
+    typedef basic_stringstream_converter                                     this_type;
+    typedef std::basic_stringstream<char_type>                             stream_type;
+    typedef std::basic_istream<char_type>                                 istream_type;
+    typedef std::basic_streambuf<char_type>                                buffer_type;
+    typedef detail::parser_buf<buffer_type, char_type>                     parser_type;
+    typedef std::basic_string<char_type>                                   string_type;
     typedef std::ios_base& (*manipulator_type)(std::ios_base&);
 
     basic_stringstream_converter() 
@@ -31,31 +35,48 @@ struct boost::basic_stringstream_converter
         stream_(std::ios_base::in | std::ios_base::out)
     {}
 
-    template<typename StringOut, typename TypeIn>
-    typename boost::enable_if_c<
-		!convert_detail::is_any_string<TypeIn>::value && convert_detail::is_any_string<StringOut>::value, 
-		bool>::type
-    operator()(TypeIn const& value_in, StringOut& result_out) const
+    template<typename TypeIn>
+    typename boost::enable_if_c<!conversion::is_any_string<TypeIn>::value, bool>::type
+    operator()(TypeIn const& value_in, string_type& string_out) const
     {
 		stream_.clear();            // Clear the flags
-        stream_.str(StringOut());   // Clear/empty the content of the stream 
+        stream_.str(string_type()); // Clear/empty the content of the stream
 
-        return !(stream_ << value_in).fail() ? (result_out = stream_.str(), true) : false;
+        return !(stream_ << value_in).fail() ? (string_out = stream_.str(), true) : false;
     }
     template<typename TypeOut, typename StringIn>
     typename boost::enable_if_c<
-		convert_detail::is_any_string<StringIn>::value && !convert_detail::is_any_string<TypeOut>::value, 
+		conversion::is_any_string<StringIn>::value && !conversion::is_any_string<TypeOut>::value, 
 		bool>::type
-    operator()(StringIn const& value_in, TypeOut& result_out) const
+    operator()(StringIn const& string_in, TypeOut& result_out) const
     {
-		stream_.clear();        // Clear the flags
-        stream_.str(value_in);  // Set the content of the stream 
+        typedef conversion::string_range<StringIn> str_range;
 
-        return !(stream_ >> result_out).fail();
+        istream_type& istream = stream_;
+        parser_type    strbuf;
+        buffer_type*   oldbuf = istream.rdbuf();
+        char_type const*  beg = str_range::begin(string_in);
+        std::streamsize    sz = str_range::size(string_in);
+
+        stream_.clear();        // Clear the flags
+//      stream_.str(string_in); // Copy the content to the internal buffer
+//      stream_ >> result_out;
+
+        // The code below (pretty much stolen from shr_using_base_class(InputStreamable& output) in lexical_cast.hpp
+        // uses the provided string_in as the buffer and, consequently, avoids the overhead associated with
+        // stream_.str(string_in) -- copying of the content into internal buffer.
+
+        strbuf.setbuf(const_cast<char_type*>(beg), sz);
+        istream.rdbuf(&strbuf);
+        istream >> result_out;
+        bool result = !istream.fail() && istream.eof();
+        istream.rdbuf(oldbuf);
+
+        return result;
     }
 
     this_type& operator() (std::locale const& locale) { return (stream_.imbue(locale), *this); }
-    this_type& operator() (manipulator_type m) { return (stream_ >> m, *this); }
+    this_type& operator() (manipulator_type m) { return (m(stream_), *this); }
 
     template<typename Manipulator>
     this_type& operator()(Manipulator m) { return (stream_ >> m, *this); }
@@ -82,9 +103,9 @@ struct boost::basic_stringstream_converter
     {
         conversion::base::type base = arg[conversion::parameter::base];
         
-        /**/ if (base == conversion::base::dec) stream_.setf(std::ios::dec);
-        else if (base == conversion::base::hex) stream_.setf(std::ios::hex);
-        else if (base == conversion::base::oct) stream_.setf(std::ios::oct);
+        /**/ if (base == conversion::base::dec) std::dec(stream_);
+        else if (base == conversion::base::hex) std::hex(stream_);
+        else if (base == conversion::base::oct) std::oct(stream_);
         else BOOST_ASSERT(!"Not implemented");
         
         return *this;
@@ -93,8 +114,8 @@ struct boost::basic_stringstream_converter
     {
         conversion::notation::type notation = arg[conversion::parameter::notation];
         
-        /**/ if (notation == conversion::notation::     fixed) stream_.setf(std::ios::fixed);
-        else if (notation == conversion::notation::scientific) stream_.setf(std::ios::scientific);
+        /**/ if (notation == conversion::notation::     fixed)      std::fixed(stream_);
+        else if (notation == conversion::notation::scientific) std::scientific(stream_);
         else BOOST_ASSERT(!"Not implemented");
         
         return *this;

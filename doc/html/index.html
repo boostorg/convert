@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="boostbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
-<link rel="next" href="the_boost_convert_library/getting_started.html" title="Getting Started">
+<link rel="next" href="the_boost_convert_library/introduction.html" title="Introduction">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<div class="spirit-nav"><a accesskey="n" href="the_boost_convert_library/getting_started.html"><img src="images/next.png" alt="Next"></a></div>
+<div class="spirit-nav"><a accesskey="n" href="the_boost_convert_library/introduction.html"><img src="images/next.png" alt="Next"></a></div>
 <div class="chapter">
 <div class="titlepage"><div>
 <div><h2 class="title">
@@ -19,20 +19,19 @@
 <div><p class="copyright">Copyright &#169; 2009-2014 Vladimir Batov</p></div>
 <div><div class="legalnotice">
 <a name="convert.legal"></a><p>
-        Distributed under the Boost Software License, Version 1.0. (See accompanying
-        file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>)
+        Distributed under the Boost Software License, Version 1.0. See copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>.
       </p>
 </div></div>
 </div></div>
 <div class="toc">
 <p><b>Table of Contents</b></p>
 <dl>
-<dt><span class="section"><a href="index.html#the_boost_convert_library.introduction">Introduction</a></span></dt>
+<dt><span class="section"><a href="index.html#the_boost_convert_library.rationale">Rationale</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/introduction.html">Introduction</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/getting_started.html">Getting Started</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/getting_serious.html">Getting Serious</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/boost_convert_with_standard_algorithms.html">Boost.Convert
     with Standard Algorithms</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/performance.html">Performance</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/converters.html">Converters</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/boost__lexical_cast_based_converter.html">boost::lexical_cast-Based
     Converter</a></span></dt>
@@ -49,15 +48,17 @@
 <dt><span class="section"><a href="the_boost_convert_library/type_requirements.html">Type Requirements</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/the___default_constructible__type_requirement.html">The
     <span class="emphasis"><em>Default Constructible</em></span> Type Requirement</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/performance.html">Performance</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/other_conversions.html">Other Conversions</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/motivation.html">Motivation</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/acknowledgements.html">Acknowledgements</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/references.html">References</a></span></dt>
 <dt><span class="section"><a href="convert_reference.html">Convert Reference</a></span></dt>
 <dd><dl>
 <dt><span class="section"><a href="convert_reference.html#header.boost.convert.api_hpp">Header &lt;boost/convert/api.hpp&gt;</a></span></dt>
-<dd><dl></dl></dd>
+<dt><span class="section"><a href="header/boost/convert/forward_hpp.html">Header &lt;boost/convert/forward.hpp&gt;</a></span></dt>
 <dt><span class="section"><a href="header/boost/convert/parameters_hpp.html">Header &lt;boost/convert/parameters.hpp&gt;</a></span></dt>
+<dd><dl></dl></dd>
+<dt><span class="section"><a href="header/boost/convert/result_hpp.html">Header &lt;boost/convert/result.hpp&gt;</a></span></dt>
 <dd><dl></dl></dd>
 </dl></dd>
 <dt><span class="section"><a href="index/s16.html">Index</a></span></dt>
@@ -76,149 +77,61 @@
 </table></div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="the_boost_convert_library.introduction"></a><a class="link" href="index.html#the_boost_convert_library.introduction" title="Introduction">Introduction</a>
+<a name="the_boost_convert_library.rationale"></a><a class="link" href="index.html#the_boost_convert_library.rationale" title="Rationale">Rationale</a>
 </h2></div></div></div>
 <p>
-      The main purpose of the framework is to <span class="emphasis"><em>unify and to uniformly deploy</em></span>
-      various conversion facilities through one consistent interface, to provide
-      generic consistent behavior -- one of the factors in improving productivity
-      and code-correctness in commercial software development environment.
+      I have been using textual configuration files extensively, also processing
+      and preparing considerable amounts of data in XML. Consequently, I had a need
+      for a library that would provide a <span class="emphasis"><em>uniform and extendible</em></span>
+      interface to convert various data between their internal binary representations
+      and external (predominantly textual) representations.
     </p>
 <p>
-      <span class="emphasis"><em>Boost.Convert</em></span> builds on the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-      experience and takes those conversion/transformation-related ideas further
+      The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> library (with its orthogonal
+      and extendible design) looked very promising and was by far the preferred candidate
+      compared to others (such as C functions, the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>
+      API, etc., see <a class="link" href="the_boost_convert_library/references.html#2">[2]</a> for the discussion of alternatives).
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
-<li class="listitem">
-          to be applicable to a wider range of conversion-related deployment scenarios,
-        </li>
-<li class="listitem">
-          to provide a more flexible, extensible and configurable type-conversion
-          framework.
-        </li>
-</ul></div>
 <p>
-      <span class="emphasis"><em>Boost.Convert</em></span> consists of two components:
+      Unfortunately,
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-          the API facade to provide simple, minimal and uniform deployment interface
-          and behavior;
+          many deployed user types simply did not meet <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+          requirements (namely, <span class="emphasis"><em>Default Constructibility</em></span>);
         </li>
 <li class="listitem">
-          the extendible library of pluggable converters.
+          a failure to read and to convert a user-provided configuration parameter
+          was not that rare or exceptional to justify the hassle and the overhead
+          of exception processing;
+        </li>
+<li class="listitem">
+          additional flexibility (<span class="emphasis"><em>if</em></span>, <span class="emphasis"><em>when</em></span>
+          and <span class="emphasis"><em>how</em></span> to handle) conversion failures was needed;
+        </li>
+<li class="listitem">
+          additional conversion-related functionality (formatting and locale support)
+          were needed.
         </li>
 </ul></div>
 <p>
-      The API facade <span class="emphasis"><em>specifies and formalizes the contract</em></span> between
-      the user and actual conversion facilities. That minimizes dependency of the
-      application-domain (user) code on any particular infrastructure (conversion)
-      API. New (quicker or richer in functionality or domain-specific) converters
-      can be deployed later in the development cycle and with minimal or no impact
-      on the existing code base as long as those converters conform to that specified
-      contract.
-    </p>
-<p>
-      The API facade implements new and familiar conversion/transformation-related
-      behavior such as:
-    </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
-<li class="listitem">
-          flexible throwing, delayed-throwing and non-throwing failed-conversion
-          behavior;
-        </li>
-<li class="listitem">
-          support for the fallback value to be returned when conversion/transformation
-          fails;
-        </li>
-<li class="listitem">
-          two types of the conversion-failure check - quick/simple and generic;
-        </li>
-<li class="listitem">
-          means to deploy types that do no meet the <span class="emphasis"><em>Default Constructibility</em></span>
-          requirement;
-        </li>
-<li class="listitem">
-          support for standard algorithms.
-        </li>
-</ul></div>
-<p>
-      The library of pluggable converters is independent of the <span class="emphasis"><em>Boost.Convert</em></span>
-      API facade and is designed to be extended over time. With the current proposal
-      a few proof-of-the-concept string-to-type (and type-to-string) converters are
-      supplied:
-    </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
-<li class="listitem">
-          <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>-based,
-        </li>
-<li class="listitem">
-          <code class="computeroutput"><span class="identifier">printf</span><span class="special">/</span><span class="identifier">scanf</span></code>-based,
-        </li>
-<li class="listitem">
-          <code class="computeroutput"><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">ltostr</span></code>-based,
-        </li>
-<li class="listitem">
-          <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based.
-        </li>
-</ul></div>
-<p>
-      The first three converters are meant to demonstrate how existing and independent
-      conversion facilities might be incorporated in to the <span class="emphasis"><em>Boost.Convert</em></span>
-      framework. Although the <code class="computeroutput"><span class="identifier">printf</span><span class="special">/</span><span class="identifier">scanf</span></code>-based
-      and <code class="computeroutput"><span class="identifier">strtol</span></code>-based converters
-      do provide some basic formatting support.
-    </p>
-<p>
-      The <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based converter draws on the
-      standard <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">streams</span></code> functionality and provides:
-    </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
-<li class="listitem">
-          string-to-type and type-to-string conversions;
-        </li>
-<li class="listitem">
-          formatting support (precision, base, upper/lower-case, scientific, etc.);
-        </li>
-<li class="listitem">
-          support for different locales;
-        </li>
-<li class="listitem">
-          <code class="computeroutput"><span class="keyword">char</span></code> and <code class="computeroutput"><span class="keyword">wchar_t</span></code>
-          support.
-        </li>
-</ul></div>
-<p>
-      For example, the following snippet converts an array of integers from their
-      textual hexadecimal representation and assigns INT_MAX to those which fail
-      to convert:
-    </p>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not an int"</span> <span class="special">}};</span>
-<span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>            <span class="identifier">integers</span><span class="special">;</span>
-<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span>   <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
-
-<span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span>
-   <span class="identifier">strings</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span>
-   <span class="identifier">strings</span><span class="special">.</span><span class="identifier">end</span><span class="special">(),</span>
-   <span class="identifier">std</span><span class="special">::</span><span class="identifier">back_inserter</span><span class="special">(</span><span class="identifier">integers</span><span class="special">),</span>
-   <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;::</span><span class="identifier">from</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">INT_MAX</span><span class="special">));</span>
-</pre>
-<p>
-      An interesting (yet to be explored) feature is that <span class="emphasis"><em>Boost.Convert</em></span>
-      is not limited to string-to-type and type-to-string conversions. In fact, the
-      <span class="emphasis"><em>Boost.Convert</em></span> API facade is type-agnostic. The plugged-in
-      converter ultimately dictates what types and conversions are supported. Consequently,
-      a wide range of conversion/transformation-related tasks can be addressed and
-      deployed <span class="emphasis"><em>uniformly</em></span> by plugging-in special-purpose converters.
-      For example, encryption by a string-to-string encrypting converter, etc.
+      The original hope was to see <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      extended to be applicable to a wider range of use-cases. However, after discussions
+      with Kevlin Henney (the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      author) and in the Boost Developers forum it was collectively decided that
+      the requested extensions were not compatible with the original design and the
+      idea of what <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> embodied and, therefore, a new
+      component with richer interface and functionality was needed. That decision
+      resulted in the development and the subsequent submission of the <span class="emphasis"><em>Boost.Convert</em></span>
+      library described in this document.
     </p>
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: May 15, 2014 at 04:37:37 GMT</small></p></td>
+<td align="left"><p><small>Last revised: May 20, 2014 at 23:11:49 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>
-<div class="spirit-nav"><a accesskey="n" href="the_boost_convert_library/getting_started.html"><img src="images/next.png" alt="Next"></a></div>
+<div class="spirit-nav"><a accesskey="n" href="the_boost_convert_library/introduction.html"><img src="images/next.png" alt="Next"></a></div>
 </body>
 </html>
