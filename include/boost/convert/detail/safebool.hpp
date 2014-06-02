@@ -1,5 +1,3 @@
-// Boost.SafeBool
-//
 // Copyright (c) 2009-2014 Vladimir Batov.
 // With valuable input from Steven Watanabe and Robert Stewart.
 // Use, modification and distribution are subject to the Boost Software License,

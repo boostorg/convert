@@ -1,5 +1,3 @@
-// Boost.Convert library
-//
 // Copyright (c) 2009-2014 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
@@ -24,7 +22,7 @@ struct boost::strtol_converter : public boost::converter_base
     CONVERT_FUNC_SET_PRECISION;
     CONVERT_FUNC_SET_UPPERCASE;
 
- 	bool operator()(std::string const& v, int&               r) const { return operator()(v.c_str(), r); }
+    bool operator()(std::string const& v, int&               r) const { return operator()(v.c_str(), r); }
     bool operator()(std::string const& v, long int&          r) const { return operator()(v.c_str(), r); }
     bool operator()(std::string const& v, unsigned long int& r) const { return operator()(v.c_str(), r); }
     bool operator()(std::string const& v, double&            r) const { return operator()(v.c_str(), r); }
@@ -72,33 +70,33 @@ struct boost::strtol_converter : public boost::converter_base
 
         return true;
     }
-	static std::string ltostr(long int num, unsigned int base);
+    static std::string ltostr(long int num, unsigned int base);
 };
 
 inline
 std::string
 boost::strtol_converter::ltostr(long int num, unsigned int base) 
 { 
-	if (!num) return "0";
+    if (!num) return "0";
 
-	int const     strsz = 256;
-	char     str[strsz];
-	int const sign_size = (num < 0) ? (num = -num, 1) : 0;
-	char* const     beg = str + sign_size;
-	char* const     end = str + strsz;
-	char*           pos = end;
-	
-	for (; num && beg < pos; num /= base) 
-	{ 
-		int remainder = num % base;
-		
-		if (remainder < 10) *(--pos) = remainder + '0'; 
-		else                *(--pos) = remainder - 10 + 'A'; 
-	} 
-	if (sign_size) 
-		*(--pos) = '-'; 
-	
-	return std::string(pos, end); 
+    int const     strsz = 256;
+    char     str[strsz];
+    int const sign_size = (num < 0) ? (num = -num, 1) : 0;
+    char* const     beg = str + sign_size;
+    char* const     end = str + strsz;
+    char*           pos = end;
+    
+    for (; num && beg < pos; num /= base) 
+    { 
+        int remainder = num % base;
+        
+        if (remainder < 10) *(--pos) = remainder + '0'; 
+        else                *(--pos) = remainder - 10 + 'A'; 
+    } 
+    if (sign_size) 
+        *(--pos) = '-'; 
+    
+    return std::string(pos, end); 
 } 
 
 #endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP

@@ -132,7 +132,7 @@ test::performance()
            performance_string_to_int(boost:: lexical_cast_converter()),
            performance_string_to_int(boost::cstringstream_converter()));
 
-	printf("int-to-str: ltostr/prntf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
+    printf("int-to-str: ltostr/prntf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
            performance_int_to_string(boost::       strtol_converter()),
            performance_int_to_string(boost::       printf_converter()),
            performance_int_to_string(boost:: lexical_cast_converter()),

@@ -49,7 +49,7 @@ int
 main(int argc, char const* argv[])
 {
     test::scratchpad();
-	test::sfinae();
+    test::sfinae();
     test::int_to_string();
     test::string_to_int();
     test::string_to_bool();

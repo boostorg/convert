@@ -1,7 +1,7 @@
 #ifndef BOOST_CONVERT_TEST_HPP
 #define BOOST_CONVERT_TEST_HPP
 
-#include <boost/convert/api.hpp>
+#include <boost/convert.hpp>
 #include <boost/convert/converter/lexical_cast.hpp>
 #include <boost/convert/converter/sstream.hpp>
 #include <boost/convert/converter/printf.hpp>
@@ -79,8 +79,8 @@ struct test
     static void            user_type ();
     static void        force_in_type ();
 
-	template<typename Converter> static void type_to_string(Converter const&);
-	template<typename Converter> static void string_to_type(Converter const&);
+    template<typename Converter> static void type_to_string(Converter const&);
+    template<typename Converter> static void string_to_type(Converter const&);
 };
 
 namespace cnv = boost::conversion;

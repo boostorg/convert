@@ -1,4 +1,3 @@
-// Boost.Convert library
 // Copyright (c) 2009-2014 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
@@ -21,13 +20,13 @@ namespace boost
 template<class Char>
 struct boost::basic_stringstream_converter
 {
-    typedef Char                                                             char_type;
-    typedef basic_stringstream_converter                                     this_type;
-    typedef std::basic_stringstream<char_type>                             stream_type;
-    typedef std::basic_istream<char_type>                                 istream_type;
-    typedef std::basic_streambuf<char_type>                                buffer_type;
-    typedef detail::parser_buf<buffer_type, char_type>                     parser_type;
-    typedef std::basic_string<char_type>                                   string_type;
+    typedef Char                                         char_type;
+    typedef basic_stringstream_converter                 this_type;
+    typedef std::basic_stringstream<char_type>         stream_type;
+    typedef std::basic_istream<char_type>             istream_type;
+    typedef std::basic_streambuf<char_type>            buffer_type;
+    typedef detail::parser_buf<buffer_type, char_type> parser_type;
+    typedef std::basic_string<char_type>               string_type;
     typedef std::ios_base& (*manipulator_type)(std::ios_base&);
 
     basic_stringstream_converter() 
@@ -39,15 +38,15 @@ struct boost::basic_stringstream_converter
     typename boost::enable_if_c<!conversion::is_any_string<TypeIn>::value, bool>::type
     operator()(TypeIn const& value_in, string_type& string_out) const
     {
-		stream_.clear();            // Clear the flags
+        stream_.clear();            // Clear the flags
         stream_.str(string_type()); // Clear/empty the content of the stream
 
         return !(stream_ << value_in).fail() ? (string_out = stream_.str(), true) : false;
     }
     template<typename TypeOut, typename StringIn>
     typename boost::enable_if_c<
-		conversion::is_any_string<StringIn>::value && !conversion::is_any_string<TypeOut>::value, 
-		bool>::type
+        conversion::is_any_string<StringIn>::value && !conversion::is_any_string<TypeOut>::value, 
+        bool>::type
     operator()(StringIn const& string_in, TypeOut& result_out) const
     {
         typedef conversion::string_range<StringIn> str_range;
