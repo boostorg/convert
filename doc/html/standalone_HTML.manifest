@@ -12,13 +12,13 @@ the_boost_convert_library/type_requirements.html
 the_boost_convert_library/the___default_constructible__type_requirement.html
 the_boost_convert_library/performance.html
 the_boost_convert_library/other_conversions.html
+the_boost_convert_library/design_notes.html
 the_boost_convert_library/acknowledgements.html
 the_boost_convert_library/references.html
 convert_reference.html
-header/boost/convert/forward_hpp.html
 header/boost/convert/parameters_hpp.html
 boost/conversion/base.html
 boost/conversion/notation.html
 header/boost/convert/result_hpp.html
 boost/conversion/result.html
-index/s16.html
+index/s17.html

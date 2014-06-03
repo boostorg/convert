@@ -9,6 +9,6 @@
 
 
 
-all: $(wildcard *.cpp)
+all: $(wildcard *.cpp) 
 	g++ *.cpp -I../include -I../../boost_1_55_0
 

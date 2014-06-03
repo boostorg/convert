@@ -1,0 +1,19 @@
+[section Design Notes]
+[section Requirements]
+
+['Boost.Convert] has been designed to satisfy the following user requirements:
+
+# Provide fully-functional interfaces for two different program flows where
+    # error-processing is orthogonal to the normal program flow (exception-throwing interface);
+    # normal and error-processing flows are part of the same program flow (non-throwing interface);
+# The throwing interface returns the result or throws an exception;
+# The non-throwing interface returns the result and/or some indication of conversion success or failure;
+    # the result is only available in the case of conversion success;
+    # in the case of failure an attempt to retrieve the result (with no default provided) results in an exception thrown;
+    # in the case of failure an optional default value can be supplied instead;
+# Converters are independent and do not rely on the ['Boost.Convert] framework.
+
+[endsect]
+[endsect]
+
+

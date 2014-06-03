@@ -34,7 +34,9 @@
 [include type_requirements.qbk]
 [include performance.qbk]
 [include other.qbk]
+[include design_notes.qbk]
 [include acknowledgments.qbk]
 [include references.qbk]
 [include 98_ref.qbk]
 [include 99_index.qbk]
+

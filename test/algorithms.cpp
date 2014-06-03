@@ -57,11 +57,40 @@ ints_to_strings()
 
 static
 void
+strings_to_ints_simple()
+{
+//[algorithm_simple
+
+   /*`For example, the following snippet converts an array of integers from their textual hexadecimal
+      representation and assigns INT_MAX to those which fail to convert:
+   */
+
+    boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
+    std::vector<int>            integers;
+    boost::cstringstream_converter   cnv; // stringstream-based char converter
+
+    std::transform(
+        strings.begin(),
+        strings.end(),
+        std::back_inserter(integers),
+        boost::convert<int>(cnv(std::hex)).value_or(INT_MAX));
+
+    BOOST_TEST(integers.size() == 5);
+    BOOST_TEST(integers[0] == 15);
+    BOOST_TEST(integers[1] == 16);
+    BOOST_TEST(integers[2] == 17);
+    BOOST_TEST(integers[3] == 18);
+    BOOST_TEST(integers[4] == INT_MAX); // Failed conversion
+//]
+}
+
+static
+void
 strings_to_ints()
 {
-    boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not int" }};
+    boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
     std::vector<int>            integers;
-    boost::cstringstream_converter  ccnv; // stringstream-based char converter
+    boost::cstringstream_converter   cnv; // stringstream-based char converter
 
     ////////////////////////////////////////////////////////////////////////////
     // String to integer conversion.
@@ -88,7 +117,7 @@ strings_to_ints()
             strings.begin(),
             strings.end(),
             std::back_inserter(integers),
-            boost::convert<int>(ccnv(std::hex)));
+            boost::convert<int>(cnv(std::hex)));
 
         BOOST_TEST(!"Failed to throw");
     }
@@ -104,22 +133,7 @@ strings_to_ints()
 
     integers.clear();
 
-    ////////////////////////////////////////////////////////////////////////////
-    // String to integer conversion. Explicit fallback, i.e. no throwing. Hex formatting.
-    ////////////////////////////////////////////////////////////////////////////
-
-    std::transform(
-        strings.begin(),
-        strings.end(),
-        std::back_inserter(integers),
-        boost::convert<int>(ccnv(arg::base = cnv::base::hex)).value_or(-1));
-
-    BOOST_TEST(integers.size() == 5);
-    BOOST_TEST(integers[0] == 15);
-    BOOST_TEST(integers[1] == 16);
-    BOOST_TEST(integers[2] == 17);
-    BOOST_TEST(integers[3] == 18);
-    BOOST_TEST(integers[4] == -1); // Failed conversion
+    strings_to_ints_simple();
 
 #ifdef NOT_AVAILABLE_UNTIL_CPP11
 

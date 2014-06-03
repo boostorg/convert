@@ -50,18 +50,19 @@
     <span class="emphasis"><em>Default Constructible</em></span> Type Requirement</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/performance.html">Performance</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/other_conversions.html">Other Conversions</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/design_notes.html">Design Notes</a></span></dt>
+<dd><dl><dt><span class="section"><a href="the_boost_convert_library/design_notes.html#the_boost_convert_library.design_notes.requirements">Requirements</a></span></dt></dl></dd>
 <dt><span class="section"><a href="the_boost_convert_library/acknowledgements.html">Acknowledgements</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/references.html">References</a></span></dt>
 <dt><span class="section"><a href="convert_reference.html">Convert Reference</a></span></dt>
 <dd><dl>
-<dt><span class="section"><a href="convert_reference.html#header.boost.convert.api_hpp">Header &lt;boost/convert/api.hpp&gt;</a></span></dt>
-<dt><span class="section"><a href="header/boost/convert/forward_hpp.html">Header &lt;boost/convert/forward.hpp&gt;</a></span></dt>
+<dt><span class="section"><a href="convert_reference.html#header.boost.convert.forward_hpp">Header &lt;boost/convert/forward.hpp&gt;</a></span></dt>
 <dt><span class="section"><a href="header/boost/convert/parameters_hpp.html">Header &lt;boost/convert/parameters.hpp&gt;</a></span></dt>
 <dd><dl></dl></dd>
 <dt><span class="section"><a href="header/boost/convert/result_hpp.html">Header &lt;boost/convert/result.hpp&gt;</a></span></dt>
 <dd><dl></dl></dd>
 </dl></dd>
-<dt><span class="section"><a href="index/s16.html">Index</a></span></dt>
+<dt><span class="section"><a href="index/s17.html">Index</a></span></dt>
 </dl>
 </div>
 <div class="note"><table border="0" summary="Note">
@@ -101,9 +102,9 @@
           requirements (namely, <span class="emphasis"><em>Default Constructibility</em></span>);
         </li>
 <li class="listitem">
-          a failure to read and to convert a user-provided configuration parameter
-          was not that rare or exceptional to justify the hassle and the overhead
-          of exception processing;
+          failure to convert a user-provided configuration parameter was not that
+          rare or exceptional to justify the hassle and the overhead of exception
+          processing;
         </li>
 <li class="listitem">
           additional flexibility (<span class="emphasis"><em>if</em></span>, <span class="emphasis"><em>when</em></span>
@@ -122,13 +123,13 @@
       the requested extensions were not compatible with the original design and the
       idea of what <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> embodied and, therefore, a new
       component with richer interface and functionality was needed. That decision
-      resulted in the development and the subsequent submission of the <span class="emphasis"><em>Boost.Convert</em></span>
-      library described in this document.
+      resulted in the development of <span class="emphasis"><em>Boost.Convert</em></span> described
+      in this document.
     </p>
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: May 20, 2014 at 23:11:49 GMT</small></p></td>
+<td align="left"><p><small>Last revised: June 03, 2014 at 02:02:54 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>
