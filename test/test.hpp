@@ -1,6 +1,7 @@
 #ifndef BOOST_CONVERT_TEST_HPP
 #define BOOST_CONVERT_TEST_HPP
 
+#include "../example/example.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/converter/lexical_cast.hpp>
 #include <boost/convert/converter/sstream.hpp>
