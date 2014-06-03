@@ -7,6 +7,7 @@
 
 #include <boost/convert/converter/base.hpp>
 #include <boost/convert/detail/string_sfinae.hpp>
+#include <boost/lexical_cast.hpp>
 #include <sstream>
 
 namespace boost 

@@ -33,11 +33,10 @@ test::force_in_type()
 {
     boost::cstringstream_converter cnv;
 
-    string s1 = boost::convert<string>(-1, cnv).value();
-    string s2 = boost::convert<string, unsigned int>(-1, cnv).value();
-    char const* expected = sizeof(unsigned int) == 4
-                         ? "4294967295"
-                         : 0;
+    string const      s1 = boost::convert<string>(-1, cnv).value();
+    string const      s2 = boost::convert<string, unsigned int>(-1, cnv).value();
+    char const* expected = sizeof(unsigned int) == 4 ? "4294967295" : 0;
+
     if (expected)
     {
         BOOST_TEST(s1 == "-1");

@@ -9,10 +9,10 @@
 
 ['Boost.Convert] consists of two components:
 
-* the `boost::convert()` API facade;
+* the `boost::convert()` user interface;
 * an extendible collection of pluggable converters.
 
-The API facade is the ['manager] component and is responsible for ['uniform deployment and behavior]. It implements new and familiar conversion\/transformation-related behavior such as:
+`boost::convert()` is responsible for ['uniform deployment] and ['consistent behavior]. It implements new and familiar conversion\/transformation-related behavior such as:
 
 * flexible throwing, delayed-throwing and non-throwing failed-conversion behavior;
 * support for the fallback value to be returned when conversion\/transformation fails;
@@ -36,10 +36,10 @@ The `std::stringstream`-based converter draws on the standard `std::streams` fun
 * support for different locales;
 * `char` and `wchar_t` support.
 
-[import ../test/algorithms.cpp]
+[import ../example/algorithms.cpp]
 
 [algorithm_simple]
 
-An interesting (and yet to be explored) property is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. The ['Boost.Convert] API facade is type-agnostic and the plugged-in converter ultimately dictates what types and conversions are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters.
+An interesting (and yet to be explored) property is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. `boost::convert()` is type-agnostic and the plugged-in converter ultimately dictates what types and conversions are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and ['deployed uniformly] by plugging-in special-purpose converters.
 
 [endsect]

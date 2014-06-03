@@ -43,16 +43,17 @@
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
           the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
-          API facade;
+          user interface;
         </li>
 <li class="listitem">
           an extendible collection of pluggable converters.
         </li>
 </ul></div>
 <p>
-      The API facade is the <span class="emphasis"><em>manager</em></span> component and is responsible
-      for <span class="emphasis"><em>uniform deployment and behavior</em></span>. It implements new
-      and familiar conversion/transformation-related behavior such as:
+      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
+      is responsible for <span class="emphasis"><em>uniform deployment</em></span> and <span class="emphasis"><em>consistent
+      behavior</em></span>. It implements new and familiar conversion/transformation-related
+      behavior such as:
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
@@ -148,11 +149,10 @@
     </p>
 <p>
       An interesting (and yet to be explored) property is that <span class="emphasis"><em>Boost.Convert</em></span>
-      is not limited to string-to-type and type-to-string conversions. The <span class="emphasis"><em>Boost.Convert</em></span>
-      API facade is type-agnostic and the plugged-in converter ultimately dictates
-      what types and conversions are supported. Consequently, a wide range of conversion/transformation-related
-      tasks can be addressed and deployed <span class="emphasis"><em>uniformly</em></span> by plugging-in
-      special-purpose converters.
+      is not limited to string-to-type and type-to-string conversions. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> is type-agnostic and the plugged-in converter
+      ultimately dictates what types and conversions are supported. Consequently,
+      a wide range of conversion/transformation-related tasks can be addressed and
+      <span class="emphasis"><em>deployed uniformly</em></span> by plugging-in special-purpose converters.
     </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

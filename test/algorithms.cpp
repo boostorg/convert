@@ -4,6 +4,7 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include "./test.hpp"
+#include "../example/example.hpp"
 
 static
 void
@@ -27,9 +28,6 @@ user_type_to_strings()
     BOOST_TEST(strings2[0] == "0");
     BOOST_TEST(strings2[1] == "1");
     BOOST_TEST(strings2[2] == "2");
-    printf("%s\n", strings2[0].c_str());
-    printf("%s\n", strings2[1].c_str());
-    printf("%s\n", strings2[2].c_str());
 }
 
 static
@@ -53,35 +51,6 @@ ints_to_strings()
     BOOST_TEST(strings[1] == "0X10");
     BOOST_TEST(strings[2] == "0X11");
     BOOST_TEST(strings[3] == "0X12");
-}
-
-static
-void
-strings_to_ints_simple()
-{
-//[algorithm_simple
-
-   /*`For example, the following snippet converts an array of integers from their textual hexadecimal
-      representation and assigns INT_MAX to those which fail to convert:
-   */
-
-    boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
-    std::vector<int>            integers;
-    boost::cstringstream_converter   cnv; // stringstream-based char converter
-
-    std::transform(
-        strings.begin(),
-        strings.end(),
-        std::back_inserter(integers),
-        boost::convert<int>(cnv(std::hex)).value_or(INT_MAX));
-
-    BOOST_TEST(integers.size() == 5);
-    BOOST_TEST(integers[0] == 15);
-    BOOST_TEST(integers[1] == 16);
-    BOOST_TEST(integers[2] == 17);
-    BOOST_TEST(integers[3] == 18);
-    BOOST_TEST(integers[4] == INT_MAX); // Failed conversion
-//]
 }
 
 static
@@ -133,7 +102,7 @@ strings_to_ints()
 
     integers.clear();
 
-    strings_to_ints_simple();
+    example::algorithm::strings_to_ints_simple();
 
 #ifdef NOT_AVAILABLE_UNTIL_CPP11
 
