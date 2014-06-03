@@ -106,7 +106,7 @@ strings_to_ints()
 
 #ifdef NOT_AVAILABLE_UNTIL_CPP11
 
-    std::vector<conversion::result<int>> opt_ints;
+    std::vector<conversion::optional<int>> opt_ints;
 
     std::transform(
         strings.begin(),

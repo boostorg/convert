@@ -14,12 +14,12 @@ namespace boost { namespace conversion
 {
     // Used temporarily. To be replaced with std::tr2::optional or improved boost::optional.
     template<typename TypeOut>
-    struct result
+    struct optional
     {
-        typedef result                                           this_type;
-        typedef boost::safebool<result>                           safebool;
+        typedef optional                  this_type;
+        typedef boost::safebool<this_type> safebool;
 
-        result (TypeOut const& v) : value_(v), good_(true) {}
+        optional (TypeOut const& v) : value_(v), good_(true) {}
 
         bool                   operator! () const { return !good_; }
         operator typename safebool::type () const { return safebool(!operator!()); }
@@ -43,7 +43,7 @@ namespace boost { namespace conversion
 
         template<typename Type_Out, typename TypeIn, typename Converter>
         friend
-        boost::conversion::result<Type_Out>
+        boost::conversion::optional<Type_Out>
         boost::convert(TypeIn const& value_in, Converter const& converter);
 
         this_type& operator()(bool good) { return (good_ = good, *this); }

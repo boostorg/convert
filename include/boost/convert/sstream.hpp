@@ -5,7 +5,7 @@
 #ifndef BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 #define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
-#include <boost/convert/converter/base.hpp>
+#include <boost/convert/base.hpp>
 #include <boost/convert/detail/string_sfinae.hpp>
 #include <boost/lexical_cast.hpp>
 #include <sstream>

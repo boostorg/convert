@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Boost.Convert with Standard Algorithms</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="getting_serious.html" title="Getting Serious">
@@ -91,10 +91,10 @@
 <span class="identifier">BOOST_ASSERT</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">4</span><span class="special">]</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Failed conversion</span>
 </pre>
 <p>
-      The following <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">result</span></code>-based version is not available with
+      The following <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">optional</span></code>-based version is not available with
       pre-C++11 compilers:
     </p>
-<pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">result</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;&gt;</span> <span class="identifier">opt_ints</span><span class="special">;</span>
+<pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;&gt;</span> <span class="identifier">opt_ints</span><span class="special">;</span>
 
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span>
    <span class="identifier">strings</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span>

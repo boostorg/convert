@@ -5,7 +5,7 @@
 #ifndef BOOST_CONVERT_STRTOL_CONVERTER_HPP
 #define BOOST_CONVERT_STRTOL_CONVERTER_HPP
 
-#include <boost/convert/converter/base.hpp>
+#include <boost/convert/base.hpp>
 #include <stdlib.h>
 
 namespace boost 

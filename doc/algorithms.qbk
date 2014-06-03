@@ -64,9 +64,9 @@ And at last a fully working version (with a conversion-failure fallback value pr
  BOOST_ASSERT(integers[3] == 18);
  BOOST_ASSERT(integers[4] == -1); // Failed conversion
 
-The following `boost::conversion::result`-based version is not available with pre-C++11 compilers:
+The following `boost::conversion::optional`-based version is not available with pre-C++11 compilers:
 
- std::vector<boost::conversion::result<int>> opt_ints;
+ std::vector<boost::conversion::optional<int>> opt_ints;
 
  std::transform(
     strings.begin(),

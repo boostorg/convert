@@ -3,7 +3,8 @@
 
 struct example
 {
-    static void getting_started();
+    static void getting_started ();
+    static void getting_serious ();
 
     struct algorithm
     {

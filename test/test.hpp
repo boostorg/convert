@@ -3,11 +3,10 @@
 
 #include "../example/example.hpp"
 #include <boost/convert.hpp>
-#include <boost/convert/converter/lexical_cast.hpp>
-#include <boost/convert/converter/sstream.hpp>
-#include <boost/convert/converter/printf.hpp>
-#include <boost/convert/converter/strtol.hpp>
-#include <boost/convert/converter/spirit.hpp>
+#include <boost/convert/lexical_cast.hpp>
+#include <boost/convert/sstream.hpp>
+#include <boost/convert/printf.hpp>
+#include <boost/convert/strtol.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <boost/detail/lightweight_test.hpp>
@@ -79,12 +78,31 @@ struct test
     static void       string_to_bool ();
     static void            user_type ();
     static void        force_in_type ();
+    static void               spirit ();
 
-    template<typename Converter> static void type_to_string(Converter const&);
-    template<typename Converter> static void string_to_type(Converter const&);
+    template<typename Converter> static void              type_to_string (Converter const&);
+    template<typename Converter> static void              string_to_type (Converter const&);
+    template<typename Converter> static double performance_string_to_int (Converter const&);
 };
 
 namespace cnv = boost::conversion;
 namespace arg = boost::conversion::parameter;
+
+template<typename Converter>
+double
+test::performance_string_to_int(Converter const& try_converter)
+{
+    std::string  str = "12345";
+    int          sum = 0;
+    double const  p1 = clock();
+
+    for (int k = 0; k < test::num_cycles; ++k)
+        sum += boost::convert<int>((str[4 - k % 5] = 49 + k % 9, str), try_converter).value();
+
+    double const   p2 = clock();
+    int const use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
+
+    return (p2 - p1) / CLOCKS_PER_SEC + use_sum;
+}
 
 #endif // BOOST_CONVERT_TEST_HPP

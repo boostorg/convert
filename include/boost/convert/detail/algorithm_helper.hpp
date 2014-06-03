@@ -6,6 +6,7 @@
 #define BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
 
 #include <boost/convert/forward.hpp>
+#include <boost/make_default.hpp>
 #include <boost/throw_exception.hpp>
 #include <stdexcept>
 

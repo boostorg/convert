@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Getting Serious</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="getting_started.html" title="Getting Started">
@@ -17,10 +17,14 @@
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
 <a name="the_boost_convert_library.getting_serious"></a><a class="link" href="getting_serious.html" title="Getting Serious">Getting Serious</a>
 </h2></div></div></div>
+<p>
+</p>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"not an int"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// after the call i2 == -1</span>
 
-<span class="keyword">if</span> <span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">failed</span> <span class="identifier">to</span> <span class="identifier">convert</span>
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">process_failure</span><span class="special">();</span>
 </pre>
+<p>
+    </p>
 <p>
       The code above is sufficiently straightforward but, unfortunately, is not entirely
       deterministic as -1 might be the result of a conversion failure or the successful
@@ -39,22 +43,25 @@
       answer is to throw on failure and <span class="emphasis"><em>Boost.Convert</em></span> supports
       that behavior as well:
     </p>
+<p>
+</p>
 <pre class="programlisting"><span class="keyword">try</span>
 <span class="special">{</span>
     <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails</span>
     <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws if the conversion fails</span>
-    <span class="special">...</span>
 <span class="special">}</span>
 <span class="keyword">catch</span> <span class="special">(...)</span>
 <span class="special">{</span>
-    <span class="comment">// Handle failed conversion</span>
+    <span class="identifier">process_failure</span><span class="special">();</span>
 <span class="special">}</span>
 </pre>
+<p>
+    </p>
 <p>
       However, to cater for a wider range of program-flow variations, <span class="emphasis"><em>Boost.Convert</em></span>
       adds the flexibility of
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           delaying the moment when the conversion-failure exception is actually thrown
           or
@@ -63,10 +70,18 @@
           avoiding the exception altogether.
         </li>
 </ul></div>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">result</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span> <span class="identifier">r1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Does not throw on conversion failure</span>
-<span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">result</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span> <span class="identifier">r2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Does not throw on conversion failure</span>
+<p>
+</p>
+<pre class="programlisting"><span class="keyword">namespace</span> <span class="identifier">cnv</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">;</span>
+</pre>
+<p>
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span> <span class="identifier">r1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Does not throw on conversion failure</span>
+<span class="identifier">cnv</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span> <span class="identifier">r2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span> <span class="comment">// Does not throw on conversion failure</span>
 
-<span class="special">...</span>
+<span class="comment">// ...</span>
 
 <span class="keyword">try</span> <span class="comment">// Delayed processing of potential exceptions</span>
 <span class="special">{</span>
@@ -84,8 +99,10 @@
 <span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str3</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">fallback_value</span><span class="special">);</span>
 </pre>
 <p>
-      Here <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">result</span></code> steps forward as the actual type returned
-      by <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
+    </p>
+<p>
+      Here <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">optional</span></code> steps forward as the actual type
+      returned by <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
       which until now we avoided by immediately calling its value-accessor methods:
     </p>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
@@ -97,7 +114,7 @@
 <th align="left">Note</th>
 </tr>
 <tr><td align="left" valign="top"><p>
-        <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">result</span></code> is a temporary and transient type
+        <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">optional</span></code> is a temporary and transient type
         and is to be replaced with <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">tr2</span><span class="special">::</span><span class="identifier">optional</span></code> which actually provides all the
         necessary functionality and interface.
       </p></td></tr>
@@ -111,7 +128,7 @@
       experience the choice has overwhelmingly been to avoid exceptions altogether
       with program flows similar to:
     </p>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">conversion</span><span class="special">::</span><span class="identifier">result</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span> <span class="identifier">res</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
+<pre class="programlisting"><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span> <span class="identifier">res</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
 
 <span class="keyword">if</span> <span class="special">(!</span><span class="identifier">res</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"str conversion failed"</span><span class="special">);</span>
 

@@ -47,17 +47,17 @@ test::string_to_int()
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing with the fallback value value provided.
-    // Testing implicit conversion to conversion::result<TypeOut>.
-    // conversion::result<> exhibits the SAME behavior, i.e.
+    // Testing implicit conversion to conversion::optional<TypeOut>.
+    // conversion::optional<> exhibits the SAME behavior, i.e.
     // on failure it returns the provided fallback value and DOES NOT THROW.
     ////////////////////////////////////////////////////////////////////////////
 
-    boost::conversion::result<int> r000 = boost::convert<int>(not_int_str, ccnv);
-    boost::conversion::result<int> r001 = boost::convert<int>(std_str,     ccnv);
-    boost::conversion::result<int> r002 = boost::convert<int>(c_str,       ccnv);
-    boost::conversion::result<int> r003 = boost::convert<int>(wstd_str,    wcnv);
-    boost::conversion::result<int> r004 = boost::convert<int>(wc_str,      wcnv);
-    boost::conversion::result<int> r005 = boost::convert<int>(array_str,   ccnv);
+    boost::conversion::optional<int> r000 = boost::convert<int>(not_int_str, ccnv);
+    boost::conversion::optional<int> r001 = boost::convert<int>(std_str,     ccnv);
+    boost::conversion::optional<int> r002 = boost::convert<int>(c_str,       ccnv);
+    boost::conversion::optional<int> r003 = boost::convert<int>(wstd_str,    wcnv);
+    boost::conversion::optional<int> r004 = boost::convert<int>(wc_str,      wcnv);
+    boost::conversion::optional<int> r005 = boost::convert<int>(array_str,   ccnv);
 
     BOOST_TEST(!r000); // Failed conversion
     BOOST_TEST( r001 && r001.value() == -11);
@@ -94,18 +94,18 @@ test::string_to_int()
     BOOST_TEST(a025 == -15);
 
     ////////////////////////////////////////////////////////////////////////////
-    // Testing conversion::result<> interface.
-    // conversion::result exhibits the SAME (but delayed) behavior, i.e.
+    // Testing conversion::optional<> interface.
+    // conversion::optional exhibits the SAME (but delayed) behavior, i.e.
     // for failed conversion it throws on an attempt to retrieve the value
     // as there is nothing to return.
     ////////////////////////////////////////////////////////////////////////////
 
-    cnv::result<int> const r010 = boost::convert<int>(not_int_str, ccnv);
-    cnv::result<int> const r011 = boost::convert<int>(std_str, ccnv);
-    cnv::result<int> const r012 = boost::convert<int>(c_str, ccnv);
-    cnv::result<int> const r013 = boost::convert<int>(wstd_str, wcnv);
-    cnv::result<int> const r014 = boost::convert<int>(wc_str, wcnv);
-    cnv::result<int> const r015 = boost::convert<int>(array_str, ccnv);
+    cnv::optional<int> const r010 = boost::convert<int>(not_int_str, ccnv);
+    cnv::optional<int> const r011 = boost::convert<int>(std_str, ccnv);
+    cnv::optional<int> const r012 = boost::convert<int>(c_str, ccnv);
+    cnv::optional<int> const r013 = boost::convert<int>(wstd_str, wcnv);
+    cnv::optional<int> const r014 = boost::convert<int>(wc_str, wcnv);
+    cnv::optional<int> const r015 = boost::convert<int>(array_str, ccnv);
 
     BOOST_TEST(!r010); // Failed conversion
     BOOST_TEST( r011 && r011.value() == -11);

@@ -48,6 +48,7 @@ int
 main(int argc, char const* argv[])
 {
     example::getting_started();
+    example::getting_serious();
 
     test::scratchpad();
     test::sfinae();
@@ -67,6 +68,7 @@ main(int argc, char const* argv[])
     test::callables();
     test::encryption();
     test::performance();
+    test::spirit();
 
     return boost::report_errors();
 }

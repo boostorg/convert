@@ -56,7 +56,7 @@ test::user_type()
     direction const        up_dir3 = boost::convert<direction>(up_dir1_str, cnv).value();
     direction const        dn_dir3 = boost::convert<direction>(dn_dir1_str, cnv).value();
     direction const        dn_dir4 = boost::convert<direction>("junk", cnv).value_or(direction::dn);
-    cnv::result<direction> up_dir4 = boost::convert<direction>("junk", cnv);
+    cnv::optional<direction> up_dir4 = boost::convert<direction>("junk", cnv);
 
     BOOST_TEST(up_dir0_str == "up");
     BOOST_TEST(dn_dir0_str == "dn");

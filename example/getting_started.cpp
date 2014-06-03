@@ -2,7 +2,7 @@
 #include <boost/detail/lightweight_test.hpp>
 //[getting_started_headers1
 #include <boost/convert.hpp>
-#include <boost/convert/converter/sstream.hpp>
+#include <boost/convert/sstream.hpp>
 
 using std::string;
 

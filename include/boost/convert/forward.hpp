@@ -5,19 +5,17 @@
 #ifndef BOOST_CONVERT_FORWARD_HPP
 #define BOOST_CONVERT_FORWARD_HPP
 
-#include <boost/make_default.hpp>
-
 namespace boost
 {
     namespace conversion
     {
         template<typename, typename> struct algorithm_helper;
         template<typename, typename> struct algorithm_helper_with_fallback;
-        template<typename> struct result;
+        template<typename> struct optional;
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    boost::conversion::result<TypeOut>
+    boost::conversion::optional<TypeOut>
     convert(TypeIn const&, Converter const&);
 }
 

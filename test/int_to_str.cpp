@@ -26,16 +26,16 @@ test::int_to_string()
     // containers as the fallback values.
     ////////////////////////////////////////////////////////////////////////////
 
-    string                s01 = boost::convert< string>(-1, ccnv).value_or(std_str);
-    string                s02 = boost::convert< string>(-2, ccnv).value_or(c_str);
-    wstring               s03 = boost::convert<wstring>(-3, wcnv).value_or(wstd_str);
-    wstring               s04 = boost::convert<wstring>(-4, wcnv).value_or(wc_str);
-    string                s05 = boost::convert< string>(-5, ccnv).value_or(array_str);
-    cnv::result< string> rs01 = boost::convert< string>(-1, ccnv);
-    cnv::result< string> rs02 = boost::convert< string>(-2, ccnv);
-    cnv::result<wstring> rs03 = boost::convert<wstring>(-3, wcnv);
-    cnv::result<wstring> rs04 = boost::convert<wstring>(-4, wcnv);
-    cnv::result< string> rs05 = boost::convert< string>(-5, ccnv);
+    string                  s01 = boost::convert< string>(-1, ccnv).value_or(std_str);
+    string                  s02 = boost::convert< string>(-2, ccnv).value_or(c_str);
+    wstring                 s03 = boost::convert<wstring>(-3, wcnv).value_or(wstd_str);
+    wstring                 s04 = boost::convert<wstring>(-4, wcnv).value_or(wc_str);
+    string                  s05 = boost::convert< string>(-5, ccnv).value_or(array_str);
+    cnv::optional< string> rs01 = boost::convert< string>(-1, ccnv);
+    cnv::optional< string> rs02 = boost::convert< string>(-2, ccnv);
+    cnv::optional<wstring> rs03 = boost::convert<wstring>(-3, wcnv);
+    cnv::optional<wstring> rs04 = boost::convert<wstring>(-4, wcnv);
+    cnv::optional< string> rs05 = boost::convert< string>(-5, ccnv);
 
     BOOST_TEST(s01 ==  "-1"); BOOST_TEST(rs01 && rs01.value() ==  "-1");
     BOOST_TEST(s02 ==  "-2"); BOOST_TEST(rs02 && rs02.value() ==  "-2");
@@ -47,10 +47,10 @@ test::int_to_string()
     // Testing int-to-string conversion with no fallback value.
     ////////////////////////////////////////////////////////////////////////////
 
-    string                s11 = boost::convert< string>(-1, ccnv).value();
-    wstring               s12 = boost::convert<wstring>(-2, wcnv).value();
-    cnv::result< string> rs11 = boost::convert< string>(-1, ccnv);
-    cnv::result<wstring> rs12 = boost::convert<wstring>(-2, wcnv);
+    string                  s11 = boost::convert< string>(-1, ccnv).value();
+    wstring                 s12 = boost::convert<wstring>(-2, wcnv).value();
+    cnv::optional< string> rs11 = boost::convert< string>(-1, ccnv);
+    cnv::optional<wstring> rs12 = boost::convert<wstring>(-2, wcnv);
 
     BOOST_TEST( s11 ==  "-1");
     BOOST_TEST( s12 == L"-2");
