@@ -1,6 +1,6 @@
 [section Design Notes]
 
-Feel free to skip this section. It is here to document the process and the decisions made during design to be able to review and to reevaluate the relevancy and correctness of those decisions and ultimately the design. Still, this section might help to understand why certain desicions have been made and why ['Boost.Convert] is the way it is.
+Feel free to skip this section. It is here to document the process and the decisions made during design to be able to review and to reevaluate the relevancy and correctness of those decisions and ultimately the design. Still, this section might help to understand why certain decisions have been made and why ['Boost.Convert] is the way it is.
 
 [section Requirements]
 
