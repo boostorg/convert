@@ -7,12 +7,12 @@
 
 #include <boost/lexical_cast.hpp>
 
-namespace boost 
+namespace boost { namespace cnv
 {
-    struct lexical_cast_converter;
-}
+    struct lexical_cast;
+}}
 
-struct boost::lexical_cast_converter
+struct boost::cnv::lexical_cast
 {
     template<typename TypeOut, typename TypeIn>
     bool

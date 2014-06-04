@@ -31,20 +31,20 @@ namespace boost
     //     b) relieves the converter of that responsibility and makes writing converters easier.
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    boost::conversion::optional<TypeOut>
+    boost::cnv::optional<TypeOut>
     convert(TypeIn const& value_in, Converter const& converter)
     {
-        conversion::optional<TypeOut> result (boost::make_default<TypeOut>()); //C3
+        cnv::optional<TypeOut> result (boost::make_default<TypeOut>()); //C3
         bool                       success = converter(value_in, result.value_); //C2,C3
         
         return success ? result : result(false);
     }
 
     template<typename TypeOut, typename Converter>
-    typename boost::conversion::algorithm_helper<TypeOut, Converter>
+    typename boost::cnv::algorithm_helper<TypeOut, Converter>
     convert(Converter const& cnv)
     {
-        return boost::conversion::algorithm_helper<TypeOut, Converter>(cnv);
+        return boost::cnv::algorithm_helper<TypeOut, Converter>(cnv);
     }
 }
 

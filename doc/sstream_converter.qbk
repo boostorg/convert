@@ -21,7 +21,7 @@ Formatting support is provided by the underlying `std::stringstream`. Consequent
 The following code demonstrates how `char` and `wchar_t` strings can be read in the `std::hex` or `std::dec` format:
 
  boost::cstringstream_converter ccnv; // stringstream-based char converter
- boost::wstringstream_converter wcnv; // stringstream-based wchar_t converter
+ boost::cnv::wstringstream wcnv; // stringstream-based wchar_t converter
 
  // int v00 = boost::lexical_cast<int>("FF"); // Fails. Throws.
  int v01 = boost::convert<int>("FF", ccnv(std::hex)).value_or(0);

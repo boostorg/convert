@@ -12,7 +12,7 @@
 #include <boost/range.hpp>
 #include <boost/range/as_literal.hpp>
 
-namespace boost { namespace conversion {
+namespace boost { namespace cnv {
 
 using ::boost::type_traits::yes_type;
 using ::boost::type_traits:: no_type;

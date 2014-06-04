@@ -43,7 +43,7 @@ namespace boost
 void
 test::user_type()
 {
-    boost::cstringstream_converter cnv; // stringstream-based char converter
+    boost::cnv::cstringstream cnv; // stringstream-based char converter
 
     direction const        up_dir1 = direction::up;
     direction const        dn_dir1 = direction::dn;

@@ -10,7 +10,7 @@
 #include <boost/throw_exception.hpp>
 #include <stdexcept>
 
-namespace boost { namespace conversion
+namespace boost { namespace cnv
 {
     template<typename TypeOut, typename Converter>
     struct algorithm_helper
@@ -65,8 +65,8 @@ namespace boost { namespace conversion
 
 template<typename TypeOut, typename Converter>
 template<typename FallbackType>
-typename boost::conversion::algorithm_helper_with_fallback<TypeOut, Converter>
-boost::conversion::algorithm_helper<TypeOut, Converter>::value_or(FallbackType const& fallback)
+typename boost::cnv::algorithm_helper_with_fallback<TypeOut, Converter>
+boost::cnv::algorithm_helper<TypeOut, Converter>::value_or(FallbackType const& fallback)
 {
     return algorithm_helper_with_fallback<TypeOut, Converter>(*this, fallback);
 }

@@ -2,7 +2,7 @@
 
 [note Given the ubiquity of `boost::lexical_cast` and the familiarity of the programming community with it, here and further in the documentation `boost::lexical_cast` is often mentioned as a reference.]
 
-In its simplest form the ['Boost.Convert] functionality might be deployed as follows:
+In its simplest form ['Boost.Convert] might be deployed as follows:
 
 [import ../example/getting_started.cpp]
 

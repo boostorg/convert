@@ -20,7 +20,7 @@ test::sstream_converter()
     catch (...)
     {
     }
-    boost::cstringstream_converter cnv; // std::stringstream-based char converter
+    boost::cnv::cstringstream cnv; // std::stringstream-based char converter
 
     BOOST_TEST(!boost::convert<int>(invalid_input, cnv));
 }

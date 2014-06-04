@@ -20,7 +20,7 @@ getting_started_example1()
 {
     //[getting_started_example1
 
-    boost::cstringstream_converter cnv; // stringstream-based char converter
+    boost::cnv::cstringstream cnv; // stringstream-based char converter
 
     int    i1 = boost::lexical_cast<int>("123"); // Throws if the conversion fails
     int    i2 = boost::convert<int>("123", cnv).value(); // Throws if the conversion fails
@@ -43,7 +43,7 @@ getting_started_example2()
     std::string const             str2 = "456";
     int const      default_num_threads = 11;
     int const      default_num_windows = 12;
-    boost::cstringstream_converter cnv; // stringstream-based char converter
+    boost::cnv::cstringstream cnv; // stringstream-based char converter
 
     //[getting_started_example2
 
@@ -67,7 +67,7 @@ getting_started_example3()
     std::string const             str2 = "456";
     int const      default_num_threads = 11;
     int const      default_num_windows = 12;
-    boost::cstringstream_converter cnv; // stringstream-based char converter
+    boost::cnv::cstringstream cnv; // stringstream-based char converter
 
     //[getting_started_example3
 

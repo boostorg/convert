@@ -10,7 +10,7 @@ using std::string;
 void
 test::lcast_converter()
 {
-    boost::lexical_cast_converter cnv; // lexical_cast-based converter
+    boost::cnv::lexical_cast cnv;
 
     string const not_int_str = "not an int";
     string const     std_str = "-11";

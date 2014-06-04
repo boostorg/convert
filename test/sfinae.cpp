@@ -17,16 +17,16 @@ test::sfinae()
     // Test string SFINAE.
     ////////////////////////////////////////////////////////////////////////////
 
-    bool q01 = boost::conversion::is_any_string<std::string>::value;
-    bool q02 = boost::conversion::is_any_string<char const*>::value;
-    bool q03 = boost::conversion::is_any_string<std::wstring>::value;
-    bool q04 = boost::conversion::is_any_string<wchar_t const*>::value;
-    bool q05 = boost::conversion::is_any_string<char []>::value;
-    bool q06 = boost::conversion::is_any_string<wchar_t []>::value;
-    bool q07 = boost::conversion::is_any_string<std::vector<char> >::value;
-    bool q08 = boost::conversion::is_any_string<std::list<wchar_t> >::value;
-    bool q98 = boost::conversion::is_any_string<int>::value;
-    bool q99 = boost::conversion::is_any_string<local::a_struct>::value;
+    bool q01 = boost::cnv::is_any_string<std::string>::value;
+    bool q02 = boost::cnv::is_any_string<char const*>::value;
+    bool q03 = boost::cnv::is_any_string<std::wstring>::value;
+    bool q04 = boost::cnv::is_any_string<wchar_t const*>::value;
+    bool q05 = boost::cnv::is_any_string<char []>::value;
+    bool q06 = boost::cnv::is_any_string<wchar_t []>::value;
+    bool q07 = boost::cnv::is_any_string<std::vector<char> >::value;
+    bool q08 = boost::cnv::is_any_string<std::list<wchar_t> >::value;
+    bool q98 = boost::cnv::is_any_string<int>::value;
+    bool q99 = boost::cnv::is_any_string<local::a_struct>::value;
 
     BOOST_TEST( q01);
     BOOST_TEST( q02);

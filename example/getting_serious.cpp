@@ -4,7 +4,7 @@
 #include <boost/convert/sstream.hpp>
 
 //[getting_serious_header1
-namespace cnv = boost::conversion;
+namespace cnv = boost::cnv;
 //]
 
 using std::string;
@@ -18,12 +18,12 @@ process_failure()
 void
 example::getting_serious()
 {
-    boost::cstringstream_converter cnv; // stringstream-based char converter
-    std::string const              str = "123";
-    std::string const             str1 = "123";
-    std::string const             str2 = "123";
-    std::string const             str3 = "123";
-    int const           fallback_value = -1;
+    boost::cnv::cstringstream cnv; // stringstream-based char converter
+    std::string const         str = "123";
+    std::string const        str1 = "123";
+    std::string const        str2 = "123";
+    std::string const        str3 = "123";
+    int const      fallback_value = -1;
 
     {
         //[getting_serious_example1

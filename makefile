@@ -1,8 +1,8 @@
 ifneq ($(DEVMAKE),)
 
-cflags			=	-Iinclude
-target			=	test-convert.exe
-sources			=	$(wildcard test/*.cpp) $(wildcard example/*.cpp)
+cflags  = -Iinclude -I../boost_1_55_0 -Wno-unused-local-typedefs -Wno-unused-variable
+target  = test-convert.exe
+sources = $(wildcard test/*.cpp) $(wildcard example/*.cpp)
 
 include $(DEVMAKE)/makefile
 

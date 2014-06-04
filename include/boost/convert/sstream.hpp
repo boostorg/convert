@@ -10,19 +10,19 @@
 #include <boost/lexical_cast.hpp>
 #include <sstream>
 
-namespace boost 
+namespace boost { namespace cnv
 {
-    template<class Char> struct basic_stringstream_converter;
+    template<class Char> struct basic_stringstream;
 
-    typedef basic_stringstream_converter<char> cstringstream_converter;
-    typedef basic_stringstream_converter<wchar_t> wstringstream_converter; 
-}
+    typedef boost::cnv::basic_stringstream<char>    cstringstream;
+    typedef boost::cnv::basic_stringstream<wchar_t> wstringstream;
+}}
 
 template<class Char>
-struct boost::basic_stringstream_converter
+struct boost::cnv::basic_stringstream
 {
     typedef Char                                         char_type;
-    typedef basic_stringstream_converter                 this_type;
+    typedef boost::cnv::basic_stringstream<char_type>    this_type;
     typedef std::basic_stringstream<char_type>         stream_type;
     typedef std::basic_istream<char_type>             istream_type;
     typedef std::basic_streambuf<char_type>            buffer_type;
@@ -30,13 +30,13 @@ struct boost::basic_stringstream_converter
     typedef std::basic_string<char_type>               string_type;
     typedef std::ios_base& (*manipulator_type)(std::ios_base&);
 
-    basic_stringstream_converter() 
+    basic_stringstream()
     :
         stream_(std::ios_base::in | std::ios_base::out)
     {}
 
     template<typename TypeIn>
-    typename boost::enable_if_c<!conversion::is_any_string<TypeIn>::value, bool>::type
+    typename boost::enable_if_c<!cnv::is_any_string<TypeIn>::value, bool>::type
     operator()(TypeIn const& value_in, string_type& string_out) const
     {
         stream_.clear();            // Clear the flags
@@ -46,11 +46,11 @@ struct boost::basic_stringstream_converter
     }
     template<typename TypeOut, typename StringIn>
     typename boost::enable_if_c<
-        conversion::is_any_string<StringIn>::value && !conversion::is_any_string<TypeOut>::value, 
+        cnv::is_any_string<StringIn>::value && !cnv::is_any_string<TypeOut>::value, 
         bool>::type
     operator()(StringIn const& string_in, TypeOut& result_out) const
     {
-        typedef conversion::string_range<StringIn> str_range;
+        typedef cnv::string_range<StringIn> str_range;
 
         istream_type& istream = stream_;
         parser_type    strbuf;
@@ -83,39 +83,39 @@ struct boost::basic_stringstream_converter
 
     CONVERTER_PARAM_FUNC(locale, std::locale)
     {
-        std::locale const& locale = arg[conversion::parameter::locale];
+        std::locale const& locale = arg[cnv::parameter::locale];
         stream_.imbue(locale);
         return *this;
     }
     CONVERTER_PARAM_FUNC(precision, int)
     {
-        int precision = arg[conversion::parameter::precision];
+        int precision = arg[cnv::parameter::precision];
         stream_.precision(precision);
         return *this;
     }
     CONVERTER_PARAM_FUNC(uppercase, bool)
     {
-        bool uppercase = arg[conversion::parameter::uppercase];
+        bool uppercase = arg[cnv::parameter::uppercase];
         uppercase ? (void) stream_.setf(std::ios::uppercase) : stream_.unsetf(std::ios::uppercase);
         return *this;
     }
-    CONVERTER_PARAM_FUNC(base, boost::conversion::base::type)
+    CONVERTER_PARAM_FUNC(base, boost::cnv::base::type)
     {
-        conversion::base::type base = arg[conversion::parameter::base];
+        cnv::base::type base = arg[cnv::parameter::base];
         
-        /**/ if (base == conversion::base::dec) std::dec(stream_);
-        else if (base == conversion::base::hex) std::hex(stream_);
-        else if (base == conversion::base::oct) std::oct(stream_);
+        /**/ if (base == cnv::base::dec) std::dec(stream_);
+        else if (base == cnv::base::hex) std::hex(stream_);
+        else if (base == cnv::base::oct) std::oct(stream_);
         else BOOST_ASSERT(!"Not implemented");
         
         return *this;
     }
-    CONVERTER_PARAM_FUNC(notation, boost::conversion::notation::type)
+    CONVERTER_PARAM_FUNC(notation, boost::cnv::notation::type)
     {
-        conversion::notation::type notation = arg[conversion::parameter::notation];
+        cnv::notation::type notation = arg[cnv::parameter::notation];
         
-        /**/ if (notation == conversion::notation::     fixed)      std::fixed(stream_);
-        else if (notation == conversion::notation::scientific) std::scientific(stream_);
+        /**/ if (notation == cnv::notation::     fixed)      std::fixed(stream_);
+        else if (notation == cnv::notation::scientific) std::scientific(stream_);
         else BOOST_ASSERT(!"Not implemented");
         
         return *this;

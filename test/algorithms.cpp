@@ -14,7 +14,7 @@ user_type_to_strings()
     boost::array<change::value_type, 3> changes2 = {{ change::no, change::up, change::dn }};
     std::vector<std::string>            strings1;
     std::vector<std::string>            strings2;
-    boost::cstringstream_converter           cnv;
+    boost::cnv::cstringstream           cnv;
 
     std::transform(changes1.begin(), changes1.end(), std::back_inserter(strings1), boost::convert<std::string>(cnv));
     std::transform(changes2.begin(), changes2.end(), std::back_inserter(strings2), boost::convert<std::string>(cnv));
@@ -36,7 +36,7 @@ ints_to_strings()
 {
     boost::array<int, 4>      integers = {{ 15, 16, 17, 18 }};
     std::vector<std::string>   strings;
-    boost::cstringstream_converter cnv;
+    boost::cnv::cstringstream cnv;
 
     cnv(std::hex)(std::uppercase)(std::showbase);
 
@@ -59,7 +59,7 @@ strings_to_ints()
 {
     boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
     std::vector<int>            integers;
-    boost::cstringstream_converter   cnv; // stringstream-based char converter
+    boost::cnv::cstringstream   cnv; // stringstream-based char converter
 
     ////////////////////////////////////////////////////////////////////////////
     // String to integer conversion.
@@ -106,7 +106,7 @@ strings_to_ints()
 
 #ifdef NOT_AVAILABLE_UNTIL_CPP11
 
-    std::vector<conversion::optional<int>> opt_ints;
+    std::vector<cnv::optional<int>> opt_ints;
 
     std::transform(
         strings.begin(),

@@ -19,8 +19,8 @@ test::sstream_manipulators()
     {
     }
 
-    boost::cstringstream_converter ccnv; // std::stringstream-based char converter
-    boost::wstringstream_converter wcnv; // std::stringstream-based wchar_t converter
+    boost::cnv::cstringstream ccnv; // std::stringstream-based char converter
+    boost::cnv::wstringstream wcnv; // std::stringstream-based wchar_t converter
 
     int const hex_v01 = boost::convert<int>("FF", ccnv(std::hex)).value_or(0);
     int const hex_v02 = boost::convert<int>(L"F", wcnv(std::hex)).value_or(0);
@@ -52,7 +52,7 @@ test::sstream_manipulators()
     BOOST_TEST(boost::convert<string>(255, ccnv).value() == "377");
     BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "17");
 
-    ccnv(std::showbase)(arg::uppercase = true)(arg::base = cnv::base::hex);
+    ccnv(std::showbase)(arg::uppercase = true)(arg::base = boost::cnv::base::hex);
 
     BOOST_TEST(boost::convert<string>(255, ccnv).value() == "0XFF");
     BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "0XF");

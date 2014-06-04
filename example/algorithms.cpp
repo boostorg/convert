@@ -17,7 +17,7 @@ example::algorithm::strings_to_ints_simple()
 
     boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
     std::vector<int>            integers;
-    boost::cstringstream_converter   cnv; // stringstream-based char converter
+    boost::cnv::cstringstream   cnv; // stringstream-based char converter
 
     std::transform(
         strings.begin(),

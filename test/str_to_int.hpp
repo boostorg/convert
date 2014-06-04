@@ -1,28 +1,19 @@
-// Boost.Convert library test and usage example
-// Copyright (c) 2009-2014 Vladimir Batov.
-// Use, modification and distribution are subject to the Boost Software License,
-// Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
+#ifndef BOOST_CONVERT_TEST_STR_TO_INT_HPP
+#define BOOST_CONVERT_TEST_STR_TO_INT_HPP
 
 #include "./test.hpp"
 
 using std::string;
-using std::wstring;
 
+template<typename Converter>
 void
-test::string_to_int()
+test::str_to_int(Converter const& cnv)
 {
     string const           not_int_str = "not an int";
     string const               std_str = "-11";
     char const* const            c_str = "-12";
-    wstring const             wstd_str = L"-13";
-    wchar_t const* const        wc_str = L"-14";
     char const             array_str[] = "-15";
     char const* const    container_str = "-16";
-    std::vector<char> const vector_str (container_str, container_str + strlen(container_str));
-    std::list<char> const     list_str (container_str, container_str + strlen(container_str));
-
-    boost::cnv::cstringstream ccnv; // std::stringstream-based char converter
-    boost::cnv::wstringstream wcnv; // std::stringstream-based wchar_t converter
 
     ////////////////////////////////////////////////////////////////////////////
     // Testing various kinds of string containers.
@@ -31,18 +22,14 @@ test::string_to_int()
     // On failure returns the provided fallback value and DOES NOT THROW.
     ////////////////////////////////////////////////////////////////////////////
 
-    int const a00 = boost::convert<int>(not_int_str, ccnv).value_or(-1);
-    int const a01 = boost::convert<int>(std_str,     ccnv).value_or(-1);
-    int const a02 = boost::convert<int>(c_str,       ccnv).value_or(-1);
-    int const a03 = boost::convert<int>(wstd_str,    wcnv).value_or(-1);
-    int const a04 = boost::convert<int>(wc_str,      wcnv).value_or(-1);
-    int const a05 = boost::convert<int>(array_str,   ccnv).value_or(-1);
+    int const a00 = boost::convert<int>(not_int_str, cnv).value_or(-1);
+    int const a01 = boost::convert<int>(std_str,     cnv).value_or(-1);
+    int const a02 = boost::convert<int>(c_str,       cnv).value_or(-1);
+    int const a05 = boost::convert<int>(array_str,   cnv).value_or(-1);
 
     BOOST_TEST(a00 ==  -1); // Failed conversion
     BOOST_TEST(a01 == -11);
     BOOST_TEST(a02 == -12);
-    BOOST_TEST(a03 == -13);
-    BOOST_TEST(a04 == -14);
     BOOST_TEST(a05 == -15);
 
     ////////////////////////////////////////////////////////////////////////////
@@ -52,18 +39,14 @@ test::string_to_int()
     // on failure it returns the provided fallback value and DOES NOT THROW.
     ////////////////////////////////////////////////////////////////////////////
 
-    boost::cnv::optional<int> r000 = boost::convert<int>(not_int_str, ccnv);
-    boost::cnv::optional<int> r001 = boost::convert<int>(std_str,     ccnv);
-    boost::cnv::optional<int> r002 = boost::convert<int>(c_str,       ccnv);
-    boost::cnv::optional<int> r003 = boost::convert<int>(wstd_str,    wcnv);
-    boost::cnv::optional<int> r004 = boost::convert<int>(wc_str,      wcnv);
-    boost::cnv::optional<int> r005 = boost::convert<int>(array_str,   ccnv);
+    boost::cnv::optional<int> r000 = boost::convert<int>(not_int_str, cnv);
+    boost::cnv::optional<int> r001 = boost::convert<int>(std_str,     cnv);
+    boost::cnv::optional<int> r002 = boost::convert<int>(c_str,       cnv);
+    boost::cnv::optional<int> r005 = boost::convert<int>(array_str,   cnv);
 
     BOOST_TEST(!r000); // Failed conversion
     BOOST_TEST( r001 && r001.value() == -11);
     BOOST_TEST( r002 && r002.value() == -12);
-    BOOST_TEST( r003 && r003.value() == -13);
-    BOOST_TEST( r004 && r004.value() == -14);
     BOOST_TEST( r005 && r005.value() == -15);
 
     ////////////////////////////////////////////////////////////////////////////
@@ -74,23 +57,19 @@ test::string_to_int()
 
     try
     {
-        boost::convert<int>(not_int_str, ccnv).value();
+        boost::convert<int>(not_int_str, cnv).value();
         BOOST_TEST(!"failed to throw");
     }
     catch (std::exception&)
     {
         // Expected behavior: received 'boost::convert failed' exception. All well.
     }
-    int a021 = boost::convert<int>(std_str,   ccnv).value();
-    int a022 = boost::convert<int>(c_str,     ccnv).value();
-    int a023 = boost::convert<int>(wstd_str,  wcnv).value();
-    int a024 = boost::convert<int>(wc_str,    wcnv).value();
-    int a025 = boost::convert<int>(array_str, ccnv).value();
+    int a021 = boost::convert<int>(std_str,   cnv).value();
+    int a022 = boost::convert<int>(c_str,     cnv).value();
+    int a025 = boost::convert<int>(array_str, cnv).value();
 
     BOOST_TEST(a021 == -11);
     BOOST_TEST(a022 == -12);
-    BOOST_TEST(a023 == -13);
-    BOOST_TEST(a024 == -14);
     BOOST_TEST(a025 == -15);
 
     ////////////////////////////////////////////////////////////////////////////
@@ -100,18 +79,14 @@ test::string_to_int()
     // as there is nothing to return.
     ////////////////////////////////////////////////////////////////////////////
 
-    cnv::optional<int> const r010 = boost::convert<int>(not_int_str, ccnv);
-    cnv::optional<int> const r011 = boost::convert<int>(std_str, ccnv);
-    cnv::optional<int> const r012 = boost::convert<int>(c_str, ccnv);
-    cnv::optional<int> const r013 = boost::convert<int>(wstd_str, wcnv);
-    cnv::optional<int> const r014 = boost::convert<int>(wc_str, wcnv);
-    cnv::optional<int> const r015 = boost::convert<int>(array_str, ccnv);
+    cnv::optional<int> const r010 = boost::convert<int>(not_int_str, cnv);
+    cnv::optional<int> const r011 = boost::convert<int>(std_str,     cnv);
+    cnv::optional<int> const r012 = boost::convert<int>(c_str,       cnv);
+    cnv::optional<int> const r015 = boost::convert<int>(array_str,   cnv);
 
     BOOST_TEST(!r010); // Failed conversion
     BOOST_TEST( r011 && r011.value() == -11);
     BOOST_TEST( r012 && r012.value() == -12);
-    BOOST_TEST( r013 && r013.value() == -13);
-    BOOST_TEST( r014 && r014.value() == -14);
     BOOST_TEST( r015 && r015.value() == -15);
 
     try
@@ -123,4 +98,13 @@ test::string_to_int()
     {
         // Expected behavior: received 'boost::convert failed' exception. All well.
     }
+//    for (int k = INT_MIN; k <= INT_MAX; ++k)
+//    {
+//        string str = boost::convert<string>(k, boost::cnv::strtol()).value();
+//        int k_back = boost::convert<int>(str, cnv).value();
+//
+//        BOOST_TEST(k == k_back);
+//    }
 }
+
+#endif // BOOST_CONVERT_TEST_STR_TO_INT_HPP

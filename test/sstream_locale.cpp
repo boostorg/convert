@@ -10,7 +10,7 @@ using std::string;
 void
 test::sstream_locale()
 {
-    boost::cstringstream_converter cnv;
+    boost::cnv::cstringstream cnv;
 
     char const* eng_locale_name = test::is_msc ? "" // I do not know MS presentation of US locale
                                 : test::is_gcc ? "en_US.UTF-8"
@@ -29,7 +29,7 @@ test::sstream_locale()
 //  cnv(std::setprecision(4))(std::uppercase)(std::scientific);
     cnv(arg::precision = 4)
        (arg::uppercase = true)
-       (arg::notation = cnv::notation::scientific);
+       (arg::notation = boost::cnv::notation::scientific);
 
     double double_v01 = boost::convert<double>(double_s01, cnv).value();
     string double_s02 = boost::convert<string>(double_v01, cnv).value();

@@ -9,7 +9,7 @@
 
 namespace boost
 {
-    namespace conversion
+    namespace cnv
     {
         struct base { enum type { dec =10, hex =16, oct =8 };};
         struct notation { enum type { fixed, scientific };};

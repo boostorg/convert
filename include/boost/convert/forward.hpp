@@ -7,7 +7,7 @@
 
 namespace boost
 {
-    namespace conversion
+    namespace cnv
     {
         template<typename, typename> struct algorithm_helper;
         template<typename, typename> struct algorithm_helper_with_fallback;
@@ -15,7 +15,7 @@ namespace boost
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    boost::conversion::optional<TypeOut>
+    boost::cnv::optional<TypeOut>
     convert(TypeIn const&, Converter const&);
 }
 

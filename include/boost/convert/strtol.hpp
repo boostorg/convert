@@ -8,14 +8,14 @@
 #include <boost/convert/base.hpp>
 #include <stdlib.h>
 
-namespace boost 
+namespace boost { namespace cnv
 {
-    struct strtol_converter;
-}
+    struct strtol;
+}}
 
-struct boost::strtol_converter : public boost::converter_base
+struct boost::cnv::strtol : public boost::converter_base
 {
-    typedef boost::strtol_converter this_type;
+    typedef boost::cnv::strtol this_type;
     typedef boost::converter_base   base_type;
 
     CONVERT_FUNC_SET_BASE;
@@ -32,7 +32,7 @@ struct boost::strtol_converter : public boost::converter_base
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
         
-        result_out = strtod(value_in, &cnv_end);
+        result_out = ::strtod(value_in, &cnv_end);
 
         return cnv_end == str_end;
     }
@@ -40,7 +40,7 @@ struct boost::strtol_converter : public boost::converter_base
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
-        long int     result = strtol(value_in, &cnv_end, base_);
+        long int     result = ::strtol(value_in, &cnv_end, base_);
         bool        success = INT_MIN <= result && result <= INT_MAX && cnv_end == str_end;
 
         return success ? (result_out = int(result), success) : success;
@@ -50,7 +50,7 @@ struct boost::strtol_converter : public boost::converter_base
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
         
-        result_out = strtol(value_in, &cnv_end, base_);
+        result_out = ::strtol(value_in, &cnv_end, base_);
 
         return result_out != LONG_MIN && result_out != LONG_MAX && cnv_end == str_end;
     }
@@ -59,7 +59,7 @@ struct boost::strtol_converter : public boost::converter_base
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
         
-        result_out = strtoul(value_in, &cnv_end, base_);
+        result_out = ::strtoul(value_in, &cnv_end, base_);
 
         return result_out != ULONG_MAX && cnv_end == str_end;
     }
@@ -75,7 +75,7 @@ struct boost::strtol_converter : public boost::converter_base
 
 inline
 std::string
-boost::strtol_converter::ltostr(long int num, unsigned int base) 
+boost::cnv::strtol::ltostr(long int num, unsigned int base) 
 { 
     if (!num) return "0";
 

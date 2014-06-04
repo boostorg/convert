@@ -12,7 +12,7 @@
 * the `boost::convert()` user interface;
 * an extendible collection of pluggable converters.
 
-`boost::convert()` is responsible for ['uniform deployment] and ['consistent behavior]. It implements new and familiar conversion\/transformation-related behavior such as:
+`boost::convert()` provides ['uniform deployment] and ['consistent behavior]. It implements new and familiar conversion\/transformation-related behavior such as:
 
 * flexible throwing, delayed-throwing and non-throwing failed-conversion behavior;
 * support for the fallback value to be returned when conversion\/transformation fails;

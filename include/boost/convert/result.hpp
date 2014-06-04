@@ -10,7 +10,7 @@
 #include <boost/throw_exception.hpp>
 #include <stdexcept>
 
-namespace boost { namespace conversion
+namespace boost { namespace cnv
 {
     // Used temporarily. To be replaced with std::tr2::optional or improved boost::optional.
     template<typename TypeOut>
@@ -43,7 +43,7 @@ namespace boost { namespace conversion
 
         template<typename Type_Out, typename TypeIn, typename Converter>
         friend
-        boost::conversion::optional<Type_Out>
+        boost::cnv::optional<Type_Out>
         boost::convert(TypeIn const& value_in, Converter const& converter);
 
         this_type& operator()(bool good) { return (good_ = good, *this); }
