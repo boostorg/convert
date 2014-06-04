@@ -7,17 +7,37 @@
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="other_conversions.html" title="Other Conversions">
-<link rel="next" href="acknowledgements.html" title="Acknowledgements">
+<link rel="next" href="design_notes/public_user_interface.html" title="public/user interface">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="other_conversions.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="acknowledgements.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="other_conversions.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="design_notes/public_user_interface.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
 <a name="the_boost_convert_library.design_notes"></a><a class="link" href="design_notes.html" title="Design Notes">Design Notes</a>
 </h2></div></div></div>
-<div class="toc"><dl class="toc"><dt><span class="section"><a href="design_notes.html#the_boost_convert_library.design_notes.requirements">Requirements</a></span></dt></dl></div>
+<div class="toc"><dl class="toc">
+<dt><span class="section"><a href="design_notes.html#the_boost_convert_library.design_notes.requirements">Requirements</a></span></dt>
+<dt><span class="section"><a href="design_notes/public_user_interface.html">public/user
+      interface</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="design_notes/public_user_interface.html#the_boost_convert_library.design_notes.public_user_interface.signature">signature</a></span></dt>
+<dt><span class="section"><a href="design_notes/public_user_interface/return_value.html">return
+        value</a></span></dt>
+<dt><span class="section"><a href="design_notes/public_user_interface/converter_parameter_related_considerations__explicit__default__globally_set__others_.html">Converter-parameter-related
+        considerations (explicit, default, globally-set, others)</a></span></dt>
+</dl></dd>
+<dt><span class="section"><a href="design_notes/converter_signature.html">converter
+      signature</a></span></dt>
+</dl></div>
+<p>
+      Feel free to skip this section. It is here to document the process and the
+      decisions made during design to be able to review and to reevaluate the relevancy
+      and correctness of those decisions and ultimately the design. Still, this section
+      might help to understand why certain desicions have been made and why <span class="emphasis"><em>Boost.Convert</em></span>
+      is the way it is.
+    </p>
 <div class="section">
 <div class="titlepage"><div><div><h3 class="title">
 <a name="the_boost_convert_library.design_notes.requirements"></a><a class="link" href="design_notes.html#the_boost_convert_library.design_notes.requirements" title="Requirements">Requirements</a>
@@ -28,7 +48,17 @@
       </p>
 <div class="orderedlist"><ol class="orderedlist" type="1">
 <li class="listitem">
-            Provide fully-functional interfaces for two different program flows where
+            <span class="emphasis"><em>Boost.Convert</em></span> shall provide a mechanism and an interface
+            that take a value of type <span class="emphasis"><em>TypeIn</em></span> and yield a value
+            of type <span class="emphasis"><em>TypeOut</em></span> using an algorithm of type <span class="emphasis"><em>Converter</em></span>;
+          </li>
+<li class="listitem">
+            <span class="emphasis"><em>Boost.Convert</em></span> shall provide a mechanism and an interface
+            to indicate success or failure of the requested conversion;
+          </li>
+<li class="listitem">
+            <span class="emphasis"><em>Boost.Convert</em></span> shall provide fully-functional interfaces
+            for two different program flows where
             <div class="orderedlist"><ol class="orderedlist" type="a">
 <li class="listitem">
                   error-processing is orthogonal to the normal program flow (exception-throwing
@@ -41,28 +71,30 @@
 </ol></div>
           </li>
 <li class="listitem">
-            The throwing interface returns the result or throws an exception;
+            The throwing interface shall return the result of successful conversion
+            or shall throw an exception;
           </li>
 <li class="listitem">
-            The non-throwing interface returns the result and/or some indication
+            The non-throwing interface shall return the result and/or some indication
             of conversion success or failure;
             <div class="orderedlist"><ol class="orderedlist" type="a">
 <li class="listitem">
-                  the result is only available in the case of conversion success;
+                  the result of conversion shall only be available when conversion
+                  succeeds;
+                </li>
+<li class="listitem">
+                  when conversion fails, an optional fallback value shall be returned
+                  instead if supplied;
                 </li>
 <li class="listitem">
                   in the case of failure an attempt to retrieve the result (with
-                  no default provided) results in an exception thrown;
-                </li>
-<li class="listitem">
-                  in the case of failure an optional default value can be supplied
-                  instead;
+                  no fallback provided) shall result in an exception thrown;
                 </li>
 </ol></div>
           </li>
 <li class="listitem">
-            Converters are independent and do not rely on the <span class="emphasis"><em>Boost.Convert</em></span>
-            framework.
+            Converters shall be independent of and shall not rely on the <span class="emphasis"><em>Boost.Convert</em></span>
+            infrastructure.
           </li>
 </ol></div>
 </div>
@@ -76,7 +108,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="other_conversions.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="acknowledgements.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="other_conversions.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="design_notes/public_user_interface.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>

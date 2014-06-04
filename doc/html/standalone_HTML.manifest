@@ -13,6 +13,10 @@ the_boost_convert_library/the___default_constructible__type_requirement.html
 the_boost_convert_library/performance.html
 the_boost_convert_library/other_conversions.html
 the_boost_convert_library/design_notes.html
+the_boost_convert_library/design_notes/public_user_interface.html
+the_boost_convert_library/design_notes/public_user_interface/return_value.html
+the_boost_convert_library/design_notes/public_user_interface/converter_parameter_related_considerations__explicit__default__globally_set__others_.html
+the_boost_convert_library/design_notes/converter_signature.html
 the_boost_convert_library/acknowledgements.html
 the_boost_convert_library/references.html
 convert_reference.html
@@ -23,7 +27,7 @@ CONVERT_FUNC_SET_UPPERCASE.html
 CONVERTER_PARAM_FUNC.html
 header/boost/convert/forward_hpp.html
 boost/conversion/algorithm_helper.html
-boost/conversion/algorithm_help_idp22125452.html
+boost/conversion/algorithm_help_idp15605740.html
 header/boost/convert/lexical_cast_hpp.html
 boost/lexical_cast_converter.html
 header/boost/convert/parameters_hpp.html
@@ -36,7 +40,7 @@ boost/conversion/optional.html
 header/boost/convert/spirit_hpp.html
 boost/spirit_converter.html
 header/boost/convert/sstream_hpp.html
-boost/basic_stringst_idp22158428.html
+boost/basic_stringst_idp15638676.html
 header/boost/convert/strtol_hpp.html
 boost/strtol_converter.html
 index/s17.html

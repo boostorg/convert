@@ -1,19 +1,36 @@
 [section Design Notes]
+
+Feel free to skip this section. It is here to document the process and the decisions made during design to be able to review and to reevaluate the relevancy and correctness of those decisions and ultimately the design. Still, this section might help to understand why certain desicions have been made and why ['Boost.Convert] is the way it is.
+
 [section Requirements]
 
 ['Boost.Convert] has been designed to satisfy the following user requirements:
 
-# Provide fully-functional interfaces for two different program flows where
+# ['Boost.Convert] shall provide a mechanism and an interface that take a value of type ['TypeIn] and yield a value of type ['TypeOut] using an algorithm of type ['Converter];
+# ['Boost.Convert] shall provide a mechanism and an interface to indicate success or failure of the requested conversion;
+# ['Boost.Convert] shall provide fully-functional interfaces for two different program flows where
     # error-processing is orthogonal to the normal program flow (exception-throwing interface);
     # normal and error-processing flows are part of the same program flow (non-throwing interface);
-# The throwing interface returns the result or throws an exception;
-# The non-throwing interface returns the result and/or some indication of conversion success or failure;
-    # the result is only available in the case of conversion success;
-    # in the case of failure an attempt to retrieve the result (with no default provided) results in an exception thrown;
-    # in the case of failure an optional default value can be supplied instead;
-# Converters are independent and do not rely on the ['Boost.Convert] framework.
+# The throwing interface shall return the result of successful conversion or shall throw an exception;
+# The non-throwing interface shall return the result and/or some indication of conversion success or failure;
+    # the result of conversion shall only be available when conversion succeeds;
+    # when conversion fails, an optional fallback value shall be returned instead if supplied;
+    # in the case of failure an attempt to retrieve the result (with no fallback provided) shall result in an exception thrown;
+# Converters shall be independent of and shall not rely on the ['Boost.Convert] infrastructure.
 
+[endsect]
+
+[section public/user interface]
+[section signature]
+[endsect]
+[section return value]
+[endsect]
+[section Converter-parameter-related considerations (explicit, default, globally-set, others)]
 [endsect]
 [endsect]
 
+[section converter signature]
+[endsect]
+
+[endsect]
 
