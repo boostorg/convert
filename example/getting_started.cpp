@@ -25,11 +25,15 @@ getting_started_example1()
     int    i2 = boost::convert<int>("123", cnv).value(); // Throws if the conversion fails
     int    i3 = boost::convert<int>("uhm", cnv).value_or(-1); // Returns -1 if the conversion fails
     string s1 = boost::convert<string>(123, cnv).value();
+    string s2 = boost::convert<string>(123.456, cnv).value();
+    string s3 = boost::convert<string>(123.456, cnv(std::setprecision(4))).value();
 
     BOOST_TEST(i1 == 123);
     BOOST_TEST(i2 == 123);
     BOOST_TEST(i3 == -1);
     BOOST_TEST(s1 == "123");
+    BOOST_TEST(s2 == "123.456");
+    BOOST_TEST(s3 == "123.5"); // Precision was set to 4.
 
     //]
 }

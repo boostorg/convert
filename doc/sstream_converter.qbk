@@ -11,7 +11,7 @@ Its purpose is to provide conversion-related formatting and locale support not a
 * availability and maturity;
 * formatting and locale support;
 * familiar interface and deployment;
-* instant re-use of available standard manipulators (`std::hex`, etc.);
+* instant re-use of available standard manipulators (`std::hex`, `std::setprecision`, `std::skipws`, etc.);
 * extendibility (via custom manipulators (see [link 1 \[1\]])).
 
 [section Formatting Support]

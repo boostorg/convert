@@ -9,6 +9,7 @@
 #include <boost/convert/detail/string_sfinae.hpp>
 #include <boost/lexical_cast.hpp>
 #include <sstream>
+#include <iomanip>
 
 namespace boost { namespace cnv
 {
@@ -75,6 +76,9 @@ struct boost::cnv::basic_stringstream
 
     this_type& operator() (std::locale const& locale) { return (stream_.imbue(locale), *this); }
     this_type& operator() (manipulator_type m) { return (m(stream_), *this); }
+
+    template<typename Manipulator>
+    this_type& operator()(Manipulator m) { return (stream_ >> m, *this); }
 
     CONVERTER_PARAM_FUNC(locale, std::locale)
     {
