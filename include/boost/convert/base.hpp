@@ -7,16 +7,16 @@
 
 #include <boost/convert/parameters.hpp>
 
-namespace boost 
+namespace boost { namespace cnv
 {
-    struct converter_base;
-}
+    struct cnvbase;
+}}
 
-struct boost::converter_base
+struct boost::cnv::cnvbase
 {
-    typedef boost::converter_base this_type;
+    typedef boost::cnv::cnvbase this_type;
 
-    converter_base()
+    cnvbase()
     :
         base_(10), precision_(0), uppercase_(false)
     {}

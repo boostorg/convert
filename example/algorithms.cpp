@@ -2,7 +2,6 @@
 #include <boost/convert.hpp>
 #include <boost/convert/sstream.hpp>
 #include <boost/array.hpp>
-#include <boost/detail/lightweight_test.hpp>
 #include <vector>
 #include <iomanip>
 

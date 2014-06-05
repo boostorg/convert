@@ -16,6 +16,9 @@
 #include <iostream>
 #include <stdio.h>
 
+//#undef  BOOST_TEST
+//#define BOOST_TEST BOOST_ASSERT
+
 struct change
 {
     typedef change this_type;
@@ -80,10 +83,14 @@ struct test
     static void        force_in_type ();
     static void               spirit ();
 
-    template<typename Converter> static void                  str_to_int (Converter const&);
-    template<typename Converter> static void              type_to_string (Converter const&);
-    template<typename Converter> static void              string_to_type (Converter const&);
-    template<typename Converter> static double performance_string_to_int (Converter const&);
+    template<typename Converter> static void     str_to_int (Converter const&);
+    template<typename Converter> static void type_to_string (Converter const&);
+    template<typename Converter> static void string_to_type (Converter const&);
+
+    struct performance
+    {
+        template<typename Converter> static double str_to_int (Converter const&);
+    };
 };
 
 namespace cnv = boost::cnv;
@@ -91,7 +98,7 @@ namespace arg = boost::cnv::parameter;
 
 template<typename Converter>
 double
-test::performance_string_to_int(Converter const& try_converter)
+test::performance::str_to_int(Converter const& try_converter)
 {
     std::string  str = "12345";
     int          sum = 0;

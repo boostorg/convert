@@ -75,21 +75,21 @@ void
 test::performance()
 {
     printf("str-to-int: strtol/scanf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
-           performance_string_to_int(boost::       cnv::strtol()),
-           performance_string_to_int(boost::       printf_converter()),
-           performance_string_to_int(boost:: cnv::lexical_cast()),
-           performance_string_to_int(boost::cnv::cstringstream()));
+           performance::str_to_int(boost::cnv::strtol()),
+           performance::str_to_int(boost::cnv::printf()),
+           performance::str_to_int(boost::cnv::lexical_cast()),
+           performance::str_to_int(boost::cnv::cstringstream()));
 
     printf("int-to-str: ltostr/prntf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
-           performance_int_to_string(boost::       cnv::strtol()),
-           performance_int_to_string(boost::       printf_converter()),
-           performance_int_to_string(boost:: cnv::lexical_cast()),
+           performance_int_to_string(boost::cnv::strtol()),
+           performance_int_to_string(boost::cnv::printf()),
+           performance_int_to_string(boost::cnv::lexical_cast()),
            performance_int_to_string(boost::cnv::cstringstream()));
 
     printf("str-to-user-type: lcast/sstream=%.2f/%.2f seconds.\n",
-           performance_string_to_type(boost:: cnv::lexical_cast()),
+           performance_string_to_type(boost::cnv::lexical_cast()),
            performance_string_to_type(boost::cnv::cstringstream()));
     printf("user-type-to-str: lcast/sstream=%.2f/%.2f seconds.\n",
-           performance_type_to_string(boost:: cnv::lexical_cast()),
+           performance_type_to_string(boost::cnv::lexical_cast()),
            performance_type_to_string(boost::cnv::cstringstream()));
 }

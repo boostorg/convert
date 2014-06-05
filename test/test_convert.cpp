@@ -59,11 +59,11 @@ main(int argc, char const* argv[])
     test::str_to_int(boost::cnv::cstringstream());
     test::str_to_int(boost::cnv::lexical_cast());
     test::str_to_int(boost::cnv::strtol());
-    test::str_to_int(boost::printf_converter());
-    test::type_to_string(boost::printf_converter());
+    test::str_to_int(boost::cnv::printf());
+    test::type_to_string(boost::cnv::printf());
     test::string_to_type(boost::cnv::strtol()); 
-    test::string_to_type(boost::printf_converter());
-    test::type_to_string(boost::printf_converter());
+    test::string_to_type(boost::cnv::printf());
+    test::type_to_string(boost::cnv::printf());
     test::user_type();
     test::force_in_type();
     test::lcast_converter();

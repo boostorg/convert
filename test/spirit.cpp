@@ -8,7 +8,7 @@
 
 static
 int
-str_to_int_spirit(std::string const& str)
+str_to_int(std::string const& str)
 {
     std::string::const_iterator i = str.begin();
     int result;
@@ -21,6 +21,7 @@ str_to_int_spirit(std::string const& str)
     return result;
 }
 
+static
 double
 performance_string_to_int_spirit()
 {
@@ -29,7 +30,7 @@ performance_string_to_int_spirit()
     double const p1 = clock();
 
     for (int k = 0; k < test::num_cycles; ++k)
-        sum += str_to_int_spirit((str[4 - k % 5] = 49 + k % 9, str));
+        sum += str_to_int((str[4 - k % 5] = 49 + k % 9, str));
 
     double const   p2 = clock();
     int const use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
@@ -40,7 +41,8 @@ performance_string_to_int_spirit()
 void
 test::spirit()
 {
-    printf("str-to-int spirit: raw/cnv=%.2f/%.2f seconds.\n",
-           performance_string_to_int_spirit(),
-           performance_string_to_int(boost::spirit_converter()));
+    for (int k = 0; k < 5; ++k)
+        printf("str-to-int spirit: raw/cnv=%.2f/%.2f seconds.\n",
+               performance_string_to_int_spirit(),
+               performance::str_to_int(boost::cnv::spirit()));
 }

@@ -5,18 +5,18 @@
 #include <boost/spirit/include/qi_parse.hpp>
 #include <boost/spirit/include/qi_numeric.hpp>
 
-namespace boost
+namespace boost { namespace cnv
 {
-    struct spirit_converter;
-}
+    struct spirit;
+}}
 
-struct boost::spirit_converter
+struct boost::cnv::spirit
 {
-    bool operator()(std::string const& str, int& result) const
+    bool operator()(std::string const& str, boost::cnv::optional<int>& result) const
     {
         std::string::const_iterator i = str.begin();
 
-        if (!boost::spirit::qi::parse(i, str.end(), boost::spirit::int_, result))
+        if (!boost::spirit::qi::parse(i, str.end(), boost::spirit::int_, *(result = int())))
             return false;
 
         return i == str.end(); // ensure the whole string was parsed

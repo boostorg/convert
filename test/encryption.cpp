@@ -5,13 +5,13 @@ using std::wstring;
 
 static
 bool
-my_cypher(std::string const& value_in, std::string& value_out)
+my_cypher(std::string const& value_in, boost::cnv::optional<std::string>& value_out)
 {
     size_t const cypher = 'A' - '1';
 
     value_out = value_in;
 
-    for (string::iterator it = value_out.begin(); it != value_out.end(); ++it)
+    for (string::iterator it = value_out->begin(); it != value_out->end(); ++it)
         (*it < 'A') ? (*it += cypher) : (*it -= cypher);
 
     return true;
