@@ -16,6 +16,9 @@
 #include <iostream>
 #include <stdio.h>
 
+#undef  BOOST_TEST
+#define BOOST_TEST BOOST_ASSERT
+
 struct change
 {
     typedef change this_type;
@@ -63,47 +66,30 @@ struct test
 #error "Add here."
 #endif
 
+    typedef std::vector<int>            ints;
+    typedef std::vector<std::string> strings;
+
     static void           scratchpad ();
     static void               sfinae ();
     static void           algorithms ();
-    static void          performance ();
     static void           encryption ();
     static void            callables ();
     static void      lcast_converter ();
-    static void    sstream_converter ();
-    static void       sstream_locale ();
-    static void sstream_manipulators ();
+    static void              sstream ();
     static void        int_to_string ();
-    static void        string_to_int ();
     static void       string_to_bool ();
     static void            user_type ();
     static void        force_in_type ();
-    static void               spirit ();
+    static void          performance (test::strings const&, test::ints const&);
+    static void               spirit (test::strings const&);
 
-    template<typename Converter> static void                  str_to_int (Converter const&);
-    template<typename Converter> static void              type_to_string (Converter const&);
-    template<typename Converter> static void              string_to_type (Converter const&);
-    template<typename Converter> static double performance_string_to_int (Converter const&);
+    template<typename Converter> static void     str_to_int (Converter const&);
+    template<typename Converter> static void type_to_string (Converter const&);
+    template<typename Converter> static void string_to_type (Converter const&);
+    template<typename Converter> static void        invalid (Converter const&);
 };
 
 namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;
-
-template<typename Converter>
-double
-test::performance_string_to_int(Converter const& try_converter)
-{
-    std::string  str = "12345";
-    int          sum = 0;
-    double const  p1 = clock();
-
-    for (int k = 0; k < test::num_cycles; ++k)
-        sum += boost::convert<int>((str[4 - k % 5] = 49 + k % 9, str), try_converter).value();
-
-    double const   p2 = clock();
-    int const use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
-
-    return (p2 - p1) / CLOCKS_PER_SEC + use_sum;
-}
 
 #endif // BOOST_CONVERT_TEST_HPP

@@ -1,11 +1,67 @@
-// Boost.Convert library test and usage example
+// Boost.Convert test and usage example
 // Copyright (c) 2009-2014 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include "./test.hpp"
+#include <boost/convert/spirit.hpp>
 
 using std::string;
+
+struct performance
+{
+    template<typename Converter> static double str_to_int (test::strings const&, Converter const&);
+    template<typename Converter> static double int_to_str (test::ints const&,    Converter const&);
+};
+
+static
+int
+str_to_int_spirit(std::string const& str)
+{
+    std::string::const_iterator i = str.begin();
+    int result;
+
+    if (!boost::spirit::qi::parse(i, str.end(), boost::spirit::int_, result))
+        BOOST_ASSERT(0);
+
+    BOOST_ASSERT(i == str.end()); // ensure the whole string was parsed
+
+    return result;
+}
+
+static
+double
+performance_string_to_int_spirit(test::strings const& strings)
+{
+    int          sum = 0;
+    int const   size = strings.size();
+    double const  p1 = clock();
+
+    for (int k = 0; k < size; ++k)
+        sum += str_to_int_spirit(strings[k]);
+
+    double const   p2 = clock();
+    int const use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
+
+    return (p2 - p1) / CLOCKS_PER_SEC + use_sum;
+}
+
+template<typename Converter>
+double
+performance::str_to_int(test::strings const& strings, Converter const& try_converter)
+{
+    int          sum = 0;
+    int const   size = strings.size();
+    double const  p1 = clock();
+
+    for (int k = 0; k < size; ++k)
+        sum += boost::convert<int>(strings[k], try_converter).value();
+
+    double const   p2 = clock();
+    int const use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
+
+    return (p2 - p1) / CLOCKS_PER_SEC + use_sum;
+}
 
 template<typename Converter>
 double
@@ -55,41 +111,47 @@ performance_type_to_string(Converter const& try_converter)
 
 template<typename Converter>
 double
-performance_int_to_string(Converter const& try_converter)
+performance::int_to_str(test::ints const& ints, Converter const& try_converter)
 {
-    std::vector<std::string> res; res.reserve(test::num_cycles);
-    double const              p1 = clock();
+    int const                   size = ints.size();
+    std::vector<std::string> strings; strings.reserve(size);
+    double const                  p1 = clock();
 
-    for (int k = 0; k < test::num_cycles; ++k)
-        res.push_back(boost::convert<std::string>(k, try_converter).value());
+    for (int k = 0; k < size; ++k)
+        strings.push_back(boost::convert<std::string>(ints[k], try_converter).value());
 
     double const p2 = clock();
 
-    for (int k = 0; k < test::num_cycles; ++k)
-        BOOST_TEST(k == boost::convert<int>(res[k], try_converter).value());
+    for (int k = 0; k < size; ++k)
+        BOOST_TEST(ints[k] == boost::convert<int>(strings[k], try_converter).value());
 
     return (p2 - p1) / CLOCKS_PER_SEC;
 }
 
 void
-test::performance()
+test::performance(test::strings const& strings, test::ints const& ints)
 {
+    for (int k = 0; k < 3; ++k)
+        printf("str-to-int spirit: raw/cnv=%.2f/%.2f seconds.\n",
+               performance_string_to_int_spirit(strings),
+               performance::str_to_int(strings, boost::cnv::spirit()));
+
     printf("str-to-int: strtol/scanf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
-           performance_string_to_int(boost::       cnv::strtol()),
-           performance_string_to_int(boost::       printf_converter()),
-           performance_string_to_int(boost:: cnv::lexical_cast()),
-           performance_string_to_int(boost::cnv::cstringstream()));
+           performance::str_to_int(strings, boost::cnv::strtol()),
+           performance::str_to_int(strings, boost::cnv::printf()),
+           performance::str_to_int(strings, boost::cnv::lexical_cast()),
+           performance::str_to_int(strings, boost::cnv::cstringstream()));
 
     printf("int-to-str: ltostr/prntf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
-           performance_int_to_string(boost::       cnv::strtol()),
-           performance_int_to_string(boost::       printf_converter()),
-           performance_int_to_string(boost:: cnv::lexical_cast()),
-           performance_int_to_string(boost::cnv::cstringstream()));
+           performance::int_to_str(ints, boost::cnv::strtol()),
+           performance::int_to_str(ints, boost::cnv::printf()),
+           performance::int_to_str(ints, boost::cnv::lexical_cast()),
+           performance::int_to_str(ints, boost::cnv::cstringstream()));
 
     printf("str-to-user-type: lcast/sstream=%.2f/%.2f seconds.\n",
-           performance_string_to_type(boost:: cnv::lexical_cast()),
+           performance_string_to_type(boost::cnv::lexical_cast()),
            performance_string_to_type(boost::cnv::cstringstream()));
     printf("user-type-to-str: lcast/sstream=%.2f/%.2f seconds.\n",
-           performance_type_to_string(boost:: cnv::lexical_cast()),
+           performance_type_to_string(boost::cnv::lexical_cast()),
            performance_type_to_string(boost::cnv::cstringstream()));
 }

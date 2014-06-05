@@ -5,10 +5,8 @@
 #ifndef BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
 #define BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
 
-#include <boost/convert/forward.hpp>
+#include <boost/convert/detail/forward.hpp>
 #include <boost/make_default.hpp>
-#include <boost/throw_exception.hpp>
-#include <stdexcept>
 
 namespace boost { namespace cnv
 {
@@ -23,13 +21,12 @@ namespace boost { namespace cnv
 
         template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
         {
-            TypeOut result = boost::make_default<TypeOut>();
-            bool      good = (*converter_)(value_in, result);
+            boost::cnv::optional<TypeOut> result;
 
-            if (!good)
-                BOOST_THROW_EXCEPTION(std::invalid_argument("boost::convert failed"));
+            if (!(*converter_)(value_in, result))
+                boost::cnv::dothrow();
 
-            return result;
+            return result.value();
         }
 
         protected:
@@ -53,10 +50,10 @@ namespace boost { namespace cnv
 
         template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
         {
-            TypeOut result = boost::make_default<TypeOut>();
+            boost::cnv::optional<TypeOut> result;
             bool      good = (*base_type::converter_)(value_in, result);
 
-            return good ? result : fallback_;
+            return good ? result.value() : fallback_;
         }
 
         TypeOut fallback_;

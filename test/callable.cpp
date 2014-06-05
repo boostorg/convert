@@ -1,4 +1,4 @@
-// Boost.Convert library test and usage example
+// Boost.Convert test and usage example
 // Copyright (c) 2009-2014 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
@@ -8,7 +8,7 @@
 
 static
 bool
-plain_old_func(std::string const& value_in, int& value_out)
+plain_old_func(std::string const& value_in, boost::cnv::optional<int>& value_out)
 {
     try
     {
@@ -23,7 +23,7 @@ plain_old_func(std::string const& value_in, int& value_out)
 
 template<typename Type>
 bool
-assign(Type& value_out, Type const& value_in)
+assign(boost::cnv::optional<Type>& value_out, Type const& value_in)
 {
     value_out = value_in;
     return true;
@@ -32,7 +32,7 @@ assign(Type& value_out, Type const& value_in)
 void
 test::callables()
 {
-    typedef boost::function<bool (std::string const& value_in, int&)> boost_func;
+    typedef boost::function<bool (std::string const& value_in, boost::cnv::optional<int>&)> boost_func;
 
     char const* const str = "-12";
 

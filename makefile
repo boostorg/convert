@@ -1,6 +1,7 @@
 ifneq ($(DEVMAKE),)
 
-cflags  = -Iinclude -I../boost_1_55_0 -Wno-unused-local-typedefs -Wno-unused-variable
+cflags  = -O3 -Iinclude -I../boost_1_55_0 -Wno-unused-local-typedefs -Wno-unused-variable -Wno-uninitialized
+#cflags  = -Iinclude -I../boost_1_55_0 -Wno-unused-local-typedefs -Wno-unused-variable -Wno-uninitialized
 target  = test-convert.exe
 sources = $(wildcard test/*.cpp) $(wildcard example/*.cpp)
 

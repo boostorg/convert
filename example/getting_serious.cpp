@@ -1,5 +1,4 @@
 #include "./example.hpp"
-#include <boost/detail/lightweight_test.hpp>
 #include <boost/convert.hpp>
 #include <boost/convert/sstream.hpp>
 

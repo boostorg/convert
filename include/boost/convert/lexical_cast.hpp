@@ -2,8 +2,8 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#ifndef BOOST_CONVERT_LEXICAL_CAST_BASED_CONVERTER_HPP
-#define BOOST_CONVERT_LEXICAL_CAST_BASED_CONVERTER_HPP
+#ifndef BOOST_CONVERT_LEXICAL_CAST_HPP
+#define BOOST_CONVERT_LEXICAL_CAST_HPP
 
 #include <boost/lexical_cast.hpp>
 
@@ -16,7 +16,7 @@ struct boost::cnv::lexical_cast
 {
     template<typename TypeOut, typename TypeIn>
     bool
-    operator()(TypeIn const& value_in, TypeOut& result_out) const
+    operator()(TypeIn const& value_in, boost::cnv::optional<TypeOut>& result_out) const
     {
         try
         {
@@ -30,4 +30,4 @@ struct boost::cnv::lexical_cast
     }
 };
 
-#endif // BOOST_CONVERT_LEXICAL_CAST_BASED_CONVERTER_HPP
+#endif // BOOST_CONVERT_LEXICAL_CAST_HPP

@@ -1,6 +1,8 @@
 #ifndef BOOST_CONVERT_EXAMPLE_HPP
 #define BOOST_CONVERT_EXAMPLE_HPP
 
+#include <boost/detail/lightweight_test.hpp>
+
 struct example
 {
     static void getting_started ();
