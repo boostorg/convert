@@ -15,8 +15,8 @@ namespace boost { namespace cnv
 
 struct boost::cnv::strtol : public boost::cnv::detail::cnvbase
 {
-    typedef boost::cnv::strtol this_type;
-    typedef boost::cnv::detail::cnvbase   base_type;
+    typedef boost::cnv::strtol          this_type;
+    typedef boost::cnv::detail::cnvbase base_type;
 
     CONVERT_FUNC_SET_BASE;
     CONVERT_FUNC_SET_PRECISION;
