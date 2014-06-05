@@ -14,17 +14,15 @@ struct performance
     template<typename Converter> static double int_to_str (test::ints const&,    Converter const&);
 };
 
-static
+inline
 int
 str_to_int_spirit(std::string const& str)
 {
     std::string::const_iterator i = str.begin();
     int result;
 
-    if (!boost::spirit::qi::parse(i, str.end(), boost::spirit::int_, result))
-        BOOST_ASSERT(0);
-
-    BOOST_ASSERT(i == str.end()); // ensure the whole string was parsed
+    BOOST_TEST(boost::spirit::qi::parse(i, str.end(), boost::spirit::int_, result));
+    BOOST_TEST(i == str.end()); // ensure the whole string was parsed
 
     return result;
 }
@@ -33,9 +31,9 @@ static
 double
 performance_string_to_int_spirit(test::strings const& strings)
 {
-    int          sum = 0;
-    int const   size = strings.size();
-    double const  p1 = clock();
+    int         sum = 0;
+    int const  size = strings.size();
+    double const p1 = clock();
 
     for (int k = 0; k < size; ++k)
         sum += str_to_int_spirit(strings[k]);
@@ -50,9 +48,9 @@ template<typename Converter>
 double
 performance::str_to_int(test::strings const& strings, Converter const& try_converter)
 {
-    int          sum = 0;
-    int const   size = strings.size();
-    double const  p1 = clock();
+    int         sum = 0;
+    int const  size = strings.size();
+    double const p1 = clock();
 
     for (int k = 0; k < size; ++k)
         sum += boost::convert<int>(strings[k], try_converter).value();
