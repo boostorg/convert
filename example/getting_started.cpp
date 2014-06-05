@@ -1,11 +1,4 @@
 #include "./example.hpp"
-//[getting_started_headers1
-#include <boost/convert.hpp>
-#include <boost/convert/sstream.hpp>
-
-using std::string;
-
-//]
 
 static
 void
@@ -13,42 +6,86 @@ log(char const*)
 {
 }
 
-static
-void
-getting_started_example1()
+//[getting_started_headers1
+#include <boost/convert.hpp>
+#include <boost/convert/lexical_cast.hpp>
+
+using std::string;
+//]
+static void getting_started_example1()
 {
     //[getting_started_example1
+    boost::cnv::lexical_cast cnv;
 
-    boost::cnv::cstringstream cnv; // stringstream-based char converter
-
-    int    i1 = boost::lexical_cast<int>("123"); // Throws if the conversion fails
-    int    i2 = boost::convert<int>("123", cnv).value(); // Throws if the conversion fails
-    int    i3 = boost::convert<int>("uhm", cnv).value_or(-1); // Returns -1 if the conversion fails
-    string s1 = boost::convert<string>(123, cnv).value();
-    string s2 = boost::convert<string>(123.456, cnv).value();
-    string s3 = boost::convert<string>(123.456, cnv(std::setprecision(4))).value();
+    int    i1 = boost::lexical_cast<int>("123");
+    int    i2 = boost::convert<int>("123", cnv).value();
+    string s1 = boost::lexical_cast<string>(123);
+    string s2 = boost::convert<string>(123, cnv).value();
 
     BOOST_TEST(i1 == 123);
     BOOST_TEST(i2 == 123);
-    BOOST_TEST(i3 == -1);
     BOOST_TEST(s1 == "123");
-    BOOST_TEST(s2 == "123.456");
-    BOOST_TEST(s3 == "123.5"); // Precision was set to 4.
+    BOOST_TEST(s2 == "123");
+    //]
+}
 
+//[getting_started_headers2
+#include <boost/convert/spirit.hpp>
+//]
+static void getting_started_example2()
+{
+    //[getting_started_example2
+    boost::cnv::spirit cnv;
+
+    int i1 = boost::lexical_cast<int>("123");
+    int i2 = boost::convert<int>("123", cnv).value(); // Five times faster
+    //]
+}
+
+//[getting_started_headers3
+#include <boost/convert/sstream.hpp>
+//]
+static void getting_started_example3()
+{
+    //[getting_started_example3
+    boost::cnv::cstringstream cnv;
+
+    int    i1 = boost::lexical_cast<int>("   123"); // Fails. Throws
+    int    i2 = boost::convert<int>("   123", cnv(std::skipws)).value(); // Success
+    string s1 = boost::lexical_cast<string>(123.456);
+    string s2 = boost::convert<string>(123.456, cnv(std::setprecision(4))).value();
+
+    BOOST_TEST(s1 == "123.456");
+    BOOST_TEST(s2 == "123.5"); // Precision was set to 4. Correctly rounded.
     //]
 }
 
 static
 void
-getting_started_example2()
+getting_started_example4()
 {
-    std::string const             str1 = "123";
-    std::string const             str2 = "456";
-    int const      default_num_threads = 11;
-    int const      default_num_windows = 12;
-    boost::cnv::cstringstream cnv; // stringstream-based char converter
+    //[getting_started_example4
+    boost::cnv::cstringstream cnv;
 
-    //[getting_started_example2
+    int i1 = boost::lexical_cast<int>("123"); // Throws if the conversion fails
+    int i2 = boost::convert<int>("123", cnv).value(); // Throws if the conversion fails
+    int i3 = boost::convert<int>("uhm", cnv).value_or(-1); // Returns -1 if the conversion fails
+
+    BOOST_TEST(i1 == 123);
+    BOOST_TEST(i2 == 123);
+    BOOST_TEST(i3 == -1);
+    //]
+}
+
+static void getting_started_example5()
+{
+    std::string const        str1 = "123";
+    std::string const        str2 = "456";
+    int const default_num_threads = 11;
+    int const default_num_windows = 12;
+    boost::cnv::cstringstream cnv;
+
+    //[getting_started_example5
 
     int num_threads = boost::convert<int>(str1, cnv(std::hex)).value_or(INT_MAX); // Read as hex
     int num_windows = boost::convert<int>(str2, cnv(std::dec)).value_or(INT_MAX); // Read as decimal
@@ -62,17 +99,15 @@ getting_started_example2()
     BOOST_TEST(num_windows == 456);
 }
 
-static
-void
-getting_started_example3()
+static void getting_started_example6()
 {
-    std::string const             str1 = "123";
-    std::string const             str2 = "456";
-    int const      default_num_threads = 11;
-    int const      default_num_windows = 12;
-    boost::cnv::cstringstream cnv; // stringstream-based char converter
+    std::string const        str1 = "123";
+    std::string const        str2 = "456";
+    int const default_num_threads = 11;
+    int const default_num_windows = 12;
+    boost::cnv::cstringstream cnv;
 
-    //[getting_started_example3
+    //[getting_started_example6
 
     int num_threads = boost::convert<int>(str1, cnv(std::hex)).value_or(default_num_threads);
     int num_windows = boost::convert<int>(str2, cnv(std::dec)).value_or(default_num_windows);
@@ -89,4 +124,7 @@ example::getting_started()
     getting_started_example1();
     getting_started_example2();
     getting_started_example3();
+    getting_started_example4();
+    getting_started_example5();
+    getting_started_example6();
 }

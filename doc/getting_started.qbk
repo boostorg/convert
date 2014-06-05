@@ -2,12 +2,30 @@
 
 [note Given the ubiquity of `boost::lexical_cast` and the familiarity of the programming community with it, here and further in the documentation `boost::lexical_cast` is often mentioned as a reference.]
 
-In its simplest form ['Boost.Convert] might be deployed as follows:
-
 [import ../example/getting_started.cpp]
+
+[h2 Basic Deployment]
+
+`boost::convert` basic deployment is not that different from `boost::lexical_cast` and, in fact, `boost::lexical_cast` functionality is easily deployed through `boost::convert` interface (with no performance overhead when compiled optimized):
 
 [getting_started_headers1]
 [getting_started_example1]
+
+[h2 Flexibility and Adaptability to Change]
+
+These qualities become important later in development or in the maintenance phase. Say, the code above was later flagged as too slow. Then replacing the original converter improves performance five(!) times:
+
+[getting_started_headers2]
+[getting_started_example2]
+
+If, instead, the requirements change to accept more user-input formats or to write in a certain format, then it is achieved with
+
+[getting_started_headers3]
+[getting_started_example3]
+
+[h2 Basic Error Processing]
+
+[getting_started_example4]
 
 The above calls can be interpreted as "['convert a string to int]" for `i1` and `i2` and "['convert a string to int and return -1 if the conversion fails]" for `i3`. 
 
@@ -15,15 +33,15 @@ The `i1` and `i2` deployments look sufficiently close and, in fact, are identica
 
 "['Convert a string to int and return -1 if the conversion fails]" is complete and processed "as ordered" with the provided fallback value returned if the requested conversion fails. 
 
-The described (very basic) interface might be sufficient for a variety of conversion deployments. For example:
+The described (very basic) error detection might be sufficient for a variety of conversion deployments. For example:
 
-[getting_started_example2]
+[getting_started_example5]
 
 Or even shorter, if we do not care logging:
 
-[getting_started_example3]
+[getting_started_example6]
 
-So far the deployment of `boost::convert()` seems more compact and natural (your mileage may vary) and might be potentially more efficient compared to `boost::lexical_cast` deployment which achieves similar (excluding formatting) results with:
+So far the deployment of `boost::convert` seems more flexible, more compact and natural (your mileage may vary) and potentially more efficient compared to `boost::lexical_cast` deployment which achieves similar (excluding formatting) results with:
 
  int num_threads = default_num_threads;
 
