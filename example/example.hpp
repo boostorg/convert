@@ -7,6 +7,7 @@ struct example
 {
     static void getting_started ();
     static void getting_serious ();
+    static void    lexical_cast ();
 
     struct algorithm
     {
