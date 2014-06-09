@@ -8,11 +8,7 @@ struct example
     static void getting_started ();
     static void getting_serious ();
     static void    lexical_cast ();
-
-    struct algorithm
-    {
-        static void strings_to_ints_simple();
-    };
+    static void      algorithms ();
 };
 
 #endif // BOOST_CONVERT_EXAMPLE_HPP

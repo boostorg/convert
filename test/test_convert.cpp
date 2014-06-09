@@ -52,22 +52,24 @@ int
 main(int argc, char const* argv[])
 {
     test::ints                                ints;
-    test::strings                          strings;
+    test::strings                             strs;
     boost::random::mt19937                     gen;
     boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX);
 
-    ints   .reserve(test::num_cycles);
-    strings.reserve(test::num_cycles);
+    ints.reserve(test::num_cycles);
+    strs.reserve(test::num_cycles);
 
     for (int k = 0; k < test::num_cycles; ++k)
     {
-        int v = dist(gen);
+        int    iv = dist(gen);
+        string sv = boost::lexical_cast<std::string>(iv);
 
-        ints   .push_back(v);
-        strings.push_back(boost::lexical_cast<std::string>(v));
+        ints.push_back(iv);
+        strs.push_back(sv);
     }
     example::getting_started();
     example::getting_serious();
+    example::algorithms();
 
     test::invalid(boost::cnv::lexical_cast());
 //    test::invalid(boost::cnv::cstringstream());
@@ -92,8 +94,8 @@ main(int argc, char const* argv[])
     test::algorithms();
     test::callables();
     test::encryption();
-    test::performance(strings, ints);
-    test::spirit(strings);
+    test::performance(strs, ints);
+    test::spirit(strs);
 
     return boost::report_errors();
 }
