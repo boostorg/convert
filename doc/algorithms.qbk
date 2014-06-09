@@ -1,77 +1,13 @@
 [section Boost.Convert with Standard Algorithms]
 
-The following code demonstrates a failed attempt to convert a few strings with `boost::lexical_cast`:
+[algorithm_example1]
+[algorithm_example2]
+[algorithm_example3]
 
- array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
- std::vector<int>     integers;
+The following `boost::optional`-based version is not available with pre-C++11 compilers:
 
- try
- {
-    std::transform(
-        strings.begin(),
-        strings.end(),
-        std::back_inserter(integers),
-        boost::bind(boost::lexical_cast<int, std::string>, _1));
+ std::vector<boost::optional<int>> opts;
 
-        BOOST_ASSERT(!"We should not be here");
- }
- catch (std::exception&)
- {
-    // No strings converted.
- }
-
-The first take by ['Boost.Convert] is more successful (it knows how to handle the hexadecimal format) but still not quite satisfactory (your mileage may vary) as conversion is interrupted when ['Boost.Convert] comes across an invalid input:
-
- boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
- std::vector<int>            integers;
- boost::cstringstream_converter   cnv; // stringstream-based char converter
-
- try
- {
-   std::transform(
-        strings.begin(),
-        strings.end(),
-        std::back_inserter(integers),
-        boost::convert<int>(cnv(std::hex)));
-
-        BOOST_ASSERT(!"We should not be here");
- }
- catch (std::exception&)
- {
-    // Only the first four strings converted. Failed to convert the last one.
-
-    BOOST_ASSERT(integers[0] == 15);
-    BOOST_ASSERT(integers[1] == 16);
-    BOOST_ASSERT(integers[2] == 17);
-    BOOST_ASSERT(integers[3] == 18);
- }
-
-And at last a fully working version (with a conversion-failure fallback value provided):
-
- boost::array<char const*, 5> strings = {{ "0XF", "0X10", "0X11", "0X12", "not an int" }};
- std::vector<int>            integers;
- boost::cstringstream_converter   cnv; // stringstream-based char converter
-
- std::transform(
-    strings.begin(),
-    strings.end(),
-    std::back_inserter(integers),
-    boost::convert<int>(cnv(std::hex)).value_or(-1));
-
- BOOST_ASSERT(integers[0] == 15);
- BOOST_ASSERT(integers[1] == 16);
- BOOST_ASSERT(integers[2] == 17);
- BOOST_ASSERT(integers[3] == 18);
- BOOST_ASSERT(integers[4] == -1); // Failed conversion
-
-The following `boost::conversion::optional`-based version is not available with pre-C++11 compilers:
-
- std::vector<boost::conversion::optional<int>> opt_ints;
-
- std::transform(
-    strings.begin(),
-    strings.end(),
-    std::back_inserter(opt_ints),
-    boost::convert<int>(cnv(std::hex)));
+ std::transform(strs.begin(), strs.end(), std::back_inserter(opts), boost::convert<int>(cnv(std::hex)));
 
 [endsect]

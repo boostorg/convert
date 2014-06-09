@@ -102,8 +102,6 @@ strings_to_ints()
 
     integers.clear();
 
-    example::algorithm::strings_to_ints_simple();
-
 #ifdef NOT_AVAILABLE_UNTIL_CPP11
 
     std::vector<cnv::optional<int>> opt_ints;

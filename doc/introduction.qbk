@@ -38,7 +38,7 @@ The `std::stringstream`-based converter draws on the standard `std::streams` fun
 
 [import ../example/algorithms.cpp]
 
-[algorithm_simple]
+[algorithm_introduction]
 
 An interesting (and yet to be explored) property is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. `boost::convert()` is type-agnostic and the plugged-in converter ultimately dictates what types and conversions are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and ['deployed uniformly] by plugging-in special-purpose converters.
 
