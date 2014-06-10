@@ -84,19 +84,19 @@ test_locale()
 {
     boost::cnv::cstringstream cnv;
 
-    char const* eng_locale_name = test::is_msc ? "" // I do not know MS presentation of US locale
-                                : test::is_gcc ? "en_US.UTF-8"
+    char const* eng_locale_name = test::cnv::is_msc ? "" // I do not know MS presentation of US locale
+                                : test::cnv::is_gcc ? "en_US.UTF-8"
                                 : "";
-    char const* rus_locale_name = test::is_msc ? "Russian_Russia.1251"
-                                : test::is_gcc ? "ru_RU.UTF-8"
+    char const* rus_locale_name = test::cnv::is_msc ? "Russian_Russia.1251"
+                                : test::cnv::is_gcc ? "ru_RU.UTF-8"
                                 : "";
-    char const*    rus_expected = test::is_msc ? "1,235e-002" : test::is_gcc ? "1,235e-02" : "";
-    char const*    eng_expected = test::is_msc ? "1.235e-002" : test::is_gcc ? "1.235e-02" : "";
+    char const*    rus_expected = test::cnv::is_msc ? "1,235e-002" : test::cnv::is_gcc ? "1,235e-02" : "";
+    char const*    eng_expected = test::cnv::is_msc ? "1.235e-002" : test::cnv::is_gcc ? "1.235e-02" : "";
     std::locale      rus_locale;
     std::locale      eng_locale;
 
-    char const*  double_s01 = test::is_msc ? "1.2345E-002"
-                            : test::is_gcc ? "1.2345E-02"
+    char const*  double_s01 = test::cnv::is_msc ? "1.2345E-002"
+                            : test::cnv::is_gcc ? "1.2345E-02"
                             : "";
 //  cnv(std::setprecision(4))(std::uppercase)(std::scientific);
     cnv(arg::precision = 4)
@@ -127,7 +127,7 @@ test_locale()
 }
 
 void
-test::sstream()
+test::cnv::sstream()
 {
     test_skipws();
     test_manipulators();

@@ -9,7 +9,7 @@ using std::string;
 using std::wstring;
 
 void
-test::int_to_string()
+test::cnv::int_to_string()
 {
     boost::cnv::cstringstream ccnv; // std::stringstream-based char converter
     boost::cnv::wstringstream wcnv; // std::stringstream-based wchar_t converter

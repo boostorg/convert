@@ -7,7 +7,6 @@
 
 #include <boost/convert/detail/workarounds.hpp>
 #include <boost/optional.hpp>
-#include <boost/make_default.hpp>
 
 namespace boost { namespace cnv
 {

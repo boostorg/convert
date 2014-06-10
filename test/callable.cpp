@@ -30,7 +30,7 @@ assign(boost::optional<Type>& value_out, Type const& value_in)
 }
 
 void
-test::callables()
+test::cnv::callables()
 {
     typedef boost::function<bool (std::string const& value_in, boost::optional<int>&)> boost_func;
 

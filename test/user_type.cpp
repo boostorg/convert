@@ -41,7 +41,7 @@ namespace boost
 }
 
 void
-test::user_type()
+test::cnv::user_type()
 {
     boost::cnv::cstringstream cnv; // stringstream-based char converter
 

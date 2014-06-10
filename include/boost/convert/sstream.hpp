@@ -7,6 +7,7 @@
 
 #include <boost/convert/detail/base.hpp>
 #include <boost/convert/detail/string_sfinae.hpp>
+#include <boost/make_default.hpp>
 #include <boost/lexical_cast.hpp>
 #include <sstream>
 #include <iomanip>

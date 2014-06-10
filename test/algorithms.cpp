@@ -127,7 +127,7 @@ strings_to_ints()
 }
 
 void
-test::algorithms()
+test::cnv::algorithms()
 {
     strings_to_ints();
     ints_to_strings();

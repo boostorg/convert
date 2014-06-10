@@ -18,7 +18,7 @@ my_cypher(std::string const& value_in, boost::optional<std::string>& value_out)
 }
 
 void
-test::encryption()
+test::cnv::encryption()
 {
     ////////////////////////////////////////////////////////////////////////////
     // Testing custom converter.

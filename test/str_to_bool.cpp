@@ -8,7 +8,7 @@
 using std::string;
 
 void
-test::string_to_bool()
+test::cnv::string_to_bool()
 {
     ////////////////////////////////////////////////////////////////////////////
     // Testing string-to-bool and bool-to-string conversions

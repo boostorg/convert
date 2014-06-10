@@ -5,13 +5,69 @@
 
 #include "./test.hpp"
 #include <boost/convert/spirit.hpp>
+#define main() old_test_spirit()
+#include <libs/spirit/optimization/qi/int_parser.cpp>
 
 using std::string;
 
+struct spirit_test : test::base
+{
+    static int parse(std::string const& str)
+    {
+        std::string::const_iterator beg = str.begin();
+        std::string::const_iterator end = str.end();
+        int n;
+
+        if (!boost::spirit::qi::parse(beg, end, boost::spirit::qi::int_, n))
+            BOOST_ASSERT(0);
+
+        if (beg != end)
+            BOOST_ASSERT(0);
+
+        return n;
+    }
+    void benchmark()
+    {
+        for (int i = 0; i < 9; ++i)
+            this->val += parse(numbers[i]);
+    }
+};
+
+struct cnv_test : test::base
+{
+    void benchmark()
+    {
+        for (int i = 0; i < 9; ++i)
+            this->val += boost::convert<int>(numbers[i], boost::cnv::spirit()).value();
+    }
+};
+
+static
+int
+add_test_spirit()
+{
+    BOOST_SPIRIT_TEST_BENCHMARK(
+        10000000,     // This is the maximum repetitions to execute
+        (atoi_test)
+        (strtol_test)
+        (spirit_int_test)
+        (spirit_int_test)
+        (spirit_test)
+        (spirit_test)
+        (cnv_test)
+        (cnv_test)
+    )
+
+    // This is ultimately responsible for preventing all the test code
+    // from being optimized away.  Change this to return 0 and you
+    // unplug the whole test's life support system.
+    return test::live_code != 0;
+}
+
 struct performance
 {
-    template<typename Converter> static double str_to_int (test::strings const&, Converter const&);
-    template<typename Converter> static double int_to_str (test::ints const&,    Converter const&);
+    template<typename Converter> static double str_to_int (test::cnv::strings const&, Converter const&);
+    template<typename Converter> static double int_to_str (test::cnv::ints const&,    Converter const&);
 };
 
 inline
@@ -29,7 +85,7 @@ str_to_int_spirit(std::string const& str)
 
 static
 double
-performance_string_to_int_spirit(test::strings const& strings)
+performance_string_to_int_spirit(test::cnv::strings const& strings)
 {
     int         sum = 0;
     int const  size = strings.size();
@@ -46,7 +102,7 @@ performance_string_to_int_spirit(test::strings const& strings)
 
 template<typename Converter>
 double
-performance::str_to_int(test::strings const& strings, Converter const& try_converter)
+performance::str_to_int(test::cnv::strings const& strings, Converter const& try_converter)
 {
     int         sum = 0;
     int const  size = strings.size();
@@ -69,7 +125,7 @@ performance_string_to_type(Converter const& try_converter)
     int             sum = 0;
     double           p1 = clock();
 
-    for (int k = 0; k < test::num_cycles; ++k)
+    for (int k = 0; k < test::cnv::num_cycles; ++k)
     {
         change chg = boost::convert<change>(input[k % 3], try_converter).value();
         int    res = chg.value();
@@ -93,7 +149,7 @@ performance_type_to_string(Converter const& try_converter)
     int                         sum = 0;
     double                       p1 = clock();
 
-    for (int k = 0; k < test::num_cycles; ++k)
+    for (int k = 0; k < test::cnv::num_cycles; ++k)
     {
         string res = boost::convert<string>(input[k % 3], try_converter).value();
 
@@ -109,7 +165,7 @@ performance_type_to_string(Converter const& try_converter)
 
 template<typename Converter>
 double
-performance::int_to_str(test::ints const& ints, Converter const& try_converter)
+performance::int_to_str(test::cnv::ints const& ints, Converter const& try_converter)
 {
     int const                   size = ints.size();
     std::vector<std::string> strings; strings.reserve(size);
@@ -127,8 +183,11 @@ performance::int_to_str(test::ints const& ints, Converter const& try_converter)
 }
 
 void
-test::performance(test::strings const& strings, test::ints const& ints)
+test::cnv::performance(test::cnv::strings const& strings, test::cnv::ints const& ints)
 {
+    old_test_spirit();
+    add_test_spirit();
+
     int const num_tries = 5;
 
     for (int k = 0; k < num_tries; ++k)

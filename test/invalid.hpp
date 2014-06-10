@@ -5,7 +5,7 @@
 
 template<typename Converter>
 void
-test::invalid(Converter const& cnv)
+test::cnv::invalid(Converter const& cnv)
 {
     char const* str[] = { "not", "1 2", " 33", "44 ", "0x11", "7 + 5" };
     int const    size = sizeof(str) / sizeof(str[0]);
@@ -17,7 +17,7 @@ test::invalid(Converter const& cnv)
 
         if (!failed)
         {
-            printf("test::invalid() failed for: <%s><%d>\n", str[k], res.value());
+            printf("test::cnv::invalid() failed for: <%s><%d>\n", str[k], res.value());
         }
         BOOST_TEST(failed);
     }

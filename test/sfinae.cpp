@@ -11,7 +11,7 @@ namespace { namespace local
 }}
 
 void
-test::sfinae()
+test::cnv::sfinae()
 {
     ////////////////////////////////////////////////////////////////////////////
     // Test string SFINAE.

@@ -8,7 +8,7 @@
 using std::string;
 
 void
-test::lcast_converter()
+test::cnv::lcast_converter()
 {
     boost::cnv::lexical_cast cnv;
 

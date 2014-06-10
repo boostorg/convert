@@ -8,6 +8,6 @@
 using std::string;
 
 void
-test::scratchpad()
+test::cnv::scratchpad()
 {
 }

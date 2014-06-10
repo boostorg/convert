@@ -48,46 +48,49 @@ struct change
     private: value_type value_;
 };
 
-struct test
+namespace test
 {
+    struct cnv
+    {
 #if defined(_MSC_VER)
-    static bool const    is_msc = true;
-    static bool const    is_gcc = false;
-    static int const num_cycles = 1000000;
+        static bool const    is_msc = true;
+        static bool const    is_gcc = false;
+        static int const num_cycles = 1000000;
 #elif defined(__CYGWIN__) 
-    static bool const    is_msc = false;
-    static bool const    is_gcc = true;
-    static int const num_cycles = 1000000;
+        static bool const    is_msc = false;
+        static bool const    is_gcc = true;
+        static int const num_cycles = 1000000;
 #elif defined(__GNUC__)
-    static bool const    is_msc = false;
-    static bool const    is_gcc = true;
-    static int const num_cycles = 10000000;
+        static bool const    is_msc = false;
+        static bool const    is_gcc = true;
+        static int const num_cycles = 10000000;
 #else
 #error "Add here."
 #endif
 
-    typedef std::vector<int>            ints;
-    typedef std::vector<std::string> strings;
+        typedef std::vector<int>            ints;
+        typedef std::vector<std::string> strings;
 
-    static void           scratchpad ();
-    static void               sfinae ();
-    static void           algorithms ();
-    static void           encryption ();
-    static void            callables ();
-    static void      lcast_converter ();
-    static void              sstream ();
-    static void        int_to_string ();
-    static void       string_to_bool ();
-    static void            user_type ();
-    static void        force_in_type ();
-    static void          performance (test::strings const&, test::ints const&);
-    static void               spirit (test::strings const&);
+        static void           scratchpad ();
+        static void               sfinae ();
+        static void           algorithms ();
+        static void           encryption ();
+        static void            callables ();
+        static void      lcast_converter ();
+        static void              sstream ();
+        static void        int_to_string ();
+        static void       string_to_bool ();
+        static void            user_type ();
+        static void        force_in_type ();
+        static void          performance (test::cnv::strings const&, test::cnv::ints const&);
+        static void               spirit (test::cnv::strings const&);
 
-    template<typename Converter> static void     str_to_int (Converter const&);
-    template<typename Converter> static void type_to_string (Converter const&);
-    template<typename Converter> static void string_to_type (Converter const&);
-    template<typename Converter> static void        invalid (Converter const&);
-};
+        template<typename Converter> static void     str_to_int (Converter const&);
+        template<typename Converter> static void type_to_string (Converter const&);
+        template<typename Converter> static void string_to_type (Converter const&);
+        template<typename Converter> static void        invalid (Converter const&);
+    };
+}
 
 namespace arg = boost::cnv::parameter;
 

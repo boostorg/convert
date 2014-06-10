@@ -14,7 +14,7 @@ using std::wstring;
 
 template<typename Converter>
 void
-test::type_to_string(Converter const& cnv)
+test::cnv::type_to_string(Converter const& cnv)
 {
     BOOST_TEST("255" == boost::convert<std::string>(255, cnv(arg::base = boost::cnv::base::dec)).value_or("bad"));
     BOOST_TEST( "ff" == boost::convert<std::string>(255, cnv(arg::base = boost::cnv::base::hex)).value_or("bad"));
@@ -23,7 +23,7 @@ test::type_to_string(Converter const& cnv)
 
 template<typename Converter>
 void
-test::string_to_type(Converter const& cnv)
+test::cnv::string_to_type(Converter const& cnv)
 {
     BOOST_TEST( 255 == boost::convert<int>("255", cnv(arg::base = boost::cnv::base::dec)).value_or(999));
     BOOST_TEST( 999 == boost::convert<int>( "FF", cnv(arg::base = boost::cnv::base::dec)).value_or(999));
@@ -33,7 +33,7 @@ test::string_to_type(Converter const& cnv)
 }
 
 void
-test::force_in_type()
+test::cnv::force_in_type()
 {
     boost::cnv::cstringstream cnv;
 
@@ -51,15 +51,15 @@ test::force_in_type()
 int
 main(int argc, char const* argv[])
 {
-    test::ints                                ints;
-    test::strings                             strs;
+    test::cnv::ints                                ints;
+    test::cnv::strings                             strs;
     boost::random::mt19937                     gen;
     boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX);
 
-    ints.reserve(test::num_cycles);
-    strs.reserve(test::num_cycles);
+    ints.reserve(test::cnv::num_cycles);
+    strs.reserve(test::cnv::num_cycles);
 
-    for (int k = 0; k < test::num_cycles; ++k)
+    for (int k = 0; k < test::cnv::num_cycles; ++k)
     {
         int    iv = dist(gen);
         string sv = boost::lexical_cast<std::string>(iv);
@@ -71,31 +71,31 @@ main(int argc, char const* argv[])
     example::getting_serious();
     example::algorithms();
 
-    test::invalid(boost::cnv::lexical_cast());
-//    test::invalid(boost::cnv::cstringstream());
-//    test::invalid(boost::cnv::strtol());
-//    test::invalid(boost::cnv::printf());
-    test::scratchpad();
-    test::sfinae();
-    test::int_to_string();
-    test::string_to_bool();
-    test::str_to_int(boost::cnv::lexical_cast());
-    test::str_to_int(boost::cnv::cstringstream());
-    test::str_to_int(boost::cnv::strtol());
-    test::str_to_int(boost::cnv::printf());
-    test::type_to_string(boost::cnv::printf());
-    test::string_to_type(boost::cnv::strtol()); 
-    test::string_to_type(boost::cnv::printf());
-    test::type_to_string(boost::cnv::printf());
-    test::user_type();
-    test::force_in_type();
-    test::lcast_converter();
-    test::sstream();
-    test::algorithms();
-    test::callables();
-    test::encryption();
-    test::performance(strs, ints);
-    test::spirit(strs);
+    test::cnv::invalid(boost::cnv::lexical_cast());
+//    test::cnv::invalid(boost::cnv::cstringstream());
+//    test::cnv::invalid(boost::cnv::strtol());
+//    test::cnv::invalid(boost::cnv::printf());
+    test::cnv::scratchpad();
+    test::cnv::sfinae();
+    test::cnv::int_to_string();
+    test::cnv::string_to_bool();
+    test::cnv::str_to_int(boost::cnv::lexical_cast());
+    test::cnv::str_to_int(boost::cnv::cstringstream());
+    test::cnv::str_to_int(boost::cnv::strtol());
+    test::cnv::str_to_int(boost::cnv::printf());
+    test::cnv::type_to_string(boost::cnv::printf());
+    test::cnv::string_to_type(boost::cnv::strtol()); 
+    test::cnv::string_to_type(boost::cnv::printf());
+    test::cnv::type_to_string(boost::cnv::printf());
+    test::cnv::user_type();
+    test::cnv::force_in_type();
+    test::cnv::lcast_converter();
+    test::cnv::sstream();
+    test::cnv::algorithms();
+    test::cnv::callables();
+    test::cnv::encryption();
+    test::cnv::performance(strs, ints);
+    test::cnv::spirit(strs);
 
     return boost::report_errors();
 }

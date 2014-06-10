@@ -7,7 +7,7 @@ using std::string;
 
 template<typename Converter>
 void
-test::str_to_int(Converter const& cnv)
+test::cnv::str_to_int(Converter const& cnv)
 {
     string const           not_int_str = "not an int";
     string const               std_str =  "-11";
