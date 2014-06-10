@@ -129,10 +129,19 @@ performance::int_to_str(test::ints const& ints, Converter const& try_converter)
 void
 test::performance(test::strings const& strings, test::ints const& ints)
 {
-    for (int k = 0; k < 3; ++k)
-        printf("str-to-int spirit: raw/cnv=%.2f/%.2f seconds.\n",
-               performance_string_to_int_spirit(strings),
-               performance::str_to_int(strings, boost::cnv::spirit()));
+    int const num_tries = 20;
+    double     raw_time = 0;
+    double     cnv_time = 0;
+
+    for (int k = 0; k < num_tries; ++k)
+        raw_time += performance_string_to_int_spirit(strings);
+
+    for (int k = 0; k < num_tries; ++k)
+        cnv_time += performance::str_to_int(strings, boost::cnv::spirit());
+
+    printf("str-to-int spirit: raw/cnv=%.2f/%.2f seconds.\n",
+           raw_time / num_tries,
+           cnv_time / num_tries);
 
     printf("str-to-int: strtol/scanf/lcast/sstream=%.2f/%.2f/%.2f/%.2f seconds.\n",
            performance::str_to_int(strings, boost::cnv::strtol()),
