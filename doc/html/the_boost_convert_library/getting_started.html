@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Getting Started</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="introduction.html" title="Introduction">
@@ -29,14 +29,21 @@
         is often mentioned as a reference.
       </p></td></tr>
 </table></div>
+<h3>
+<a name="the_boost_convert_library.getting_started.h0"></a>
+      <span><a name="the_boost_convert_library.getting_started.basic_deployment"></a></span><a class="link" href="getting_started.html#the_boost_convert_library.getting_started.basic_deployment">Basic
+      Deployment</a>
+    </h3>
 <p>
-      In its simplest form the <span class="emphasis"><em>Boost.Convert</em></span> functionality might
-      be deployed as follows:
+      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> basic deployment is not that different
+      from <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> and, in fact, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      functionality is easily deployed through <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
+      interface (with no performance overhead when compiled optimized):
     </p>
 <p>
 </p>
 <pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
-<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">lexical_cast</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
 
 <span class="keyword">using</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">;</span>
 </pre>
@@ -44,26 +51,109 @@
     </p>
 <p>
 </p>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span> <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span> <span class="identifier">cnv</span><span class="special">;</span>
 
-<span class="keyword">int</span>    <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails</span>
-<span class="keyword">int</span>    <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws if the conversion fails</span>
-<span class="keyword">int</span>    <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"uhm"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Returns -1 if the conversion fails</span>
-<span class="identifier">string</span> <span class="identifier">s1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
+<span class="keyword">int</span>    <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">);</span>
+<span class="keyword">int</span>    <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
+<span class="identifier">string</span> <span class="identifier">s1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">);</span>
+<span class="identifier">string</span> <span class="identifier">s2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
 
 <span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i1</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
 <span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i3</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span>
 <span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s1</span> <span class="special">==</span> <span class="string">"123"</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s2</span> <span class="special">==</span> <span class="string">"123"</span><span class="special">);</span>
+</pre>
+<p>
+    </p>
+<h3>
+<a name="the_boost_convert_library.getting_started.h1"></a>
+      <span><a name="the_boost_convert_library.getting_started.flexibility_and_adaptability_to_change"></a></span><a class="link" href="getting_started.html#the_boost_convert_library.getting_started.flexibility_and_adaptability_to_change">Flexibility
+      and Adaptability to Change</a>
+    </h3>
+<p>
+      These qualities become important later in development or in the maintenance
+      phase when, say, later the code above is flagged as too slow. Then the performance
+      could be improved by replacing the original converter:
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">spirit</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
 </pre>
 <p>
     </p>
 <p>
-      The above calls can be interpreted as "<span class="emphasis"><em>convert a string to int</em></span>"
-      for <code class="computeroutput"><span class="identifier">i1</span></code> and <code class="computeroutput"><span class="identifier">i2</span></code>
-      and "<span class="emphasis"><em>convert a string to int and return -1 if the conversion
-      fails</em></span>" for <code class="computeroutput"><span class="identifier">i3</span></code>.
+</p>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">spirit</span> <span class="identifier">cnv</span><span class="special">;</span>
+
+<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">);</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Five times faster (gcc-4.8, Ubuntu 14.04, 32-bit)</span>
+</pre>
+<p>
     </p>
+<p>
+      If, instead, the requirements change to accept more user-input formats or to
+      write in a certain format, then, again, that could be achieved with another
+      converter:
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+</pre>
+<p>
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span> <span class="identifier">cnv</span><span class="special">;</span>
+
+<span class="keyword">try</span>
+<span class="special">{</span>
+    <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"   123"</span><span class="special">);</span> <span class="comment">// Fails. Throws</span>
+    <span class="identifier">BOOST_TEST</span><span class="special">(!</span><span class="string">"We should not be here"</span><span class="special">);</span>
+<span class="special">}</span>
+<span class="keyword">catch</span> <span class="special">(...)</span> <span class="special">{}</span>
+
+<span class="keyword">int</span>    <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"   123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">skipws</span><span class="special">)).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Success</span>
+<span class="identifier">string</span> <span class="identifier">s1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123.456</span><span class="special">);</span>
+<span class="identifier">string</span> <span class="identifier">s2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123.456</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">setprecision</span><span class="special">(</span><span class="number">4</span><span class="special">))).</span><span class="identifier">value</span><span class="special">();</span>
+
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s1</span> <span class="special">==</span> <span class="string">"123.456"</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s2</span> <span class="special">==</span> <span class="string">"123.5"</span><span class="special">);</span> <span class="comment">// Precision was set to 4. Correctly rounded.</span>
+</pre>
+<p>
+    </p>
+<h3>
+<a name="the_boost_convert_library.getting_started.h2"></a>
+      <span><a name="the_boost_convert_library.getting_started.basic_error_processing"></a></span><a class="link" href="getting_started.html#the_boost_convert_library.getting_started.basic_error_processing">Basic
+      Error Processing</a>
+    </h3>
+<p>
+</p>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span> <span class="identifier">cnv</span><span class="special">;</span>
+
+<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws if the conversion fails</span>
+<span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"uhm"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Returns -1 if the conversion fails</span>
+
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i1</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i3</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span>
+</pre>
+<p>
+    </p>
+<p>
+      The above calls can be interpreted as
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+          "<span class="emphasis"><em>convert a string to int</em></span>" for <code class="computeroutput"><span class="identifier">i1</span></code> and <code class="computeroutput"><span class="identifier">i2</span></code>
+          and
+        </li>
+<li class="listitem">
+          "<span class="emphasis"><em>convert a string to int and return -1 if the conversion
+          fails</em></span>" for <code class="computeroutput"><span class="identifier">i3</span></code>.
+        </li>
+</ul></div>
 <p>
       The <code class="computeroutput"><span class="identifier">i1</span></code> and <code class="computeroutput"><span class="identifier">i2</span></code>
       deployments look sufficiently close and, in fact, are identical behaviorally.
@@ -71,15 +161,13 @@
       request -- "<span class="emphasis"><em>convert a string to int</em></span>" -- lacks
       the description of the failure use-case. Consequently, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> treat that use-case as "exceptional".
+      The description for <code class="computeroutput"><span class="identifier">i3</span></code> is complete
+      and processed "as ordered" with the provided fallback value returned
+      if the requested conversion fails.
     </p>
 <p>
-      "<span class="emphasis"><em>Convert a string to int and return -1 if the conversion fails</em></span>"
-      is complete and processed "as ordered" with the provided fallback
-      value returned if the requested conversion fails.
-    </p>
-<p>
-      The described (very basic) interface might be sufficient for a variety of conversion
-      deployments. For example:
+      That fairly straightforward error detection might be sufficient for a variety
+      of conversion deployments. For example:
     </p>
 <p>
 </p>
@@ -106,8 +194,9 @@
 <p>
     </p>
 <p>
-      So far the deployment of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> seems more compact and natural (your mileage
-      may vary) and might be potentially more efficient compared to <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      So far the deployment of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
+      seems more flexible, more compact and natural (your mileage may vary) and potentially
+      more efficient compared to "raw" <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       deployment which achieves similar (excluding formatting) results with:
     </p>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_threads</span> <span class="special">=</span> <span class="identifier">default_num_threads</span><span class="special">;</span>

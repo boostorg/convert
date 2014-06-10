@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Converters</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="boost_convert_with_standard_algorithms.html" title="Boost.Convert with Standard Algorithms">
@@ -30,14 +30,14 @@
       signature:
     </p>
 <pre class="programlisting"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> <span class="identifier">TypeOut</span><span class="special">,</span> <span class="keyword">typename</span> <span class="identifier">TypeIn</span><span class="special">&gt;</span>
-<span class="keyword">bool</span> <span class="keyword">operator</span><span class="special">()(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">value_in</span><span class="special">,</span> <span class="identifier">TypeOut</span><span class="special">&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+<span class="keyword">bool</span> <span class="keyword">operator</span><span class="special">()(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">value_in</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">&gt;&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
 </pre>
 <p>
       if that is a general-purpose converter capable of handling many types (like
       string-to-type and type-to-string conversions). Alternatively, a purpose-built
       custom converter might only care to provide
     </p>
-<pre class="programlisting"><span class="keyword">bool</span> <span class="keyword">operator</span><span class="special">()(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">value_in</span><span class="special">,</span> <span class="identifier">TypeOut</span><span class="special">&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+<pre class="programlisting"><span class="keyword">bool</span> <span class="keyword">operator</span><span class="special">()(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">value_in</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">&gt;&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
 </pre>
 <p>
       if its sole purpose is to handle one particular conversion/transformation of
@@ -46,7 +46,7 @@
       or UCS-4 (depending on <code class="computeroutput"><span class="keyword">wchar_t</span></code>
       size) does not seem like such an unreasonable idea:
     </p>
-<pre class="programlisting"><span class="keyword">bool</span> <span class="keyword">operator</span><span class="special">()(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">value_in</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">wstring</span><span class="special">&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+<pre class="programlisting"><span class="keyword">bool</span> <span class="keyword">operator</span><span class="special">()(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">value_in</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">wstring</span><span class="special">&gt;&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
 </pre>
 <p>
       Alternatively again, an ad-hoc in-place <span class="emphasis"><em>callable</em></span> might
@@ -57,7 +57,7 @@
 <p>
       or an old-fashioned function:
     </p>
-<pre class="programlisting"><span class="keyword">extern</span> <span class="keyword">bool</span> <span class="identifier">my_converter</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="keyword">int</span><span class="special">&amp;);</span>
+<pre class="programlisting"><span class="keyword">extern</span> <span class="keyword">bool</span> <span class="identifier">my_converter</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;&amp;);</span>
 
 <span class="keyword">int</span> <span class="identifier">v</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">my_converter</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span>
 </pre>
@@ -65,7 +65,7 @@
       With regard to converters the <span class="emphasis"><em>Boost.Convert</em></span> framework
       has been designed with the following requirements in mind:
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
           converters do not rely on and are not aware of the <span class="emphasis"><em>Boost.Convert</em></span>
           framework;

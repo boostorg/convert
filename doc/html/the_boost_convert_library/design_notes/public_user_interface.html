@@ -1,32 +1,56 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>public/user interface</title>
+<title>Public/User Interface</title>
 <link rel="stylesheet" href="../../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../design_notes.html" title="Design Notes">
 <link rel="prev" href="../design_notes.html" title="Design Notes">
-<link rel="next" href="public_user_interface/return_value.html" title="return value">
+<link rel="next" href="public_user_interface/signature.html" title="Signature">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="../design_notes.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../design_notes.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="public_user_interface/return_value.html"><img src="../../images/next.png" alt="Next"></a>
+<a accesskey="p" href="../design_notes.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../design_notes.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="public_user_interface/signature.html"><img src="../../images/next.png" alt="Next"></a>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="the_boost_convert_library.design_notes.public_user_interface"></a><a class="link" href="public_user_interface.html" title="public/user interface">public/user
-      interface</a>
+<a name="the_boost_convert_library.design_notes.public_user_interface"></a><a class="link" href="public_user_interface.html" title="Public/User Interface">Public/User
+      Interface</a>
 </h3></div></div></div>
-<div class="toc"><dl class="toc">
-<dt><span class="section"><a href="public_user_interface.html#the_boost_convert_library.design_notes.public_user_interface.signature">signature</a></span></dt>
-<dt><span class="section"><a href="public_user_interface/return_value.html">return
-        value</a></span></dt>
+<div class="toc"><dl>
+<dt><span class="section"><a href="public_user_interface.html#the_boost_convert_library.design_notes.public_user_interface.converter_pluggability">Converter
+        Pluggability</a></span></dt>
+<dt><span class="section"><a href="public_user_interface/signature.html">Signature</a></span></dt>
 <dt><span class="section"><a href="public_user_interface/converter_parameter_related_considerations__explicit__default__globally_set__others_.html">Converter-parameter-related
         considerations (explicit, default, globally-set, others)</a></span></dt>
+<dt><span class="section"><a href="public_user_interface/the_perceived_potential_complexity_of_the_interface.html">The
+        Perceived Potential Complexity of the Interface</a></span></dt>
 </dl></div>
+<p>
+        On numerous occasions it was noted that converters might be deployed directly.
+        What such deployment would be lacking and what the single <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> user interface provides is <span class="emphasis"><em>uniform</em></span>
+        deployment and <span class="emphasis"><em>consistent behavior</em></span>. One single interface
+        advertizes and enforces a certain "contract" between the user (service
+        consumer) and <span class="emphasis"><em>varying</em></span> conversion facilities (service
+        provider). Working off such a "contract" allows
+      </p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem">
+            for easier management of parallel development of the components meant
+            to interact or rely on each other;
+          </li>
+<li class="listitem">
+            to adjust to requirement changes without major existing-code disruption
+            (that includes major re-writes, major re-testing, etc.);
+          </li>
+<li class="listitem">
+            easier deployment in generic code.
+          </li>
+</ul></div>
 <div class="section"><div class="titlepage"><div><div><h4 class="title">
-<a name="the_boost_convert_library.design_notes.public_user_interface.signature"></a><a class="link" href="public_user_interface.html#the_boost_convert_library.design_notes.public_user_interface.signature" title="signature">signature</a>
+<a name="the_boost_convert_library.design_notes.public_user_interface.converter_pluggability"></a><a class="link" href="public_user_interface.html#the_boost_convert_library.design_notes.public_user_interface.converter_pluggability" title="Converter Pluggability">Converter
+        Pluggability</a>
 </h4></div></div></div></div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
@@ -38,7 +62,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="../design_notes.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../design_notes.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="public_user_interface/return_value.html"><img src="../../images/next.png" alt="Next"></a>
+<a accesskey="p" href="../design_notes.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../design_notes.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="public_user_interface/signature.html"><img src="../../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>

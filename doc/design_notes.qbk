@@ -1,6 +1,6 @@
 [section Design Notes]
 
-Feel free to skip this section. It is here to document the process and the decisions made during design to be able to review and to reevaluate the relevancy and correctness of those decisions and ultimately the design. Still, this section might help to understand why certain decisions have been made and why ['Boost.Convert] is the way it is.
+Feel free to skip this section. It is here to document the process and the decisions made during design to be able to review and to reevaluate the relevancy and correctness of those decisions and ultimately the design. Still, this section might be useful to understand why certain decisions have been made and why ['Boost.Convert] is the way it is.
 
 [section Requirements]
 
@@ -20,17 +20,28 @@ Feel free to skip this section. It is here to document the process and the decis
 
 [endsect]
 
-[section public/user interface]
-[section signature]
+[section Public/User Interface]
+
+On numerous occasions it was noted that converters might be deployed directly. What such deployment would be lacking and what the single `boost::convert()` user interface provides is ['uniform] deployment and ['consistent behavior]. One single interface advertizes and enforces a certain "contract" between the user (service consumer) and ['varying] conversion facilities (service provider). Working off such a "contract" allows
+
+* for easier management of parallel development of the components meant to interact or rely on each other; 
+* to adjust to requirement changes without major existing-code disruption (that includes major re-writes, major re-testing, etc.);
+* easier deployment in generic code.
+
+[section Converter Pluggability]
 [endsect]
-[section return value]
+[section Signature]
 [endsect]
 [section Converter-parameter-related considerations (explicit, default, globally-set, others)]
 [endsect]
+[section The Perceived Potential Complexity of the Interface]
+
+The interface might be perceived as complex due to it trying to cater for different process flows and wide variety of deployment patterns. 
+
+[endsect]
 [endsect]
 
-[section converter signature]
+[section Converter Signature]
 [endsect]
-
 [endsect]
 

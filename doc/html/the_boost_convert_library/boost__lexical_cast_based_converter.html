@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>boost::lexical_cast-Based Converter</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="converters.html" title="Converters">
@@ -19,14 +19,9 @@
     Converter</a>
 </h2></div></div></div>
 <p>
-      The converter is deployed with
-    </p>
-<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">converter</span><span class="special">/</span><span class="identifier">lexical_cast</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
-</pre>
-<p>
       The purpose of the converter is
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
           to make use of the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
           functionality and performance that many people have become accustomed to
@@ -38,24 +33,40 @@
           framework.
         </li>
 </ul></div>
-<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">lexical_cast_converter</span>
-<span class="special">{</span>
-   <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> <span class="identifier">TypeOut</span><span class="special">,</span> <span class="keyword">typename</span> <span class="identifier">TypeIn</span><span class="special">&gt;</span>
-   <span class="keyword">bool</span>
-   <span class="keyword">operator</span><span class="special">()(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">value_in</span><span class="special">,</span> <span class="identifier">TypeOut</span><span class="special">&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span>
-   <span class="special">{</span>
-       <span class="keyword">try</span>
-       <span class="special">{</span>
-           <span class="identifier">result_out</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">&gt;(</span><span class="identifier">value_in</span><span class="special">);</span>
-           <span class="keyword">return</span> <span class="keyword">true</span><span class="special">;</span>
-       <span class="special">}</span>
-       <span class="keyword">catch</span> <span class="special">(...)</span>
-       <span class="special">{</span>
-           <span class="keyword">return</span> <span class="keyword">false</span><span class="special">;</span>
-       <span class="special">}</span>
-   <span class="special">}</span>
-<span class="special">};</span>
+<p>
+      The converter is deployed with
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">lexical_cast</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="keyword">using</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">;</span>
 </pre>
+<p>
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span> <span class="identifier">cnv</span><span class="special">;</span>
+
+<span class="keyword">int</span>    <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails</span>
+<span class="keyword">int</span>    <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws if the conversion fails</span>
+<span class="keyword">int</span>    <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"uhm"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Returns -1 if the conversion fails</span>
+<span class="identifier">string</span> <span class="identifier">s1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">);</span>
+<span class="identifier">string</span> <span class="identifier">s2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
+
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i1</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i3</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s1</span> <span class="special">==</span> <span class="string">"123"</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s2</span> <span class="special">==</span> <span class="string">"123"</span><span class="special">);</span>
+</pre>
+<p>
+    </p>
+<p>
+      See the <code class="computeroutput"><a class="link" href="../boost/cnv/lexical_cast.html" title="Struct lexical_cast">implementation</a></code>
+      for details.
+    </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>

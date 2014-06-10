@@ -38,7 +38,7 @@ static void getting_started_example2()
     boost::cnv::spirit cnv;
 
     int i1 = boost::lexical_cast<int>("123");
-    int i2 = boost::convert<int>("123", cnv).value(); // Five times faster
+    int i2 = boost::convert<int>("123", cnv).value(); // Five times faster (gcc-4.8, Ubuntu 14.04, 32-bit)
     //]
 }
 
@@ -50,11 +50,18 @@ static void getting_started_example3()
     //[getting_started_example3
     boost::cnv::cstringstream cnv;
 
-    int    i1 = boost::lexical_cast<int>("   123"); // Fails. Throws
+    try
+    {
+        int i1 = boost::lexical_cast<int>("   123"); // Fails. Throws
+        BOOST_TEST(!"We should not be here");
+    }
+    catch (...) {}
+
     int    i2 = boost::convert<int>("   123", cnv(std::skipws)).value(); // Success
     string s1 = boost::lexical_cast<string>(123.456);
     string s2 = boost::convert<string>(123.456, cnv(std::setprecision(4))).value();
 
+    BOOST_TEST(i2 == 123);
     BOOST_TEST(s1 == "123.456");
     BOOST_TEST(s2 == "123.5"); // Precision was set to 4. Correctly rounded.
     //]

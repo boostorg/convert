@@ -1,0 +1,27 @@
+C. Kormanyos
+1. higher density of comments if any other authors ever need to work on the library 
+2. I would like to find "convert.hpp" DONE
+3. tabs and spaces 
+4. Some comments of the //-comment-type begin on the zero'th column, whereas some begin at indented locations. That is not clean.
+5. There is a rather high number of comments of the type TBD. These are good for noting future goals, but also lend an uneasy feeling about the stability of the code.
+6. It might be useful to establish the range of application and the differences between convert and lexical_cast.
+
+Jeroen
+
+I'd like an overload without the Converter const & as well, defaulting to a converter chosen via a customisation point.
+
+Roland
+
+
+I think it would be relatively simple to get to a much leaner interface.
+For instance,
+
+  * convert could have a converter template parameter, defaulting to the
+    stringstream converter
+  * convert::from() could have an overload that just takes the "from"
+    parameter and provides the default-constructed converter itself.
+  * convert could have a conversion operator for the OutType, which does
+    the same as convert::value()
+
+
+

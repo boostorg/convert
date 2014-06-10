@@ -39,7 +39,8 @@ void
 example1()
 {
     //[algorithm_example1
-    /*`The following code demonstrates a failed attempt to convert a few strings with `boost::lexical_cast`:
+    /*`The following code demonstrates a failed attempt to convert a few strings with `boost::lexical_cast` (and one of the
+       reasons ['Boost.Convert] has been developed):
     */
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};

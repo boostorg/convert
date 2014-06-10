@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Introduction</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
@@ -21,7 +21,7 @@
       <span class="emphasis"><em>Boost.Convert</em></span> builds on the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       experience and takes those conversion/transformation-related ideas further
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
           to be applicable to a wider range of conversion-related deployment scenarios,
         </li>
@@ -40,7 +40,7 @@
 <p>
       <span class="emphasis"><em>Boost.Convert</em></span> consists of two components:
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
           the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
           user interface;
@@ -51,11 +51,11 @@
 </ul></div>
 <p>
       <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
-      is responsible for <span class="emphasis"><em>uniform deployment</em></span> and <span class="emphasis"><em>consistent
-      behavior</em></span>. It implements new and familiar conversion/transformation-related
-      behavior such as:
+      provides <span class="emphasis"><em>uniform deployment</em></span> and <span class="emphasis"><em>consistent behavior</em></span>.
+      It implements new and familiar conversion/transformation-related behavior such
+      as:
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
           flexible throwing, delayed-throwing and non-throwing failed-conversion
           behavior;
@@ -81,7 +81,7 @@
       a few proof-of-the-concept string-to-type (and type-to-string) converters are
       supplied:
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
           <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>-based,
         </li>
@@ -106,7 +106,7 @@
       The <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based converter draws on the
       standard <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">streams</span></code> functionality and provides:
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
           string-to-type and type-to-string conversions;
         </li>
@@ -128,22 +128,22 @@
     </p>
 <p>
 </p>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">5</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"0X10"</span><span class="special">,</span> <span class="string">"0X11"</span><span class="special">,</span> <span class="string">"0X12"</span><span class="special">,</span> <span class="string">"not an int"</span> <span class="special">}};</span>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">3</span><span class="special">&gt;</span> <span class="identifier">strings</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">" 5"</span><span class="special">,</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"not an int"</span> <span class="special">}};</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>            <span class="identifier">integers</span><span class="special">;</span>
-<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cstringstream_converter</span>   <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
+<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span>   <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// stringstream-based char converter</span>
+
+<span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">skipws</span><span class="special">);</span>
 
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span>
     <span class="identifier">strings</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span>
     <span class="identifier">strings</span><span class="special">.</span><span class="identifier">end</span><span class="special">(),</span>
     <span class="identifier">std</span><span class="special">::</span><span class="identifier">back_inserter</span><span class="special">(</span><span class="identifier">integers</span><span class="special">),</span>
-    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">INT_MAX</span><span class="special">));</span>
+    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">INT_MAX</span><span class="special">));</span>
 
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">integers</span><span class="special">.</span><span class="identifier">size</span><span class="special">()</span> <span class="special">==</span> <span class="number">5</span><span class="special">);</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">0</span><span class="special">]</span> <span class="special">==</span> <span class="number">15</span><span class="special">);</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">1</span><span class="special">]</span> <span class="special">==</span> <span class="number">16</span><span class="special">);</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">2</span><span class="special">]</span> <span class="special">==</span> <span class="number">17</span><span class="special">);</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">3</span><span class="special">]</span> <span class="special">==</span> <span class="number">18</span><span class="special">);</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">4</span><span class="special">]</span> <span class="special">==</span> <span class="identifier">INT_MAX</span><span class="special">);</span> <span class="comment">// Failed conversion</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">integers</span><span class="special">.</span><span class="identifier">size</span><span class="special">()</span> <span class="special">==</span> <span class="number">3</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">0</span><span class="special">]</span> <span class="special">==</span>  <span class="number">5</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">1</span><span class="special">]</span> <span class="special">==</span> <span class="number">15</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">integers</span><span class="special">[</span><span class="number">2</span><span class="special">]</span> <span class="special">==</span> <span class="identifier">INT_MAX</span><span class="special">);</span> <span class="comment">// Failed conversion</span>
 </pre>
 <p>
     </p>
