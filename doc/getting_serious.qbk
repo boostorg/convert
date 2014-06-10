@@ -17,16 +17,14 @@ However, to cater for a wider range of program-flow variations, ['Boost.Convert]
 
 [getting_serious_example3]
 
-Here `boost::cnv::optional` steps forward as the actual type returned by `boost::convert()` which until now we avoided by immediately calling its value-accessor methods:
+Here `boost::optional` steps forward as the actual type returned by `boost::convert()` which until now we avoided by immediately calling its value-accessor methods:
 
  int i1 = boost::convert<int>(str1, cnv).value();
  int i2 = boost::convert<int>(str2, cnv).value_or(fallback_value);
 
-[note As of time of writing (boost_1_55_0) `boost::cnv::optional` is a temporary class and is to be replaced with `boost::optional 1_56_0` or `std::tr2::optional` which provide all the described functionality and the interface.]
-
 Both `boost::lexical_cast` and `boost::convert` behavior reflect the fact that a conversion request is only a ['request] which may succeed but may also fail. However, from the user perspective `boost::lexical_cast` processes failure in a somewhat non-negotiable manner. `boost::convert` takes a softer approach and leaves the decision to the user. In my personal experience the choice has overwhelmingly been to avoid exceptions altogether with program flows similar to:
 
- boost::cnv::optional<int> res = boost::convert<int>(str, cnv);
+ boost::optional<int> res = boost::convert<int>(str, cnv);
 
  if (!res) log("str conversion failed");
 

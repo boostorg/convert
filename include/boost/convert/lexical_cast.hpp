@@ -16,7 +16,7 @@ struct boost::cnv::lexical_cast
 {
     template<typename TypeOut, typename TypeIn>
     bool
-    operator()(TypeIn const& value_in, boost::cnv::optional<TypeOut>& result_out) const
+    operator()(TypeIn const& value_in, boost::optional<TypeOut>& result_out) const
     {
         try
         {

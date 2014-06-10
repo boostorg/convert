@@ -35,10 +35,10 @@ test::str_to_int(Converter const& cnv)
     // Testing "optional"
     ////////////////////////////////////////////////////////////////////////////
 
-    boost::cnv::optional<int> const r00 = boost::convert<int>(not_int_str, cnv);
-    boost::cnv::optional<int> const r01 = boost::convert<int>(std_str,     cnv);
-    boost::cnv::optional<int> const r02 = boost::convert<int>(c_str,       cnv);
-    boost::cnv::optional<int> const r05 = boost::convert<int>(array_str,   cnv);
+    boost::optional<int> const r00 = boost::convert<int>(not_int_str, cnv);
+    boost::optional<int> const r01 = boost::convert<int>(std_str,     cnv);
+    boost::optional<int> const r02 = boost::convert<int>(c_str,       cnv);
+    boost::optional<int> const r05 = boost::convert<int>(array_str,   cnv);
 
     BOOST_TEST(!r00); // Failed conversion
     BOOST_TEST( r01 && r01.value() ==  -11);

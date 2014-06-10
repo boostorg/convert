@@ -12,7 +12,7 @@ test::invalid(Converter const& cnv)
 
     for (int k = 0; k < size; ++k)
     {
-        boost::cnv::optional<int> const res = boost::convert<int>(str[k], cnv);
+        boost::optional<int> const res = boost::convert<int>(str[k], cnv);
         bool const                   failed = !res;
 
         if (!failed)

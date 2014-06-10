@@ -14,13 +14,13 @@ test::string_to_bool()
     // Testing string-to-bool and bool-to-string conversions
     ////////////////////////////////////////////////////////////////////////////
 
-//    boost::cnv::optional<bool>t bool_res1 = boost::convert<bool>("1",     false, ccnv);
-//    boost::cnv::optional<bool>t bool_res2 = boost::convert<bool>("true",  false, ccnv);
-//    boost::cnv::optional<bool>t bool_res3 = boost::convert<bool>("yes",   false, ccnv);
-//    boost::cnv::optional<bool>t bool_res4 = boost::convert<bool>(L"1",    false, wcnv);
-//    boost::cnv::optional<bool>t bool_res5 = boost::convert<bool>(L"true", false, wcnv);
-//    boost::cnv::optional<bool>t bool_res6 = boost::convert<bool>(L"yes",  false, wcnv);
-//    boost::cnv::optional<bool>t bool_res7 = boost::convert<bool>("junk",   true, ccnv);
+//    boost::optional<bool>t bool_res1 = boost::convert<bool>("1",     false, ccnv);
+//    boost::optional<bool>t bool_res2 = boost::convert<bool>("true",  false, ccnv);
+//    boost::optional<bool>t bool_res3 = boost::convert<bool>("yes",   false, ccnv);
+//    boost::optional<bool>t bool_res4 = boost::convert<bool>(L"1",    false, wcnv);
+//    boost::optional<bool>t bool_res5 = boost::convert<bool>(L"true", false, wcnv);
+//    boost::optional<bool>t bool_res6 = boost::convert<bool>(L"yes",  false, wcnv);
+//    boost::optional<bool>t bool_res7 = boost::convert<bool>("junk",   true, ccnv);
 //
 //    BOOST_TEST( bool_res1 && bool_res1.value() == true);
 //    BOOST_TEST( bool_res2 && bool_res2.value() == true);

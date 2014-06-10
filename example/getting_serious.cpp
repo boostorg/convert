@@ -46,8 +46,8 @@ example::getting_serious()
     {
         //[getting_serious_example3
 
-        boost::cnv::optional<int> r1 = boost::convert<int>(str1, cnv); // Does not throw on conversion failure
-        boost::cnv::optional<int> r2 = boost::convert<int>(str2, cnv); // Does not throw on conversion failure
+        boost::optional<int> r1 = boost::convert<int>(str1, cnv); // Does not throw on conversion failure
+        boost::optional<int> r2 = boost::convert<int>(str2, cnv); // Does not throw on conversion failure
 
         // ...
 

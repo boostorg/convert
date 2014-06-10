@@ -22,12 +22,12 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase
     CONVERT_FUNC_SET_PRECISION;
     CONVERT_FUNC_SET_UPPERCASE;
 
-    bool operator()(std::string const& v, boost::cnv::optional<int>&               r) const { return operator()(v.c_str(), r); }
-    bool operator()(std::string const& v, boost::cnv::optional<long int>&          r) const { return operator()(v.c_str(), r); }
-    bool operator()(std::string const& v, boost::cnv::optional<unsigned long int>& r) const { return operator()(v.c_str(), r); }
-    bool operator()(std::string const& v, boost::cnv::optional<double>&            r) const { return operator()(v.c_str(), r); }
+    bool operator()(std::string const& v, boost::optional<int>&               r) const { return operator()(v.c_str(), r); }
+    bool operator()(std::string const& v, boost::optional<long int>&          r) const { return operator()(v.c_str(), r); }
+    bool operator()(std::string const& v, boost::optional<unsigned long int>& r) const { return operator()(v.c_str(), r); }
+    bool operator()(std::string const& v, boost::optional<double>&            r) const { return operator()(v.c_str(), r); }
 
-    bool operator()(char const* value_in, boost::cnv::optional<double>& result_out) const
+    bool operator()(char const* value_in, boost::optional<double>& result_out) const
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
@@ -36,7 +36,7 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase
 
         return cnv_end == str_end;
     }
-    bool operator()(char const* value_in, boost::cnv::optional<int>& result_out) const
+    bool operator()(char const* value_in, boost::optional<int>& result_out) const
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
@@ -45,7 +45,7 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase
 
         return success ? (result_out = int(result), success) : success;
     }
-    bool operator()(char const* value_in, boost::cnv::optional<long int>& result_out) const
+    bool operator()(char const* value_in, boost::optional<long int>& result_out) const
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
@@ -54,7 +54,7 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase
 
         return *result_out != LONG_MIN && *result_out != LONG_MAX && cnv_end == str_end;
     }
-    bool operator()(char const* value_in, boost::cnv::optional<unsigned long int>& result_out) const
+    bool operator()(char const* value_in, boost::optional<unsigned long int>& result_out) const
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
@@ -64,7 +64,7 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase
         return *result_out != ULONG_MAX && cnv_end == str_end;
     }
 
-    bool operator()(int value_in, boost::cnv::optional<std::string>& result_out) const
+    bool operator()(int value_in, boost::optional<std::string>& result_out) const
     {
         result_out = this_type::ltostr(value_in, base_);
 

@@ -5,11 +5,15 @@
 #ifndef BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
 #define BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
 
-#include <boost/convert/detail/forward.hpp>
+#include <boost/convert/detail/workarounds.hpp>
+#include <boost/optional.hpp>
 #include <boost/make_default.hpp>
 
 namespace boost { namespace cnv
 {
+    template<typename, typename> struct algorithm_helper;
+    template<typename, typename> struct algorithm_helper_with_fallback;
+
     template<typename TypeOut, typename Converter>
     struct algorithm_helper
     {
@@ -21,10 +25,10 @@ namespace boost { namespace cnv
 
         template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
         {
-            boost::cnv::optional<TypeOut> result;
+            boost::optional<TypeOut> result;
 
             if (!(*converter_)(value_in, result))
-                boost::cnv::dothrow();
+                boost::optional<TypeOut>().value(); // That'll throw an exception consistent with boost::optional::value();
 
             return result.value();
         }
@@ -50,7 +54,7 @@ namespace boost { namespace cnv
 
         template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
         {
-            boost::cnv::optional<TypeOut> result;
+            boost::optional<TypeOut> result;
             bool      good = (*base_type::converter_)(value_in, result);
 
             return good ? result.value() : fallback_;

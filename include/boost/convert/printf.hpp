@@ -24,7 +24,7 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase
 
     template<typename TypeIn>
     typename boost::disable_if<cnv::is_any_string<TypeIn>, bool>::type
-    operator()(TypeIn const& value_in, boost::cnv::optional<std::string>& result_out) const
+    operator()(TypeIn const& value_in, boost::optional<std::string>& result_out) const
     {
         int const     bufsz = 256;
         char     buf[bufsz];
@@ -37,13 +37,13 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase
     }
     template<typename TypeOut>
     typename boost::disable_if<cnv::is_any_string<TypeOut>, bool>::type
-    operator()(std::string const& value_in, boost::cnv::optional<TypeOut>& result_out) const
+    operator()(std::string const& value_in, boost::optional<TypeOut>& result_out) const
     {
         return this_type::operator()(value_in.c_str(), result_out);
     }
     template<typename TypeOut>
     typename boost::disable_if<cnv::is_any_string<TypeOut>, bool>::type
-    operator()(char const* value_in, boost::cnv::optional<TypeOut>& result_out) const
+    operator()(char const* value_in, boost::optional<TypeOut>& result_out) const
     {
         int num_read = ::sscanf(value_in, format(pos<TypeOut>()), &*(result_out = boost::make_default<TypeOut>()));
 

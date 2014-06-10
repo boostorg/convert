@@ -12,7 +12,7 @@ namespace boost { namespace cnv
 
 struct boost::cnv::spirit
 {
-    bool operator()(std::string const& str, boost::cnv::optional<int>& result) const
+    bool operator()(std::string const& str, boost::optional<int>& result) const
     {
         std::string::const_iterator i = str.begin();
 

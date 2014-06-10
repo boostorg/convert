@@ -16,8 +16,8 @@
 #include <iostream>
 #include <stdio.h>
 
-#undef  BOOST_TEST
-#define BOOST_TEST BOOST_ASSERT
+//#undef  BOOST_TEST
+//#define BOOST_TEST BOOST_ASSERT
 
 struct change
 {
@@ -89,7 +89,6 @@ struct test
     template<typename Converter> static void        invalid (Converter const&);
 };
 
-namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;
 
 #endif // BOOST_CONVERT_TEST_HPP

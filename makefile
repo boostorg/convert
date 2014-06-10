@@ -6,7 +6,7 @@ sources = $(wildcard test/*.cpp) $(wildcard example/*.cpp)
 
 include $(DEVMAKE)/makefile
 
-else	
+else
 
 all: $(wildcard test/*.cpp) $(wildcard example/*.cpp) 
 	g++ $^ -I./include -I../boost_1_55_0

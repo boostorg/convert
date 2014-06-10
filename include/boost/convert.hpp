@@ -15,10 +15,7 @@
 #ifndef BOOST_CONVERT_HPP
 #define BOOST_CONVERT_HPP
 
-#include <boost/convert/detail/forward.hpp>
-#include <boost/convert/detail/workarounds.hpp>
 #include <boost/convert/detail/algorithm_helper.hpp>
-#include <boost/convert/detail/optional.hpp>
 
 namespace boost
 {
@@ -26,18 +23,18 @@ namespace boost
     //     That way the converter will be able to optimize the conversion based on that TypeIn type.
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    boost::cnv::optional<TypeOut>
+    boost::optional<TypeOut>
     convert(TypeIn const& value_in, Converter const& converter)
     {
         try
         {
-            boost::cnv::optional<TypeOut> result;
+            boost::optional<TypeOut> result;
 
-            return converter(value_in, result) ? result : boost::cnv::optional<TypeOut>();
+            return converter(value_in, result) ? result : boost::optional<TypeOut>();
         }
         catch (...)
         {
-            return boost::cnv::optional<TypeOut>();
+            return boost::optional<TypeOut>();
         }
     }
 

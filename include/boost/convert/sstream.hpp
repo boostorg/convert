@@ -38,7 +38,7 @@ struct boost::cnv::basic_stringstream
 
     template<typename TypeIn>
     typename boost::enable_if_c<!cnv::is_any_string<TypeIn>::value, bool>::type
-    operator()(TypeIn const& value_in, boost::cnv::optional<string_type>& string_out) const
+    operator()(TypeIn const& value_in, boost::optional<string_type>& string_out) const
     {
         stream_.clear();            // Clear the flags
         stream_.str(string_type()); // Clear/empty the content of the stream
@@ -49,7 +49,7 @@ struct boost::cnv::basic_stringstream
     typename boost::enable_if_c<
         cnv::is_any_string<StringIn>::value && !cnv::is_any_string<TypeOut>::value, 
         bool>::type
-    operator()(StringIn const& string_in, boost::cnv::optional<TypeOut>& result_out) const
+    operator()(StringIn const& string_in, boost::optional<TypeOut>& result_out) const
     {
         typedef cnv::string_range<StringIn> str_range;
 
