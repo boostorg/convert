@@ -22,7 +22,7 @@ struct boost::cnv::lexical_cast
         {
             result_out = boost::lexical_cast<TypeOut>(value_in);
         }
-        catch (...)
+        catch (boost::bad_lexical_cast const&)
         {
         }
     }

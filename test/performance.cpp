@@ -10,48 +10,81 @@
 
 using std::string;
 
-struct spirit_test : test::base
+namespace { namespace local
 {
-    static int parse(std::string const& str)
-    {
-        std::string::const_iterator beg = str.begin();
-        std::string::const_iterator end = str.end();
-        int n;
+    test::cnv::strings strings;
 
-        if (boost::spirit::qi::parse(beg, end, boost::spirit::qi::int_, n))
-            if (beg == end)
-                return n;
-
-        return (BOOST_ASSERT(0), 0);
-    }
-    void benchmark()
+    struct strtol_test : test::base
     {
-        for (int i = 0; i < 9; ++i)
-            this->val += parse(numbers[i]);
-    }
-};
+        void benchmark()
+        {
+            for (size_t i = 0; i < local::strings.size(); ++i)
+            {
+                std::string const& str = local::strings[i];
+                char*              end = 0;
 
-struct cnv_test : test::base
-{
-    void benchmark()
+                this->val += ::strtol(str.c_str(), &end, 10);
+            }
+        }
+    };
+    struct old_spirit_test : test::base
     {
-        for (int i = 0; i < 9; ++i)
-            this->val += boost::convert<int>(numbers[i], boost::cnv::spirit()).value();
-    }
-};
+        static int parse(std::string const& str)
+        {
+            std::string::const_iterator beg = str.begin();
+            std::string::const_iterator end = str.end();
+            int n;
+
+            boost::spirit::qi::parse(beg, end, boost::spirit::qi::int_, n);
+
+            return n;
+        }
+        void benchmark()
+        {
+            for (size_t i = 0; i < local::strings.size(); ++i)
+                this->val += parse(local::strings[i]);
+        }
+    };
+    struct new_spirit_test : test::base
+    {
+        static int parse(std::string const& str)
+        {
+            std::string::const_iterator beg = str.begin();
+            std::string::const_iterator end = str.end();
+            int n;
+
+            if (boost::spirit::qi::parse(beg, end, boost::spirit::qi::int_, n))
+                if (beg == end)
+                    return n;
+
+            return (BOOST_ASSERT(0), 0);
+        }
+        void benchmark()
+        {
+            for (size_t i = 0; i < local::strings.size(); ++i)
+                this->val += parse(local::strings[i]);
+        }
+    };
+    struct cnv_test : test::base
+    {
+        void benchmark()
+        {
+            for (size_t i = 0; i < local::strings.size(); ++i)
+                this->val += boost::convert<int>(local::strings[i], boost::cnv::spirit()).value();
+        }
+    };
+}}
 
 static
 int
-add_test_spirit()
+new_test_spirit()
 {
     BOOST_SPIRIT_TEST_BENCHMARK(
-        10000000,     // This is the maximum repetitions to execute
-        (spirit_int_test)
-        (spirit_int_test)
-        (spirit_test)
-        (spirit_test)
-        (cnv_test)
-        (cnv_test)
+        100,     // This is the maximum repetitions to execute
+//      (local::strtol_test)
+        (local::old_spirit_test)
+        (local::new_spirit_test)
+        (local::cnv_test)
     )
     return test::live_code != 0;
 }
@@ -177,8 +210,10 @@ performance::int_to_str(test::cnv::ints const& ints, Converter const& try_conver
 void
 test::cnv::performance(test::cnv::strings const& strings, test::cnv::ints const& ints)
 {
-    old_test_spirit();
-    add_test_spirit();
+    local::strings = strings; local::strings.resize(1000);
+
+//    BOOST_TEST(old_test_spirit());
+    BOOST_TEST(new_test_spirit());
 
     int const num_tries = 5;
 
