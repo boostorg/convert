@@ -25,10 +25,7 @@ namespace boost { namespace cnv
         template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
         {
             boost::optional<TypeOut> result;
-
-            if (!(*converter_)(value_in, result))
-                boost::optional<TypeOut>().value(); // That'll throw an exception consistent with boost::optional::value();
-
+            (*converter_)(value_in, result);
             return result.value();
         }
 
@@ -54,9 +51,8 @@ namespace boost { namespace cnv
         template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
         {
             boost::optional<TypeOut> result;
-            bool      good = (*base_type::converter_)(value_in, result);
-
-            return good ? result.value() : fallback_;
+            (*base_type::converter_)(value_in, result);
+            return result.value_or(fallback_);
         }
 
         TypeOut fallback_;

@@ -22,53 +22,54 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase
     CONVERT_FUNC_SET_PRECISION;
     CONVERT_FUNC_SET_UPPERCASE;
 
-    bool operator()(std::string const& v, boost::optional<int>&               r) const { return operator()(v.c_str(), r); }
-    bool operator()(std::string const& v, boost::optional<long int>&          r) const { return operator()(v.c_str(), r); }
-    bool operator()(std::string const& v, boost::optional<unsigned long int>& r) const { return operator()(v.c_str(), r); }
-    bool operator()(std::string const& v, boost::optional<double>&            r) const { return operator()(v.c_str(), r); }
+    void operator()(std::string const& v, boost::optional<int>&               r) const { operator()(v.c_str(), r); }
+    void operator()(std::string const& v, boost::optional<long int>&          r) const { operator()(v.c_str(), r); }
+    void operator()(std::string const& v, boost::optional<unsigned long int>& r) const { operator()(v.c_str(), r); }
+    void operator()(std::string const& v, boost::optional<double>&            r) const { operator()(v.c_str(), r); }
 
-    bool operator()(char const* value_in, boost::optional<double>& result_out) const
+    void operator()(char const* value_in, boost::optional<double>& result_out) const
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
         
         result_out = ::strtod(value_in, &cnv_end);
 
-        return cnv_end == str_end;
+        if (cnv_end != str_end)
+            result_out.reset();
     }
-    bool operator()(char const* value_in, boost::optional<int>& result_out) const
+    void operator()(char const* value_in, boost::optional<int>& result_out) const
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
         long int     result = ::strtol(value_in, &cnv_end, base_);
-        bool        success = INT_MIN <= result && result <= INT_MAX && cnv_end == str_end;
+        bool const  success = INT_MIN <= result && result <= INT_MAX && cnv_end == str_end;
 
-        return success ? (result_out = int(result), success) : success;
+        if (success)
+            result_out = int(result);
     }
-    bool operator()(char const* value_in, boost::optional<long int>& result_out) const
+    void operator()(char const* value_in, boost::optional<long int>& result_out) const
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
         
         result_out = ::strtol(value_in, &cnv_end, base_);
 
-        return *result_out != LONG_MIN && *result_out != LONG_MAX && cnv_end == str_end;
+        if (!(*result_out != LONG_MIN && *result_out != LONG_MAX && cnv_end == str_end))
+            result_out.reset();
     }
-    bool operator()(char const* value_in, boost::optional<unsigned long int>& result_out) const
+    void operator()(char const* value_in, boost::optional<unsigned long int>& result_out) const
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
         
         result_out = ::strtoul(value_in, &cnv_end, base_);
 
-        return *result_out != ULONG_MAX && cnv_end == str_end;
+        if (!(*result_out != ULONG_MAX && cnv_end == str_end))
+            result_out.reset();
     }
-
-    bool operator()(int value_in, boost::optional<std::string>& result_out) const
+    void operator()(int value_in, boost::optional<std::string>& result_out) const
     {
         result_out = this_type::ltostr(value_in, base_);
-
-        return true;
     }
     static std::string ltostr(long int num, unsigned int base);
 };

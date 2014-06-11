@@ -23,7 +23,7 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase
     CONVERT_FUNC_SET_UPPERCASE;
 
     template<typename TypeIn>
-    typename boost::disable_if<cnv::is_any_string<TypeIn>, bool>::type
+    typename boost::disable_if<cnv::is_any_string<TypeIn>, void>::type
     operator()(TypeIn const& value_in, boost::optional<std::string>& result_out) const
     {
         int const     bufsz = 256;
@@ -32,17 +32,15 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase
         bool const  success = num_chars < bufsz;
 
         if (success) result_out = std::string(buf);
-
-        return success;
     }
     template<typename TypeOut>
-    typename boost::disable_if<cnv::is_any_string<TypeOut>, bool>::type
+    typename boost::disable_if<cnv::is_any_string<TypeOut>, void>::type
     operator()(std::string const& value_in, boost::optional<TypeOut>& result_out) const
     {
-        return this_type::operator()(value_in.c_str(), result_out);
+        this_type::operator()(value_in.c_str(), result_out);
     }
     template<typename TypeOut>
-    typename boost::disable_if<cnv::is_any_string<TypeOut>, bool>::type
+    typename boost::disable_if<cnv::is_any_string<TypeOut>, void>::type
     operator()(char const* value_in, boost::optional<TypeOut>& result_out) const
     {
         int const num_read = ::sscanf(value_in, format(pos<TypeOut>()), &*(result_out = boost::make_default<TypeOut>()));
@@ -50,8 +48,6 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase
 
         if (!success)
             result_out.reset();
-
-        return success;
     }
 
     private:

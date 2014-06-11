@@ -38,18 +38,19 @@ struct boost::cnv::basic_stringstream
     {}
 
     template<typename TypeIn>
-    typename boost::enable_if_c<!cnv::is_any_string<TypeIn>::value, bool>::type
+    typename boost::enable_if_c<!cnv::is_any_string<TypeIn>::value, void>::type
     operator()(TypeIn const& value_in, boost::optional<string_type>& string_out) const
     {
         stream_.clear();            // Clear the flags
         stream_.str(string_type()); // Clear/empty the content of the stream
 
-        return !(stream_ << value_in).fail() ? (string_out = stream_.str(), true) : false;
+        if (!(stream_ << value_in).fail())
+            string_out = stream_.str();
     }
     template<typename TypeOut, typename StringIn>
     typename boost::enable_if_c<
         cnv::is_any_string<StringIn>::value && !cnv::is_any_string<TypeOut>::value, 
-        bool>::type
+        void>::type
     operator()(StringIn const& string_in, boost::optional<TypeOut>& result_out) const
     {
         typedef cnv::string_range<StringIn> str_range;
@@ -74,8 +75,6 @@ struct boost::cnv::basic_stringstream
 
         if (!result)
             result_out.reset();
-
-        return result;
     }
 
     this_type& operator() (std::locale const& locale) { return (stream_.imbue(locale), *this); }

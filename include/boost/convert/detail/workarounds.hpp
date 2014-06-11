@@ -15,7 +15,6 @@
 #   define snprintf _snprintf
 #endif
 
-
 #define BOOST_NO_CXX11_REF_QUALIFIERS
 
 #endif // BOOST_CONVERT_DETAIL_WORKAROUNDS_HPP
