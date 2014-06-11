@@ -18,13 +18,11 @@ struct spirit_test : test::base
         std::string::const_iterator end = str.end();
         int n;
 
-        if (!boost::spirit::qi::parse(beg, end, boost::spirit::qi::int_, n))
-            BOOST_ASSERT(0);
+        if (boost::spirit::qi::parse(beg, end, boost::spirit::qi::int_, n))
+            if (beg == end)
+                return n;
 
-        if (beg != end)
-            BOOST_ASSERT(0);
-
-        return n;
+        return (BOOST_ASSERT(0), 0);
     }
     void benchmark()
     {

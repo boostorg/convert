@@ -70,11 +70,11 @@ struct boost::cnv::basic_stringstream
         strbuf.setbuf(const_cast<char_type*>(beg), sz);
         istream.rdbuf(&strbuf);
         istream >> *(result_out = boost::make_default<TypeOut>());
-        bool result = !istream.fail() && istream.eof();
-        istream.rdbuf(oldbuf);
 
-        if (!result)
+        if (istream.fail() || !istream.eof())
             result_out.reset();
+
+        istream.rdbuf(oldbuf);
     }
 
     this_type& operator() (std::locale const& locale) { return (stream_.imbue(locale), *this); }

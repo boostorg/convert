@@ -31,41 +31,37 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
-        
-        result_out = ::strtod(value_in, &cnv_end);
+        double const result = ::strtod(value_in, &cnv_end);
 
-        if (cnv_end != str_end)
-            result_out.reset();
+        if (cnv_end == str_end)
+            result_out = result;
     }
     void operator()(char const* value_in, boost::optional<int>& result_out) const
     {
         char const* str_end = value_in + strlen(value_in);
         char*       cnv_end = 0;
         long int     result = ::strtol(value_in, &cnv_end, base_);
-        bool const  success = INT_MIN <= result && result <= INT_MAX && cnv_end == str_end;
 
-        if (success)
+        if (INT_MIN <= result && result <= INT_MAX && cnv_end == str_end)
             result_out = int(result);
     }
     void operator()(char const* value_in, boost::optional<long int>& result_out) const
     {
-        char const* str_end = value_in + strlen(value_in);
-        char*       cnv_end = 0;
-        
-        result_out = ::strtol(value_in, &cnv_end, base_);
+        char const*   str_end = value_in + strlen(value_in);
+        char*         cnv_end = 0;
+        long int const result = ::strtol(value_in, &cnv_end, base_);
 
-        if (!(*result_out != LONG_MIN && *result_out != LONG_MAX && cnv_end == str_end))
-            result_out.reset();
+        if (result != LONG_MIN && result != LONG_MAX && cnv_end == str_end)
+            result_out = result;
     }
     void operator()(char const* value_in, boost::optional<unsigned long int>& result_out) const
     {
-        char const* str_end = value_in + strlen(value_in);
-        char*       cnv_end = 0;
-        
-        result_out = ::strtoul(value_in, &cnv_end, base_);
+        char const*            str_end = value_in + strlen(value_in);
+        char*                  cnv_end = 0;
+        unsigned long int const result = ::strtoul(value_in, &cnv_end, base_);
 
-        if (!(*result_out != ULONG_MAX && cnv_end == str_end))
-            result_out.reset();
+        if (result != ULONG_MAX && cnv_end == str_end)
+            result_out = result;
     }
     void operator()(int value_in, boost::optional<std::string>& result_out) const
     {
