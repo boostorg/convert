@@ -72,6 +72,9 @@ struct boost::cnv::basic_stringstream
         bool result = !istream.fail() && istream.eof();
         istream.rdbuf(oldbuf);
 
+        if (!result)
+            result_out.reset();
+
         return result;
     }
 

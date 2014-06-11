@@ -48,8 +48,6 @@ add_test_spirit()
 {
     BOOST_SPIRIT_TEST_BENCHMARK(
         10000000,     // This is the maximum repetitions to execute
-        (atoi_test)
-        (strtol_test)
         (spirit_int_test)
         (spirit_int_test)
         (spirit_test)
@@ -57,10 +55,6 @@ add_test_spirit()
         (cnv_test)
         (cnv_test)
     )
-
-    // This is ultimately responsible for preventing all the test code
-    // from being optimized away.  Change this to return 0 and you
-    // unplug the whole test's life support system.
     return test::live_code != 0;
 }
 

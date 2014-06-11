@@ -15,10 +15,11 @@ struct boost::cnv::spirit
     template<typename Iterator>
     bool parse_(Iterator beg, Iterator end, boost::optional<int>& result) const
     {
-        if (!boost::spirit::qi::parse(beg, end, boost::spirit::int_, *(result = int())))
-            return false;
+        if (boost::spirit::qi::parse(beg, end, boost::spirit::int_, *(result = int())))
+            if (beg == end) // ensure the whole string was parsed
+                return true;
 
-        return beg == end; // ensure the whole string was parsed
+        return (result.reset(), false); // ensure the whole string was parsed
     }
     bool operator()(std::string const& str, boost::optional<int>& result) const
     {

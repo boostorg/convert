@@ -45,9 +45,13 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase
     typename boost::disable_if<cnv::is_any_string<TypeOut>, bool>::type
     operator()(char const* value_in, boost::optional<TypeOut>& result_out) const
     {
-        int num_read = ::sscanf(value_in, format(pos<TypeOut>()), &*(result_out = boost::make_default<TypeOut>()));
+        int const num_read = ::sscanf(value_in, format(pos<TypeOut>()), &*(result_out = boost::make_default<TypeOut>()));
+        bool const success = num_read == 1;
 
-        return num_read == 1;
+        if (!success)
+            result_out.reset();
+
+        return success;
     }
 
     private:

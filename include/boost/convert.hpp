@@ -26,16 +26,16 @@ namespace boost
     boost::optional<TypeOut>
     convert(TypeIn const& value_in, Converter const& converter)
     {
-        try
-        {
+//        try
+//        {
             boost::optional<TypeOut> result;
-
-            return converter(value_in, result) ? result : boost::optional<TypeOut>();
-        }
-        catch (...)
-        {
-            return boost::optional<TypeOut>();
-        }
+            converter(value_in, result);
+            return result;
+//        }
+//        catch (...)
+//        {
+//            return boost::optional<TypeOut>();
+//        }
     }
 
     template<typename TypeOut, typename Converter>
