@@ -56,7 +56,7 @@ example::getting_serious()
             int i1 = r1.value(); // Will throw if conversion failed
             int i2 = r2.value(); // Will throw if conversion failed
         }
-        catch (...)
+        catch (boost::bad_optional_access const&)
         {
             // Handle failed conversion
         }

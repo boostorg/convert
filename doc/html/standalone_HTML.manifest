@@ -27,9 +27,6 @@ boost/cnv/base.html
 boost/cnv/notation.html
 header/boost/convert/printf_hpp.html
 boost/cnv/printf.html
-header/boost/convert/result_hpp.html
-boost/cnv/optional.html
-USE_MINE.html
 header/boost/convert/spirit_hpp.html
 boost/cnv/spirit.html
 header/boost/convert/sstream_hpp.html
