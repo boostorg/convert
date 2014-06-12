@@ -15,6 +15,7 @@
 #ifndef BOOST_CONVERT_HPP
 #define BOOST_CONVERT_HPP
 
+#include <boost/convert/detail/checks.hpp>
 #include <boost/convert/detail/algorithm_helper.hpp>
 
 namespace boost

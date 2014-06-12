@@ -5,107 +5,22 @@
 
 #include "./test.hpp"
 #include <boost/convert/spirit.hpp>
-#define main() old_test_spirit()
-#include <libs/spirit/optimization/qi/int_parser.cpp>
 
 using std::string;
-
-namespace { namespace local
-{
-    test::cnv::strings strings;
-
-    struct strtol_test : test::base
-    {
-        void benchmark()
-        {
-            for (size_t i = 0; i < local::strings.size(); ++i)
-            {
-                std::string const& str = local::strings[i];
-                char*              end = 0;
-
-                this->val += ::strtol(str.c_str(), &end, 10);
-            }
-        }
-    };
-    struct old_spirit_test : test::base
-    {
-        static int parse(std::string const& str)
-        {
-            std::string::const_iterator beg = str.begin();
-            std::string::const_iterator end = str.end();
-            int n;
-
-            boost::spirit::qi::parse(beg, end, boost::spirit::qi::int_, n);
-
-            return n;
-        }
-        void benchmark()
-        {
-            for (size_t i = 0; i < local::strings.size(); ++i)
-                this->val += parse(local::strings[i]);
-        }
-    };
-    struct new_spirit_test : test::base
-    {
-        static int parse(std::string const& str)
-        {
-            std::string::const_iterator beg = str.begin();
-            std::string::const_iterator end = str.end();
-            int n;
-
-            if (boost::spirit::qi::parse(beg, end, boost::spirit::qi::int_, n))
-                if (beg == end)
-                    return n;
-
-            return (BOOST_ASSERT(0), 0);
-        }
-        void benchmark()
-        {
-            for (size_t i = 0; i < local::strings.size(); ++i)
-                this->val += parse(local::strings[i]);
-        }
-    };
-    struct cnv_test : test::base
-    {
-        void benchmark()
-        {
-            for (size_t i = 0; i < local::strings.size(); ++i)
-                this->val += boost::convert<int>(local::strings[i], boost::cnv::spirit()).value();
-        }
-    };
-}}
-
-static
-int
-new_test_spirit()
-{
-    BOOST_SPIRIT_TEST_BENCHMARK(
-        100,     // This is the maximum repetitions to execute
-//      (local::strtol_test)
-        (local::old_spirit_test)
-        (local::new_spirit_test)
-        (local::cnv_test)
-    )
-    return test::live_code != 0;
-}
-
-struct performance
-{
-    template<typename Converter> static double str_to_int (test::cnv::strings const&, Converter const&);
-    template<typename Converter> static double int_to_str (test::cnv::ints const&,    Converter const&);
-};
 
 inline
 int
 str_to_int_spirit(std::string const& str)
 {
-    std::string::const_iterator i = str.begin();
+    std::string::const_iterator beg = str.begin();
+    std::string::const_iterator end = str.end();
     int result;
 
-    BOOST_TEST(boost::spirit::qi::parse(i, str.end(), boost::spirit::int_, result));
-    BOOST_TEST(i == str.end()); // ensure the whole string was parsed
+    if (boost::spirit::qi::parse(beg, end, boost::spirit::int_, result))
+        if (beg == end) // ensure the whole string was parsed
+            return result;
 
-    return result;
+    return (BOOST_ASSERT(0), result);
 }
 
 static
@@ -127,7 +42,7 @@ performance_string_to_int_spirit(test::cnv::strings const& strings)
 
 template<typename Converter>
 double
-performance::str_to_int(test::cnv::strings const& strings, Converter const& try_converter)
+test::performance::str_to_int(test::cnv::strings const& strings, Converter const& try_converter)
 {
     int         sum = 0;
     int const  size = strings.size();
@@ -190,7 +105,7 @@ performance_type_to_string(Converter const& try_converter)
 
 template<typename Converter>
 double
-performance::int_to_str(test::cnv::ints const& ints, Converter const& try_converter)
+test::performance::int_to_str(test::cnv::ints const& ints, Converter const& try_converter)
 {
     int const                   size = ints.size();
     std::vector<std::string> strings; strings.reserve(size);
@@ -210,10 +125,7 @@ performance::int_to_str(test::cnv::ints const& ints, Converter const& try_conver
 void
 test::cnv::performance(test::cnv::strings const& strings, test::cnv::ints const& ints)
 {
-    local::strings = strings; local::strings.resize(1000);
-
-//    BOOST_TEST(old_test_spirit());
-    BOOST_TEST(new_test_spirit());
+    BOOST_TEST(test::performance::spirit_framework(strings));
 
     int const num_tries = 5;
 

@@ -13,13 +13,13 @@ namespace boost { namespace cnv
 struct boost::cnv::spirit
 {
     template<typename Iterator>
-    void parse_(Iterator beg, Iterator end, boost::optional<int>& result) const
+    void parse_(Iterator beg, Iterator end, boost::optional<int>& result_out) const
     {
-        if (boost::spirit::qi::parse(beg, end, boost::spirit::int_, *(result = int())))
-            if (beg == end) // ensure the whole string was parsed
-                return;
+        int result;
 
-        result.reset();
+        if (boost::spirit::qi::parse(beg, end, boost::spirit::int_, result))
+            if (beg == end) // ensure the whole string was parsed
+                result_out = result;
     }
     void operator()(std::string const& str, boost::optional<int>& result) const
     {

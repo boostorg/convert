@@ -8,6 +8,7 @@
 #include "./invalid.hpp"
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
+#include <boost/convert/spirit.hpp>
 
 using std::string;
 using std::wstring;
@@ -48,29 +49,57 @@ test::cnv::force_in_type()
     }
 }
 
+static
+test::cnv::ints
+prepare_ints()
+{
+    test::cnv::ints                           ints;
+    boost::random::mt19937                     gen (std::time(0));
+    boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
+//  boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
+    int const                           input_size (10000000);
+
+    ints.reserve(input_size);
+
+    for (int k = 0; k < input_size; ++k)
+        ints.push_back(dist(gen));
+
+    return ints;
+}
+
+static
+test::cnv::strings
+prepare_strs(test::cnv::ints const& ints)
+{
+    test::cnv::strings strs;
+    int const          size = ints.size();
+
+    strs.reserve(size);
+
+    for (int k = 0; k < size; ++k)
+    {
+        int    this_i = ints[k];
+        string this_s = boost::convert<string>(this_i, boost::cnv::lexical_cast()).value();
+        int    back_i = boost::convert<int>(this_s, boost::cnv::spirit()).value();
+
+        BOOST_ASSERT(this_i == back_i);
+
+        strs.push_back(this_s);
+    }
+    return strs;
+}
+
 int
 main(int argc, char const* argv[])
 {
-    test::cnv::ints                                ints;
-    test::cnv::strings                             strs;
-    boost::random::mt19937                     gen;
-    boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX);
+    test::cnv::ints const    ints = prepare_ints();
+    test::cnv::strings const strs = prepare_strs(ints);
 
-    ints.reserve(test::cnv::num_cycles);
-    strs.reserve(test::cnv::num_cycles);
-
-    for (int k = 0; k < test::cnv::num_cycles; ++k)
-    {
-        int    iv = dist(gen);
-        string sv = boost::lexical_cast<std::string>(iv);
-
-        ints.push_back(iv);
-        strs.push_back(sv);
-    }
     example::getting_started();
     example::getting_serious();
     example::algorithms();
 
+    test::cnv::is_converter();
     test::cnv::invalid(boost::cnv::lexical_cast());
 //    test::cnv::invalid(boost::cnv::cstringstream());
 //    test::cnv::invalid(boost::cnv::strtol());

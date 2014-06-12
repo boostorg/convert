@@ -5,8 +5,7 @@
 #ifndef BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
 #define BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
 
-#include <boost/convert/detail/workarounds.hpp>
-#include <boost/optional.hpp>
+#include <boost/convert/detail/forward.hpp>
 
 namespace boost { namespace cnv
 {

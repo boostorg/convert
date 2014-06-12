@@ -72,7 +72,7 @@ struct boost::cnv::basic_stringstream
         istream >> *(result_out = boost::make_default<TypeOut>());
 
         if (istream.fail() || !istream.eof())
-            result_out.reset();
+            result_out = boost::none;
 
         istream.rdbuf(oldbuf);
     }
