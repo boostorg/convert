@@ -6,8 +6,6 @@
 #include "./test.hpp"
 #include "./str_to_int.hpp"
 #include "./invalid.hpp"
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_int_distribution.hpp>
 #include <boost/convert/spirit.hpp>
 
 using std::string;
@@ -50,24 +48,6 @@ test::cnv::force_in_type()
 }
 
 static
-test::cnv::ints
-prepare_ints()
-{
-    test::cnv::ints                           ints;
-    boost::random::mt19937                     gen (std::time(0));
-    boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
-//  boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
-    int const                           input_size (10000000);
-
-    ints.reserve(input_size);
-
-    for (int k = 0; k < input_size; ++k)
-        ints.push_back(dist(gen));
-
-    return ints;
-}
-
-static
 test::cnv::strings
 prepare_strs(test::cnv::ints const& ints)
 {
@@ -92,7 +72,9 @@ prepare_strs(test::cnv::ints const& ints)
 int
 main(int argc, char const* argv[])
 {
-    test::cnv::ints const    ints = prepare_ints();
+    BOOST_TEST(test::performance::spirit_framework());
+
+    test::cnv::ints const    ints = test::cnv::prepare_ints(10000);
     test::cnv::strings const strs = prepare_strs(ints);
 
     example::getting_started();

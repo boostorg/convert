@@ -16,27 +16,29 @@ using std::string;
 
 namespace { namespace local
 {
-    test::cnv::strings strings;
+    int const num_ints = 100;
+
+    my_string strings[num_ints];
 
     struct strtol_test : test::base
     {
         void benchmark()
         {
-            for (size_t i = 0; i < local::strings.size(); ++i)
+            for (size_t i = 0; i < local::num_ints; ++i)
             {
-                std::string const& str = local::strings[i];
-                char*              end = 0;
+                char const* str = local::strings[i].begin();
+                char*       end = 0;
 
-                this->val += ::strtol(str.c_str(), &end, 10);
+                this->val += ::strtol(str, &end, 10);
             }
         }
     };
     struct spirit_test : test::base
     {
-        static int parse(std::string const& str)
+        static int parse(char const* str)
         {
-            std::string::const_iterator beg = str.begin();
-            std::string::const_iterator end = str.end();
+            char const* beg = str;
+            char const* end = beg + strlen(str);
             int n;
 
             if (boost::spirit::qi::parse(beg, end, boost::spirit::qi::int_, n))
@@ -47,24 +49,24 @@ namespace { namespace local
         }
         void benchmark()
         {
-            for (size_t i = 0; i < local::strings.size(); ++i)
-                this->val += parse(local::strings[i]);
+            for (size_t i = 0; i < local::num_ints; ++i)
+                this->val += parse(local::strings[i].begin());
         }
     };
     struct cnv_test : test::base
     {
         void benchmark()
         {
-            for (size_t i = 0; i < local::strings.size(); ++i)
-                this->val += boost::convert<int>(local::strings[i], boost::cnv::spirit()).value();
+            for (size_t i = 0; i < local::num_ints; ++i)
+                this->val += boost::convert<int>(local::strings[i].begin(), boost::cnv::spirit()).value();
         }
     };
 }}
 
 int
-test::performance::spirit_framework(test::cnv::strings const& strings)
+test::performance::spirit_framework()
 {
-    local::strings = strings; local::strings.resize(1000);
+    test::cnv::prepare_strs(local::strings, local::num_ints);
 
     // This code has been adapted and uses the performance testing framework from
     // libs/spirit/optimization/qi/int_parser.cpp
@@ -73,6 +75,8 @@ test::performance::spirit_framework(test::cnv::strings const& strings)
     BOOST_SPIRIT_TEST_BENCHMARK(
         10000,     // This is the maximum repetitions to execute
         (local::strtol_test)
+        (local::spirit_test)
+        (local::cnv_test)
         (local::spirit_test)
         (local::cnv_test)
     )

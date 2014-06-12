@@ -1,8 +1,5 @@
 #include "./test.hpp"
 
-using std::string;
-using std::wstring;
-
 static
 bool
 my_cypher(std::string const& value_in, boost::optional<std::string>& value_out)
@@ -11,7 +8,7 @@ my_cypher(std::string const& value_in, boost::optional<std::string>& value_out)
 
     value_out = value_in;
 
-    for (string::iterator it = value_out->begin(); it != value_out->end(); ++it)
+    for (std::string::iterator it = value_out->begin(); it != value_out->end(); ++it)
         (*it < 'A') ? (*it += cypher) : (*it -= cypher);
 
     return true;
@@ -24,8 +21,8 @@ test::cnv::encryption()
     // Testing custom converter.
     ////////////////////////////////////////////////////////////////////////////
 
-    string encrypted = boost::convert<string>("ABC", my_cypher).value();
-    string decrypted = boost::convert<string>(encrypted, my_cypher).value();
+    std::string encrypted = boost::convert<std::string>("ABC", my_cypher).value();
+    std::string decrypted = boost::convert<std::string>(encrypted, my_cypher).value();
 
     BOOST_TEST(encrypted == "123");
     BOOST_TEST(decrypted == "ABC");

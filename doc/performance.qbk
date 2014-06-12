@@ -53,23 +53,29 @@ Based on the performance data I tend to conclude that, given type-safety and ben
 
 [h2 ['Boost.Convert] Performance Overhead]
 
-['Boost.Convert] framework adds an additional layer of indirection and ['Boost.Convert] converters are often wrappers around actual raw conversion facilities such as `strtol()`, `boost::lexical_cast`,  `boost::spirit`, etc. Consequently, legitimate are concerns about performance overhead introduced by the framework.
+['Boost.Convert] framework adds an additional layer of indirection and some ['Boost.Convert] converters are wrappers around actual raw conversion facilities such as `strtol()`, `boost::lexical_cast`,  `boost::spirit`, etc. Consequently, legitimate are concerns about performance overhead introduced by the framework as opposed to deploying mentioned conversion facilities directly.
 
 To test that [funcref test::performance::spirit_framework] code has been borrowed and adapted from the Spirit optimization framework (see \$BOOST_ROOT/libs/spirit/optimization/qi/int_parser.cpp). Performance tests were
 
-# compiled using gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3;
-# with g++ -O3 test/*.cpp example/*.cpp -Iinclude -I../boost_1_55_0 -lrt;
-# on Ubuntu 12.04 (Linux 3.2.0-57-generic #87-Ubuntu SMP x86_64 GNU/Linux);
-# run against the input of 10000 numeric strings randomly generated within the (INT_MIN, INT_MAX) range;
+# compiled using gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2;
+# with full optimization g++ -O3 test/*.cpp example/*.cpp -Iinclude -I../boost_1_55_0 -lrt;
+# on Ubuntu 14.04 (Linux 3.13.0-29-generic #53-Ubuntu SMP i686 GNU/Linux);
+# run against the input of 100 numeric strings randomly generated within the [-32768, 32767] range;
 # run for 
-    * raw `strtol()`
-    * raw `boost::spirit::qi::parse` parser
+    * `strtol()`
+    * `boost::spirit::qi::parse` parser
     * `boost::cnv::spirit` converter incorporating `boost::spirit::qi::parse` into the ['Boost.Convert] framework.
 
-The `strtol()`-related results are provided for informational purposes only. The actual purpose of the test was to run the fastest available (Spirit-based) conversion directly ("raw") and via the ['Boost.Convert] framework interface. 
+The `strtol()`-related results are provided for informational purposes only. The actual purpose of this particular test was to deploy the same functionality (Spirit-based conversion) directly and via the ['Boost.Convert] framework interface. Somewhat simplified results are shown below for the five tests run consequently in order of appearance:
 
-...
+strtol_test:   20.9251024870 [s]
+spirit_test:   11.0527384100 [s]
+cnv_test:      11.2994123070 [s]
+spirit_test:   11.1096781930 [s]
+cnv_test:      11.2757533630 [s]
 
-Obvously, the results are driven by the deployed compiler optimization capabilities and are likely be different with a different compiler or a different version of the same compiler.
+That shows that ['Boost.Convert] framework adds aroubd one to three percent overhead (different runs give slightly different results) compared to the direct `boost::spirit::qi::parse` invocation. For slower conversion facilities that overhead will be proportionately smaller.
+
+Obvously, the results are driven by the deployed compiler optimization capabilities and the hardware and are likely be different with a different compiler or a different version of the same compiler. Still, the results show that the additional performance overhead due to deployment of ['Boost.Convert] is negligibly small. 
 
 [endsect]

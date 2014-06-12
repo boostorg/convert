@@ -125,8 +125,6 @@ test::performance::int_to_str(test::cnv::ints const& ints, Converter const& try_
 void
 test::cnv::performance(test::cnv::strings const& strings, test::cnv::ints const& ints)
 {
-    BOOST_TEST(test::performance::spirit_framework(strings));
-
     int const num_tries = 5;
 
     for (int k = 0; k < num_tries; ++k)

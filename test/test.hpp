@@ -48,6 +48,34 @@ struct change
     private: value_type value_;
 };
 
+struct my_string
+{
+    typedef my_string        this_type;
+    typedef char*             iterator;
+    typedef char const* const_iterator;
+
+    my_string()
+    {
+        BOOST_STATIC_ASSERT(sizeof(this_type) == size_);
+        memset(storage_, 0, size_);
+    }
+
+    this_type& operator=(std::string const& str)
+    {
+        BOOST_ASSERT(str.size() < size_);
+        strcpy(storage_, str.c_str());
+        return *this;
+    }
+
+    const_iterator begin () const { return storage_; }
+    const_iterator   end () const { return storage_ + strlen(storage_); }
+
+    private:
+
+    static int const size_ = 12;
+    char storage_[size_];
+};
+
 namespace test
 {
     struct cnv
@@ -70,6 +98,9 @@ namespace test
 
         typedef std::vector<int>            ints;
         typedef std::vector<std::string> strings;
+
+        static ints prepare_ints (int const);
+        static void prepare_strs (my_string [], int const);
 
         static void    is_converter ();
         static void      scratchpad ();
@@ -95,7 +126,7 @@ namespace test
     {
         template<typename Converter> static double str_to_int (test::cnv::strings const&, Converter const&);
         template<typename Converter> static double int_to_str (test::cnv::ints const&,    Converter const&);
-        static int                           spirit_framework (test::cnv::strings const&);
+        static int                           spirit_framework ();
     };
 }
 
