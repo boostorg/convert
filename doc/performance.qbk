@@ -26,10 +26,10 @@ Based on the performance data I tend to conclude that, given type-safety and ben
 
 ['Boost.Convert] framework adds an additional layer of indirection and some ['Boost.Convert] converters are wrappers around actual raw conversion facilities such as `strtol()`, `boost::lexical_cast`,  `boost::spirit`, etc. Consequently, legitimate are concerns about performance overhead introduced by the framework as opposed to deploying mentioned conversion facilities directly.
 
-To test that [funcref test::performance::spirit_framework] code has been borrowed and adapted from the Spirit optimization framework (see $BOOST_ROOT/libs/spirit/optimization/qi/int_parser.cpp). Performance tests were
+To test that [funcref test::performance::spirit_framework test::performance::spirit_framework] code has been borrowed and adapted from the Spirit optimization framework (see $BOOST_ROOT/libs/spirit/optimization/qi/int_parser.cpp). Performance tests were
 
 # compiled using gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3;
-# with full optimization g++ -O3 test/*.cpp example/*.cpp -Iinclude -I../boost_1_55_0 -lrt;
+# with full optimization ```g++ -O3 test/*.cpp example/*.cpp -Iinclude -I../boost_1_55_0 -lrt```
 # on Ubuntu 12.04 (Linux 3.2.0-57-generic #87-Ubuntu SMP x86_64 GNU/Linux);
 # run against the input of randomly generated 18 numeric strings (9 positive and 9 negative numbers with the number of digits from 1 to 9);
 # run for 
@@ -40,7 +40,7 @@ To test that [funcref test::performance::spirit_framework] code has been borrowe
     * `boost::spirit::qi::parse` parser
     * `boost::spirit::qi::parse`-based converter.
 
-The purpose of this particular test was to deploy the same functionality directly and via the ['Boost.Convert] framework interface. Somewhat simplified results are shown below for several runs of the `test_convert` program:
+The purpose of this particular test was to deploy the same functionality directly and as part of the ['Boost.Convert]. Results are shown below for several consequtive runs of the `test_convert` program:
 
  Testing: 7,-8,13,-89,753,-670,7671,-1905,45436,-13998,573220,-188715,7527646,-1173621,95095988,-23161933,930008666,-852473336
  raw_lxcast_str_to_int_test: 1.0823377580 [s]
@@ -74,7 +74,7 @@ The purpose of this particular test was to deploy the same functionality directl
  raw_spirit_str_to_int_test: 0.2989873150 [s]
  cnv_spirit_str_to_int_test: 0.3120227090 [s]
 
-That shows that ['Boost.Convert] framework adds up to five percent overhead (depending on the parser) compared to the direct invocation. 
+The results report up to five percent overhead (depending on the parser) of the ['Boost.Convert] framework. 
 
 Obvously, the results are driven by the deployed compiler optimization capabilities and the hardware and are likely be different with a different compiler or a different version of the same compiler. For example, compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 the same test program produced:
 
@@ -94,7 +94,7 @@ Obvously, the results are driven by the deployed compiler optimization capabilit
  raw_spirit_str_to_int_test: 2.0824675450 [s]
  cnv_spirit_str_to_int_test: 2.0794554230 [s]
 
-That is, according to the results, conversions deployed through ['Boost.Convert] framework performed actually "better". Alternative tests indicated that ['Boost.Convert] overhead was well within the margin of error as consequtive runs showed negative and positive performance differences:
+That is, according to the results, conversions deployed through ['Boost.Convert] framework performed actually "better". Alternative tests indicated that ['Boost.Convert] overhead was well within the 1% margin of error as consequtive runs showed negative and positive performance differences:
 
  str-to-int: spirit raw/cnv=17.01/17.11 seconds (-0.59%).
  str-to-int: spirit raw/cnv=17.01/17.11 seconds (-0.59%).

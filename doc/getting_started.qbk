@@ -6,14 +6,14 @@
 
 [h2 Basic Deployment]
 
-`boost::convert` basic deployment is not that different from `boost::lexical_cast` and, in fact, `boost::lexical_cast` functionality is easily deployed through `boost::convert` interface (with no performance overhead when compiled optimized):
+`boost::convert` basic deployment is not that different from `boost::lexical_cast` and, in fact, `boost::lexical_cast` functionality is easily deployed through `boost::convert` interface:
 
 [getting_started_headers1]
 [getting_started_example1]
 
 [h2 Flexibility and Adaptability to Change]
 
-These qualities become important later in development or in the maintenance phase when, say, later the code above is flagged as too slow. Then the performance could be improved by replacing the original converter:
+Sooner or later these qualities become important during development or in the maintenance phase when, say, the code above is identified as too slow. Then the performance could be improved with minimal effort by replacing the original converter:
 
 [getting_started_headers2]
 [getting_started_example2]
