@@ -1,49 +1,20 @@
 [section Performance]
 
-The performance of ['Boost.Convert] depends entirely on the perfomance of the converter deployed. The previously mentioned converters have been tested as part of the ['Boost.Convert] framework (see ['test/performance.cpp]). Raw `scanf()` and `boost::lexical_cast` have also been tested but, when tests are built optimized, showed identical results to when they were deployed through the ['Boost.Convert] framework. Consequently, for brevity those raw `scanf()` and `boost::lexical_cast` results are not shown here. The C++11 family of `std::to_string()`, `std::stoi()`, etc. were not tested due to unavailability.
+The performance of ['Boost.Convert] depends entirely on the perfomance of the converter deployed. The previously mentioned converters have been tested as part of the ['Boost.Convert] framework (see ['test/performance.cpp]). The C++11 family of `std::to_string()`, `std::stoi()`, etc. were not tested due to unavailability.
 
-Performance was tested for string conversions to the `int` type and to a user-defined type. On a 12.04 Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
+Performance was tested for string conversions to the `int` type and to a user-defined type. On a 64-bit 12.04 Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
 
- g++ -O0 test_convert.cpp <--- NON-OPTIMIZED
- str-to-int: strtol/scanf/lcast/sstream=0.49/1.40/1.56/1.77 seconds.
- int-to-str: ltostr/prntf/lcast/sstream=3.10/2.62/2.42/2.52 seconds.
- str-to-user-type: lcast/sstream=4.94/3.19 seconds.
-
- g++ -O3 test_convert.cpp <--- OPTIMIZED
- str-to-int: strtol/scanf/lcast/sstream=0.28/1.15/0.45/1.23 seconds.
- int-to-str: ltostr/prntf/lcast/sstream=1.50/2.17/1.11/1.73 seconds.
- str-to-user-type: lcast/sstream=3.58/1.99 seconds.
- user-type-to-str: lcast/sstream=5.22/1.32 seconds.
-
-[note Non-optimized times are more of a curiosity -- to demonstrate (and to remind) that a noticeable performance improvement is to be gained via optimized compilation. Optimized times are the ones to be looked at and analyzed.]
-
- boost.convert/test >> uname -a
- Linux 3.13.0-24-generic #47-Ubuntu SMP ... i686 GNU/Linux
- boost.convert/test >> g++ -O3 *.cpp -I../include -I../../boost_1_55_0
- str-to-int: strtol/scanf/lcast/sstream=2.39/9.52/3.97/9.56 seconds.
- int-to-str: ltostr/prntf/lcast/sstream=7.51/13.65/8.91/13.37 seconds.
- str-to-user-type: lcast/sstream=27.46/13.97 seconds.
- user-type-to-str: lcast/sstream=52.87/11.07 seconds.
-
-On the Cygwin platform compiled with gcc 4.8.2:
-
- g++ -O3 test_convert.cpp
- str-to-int: strtol/scanf/lcast/sstream=0.28/1.20/1.22/1.82 seconds.
- int-to-str: ltostr/prntf/lcast/sstream=1.31/2.94/2.62/2.03 seconds.
- str-to-user-type: lcast/sstream=7.44/4.61 seconds.
- 
-Compiled with MS Visual C++ 2010 Express optimized for speed:
-
- str-to-int: strtol/scanf/lcast/sstream=0.28/0.89/1.03/4.65 seconds.
- int-to-str: ltostr/prntf/lcast/sstream=1.11/1.86/1.91/5.92 seconds.
- str-to-user-type: lcast/sstream=6.81/3.30 seconds.
+ str-to-int: spirit/strtol/scanf/lcast/sstream=2.06/6.84/26.59/10.94/26.26 seconds.
+ int-to-str: spirit/ltostr/prntf/lcast/sstream=NA/125.56/176.23/107.59/208.09 seconds.
+ str-to-user-type: lcast/sstream=3.75/1.91 seconds.
+ user-type-to-str: lcast/sstream=5.60/1.33 seconds.
 
 For user-defined types two converters -- `boost::lexical_cast`-based and `std::stringstream`-based -- were tested. Both converters provide ['string-to-type] and ['type-to-string] conversions; both deploy the same -- `std::sstream` -- conversion engine and I suspect both share the same noble goal -- to provide a uniform conversion interface and an extendible conversion framework where new types can be plugged in to the framework via:
 
  std::istream& operator>>(std::istream&, TypeOut&);
  std::ostream& operator<<(std::ostream&, TypeIn const&);
 
-Unfortunately that comes at a price as `std::sstream`-based conversions of the basic (`int`, etc.) types are comparatively slow. Consequently, for basic types `boost::lexical_cast` implementation has been optimized to avoid `std::sstream`. ['Boost.Convert] addresses that "optimization" need via pluggable converters. Consequently, if speed is your primary objective and your needs do not go beyond basic types, then deploying `std::to_string/std::stoi`, `strtol`, `printf/scanf`, `boost::lexical_cast` (directly or via the ['Boost.Convert] framework) might be an option to explore. 
+Unfortunately that comes at a price as `std::sstream`-based conversions of the basic (`int`, etc.) types are comparatively slow. Consequently, for basic types `boost::lexical_cast` implementation has been optimized to avoid `std::sstream`. ['Boost.Convert] addresses that "optimization" need via pluggable converters. Consequently, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['Spirit], `std::to_string/std::stoi`, `strtol`, `printf/scanf`, `boost::lexical_cast` (directly or via the ['Boost.Convert] framework) might be an option to explore. 
 
 For user-defined types it appears to be quite a different story with the `std::stringstream`-based converter consistently outperforming `boost::lexical_cast` in the tests. These results probably reflect different underlying designs.
 
@@ -55,26 +26,55 @@ Based on the performance data I tend to conclude that, given type-safety and ben
 
 ['Boost.Convert] framework adds an additional layer of indirection and some ['Boost.Convert] converters are wrappers around actual raw conversion facilities such as `strtol()`, `boost::lexical_cast`,  `boost::spirit`, etc. Consequently, legitimate are concerns about performance overhead introduced by the framework as opposed to deploying mentioned conversion facilities directly.
 
-To test that [funcref test::performance::spirit_framework] code has been borrowed and adapted from the Spirit optimization framework (see \$BOOST_ROOT/libs/spirit/optimization/qi/int_parser.cpp). Performance tests were
+To test that [funcref test::performance::spirit_framework] code has been borrowed and adapted from the Spirit optimization framework (see $BOOST_ROOT/libs/spirit/optimization/qi/int_parser.cpp). Performance tests were
 
-# compiled using gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2;
+# compiled using gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3;
 # with full optimization g++ -O3 test/*.cpp example/*.cpp -Iinclude -I../boost_1_55_0 -lrt;
-# on Ubuntu 14.04 (Linux 3.13.0-29-generic #53-Ubuntu SMP i686 GNU/Linux);
-# run against the input of 100 numeric strings randomly generated within the [-32768, 32767] range;
+# on Ubuntu 12.04 (Linux 3.2.0-57-generic #87-Ubuntu SMP x86_64 GNU/Linux);
+# run against the input of randomly generated 18 numeric strings (9 positive and 9 negative numbers with the number of digits from 1 to 9);
 # run for 
+    * `boost::lexical_cast`
+    * `boost::lexical_cast`-based converter
     * `strtol()`
+    * `strtol()`-based converter
     * `boost::spirit::qi::parse` parser
-    * `boost::cnv::spirit` converter incorporating `boost::spirit::qi::parse` into the ['Boost.Convert] framework.
+    * `boost::spirit::qi::parse`-based converter.
 
-The `strtol()`-related results are provided for informational purposes only. The actual purpose of this particular test was to deploy the same functionality (Spirit-based conversion) directly and via the ['Boost.Convert] framework interface. Somewhat simplified results are shown below for the five tests run consequently in order of appearance:
+The purpose of this particular test was to deploy the same functionality directly and via the ['Boost.Convert] framework interface. Somewhat simplified results are shown below for several runs of the same program:
 
-strtol_test:   20.9251024870 [s]
-spirit_test:   11.0527384100 [s]
-cnv_test:      11.2994123070 [s]
-spirit_test:   11.1096781930 [s]
-cnv_test:      11.2757533630 [s]
+Testing: 7,-8,13,-89,753,-670,7671,-1905,45436,-13998,573220,-188715,7527646,-1173621,95095988,-23161933,930008666,-852473336
+raw_lxcast_str_to_int_test: 1.0823377580 [s]
+cnv_lxcast_str_to_int_test: 1.1032241400 [s]
+raw_strtol_str_to_int_test: 0.6941694690 [s]
+cnv_strtol_str_to_int_test: 0.7003099920 [s]
+raw_spirit_str_to_int_test: 0.2791614670 [s]
+cnv_spirit_str_to_int_test: 0.2853485740 [s]
 
-That shows that ['Boost.Convert] framework adds aroubd one to three percent overhead (different runs give slightly different results) compared to the direct `boost::spirit::qi::parse` invocation. For slower conversion facilities that overhead will be proportionately smaller.
+Testing: 2,-5,95,-76,251,-139,5201,-9062,73362,-75915,984138,-163058,5301562,-6099471,44139215,-66342869,472999835,-944425688
+raw_lxcast_str_to_int_test: 1.1507759000 [s]
+cnv_lxcast_str_to_int_test: 1.1809066170 [s]
+raw_strtol_str_to_int_test: 0.6825586860 [s]
+cnv_strtol_str_to_int_test: 0.7065548380 [s]
+raw_spirit_str_to_int_test: 0.2794743890 [s]
+cnv_spirit_str_to_int_test: 0.2881680850 [s]
+
+Testing: 8,-3,27,-96,534,-557,3666,-2616,74990,-49153,790361,-656663,1499238,-7220122,73338528,-30197954,990405980,-912554300
+raw_lxcast_str_to_int_test: 1.1296698930 [s]
+cnv_lxcast_str_to_int_test: 1.1872108850 [s]
+raw_strtol_str_to_int_test: 0.6948299650 [s]
+cnv_strtol_str_to_int_test: 0.6976610260 [s]
+raw_spirit_str_to_int_test: 0.2720586660 [s]
+cnv_spirit_str_to_int_test: 0.2867466020 [s]
+
+Testing numbers: 7,-4,88,-29,330,-179,4087,-7338,52740,-63806,829806,-829998,4089882,-4877638,56854373,-19034155,646856901,-979329889
+raw_lxcast_str_to_int_test: 1.1702910200 [s]
+cnv_lxcast_str_to_int_test: 1.1962990700 [s]
+raw_strtol_str_to_int_test: 0.7284593480 [s]
+cnv_strtol_str_to_int_test: 0.7476771280 [s]
+raw_spirit_str_to_int_test: 0.2989873150 [s]
+cnv_spirit_str_to_int_test: 0.3120227090 [s]
+
+That shows that ['Boost.Convert] framework adds up to five percent overhead (depending on the parser) compared to the direct invocation. 
 
 Obvously, the results are driven by the deployed compiler optimization capabilities and the hardware and are likely be different with a different compiler or a different version of the same compiler. Still, the results show that the additional performance overhead due to deployment of ['Boost.Convert] is negligibly small. 
 

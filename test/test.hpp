@@ -15,6 +15,7 @@
 #include <list>
 #include <iostream>
 #include <stdio.h>
+#include <sys/times.h>
 
 //#undef  BOOST_TEST
 //#define BOOST_TEST BOOST_ASSERT
@@ -67,13 +68,37 @@ struct my_string
         return *this;
     }
 
+    char const*    c_str () const { return storage_; }
     const_iterator begin () const { return storage_; }
     const_iterator   end () const { return storage_ + strlen(storage_); }
 
     private:
 
-    static int const size_ = 12;
+    static size_t const size_ = 12;
     char storage_[size_];
+};
+
+struct my_timer : boost::noncopyable
+{
+    my_timer (int const& sum) : sum_(sum), beg_(times(&tms_beg_)) {}
+
+    double value() const
+    {
+        struct tms tms_end;
+        double const   end = times(&tms_end);
+        int const  use_sum = (sum_ % 2) ? 0 : (sum_ % 2); BOOST_TEST(use_sum == 0);
+        double     use_beg = tms_beg_.tms_utime + tms_beg_.tms_stime;
+        double     use_end = tms_end .tms_utime + tms_end .tms_stime;
+
+//      This returns real time, i.e. affected by other processes. Still, it's OK if run as "nice -20 program-name".
+//      return (end - beg_) / sysconf(_SC_CLK_TCK) + use_sum;
+        return (use_end - use_beg) / sysconf(_SC_CLK_TCK) + use_sum;
+    }
+    private:
+
+    int const&     sum_;
+    struct tms tms_beg_;
+    double const   beg_;
 };
 
 namespace test
@@ -96,11 +121,15 @@ namespace test
 #error "Add here."
 #endif
 
-        typedef std::vector<int>            ints;
-        typedef std::vector<std::string> strings;
+        // C1. 18 = 9 positive + 9 negative numbers with the number of digits from 1 to 9.
+        //     Even though INT_MAX(32) = 2147483647, i.e. 10 digits (not to mention long int)
+        //     we only test up to 9 digits as Spirit does not handle more than 9.
 
-        static ints prepare_ints (int const);
-        static void prepare_strs (my_string [], int const);
+        typedef boost::array<my_string, 18> strings; //C1
+        typedef boost::array<int,      100>    ints;
+
+        static ints const&    get_ints ();
+        static strings const& get_strs ();
 
         static void    is_converter ();
         static void      scratchpad ();
@@ -114,19 +143,18 @@ namespace test
         static void  string_to_bool ();
         static void       user_type ();
         static void   force_in_type ();
-        static void     performance (test::cnv::strings const&, test::cnv::ints const&);
-        static void          spirit (test::cnv::strings const&);
+        static void     performance ();
+        static void          spirit ();
 
-        template<typename Converter> static void     str_to_int (Converter const&);
-        template<typename Converter> static void type_to_string (Converter const&);
-        template<typename Converter> static void string_to_type (Converter const&);
-        template<typename Converter> static void        invalid (Converter const&);
+        template<typename Cnv> static void  str_to_int (Cnv const&);
+        template<typename Cnv> static void type_to_str (Cnv const&);
+        template<typename Cnv> static void str_to_type (Cnv const&);
     };
     struct performance
     {
-        template<typename Converter> static double str_to_int (test::cnv::strings const&, Converter const&);
-        template<typename Converter> static double int_to_str (test::cnv::ints const&,    Converter const&);
-        static int                           spirit_framework ();
+        template<typename Cnv> static double str_to_int (Cnv const&);
+        template<typename Cnv> static double int_to_str (Cnv const&);
+        static int                     spirit_framework ();
     };
 }
 

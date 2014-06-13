@@ -7,6 +7,6 @@
 #include <boost/convert/spirit.hpp>
 
 void
-test::cnv::spirit(test::cnv::strings const& strings)
+test::cnv::spirit()
 {
 }

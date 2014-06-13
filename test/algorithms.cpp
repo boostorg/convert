@@ -8,7 +8,7 @@
 
 static
 void
-user_type_to_strings()
+user_type_to_strs()
 {
     boost::array<change, 3>             changes1 = {{ change::no, change::up, change::dn }};
     boost::array<change::value_type, 3> changes2 = {{ change::no, change::up, change::dn }};
@@ -131,5 +131,5 @@ test::cnv::algorithms()
 {
     strings_to_ints();
     ints_to_strings();
-    user_type_to_strings();
+    user_type_to_strs();
 }

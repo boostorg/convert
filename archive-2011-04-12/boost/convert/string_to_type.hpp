@@ -1,4 +1,4 @@
-/// \file boost/convert/string_to_type.hpp
+/// \file boost/convert/str_to_type.hpp
 /// Implements string-to-type converter
 //
 // Copyright (c) 2009-2011 Vladimir Batov.

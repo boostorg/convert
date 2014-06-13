@@ -15,8 +15,8 @@
 #define __BOOST_CONVERT_PUBLIC_HPP__
 
 #include "./convert/api.hpp"
-#include "./convert/string_to_type.hpp"
-#include "./convert/type_to_string.hpp"
+#include "./convert/str_to_type.hpp"
+#include "./convert/type_to_str.hpp"
 #include "./convert/string_to_bool.hpp"
 
 #endif // __BOOST_CONVERT_PUBLIC_HPP__

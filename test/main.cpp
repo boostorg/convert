@@ -5,15 +5,13 @@
 
 #include "./test.hpp"
 #include "./str_to_int.hpp"
-#include "./invalid.hpp"
-#include <boost/convert/spirit.hpp>
 
 using std::string;
 using std::wstring;
 
 template<typename Converter>
 void
-test::cnv::type_to_string(Converter const& cnv)
+test::cnv::type_to_str(Converter const& cnv)
 {
     BOOST_TEST("255" == boost::convert<std::string>(255, cnv(arg::base = boost::cnv::base::dec)).value_or("bad"));
     BOOST_TEST( "ff" == boost::convert<std::string>(255, cnv(arg::base = boost::cnv::base::hex)).value_or("bad"));
@@ -22,7 +20,7 @@ test::cnv::type_to_string(Converter const& cnv)
 
 template<typename Converter>
 void
-test::cnv::string_to_type(Converter const& cnv)
+test::cnv::str_to_type(Converter const& cnv)
 {
     BOOST_TEST( 255 == boost::convert<int>("255", cnv(arg::base = boost::cnv::base::dec)).value_or(999));
     BOOST_TEST( 999 == boost::convert<int>( "FF", cnv(arg::base = boost::cnv::base::dec)).value_or(999));
@@ -47,45 +45,16 @@ test::cnv::force_in_type()
     }
 }
 
-static
-test::cnv::strings
-prepare_strs(test::cnv::ints const& ints)
-{
-    test::cnv::strings strs;
-    int const          size = ints.size();
-
-    strs.reserve(size);
-
-    for (int k = 0; k < size; ++k)
-    {
-        int    this_i = ints[k];
-        string this_s = boost::convert<string>(this_i, boost::cnv::lexical_cast()).value();
-        int    back_i = boost::convert<int>(this_s, boost::cnv::spirit()).value();
-
-        BOOST_ASSERT(this_i == back_i);
-
-        strs.push_back(this_s);
-    }
-    return strs;
-}
-
 int
 main(int argc, char const* argv[])
 {
-    BOOST_TEST(test::performance::spirit_framework());
-
-    test::cnv::ints const    ints = test::cnv::prepare_ints(10000);
-    test::cnv::strings const strs = prepare_strs(ints);
-
     example::getting_started();
     example::getting_serious();
     example::algorithms();
 
+    BOOST_TEST(test::performance::spirit_framework());
+
     test::cnv::is_converter();
-    test::cnv::invalid(boost::cnv::lexical_cast());
-//    test::cnv::invalid(boost::cnv::cstringstream());
-//    test::cnv::invalid(boost::cnv::strtol());
-//    test::cnv::invalid(boost::cnv::printf());
     test::cnv::scratchpad();
     test::cnv::sfinae();
     test::cnv::int_to_string();
@@ -94,10 +63,10 @@ main(int argc, char const* argv[])
     test::cnv::str_to_int(boost::cnv::cstringstream());
     test::cnv::str_to_int(boost::cnv::strtol());
     test::cnv::str_to_int(boost::cnv::printf());
-    test::cnv::type_to_string(boost::cnv::printf());
-    test::cnv::string_to_type(boost::cnv::strtol()); 
-    test::cnv::string_to_type(boost::cnv::printf());
-    test::cnv::type_to_string(boost::cnv::printf());
+    test::cnv::type_to_str(boost::cnv::printf());
+    test::cnv::str_to_type(boost::cnv::strtol()); 
+    test::cnv::str_to_type(boost::cnv::printf());
+    test::cnv::type_to_str(boost::cnv::printf());
     test::cnv::user_type();
     test::cnv::force_in_type();
     test::cnv::lcast_converter();
@@ -105,8 +74,8 @@ main(int argc, char const* argv[])
     test::cnv::algorithms();
     test::cnv::callables();
     test::cnv::encryption();
-    test::cnv::performance(strs, ints);
-    test::cnv::spirit(strs);
+    test::cnv::performance();
+    test::cnv::spirit();
 
     return boost::report_errors();
 }

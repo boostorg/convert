@@ -119,8 +119,9 @@ test_locale()
 
     string double_rus = boost::convert<string>(double_v01, cnv(rus_locale)).value();
     string double_eng = boost::convert<string>(double_v01, cnv(eng_locale)).value();
-    printf("rus locale=%s, presentation=%s.\n", rus_locale.name().c_str(), double_rus.c_str());
-    printf("eng locale=%s, presentation=%s.\n", eng_locale.name().c_str(), double_eng.c_str());
+
+//  printf("rus locale=%s, presentation=%s.\n", rus_locale.name().c_str(), double_rus.c_str());
+//  printf("eng locale=%s, presentation=%s.\n", eng_locale.name().c_str(), double_eng.c_str());
 
     BOOST_TEST(double_rus == rus_expected);
     BOOST_TEST(double_eng == eng_expected);

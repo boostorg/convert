@@ -7,37 +7,102 @@
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/convert/spirit.hpp>
+#include <stdlib.h>
 
-test::cnv::ints
-test::cnv::prepare_ints(int const num_ints)
+namespace { namespace local
 {
-    test::cnv::ints                           ints;
-    boost::random::mt19937                     gen (std::time(0));
-    boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
-//  boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
+    ///////////////////////////////////////////////////////////////////////////
+    // Generate a random number string with N digits
+    std::string
+    gen_int(int digits, bool negative)
+    {
+        std::string result;
 
-    ints.reserve(num_ints);
+        if (negative)                       // Prepend a '-'
+            result += '-';
 
-    for (int k = 0; k < num_ints; ++k)
-        ints.push_back(dist(gen));
+        result += '1' + (rand()%9);         // The first digit cannot be '0'
 
+        for (int i = 1; i < digits; ++i)    // Generate the remaining digits
+            result += '0' + (rand()%10);
+        return result;
+    }
+}}
+
+test::cnv::ints const&
+test::cnv::get_ints()
+{
+    static test::cnv::ints ints;
+    static bool          filled;
+
+    if (!filled)
+    {
+        boost::random::mt19937                     gen (std::time(0));
+        boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
+//      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
+
+        for (size_t k = 0; k < ints.size(); ++k)
+            ints[k] = dist(gen);
+
+        filled = true;
+    }
     return ints;
 }
 
-void
-test::cnv::prepare_strs(my_string strs[], int const size)
+#ifdef sdfsdfsdfsdfsdfsdf
+
+test::cnv::strings const&
+test::cnv::get_strs()
 {
-    test::cnv::ints const ints = test::cnv::prepare_ints(size);
+    static test::cnv::strings strings;
+    static bool                filled;
 
-    for (int k = 0; k < size; ++k)
+    if (!filled)
     {
-        int const   this_i = ints[k];
-        std::string this_s = boost::convert<std::string>(this_i, boost::cnv::lexical_cast()).value();
-        int const   back_i = boost::convert<int>(this_s, boost::cnv::spirit()).value();
+        test::cnv::ints const& ints = test::cnv::get_ints();
 
-        BOOST_ASSERT(this_i == back_i);
+        BOOST_ASSERT(strings.size() == ints.size());
 
-        strs[k] = this_s;
+        for (size_t k = 0; k < ints.size(); ++k)
+        {
+            int const   this_i = ints[k];
+            std::string this_s = boost::convert<std::string>(this_i, boost::cnv::lexical_cast()).value();
+            int const   back_i = boost::convert<int>(this_s, boost::cnv::spirit()).value();
+
+            BOOST_ASSERT(this_i == back_i);
+
+            strings[k] = this_s;
+        }
+        filled = true;
     }
+    return strings;
+}
+#endif
+
+test::cnv::strings const&
+test::cnv::get_strs()
+{
+    static test::cnv::strings strings;
+    static bool                filled;
+    static bool              negative = true;
+
+    if (!filled)
+    {
+        // Seed the random generator
+        srand(time(0));
+
+        for (size_t k = 0; k < strings.size(); ++k)
+            strings[k] = local::gen_int(k/2 + 1, negative = !negative);
+
+        printf("Testing: ");
+
+        for (size_t k = 0; k < strings.size(); ++k)
+            printf("%s%s", k ? "," : "", strings[k].c_str());
+
+        printf("\n");
+
+        filled = true;
+    }
+    return strings;
 }
 
