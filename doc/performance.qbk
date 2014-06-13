@@ -1,6 +1,6 @@
 [section Performance]
 
-The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. The previously mentioned converters have been tested as part of the ['Boost.Convert] framework (see ['test/performance.cpp]). The C++11 family of `std::to_string()`, `std::stoi()`, etc. were not tested due to unavailability.
+The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. A few  converters have been tested as part of the ['Boost.Convert] framework (see ['test/performance.cpp]). The C++11 family of `std::to_string()`, `std::stoi()`, etc. were not tested due to unavailability.
 
 Performance was tested for string conversions to the `int` type and to a user-defined type. On a 64-bit 12.04 Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
 
@@ -42,35 +42,35 @@ The purpose of the test was to deploy the same functionality directly and as par
 
  Testing: 7,-8,13,-89,753,-670,7671,-1905,45436,-13998,573220,-188715,7527646,-1173621,95095988,-23161933,930008666,-852473336
  raw_lxcast_str_to_int_test: 1.0823377580 [s]
- cnv_lxcast_str_to_int_test: 1.1032241400 [s] +2%
+ cnv_lxcast_str_to_int_test: 1.1032241400 [s] +2% (slower)
  raw_strtol_str_to_int_test: 0.6941694690 [s]
- cnv_strtol_str_to_int_test: 0.7003099920 [s] +1%
+ cnv_strtol_str_to_int_test: 0.7003099920 [s] +1% (slower)
  raw_spirit_str_to_int_test: 0.2791614670 [s]
- cnv_spirit_str_to_int_test: 0.2853485740 [s] +2%
+ cnv_spirit_str_to_int_test: 0.2853485740 [s] +2% (slower)
 
  Testing: 2,-5,95,-76,251,-139,5201,-9062,73362,-75915,984138,-163058,5301562,-6099471,44139215,-66342869,472999835,-944425688
  raw_lxcast_str_to_int_test: 1.1507759000 [s]
- cnv_lxcast_str_to_int_test: 1.1809066170 [s] +3%
+ cnv_lxcast_str_to_int_test: 1.1809066170 [s] +3% (slower)
  raw_strtol_str_to_int_test: 0.6825586860 [s]
- cnv_strtol_str_to_int_test: 0.7065548380 [s] +4%
+ cnv_strtol_str_to_int_test: 0.7065548380 [s] +4% (slower)
  raw_spirit_str_to_int_test: 0.2794743890 [s]
- cnv_spirit_str_to_int_test: 0.2881680850 [s] +3%
+ cnv_spirit_str_to_int_test: 0.2881680850 [s] +3% (slower)
 
  Testing: 8,-3,27,-96,534,-557,3666,-2616,74990,-49153,790361,-656663,1499238,-7220122,73338528,-30197954,990405980,-912554300
  raw_lxcast_str_to_int_test: 1.1296698930 [s]
- cnv_lxcast_str_to_int_test: 1.1872108850 [s] +5%
+ cnv_lxcast_str_to_int_test: 1.1872108850 [s] +5% (slower)
  raw_strtol_str_to_int_test: 0.6948299650 [s]
  cnv_strtol_str_to_int_test: 0.6976610260 [s] +0%
  raw_spirit_str_to_int_test: 0.2720586660 [s]
- cnv_spirit_str_to_int_test: 0.2867466020 [s] +5%
+ cnv_spirit_str_to_int_test: 0.2867466020 [s] +5% (slower)
 
  Testing: 7,-4,88,-29,330,-179,4087,-7338,52740,-63806,829806,-829998,4089882,-4877638,56854373,-19034155,646856901,-979329889
  raw_lxcast_str_to_int_test: 1.1702910200 [s]
- cnv_lxcast_str_to_int_test: 1.1962990700 [s] +2%
+ cnv_lxcast_str_to_int_test: 1.1962990700 [s] +2% (slower)
  raw_strtol_str_to_int_test: 0.7284593480 [s]
- cnv_strtol_str_to_int_test: 0.7476771280 [s] +3%
+ cnv_strtol_str_to_int_test: 0.7476771280 [s] +3% (slower)
  raw_spirit_str_to_int_test: 0.2989873150 [s]
- cnv_spirit_str_to_int_test: 0.3120227090 [s] +4%
+ cnv_spirit_str_to_int_test: 0.3120227090 [s] +4% (slower)
 
 The results vary from run to run with the margin of error of around +/-5%. Accidentally, that is the biggest overhead (%5) of the ['Boost.Convert] framework these results show. 
 
@@ -80,7 +80,7 @@ Obviously, the results are driven by the deployed compiler optimization capabili
  raw_lxcast_str_to_int_test: 10.5022676440 [s]
  cnv_lxcast_str_to_int_test: 10.4914070410 [s] +0%
  raw_strtol_str_to_int_test: 4.6645884930 [s]
- cnv_strtol_str_to_int_test: 4.5271582360 [s] -3%
+ cnv_strtol_str_to_int_test: 4.5271582360 [s] -3% (faster)
  raw_spirit_str_to_int_test: 2.0830079010 [s]
  cnv_spirit_str_to_int_test: 2.0799894250 [s] +0%
 
@@ -88,9 +88,17 @@ Obviously, the results are driven by the deployed compiler optimization capabili
  raw_lxcast_str_to_int_test: 10.3305214320 [s]
  cnv_lxcast_str_to_int_test: 10.3119178060 [s] +0%
  raw_strtol_str_to_int_test: 4.6692997760 [s]
- cnv_strtol_str_to_int_test: 4.5556425890 [s] -3%
+ cnv_strtol_str_to_int_test: 4.5556425890 [s] -3% (faster)
  raw_spirit_str_to_int_test: 2.0824675450 [s]
  cnv_spirit_str_to_int_test: 2.0794554230 [s] +0%
+
+Testing: 7,-7,51,-75,421,-317,7378,-1856,88457,-56696,260894,-638672,8253023,-2875442,12050842,-93716785,349799927,-214159799
+raw_lxcast_str_to_int_test: 10.2471819180 [s] 
+cnv_lxcast_str_to_int_test: 10.1953968470 [s] -1% (faster)
+raw_strtol_str_to_int_test: 4.6421032960 [s]
+cnv_strtol_str_to_int_test: 4.5181249010 [s] -2% (faster)
+raw_spirit_str_to_int_test: 2.0729036830 [s]
+cnv_spirit_str_to_int_test: 2.0623086900 [s] -1% (faster)
 
 That is, according to the results, conversions deployed through ['Boost.Convert] framework had no detectable overhead.
 
