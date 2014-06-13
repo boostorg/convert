@@ -8,38 +8,6 @@
 using std::string;
 using std::wstring;
 
-struct direction
-{
-    // Note: the class does NOT have the default constructor.
-
-    enum value_type { up, dn };
-
-    direction(value_type value) : value_(value) {}
-    bool operator==(direction const& that) const { return value_ == that.value_; }
-
-    friend std::istream& operator>>(std::istream& stream, direction& dir)
-    {
-        std::string str; stream >> str;
-
-        /**/ if (str == "up") dir.value_ = up;
-        else if (str == "dn") dir.value_ = dn;
-        else stream.setstate(std::ios_base::failbit);
-
-        return stream;
-    }
-    friend std::ostream& operator<<(std::ostream& stream, direction const& dir)
-    {
-        return stream << (dir.value_ == up ? "up" : "dn");
-    }
-
-    private: value_type value_;
-};
-
-namespace boost
-{
-    template<> inline direction make_default<direction>() { return direction(direction::up); }
-}
-
 void
 test::cnv::user_type()
 {

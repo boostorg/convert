@@ -38,7 +38,7 @@
       <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> basic deployment is not that different
       from <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> and, in fact, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       functionality is easily deployed through <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
-      interface (with no performance overhead when compiled optimized):
+      interface:
     </p>
 <p>
 </p>
@@ -71,9 +71,10 @@
       and Adaptability to Change</a>
     </h3>
 <p>
-      These qualities become important later in development or in the maintenance
-      phase when, say, later the code above is flagged as too slow. Then the performance
-      could be improved by replacing the original converter:
+      Sooner or later these qualities become important during development or in the
+      maintenance phase when, say, the code above is identified as too slow. Then
+      the performance could be improved with minimal effort by replacing the original
+      converter:
     </p>
 <p>
 </p>
@@ -86,7 +87,7 @@
 <pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">spirit</span> <span class="identifier">cnv</span><span class="special">;</span>
 
 <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">);</span>
-<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Five times faster (gcc-4.8, Ubuntu 14.04, 32-bit)</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Five times faster than lexical_cast</span>
 </pre>
 <p>
     </p>
@@ -107,8 +108,8 @@
 
 <span class="keyword">try</span>
 <span class="special">{</span>
-    <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"   123"</span><span class="special">);</span> <span class="comment">// Fails. Throws</span>
-    <span class="identifier">BOOST_TEST</span><span class="special">(!</span><span class="string">"We should not be here"</span><span class="special">);</span>
+    <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"   123"</span><span class="special">);</span> <span class="comment">// Does not work</span>
+    <span class="identifier">BOOST_TEST</span><span class="special">(!</span><span class="string">"Never reached"</span><span class="special">);</span>
 <span class="special">}</span>
 <span class="keyword">catch</span> <span class="special">(...)</span> <span class="special">{}</span>
 
@@ -117,8 +118,8 @@
 <span class="identifier">string</span> <span class="identifier">s2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123.456</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">setprecision</span><span class="special">(</span><span class="number">4</span><span class="special">))).</span><span class="identifier">value</span><span class="special">();</span>
 
 <span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s1</span> <span class="special">==</span> <span class="string">"123.456"</span><span class="special">);</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s2</span> <span class="special">==</span> <span class="string">"123.5"</span><span class="special">);</span> <span class="comment">// Precision was set to 4. Correctly rounded.</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s1</span> <span class="special">==</span> <span class="string">"123.456"</span><span class="special">);</span> <span class="comment">// The only available output format</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s2</span> <span class="special">==</span> <span class="string">"123.5"</span><span class="special">);</span>   <span class="comment">// Precision was set to 4. Correctly rounded.</span>
 </pre>
 <p>
     </p>

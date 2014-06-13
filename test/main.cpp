@@ -6,6 +6,8 @@
 #include "./test.hpp"
 #include "./str_to_int.hpp"
 
+namespace arg = boost::cnv::parameter;
+
 using std::string;
 using std::wstring;
 
@@ -51,6 +53,8 @@ main(int argc, char const* argv[])
     example::getting_started();
     example::getting_serious();
     example::algorithms();
+    example::sstream();
+    example::lexical_cast();
 
     BOOST_TEST(test::performance::spirit_framework());
 

@@ -31,7 +31,6 @@
 [include converters.qbk]
 [include lexcast_converter.qbk]
 [include sstream_converter.qbk]
-[include type_requirements.qbk]
 [include performance.qbk]
 [include other.qbk]
 [include design_notes.qbk]

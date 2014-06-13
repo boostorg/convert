@@ -54,7 +54,7 @@ example1()
            std::back_inserter(ints),
            boost::bind(boost::lexical_cast<int, std::string>, _1));
 
-           BOOST_TEST(!"We should not be here");
+           BOOST_TEST(!"Never reached");
     }
     catch (std::exception&)
     {
@@ -86,9 +86,9 @@ example2()
            std::back_inserter(ints),
            boost::convert<int>(cnv(std::hex)(std::skipws)));
 
-           BOOST_TEST(!"We should not be here");
+           BOOST_TEST(!"Never reached");
     }
-    catch (std::exception&)
+    catch (boost::bad_optional_access const&)
     {
        // Only the first two strings converted. Failed to convert the last one.
 

@@ -101,13 +101,15 @@
 <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">fallback_value</span><span class="special">);</span>
 </pre>
 <p>
-      Both <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
-      behavior reflect the fact that a conversion request is only a <span class="emphasis"><em>request</em></span>
+      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> behavior (similar to <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>)
+      reflect the fact that a conversion request is only a <span class="emphasis"><em>request</em></span>
       which may succeed but may also fail. However, from the user perspective <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-      processes failure in a somewhat non-negotiable manner. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
-      takes a softer approach and leaves the decision to the user. In my personal
-      experience the choice has overwhelmingly been to avoid exceptions altogether
-      with program flows similar to:
+      processes failure in a somewhat one-dimensional non-negotiable manner. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
+      takes a softer approach and leaves the decision to the user. On the library
+      level throwing an exception to indicate a conversion failure might be the only
+      available response. On the application level though, in my personal experience,
+      the choice has overwhelmingly been to avoid exceptions altogether with program
+      flows similar to:
     </p>
 <pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span> <span class="identifier">res</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">);</span>
 

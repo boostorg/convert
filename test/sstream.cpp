@@ -5,6 +5,9 @@
 
 #include "./test.hpp"
 
+namespace cnv = boost::cnv;
+namespace arg = boost::cnv::parameter;
+
 using std::string;
 
 static
@@ -72,7 +75,7 @@ test_manipulators()
     BOOST_TEST(boost::convert<string>(255, ccnv).value() == "377");
     BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "17");
 
-    ccnv(std::showbase)(arg::uppercase = true)(arg::base = boost::cnv::base::hex);
+    ccnv(std::showbase)(arg::uppercase = true)(arg::base = cnv::base::hex);
 
     BOOST_TEST(boost::convert<string>(255, ccnv).value() == "0XFF");
     BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "0XF");
@@ -82,6 +85,7 @@ static
 void
 test_locale()
 {
+    //[sstream_locale_example1
     boost::cnv::cstringstream cnv;
 
     char const* eng_locale_name = test::cnv::is_msc ? "" // I do not know MS presentation of US locale
@@ -98,10 +102,11 @@ test_locale()
     char const*  double_s01 = test::cnv::is_msc ? "1.2345E-002"
                             : test::cnv::is_gcc ? "1.2345E-02"
                             : "";
+
 //  cnv(std::setprecision(4))(std::uppercase)(std::scientific);
     cnv(arg::precision = 4)
        (arg::uppercase = true)
-       (arg::notation = boost::cnv::notation::scientific);
+       (arg::notation = cnv::notation::scientific);
 
     double double_v01 = boost::convert<double>(double_s01, cnv).value();
     string double_s02 = boost::convert<string>(double_v01, cnv).value();
@@ -125,6 +130,7 @@ test_locale()
 
     BOOST_TEST(double_rus == rus_expected);
     BOOST_TEST(double_eng == eng_expected);
+    //]
 }
 
 void

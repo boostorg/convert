@@ -1,11 +1,13 @@
 [section Converters]
 
-`boost::convert()` plays its role by providing a uniform interface and ensuring consistent behavior. However, it is the respective plugged-in converter which does the hard work of turning custom-types into strings and strings into custom-types, etc., i.e. the actual conversion\/transformation. 
+[import ../test/callable.cpp]
+
+`boost::convert()` plays its role by providing a uniform interface and ensuring consistent behavior. However, it is the respective converter which does the hard work of turning custom-types into strings and strings into custom-types, etc., i.e. the actual type conversion\/transformation. 
 
 For a converter to be plugged in to the ['Boost.Convert] framework it needs to be a ['callable] with the following signature:
 
  template<typename TypeOut, typename TypeIn>
- bool operator()(TypeIn const& value_in, boost::optional<TypeOut>& result_out) const;
+ void operator()(TypeIn const& value_in, boost::optional<TypeOut>& result_out) const;
 
 if that is a general-purpose converter capable of handling many types (like string-to-type and type-to-string conversions). Alternatively, a purpose-built custom converter might only care to provide 
 
@@ -13,22 +15,20 @@ if that is a general-purpose converter capable of handling many types (like stri
 
 if its sole purpose is to handle one particular conversion\/transformation of ['TypeIn] to ['TypeOut]. For example, a converter from the operating-system-specific MBCS string format to the UCS-2 or UCS-4 (depending on `wchar_t` size) does not seem like such an unreasonable idea:
 
- bool operator()(std::string const& value_in, boost::optional<std::wstring>& result_out) const;
+ void operator()(std::string const& value_in, boost::optional<std::wstring>& result_out) const;
 
 Alternatively again, an ad-hoc in-place ['callable] might be provided as a converter. For example, 
 
- int v = boost::convert<int>(str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
+[callable_example3]
 
 or an old-fashioned function:
 
- extern bool my_converter(std::string const&, boost::optional<int>&);
+[callable_example1]
+[callable_example2]
 
- int v = boost::convert<int>(str, my_converter).value_or(-1);
+With regard to converters the ['Boost.Convert] framework has been designed with the following requirements in mind: 
 
-With regard to converters the ['Boost.Convert] framework has been designed with the following requirements in mind:
-
-* converters do not rely on and are not aware of the ['Boost.Convert] framework;
-* converters are not concerned with the task of creating a temporary storage for the conversion result; that storage is provided by the framework.
+[note Converters shall be independent of and shall not rely on the ['Boost.Convert] infrastructure.] 
 
 [endsect]
 

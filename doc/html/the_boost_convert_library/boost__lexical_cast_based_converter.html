@@ -34,7 +34,8 @@
         </li>
 </ul></div>
 <p>
-      The converter is deployed with
+      The converter can easily replace <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>,
+      adds flexibility and convenience:
     </p>
 <p>
 </p>
@@ -66,6 +67,30 @@
 <p>
       See the <code class="computeroutput"><a class="link" href="../boost/cnv/lexical_cast.html" title="Struct lexical_cast">implementation</a></code>
       for details.
+    </p>
+<p>
+      In order for a user-defined type to be integrated into the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      framework (at least until 1.47; see <a href="http://www.boost.org/doc/libs/1_47_0/libs/conversion/lexical_cast.htm" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      1.47 documentation</a>):
+    </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+          <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Copy Constructible</em></span>;
+        </li>
+<li class="listitem">
+          <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Default Constructible</em></span>;
+        </li>
+<li class="listitem">
+          <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Input Streamable</em></span>;
+        </li>
+<li class="listitem">
+          <span class="emphasis"><em>TypeIn</em></span> needs to be <span class="emphasis"><em>Output Streamable</em></span>.
+        </li>
+</ul></div>
+<p>
+      The first two requirements are imposed by the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      design and implementation and the last two requirements by the underlying
+      <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code> engine.
     </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

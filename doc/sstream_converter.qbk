@@ -1,12 +1,10 @@
 [section std::stringstream-Based Converter]
 
-[*Please note:] ['the converter is currently a work-in-progress. Suggestions are most welcomed. Changes are to be expected.]
+[import ../example/sstream.cpp]
+[import ../test/test.hpp]
+[import ../test/sstream.cpp]
 
-The converter is deployed with
-
- #include <boost/convert/converter/sstream.hpp>
-
-Its purpose is to provide conversion-related formatting and locale support not available with `boost::lexical_cast`. Advantages of deploying a `std::stream`-based engine are 
+The purpose of the converter is to provide conversion-related formatting and locale support not available with `boost::lexical_cast`. Advantages of deploying a `std::stream`-based conversion engine are 
 
 * availability and maturity;
 * formatting and locale support;
@@ -14,136 +12,99 @@ Its purpose is to provide conversion-related formatting and locale support not a
 * instant re-use of available standard manipulators (`std::hex`, `std::setprecision`, `std::skipws`, etc.);
 * extendibility (via custom manipulators (see [link 1 \[1\]])).
 
+The converter is deployed as follows:
+
+[sstream_headers1]
+[sstream_example1]
+
 [section Formatting Support]
 
 Formatting support is provided by the underlying `std::stringstream`. Consequently, the API heavily borrows formatting metaphors from this underlying component. One such metaphor is the ['manipulator] represented by `std::hex`, `std::dec`, `std::uppercase`, `std::scientific`, etc.
 
 The following code demonstrates how `char` and `wchar_t` strings can be read in the `std::hex` or `std::dec` format:
 
- boost::cstringstream_converter ccnv; // stringstream-based char converter
- boost::cnv::wstringstream wcnv; // stringstream-based wchar_t converter
-
- // int v00 = boost::lexical_cast<int>("FF"); // Fails. Throws.
- int v01 = boost::convert<int>("FF", ccnv(std::hex)).value_or(0);
- int v02 = boost::convert<int>(L"F", wcnv(std::hex)).value_or(0);
- int v03 = boost::convert<int>("FF", ccnv(std::dec)).value_or(-5);
- int v04 = boost::convert<int>(L"F", wcnv(std::dec)).value_or(-5);
-
- BOOST_ASSERT(v01 == 255); // "FF"
- BOOST_ASSERT(v02 ==  15); // L"F"
- BOOST_ASSERT(v03 ==  -5); // Failed to convert "FF" as decimal.
- BOOST_ASSERT(v04 ==  -5); // Failed to convert L"F" as decimal.
+[sstream_example2]
 
 For batch-processing it might be more efficient to configure the converter once:
 
- ccnv(std::showbase)(std::uppercase)(std::hex);
+[sstream_example3]
 
- BOOST_ASSERT(boost::convert<string>(255, ccnv).value() == "0XFF");
- BOOST_ASSERT(boost::convert<string>( 15, ccnv).value() ==  "0XF");
+An alternative (generic) formatting interface is currently being extended and explored:
 
-An alternative (more generic) formatting interface is currently being extended and explored:
-
- namespace cnv = boost::conversion;
- namespace arg = boost::conversion::parameter;
- 
- ccnv(arg::base = cnv::base::dec)
-     (arg::uppercase = false)
-     (arg::notation = cnv::notation::scientific);
+[sstream_headers2]
+[sstream_example4]
  
 which is equivalent to the following ['manipulator]-based variant:
  
- ccnv(std::dec)(std::nouppercase)(std::scientific);
+[sstream_example5]
  
 [endsect]
 [section Locale Support]
 
 Locale support is similar to the formatting support as demonstrated by the following example (the Linux version):
 
- #include <boost/convert/converter/sstream.hpp>
-
- boost::cstringstream_converter ccnv; // stringstream-based char converter
-
- char const*   double_str = "1.2345E-02"; // Upper-case. Separated by a dot.
- char const* eng_expected = "1.235e-02";  // Lower-case. Separated by a dot. Lower precision.
- char const* rus_expected = "1,235e-02";  // Lower-case. Separated by a comma. Lower precision.
- std::locale   rus_locale;
- std::locale   eng_locale;
-
- try
- {
-    rus_locale = std::locale("ru_RU.UTF-8");
-    eng_locale = std::locale("en_US.UTF-8");
- }
- catch (...)
- {
-    printf("Bad locale.\n");
-    exit(1);
- }
-
- // Specification of the expected format.
- ccnv(std::setprecision(4))(std::scientific)(std::uppercase);
-
- // Convert the original string to binary double.
- double double_v = boost::convert<double>(double_str, ccnv).value();
-
- // Change the format to lower precision and to lower case.
- ccnv(std::setprecision(3))(std::nouppercase);
-
- // Convert the double back to Russian- and English-locale strings.
- string double_rus = boost::convert<string>(double_v, ccnv(rus_locale)).value();
- string double_eng = boost::convert<string>(double_v, ccnv(eng_locale)).value();
-
- BOOST_ASSERT(double_rus == rus_expected);
- BOOST_ASSERT(double_eng == eng_expected);
+[sstream_headers2]
+[sstream_locale_example1]
 
 [endsect]
 [section Integration of User-Defined Types]
 
-As the converter uses `std::stringstream` to do actual conversions it carries over the `std::stringstream`-imposed requirements (as, in fact, `boost::lexical_cast` does):
+As the converter uses `std::stringstream` to do actual conversions it carries over the `std::stringstream`-imposed type requirements. Namely:
 
 * ['TypeIn] needs to be ['Output Streamable];
 * ['TypeOut] needs to be ['Input Streamable]; 
 
-In practical terms the mechanism for integrating a user-defined type into the ['Boost.Convert] framework (for deployment with this described `std::stringstream`-based converter) is the same as for `boost::lexical_cast`. That is, the respective type needs to have the following operators defined:
+In practical terms the mechanism for integrating a user-defined type into the ['Boost.Convert] framework (for deployment with this described `std::stringstream`-based converter) should be familiar to those who worked with `boost::lexical_cast`. That is, the respective type needs to have the following operators defined:
 
  std::istream& operator>>(std::istream&, TypeOut&);
  std::ostream& operator<<(std::ostream&, TypeIn const&);
 
 For example,
 
- struct change
- {
-     enum value_type { no, up, dn };
-
-     change(value_type v =no) : value_(v) {}
-
-     friend std::istream& operator>>(std::istream&, change&)
-     friend std::ostream& operator<<(std::ostream&, change const&);
-    
-     private: value_type value_;
- };
- std::istream& operator>>(std::istream& stream, change& chg)
- {
-     string str;
-     stream >> str;
-     /**/ if (str == "up") chg.value_ = up;
-     else if (str == "dn") chg.value_ = dn;
-     else if (str == "no") chg.value_ = no;
-     else stream.setstate(std::ios_base::failbit);
-
-     return stream;
- }
- std::ostream& operator<<(std::ostream& stream, change const& chg)
- {
-     return stream << (chg.value_ == up ? "up" : chg.value_ == dn ? "dn" : "no");
- }
+[change_declaration]
 
 That allows handling conversions of user-defined types with plugged-in `std::stringstream`-based converter:
 
- boost::cstringstream_converter cnv; // stringstream-based char converter
+[sstream_example6]
 
- int    i = boost::convert<int>(str, cnv).value();
- change c = boost::convert<change>(str, cnv).value();
+[endsect]
+[section The ['Default Constructible] Type Requirement]
+
+Due to `std::sstream` design it requires an ['initialized] temporary storage of ['TypeOut] type to put the result of the requested conversion to. The `std::sstream`-based converter achieves that with:
+
+ istream_type& istream = stream_;
+ TypeOut        result = boost::make_default<TypeOut>();
+
+ istream >> result;
+
+The temporary storage `result` is initialized with `boost::make_default()` the default implementation of which is
+
+ namespace boost
+ {
+    template<typename T> T make_default() { return T(); }
+ }
+
+Consequently, 
+
+[note the `std::sstream`-based converter (and converters like it) require the ['TypeOut] type to be ['Default Constructible] by default.]  
+
+That said, a well-designed type (in my opinion, anyway) should only have meaningful and unambiguous constructors... and the default constructor is not always and necessarily one of them. Consider the following as one such example:
+
+[direction_declaration]
+
+The `direction` type has no default state. It is not ['Default Constructible] and, consequently, the following calls do not compile:
+
+ direction dir1 = boost::convert<direction>(str).value(); // Does not compile
+ direction dir2 = boost::lexical_cast<direction>(str); // Does not compile
+
+However, ['Boost.Convert] is able to handle such a type with little help from the user -- the instructions ['how] to create that mentioned temporary storage:
+
+[direction_declaration_make_default]
+
+Now such class can be deployed with the `std::sstream`-based converter:
+
+ direction dir1 = boost::convert<direction>(str).value(); // Compiles
+ direction dir2 = boost::lexical_cast<direction>(str); // Does not compile
 
 [endsect]
 [endsect]
