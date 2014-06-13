@@ -21,6 +21,9 @@ the_boost_convert_library/design_notes/converter_signature.html
 the_boost_convert_library/acknowledgements.html
 the_boost_convert_library/references.html
 convert_reference.html
+boost/convert_idp20648812.html
+boost/convert_idp19550132.html
+header/boost/convert/lexical_cast_hpp.html
 boost/cnv/lexical_cast.html
 header/boost/convert/parameters_hpp.html
 boost/cnv/base.html
@@ -33,4 +36,5 @@ header/boost/convert/sstream_hpp.html
 boost/cnv/basic_stringstream.html
 header/boost/convert/strtol_hpp.html
 boost/cnv/strtol.html
+header/boost/make_default_hpp.html
 index/s16.html

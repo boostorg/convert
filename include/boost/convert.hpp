@@ -20,24 +20,41 @@
 
 namespace boost
 {
-    // C2. TypeIn is passed in to the Converter as-is.
-    //     That way the converter will be able to optimize the conversion based on that TypeIn type.
+    /// @brief The main Boost.Convert deployment interface
+    /// @details This is the Boost.Convert main interface. For example,
+    /// @code
+    ///    boost::cnv::cstringstream cnv;
+    ///
+    ///    int    i1 = boost::convert<int>(" 12", cnv(std::skipws)).value();
+    ///    int    i2 = boost::convert<int>("uhm", cnv).value_or(-1);
+    ///    string s1 = boost::convert<string>(123.456, cnv)).value();
+    ///    string s2 = boost::convert<string>(123.456, cnv)).value_or("failed");
+    /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
     boost::optional<TypeOut>
     convert(TypeIn const& value_in, Converter const& converter)
     {
-//        try
-//        {
             boost::optional<TypeOut> result;
             converter(value_in, result);
             return result;
-//        }
-//        catch (...)
-//        {
-//            return boost::optional<TypeOut>();
-//        }
     }
+
+    /// @brief The main Boost.Convert deployment interface with algorithms
+    /// @details This the Boost.Convert main deployment interface with algorithms. For example,
+    /// @code
+    ///    boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
+    ///    std::vector<int>             ints;
+    ///    boost::cnv::cstringstream     cnv;
+    ///
+    ///    cnv(std::hex)(std::skipws);
+    ///
+    ///    std::transform(
+    ///        strings.begin(),
+    ///        strings.end(),
+    ///        std::back_inserter(integers),
+    ///        boost::convert<int>(cnv).value_or(INT_MAX));
+    /// @endcode
 
     template<typename TypeOut, typename Converter>
     typename boost::cnv::algorithm_helper<TypeOut, Converter>

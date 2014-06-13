@@ -34,7 +34,7 @@ else
 
 doxygen convert_ref
   :
-    [ glob $(here)/../include/boost/convert/*.hpp ]
+    [ glob $(here)/../include/boost/convert.hpp $(here)/../include/boost/make_default.hpp $(here)/../include/boost/convert/*.hpp ]
   : 
     <doxygen:param>PROJECT_NAME="CONVERT"
     <doxygen:param>PROJECT_NUMBER=3

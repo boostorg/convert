@@ -15,22 +15,22 @@ introduction()
       representation and assigns INT_MAX to those which fail to convert:
    */
 
-    boost::array<char const*, 3> strings = {{ " 5", "0XF", "not an int" }};
-    std::vector<int>            integers;
-    boost::cnv::cstringstream   cnv; // stringstream-based char converter
+    boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
+    std::vector<int>             ints;
+    boost::cnv::cstringstream     cnv;
 
-    cnv(std::hex)(std::skipws);
+    cnv(std::hex)(std::skipws); // Instruct reading hexadecimal, skip white spaces.
 
     std::transform(
-        strings.begin(),
-        strings.end(),
-        std::back_inserter(integers),
+        strs.begin(),
+        strs.end(),
+        std::back_inserter(ints),
         boost::convert<int>(cnv).value_or(INT_MAX));
 
-    BOOST_TEST(integers.size() == 3);
-    BOOST_TEST(integers[0] ==  5);
-    BOOST_TEST(integers[1] == 15);
-    BOOST_TEST(integers[2] == INT_MAX); // Failed conversion
+    BOOST_TEST(ints.size() == 3);
+    BOOST_TEST(ints[0] ==  5);
+    BOOST_TEST(ints[1] == 15);
+    BOOST_TEST(ints[2] == INT_MAX); // Failed conversion
 //]
 }
 
