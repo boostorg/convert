@@ -10,7 +10,7 @@ the_boost_convert_library/std__stringstream_based_converter/locale_support.html
 the_boost_convert_library/std__stringstream_based_converter/integration_of_user_defined_types.html
 the_boost_convert_library/std__stringstream_based_converter/the___default_constructible__type_requirement.html
 the_boost_convert_library/performance.html
-the_boost_convert_library/__boost_convert__performance_overhead.html
+the_boost_convert_library/boost_convert_performance_overhead.html
 the_boost_convert_library/other_conversions.html
 the_boost_convert_library/design_notes.html
 the_boost_convert_library/design_notes/public_user_interface.html
@@ -21,8 +21,8 @@ the_boost_convert_library/design_notes/converter_signature.html
 the_boost_convert_library/acknowledgements.html
 the_boost_convert_library/references.html
 convert_reference.html
-boost/convert_idp20648812.html
-boost/convert_idp19550132.html
+boost/convert_idp19370516.html
+boost/convert_idp18244228.html
 header/boost/convert/lexical_cast_hpp.html
 boost/cnv/lexical_cast.html
 header/boost/convert/parameters_hpp.html

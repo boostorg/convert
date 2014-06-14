@@ -23,7 +23,7 @@ The standard ['Boost.Convert] usage pattern is to create a converter or converte
 Based on the performance data I tend to conclude that, given type-safety and benefits provided by the ['Boost.Convert] framework, it (with appropriate converters) should probably be the first choice for conversion-related tasks.
 
 [endsect]
-[section ['Boost.Convert] Performance Overhead]
+[section Boost.Convert Performance Overhead]
 
 ['Boost.Convert] framework adds an additional layer of indirection and some ['Boost.Convert] converters are wrappers around actual conversion facilities such as `strtol()`, `boost::lexical_cast`,  `boost::spirit`, etc. Consequently, legitimate are concerns about performance overhead introduced by the framework as opposed to deploying mentioned conversion facilities directly.
 
