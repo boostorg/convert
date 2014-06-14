@@ -19,12 +19,30 @@ void plain_old_func(std::string const& value_in, boost::optional<int>& value_out
     }
 }
 
+template<typename TypeIn, typename TypeOut>
+void
+convert_all_pof(TypeIn const&, boost::optional<TypeOut>&)
+{
+}
+
 template<typename Type>
 void
 assign(boost::optional<Type>& value_out, Type const& value_in)
 {
     value_out = value_in;
 }
+
+struct converter1
+{
+    template<typename TypeIn, typename TypeOut>
+    void
+    operator()(TypeIn const&, boost::optional<TypeOut>&) const
+    {
+    }
+};
+
+struct take_double { void operator()(double const&, boost::optional<std::string>&) const {}};
+struct    take_int { void operator()(int const&, boost::optional<std::string>&) const {}};
 
 void
 test::cnv::callables()
@@ -46,4 +64,11 @@ test::cnv::callables()
     BOOST_TEST(v01 == -12);
     BOOST_TEST(v02 == -12);
     BOOST_TEST(v03 == -12);
+
+    boost::convert<int>(str, convert_all_pof<std::string, int>);
+    boost::convert<std::string>(11, convert_all_pof<int, std::string>);
+    boost::convert<int>(str, converter1());
+    boost::convert<std::string>(11, converter1());
+    boost::convert<std::string>(11, take_double());
+    boost::convert<std::string>(11.23, take_int());
 }

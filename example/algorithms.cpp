@@ -25,7 +25,7 @@ introduction()
         strs.begin(),
         strs.end(),
         std::back_inserter(ints),
-        boost::convert<int>(cnv).value_or(INT_MAX));
+        boost::convert<int, std::string>(cnv).value_or(INT_MAX));
 
     BOOST_TEST(ints.size() == 3);
     BOOST_TEST(ints[0] ==  5);
@@ -84,7 +84,7 @@ example2()
            strs.begin(),
            strs.end(),
            std::back_inserter(ints),
-           boost::convert<int>(cnv(std::hex)(std::skipws)));
+           boost::convert<int, std::string>(cnv(std::hex)(std::skipws)));
 
            BOOST_TEST(!"Never reached");
     }
@@ -114,7 +114,7 @@ example3()
         strs.begin(),
         strs.end(),
         std::back_inserter(ints),
-        boost::convert<int>(cnv(std::hex)).value_or(-1));
+        boost::convert<int, std::string>(cnv(std::hex)).value_or(-1));
 
     BOOST_TEST(ints.size() == 3);
     BOOST_TEST(ints[0] ==  5);

@@ -15,7 +15,7 @@
 #ifndef BOOST_CONVERT_HPP
 #define BOOST_CONVERT_HPP
 
-#include <boost/convert/detail/checks.hpp>
+#include <boost/convert/detail/is_converter.hpp>
 #include <boost/convert/detail/algorithm_helper.hpp>
 
 namespace boost
@@ -56,8 +56,8 @@ namespace boost
     ///        boost::convert<int>(cnv).value_or(INT_MAX));
     /// @endcode
 
-    template<typename TypeOut, typename Converter>
-    typename boost::cnv::algorithm_helper<TypeOut, Converter>
+    template<typename TypeOut, typename TypeIn, typename Converter>
+    typename boost::enable_if<cnv::is_converter<Converter, TypeIn, TypeOut>, typename boost::cnv::algorithm_helper<TypeOut, Converter> >::type
     convert(Converter const& cnv)
     {
         return boost::cnv::algorithm_helper<TypeOut, Converter>(cnv);

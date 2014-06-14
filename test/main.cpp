@@ -47,9 +47,38 @@ test::cnv::force_in_type()
     }
 }
 
+struct Foo
+{
+    void operator()() {}
+    void operator()(int) {}
+
+
+};
+
+typedef void (Foo::*func1)();
+typedef void (Foo::*func2)(int);
+
+struct base
+{
+    void operator()(int) {}
+};
+
+struct mixin : public base, public Foo
+{
+};
+
 int
 main(int argc, char const* argv[])
 {
+//    mixin m;
+//
+//    m(5);
+
+    int k1 = sizeof(func1(&Foo::operator()));
+    int k2 = sizeof(func2(&Foo::operator()));
+
+    printf("%d.%d\n", k1, k2);
+
     example::getting_started();
     example::getting_serious();
     example::algorithms();

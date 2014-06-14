@@ -31,6 +31,29 @@ On numerous occasions it was noted that converters might be deployed directly. W
 [section Converter Pluggability]
 [endsect]
 [section Signature]
+
+The following converter signatures have been considered:
+
+ bool operator()(TypeIn const&, TypeOut&); //#1
+ void operator()(TypeIn const&, boost::optional<TypeOut>&); //#2
+ boost::optional<TypeOut> operator()(TypeIn const&); //#3
+
+On the design level the signature #1 has the advantage of providing the best ['separation of concerns]. It leaves the respective converter only with one task -- the actual task of conversion. In practice though that can lead to inefficiencies. Namely, given an instance of `TypeOut` type is supplied from outside, a storage for that instance needs to be allocated and, most importantly, that instance needs to be initialized. That initialization phase (which can be expensive) is a clear overhead as, if the conversion operation succeeds, the initial value is overridden with the actual result, if it fails, then the `TypeOut` instance of no use anyway.
+
+The signature #2 avoids the initialization overhead. The storage for `TypeOut` is still allocated outside but it is not initialized. It is now converter's responsibility to know ['how] to initialize the `TypeOut` instance and to actually initialize it ['when] needed. In practice it usually easier than it sounds. For example,
+
+ void operator()(char const* value_in, boost::optional<int>& result_out) const
+ {
+    char const* str_end = value_in + strlen(value_in);
+    char*       cnv_end = 0;
+    long int     result = ::strtol(value_in, &cnv_end, base_);
+
+    if (INT_MIN <= result && result <= INT_MAX && cnv_end == str_end)
+        result_out = int(result);
+ }
+
+The signature #3 has been briefly considered as aesthetically advantageous and more idiomatic. Unfortunately, it lacked automatic deduction of the `TypeOut` which, consequently, had to be specified explicitly. For different types of supported converters (class-based, plain old functions, lambdas) that complicated considerably the implementation of the ['Boost.Convert] infrastructure and restricted implementation of the respective converters. 
+
 [endsect]
 [section Converter-parameter-related considerations (explicit, default, globally-set, others)]
 [endsect]

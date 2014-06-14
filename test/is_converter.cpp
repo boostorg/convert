@@ -30,7 +30,18 @@ namespace { namespace local
     {
         void operator()(int const&, boost::optional<string>&) {}
     };
+    struct converter14
+    {
+        void operator()(int const&, boost::optional<string>&) const {}
+    };
     struct not_converter11
+    {
+    };
+    struct not_converter12
+    {
+        void operator()() {}
+    };
+    struct not_converter13
     {
         void operator()(int const&, string const&) {}
     };
@@ -49,11 +60,16 @@ test::cnv::is_converter()
     BOOST_TEST( (boost::cnv::is_converter<local::converter12, double, string>::value));
     BOOST_TEST( (boost::cnv::is_converter<local::converter12, string, int>::value));
     BOOST_TEST( (boost::cnv::is_converter<local::converter13, int, string>::value));
-    BOOST_TEST(!(boost::cnv::is_converter<local::converter13, double, string>::value));
+    BOOST_TEST( (boost::cnv::is_converter<local::converter13, double, string>::value));
+    BOOST_TEST( (boost::cnv::is_converter<local::converter13, int, string>::value));
+    BOOST_TEST( (boost::cnv::is_converter<local::converter14, int, string>::value));
     BOOST_TEST(!(boost::cnv::is_converter<local::converter13, string, int>::value));
+    BOOST_TEST(!(boost::cnv::is_converter<local::converter14, string, int>::value));
 
     BOOST_TEST(!(boost::cnv::is_converter<local::not_converter01, int, string>::value));
     BOOST_TEST(!(boost::cnv::is_converter<local::not_converter02, int, string>::value));
     BOOST_TEST(!(boost::cnv::is_converter<local::not_converter11, int, string>::value));
+    BOOST_TEST(!(boost::cnv::is_converter<local::not_converter12, int, string>::value));
+    BOOST_TEST(!(boost::cnv::is_converter<local::not_converter13, int, string>::value));
 }
 
