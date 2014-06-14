@@ -56,10 +56,11 @@ main(int argc, char const* argv[])
     example::sstream();
     example::lexical_cast();
 
+    test::cnv::scratchpad();
+    test::cnv::is_converter();
+
     BOOST_TEST(test::performance::spirit_framework());
 
-    test::cnv::is_converter();
-    test::cnv::scratchpad();
     test::cnv::sfinae();
     test::cnv::int_to_string();
     test::cnv::string_to_bool();

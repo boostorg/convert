@@ -40,6 +40,7 @@
 #include <boost/type_traits/is_reference.hpp>
 #include <boost/type_traits/is_rvalue_reference.hpp>
 #include <boost/type_traits/is_same.hpp>
+#include <boost/type_traits/is_convertible.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/not.hpp>
@@ -52,8 +53,6 @@
 #include <boost/utility/explicit_operator_bool.hpp>
 #include <boost/utility/in_place_factory.hpp>
 #include <boost/utility/swap.hpp>
-
-
 
 #include <boost/optional/optional_fwd.hpp>
 
@@ -1070,7 +1069,12 @@ class optional : public optional_detail::optional_base<T>
     { return this->is_initialized() ? get() : static_cast<value_type>(boost::forward<U>(v)); }
 #else
     template <class U>
-    value_type value_or ( U const& v ) const { return this->is_initialized() ? get() : static_cast<value_type>(v); }
+    typename boost::enable_if<boost::is_convertible<U, value_type>, value_type>::type
+    value_or ( U const& v ) const { return this->is_initialized() ? get() : (v); }
+
+    template <class F>
+    typename boost::disable_if<boost::is_convertible<F, value_type>, value_type>::type
+    value_or (F const& f ) const { return this->is_initialized() ? get() : f(); }
 #endif
       
     bool operator!() const BOOST_NOEXCEPT { return !this->is_initialized() ; }

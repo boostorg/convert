@@ -10,11 +10,11 @@ using std::wstring;
 
 namespace { namespace local
 {
-    typedef void (*not_converter01)(string const&);
-    typedef void (*not_converter02)(int const&, string const&);
-    typedef void (*not_func_converter3)();
-    typedef void (*converter01)(int const&, boost::optional<string>&);
-    typedef void (*converter02)(double const&, boost::optional<string>&);
+    typedef void not_converter01 (string const&);
+    typedef void not_converter02 (int const&, string const&);
+    typedef void not_converter03 ();
+    typedef void     converter01 (int const&, boost::optional<string>&);
+    typedef void     converter02 (double const&, boost::optional<string>&);
 
     struct converter11
     {
@@ -40,8 +40,8 @@ void
 test::cnv::is_converter()
 {
     BOOST_TEST( (boost::cnv::is_converter<local::converter01, int, string>::value));
-    BOOST_TEST(!(boost::cnv::is_converter<local::converter01, double, string>::value));
-    BOOST_TEST(!(boost::cnv::is_converter<local::converter01, short int, string>::value));
+    BOOST_TEST( (boost::cnv::is_converter<local::converter01, double, string>::value));
+    BOOST_TEST( (boost::cnv::is_converter<local::converter01, short int, string>::value));
     BOOST_TEST( (boost::cnv::is_converter<local::converter11, int, string>::value));
     BOOST_TEST( (boost::cnv::is_converter<local::converter11, double, string>::value));
     BOOST_TEST( (boost::cnv::is_converter<local::converter11, string, int>::value));

@@ -32,7 +32,7 @@ namespace boost
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    boost::optional<TypeOut>
+    typename boost::enable_if<cnv::is_converter<Converter, TypeIn, TypeOut>, boost::optional<TypeOut> >::type
     convert(TypeIn const& value_in, Converter const& converter)
     {
             boost::optional<TypeOut> result;
