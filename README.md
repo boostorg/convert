@@ -6,5 +6,5 @@ those conversion/transformation-related ideas further
 
 Please note: the library has been accepted into Boost with some additional work to be done, i.e. changes are to be expected.
 
-**HTML documentation is available [here](http://yet-another-user.github.io/boost.convert).**
+**HTML documentation is available [here](http://yet-another-user.github.io/convert).**
 
