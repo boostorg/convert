@@ -52,15 +52,16 @@
           run for
           <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
-                <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>-based converter
+                <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>-based converter;
               </li>
 <li class="listitem">
                 <code class="computeroutput"><span class="identifier">strtol</span><span class="special">()</span></code>
                 and <code class="computeroutput"><span class="identifier">strtol</span><span class="special">()</span></code>-based
-                converter
+                converter;
               </li>
 <li class="listitem">
-                <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">spirit</span><span class="special">::</span><span class="identifier">qi</span><span class="special">::</span><span class="identifier">parse</span></code> parser and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">spirit</span><span class="special">::</span><span class="identifier">qi</span><span class="special">::</span><span class="identifier">parse</span></code>-based converter.
+                <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">spirit</span><span class="special">::</span><span class="identifier">qi</span><span class="special">::</span><span class="identifier">parse</span></code> and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">spirit</span><span class="special">::</span><span class="identifier">qi</span><span class="special">::</span><span class="identifier">parse</span></code>-based
+                converter.
               </li>
 </ul></div>
         </li>
@@ -105,7 +106,7 @@
 </pre>
 <p>
       The results vary from run to run with the margin of error of around +/-5%.
-      Accidentally, that is the biggest overhead (%5) of the <span class="emphasis"><em>Boost.Convert</em></span>
+      Accidentally, that is the biggest overhead of the <span class="emphasis"><em>Boost.Convert</em></span>
       framework these results show.
     </p>
 <p>
@@ -129,14 +130,15 @@
 <span class="identifier">cnv_strtol_str_to_int_test</span><span class="special">:</span> <span class="number">4.5556425890</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">-</span><span class="number">3</span><span class="special">%</span> <span class="special">(</span><span class="identifier">faster</span><span class="special">)</span>
 <span class="identifier">raw_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.0824675450</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
 <span class="identifier">cnv_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.0794554230</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">+</span><span class="number">0</span><span class="special">%</span>
+
+<span class="identifier">Testing</span><span class="special">:</span> <span class="number">7</span><span class="special">,-</span><span class="number">7</span><span class="special">,</span><span class="number">51</span><span class="special">,-</span><span class="number">75</span><span class="special">,</span><span class="number">421</span><span class="special">,-</span><span class="number">317</span><span class="special">,</span><span class="number">7378</span><span class="special">,-</span><span class="number">1856</span><span class="special">,</span><span class="number">88457</span><span class="special">,-</span><span class="number">56696</span><span class="special">,</span><span class="number">260894</span><span class="special">,-</span><span class="number">638672</span><span class="special">,</span><span class="number">8253023</span><span class="special">,-</span><span class="number">2875442</span><span class="special">,</span><span class="number">12050842</span><span class="special">,-</span><span class="number">93716785</span><span class="special">,</span><span class="number">349799927</span><span class="special">,-</span><span class="number">214159799</span>
+<span class="identifier">raw_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">10.2471819180</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
+<span class="identifier">cnv_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">10.1953968470</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">-</span><span class="number">1</span><span class="special">%</span> <span class="special">(</span><span class="identifier">faster</span><span class="special">)</span>
+<span class="identifier">raw_strtol_str_to_int_test</span><span class="special">:</span> <span class="number">4.6421032960</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
+<span class="identifier">cnv_strtol_str_to_int_test</span><span class="special">:</span> <span class="number">4.5181249010</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">-</span><span class="number">2</span><span class="special">%</span> <span class="special">(</span><span class="identifier">faster</span><span class="special">)</span>
+<span class="identifier">raw_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.0729036830</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
+<span class="identifier">cnv_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.0623086900</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">-</span><span class="number">1</span><span class="special">%</span> <span class="special">(</span><span class="identifier">faster</span><span class="special">)</span>
 </pre>
-<p>
-      Testing: 7,-7,51,-75,421,-317,7378,-1856,88457,-56696,260894,-638672,8253023,-2875442,12050842,-93716785,349799927,-214159799
-      raw_lxcast_str_to_int_test: 10.2471819180 [s] cnv_lxcast_str_to_int_test: 10.1953968470
-      [s] -1% (faster) raw_strtol_str_to_int_test: 4.6421032960 [s] cnv_strtol_str_to_int_test:
-      4.5181249010 [s] -2% (faster) raw_spirit_str_to_int_test: 2.0729036830 [s]
-      cnv_spirit_str_to_int_test: 2.0623086900 [s] -1% (faster)
-    </p>
 <p>
       That is, according to the results, conversions deployed through <span class="emphasis"><em>Boost.Convert</em></span>
       framework had no detectable overhead.
