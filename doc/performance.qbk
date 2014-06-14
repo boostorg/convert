@@ -34,9 +34,9 @@ To test that [funcref test::performance::spirit_framework test::performance::spi
 # on Ubuntu 12.04 (Linux 3.2.0-57-generic #87-Ubuntu SMP x86_64 GNU/Linux);
 # run against the input of randomly generated 18 numeric strings (9 positive and 9 negative numbers with the number of digits from 1 to 9);
 # run for 
-    * `boost::lexical_cast` and `boost::lexical_cast`-based converter
-    * `strtol()` and `strtol()`-based converter
-    * `boost::spirit::qi::parse` parser and `boost::spirit::qi::parse`-based converter.
+    * `boost::lexical_cast` and `boost::lexical_cast`-based converter;
+    * `strtol()` and `strtol()`-based converter;
+    * `boost::spirit::qi::parse` and `boost::spirit::qi::parse`-based converter.
 
 The purpose of the test was to deploy the same functionality directly and as part of the ['Boost.Convert] framework. Results are shown below for several consecutive runs of the `test_convert` program:
 
@@ -72,7 +72,7 @@ The purpose of the test was to deploy the same functionality directly and as par
  raw_spirit_str_to_int_test: 0.2989873150 [s]
  cnv_spirit_str_to_int_test: 0.3120227090 [s] +4% (slower)
 
-The results vary from run to run with the margin of error of around +/-5%. Accidentally, that is the biggest overhead (%5) of the ['Boost.Convert] framework these results show. 
+The results vary from run to run with the margin of error of around +/-5%. Accidentally, that is the biggest overhead of the ['Boost.Convert] framework these results show. 
 
 Obviously, the results are driven by the deployed compiler optimization capabilities and the hardware and are likely to be different with a different compiler or a different version of the same compiler. For example, compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 the same test program produced:
 
@@ -92,13 +92,13 @@ Obviously, the results are driven by the deployed compiler optimization capabili
  raw_spirit_str_to_int_test: 2.0824675450 [s]
  cnv_spirit_str_to_int_test: 2.0794554230 [s] +0%
 
-Testing: 7,-7,51,-75,421,-317,7378,-1856,88457,-56696,260894,-638672,8253023,-2875442,12050842,-93716785,349799927,-214159799
-raw_lxcast_str_to_int_test: 10.2471819180 [s] 
-cnv_lxcast_str_to_int_test: 10.1953968470 [s] -1% (faster)
-raw_strtol_str_to_int_test: 4.6421032960 [s]
-cnv_strtol_str_to_int_test: 4.5181249010 [s] -2% (faster)
-raw_spirit_str_to_int_test: 2.0729036830 [s]
-cnv_spirit_str_to_int_test: 2.0623086900 [s] -1% (faster)
+ Testing: 7,-7,51,-75,421,-317,7378,-1856,88457,-56696,260894,-638672,8253023,-2875442,12050842,-93716785,349799927,-214159799
+ raw_lxcast_str_to_int_test: 10.2471819180 [s] 
+ cnv_lxcast_str_to_int_test: 10.1953968470 [s] -1% (faster)
+ raw_strtol_str_to_int_test: 4.6421032960 [s]
+ cnv_strtol_str_to_int_test: 4.5181249010 [s] -2% (faster)
+ raw_spirit_str_to_int_test: 2.0729036830 [s]
+ cnv_spirit_str_to_int_test: 2.0623086900 [s] -1% (faster)
 
 That is, according to the results, conversions deployed through ['Boost.Convert] framework had no detectable overhead.
 
