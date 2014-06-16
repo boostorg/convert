@@ -24,53 +24,57 @@ Feel free to skip this section. It is here to document the process and the decis
 [section Public/User Interface]
 [section The Evolution of The Signature]
 
-The first attempt to accommodate the User Requirements might might result in the following fairly conventional interface:
+The first attempt to accommodate the User Requirements might result in the following fairly conventional interface:
 
- template<typename Out, typename In> Out convert(In const&); //#1
- template<typename Out, typename In> Out convert(In const&, Out const& fallback); //#2
- template<typename Out, typename In> bool convert(Out& result, In const&); //#3
- template<typename Out, typename In> bool convert(Out& result, In const&, Out const& fallback); //#4
+ template<typename Out, typename In> Out  convert (In const&); //#1
+ template<typename Out, typename In> Out  convert (In const&, Out const& fallback); //#2
+ template<typename Out, typename In> bool convert (Out& result, In const&); //#3
+ template<typename Out, typename In> bool convert (Out& result, In const&, Out const& fallback); //#4
 
 with the following behavior:
 
 # returns the result or throws on failure (['R31], ['R40]);
-# returns the result or the provided fallback, does not throw (['R50], ['R53] but not ['R51]);
-# writes the result to `result` (when successful), returns indication success or failure, does not throw (['R50], ['R51] but not ['R53]);
-# writes the result to `result` (when successful) or the provided fallback (when unsuccessful), returns indication success or failure, does not throw (['R50], ['R53] and ['R51]).
+# does not throw, returns the result or the provided fallback (['R50], ['R53] but not ['R51]);
+# does not throw, writes the result to `result` (when successful), returns indication of success or failure (['R50], ['R51] but not ['R53]);
+# does not throw, writes the result to `result` (when successful) or the provided fallback, returns indication of success or failure (['R50], ['R53] and ['R51]).
 
-Now, the `Out& result` part of #3 and #4 is that it is potentially inefficient and too restrictive with regard to the ['Out] type. It's because the Out instance needs to be constructed (storage allocated and initialized) outside the function call. The initialization part of the Out instance is wasteful regardless if conversion succeeds or fails -- the original initialization value is overridden (with the result or the default) or meaningless. Consequently, the converter signature had to change to
+The #3 and #4 signatures are special as they essentially return two things -- the actual result (written into the `result`) and the indication of success or failure (returned by the functions). Given that a reference to `result` is passed in, the actual `result` instance is constructed (storage allocated and initialized) outside the function calls. 
 
-    void operator()(In const&, optional<Out>&);
-
-where the storage is allocated for the result but not initialized. Given that your proposed #3 and #4 seem to have "issue", we apply the same logic to them:
+That leads to ['potential inefficiency] because the initialization part is wasteful regardless if conversion succeeds or fails -- the original initialization value is either overridden (with the result or the fallback) or meaningless. `boost::optional` has the unique property of being able to allocate storage ['without initializing it]. Consequently, to avoid the overhead of wasteful initialization, we might use it to our advantage and to change the signatures to
  
-//3. bool convert(optional<Out> &, In const &);
-//4. bool convert(optional<Out> &, In const &, Out const &);
+ bool convert (boost::optional<Out>&, In const&); //#3
+ bool convert (boost::optional<Out>&, In const&, Out const&); //#4
 
-or (given the return value is duplicated now in "optional") it can be simplified to
+or, given that the indication of success or failure is now encapsulated in `boost::optional<Out>`, even further to
 
-//3. void convert(optional<Out> &, In const &);
-//4. void convert(optional<Out> &, In const &, Out const &);
+ void convert (boost::optional<Out>&, In const&); //#3
+ void convert (boost::optional<Out>&, In const&, Out const&); //#4
 
-or
+or expressed more idiomatically (in C++) as:
 
-//3. optional<Out> convert(In const &);
-//4. optional<Out> convert(In const &, Out const &);
+ boost::optional<Out> convert (In const&);
+ boost::optional<Out> convert (In const&, Out const&);
 
-So, after fixing #3 and #4 we ended up with
+So, after fixing #3 and #4 we have arrive to
 
-//1. Out convert(In const &);
-//2. Out convert(In const &, Out const &);
-//3. optional<Out> convert(In const &);
-//4. optional<Out> convert(In const &, Out const &);
+ Out                  convert (In const&); //#1
+ Out                  convert (In const&, Out const&); //#2
+ boost::optional<Out> convert (In const&); //#3
+ boost::optional<Out> convert (In const&, Out const&); //#4
 
-which obviously does not work as #1 clashes with #3 and #2 clashes with #4. The good thing is that now #1 and #2 are not needed as they are duplicates of #3 and #4 deployments with .value() to the "optional" result:
+which obviously does not work as #1 clashes with #3 and #2 clashes with #4. 
 
-Out out = convert<Out>(in).value(); //#3 deployment covering #1 interface
-Out out = convert<Out>(in, def).value(); //#4 deployment covering #2 interface
- 
-//3. optional<Out> convert(In const &);
-//4. optional<Out> convert(In const &, Out const &);
+The good thing is that now #1 and #2 are not needed as they are duplicates of #3 and #4 deployments with `value()` applied to the to the `boost::optional` result:
+
+ Out out1 = boost::convert(int); // #1 style deployment
+ Out out2 = boost::convert(int).value(); // #3 style deployment
+
+With #1 and #2 eliminated as duplicates (or syntactic sugar some might say) we are left with:
+
+ boost::optional<Out> convert (In const&); //#3
+ boost::optional<Out> convert (In const&, Out const&); //#4
+
+Another good thing `boost::optional` is that it allows us to eliminate #4 as well:
 
 The next obvious step is to eliminate #4 the same way #1 and #2 have been eliminated:
 
@@ -83,6 +87,10 @@ So, we arrive to one and only
 Does it make sense?
 
 You might not like the outcome but you do see the logic behind the transformation of the interface, don't you?
+
+ and too restrictive with regard to the ['Out] type.
+
+
 
 [endsect]
 [section Converter Pluggability]
