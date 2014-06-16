@@ -22,13 +22,13 @@
 <dt><span class="section"><a href="design_notes/public_user_interface.html">Public/User
       Interface</a></span></dt>
 <dd><dl>
-<dt><span class="section"><a href="design_notes/public_user_interface.html#the_boost_convert_library.design_notes.public_user_interface.converter_pluggability">Converter
-        Pluggability</a></span></dt>
-<dt><span class="section"><a href="design_notes/public_user_interface/signature.html">Signature</a></span></dt>
-<dt><span class="section"><a href="design_notes/public_user_interface/converter_parameter_related_considerations__explicit__default__globally_set__others_.html">Converter-parameter-related
-        considerations (explicit, default, globally-set, others)</a></span></dt>
-<dt><span class="section"><a href="design_notes/public_user_interface/the_perceived_potential_complexity_of_the_interface.html">The
-        Perceived Potential Complexity of the Interface</a></span></dt>
+<dt><span class="section"><a href="design_notes/public_user_interface.html#the_boost_convert_library.design_notes.public_user_interface.the_evolution_of_the_signature">The
+        Evolution of The Signature</a></span></dt>
+<dt><span class="section"><a href="design_notes/public_user_interface/todo_converter_pluggability.html">TODO
+        Converter Pluggability</a></span></dt>
+<dt><span class="section"><a href="design_notes/public_user_interface/todo_converter_parameter_related_considerations__explicit__default__globally_set__others_.html">TODO
+        Converter-parameter-related considerations (explicit, default, globally-set,
+        others)</a></span></dt>
 </dl></dd>
 <dt><span class="section"><a href="design_notes/converter_signature.html">Converter
       Signature</a></span></dt>
@@ -50,53 +50,60 @@
       </p>
 <div class="orderedlist"><ol class="orderedlist" type="1">
 <li class="listitem">
-            <span class="emphasis"><em>Boost.Convert</em></span> shall provide a mechanism and an interface
-            that take a value of type <span class="emphasis"><em>TypeIn</em></span> and yield a value
-            of type <span class="emphasis"><em>TypeOut</em></span> using an algorithm of type <span class="emphasis"><em>Converter</em></span>;
+            <span class="emphasis"><em>(R1)</em></span> <span class="emphasis"><em>Boost.Convert</em></span> shall provide
+            a mechanism and an interface that take a value of type <span class="emphasis"><em>TypeIn</em></span>
+            and yield a value of type <span class="emphasis"><em>TypeOut</em></span> using an algorithm
+            of type <span class="emphasis"><em>Converter</em></span>;
           </li>
 <li class="listitem">
-            <span class="emphasis"><em>Boost.Convert</em></span> shall provide a mechanism and an interface
-            to indicate success or failure of the requested conversion;
+            <span class="emphasis"><em>(R2)</em></span> <span class="emphasis"><em>Boost.Convert</em></span> shall provide
+            a mechanism and an interface to indicate success or failure of the requested
+            conversion;
           </li>
 <li class="listitem">
-            <span class="emphasis"><em>Boost.Convert</em></span> shall provide fully-functional interfaces
-            for two different program flows where
+            <span class="emphasis"><em>(R3)</em></span> <span class="emphasis"><em>Boost.Convert</em></span> shall provide
+            fully-functional interfaces for two different program flows where
             <div class="orderedlist"><ol class="orderedlist" type="a">
 <li class="listitem">
-                  error-processing is orthogonal to the normal program flow (exception-throwing
-                  interface);
+                  <span class="emphasis"><em>(R3a)</em></span> error-processing is orthogonal to the
+                  normal program flow (exception-throwing interface);
                 </li>
 <li class="listitem">
-                  normal and error-processing flows are part of the same program
-                  flow (non-throwing interface);
+                  <span class="emphasis"><em>(R3b)</em></span> normal and error-processing flows are
+                  part of the same program flow (non-throwing interface);
                 </li>
 </ol></div>
           </li>
 <li class="listitem">
-            The throwing interface shall return the result of successful conversion
-            or shall throw an exception;
+            <span class="emphasis"><em>(R4)</em></span> The throwing interface shall return the result
+            of successful conversion or shall throw an exception;
           </li>
 <li class="listitem">
-            The non-throwing interface shall return the result and/or some indication
-            of conversion success or failure;
+            <span class="emphasis"><em>(R5)</em></span> The non-throwing interface shall return the
+            result and/or some indication of conversion success or failure;
             <div class="orderedlist"><ol class="orderedlist" type="a">
 <li class="listitem">
-                  the result of conversion shall only be available when conversion
-                  succeeds;
+                  <span class="emphasis"><em>(R5a)</em></span> there shall be means to distinguish
+                  success from failure;
                 </li>
 <li class="listitem">
-                  when conversion fails, an optional fallback value shall be returned
-                  instead if supplied;
+                  <span class="emphasis"><em>(R5b)</em></span> the result of conversion shall only
+                  be available when conversion succeeds;
                 </li>
 <li class="listitem">
-                  in the case of failure an attempt to retrieve the result (with
-                  no fallback provided) shall result in an exception thrown;
+                  <span class="emphasis"><em>(R5c)</em></span> when conversion fails, an optional fallback
+                  value shall be returned instead if supplied;
+                </li>
+<li class="listitem">
+                  <span class="emphasis"><em>(R5d)</em></span> in the case of failure (with no fallback
+                  provided) an attempt to retrieve the result shall result in an
+                  exception thrown;
                 </li>
 </ol></div>
           </li>
 <li class="listitem">
-            Converters shall be independent of and shall not rely on the <span class="emphasis"><em>Boost.Convert</em></span>
-            infrastructure.
+            <span class="emphasis"><em>(R6)</em></span> Converters shall be independent of and shall
+            not rely on the <span class="emphasis"><em>Boost.Convert</em></span> infrastructure.
           </li>
 </ol></div>
 </div>

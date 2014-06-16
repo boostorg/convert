@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone="yes"?>
-<library-reference id="convert_reference"><title>Convert Reference</title><header name="boost/convert.hpp"><namespace name="boost"><function name="convert"><type>boost::optional&lt; TypeOut &gt;</type><template>
+<library-reference id="convert_reference"><title>Convert Reference</title><header name="boost/convert.hpp"><namespace name="boost"><function name="convert"><type>boost::enable_if&lt; cnv::is_converter&lt; Converter, TypeIn, TypeOut &gt;, boost::optional&lt; TypeOut &gt; &gt;::type</type><template>
           <template-type-parameter name="TypeOut"/>
           <template-type-parameter name="TypeIn"/>
           <template-type-parameter name="Converter"/>
@@ -9,8 +9,9 @@ int    i1 = boost::convert&lt;int&gt;(" 12", cnv(std::skipws)).value();
 int    i2 = boost::convert&lt;int&gt;("uhm", cnv).value_or(-1);
 string s1 = boost::convert&lt;string&gt;(123.456, cnv)).value();
 string s2 = boost::convert&lt;string&gt;(123.456, cnv)).value_or("failed");
-</programlisting> </para></description></function><function name="convert"><type>boost::cnv::algorithm_helper&lt; TypeOut, Converter &gt;</type><template>
+</programlisting> </para></description></function><function name="convert"><type>boost::enable_if&lt; cnv::is_converter&lt; Converter, TypeIn, TypeOut &gt;, typename boost::cnv::algorithm_helper&lt; TypeOut, Converter &gt; &gt;::type</type><template>
           <template-type-parameter name="TypeOut"/>
+          <template-type-parameter name="TypeIn"/>
           <template-type-parameter name="Converter"/>
         </template><parameter name="cnv"><paramtype>Converter const &amp;</paramtype></parameter><purpose>The main Boost.Convert deployment interface with algorithms. </purpose><description><para>This the Boost.Convert main deployment interface with algorithms. For example, <programlisting>boost::array&lt;char const*, 3&gt; strs = {{ " 5", "0XF", "not an int" }};
 std::vector&lt;int&gt;             ints;

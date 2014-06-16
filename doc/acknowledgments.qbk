@@ -4,7 +4,7 @@ Many thanks to Julian Gonggrijp, Rob Stewart, Andrzej Krzemienski, Matus Chochli
 
 Special thanks to:
 
-* Alex Hagen-Zanker, Jeroen Habraken, Roland Bock for actively participating in the review process, suggesting improvements and following it through after the review; 
+* Alex Hagen-Zanker, Roland Bock, Rob Stewart, Jeroen Habraken for actively participating in the review process, suggesting improvements and following it through after the review; 
 * Andrzej Krzemienski for helping great deal to partition responsibilities and to ultimately pave the way for the `boost::optional` and future `std::tr2::optional` deployment;
 * Edward Diener the Boost Review Manager for helping with the converters' design, his continuous involvement, technical and administrative help, guidance and advice;
 * Joel De Guzman, Rob Stewart and Alex Hagen-Zanker for making sure the performance tests work as they should;
