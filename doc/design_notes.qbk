@@ -6,21 +6,86 @@ Feel free to skip this section. It is here to document the process and the decis
 
 ['Boost.Convert] has been designed to satisfy the following user requirements:
 
-# ['Boost.Convert] shall provide a mechanism and an interface that take a value of type ['TypeIn] and yield a value of type ['TypeOut] using an algorithm of type ['Converter];
-# ['Boost.Convert] shall provide a mechanism and an interface to indicate success or failure of the requested conversion;
-# ['Boost.Convert] shall provide fully-functional interfaces for two different program flows where
-    # error-processing is orthogonal to the normal program flow (exception-throwing interface);
-    # normal and error-processing flows are part of the same program flow (non-throwing interface);
-# The throwing interface shall return the result of successful conversion or shall throw an exception;
-# The non-throwing interface shall return the result and/or some indication of conversion success or failure;
-    # the result of conversion shall only be available when conversion succeeds;
-    # when conversion fails, an optional fallback value shall be returned instead if supplied;
-    # in the case of failure an attempt to retrieve the result (with no fallback provided) shall result in an exception thrown;
-# Converters shall be independent of and shall not rely on the ['Boost.Convert] infrastructure.
+# ['(R10)] ['Boost.Convert] shall provide a mechanism and an interface that take a value of type ['TypeIn] and yield a value of type ['TypeOut] using an algorithm of type ['Converter];
+# ['(R20)] ['Boost.Convert] shall provide a mechanism and an interface to indicate success or failure of the requested conversion;
+# ['(R30)] ['Boost.Convert] shall provide fully-functional interfaces for two different program flows where
+    # ['(R31)] error-processing is orthogonal to the normal program flow (exception-throwing interface);
+    # ['(R32)] normal and error-processing flows are part of the same program flow (non-throwing interface);
+# ['(R40)] The throwing interface shall return the result of successful conversion or shall throw an exception;
+# ['(R50)] The non-throwing interface shall return the result and/or some indication of conversion success or failure;
+    # ['(R51)] there shall be means to distinguish success from failure;
+    # ['(R52)] the result of conversion shall only be available when conversion succeeds;
+    # ['(R53)] when conversion fails, an optional fallback value shall be returned instead if supplied;
+    # ['(R54)] in the case of failure (with no fallback provided) an attempt to retrieve the result shall result in an exception thrown;
+# ['(R60)] Converters shall be independent of and shall not rely on the ['Boost.Convert] infrastructure.
 
 [endsect]
 
 [section Public/User Interface]
+[section The Evolution of The Signature]
+
+The first attempt to accommodate the User Requirements might might result in the following fairly conventional interface:
+
+ template<typename Out, typename In> Out convert(In const&); //#1
+ template<typename Out, typename In> Out convert(In const&, Out const& fallback); //#2
+ template<typename Out, typename In> bool convert(Out& result, In const&); //#3
+ template<typename Out, typename In> bool convert(Out& result, In const&, Out const& fallback); //#4
+
+with the following behavior:
+
+# returns the result or throws on failure (['R31], ['R40]);
+# returns the result or the provided fallback, does not throw (['R50], ['R53] but not ['R51]);
+# writes the result to `result` (when successful), returns indication success or failure, does not throw (['R50], ['R51] but not ['R53]);
+# writes the result to `result` (when successful) or the provided fallback (when unsuccessful), returns indication success or failure, does not throw (['R50], ['R53] and ['R51]).
+
+Now, the `Out& result` part of #3 and #4 is that it is potentially inefficient and too restrictive with regard to the ['Out] type. It's because the Out instance needs to be constructed (storage allocated and initialized) outside the function call. The initialization part of the Out instance is wasteful regardless if conversion succeeds or fails -- the original initialization value is overridden (with the result or the default) or meaningless. Consequently, the converter signature had to change to
+
+    void operator()(In const&, optional<Out>&);
+
+where the storage is allocated for the result but not initialized. Given that your proposed #3 and #4 seem to have "issue", we apply the same logic to them:
+ 
+//3. bool convert(optional<Out> &, In const &);
+//4. bool convert(optional<Out> &, In const &, Out const &);
+
+or (given the return value is duplicated now in "optional") it can be simplified to
+
+//3. void convert(optional<Out> &, In const &);
+//4. void convert(optional<Out> &, In const &, Out const &);
+
+or
+
+//3. optional<Out> convert(In const &);
+//4. optional<Out> convert(In const &, Out const &);
+
+So, after fixing #3 and #4 we ended up with
+
+//1. Out convert(In const &);
+//2. Out convert(In const &, Out const &);
+//3. optional<Out> convert(In const &);
+//4. optional<Out> convert(In const &, Out const &);
+
+which obviously does not work as #1 clashes with #3 and #2 clashes with #4. The good thing is that now #1 and #2 are not needed as they are duplicates of #3 and #4 deployments with .value() to the "optional" result:
+
+Out out = convert<Out>(in).value(); //#3 deployment covering #1 interface
+Out out = convert<Out>(in, def).value(); //#4 deployment covering #2 interface
+ 
+//3. optional<Out> convert(In const &);
+//4. optional<Out> convert(In const &, Out const &);
+
+The next obvious step is to eliminate #4 the same way #1 and #2 have been eliminated:
+
+Out out = convert<Out>(in).value_or(def); //#3 deployment covering #4 interface
+
+So, we arrive to one and only
+
+//3. optional<Out> convert(In const &);
+
+Does it make sense?
+
+You might not like the outcome but you do see the logic behind the transformation of the interface, don't you?
+
+[endsect]
+[section Converter Pluggability]
 
 On numerous occasions it was noted that converters might be deployed directly. What such deployment would be lacking and what the single `boost::convert()` user interface provides is ['uniform] deployment and ['consistent behavior]. One single interface advertises and enforces a certain "contract" between the user (service consumer) and ['varying] conversion facilities (service provider). Working off such a "contract" allows
 
@@ -28,9 +93,6 @@ On numerous occasions it was noted that converters might be deployed directly. W
 * to adjust to requirement changes without major existing-code disruption (that includes major re-writes, major re-testing, etc.);
 * easier deployment in generic code.
 
-[section Converter Pluggability]
-[endsect]
-[section Signature]
 [endsect]
 [section Converter-parameter-related considerations (explicit, default, globally-set, others)]
 [endsect]
