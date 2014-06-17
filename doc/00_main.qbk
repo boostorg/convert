@@ -27,6 +27,7 @@
 [include introduction.qbk]
 [include getting_started.qbk]
 [include getting_serious.qbk]
+[include more_error_processing.qbk]
 [include algorithms.qbk]
 [include converters.qbk]
 [include lexcast_converter.qbk]

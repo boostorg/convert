@@ -124,6 +124,12 @@ Again, that API does not have to be the only API ['Boost.Convert] provides. Howe
  
 Given that it is extremely difficult (if not impossible) to come up with a library API that could please everyone, we might as well settle on the ['essential] API and let the users build their own APIs (as in the example above) to satisfy their aesthetic preferences.
 
+Still, it needs to be aknowledged that `boost::optional` is fairly new concept and quite a few people are not comfortable using it or find it unreasonable for `boost::optional` to be the result. Consequently, ['Boost.Convert] provides an alternative (more conventional) interface:
+
+Out convert(In const&, Converter const&, Out const& fallback_value);
+Out convert(In const&, Converter const&, Functor const& fallback_functor);
+Out convert(In const&, Converter const&, boost::throw_on_failure);
+
 [endsect]
 [section TODO Converter Pluggability]
 [endsect]

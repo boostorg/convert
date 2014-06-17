@@ -4,14 +4,15 @@
 
 [import ../example/getting_started.cpp]
 
-[h2 Basic Deployment]
+[section Basic Deployment]
 
 `boost::convert` basic deployment is not that different from `boost::lexical_cast` and, in fact, `boost::lexical_cast` functionality is easily deployed through `boost::convert` interface:
 
 [getting_started_headers1]
 [getting_started_example1]
 
-[h2 Flexibility and Adaptability to Change]
+[endsect]
+[section Flexibility and Adaptability to Change]
 
 Sooner or later these qualities become important during development or in the maintenance phase when, say, the code above is identified as too slow. Then the performance could be improved with minimal effort by replacing the original converter:
 
@@ -23,7 +24,8 @@ If, instead, the requirements change to accept more user-input formats or to wri
 [getting_started_headers3]
 [getting_started_example3]
 
-[h2 Basic Error Processing]
+[endsect]
+[section Basic Error Processing]
 
 [getting_started_example4]
 
@@ -57,4 +59,5 @@ So far the deployment of `boost::convert` seems more flexible, more compact and 
 
 By design this is `boost::lexical_cast`'s only behavior. Straightforward and comprehensible. Unfortunately, it makes quite a few legitimate process\/program flows difficult and awkward to implement. ['Boost.Convert] offers new functionality, flexibility and convenience.
 
+[endsect]
 [endsect]

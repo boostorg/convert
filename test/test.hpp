@@ -173,6 +173,7 @@ namespace test
         static void      algorithms ();
         static void      encryption ();
         static void       callables ();
+        static void       fallbacks ();
         static void lcast_converter ();
         static void         sstream ();
         static void   int_to_string ();

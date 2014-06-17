@@ -15,11 +15,14 @@
 #ifndef BOOST_CONVERT_HPP
 #define BOOST_CONVERT_HPP
 
-#include <boost/convert/detail/is_converter.hpp>
+#include <boost/convert/detail/is.hpp>
 #include <boost/convert/detail/adapter.hpp>
 
 namespace boost
 {
+    struct throw_on_failure_type { enum type {};};
+    throw_on_failure_type::type const throw_on_failure = throw_on_failure_type::type(0);
+
     /// @brief The main Boost.Convert deployment interface
     /// @details This is the Boost.Convert main interface. For example,
     /// @code
@@ -38,6 +41,31 @@ namespace boost
             boost::optional<TypeOut> result;
             converter(value_in, result);
             return result;
+    }
+
+    template<typename TypeOut, typename TypeIn, typename Converter>
+    typename boost::enable_if<cnv::is_converter<Converter, TypeIn, TypeOut>, TypeOut>::type
+    convert(TypeIn const& value_in, Converter const& converter, throw_on_failure_type::type)
+    {
+        return boost::convert<TypeOut>(value_in, converter).value();
+    }
+
+    template<typename TypeOut, typename TypeIn, typename Converter, typename FallbackValue>
+    typename boost::enable_if_c<cnv::is_converter<Converter, TypeIn, TypeOut>::value &&
+                                boost::is_convertible<FallbackValue, TypeOut>::value,
+    TypeOut>::type
+    convert(TypeIn const& value_in, Converter const& converter, FallbackValue const& fallback)
+    {
+        return boost::convert<TypeOut>(value_in, converter).value_or(fallback);
+    }
+
+    template<typename TypeOut, typename TypeIn, typename Converter, typename FallbackFunc>
+    typename boost::enable_if_c<cnv::is_converter<Converter, TypeIn, TypeOut>::value &&
+                                cnv::is_func<FallbackFunc, TypeOut>::value,
+    TypeOut>::type
+    convert(TypeIn const& value_in, Converter const& converter, FallbackFunc const& fallback)
+    {
+        return boost::convert<TypeOut>(value_in, converter).value_or(fallback);
     }
 
     /// @brief The main Boost.Convert deployment interface with algorithms

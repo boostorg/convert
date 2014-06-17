@@ -70,37 +70,8 @@ example1()
     }
 }
 
-struct fallback_obj
-{
-    int operator()() const
-    {
-        printf("here\n");
-        return INT_MAX;
-    }
-};
-
-int
-fallback_func()
-{
-    printf("here\n");
-    return INT_MAX;
-}
-
-static
-void
-example4()
-{
-    boost::cnv::cstringstream cnv;
-    int i1 = boost::convert<int>("uhm", cnv).value_or(fallback_obj());
-    int i2 = boost::convert<int>("uhm", cnv).value_or(fallback_func);
-
-    BOOST_TEST(i1 == INT_MAX);
-    BOOST_TEST(i2 == INT_MAX);
-}
-
 void
 example::getting_serious()
 {
     example1();
-    example4();
 }

@@ -1,4 +1,4 @@
-[section Getting Serious]
+[section Better Error Processing]
 
 [import ../example/getting_serious.cpp]
 
@@ -33,3 +33,5 @@ Here `boost::optional` steps forward as the actual type returned by `boost::conv
  ...proceed
 
 [endsect]
+
+
