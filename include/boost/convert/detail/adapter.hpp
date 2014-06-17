@@ -2,23 +2,23 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#ifndef BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
-#define BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
+#ifndef BOOST_CONVERT_DETAIL_ADAPTER_HPP
+#define BOOST_CONVERT_DETAIL_ADAPTER_HPP
 
 #include <boost/convert/detail/forward.hpp>
 
 namespace boost { namespace cnv
 {
-    template<typename, typename> struct algorithm_helper;
-    template<typename, typename> struct algorithm_helper_with_fallback;
+    template<typename, typename> struct adapter;
+    template<typename, typename> struct adapter_with_fallback;
 
     template<typename TypeOut, typename Converter>
-    struct algorithm_helper
+    struct adapter
     {
-        algorithm_helper(Converter const& cnv) : converter_(&cnv) {}
+        adapter(Converter const& cnv) : converter_(&cnv) {}
 
         template<typename FallbackType>
-        algorithm_helper_with_fallback<TypeOut, Converter>
+        adapter_with_fallback<TypeOut, Converter>
         value_or(FallbackType const&);
 
         template<class TypeIn> TypeOut operator()(TypeIn const& value_in)
@@ -34,14 +34,14 @@ namespace boost { namespace cnv
     };
 
     template<typename TypeOut, typename Converter>
-    struct algorithm_helper_with_fallback
+    struct adapter_with_fallback
     :
-        public algorithm_helper<TypeOut, Converter>
+        public adapter<TypeOut, Converter>
     {
-        typedef algorithm_helper_with_fallback       this_type;
-        typedef algorithm_helper<TypeOut, Converter> base_type;
+        typedef adapter_with_fallback       this_type;
+        typedef adapter<TypeOut, Converter> base_type;
 
-        algorithm_helper_with_fallback(base_type const& ah, TypeOut const& fallback)
+        adapter_with_fallback(base_type const& ah, TypeOut const& fallback)
         :
             base_type   (ah),
             fallback_   (fallback)
@@ -60,10 +60,10 @@ namespace boost { namespace cnv
 
 template<typename TypeOut, typename Converter>
 template<typename FallbackType>
-typename boost::cnv::algorithm_helper_with_fallback<TypeOut, Converter>
-boost::cnv::algorithm_helper<TypeOut, Converter>::value_or(FallbackType const& fallback)
+typename boost::cnv::adapter_with_fallback<TypeOut, Converter>
+boost::cnv::adapter<TypeOut, Converter>::value_or(FallbackType const& fallback)
 {
-    return algorithm_helper_with_fallback<TypeOut, Converter>(*this, fallback);
+    return adapter_with_fallback<TypeOut, Converter>(*this, fallback);
 }
 
-#endif // BOOST_CONVERT_DETAIL_ALGORITHM_HELPER_HPP
+#endif // BOOST_CONVERT_DETAIL_ADAPTER_HPP

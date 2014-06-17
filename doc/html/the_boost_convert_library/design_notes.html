@@ -3,35 +3,32 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Design Notes</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="other_conversions.html" title="Other Conversions">
-<link rel="next" href="design_notes/public_user_interface.html" title="Public/User Interface">
+<link rel="next" href="design_notes/converter_signature.html" title="Converter Signature">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="other_conversions.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="design_notes/public_user_interface.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="other_conversions.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="design_notes/converter_signature.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="the_boost_convert_library.design_notes"></a><a class="link" href="design_notes.html" title="Design Notes">Design Notes</a>
+<a name="the_boost_convert_library.design_notes"></a><a name="quickbook.ref.design_notes"></a><a class="link" href="design_notes.html" title="Design Notes">Design
+    Notes</a>
 </h2></div></div></div>
-<div class="toc"><dl class="toc">
+<div class="toc"><dl>
 <dt><span class="section"><a href="design_notes.html#the_boost_convert_library.design_notes.requirements">Requirements</a></span></dt>
-<dt><span class="section"><a href="design_notes/public_user_interface.html">Public/User
-      Interface</a></span></dt>
-<dd><dl>
-<dt><span class="section"><a href="design_notes/public_user_interface.html#the_boost_convert_library.design_notes.public_user_interface.the_evolution_of_the_signature">The
-        Evolution of The Signature</a></span></dt>
-<dt><span class="section"><a href="design_notes/public_user_interface/todo_converter_pluggability.html">TODO
-        Converter Pluggability</a></span></dt>
-<dt><span class="section"><a href="design_notes/public_user_interface/todo_converter_parameter_related_considerations__explicit__default__globally_set__others_.html">TODO
-        Converter-parameter-related considerations (explicit, default, globally-set,
-        others)</a></span></dt>
-</dl></dd>
 <dt><span class="section"><a href="design_notes/converter_signature.html">Converter
       Signature</a></span></dt>
+<dt><span class="section"><a href="design_notes/user_interface_signature.html">User
+      Interface Signature</a></span></dt>
+<dt><span class="section"><a href="design_notes/todo_converter_pluggability.html">TODO
+      Converter Pluggability</a></span></dt>
+<dt><span class="section"><a href="design_notes/todo_converter_parameter_related_considerations__explicit__default__globally_set__others_.html">TODO
+      Converter-parameter-related considerations (explicit, default, globally-set,
+      others)</a></span></dt>
 </dl></div>
 <p>
       Feel free to skip this section. It is here to document the process and the
@@ -102,7 +99,16 @@
 </ol></div>
           </li>
 <li class="listitem">
-            <span class="emphasis"><em>(R6)</em></span> Converters shall be independent of and shall
+            <span class="emphasis"><em>(R6)</em></span> <span class="emphasis"><em>Boost.Convert</em></span> shall provide
+            a uniform interface suitable for generic programming;
+          </li>
+<li class="listitem">
+            <span class="emphasis"><em>(R7)</em></span> <span class="emphasis"><em>Boost.Convert</em></span> shall not
+            interfere with or intercept any exceptions that are not part of the official
+            converter interface (i.e. exceptions caused by mafunction, etc.);
+          </li>
+<li class="listitem">
+            <span class="emphasis"><em>(R8)</em></span> Converters shall be independent of and shall
             not rely on the <span class="emphasis"><em>Boost.Convert</em></span> infrastructure.
           </li>
 </ol></div>
@@ -117,7 +123,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="other_conversions.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="design_notes/public_user_interface.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="other_conversions.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="design_notes/converter_signature.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>

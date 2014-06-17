@@ -16,7 +16,7 @@
 #define BOOST_CONVERT_HPP
 
 #include <boost/convert/detail/is_converter.hpp>
-#include <boost/convert/detail/algorithm_helper.hpp>
+#include <boost/convert/detail/adapter.hpp>
 
 namespace boost
 {
@@ -57,10 +57,10 @@ namespace boost
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    typename boost::enable_if<cnv::is_converter<Converter, TypeIn, TypeOut>, typename boost::cnv::algorithm_helper<TypeOut, Converter> >::type
+    typename boost::enable_if<cnv::is_converter<Converter, TypeIn, TypeOut>, typename boost::cnv::adapter<TypeOut, Converter> >::type
     convert(Converter const& cnv)
     {
-        return boost::cnv::algorithm_helper<TypeOut, Converter>(cnv);
+        return boost::cnv::adapter<TypeOut, Converter>(cnv);
     }
 }
 
