@@ -122,6 +122,7 @@ example3()
     BOOST_TEST(ints[2] == -1); // Failed conversion
     //]
 }
+
 void
 example::algorithms()
 {

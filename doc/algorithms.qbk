@@ -4,10 +4,4 @@
 [algorithm_example2]
 [algorithm_example3]
 
-The following `boost::optional`-based version is not available with pre-C++11 compilers:
-
- std::vector<boost::optional<int>> opts;
-
- std::transform(strs.begin(), strs.end(), std::back_inserter(opts), boost::convert<int>(cnv(std::hex)));
-
 [endsect]

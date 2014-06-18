@@ -4,11 +4,8 @@
 
 using std::string;
 
-static
-void
-process_failure()
-{
-}
+static void process_failure() {}
+static void log(...) {}
 
 static
 void
@@ -23,16 +20,13 @@ example1()
 
     {
         //[getting_serious_example1
-
         int i2 = boost::convert<int>("not an int", cnv).value_or(-1); // after the call i2 == -1
 
         if (i2 == -1) process_failure();
-
         //]
     }
     {
         //[getting_serious_example2
-
         try
         {
             int i1 = boost::lexical_cast<int>(str); // Throws if the conversion fails
@@ -46,12 +40,9 @@ example1()
     }
     {
         //[getting_serious_example3
-
         boost::optional<int> r1 = boost::convert<int>(str1, cnv); // Does not throw on conversion failure
         boost::optional<int> r2 = boost::convert<int>(str2, cnv); // Does not throw on conversion failure
-
         // ...
-
         try // Delayed processing of potential exceptions
         {
             int i1 = r1.value(); // Will throw if conversion failed
@@ -70,8 +61,65 @@ example1()
     }
 }
 
+//[getting_serious_example5
+struct fallback_func
+{
+    int operator()() const { log("Failed to convert"); return INT_MAX; }
+};
+//]
+
+static
+void
+example4()
+{
+    boost::cnv::cstringstream cnv;
+    std::string const         str = "123";
+    int const      fallback_value = -1;
+    //[getting_serious_example4
+    boost::optional<int> res = boost::convert<int>(str, cnv);
+
+    if (!res) log("str conversion failed");
+
+    int i1 = res.value_or(fallback_value);
+
+    // ...proceed
+    //]
+    //[getting_serious_example6
+    int i2 = boost::convert<int>(str, cnv, fallback_func()); // Fallback functor is called if failed
+    //]
+}
+static
+void
+example5()
+{
+    boost::cnv::cstringstream cnv;
+    std::string const         str = "123";
+    int const      fallback_value = -1;
+    //[getting_serious_example7
+    // Error-processing behavior are specified clearly and uniformly.
+    // a) Returning the provided fallback value;
+    // b) Calling the provided failure-processing function;
+    // c) Throwing an exception.
+
+    int i1 = boost::convert<int>(str, cnv, fallback_value); // Fallback value used if failed
+    int i2 = boost::convert<int>(str, cnv, fallback_func()); // Fallback functor is called if failed
+
+    try
+    {
+        // Throwing behavior specified explicitly rather than implied
+        int i3 = boost::convert<int>(str, cnv, boost::throw_on_failure);
+    }
+    catch (boost::bad_optional_access const&)
+    {
+        // Handle failed conversion
+    }
+    //]
+}
+
 void
 example::getting_serious()
 {
     example1();
+    example4();
+    example5();
 }

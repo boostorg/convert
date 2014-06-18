@@ -106,31 +106,6 @@ strings_to_ints()
     BOOST_TEST(ints[1] == 16);
     BOOST_TEST(ints[2] == 17);
     BOOST_TEST(ints[3] == 18);
-
-    ints.clear();
-
-#ifdef NOT_AVAILABLE_UNTIL_CPP11
-
-    std::vector<optional<int>> opts;
-
-    std::transform(
-        strs.begin(),
-        strs.end(),
-        std::back_inserter(opts),
-        boost::convert<int, std::string>(ccnv(arg::base = cnv::base::hex)));
-
-    BOOST_TEST( opts.size() == 5);
-    BOOST_TEST( opts[0]);
-    BOOST_TEST( opts[1]);
-    BOOST_TEST( opts[2]);
-    BOOST_TEST( opts[3]);
-    BOOST_TEST(!opts[4]); // Failed conversion
-    BOOST_TEST( opts[0].value() == 15);
-    BOOST_TEST( opts[1].value() == 16);
-    BOOST_TEST( opts[2].value() == 17);
-    BOOST_TEST( opts[3].value() == 18);
-
-#endif
 }
 
 void

@@ -19,7 +19,7 @@ Feel free to skip this section. It is here to document the process and the decis
     # ['(R5c)] when conversion fails, an optional fallback value shall be returned instead if supplied;
     # ['(R5d)] in the case of failure (with no fallback provided) an attempt to retrieve the result shall result in an exception thrown;
 # ['(R6)] ['Boost.Convert] shall provide a uniform interface suitable for generic programming;
-# ['(R7)] ['Boost.Convert] shall not interfere with or intercept any exceptions that are not part of the official converter interface (i.e. exceptions caused by mafunction, etc.);
+# ['(R7)] ['Boost.Convert] shall not interfere with or intercept any exceptions that are not part of the official converter interface (i.e. exceptions caused by malfunction, etc.);
 # ['(R8)] Converters shall be independent of and shall not rely on the ['Boost.Convert] infrastructure.
 
 [endsect]
@@ -124,11 +124,11 @@ Again, that API does not have to be the only API ['Boost.Convert] provides. Howe
  
 Given that it is extremely difficult (if not impossible) to come up with a library API that could please everyone, we might as well settle on the ['essential] API and let the users build their own APIs (as in the example above) to satisfy their aesthetic preferences.
 
-Still, it needs to be aknowledged that `boost::optional` is fairly new concept and quite a few people are not comfortable using it or find it unreasonable for `boost::optional` to be the result. Consequently, ['Boost.Convert] provides an alternative (more conventional) interface:
+Still, it needs to be acknowledged that `boost::optional` is a fairly new concept and quite a few people are not comfortable using it or find it unreasonable for `boost::optional` to be the result. Consequently, ['Boost.Convert] provides an alternative (more conventional) interface:
 
-Out convert(In const&, Converter const&, Out const& fallback_value);
-Out convert(In const&, Converter const&, Functor const& fallback_functor);
-Out convert(In const&, Converter const&, boost::throw_on_failure);
+ Out convert(In const&, Converter const&, Out const& fallback_value);
+ Out convert(In const&, Converter const&, Functor const& fallback_functor);
+ Out convert(In const&, Converter const&, boost::throw_on_failure);
 
 [endsect]
 [section TODO Converter Pluggability]

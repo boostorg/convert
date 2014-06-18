@@ -3,15 +3,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Boost.Convert with Standard Algorithms</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
-<link rel="prev" href="getting_serious.html" title="Getting Serious">
+<link rel="prev" href="return_value.html" title="Return Value">
 <link rel="next" href="converters.html" title="Converters">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="getting_serious.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="converters.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="return_value.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="converters.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
@@ -98,14 +98,6 @@
 </pre>
 <p>
     </p>
-<p>
-      The following <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code>-based version is not available with
-      pre-C++11 compilers:
-    </p>
-<pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;&gt;</span> <span class="identifier">opts</span><span class="special">;</span>
-
-<span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span><span class="identifier">strs</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span> <span class="identifier">strs</span><span class="special">.</span><span class="identifier">end</span><span class="special">(),</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">back_inserter</span><span class="special">(</span><span class="identifier">opts</span><span class="special">),</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)));</span>
-</pre>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>
@@ -116,7 +108,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="getting_serious.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="converters.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="return_value.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="converters.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>

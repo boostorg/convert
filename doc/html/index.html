@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Chapter&#160;1.&#160;The Boost Convert Library 2.0</title>
 <link rel="stylesheet" href="boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="next" href="the_boost_convert_library/introduction.html" title="Introduction">
 </head>
@@ -25,11 +25,21 @@
 </div></div>
 <div class="toc">
 <p><b>Table of Contents</b></p>
-<dl>
+<dl class="toc">
 <dt><span class="section"><a href="index.html#the_boost_convert_library.rationale">Rationale</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/introduction.html">Introduction</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/getting_started.html">Getting Started</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/getting_serious.html">Getting Serious</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="the_boost_convert_library/getting_started.html#the_boost_convert_library.getting_started.basic_deployment">Basic
+      Deployment</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/getting_started/flexibility_and_adaptability_to_change.html">Flexibility
+      and Adaptability to Change</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/getting_started/basic_error_processing.html">Basic
+      Error Processing</a></span></dt>
+</dl></dd>
+<dt><span class="section"><a href="the_boost_convert_library/better_error_detection.html">Better
+    Error Detection</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/return_value.html">Return Value</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/boost_convert_with_standard_algorithms.html">Boost.Convert
     with Standard Algorithms</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/converters.html">Converters</a></span></dt>
@@ -85,7 +95,7 @@
 <dd><dl></dl></dd>
 <dt><span class="section"><a href="header/boost/make_default_hpp.html">Header &lt;boost/make_default.hpp&gt;</a></span></dt>
 </dl></dd>
-<dt><span class="section"><a href="index/s16.html">Index</a></span></dt>
+<dt><span class="section"><a href="index/s17.html">Index</a></span></dt>
 </dl>
 </div>
 <div class="note"><table border="0" summary="Note">
@@ -120,7 +130,7 @@
 <p>
       Unfortunately,
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           many deployed user types simply did not meet <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
           requirements (namely, <span class="emphasis"><em>Default Constructibility</em></span>);
@@ -153,7 +163,7 @@
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: June 17, 2014 at 02:01:11 GMT</small></p></td>
+<td align="left"><p><small>Last revised: June 18, 2014 at 11:05:12 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>

@@ -1,7 +1,10 @@
 index.html
 the_boost_convert_library/introduction.html
 the_boost_convert_library/getting_started.html
-the_boost_convert_library/getting_serious.html
+the_boost_convert_library/getting_started/flexibility_and_adaptability_to_change.html
+the_boost_convert_library/getting_started/basic_error_processing.html
+the_boost_convert_library/better_error_detection.html
+the_boost_convert_library/return_value.html
 the_boost_convert_library/boost_convert_with_standard_algorithms.html
 the_boost_convert_library/converters.html
 the_boost_convert_library/boost__lexical_cast_based_converter.html
@@ -20,8 +23,10 @@ the_boost_convert_library/design_notes/todo_converter_parameter_related_consider
 the_boost_convert_library/acknowledgements.html
 the_boost_convert_library/references.html
 convert_reference.html
-boost/convert_idm39472.html
-boost/convert_idm29200.html
+boost/throw_on_failure_type.html
+boost/throw_on_failure.html
+boost/convert_idp25158820.html
+boost/convert_idp21660788.html
 header/boost/convert/lexical_cast_hpp.html
 boost/cnv/lexical_cast.html
 header/boost/convert/parameters_hpp.html
@@ -36,4 +41,4 @@ boost/cnv/basic_stringstream.html
 header/boost/convert/strtol_hpp.html
 boost/cnv/strtol.html
 header/boost/make_default_hpp.html
-index/s16.html
+index/s17.html

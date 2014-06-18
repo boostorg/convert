@@ -1,10 +1,10 @@
-[section Better Error Processing]
+[section Better Error Detection]
 
 [import ../example/getting_serious.cpp]
 
 [getting_serious_example1]
 
-The code above is straightforward and self-explanatory but, unfortunately, strictly speaking, is not entirely deterministic as -1 might be the result of a conversion failure or the successful conversion of the "-1" string. Still, in rea;ity "spare" values are quite often available outside the valid\/sensible range to indicate conversion failures. If so, such deployment might be adequate without introducing that mentioned behavioral non-determinism. Alternatively, it might be not that uncommon to ignore conversion failures altogether and to simply proceed with the supplied fallback value.
+The code above is straightforward and self-explanatory but, unfortunately, strictly speaking, is not entirely deterministic as -1 might be the result of a conversion failure or the successful conversion of the "-1" string. Still, in reality "spare" values are quite often available outside the valid\/sensible range to indicate conversion failures. If so, such deployment might be adequate without introducing that mentioned behavioral non-determinism. Alternatively, it might be not that uncommon to ignore conversion failures altogether and to simply proceed with the supplied fallback value.
 
 Applications outside these mentioned categories still require a conversion failure reliably detected and processed accordingly. The `boost::lexical_cast`'s answer is to throw on failure and ['Boost.Convert] supports that behavior as well: 
 
@@ -22,15 +22,14 @@ Here `boost::optional` steps forward as the actual type returned by `boost::conv
  int i1 = boost::convert<int>(str1, cnv).value();
  int i2 = boost::convert<int>(str2, cnv).value_or(fallback_value);
 
-`boost::convert` behavior (similar to `boost::lexical_cast`) reflect the fact that a conversion request is only a ['request] which may succeed but may also fail. However, from the user perspective `boost::lexical_cast` processes failure in a somewhat one-dimensional non-negotiable manner. `boost::convert` takes a softer approach and leaves the decision to the user. On the library level throwing an exception to indicate a conversion failure might be the only available response. On the application level though, in my personal experience, the choice has overwhelmingly been to avoid exceptions altogether with program flows similar to:
+Here `boost::convert` behavior (similar to `boost::lexical_cast`) reflect the fact that a conversion request is only a ['request] which may succeed but may also fail. However, from the user perspective `boost::lexical_cast` processes failure in a somewhat one-dimensional non-negotiable manner. `boost::convert` takes a softer approach and leaves the decision to the user. On the library level throwing an exception to indicate a conversion failure might be the only available response. On the application level though, in my personal experience, the choice has overwhelmingly been to avoid exceptions altogether with program flows similar to:
 
- boost::optional<int> res = boost::convert<int>(str, cnv);
+[getting_serious_example4]
 
- if (!res) log("str conversion failed");
+Or even better (see the next section for details):
 
- int i = res.value_or(fallback-value);
-
- ...proceed
+[getting_serious_example5]
+[getting_serious_example6]
 
 [endsect]
 
