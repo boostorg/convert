@@ -29,11 +29,11 @@ fallback_function()
     boost::cnv::cstringstream cnv;
     functor_foo               foo;
 
-    int i01 = boost::convert<int>("uhm", cnv).value_or(functor_int());
-    int i02 = boost::convert<int>("uhm", cnv).value_or(functor_double());
-    int i03 = boost::convert<int>("uhm", cnv).value_or(boost::bind(&functor_foo::func, foo, 0));
-    int i04 = boost::convert<int>("uhm", cnv).value_or(function_int);
-    int i05 = boost::convert<int>("uhm", cnv).value_or(function_long);
+    int i01 = boost::convert<int>("uhm", cnv).value_or_eval(functor_int());
+    int i02 = boost::convert<int>("uhm", cnv).value_or_eval(functor_double());
+    int i03 = boost::convert<int>("uhm", cnv).value_or_eval(boost::bind(&functor_foo::func, foo, 0));
+    int i04 = boost::convert<int>("uhm", cnv).value_or_eval(function_int);
+    int i05 = boost::convert<int>("uhm", cnv).value_or_eval(function_long);
 
     BOOST_TEST(local::   called_functor_int && i01 == INT_MAX);
     BOOST_TEST(local::called_functor_double && i02 == INT_MAX);

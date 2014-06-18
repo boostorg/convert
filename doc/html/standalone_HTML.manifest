@@ -23,10 +23,11 @@ the_boost_convert_library/design_notes/todo_converter_parameter_related_consider
 the_boost_convert_library/acknowledgements.html
 the_boost_convert_library/references.html
 convert_reference.html
+boost/cnv/adapter.html
 boost/throw_on_failure_type.html
 boost/throw_on_failure.html
-boost/convert_idp25158820.html
-boost/convert_idp21660788.html
+boost/convert_idm25504.html
+boost/convert_idm3936.html
 header/boost/convert/lexical_cast_hpp.html
 boost/cnv/lexical_cast.html
 header/boost/convert/parameters_hpp.html

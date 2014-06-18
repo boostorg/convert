@@ -119,13 +119,13 @@ namespace boost { namespace cnv
 namespace boost { namespace cnv
 {
     template<typename Converter, typename TypeIn, typename TypeOut, class Enable =void>
-    class is_converter
+    class is_cnv
     {
         public: BOOST_STATIC_CONSTANT(bool, value = false);
     };
 
     template<typename Converter, typename TypeIn, typename TypeOut>
-    class is_converter<
+    class is_cnv<
         Converter,
         TypeIn,
         TypeOut,
@@ -134,11 +134,12 @@ namespace boost { namespace cnv
     {
         public:
 
-        BOOST_STATIC_CONSTANT(bool, value = (is_callable<Converter, void (TypeIn const&, boost::optional<TypeOut>&)>::value));
+        BOOST_STATIC_CONSTANT(bool, value = (true));
+//        BOOST_STATIC_CONSTANT(bool, value = (is_callable<Converter, void (TypeIn const&, boost::optional<TypeOut>&)>::value));
     };
 
     template<typename Converter, typename TypeIn, typename TypeOut>
-    class is_converter<
+    class is_cnv<
         Converter,
         TypeIn,
         TypeOut,
@@ -177,13 +178,13 @@ namespace boost { namespace cnv
     };
 
     template<typename Func, typename TypeOut, class Enable =void>
-    struct is_func
+    struct is_fun
     {
         BOOST_STATIC_CONSTANT(bool, value = false);
     };
 
     template<typename Functor, typename TypeOut>
-    struct is_func<
+    struct is_fun<
         Functor,
         TypeOut,
         typename boost::enable_if_c<
@@ -195,11 +196,11 @@ namespace boost { namespace cnv
     };
 
     template<typename Function, typename TypeOut>
-    struct is_func<
+    struct is_fun<
         Function,
         TypeOut,
         typename boost::enable_if_c<
-            boost::is_function<Function>::value &&
+            boost::function_types::is_function_pointer<Function>::value &&
             boost::function_types::function_arity<Function>::value == 0 &&
             !boost::is_same<Function, TypeOut>::value,
         void>::type>

@@ -16,13 +16,22 @@
 #define BOOST_CONVERT_HPP
 
 #include <boost/convert/detail/is.hpp>
-#include <boost/convert/detail/adapter.hpp>
+#include <boost/ref.hpp>
+#include <boost/noncopyable.hpp>
+
+#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
+#define BOOST_CONVERT_CXX03
+#endif
 
 namespace boost
 {
     struct throw_on_failure_type { enum type {};};
     throw_on_failure_type::type const throw_on_failure = throw_on_failure_type::type(0);
 
+    namespace cnv
+    {
+        template<typename, typename, typename> struct adapter;
+    }
     /// @brief The main Boost.Convert deployment interface
     /// @details This is the Boost.Convert main interface. For example,
     /// @code
@@ -35,7 +44,7 @@ namespace boost
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    typename boost::enable_if<cnv::is_converter<Converter, TypeIn, TypeOut>, boost::optional<TypeOut> >::type
+    typename boost::enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, boost::optional<TypeOut> >::type
     convert(TypeIn const& value_in, Converter const& converter)
     {
             boost::optional<TypeOut> result;
@@ -44,14 +53,14 @@ namespace boost
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    typename boost::enable_if<cnv::is_converter<Converter, TypeIn, TypeOut>, TypeOut>::type
+    typename boost::enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, TypeOut>::type
     convert(TypeIn const& value_in, Converter const& converter, throw_on_failure_type::type)
     {
         return boost::convert<TypeOut>(value_in, converter).value();
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter, typename FallbackValue>
-    typename boost::enable_if_c<cnv::is_converter<Converter, TypeIn, TypeOut>::value &&
+    typename boost::enable_if_c<cnv::is_cnv<Converter, TypeIn, TypeOut>::value &&
                                 boost::is_convertible<FallbackValue, TypeOut>::value,
     TypeOut>::type
     convert(TypeIn const& value_in, Converter const& converter, FallbackValue const& fallback)
@@ -60,12 +69,12 @@ namespace boost
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter, typename FallbackFunc>
-    typename boost::enable_if_c<cnv::is_converter<Converter, TypeIn, TypeOut>::value &&
-                                cnv::is_func<FallbackFunc, TypeOut>::value,
+    typename boost::enable_if_c<cnv::is_cnv<Converter, TypeIn, TypeOut>::value &&
+                                cnv::is_fun<FallbackFunc, TypeOut>::value,
     TypeOut>::type
-    convert(TypeIn const& value_in, Converter const& converter, FallbackFunc const& fallback)
+    convert(TypeIn const& value_in, Converter const& converter, FallbackFunc fallback)
     {
-        return boost::convert<TypeOut>(value_in, converter).value_or(fallback);
+        return boost::convert<TypeOut>(value_in, converter).value_or_eval(fallback);
     }
 
     /// @brief The main Boost.Convert deployment interface with algorithms
@@ -85,11 +94,44 @@ namespace boost
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    typename boost::enable_if<cnv::is_converter<Converter, TypeIn, TypeOut>, typename boost::cnv::adapter<TypeOut, Converter> >::type
+    typename boost::enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
+    typename boost::cnv::adapter<TypeOut, TypeIn, Converter> >::type
     convert(Converter const& cnv)
     {
-        return boost::cnv::adapter<TypeOut, Converter>(cnv);
+        return boost::cnv::adapter<TypeOut, TypeIn, Converter>(cnv);
     }
 }
+
+namespace boost { namespace cnv
+{
+    template<typename TypeOut, typename TypeIn, typename Converter>
+    struct adapter
+    {
+        typedef adapter this_type;
+
+        adapter(Converter const& cnv) : converter_(cnv) {}
+
+        this_type&
+        value_or(TypeOut const& fallback)
+        {
+            return (fallback_ = fallback, *this);
+        }
+
+        TypeOut operator()(TypeIn const& value_in)
+        {
+            boost::optional<TypeOut> result = boost::convert<TypeOut>(value_in, boost::unwrap_ref(converter_));
+            return fallback_ ? result.value_or(*fallback_) : result.value();
+        }
+
+        protected:
+
+        Converter               converter_;
+        boost::optional<TypeOut> fallback_;
+    };
+}}
+
+
+
+
 
 #endif // BOOST_CONVERT_HPP

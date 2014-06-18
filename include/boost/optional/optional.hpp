@@ -1074,7 +1074,7 @@ class optional : public optional_detail::optional_base<T>
 
     template <class F>
     typename boost::disable_if<boost::is_convertible<F, value_type>, value_type>::type
-    value_or (F const& f ) const { return this->is_initialized() ? get() : f(); }
+    value_or_eval (F const& f ) const { return this->is_initialized() ? get() : f(); }
 #endif
       
     bool operator!() const BOOST_NOEXCEPT { return !this->is_initialized() ; }
