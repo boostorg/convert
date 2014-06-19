@@ -1,4 +1,4 @@
-The library builds on the boost::lexical_cast design and experience and takes those type conversion/transformation-related ideas further 
+The library builds on the `boost::lexical_cast` experience and takes those type conversion/transformation-related ideas further 
 
 * to be applicable to a wider range of deployment scenarios, 
 * to provide a more flexible, extendible and configurable type-conversion framework. 
