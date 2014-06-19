@@ -46,10 +46,9 @@
 <p>
     </p>
 <p>
-      Still, if that is the desired behavior, then <span class="emphasis"><em>Boost.Convert</em></span>
-      supports that exception-throwing behavior or, alternatively, offers a non-throwing
-      process flow potentially using the same <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-      converter:
+      Still, if the exception-throwing behavior is the desired behavior, then <span class="emphasis"><em>Boost.Convert</em></span>
+      supports that or, alternatively, offers a non-throwing process flow potentially
+      using the same <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> converter:
     </p>
 <p>
 </p>
@@ -115,18 +114,31 @@
 </pre>
 <p>
     </p>
+<div class="important"><table border="0" summary="Important">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Important]" src="../images/important.png"></td>
+<th align="left">Important</th>
+</tr>
+<tr><td align="left" valign="top">
 <p>
-      One notable difference in the deployment of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">sstream</span></code> with algorithms is the use of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cref</span></code>.
-      As with standard algorithms, the deployed converter needs to be copyable or
-      moveable (C++11). Given that <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">sstream</span></code>
-      is not copyable, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">sstream</span></code>
-      is not copyable either. That limitation is routinely worked around using <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">ref</span></code>
-      (or <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">ref</span></code> in C++11).
-    </p>
+        One notable difference in the deployment of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span></code> with algorithms is the use
+        of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cref</span></code> (or <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">ref</span></code> in
+        C++11).
+      </p>
+<p>
+        It needs to be remembered that with standard algorithms the deployed converter
+        needs to be copyable or moveable (C++11) and is, in fact, copied or moved
+        by the respective algorithm before being used. Given that <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">cstringstream</span></code>
+        is not copyable, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span></code>
+        is not copyable either. That limitation is routinely worked around using
+        <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">ref</span></code>.
+      </p>
+</td></tr>
+</table></div>
 <p>
       And, lastly, an example of algorithm-based integer-to-string formatted conversion
       with <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">uppercase</span></code> and <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">showbase</span></code>
-      applied formatting,
+      formatting applied:
     </p>
 <p>
 </p>

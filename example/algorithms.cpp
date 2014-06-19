@@ -69,8 +69,8 @@ void
 example2()
 {
     //[algorithm_example2
-    /*`Still, if that is the desired behavior, then ['Boost.Convert] supports that exception-throwing behavior or, alternatively,
-       offers a non-throwing process flow potentially using the same `boost::lexical_cast` converter:
+    /*`Still, if the exception-throwing behavior is the desired behavior, then ['Boost.Convert] supports that or,
+       alternatively, offers a non-throwing process flow potentially using the same `boost::lexical_cast` converter:
     */
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     std::vector<int>             ints;
@@ -141,10 +141,13 @@ example4()
     BOOST_TEST(ints[1] == 15);
     BOOST_TEST(ints[2] == -1); // Failed conversion
 
-    /*`One notable difference in the deployment of `boost::cnv::sstream` with algorithms is the use of `boost::cref`.
-       As with standard algorithms, the deployed converter needs to be copyable or moveable (C++11).
-       Given that `std::sstream` is not copyable, `boost::cnv::sstream` is not copyable either.
-       That limitation is routinely worked around using `boost::ref` (or `std::ref` in C++11).
+    /*`[important One notable difference in the deployment of `boost::cnv::cstringstream` with algorithms is
+       the use of `boost::cref` (or `std::ref` in C++11).
+
+       It needs to be remembered that with standard algorithms the deployed converter needs to be copyable or
+       moveable (C++11) and is, in fact, copied or moved by the respective algorithm before being used.
+       Given that `std::cstringstream` is not copyable, `boost::cnv::cstringstream` is not copyable either.
+       That limitation is routinely worked around using `boost::ref`.]
     */
     //]
 }
@@ -155,7 +158,7 @@ example5()
 {
     //[algorithm_example5
     /*`And, lastly, an example of algorithm-based integer-to-string formatted conversion with
-       `std::uppercase` and `std::showbase` applied formatting,
+       `std::uppercase` and `std::showbase` formatting applied:
     */
     boost::array<int, 4>     ints = {{ 15, 16, 17, 18 }};
     std::vector<std::string> strs;
