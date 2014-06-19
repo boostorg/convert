@@ -17,7 +17,6 @@
 
 #include <boost/convert/detail/is.hpp>
 #include <boost/ref.hpp>
-#include <boost/noncopyable.hpp>
 
 #if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
 #define BOOST_CONVERT_CXX03
@@ -129,9 +128,5 @@ namespace boost { namespace cnv
         boost::optional<TypeOut> fallback_;
     };
 }}
-
-
-
-
 
 #endif // BOOST_CONVERT_HPP
