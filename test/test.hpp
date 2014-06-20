@@ -4,7 +4,7 @@
 #include "../example/example.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
-#include <boost/convert/sstream.hpp>
+#include <boost/convert/stream.hpp>
 #include <boost/convert/printf.hpp>
 #include <boost/convert/strtol.hpp>
 #include <boost/array.hpp>
@@ -175,7 +175,7 @@ namespace test
         static void       callables ();
         static void       fallbacks ();
         static void lcast_converter ();
-        static void         sstream ();
+        static void         stream ();
         static void   int_to_string ();
         static void  string_to_bool ();
         static void       user_type ();

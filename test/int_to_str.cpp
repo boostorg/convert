@@ -11,8 +11,8 @@ using std::wstring;
 void
 test::cnv::int_to_string()
 {
-    boost::cnv::cstringstream ccnv; // std::stringstream-based char converter
-    boost::cnv::wstringstream wcnv; // std::stringstream-based wchar_t converter
+    boost::cnv::cstream ccnv; // std::stringstream-based char converter
+    boost::cnv::wstream wcnv; // std::stringstream-based wchar_t converter
 
     string const    not_int_str = "not an int";
     string const        std_str = "-11";

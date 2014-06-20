@@ -1,7 +1,7 @@
 #include "./example.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
-#include <boost/convert/sstream.hpp>
+#include <boost/convert/stream.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <vector>
@@ -18,7 +18,7 @@ introduction()
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     std::vector<int>             ints;
-    boost::cnv::cstringstream     cnv;
+    boost::cnv::cstream           cnv;
 
     cnv(std::hex)(std::skipws); // Instruct reading hexadecimal. Skip white spaces.
 
@@ -100,7 +100,7 @@ example3()
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     std::vector<int>             ints;
-    boost::cnv::cstringstream     cnv;
+    boost::cnv::cstream           cnv;
 
     try
     {
@@ -127,7 +127,7 @@ example4()
 {
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     std::vector<int>             ints;
-    boost::cnv::cstringstream     cnv;
+    boost::cnv::cstream           cnv;
 
     //[algorithm_example4
     std::transform(
@@ -141,12 +141,12 @@ example4()
     BOOST_TEST(ints[1] == 15);
     BOOST_TEST(ints[2] == -1); // Failed conversion
 
-    /*`[important One notable difference in the deployment of `boost::cnv::cstringstream` with algorithms is
+    /*`[important One notable difference in the deployment of `boost::cnv::cstream` with algorithms is
        the use of `boost::cref` (or `std::ref` in C++11).
 
        It needs to be remembered that with standard algorithms the deployed converter needs to be copyable or
        moveable (C++11) and is, in fact, copied or moved by the respective algorithm before being used.
-       Given that `std::cstringstream` is not copyable, `boost::cnv::cstringstream` is not copyable either.
+       Given that `std::cstringstream` is not copyable, `boost::cnv::cstream` is not copyable either.
        That limitation is routinely worked around using `boost::ref`.]
     */
     //]
@@ -162,7 +162,7 @@ example5()
     */
     boost::array<int, 3>     ints = {{ 15, 16, 17 }};
     std::vector<std::string> strs;
-    boost::cnv::cstringstream cnv;
+    boost::cnv::cstream       cnv;
 
     cnv(std::hex)(std::uppercase)(std::showbase);
 

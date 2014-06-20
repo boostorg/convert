@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Struct template adapter</title>
 <link rel="stylesheet" href="../../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../../convert_reference.html#header.boost.convert_hpp" title="Header &lt;boost/convert.hpp&gt;">
 <link rel="prev" href="../../convert_reference.html" title="Convert Reference">
@@ -22,33 +22,33 @@
 <h2 xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv-title">Synopsis</h2>
 <div xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv"><pre class="synopsis"><span class="comment">// In header: &lt;<a class="link" href="../../convert_reference.html#header.boost.convert_hpp" title="Header &lt;boost/convert.hpp&gt;">boost/convert.hpp</a>&gt;
 
-</span><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeOut<span class="special">,</span> <span class="keyword">typename</span> TypeIn<span class="special">,</span> <span class="keyword">typename</span> Converter<span class="special">&gt;</span> 
+</span><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> <span class="special">,</span> <span class="keyword">typename</span> <span class="special">,</span> <span class="keyword">typename</span> <span class="special">&gt;</span> 
 <span class="keyword">struct</span> <a class="link" href="adapter.html" title="Struct template adapter">adapter</a> <span class="special">{</span>
   <span class="comment">// types</span>
   <span class="keyword">typedef</span> <a class="link" href="adapter.html" title="Struct template adapter">adapter</a> <a name="boost.cnv.adapter.this_type"></a><span class="identifier">this_type</span><span class="special">;</span>
 
   <span class="comment">// <a class="link" href="adapter.html#boost.cnv.adapterconstruct-copy-destruct">construct/copy/destruct</a></span>
-  <a class="link" href="adapter.html#idm26976-bb"><span class="identifier">adapter</span></a><span class="special">(</span><span class="identifier">Converter</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">)</span><span class="special">;</span>
+  <a class="link" href="adapter.html#idp19920508-bb"><span class="identifier">adapter</span></a><span class="special">(</span><span class="identifier">Converter</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">)</span><span class="special">;</span>
 
-  <span class="comment">// <a class="link" href="adapter.html#idm30960-bb">public member functions</a></span>
-  <a class="link" href="adapter.html#boost.cnv.adapter.this_type">this_type</a> <span class="special">&amp;</span> <a class="link" href="adapter.html#idm30560-bb"><span class="identifier">value_or</span></a><span class="special">(</span><span class="identifier">TypeOut</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">)</span><span class="special">;</span>
-  <span class="identifier">TypeOut</span> <a class="link" href="adapter.html#idm28624-bb"><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span></a><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">)</span><span class="special">;</span>
+  <span class="comment">// <a class="link" href="adapter.html#idp19918516-bb">public member functions</a></span>
+  <a class="link" href="adapter.html#boost.cnv.adapter.this_type">this_type</a> <span class="special">&amp;</span> <a class="link" href="adapter.html#idp19918700-bb"><span class="identifier">value_or</span></a><span class="special">(</span><span class="identifier">TypeOut</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">)</span><span class="special">;</span>
+  <span class="identifier">TypeOut</span> <a class="link" href="adapter.html#idp19919676-bb"><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span></a><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">)</span><span class="special">;</span>
 <span class="special">}</span><span class="special">;</span></pre></div>
 <div class="refsect1">
-<a name="idp8014224"></a><h2>Description</h2>
+<a name="idp47476124"></a><h2>Description</h2>
 <div class="refsect2">
-<a name="idp8014640"></a><h3>
+<a name="idp47476332"></a><h3>
 <a name="boost.cnv.adapterconstruct-copy-destruct"></a><code class="computeroutput">adapter</code> 
         public
        construct/copy/destruct</h3>
-<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><a name="idm26976-bb"></a><span class="identifier">adapter</span><span class="special">(</span><span class="identifier">Converter</span> <span class="keyword">const</span> <span class="special">&amp;</span> cnv<span class="special">)</span><span class="special">;</span></pre></li></ol></div>
+<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><a name="idp19920508-bb"></a><span class="identifier">adapter</span><span class="special">(</span><span class="identifier">Converter</span> <span class="keyword">const</span> <span class="special">&amp;</span> cnv<span class="special">)</span><span class="special">;</span></pre></li></ol></div>
 </div>
 <div class="refsect2">
-<a name="idp8022784"></a><h3>
-<a name="idm30960-bb"></a><code class="computeroutput">adapter</code> public member functions</h3>
+<a name="idp47480508"></a><h3>
+<a name="idp19918516-bb"></a><code class="computeroutput">adapter</code> public member functions</h3>
 <div class="orderedlist"><ol class="orderedlist" type="1">
-<li class="listitem"><pre class="literallayout"><a class="link" href="adapter.html#boost.cnv.adapter.this_type">this_type</a> <span class="special">&amp;</span> <a name="idm30560-bb"></a><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">TypeOut</span> <span class="keyword">const</span> <span class="special">&amp;</span> fallback<span class="special">)</span><span class="special">;</span></pre></li>
-<li class="listitem"><pre class="literallayout"><span class="identifier">TypeOut</span> <a name="idm28624-bb"></a><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span> value_in<span class="special">)</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><a class="link" href="adapter.html#boost.cnv.adapter.this_type">this_type</a> <span class="special">&amp;</span> <a name="idp19918700-bb"></a><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">TypeOut</span> <span class="keyword">const</span> <span class="special">&amp;</span> fallback<span class="special">)</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><span class="identifier">TypeOut</span> <a name="idp19919676-bb"></a><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span> value_in<span class="special">)</span><span class="special">;</span></pre></li>
 </ol></div>
 </div>
 </div>

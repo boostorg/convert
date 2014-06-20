@@ -34,7 +34,7 @@ test::cnv::str_to_type(Converter const& cnv)
 void
 test::cnv::force_in_type()
 {
-    boost::cnv::cstringstream cnv;
+    boost::cnv::cstream cnv;
 
     string const      s1 = boost::convert<string>(-1, cnv).value();
     string const      s2 = boost::convert<string, unsigned int>(-1, cnv).value();
@@ -53,11 +53,12 @@ main(int argc, char const* argv[])
     example::getting_started();
     example::getting_serious();
     example::algorithms();
-    example::sstream();
+    example::stream();
     example::lexical_cast();
 
     test::cnv::scratchpad();
     test::cnv::is_converter();
+    test::cnv::stream();
 
     BOOST_TEST(test::performance::spirit_framework());
 
@@ -65,7 +66,7 @@ main(int argc, char const* argv[])
     test::cnv::int_to_string();
     test::cnv::string_to_bool();
     test::cnv::str_to_int(boost::cnv::lexical_cast());
-    test::cnv::str_to_int(boost::cnv::cstringstream());
+    test::cnv::str_to_int(boost::cnv::cstream());
     test::cnv::str_to_int(boost::cnv::strtol());
     test::cnv::str_to_int(boost::cnv::printf());
     test::cnv::type_to_str(boost::cnv::printf());
@@ -75,7 +76,6 @@ main(int argc, char const* argv[])
     test::cnv::user_type();
     test::cnv::force_in_type();
     test::cnv::lcast_converter();
-    test::cnv::sstream();
     test::cnv::algorithms();
     test::cnv::callables();
     test::cnv::fallbacks();

@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Locale Support</title>
 <link rel="stylesheet" href="../../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../std__stringstream_based_converter.html" title="std::stringstream-Based Converter">
 <link rel="prev" href="../std__stringstream_based_converter.html" title="std::stringstream-Based Converter">
@@ -31,7 +31,7 @@
       </p>
 <p>
 </p>
-<pre class="programlisting">    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span> <span class="identifier">cnv</span><span class="special">;</span>
+<pre class="programlisting">    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span> <span class="identifier">cnv</span><span class="special">;</span>
 
     <span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">eng_locale_name</span> <span class="special">=</span> <span class="identifier">test</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">is_msc</span> <span class="special">?</span> <span class="string">""</span> <span class="comment">// I do not know MS presentation of US locale</span>
                                 <span class="special">:</span> <span class="identifier">test</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">is_gcc</span> <span class="special">?</span> <span class="string">"en_US.UTF-8"</span>

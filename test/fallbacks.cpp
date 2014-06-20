@@ -26,8 +26,8 @@ static
 void
 fallback_function()
 {
-    boost::cnv::cstringstream cnv;
-    functor_foo               foo;
+    boost::cnv::cstream cnv;
+    functor_foo         foo;
 
     int i01 = boost::convert<int>("uhm", cnv).value_or_eval(functor_int());
     int i02 = boost::convert<int>("uhm", cnv).value_or_eval(functor_double());

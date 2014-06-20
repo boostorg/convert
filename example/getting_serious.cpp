@@ -1,6 +1,7 @@
 #include "./example.hpp"
 #include <boost/convert.hpp>
-#include <boost/convert/sstream.hpp>
+#include <boost/convert/stream.hpp>
+#include <boost/lexical_cast.hpp>
 
 using std::string;
 
@@ -12,12 +13,12 @@ static
 void
 example1()
 {
-    boost::cnv::cstringstream cnv;
-    std::string const         str = "123";
-    std::string const        str1 = "123";
-    std::string const        str2 = "123";
-    std::string const        str3 = "123";
-    int const      fallback_value = -1;
+    boost::cnv::cstream  cnv;
+    std::string const    str = "123";
+    std::string const   str1 = "123";
+    std::string const   str2 = "123";
+    std::string const   str3 = "123";
+    int const fallback_value = -1;
 
     {
         //[getting_serious_example1
@@ -74,9 +75,9 @@ static
 void
 example4()
 {
-    boost::cnv::cstringstream cnv;
-    std::string const         str = "123";
-    int const      fallback_value = -1;
+    boost::cnv::cstream  cnv;
+    std::string const    str = "123";
+    int const fallback_value = -1;
     //[getting_serious_example4
     boost::optional<int> res = boost::convert<int>(str, cnv);
 
@@ -95,9 +96,9 @@ static
 void
 example5()
 {
-    boost::cnv::cstringstream cnv;
-    std::string const         str = "123";
-    int const      fallback_value = -1;
+    boost::cnv::cstream  cnv;
+    std::string const    str = "123";
+    int const fallback_value = -1;
     //[getting_serious_example7
     // Error-processing behavior are specified clearly and uniformly.
     // a) i1: Returning the provided fallback value;

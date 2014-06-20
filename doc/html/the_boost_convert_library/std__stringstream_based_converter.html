@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>std::stringstream-Based Converter</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="boost__lexical_cast_based_converter.html" title="boost::lexical_cast-Based Converter">
@@ -18,7 +18,7 @@
 <a name="the_boost_convert_library.std__stringstream_based_converter"></a><a class="link" href="std__stringstream_based_converter.html" title="std::stringstream-Based Converter">std::stringstream-Based
     Converter</a>
 </h2></div></div></div>
-<div class="toc"><dl>
+<div class="toc"><dl class="toc">
 <dt><span class="section"><a href="std__stringstream_based_converter.html#the_boost_convert_library.std__stringstream_based_converter.formatting_support">Formatting
       Support</a></span></dt>
 <dt><span class="section"><a href="std__stringstream_based_converter/locale_support.html">Locale
@@ -27,6 +27,16 @@
       of User-Defined Types</a></span></dt>
 <dt><span class="section"><a href="std__stringstream_based_converter/the___default_constructible__type_requirement.html">The
       <span class="emphasis"><em>Default Constructible</em></span> Type Requirement</a></span></dt>
+<dt><span class="section"><a href="std__stringstream_based_converter/formatting_examples.html">Formatting
+      Examples</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="std__stringstream_based_converter/formatting_examples.html#the_boost_convert_library.std__stringstream_based_converter.formatting_examples.change_numeric_presentation_base__std__dec__std__hex__std__oct_">Change
+        Numeric Presentation Base (std::dec, std::hex, std::oct)</a></span></dt>
+<dt><span class="section"><a href="std__stringstream_based_converter/formatting_examples/change_boolean_representation__std__boolalpha__std__noboolalpha_.html">Change
+        Boolean Representation (std::boolalpha, std::noboolalpha)</a></span></dt>
+<dt><span class="section"><a href="std__stringstream_based_converter/formatting_examples/change_processing_of_leading_white_space_characters__std__skipws__std__noskipws_.html">Change
+        Processing of Leading White-Space Characters (std::skipws, std::noskipws)</a></span></dt>
+</dl></dd>
 </dl></div>
 <p>
       The purpose of the converter is to provide conversion-related formatting and
@@ -34,7 +44,7 @@
       Advantages of deploying a <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>-based
       conversion engine are
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           availability and maturity;
         </li>
@@ -59,7 +69,7 @@
 <p>
 </p>
 <pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
-<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">sstream</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">stream</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
 
 <span class="keyword">using</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">;</span>
 </pre>
@@ -67,7 +77,7 @@
     </p>
 <p>
 </p>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span> <span class="identifier">cnv</span><span class="special">;</span>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span> <span class="identifier">cnv</span><span class="special">;</span>
 
 <span class="keyword">int</span>    <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws if the conversion fails</span>
 <span class="keyword">int</span>    <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"uhm"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Returns -1 if the conversion fails</span>
@@ -99,8 +109,8 @@
       </p>
 <p>
 </p>
-<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span> <span class="identifier">ccnv</span><span class="special">;</span>
-<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">wstringstream</span> <span class="identifier">wcnv</span><span class="special">;</span>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span> <span class="identifier">ccnv</span><span class="special">;</span>
+<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">wstream</span> <span class="identifier">wcnv</span><span class="special">;</span>
 
 <span class="keyword">int</span> <span class="identifier">v01</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"  FF"</span><span class="special">,</span> <span class="identifier">ccnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">skipws</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="number">0</span><span class="special">);</span>
 <span class="keyword">int</span> <span class="identifier">v02</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">L</span><span class="string">"  F"</span><span class="special">,</span> <span class="identifier">wcnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">skipws</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="number">0</span><span class="special">);</span>
