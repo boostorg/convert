@@ -4,6 +4,7 @@ bin.v2/
 doc/html/
 doc/convert_reference.xml
 *.log
+*.bat
 
 #################
 ## Eclipse
