@@ -36,5 +36,6 @@
 [include acknowledgments.qbk]
 [include references.qbk]
 [xinclude convert_reference.xml]
-[include 99_index.qbk]
+'''<index/>'''
+
 
