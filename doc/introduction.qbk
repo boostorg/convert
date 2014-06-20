@@ -1,9 +1,9 @@
 [section Introduction]
 
-['Boost.Convert] builds on the `boost::lexical_cast` experience and takes those conversion\/transformation-related ideas further 
+['Boost.Convert] builds on the `boost::lexical_cast` experience and takes those type conversion\/transformation-related ideas further 
 
 * to be applicable to a wider range of conversion-related deployment scenarios, 
-* to provide a more flexible, configurable and extensible type-conversion framework, 
+* to provide a more flexible, configurable and extendible type-conversion framework, 
 * to provide generic consistent behavior,
 * to ['unify and to uniformly deploy] various conversion facilities ['through one consistent interface].
 
@@ -14,13 +14,18 @@
 
 `boost::convert()` provides ['uniform deployment] and ['consistent behavior]. It implements new and familiar conversion\/transformation-related behavior such as:
 
-* flexible throwing, delayed-throwing and non-throwing failed-conversion behavior;
-* support for the fallback value to be returned when conversion\/transformation fails;
-* two types of the conversion-failure check - basic and generic;
+* flexible exception-throwing, delayed-throwing and non-throwing failed-conversion behavior;
+* four types of the conversion-failure ['detection]: 
+    * within one process flow -- basic and generic;
+    * as a branched process flow -- exception-based and function-based;
+* flexibility of conversion-failure ['processing] via:
+    * an exception thrown;
+    * the fallback value returned;
+    * the fallback function called;
 * means to deploy types that do no meet the ['Default Constructibility] requirement;
 * support for standard algorithms.
 
-The collection of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be extended over time. With the current proposal a few proof-of-the-concept string-to-type (and type-to-string) converters are supplied:
+The collection of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be ['extendible] and extended over time. With the current proposal a few proof-of-the-concept string-to-type (and type-to-string) converters are supplied:
 
 * `boost::lexical_cast`-based, 
 * `printf/scanf`-based,
@@ -29,7 +34,7 @@ The collection of pluggable converters is independent of the ['Boost.Convert] AP
 
 The first three converters are meant to demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework. Although the `printf/scanf`-based and `strtol`-based converters already provide some basic formatting support. 
 
-The `std::stringstream`-based converter draws on the standard `std::streams` functionality and provides:
+The `std::stream`-based converter draws on the standard `std::streams` functionality and provides:
 
 * string-to-type and type-to-string conversions;
 * formatting support (precision, base, upper/lower-case, scientific, etc.);

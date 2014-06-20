@@ -6,6 +6,7 @@
 #define BOOST_CONVERT_IS_CONVERTER_HPP
 
 #include <boost/convert/detail/forward.hpp>
+#include <boost/ref.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits.hpp>
 #include <boost/type_traits/detail/yes_no_type.hpp>
@@ -24,14 +25,15 @@ namespace boost { namespace cnv
     template <typename type>
     class has_funcname
     {
-        // C1. This class only checks if type has a member function by the name of BOOST_CONVERT_FUNCNAME.
-        // C2. The signature of BOOST_CONVERT_FUNCNAME does not matter.
-        //     Simply introducing BOOST_CONVERT_FUNCNAME() in the base class will cause
-        //     mixin->BOOST_CONVERT_FUNCNAME() call to fail to compile (due to ambiguity)
-        //     if type::BOOST_CONVERT_FUNCNAME(any-signature) exists.
+        // C1. This class only checks if type has a member function named BOOST_CONVERT_FUNCNAME.
+        // C2. The actual signature of BOOST_CONVERT_FUNCNAME is not taken into account.
+        //     If type::BOOST_CONVERT_FUNCNAME(any-signature) exists, then
+        //     the introduced base::BOOST_CONVERT_FUNCNAME will cause
+        //     mixin->BOOST_CONVERT_FUNCNAME() call to fail to compile (due to ambiguity).
         // C3. &U::BOOST_CONVERT_FUNCNAME (a.k.a. &mixin::BOOST_CONVERT_FUNCNAME)
         //     has the type of func_type only if type::BOOST_CONVERT_FUNCNAME does not exist.
-        //     If type::BOOST_CONVERT_FUNCNAME does exist, it is ambiguous and "yes_type test (...)" kicks in.
+        //     If type::BOOST_CONVERT_FUNCNAME does exist, then mixin::BOOST_CONVERT_FUNCNAME is ambiguous
+        //     and "yes_type test (...)" kicks in instead.
 
         struct  base { void BOOST_CONVERT_FUNCNAME(/*C2*/){} };
         struct mixin : public base, public type {};
@@ -57,8 +59,8 @@ namespace boost { namespace cnv
         template <typename type, typename U> U const& operator, (U const&, void_exp_result<type>);
         template <typename type, typename U> U&       operator, (U&,       void_exp_result<type>);
 
-        template <typename src, typename dest> struct clone_constness { typedef dest type; };
-        template <typename src, typename dest> struct clone_constness<src const, dest> { typedef dest const type; };
+        template <typename src, typename dst> struct clone_constness { typedef dst type; };
+        template <typename src, typename dst> struct clone_constness<src const, dst> { typedef dst const type; };
     }
 
     template <typename type, typename func_signature>
@@ -106,7 +108,6 @@ namespace boost { namespace cnv
                                       return_value_check<type, R>::test(
                                       //трюк с 'operator,'
                                       (((mixin_type*) 0)->BOOST_CONVERT_FUNCNAME(*(arg1_type*)0, *(arg2_type*)0), details::void_exp_result<type>())));
-
         };
 
         public:
@@ -118,56 +119,51 @@ namespace boost { namespace cnv
 
 namespace boost { namespace cnv
 {
-    template<typename Converter, typename TypeIn, typename TypeOut, class Enable =void>
-    class is_cnv
+    template<typename, typename, typename, typename =void>
+    struct is_cnv { BOOST_STATIC_CONSTANT(bool, value = false); };
+
+    template<typename CnvRef, typename TypeIn, typename TypeOut>
+    struct is_cnv<CnvRef, TypeIn, TypeOut, typename enable_if<is_reference_wrapper<CnvRef>, void>::type>
     {
-        public: BOOST_STATIC_CONSTANT(bool, value = false);
+        typedef typename unwrap_reference<CnvRef>::type cnv_type;
+
+        BOOST_STATIC_CONSTANT(bool, value = (is_cnv<cnv_type, TypeIn, TypeOut>::value));
     };
 
     template<typename Converter, typename TypeIn, typename TypeOut>
-    class is_cnv<
-        Converter,
-        TypeIn,
-        TypeOut,
-        typename boost::enable_if_c<boost::is_class<Converter>::value,
-        void>::type>
+    struct is_cnv<Converter, TypeIn, TypeOut,
+        typename enable_if_c<is_class<Converter>::value && !is_reference_wrapper<Converter>::value, void>::type>
     {
-        public:
+        typedef Converter cnv_type;
+        typedef void signature_type(TypeIn const&, optional<TypeOut>&);
 
-        BOOST_STATIC_CONSTANT(bool, value = (true));
-//        BOOST_STATIC_CONSTANT(bool, value = (is_callable<Converter, void (TypeIn const&, boost::optional<TypeOut>&)>::value));
+        BOOST_STATIC_CONSTANT(bool, value = (is_callable<cnv_type, signature_type>::value));
     };
 
-    template<typename Converter, typename TypeIn, typename TypeOut>
-    class is_cnv<
-        Converter,
-        TypeIn,
-        TypeOut,
-        typename boost::enable_if_c<boost::is_function<Converter>::value &&
-        boost::function_types::function_arity<Converter>::value == 2,
+    template<typename Function, typename TypeIn, typename TypeOut>
+    struct is_cnv<Function, TypeIn, TypeOut,
+        typename enable_if_c<is_function<Function>::value && function_types::function_arity<Function>::value == 2,
         void>::type>
     {
-        typedef TypeIn                                                      in_type;
-        typedef boost::optional<TypeOut>&                                  out_type;
-        typedef typename boost::function_traits<Converter>::arg1_type  func_in_type;
-        typedef typename boost::function_traits<Converter>::arg2_type func_out_type;
+        typedef TypeIn                                              in_type;
+        typedef optional<TypeOut>&                                 out_type;
+        typedef typename function_traits<Function>::arg1_type  func_in_type;
+        typedef typename function_traits<Function>::arg2_type func_out_type;
 
-        BOOST_STATIC_CONSTANT(bool, p1 = (boost::is_convertible<in_type, func_in_type>::value));
-        BOOST_STATIC_CONSTANT(bool, p2 = (boost::is_same<out_type, func_out_type>::value));
-
-        public:
-
-        BOOST_STATIC_CONSTANT(bool, value = (p1 && p2));
+        BOOST_STATIC_CONSTANT(bool,  in_good = (is_convertible<in_type, func_in_type>::value));
+        BOOST_STATIC_CONSTANT(bool, out_good = (is_same<out_type, func_out_type>::value));
+        BOOST_STATIC_CONSTANT(bool,    value = (in_good && out_good));
     };
 }}
 
 namespace boost { namespace cnv
 {
     template <bool has_operator, typename Functor, typename TypeOut>
-    struct check_functor
-    {
-        static const bool value = false;
-    };
+    struct check_functor { BOOST_STATIC_CONSTANT(bool, value = false); };
+
+    template<typename Func, typename TypeOut, class Enable =void>
+    struct is_fun { BOOST_STATIC_CONSTANT(bool, value = false); };
+
     template <typename Functor, typename TypeOut>
     struct check_functor<true, Functor, TypeOut>
     {
@@ -177,38 +173,25 @@ namespace boost { namespace cnv
         static const bool value = sizeof(yes_type) == sizeof(test(((Functor const*) 0)->operator()()));
     };
 
-    template<typename Func, typename TypeOut, class Enable =void>
-    struct is_fun
-    {
-        BOOST_STATIC_CONSTANT(bool, value = false);
-    };
-
     template<typename Functor, typename TypeOut>
-    struct is_fun<
-        Functor,
-        TypeOut,
-        typename boost::enable_if_c<
-            boost::is_class<Functor>::value &&
-            !boost::is_convertible<Functor, TypeOut>::value,
-        void>::type>
+    struct is_fun<Functor, TypeOut,
+        typename enable_if_c<is_class<Functor>::value && !is_convertible<Functor, TypeOut>::value, void>::type>
     {
         BOOST_STATIC_CONSTANT(bool, value = (check_functor<has_funcname<Functor>::value, Functor, TypeOut>::value));
     };
 
     template<typename Function, typename TypeOut>
-    struct is_fun<
-        Function,
-        TypeOut,
-        typename boost::enable_if_c<
-            boost::function_types::is_function_pointer<Function>::value &&
-            boost::function_types::function_arity<Function>::value == 0 &&
-            !boost::is_same<Function, TypeOut>::value,
+    struct is_fun<Function, TypeOut,
+        typename enable_if_c<
+            function_types::is_function_pointer<Function>::value &&
+            function_types::function_arity<Function>::value == 0 &&
+            !is_same<Function, TypeOut>::value,
         void>::type>
     {
-        typedef TypeOut                                                          out_type;
-        typedef typename boost::function_types::result_type<Function>::type func_out_type;
+        typedef TypeOut                                                   out_type;
+        typedef typename function_types::result_type<Function>::type func_out_type;
 
-        BOOST_STATIC_CONSTANT(bool, value = (boost::is_convertible<func_out_type, out_type>::value));
+        BOOST_STATIC_CONSTANT(bool, value = (is_convertible<func_out_type, out_type>::value));
     };
 }}
 

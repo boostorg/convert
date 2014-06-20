@@ -15,26 +15,48 @@ using std::string;
 static void getting_started_example1()
 {
     //[getting_started_example1
+    try
+    {
+        boost::cnv::lexical_cast cnv;
+
+        int    i1 = boost::lexical_cast<int>("123");
+        int    i2 = boost::convert<int>("123", cnv).value();
+        string s1 = boost::lexical_cast<string>(123);
+        string s2 = boost::convert<string>(123, cnv).value();
+
+        BOOST_TEST(i1 == 123);
+        BOOST_TEST(i2 == 123);
+        BOOST_TEST(s1 == "123");
+        BOOST_TEST(s2 == "123");
+    }
+    catch (std::exception const&)
+    {
+        // Need to be aware and prepared that the conversion requests above can fail.
+        // Ignore this at your peril.
+    }
+    //]
+}
+
+static void getting_started_example2()
+{
+    //[getting_started_example2
     boost::cnv::lexical_cast cnv;
 
-    int    i1 = boost::lexical_cast<int>("123");
-    int    i2 = boost::convert<int>("123", cnv).value();
-    string s1 = boost::lexical_cast<string>(123);
-    string s2 = boost::convert<string>(123, cnv).value();
+    // Do not throw on conversion failure but return fallback values instead.
+    int    i2 = boost::convert<int>("123", cnv).value_or(-1);
+    string s2 = boost::convert<string>(123, cnv).value_or("bad");
 
-    BOOST_TEST(i1 == 123);
     BOOST_TEST(i2 == 123);
-    BOOST_TEST(s1 == "123");
     BOOST_TEST(s2 == "123");
     //]
 }
 
-//[getting_started_headers2
+//[getting_started_headers3
 #include <boost/convert/spirit.hpp>
 //]
-static void getting_started_example2()
+static void getting_started_example3()
 {
-    //[getting_started_example2
+    //[getting_started_example3
     boost::cnv::spirit cnv;
 
     int i1 = boost::lexical_cast<int>("123");
@@ -42,12 +64,12 @@ static void getting_started_example2()
     //]
 }
 
-//[getting_started_headers3
+//[getting_started_headers4
 #include <boost/convert/sstream.hpp>
 //]
-static void getting_started_example3()
+static void getting_started_example4()
 {
-    //[getting_started_example3
+    //[getting_started_example4
     boost::cnv::cstringstream cnv;
 
     try
@@ -69,9 +91,9 @@ static void getting_started_example3()
 
 static
 void
-getting_started_example4()
+getting_started_example5()
 {
-    //[getting_started_example4
+    //[getting_started_example5
     boost::cnv::cstringstream cnv;
 
     int i1 = boost::lexical_cast<int>("123"); // Throws if the conversion fails
@@ -84,7 +106,7 @@ getting_started_example4()
     //]
 }
 
-static void getting_started_example5()
+static void getting_started_example6()
 {
     std::string const        str1 = "123";
     std::string const        str2 = "456";
@@ -92,7 +114,7 @@ static void getting_started_example5()
     int const default_num_windows = 12;
     boost::cnv::cstringstream cnv;
 
-    //[getting_started_example5
+    //[getting_started_example6
 
     int num_threads = boost::convert<int>(str1, cnv(std::hex)).value_or(INT_MAX); // Read as hex
     int num_windows = boost::convert<int>(str2, cnv(std::dec)).value_or(INT_MAX); // Read as decimal
@@ -106,7 +128,7 @@ static void getting_started_example5()
     BOOST_TEST(num_windows == 456);
 }
 
-static void getting_started_example6()
+static void getting_started_example7()
 {
     std::string const        str1 = "123";
     std::string const        str2 = "456";
@@ -114,7 +136,7 @@ static void getting_started_example6()
     int const default_num_windows = 12;
     boost::cnv::cstringstream cnv;
 
-    //[getting_started_example6
+    //[getting_started_example7
 
     int num_threads = boost::convert<int>(str1, cnv(std::hex)).value_or(default_num_threads);
     int num_windows = boost::convert<int>(str2, cnv(std::dec)).value_or(default_num_windows);
@@ -134,4 +156,5 @@ example::getting_started()
     getting_started_example4();
     getting_started_example5();
     getting_started_example6();
+    getting_started_example7();
 }

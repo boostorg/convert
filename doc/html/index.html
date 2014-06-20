@@ -34,8 +34,8 @@
       Deployment</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/getting_started/flexibility_and_adaptability_to_change.html">Flexibility
       and Adaptability to Change</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/getting_started/basic_error_processing.html">Basic
-      Error Processing</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/getting_started/basic_conversion_failure_detection.html">Basic
+      Conversion-Failure Detection</a></span></dt>
 </dl></dd>
 <dt><span class="section"><a href="the_boost_convert_library/better_error_detection.html">Better
     Error Detection</a></span></dt>
@@ -98,16 +98,6 @@
 <dt><span class="section"><a href="index/s17.html">Index</a></span></dt>
 </dl>
 </div>
-<div class="note"><table border="0" summary="Note">
-<tr>
-<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/note.png"></td>
-<th align="left">Note</th>
-</tr>
-<tr><td align="left" valign="top"><p>
-      The described framework has been conditionally accepted into <span class="emphasis"><em>Boost</em></span>
-      with some additional work yet to be done, i.e. changes are to be expected.
-    </p></td></tr>
-</table></div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
 <a name="the_boost_convert_library.rationale"></a><a class="link" href="index.html#the_boost_convert_library.rationale" title="Rationale">Rationale</a>
@@ -122,8 +112,7 @@
 <p>
       The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> library (with its orthogonal
       and extendible design) looked very promising and was by far the preferred candidate
-      compared to others (such as C functions, the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>
-      API, etc., see <a href="http://www.gotw.ca/publications/mill19.htm" target="_top">The
+      compared to others (see <a href="http://www.gotw.ca/publications/mill19.htm" target="_top">The
       String Formatters of Manor Farm</a> by H. Sutter for the discussion of
       alternatives).
     </p>
@@ -142,7 +131,7 @@
         </li>
 <li class="listitem">
           additional flexibility (<span class="emphasis"><em>if</em></span>, <span class="emphasis"><em>when</em></span>
-          and <span class="emphasis"><em>how</em></span> to handle) conversion failures was needed;
+          and <span class="emphasis"><em>how</em></span>) to handle conversion failures was needed;
         </li>
 <li class="listitem">
           additional conversion-related functionality (formatting and locale support)
@@ -151,8 +140,8 @@
 </ul></div>
 <p>
       The original hope was to see <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-      extended to be applicable to a wider range of use-cases. However, after discussions
-      with Kevlin Henney (the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      extended to be applicable to a wider range of deployment scenarious. However,
+      after discussions with Kevlin Henney (the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       author) and in the Boost Developers forum it was collectively decided that
       the requested extensions were not compatible with the original design and the
       idea of what <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> embodied and, therefore, a new
@@ -163,7 +152,7 @@
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: June 19, 2014 at 00:54:12 GMT</small></p></td>
+<td align="left"><p><small>Last revised: June 20, 2014 at 04:21:11 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>

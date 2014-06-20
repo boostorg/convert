@@ -6,6 +6,7 @@ using std::string;
 
 static void process_failure() {}
 static void log(...) {}
+static int fallback_function() { return -1; }
 
 static
 void
@@ -57,6 +58,7 @@ example1()
         int i1 = r1 ? r1.value() : fallback_value;
         int i2 = r2.value_or(fallback_value);
         int i3 = boost::convert<int>(str3, cnv).value_or(fallback_value);
+        int i4 = boost::convert<int>(str3, cnv).value_or_eval(fallback_function);
         //]
     }
 }
@@ -85,7 +87,8 @@ example4()
     // ...proceed
     //]
     //[getting_serious_example6
-    int i2 = boost::convert<int>(str, cnv, fallback_func()); // Fallback functor is called if failed
+    int i2 = boost::convert<int>(str, cnv).value_or_eval(fallback_func()); // Fallback functor is called if failed
+    int i3 = boost::convert<int>(str, cnv, fallback_func()); // Fallback functor is called if failed
     //]
 }
 static
@@ -97,9 +100,9 @@ example5()
     int const      fallback_value = -1;
     //[getting_serious_example7
     // Error-processing behavior are specified clearly and uniformly.
-    // a) Returning the provided fallback value;
-    // b) Calling the provided failure-processing function;
-    // c) Throwing an exception.
+    // a) i1: Returning the provided fallback value;
+    // b) i2: Calling the provided failure-processing function;
+    // c) i3: Throwing an exception.
 
     int i1 = boost::convert<int>(str, cnv, fallback_value); // Fallback value used if failed
     int i2 = boost::convert<int>(str, cnv, fallback_func()); // Fallback functor is called if failed

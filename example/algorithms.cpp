@@ -12,26 +12,26 @@ introduction()
 {
 //[algorithm_introduction
 
-   /*`For example, the following snippet converts an array of integers from their textual hexadecimal
-      representation and assigns INT_MAX to those which fail to convert:
+   /*`For example, the following code converts an array of integers from their textual hexadecimal
+      representation and assigns -1 to those which fail to convert:
    */
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     std::vector<int>             ints;
     boost::cnv::cstringstream     cnv;
 
-    cnv(std::hex)(std::skipws); // Instruct reading hexadecimal, skip white spaces.
+    cnv(std::hex)(std::skipws); // Instruct reading hexadecimal. Skip white spaces.
 
     std::transform(
         strs.begin(),
         strs.end(),
         std::back_inserter(ints),
-        boost::convert<int, std::string>(boost::cref(cnv)).value_or(INT_MAX));
+        boost::convert<int, std::string>(boost::cref(cnv)).value_or(-1));
 
     BOOST_TEST(ints.size() == 3);
     BOOST_TEST(ints[0] ==  5);
     BOOST_TEST(ints[1] == 15);
-    BOOST_TEST(ints[2] == INT_MAX); // Failed conversion
+    BOOST_TEST(ints[2] == -1); // Failed conversion
 //]
 }
 
@@ -160,7 +160,7 @@ example5()
     /*`And, lastly, an example of algorithm-based integer-to-string formatted conversion with
        `std::uppercase` and `std::showbase` formatting applied:
     */
-    boost::array<int, 4>     ints = {{ 15, 16, 17, 18 }};
+    boost::array<int, 3>     ints = {{ 15, 16, 17 }};
     std::vector<std::string> strs;
     boost::cnv::cstringstream cnv;
 
@@ -172,11 +172,10 @@ example5()
         std::back_inserter(strs),
         boost::convert<std::string, int>(boost::cref(cnv)));
 
-    BOOST_TEST(strs.size() == 4);
+    BOOST_TEST(strs.size() == 3);
     BOOST_TEST(strs[0] ==  "0XF");
     BOOST_TEST(strs[1] == "0X10");
     BOOST_TEST(strs[2] == "0X11");
-    BOOST_TEST(strs[3] == "0X12");
     //]
 }
 

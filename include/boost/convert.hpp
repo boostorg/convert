@@ -16,11 +16,6 @@
 #define BOOST_CONVERT_HPP
 
 #include <boost/convert/detail/is.hpp>
-#include <boost/ref.hpp>
-
-#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
-#define BOOST_CONVERT_CXX03
-#endif
 
 namespace boost
 {
@@ -95,10 +90,17 @@ namespace boost
     template<typename TypeOut, typename TypeIn, typename Converter>
     typename boost::enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
     typename boost::cnv::adapter<TypeOut, TypeIn, Converter> >::type
+#ifdef BOOST_CONVERT_CXX11
+    convert(Converter&& cnv)
+    {
+        return boost::cnv::adapter<TypeOut, TypeIn, Converter>(std::forward<Converter>(cnv));
+    }
+#else
     convert(Converter const& cnv)
     {
         return boost::cnv::adapter<TypeOut, TypeIn, Converter>(cnv);
     }
+#endif
 }
 
 namespace boost { namespace cnv
@@ -108,7 +110,11 @@ namespace boost { namespace cnv
     {
         typedef adapter this_type;
 
+#ifdef BOOST_CONVERT_CXX11
+        adapter(Converter&& cnv) : converter_(std::forward<Converter>(cnv)) {}
+#else
         adapter(Converter const& cnv) : converter_(cnv) {}
+#endif
 
         this_type&
         value_or(TypeOut const& fallback)

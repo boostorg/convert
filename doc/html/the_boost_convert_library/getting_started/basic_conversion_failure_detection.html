@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Basic Error Processing</title>
+<title>Basic Conversion-Failure Detection</title>
 <link rel="stylesheet" href="../../boostbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
@@ -15,8 +15,8 @@
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="the_boost_convert_library.getting_started.basic_error_processing"></a><a class="link" href="basic_error_processing.html" title="Basic Error Processing">Basic
-      Error Processing</a>
+<a name="the_boost_convert_library.getting_started.basic_conversion_failure_detection"></a><a class="link" href="basic_conversion_failure_detection.html" title="Basic Conversion-Failure Detection">Basic
+      Conversion-Failure Detection</a>
 </h3></div></div></div>
 <p>
 </p>
@@ -49,12 +49,15 @@
         The <code class="computeroutput"><span class="identifier">i1</span></code> and <code class="computeroutput"><span class="identifier">i2</span></code> deployments look sufficiently close
         and, in fact, are identical behaviorally. Namely, if the requested conversion
         fails, an exception is thrown. The user request -- "<span class="emphasis"><em>convert
-        a string to int</em></span>" -- lacks the description of the failure
+        a string to int</em></span>" -- lacks the description of the conversion-failure
         use-case. Consequently, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
         and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> treat that use-case as "exceptional".
-        The description for <code class="computeroutput"><span class="identifier">i3</span></code> is
-        complete and processed "as ordered" with the provided fallback
-        value returned if the requested conversion fails.
+      </p>
+<p>
+        The <code class="computeroutput"><span class="identifier">i3</span></code> specification, on
+        the other hand, is explicit with regard to the conversion-failure use-case.
+        Consequently, the supplied fallback value is returned if the requested conversion
+        fails.
       </p>
 <p>
         That profoundly basic error detection might be sufficient for a variety of

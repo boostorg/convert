@@ -25,24 +25,18 @@
 </pre>
 <p>
       The signature is <span class="emphasis"><em>functionally-complete</em></span> and is the most
-      efficient in deploying the underlying converter.
-    </p>
-<p>
-      That said, it needs to be acknowledged that <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code>
-      is a fairly new concept and people might feel uncomfortable using it or, alternatively,
-      find it counter-intuitive.
-    </p>
-<p>
-      Consequently, <span class="emphasis"><em>Boost.Convert</em></span> provides an alternative interface:
+      efficient in deploying the underlying converter. That said, the following alternative
+      interface but might be potentially better suitable for certain deployment scenarios
+      (or due to personal preferences):
     </p>
 <pre class="programlisting"><span class="identifier">Out</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">In</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Out</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">fallback_value</span><span class="special">);</span>
 <span class="identifier">Out</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">In</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Functor</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">fallback_functor</span><span class="special">);</span>
 <span class="identifier">Out</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">In</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">throw_on_failure</span><span class="special">);</span>
 </pre>
 <p>
-      which still provides full support for various program flows and various degrees
-      of error-processing but might be potentially better suitable for certain deployment
-      scenarios:
+      It still provides full support for various program flows and various degrees
+      of conversion-failure detection and processing and can be deployed in a similar
+      fashion as follows:
     </p>
 <p>
 </p>
@@ -56,9 +50,9 @@
 <p>
 </p>
 <pre class="programlisting"><span class="comment">// Error-processing behavior are specified clearly and uniformly.</span>
-<span class="comment">// a) Returning the provided fallback value;</span>
-<span class="comment">// b) Calling the provided failure-processing function;</span>
-<span class="comment">// c) Throwing an exception.</span>
+<span class="comment">// a) i1: Returning the provided fallback value;</span>
+<span class="comment">// b) i2: Calling the provided failure-processing function;</span>
+<span class="comment">// c) i3: Throwing an exception.</span>
 
 <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">fallback_value</span><span class="special">);</span> <span class="comment">// Fallback value used if failed</span>
 <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">fallback_func</span><span class="special">());</span> <span class="comment">// Fallback functor is called if failed</span>
@@ -82,19 +76,24 @@
 </tr>
 <tr><td align="left" valign="top">
 <p>
-        A naive expectation might be to see the following signature instead:
+        An expectation might be to see the following signature instead:
       </p>
 <p>
         <span class="emphasis"><em>TypeOut boost::convert(TypeIn const&amp;, Converter const&amp;);</em></span>
       </p>
 <p>
         somewhat similar to what <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-        does. The signature is deceivingly simple and, in reality, it only handles
-        one single deployment scenario, namely, the exception-throwing error-processing
-        process flow. Consequently, in commercial software where process flows vary
-        and reliability and operational continuity are important, that limitation
-        has to be compensated by considerable amount of additional code (like try/catch
-        blocks, etc.).
+        does. The signature is deceivingly simple and, in reality, it can only handle
+        one single deployment scenario; as in the case of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+        that is the exception-throwing conversion-failure detection. Consequently,
+        in commercial software where process flows vary and reliability and operational
+        continuity are important, that limitation often has to be compensated by
+        a considerable amount of additional code (like try/catch blocks, etc.).
+      </p>
+<p>
+        On the other hand, the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
+        signatures (although more verbose) provide full support for various program
+        flows, behavioral unambiguity and readability.
       </p>
 </td></tr>
 </table></div>

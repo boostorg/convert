@@ -21,8 +21,6 @@
     ]
 ]
  
-[note The described framework has been conditionally accepted into ['Boost] with some additional work yet to be done, i.e. changes are to be expected.]
-
 [include rationale.qbk]
 [include introduction.qbk]
 [include getting_started.qbk]

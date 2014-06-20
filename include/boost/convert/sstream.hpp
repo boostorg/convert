@@ -21,7 +21,7 @@ namespace boost { namespace cnv
 }}
 
 template<class Char>
-struct boost::cnv::basic_stringstream
+struct boost::cnv::basic_stringstream : boost::noncopyable
 {
     typedef Char                                                char_type;
     typedef boost::cnv::basic_stringstream<char_type>           this_type;
@@ -36,7 +36,12 @@ struct boost::cnv::basic_stringstream
     :
         stream_(std::ios_base::in | std::ios_base::out)
     {}
-
+#if defined(BOOST_CONVERT_CXX11)
+    basic_stringstream(this_type&& that)
+    :
+        stream_(std::move(that.stream_))
+    {}
+#endif
     template<typename TypeIn>
     typename boost::enable_if_c<!cnv::is_any_string<TypeIn>::value, void>::type
     operator()(TypeIn const& value_in, boost::optional<string_type>& string_out) const

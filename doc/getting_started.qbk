@@ -14,35 +14,41 @@
 [endsect]
 [section Flexibility and Adaptability to Change]
 
-Sooner or later these qualities become important during development or in the maintenance phase when, say, the code above is identified as too slow. Then the performance could be improved with minimal effort by replacing the original converter:
+Sooner or later (during development or in the maintenance phase) these qualities become important when, say, the program flow favors a non-throwing behavior:
 
-[getting_started_headers2]
 [getting_started_example2]
 
-If, instead, the requirements change to accept more user-input formats or to write in a certain format, then, again, that could be achieved with another converter:
+Or, when the code is identified as too slow, the performance could be improved with minimal effort by replacing the original converter:
 
 [getting_started_headers3]
 [getting_started_example3]
 
-[endsect]
-[section Basic Error Processing]
+If, instead, the requirements change and legitimize more lenient user inputs or require a certain output format, then, again, that could be achieved with minimal effort:
 
+[getting_started_headers4]
 [getting_started_example4]
+
+[endsect]
+[section Basic Conversion-Failure Detection]
+
+[getting_started_example5]
 
 The above calls can be interpreted as 
 
 * "['convert a string to int]" for `i1` and `i2` and 
 * "['convert a string to int and return -1 if the conversion fails]" for `i3`. 
 
-The `i1` and `i2` deployments look sufficiently close and, in fact, are identical behaviorally. Namely, if the requested conversion fails, an exception is thrown. The user request -- "['convert a string to int]" -- lacks the description of the failure use-case. Consequently, `boost::lexical_cast` and `boost::convert` treat that use-case as "exceptional". The description for `i3` is complete and processed "as ordered" with the provided fallback value returned if the requested conversion fails. 
+The `i1` and `i2` deployments look sufficiently close and, in fact, are identical behaviorally. Namely, if the requested conversion fails, an exception is thrown. The user request -- "['convert a string to int]" -- lacks the description of the conversion-failure use-case. Consequently, `boost::lexical_cast` and `boost::convert` treat that use-case as "exceptional". 
+
+The `i3` specification, on the other hand, is explicit with regard to the conversion-failure use-case. Consequently, the supplied fallback value is returned if the requested conversion fails. 
 
 That profoundly basic error detection might be sufficient for a variety of conversion deployments. For example:
 
-[getting_started_example5]
+[getting_started_example6]
 
 Or even shorter, if we do not care logging:
 
-[getting_started_example6]
+[getting_started_example7]
 
 So far the deployment of `boost::convert` seems more flexible, more compact and natural (your mileage may vary) and potentially more efficient compared to "raw" `boost::lexical_cast` deployment which achieves similar (excluding formatting) results with:
 
