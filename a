@@ -1,0 +1,84 @@
+Boost Inspection Report
+Run Date: 13:04:28 UTC, Friday 20 June 2014
+
+An inspection program <http://www.boost.org/tools/inspect/index.html>
+checks each file in the current Boost CVS for various problems,
+generating an HTML page as output.
+
+Totals:
+  77 files scanned
+  9 directories scanned (including root)
+  11 problems reported
+
+
+Problem counts:
+  5 files missing Boost license info or having wrong reference text
+  2 files missing copyright notice
+  0 files with invalid line endings
+  0 files that don't end with a newline
+  0 bookmarks with invalid characters
+  0 duplicate bookmarks
+  0 invalid urls
+  0 broken links
+  0 unlinked files
+  4 file and directory name issues
+  0 files with tabs
+  0 files with non-ASCII chars
+  0 files with Apple macros
+  0 files with a C-style assert macro
+  0 files with a deprecated BOOST macro
+  0 violations of the Boost min/max guidelines
+  0 usages of unnamed namespaces in headers (including .ipp files)
+
+Worst Offenders:
+boost-root 8
+doc 3
+
+Summary:
+  boost-root (8)
+  doc (3)
+
+Details:
+  *Lic* missing Boost license info, or wrong reference text
+  *C* missing copyright notice
+  *EOL* invalid (cr only) line-ending
+  *END* file doesn't end with a newline
+  *LINK* invalid bookmarks, duplicate bookmarks, invalid urls, broken links, unlinked files
+  *N* file and directory name issues
+  *Tab* tabs in file
+  *ASCII* non-ASCII chars in file
+  *APPLE-MACROS* calls to Apple's debugging macros in file
+  *ASSERT-MACROS* presence of C-style assert macro in file (use BOOST_ASSERT instead)
+  *DEPRECATED-MACROS* presence of deprecated BOOST macro in file (see docs for replacements)
+  *M* uses of min or max that have not been protected from the min/max macros, or unallowed #undef-s
+  *U* unnamed namespace in header
+
+Directories with a file named "boost-no-inspect" will not be inspected.
+Files containing "boost-no-inspect" will not be inspected.
+
+|boost-root|
+  .cproject:
+    *N* file or directory name begins with an unacceptable character
+  .gitignore:
+    *N* file or directory name begins with an unacceptable character
+  .project:
+    *N* file or directory name begins with an unacceptable character
+  Jamfile.v2:
+    *Lic*
+  Jamroot.jam:
+    *Lic*
+  a~:
+    *N* file or directory name contains unacceptable character '~'
+  index.html:
+    *C*
+    *Lic*
+
+|doc|
+  doc/Jamfile.v2:
+    *Lic*
+  doc/convert_ref.xml:
+    *C*
+    *Lic*
+
+
+

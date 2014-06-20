@@ -1,3 +1,9 @@
+[/
+  Copyright (c) Vladimir Batov 2009-2014
+  Distributed under the Boost Software License, Version 1.0.
+  See copy at http://www.boost.org/LICENSE_1_0.txt.
+]
+
 [section Getting Started]
 
 [note Given the ubiquity of `boost::lexical_cast` and the familiarity of the programming community with it, here and further in the documentation `boost::lexical_cast` is often mentioned as a reference.]

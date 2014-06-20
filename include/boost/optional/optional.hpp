@@ -842,12 +842,12 @@ class optional : public optional_detail::optional_base<T>
     optional ( optional const& rhs ) : base( static_cast<base const&>(rhs) ) {}
 
 #ifndef  BOOST_NO_CXX11_RVALUE_REFERENCES
-	// Creates a deep move of another optional<T>
-	// Can throw if T::T(T&&) does
-	optional ( optional && rhs ) 
-	  BOOST_NOEXCEPT_IF(::boost::is_nothrow_move_constructible<T>::value)
-	  : base( boost::move(rhs) ) 
-	{}
+    // Creates a deep move of another optional<T>
+    // Can throw if T::T(T&&) does
+    optional ( optional && rhs )
+      BOOST_NOEXCEPT_IF(::boost::is_nothrow_move_constructible<T>::value)
+      : base( boost::move(rhs) )
+    {}
 
 #endif
    // No-throw (assuming T::~T() doesn't)
@@ -915,7 +915,7 @@ class optional : public optional_detail::optional_base<T>
 #ifndef  BOOST_NO_CXX11_RVALUE_REFERENCES
     // Assigns from another optional<T> (deep-moves the rhs value)
     optional& operator= ( optional && rhs ) 
-	  BOOST_NOEXCEPT_IF(::boost::is_nothrow_move_constructible<T>::value && ::boost::is_nothrow_move_assignable<T>::value)
+      BOOST_NOEXCEPT_IF(::boost::is_nothrow_move_constructible<T>::value && ::boost::is_nothrow_move_assignable<T>::value)
       {
         this->assign( static_cast<base &&>(rhs) ) ;
         return *this ;
@@ -978,7 +978,7 @@ class optional : public optional_detail::optional_base<T>
 #endif
 
     void swap( optional & arg )
-	  BOOST_NOEXCEPT_IF(::boost::is_nothrow_move_constructible<T>::value && ::boost::is_nothrow_move_assignable<T>::value)
+      BOOST_NOEXCEPT_IF(::boost::is_nothrow_move_constructible<T>::value && ::boost::is_nothrow_move_assignable<T>::value)
       {
         // allow for Koenig lookup
         boost::swap(*this, arg);

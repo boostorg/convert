@@ -55,7 +55,7 @@ namespace boost { namespace cnv
     {
         template <typename type> class void_exp_result {};
 
-        //Перегрузка оператора запятая 'operator,'
+        // Overloaded comma operator.
         template <typename type, typename U> U const& operator, (U const&, void_exp_result<type>);
         template <typename type, typename U> U&       operator, (U&,       void_exp_result<type>);
 
@@ -72,23 +72,18 @@ namespace boost { namespace cnv
             no_type BOOST_CONVERT_FUNCNAME(...) const;
         };
 
-        //Учтем возможную константность типа класса
         typedef typename details::clone_constness<type, mixin>::type mixin_type;
 
-        //Проверка результата выражения
         template <typename T, typename due_type>
         struct return_value_check
         {
-            //явные перегрузки в случае, если
-            //due_type имеет шаблонный конструктор
+            // Overloads in case due_type has template constructor
             static no_type  test (no_type);
             static no_type  test (details::void_exp_result<type>);
             static no_type  test (...);
             static yes_type test (due_type);
         };
 
-        //Проверка результата выражения в случае,
-        //если не интересует возвращаемый тип метода
         template <typename T>
         struct return_value_check<T, void>
         {
@@ -106,7 +101,7 @@ namespace boost { namespace cnv
 
             static const bool value = sizeof(yes_type) == sizeof(
                                       return_value_check<type, R>::test(
-                                      //трюк с 'operator,'
+                                      // Applying comma operator
                                       (((mixin_type*) 0)->BOOST_CONVERT_FUNCNAME(*(arg1_type*)0, *(arg2_type*)0), details::void_exp_result<type>())));
         };
 
