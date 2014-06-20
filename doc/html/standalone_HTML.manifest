@@ -29,8 +29,13 @@ convert_reference.html
 boost/cnv/adapter.html
 boost/throw_on_failure_type.html
 boost/throw_on_failure.html
+<<<<<<< Updated upstream
 boost/convert_idp31442020.html
 boost/convert_idp31453924.html
+=======
+boost/convert_id285317.html
+boost/convert_id285442.html
+>>>>>>> Stashed changes
 header/boost/convert/lexical_cast_hpp.html
 boost/cnv/lexical_cast.html
 header/boost/convert/parameters_hpp.html

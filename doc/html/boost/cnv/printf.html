@@ -3,7 +3,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Struct printf</title>
 <link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<<<<<<< Updated upstream
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+=======
+<meta name="generator" content="DocBook XSL Stylesheets V1.77.1">
+>>>>>>> Stashed changes
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../../header/boost/convert/printf_hpp.html" title="Header &lt;boost/convert/printf.hpp&gt;">
 <link rel="prev" href="../../header/boost/convert/printf_hpp.html" title="Header &lt;boost/convert/printf.hpp&gt;">
@@ -28,6 +32,7 @@
   <span class="keyword">typedef</span> <a class="link" href="printf.html" title="Struct printf">boost::cnv::printf</a> <a name="boost.cnv.printf.this_type"></a><span class="identifier">this_type</span><span class="special">;</span>
   <span class="keyword">typedef</span> <span class="emphasis"><em><span class="identifier">unspecified</span></em></span>        <a name="boost.cnv.printf.base_type"></a><span class="identifier">base_type</span><span class="special">;</span>
 
+<<<<<<< Updated upstream
   <span class="comment">// <a class="link" href="printf.html#idp31470620-bb">public member functions</a></span>
   <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeIn<span class="special">&gt;</span> 
     <span class="identifier">boost</span><span class="special">::</span><span class="identifier">disable_if</span><span class="special">&lt;</span> <span class="identifier">cnv</span><span class="special">::</span><span class="identifier">is_any_string</span><span class="special">&lt;</span> <span class="identifier">TypeIn</span> <span class="special">&gt;</span><span class="special">,</span> <span class="keyword">void</span> <span class="special">&gt;</span><span class="special">::</span><span class="identifier">type</span> 
@@ -42,6 +47,22 @@
   <span class="comment">// <a class="link" href="printf.html#idp31475844-bb">private member functions</a></span>
   <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> Type<span class="special">&gt;</span> <span class="keyword">int</span> <a class="link" href="printf.html#idp31476028-bb"><span class="identifier">pos</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
   <span class="keyword">char</span> <span class="keyword">const</span> <span class="special">*</span> <a class="link" href="printf.html#idp31476932-bb"><span class="identifier">format</span></a><span class="special">(</span><span class="keyword">int</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+=======
+  <span class="comment">// <a class="link" href="printf.html#id285742-bb">public member functions</a></span>
+  <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeIn<span class="special">&gt;</span> 
+    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">disable_if</span><span class="special">&lt;</span> <span class="identifier">cnv</span><span class="special">::</span><span class="identifier">is_any_string</span><span class="special">&lt;</span> <span class="identifier">TypeIn</span> <span class="special">&gt;</span><span class="special">,</span> <span class="keyword">void</span> <span class="special">&gt;</span><span class="special">::</span><span class="identifier">type</span> 
+    <a class="link" href="printf.html#id285713-bb"><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span></a><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="special">&gt;</span> <span class="special">&amp;</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeOut<span class="special">&gt;</span> 
+    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">disable_if</span><span class="special">&lt;</span> <span class="identifier">cnv</span><span class="special">::</span><span class="identifier">is_any_string</span><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span><span class="special">,</span> <span class="keyword">void</span> <span class="special">&gt;</span><span class="special">::</span><span class="identifier">type</span> 
+    <a class="link" href="printf.html#id285770-bb"><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span></a><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span> <span class="special">&amp;</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeOut<span class="special">&gt;</span> 
+    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">disable_if</span><span class="special">&lt;</span> <span class="identifier">cnv</span><span class="special">::</span><span class="identifier">is_any_string</span><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span><span class="special">,</span> <span class="keyword">void</span> <span class="special">&gt;</span><span class="special">::</span><span class="identifier">type</span> 
+    <a class="link" href="printf.html#id285779-bb"><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span></a><span class="special">(</span><span class="keyword">char</span> <span class="keyword">const</span> <span class="special">*</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span> <span class="special">&amp;</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+
+  <span class="comment">// <a class="link" href="printf.html#id285812-bb">private member functions</a></span>
+  <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> Type<span class="special">&gt;</span> <span class="keyword">int</span> <a class="link" href="printf.html#id285824-bb"><span class="identifier">pos</span></a><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <span class="keyword">char</span> <span class="keyword">const</span> <span class="special">*</span> <a class="link" href="printf.html#id285800-bb"><span class="identifier">format</span></a><span class="special">(</span><span class="keyword">int</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+>>>>>>> Stashed changes
 
   <span class="comment">// public data members</span>
    <span class="identifier">CONVERT_FUNC_SET_BASE</span><span class="special">;</span>
@@ -49,6 +70,7 @@
    <span class="identifier">CONVERT_FUNC_SET_UPPERCASE</span><span class="special">;</span>
 <span class="special">}</span><span class="special">;</span></pre></div>
 <div class="refsect1">
+<<<<<<< Updated upstream
 <a name="idp59651092"></a><h2>Description</h2>
 <div class="refsect2">
 <a name="idp59651300"></a><h3>
@@ -73,6 +95,32 @@
 <div class="orderedlist"><ol class="orderedlist" type="1">
 <li class="listitem"><pre class="literallayout"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> Type<span class="special">&gt;</span> <span class="keyword">int</span> <a name="idp31476028-bb"></a><span class="identifier">pos</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
 <li class="listitem"><pre class="literallayout"><span class="keyword">char</span> <span class="keyword">const</span> <span class="special">*</span> <a name="idp31476932-bb"></a><span class="identifier">format</span><span class="special">(</span><span class="keyword">int</span> pos<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+=======
+<a name="id950321"></a><h2>Description</h2>
+<div class="refsect2">
+<a name="id950326"></a><h3>
+<a name="id285742-bb"></a><code class="computeroutput">printf</code> public member functions</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1">
+<li class="listitem"><pre class="literallayout"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeIn<span class="special">&gt;</span> 
+  <span class="identifier">boost</span><span class="special">::</span><span class="identifier">disable_if</span><span class="special">&lt;</span> <span class="identifier">cnv</span><span class="special">::</span><span class="identifier">is_any_string</span><span class="special">&lt;</span> <span class="identifier">TypeIn</span> <span class="special">&gt;</span><span class="special">,</span> <span class="keyword">void</span> <span class="special">&gt;</span><span class="special">::</span><span class="identifier">type</span> 
+  <a name="id285713-bb"></a><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span> value_in<span class="special">,</span> 
+             <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="special">&gt;</span> <span class="special">&amp;</span> result_out<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeOut<span class="special">&gt;</span> 
+  <span class="identifier">boost</span><span class="special">::</span><span class="identifier">disable_if</span><span class="special">&lt;</span> <span class="identifier">cnv</span><span class="special">::</span><span class="identifier">is_any_string</span><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span><span class="special">,</span> <span class="keyword">void</span> <span class="special">&gt;</span><span class="special">::</span><span class="identifier">type</span> 
+  <a name="id285770-bb"></a><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span> value_in<span class="special">,</span> 
+             <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span> <span class="special">&amp;</span> result_out<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeOut<span class="special">&gt;</span> 
+  <span class="identifier">boost</span><span class="special">::</span><span class="identifier">disable_if</span><span class="special">&lt;</span> <span class="identifier">cnv</span><span class="special">::</span><span class="identifier">is_any_string</span><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span><span class="special">,</span> <span class="keyword">void</span> <span class="special">&gt;</span><span class="special">::</span><span class="identifier">type</span> 
+  <a name="id285779-bb"></a><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span><span class="special">(</span><span class="keyword">char</span> <span class="keyword">const</span> <span class="special">*</span> value_in<span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span> <span class="special">&amp;</span> result_out<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+</ol></div>
+</div>
+<div class="refsect2">
+<a name="id948618"></a><h3>
+<a name="id285812-bb"></a><code class="computeroutput">printf</code> private member functions</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1">
+<li class="listitem"><pre class="literallayout"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> Type<span class="special">&gt;</span> <span class="keyword">int</span> <a name="id285824-bb"></a><span class="identifier">pos</span><span class="special">(</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+<li class="listitem"><pre class="literallayout"><span class="keyword">char</span> <span class="keyword">const</span> <span class="special">*</span> <a name="id285800-bb"></a><span class="identifier">format</span><span class="special">(</span><span class="keyword">int</span> pos<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
+>>>>>>> Stashed changes
 </ol></div>
 </div>
 </div>
