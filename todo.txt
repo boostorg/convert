@@ -17,8 +17,6 @@ the files, functions etc.
 
 
 * higher density of comments if any other authors ever need to work on the library 
-* I would like to find "convert.hpp" DONE
-* tabs and spaces DONE
 * Some comments of the //-comment-type begin on the zero'th column, whereas some begin at indented locations. That is not clean.
 * There is a rather high number of comments of the type TBD. These are good for noting future goals, but also lend an uneasy feeling about the stability of the code.
 * It might be useful to establish the range of application and the differences between convert and lexical_cast.
@@ -40,9 +38,6 @@ For instance,
   * convert could have a conversion operator for the OutType, which does
     the same as convert::value()
 
-
-
-OK with optional as a return type: Alex, Andrzej, Matus, Jeroen (can live with it and slowly warming up to)
 
 
 
