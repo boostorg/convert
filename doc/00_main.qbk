@@ -29,7 +29,7 @@
 [include algorithms.qbk]
 [include converters.qbk]
 [include lexcast_converter.qbk]
-[include sstream_converter.qbk]
+[include stream_converter.qbk]
 [include performance.qbk]
 [include other.qbk]
 [include design_notes.qbk]

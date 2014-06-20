@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Introduction</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
@@ -21,7 +21,7 @@
       <span class="emphasis"><em>Boost.Convert</em></span> builds on the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       experience and takes those type conversion/transformation-related ideas further
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           to be applicable to a wider range of conversion-related deployment scenarios,
         </li>
@@ -40,7 +40,7 @@
 <p>
       <span class="emphasis"><em>Boost.Convert</em></span> consists of two components:
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
           user interface;
@@ -55,14 +55,14 @@
       It implements new and familiar conversion/transformation-related behavior such
       as:
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           flexible exception-throwing, delayed-throwing and non-throwing failed-conversion
           behavior;
         </li>
 <li class="listitem">
           four types of the conversion-failure <span class="emphasis"><em>detection</em></span>:
-          <div class="itemizedlist"><ul class="itemizedlist" type="circle">
+          <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; ">
 <li class="listitem">
                 within one process flow -- basic and generic;
               </li>
@@ -73,7 +73,7 @@
         </li>
 <li class="listitem">
           flexibility of conversion-failure <span class="emphasis"><em>processing</em></span> via:
-          <div class="itemizedlist"><ul class="itemizedlist" type="circle">
+          <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; ">
 <li class="listitem">
                 an exception thrown;
               </li>
@@ -99,7 +99,7 @@
       over time. With the current proposal a few proof-of-the-concept string-to-type
       (and type-to-string) converters are supplied:
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>-based,
         </li>
@@ -124,7 +124,7 @@
       The <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>-based converter draws on the standard
       <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">streams</span></code> functionality and provides:
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           string-to-type and type-to-string conversions;
         </li>
@@ -147,7 +147,7 @@
 </p>
 <pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">3</span><span class="special">&gt;</span> <span class="identifier">strs</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">" 5"</span><span class="special">,</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"not an int"</span> <span class="special">}};</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>             <span class="identifier">ints</span><span class="special">;</span>
-<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span>     <span class="identifier">cnv</span><span class="special">;</span>
+<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span>           <span class="identifier">cnv</span><span class="special">;</span>
 
 <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">skipws</span><span class="special">);</span> <span class="comment">// Instruct reading hexadecimal. Skip white spaces.</span>
 

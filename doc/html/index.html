@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Chapter&#160;1.&#160;The Boost Convert Library 2.0</title>
 <link rel="stylesheet" href="boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="next" href="the_boost_convert_library/introduction.html" title="Introduction">
 </head>
@@ -25,7 +25,7 @@
 </div></div>
 <div class="toc">
 <p><b>Table of Contents</b></p>
-<dl>
+<dl class="toc">
 <dt><span class="section"><a href="index.html#the_boost_convert_library.rationale">Rationale</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/introduction.html">Introduction</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/getting_started.html">Getting Started</a></span></dt>
@@ -56,6 +56,16 @@
       of User-Defined Types</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/std__stringstream_based_converter/the___default_constructible__type_requirement.html">The
       <span class="emphasis"><em>Default Constructible</em></span> Type Requirement</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/std__stringstream_based_converter/formatting_examples.html">Formatting
+      Examples</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="the_boost_convert_library/std__stringstream_based_converter/formatting_examples.html#the_boost_convert_library.std__stringstream_based_converter.formatting_examples.change_numeric_presentation_base__std__dec__std__hex__std__oct_">Change
+        Numeric Presentation Base (std::dec, std::hex, std::oct)</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/std__stringstream_based_converter/formatting_examples/change_boolean_representation__std__boolalpha__std__noboolalpha_.html">Change
+        Boolean Representation (std::boolalpha, std::noboolalpha)</a></span></dt>
+<dt><span class="section"><a href="the_boost_convert_library/std__stringstream_based_converter/formatting_examples/change_processing_of_leading_white_space_characters__std__skipws__std__noskipws_.html">Change
+        Processing of Leading White-Space Characters (std::skipws, std::noskipws)</a></span></dt>
+</dl></dd>
 </dl></dd>
 <dt><span class="section"><a href="the_boost_convert_library/performance.html">Performance</a></span></dt>
 <dt><span class="section"><a href="the_boost_convert_library/boost_convert_performance_overhead.html">Boost.Convert
@@ -89,7 +99,7 @@
 <dd><dl></dl></dd>
 <dt><span class="section"><a href="header/boost/convert/spirit_hpp.html">Header &lt;boost/convert/spirit.hpp&gt;</a></span></dt>
 <dd><dl></dl></dd>
-<dt><span class="section"><a href="header/boost/convert/sstream_hpp.html">Header &lt;boost/convert/sstream.hpp&gt;</a></span></dt>
+<dt><span class="section"><a href="header/boost/convert/stream_hpp.html">Header &lt;boost/convert/stream.hpp&gt;</a></span></dt>
 <dd><dl></dl></dd>
 <dt><span class="section"><a href="header/boost/convert/strtol_hpp.html">Header &lt;boost/convert/strtol.hpp&gt;</a></span></dt>
 <dd><dl></dl></dd>
@@ -119,7 +129,7 @@
 <p>
       Unfortunately,
     </p>
-<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           many deployed user types simply did not meet <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
           requirements (namely, <span class="emphasis"><em>Default Constructibility</em></span>);
@@ -152,7 +162,7 @@
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: June 20, 2014 at 04:21:11 GMT</small></p></td>
+<td align="left"><p><small>Last revised: June 20, 2014 at 11:22:50 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>

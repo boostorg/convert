@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Boost.Convert with Standard Algorithms</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="prev" href="return_value.html" title="Return Value">
@@ -78,7 +78,7 @@
 </p>
 <pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*,</span> <span class="number">3</span><span class="special">&gt;</span> <span class="identifier">strs</span> <span class="special">=</span> <span class="special">{{</span> <span class="string">" 5"</span><span class="special">,</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"not an int"</span> <span class="special">}};</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>             <span class="identifier">ints</span><span class="special">;</span>
-<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span>     <span class="identifier">cnv</span><span class="special">;</span>
+<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span>           <span class="identifier">cnv</span><span class="special">;</span>
 
 <span class="keyword">try</span>
 <span class="special">{</span>
@@ -121,15 +121,15 @@
 </tr>
 <tr><td align="left" valign="top">
 <p>
-        One notable difference in the deployment of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span></code> with algorithms is the use
-        of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cref</span></code> (or <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">ref</span></code> in
+        One notable difference in the deployment of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code> with algorithms is the use of
+        <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cref</span></code> (or <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">ref</span></code> in
         C++11).
       </p>
 <p>
         It needs to be remembered that with standard algorithms the deployed converter
         needs to be copyable or moveable (C++11) and is, in fact, copied or moved
         by the respective algorithm before being used. Given that <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">cstringstream</span></code>
-        is not copyable, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span></code>
+        is not copyable, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code>
         is not copyable either. That limitation is routinely worked around using
         <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">ref</span></code>.
       </p>
@@ -144,7 +144,7 @@
 </p>
 <pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">,</span> <span class="number">3</span><span class="special">&gt;</span>     <span class="identifier">ints</span> <span class="special">=</span> <span class="special">{{</span> <span class="number">15</span><span class="special">,</span> <span class="number">16</span><span class="special">,</span> <span class="number">17</span> <span class="special">}};</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;</span> <span class="identifier">strs</span><span class="special">;</span>
-<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstringstream</span> <span class="identifier">cnv</span><span class="special">;</span>
+<span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span>       <span class="identifier">cnv</span><span class="special">;</span>
 
 <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">uppercase</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">showbase</span><span class="special">);</span>
 

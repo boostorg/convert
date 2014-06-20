@@ -39,7 +39,7 @@ namespace boost
     /// @brief The main Boost.Convert deployment interface
     /// @details This is the Boost.Convert main interface. For example,
     /// @code
-    ///    boost::cnv::cstringstream cnv;
+    ///    boost::cnv::cstream cnv;
     ///
     ///    int    i1 = boost::convert<int>(" 12", cnv(std::skipws)).value();
     ///    int    i2 = boost::convert<int>("uhm", cnv).value_or(-1);
@@ -82,7 +82,7 @@ namespace boost
     /// @code
     ///    boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     ///    std::vector<int>             ints;
-    ///    boost::cnv::cstringstream     cnv;
+    ///    boost::cnv::cstream           cnv;
     ///
     ///    cnv(std::hex)(std::skipws);
     ///

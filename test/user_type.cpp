@@ -12,7 +12,7 @@ static
 void
 test_user_type()
 {
-    boost::cnv::cstringstream cnv; // stringstream-based char converter
+    boost::cnv::cstream cnv; // stringstream-based char converter
 
     direction const            up_dir1 = direction::up;
     direction const            dn_dir1 = direction::dn;
@@ -48,7 +48,7 @@ test_algorithms()
     std::vector<std::string>            strs1;
     std::vector<std::string>            strs2;
     std::vector<std::string>            strs3;
-    boost::cnv::cstringstream           cnv;
+    boost::cnv::cstream                   cnv;
 
     std::transform(chgs1.begin(), chgs1.end(), std::back_inserter(strs1), boost::convert<std::string, change>(boost::cref(cnv)));
     std::transform(chgs2.begin(), chgs2.end(), std::back_inserter(strs2), boost::convert<std::string, change>(boost::cref(cnv)));

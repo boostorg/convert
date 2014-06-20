@@ -65,12 +65,12 @@ static void getting_started_example3()
 }
 
 //[getting_started_headers4
-#include <boost/convert/sstream.hpp>
+#include <boost/convert/stream.hpp>
 //]
 static void getting_started_example4()
 {
     //[getting_started_example4
-    boost::cnv::cstringstream cnv;
+    boost::cnv::cstream cnv;
 
     try
     {
@@ -94,7 +94,7 @@ void
 getting_started_example5()
 {
     //[getting_started_example5
-    boost::cnv::cstringstream cnv;
+    boost::cnv::cstream cnv;
 
     int i1 = boost::lexical_cast<int>("123"); // Throws if the conversion fails
     int i2 = boost::convert<int>("123", cnv).value(); // Throws if the conversion fails
@@ -112,7 +112,7 @@ static void getting_started_example6()
     std::string const        str2 = "456";
     int const default_num_threads = 11;
     int const default_num_windows = 12;
-    boost::cnv::cstringstream cnv;
+    boost::cnv::cstream       cnv;
 
     //[getting_started_example6
 
@@ -134,7 +134,7 @@ static void getting_started_example7()
     std::string const        str2 = "456";
     int const default_num_threads = 11;
     int const default_num_windows = 12;
-    boost::cnv::cstringstream cnv;
+    boost::cnv::cstream       cnv;
 
     //[getting_started_example7
 

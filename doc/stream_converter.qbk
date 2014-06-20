@@ -1,8 +1,8 @@
 [section std::stringstream-Based Converter]
 
-[import ../example/sstream.cpp]
+[import ../example/stream.cpp]
 [import ../test/test.hpp]
-[import ../test/sstream.cpp]
+[import ../test/stream.cpp]
 
 The purpose of the converter is to provide conversion-related formatting and locale support not available with `boost::lexical_cast`. Advantages of deploying a `std::stream`-based conversion engine are 
 
@@ -14,8 +14,8 @@ The purpose of the converter is to provide conversion-related formatting and loc
 
 The converter is deployed as follows:
 
-[sstream_headers1]
-[sstream_example1]
+[stream_headers1]
+[stream_example1]
 
 [section Formatting Support]
 
@@ -23,28 +23,28 @@ Formatting support is provided by the underlying `std::stringstream`. Consequent
 
 The following code demonstrates how `char` and `wchar_t` strings can be read in the `std::hex` or `std::dec` format:
 
-[sstream_example2]
+[stream_example2]
 
 For batch-processing it might be more efficient to configure the converter once:
 
-[sstream_example3]
+[stream_example3]
 
 An alternative (generic) formatting interface is currently being extended and explored:
 
-[sstream_headers2]
-[sstream_example4]
+[stream_headers2]
+[stream_example4]
  
 which is equivalent to the following ['manipulator]-based variant:
  
-[sstream_example5]
+[stream_example5]
  
 [endsect]
 [section Locale Support]
 
 Locale support is similar to the formatting support as demonstrated by the following example (the Linux version):
 
-[sstream_headers2]
-[sstream_locale_example1]
+[stream_headers2]
+[stream_locale_example1]
 
 [endsect]
 [section Integration of User-Defined Types]
@@ -65,12 +65,12 @@ For example,
 
 That allows handling conversions of user-defined types with plugged-in `std::stringstream`-based converter:
 
-[sstream_example6]
+[stream_example6]
 
 [endsect]
 [section The ['Default Constructible] Type Requirement]
 
-Due to `std::sstream` design it requires an ['initialized] temporary storage of ['TypeOut] type to put the result of the requested conversion to. The `std::sstream`-based converter achieves that with:
+Due to `std::stream` design it requires an ['initialized] temporary storage of ['TypeOut] type to put the result of the requested conversion to. The `std::stream`-based converter achieves that with:
 
  istream_type& istream = stream_;
  TypeOut        result = boost::make_default<TypeOut>();
@@ -86,7 +86,7 @@ The temporary storage `result` is initialized with `boost::make_default()` the d
 
 Consequently, 
 
-[note the `std::sstream`-based converter (and converters like it) require the ['TypeOut] type to be ['Default Constructible] by default.]  
+[note the `std::stream`-based converter (and converters like it) require the ['TypeOut] type to be ['Default Constructible] by default.]  
 
 That said, a well-designed type (in my opinion, anyway) should only have meaningful and unambiguous constructors... and the default constructor is not always and necessarily one of them. Consider the following as one such example:
 
@@ -101,10 +101,26 @@ However, ['Boost.Convert] is able to handle such a type with little help from th
 
 [direction_declaration_make_default]
 
-Now such class can be deployed with the `std::sstream`-based converter:
+Now such class can be deployed with the `std::stream`-based converter:
 
  direction dir1 = boost::convert<direction>(str).value(); // Compiles
  direction dir2 = boost::lexical_cast<direction>(str); // Does not compile
 
 [endsect]
+[section Formatting Examples]
+[section Change Numeric Presentation Base (std::dec, std::hex, std::oct)]
+[stream_using]
+[stream_numbase_example]
 [endsect]
+[section Change Boolean Representation (std::boolalpha, std::noboolalpha)]
+[stream_using]
+[stream_boolalpha_example]
+[endsect]
+[section Change Processing of Leading White-Space Characters (std::skipws, std::noskipws)]
+[stream_using]
+[stream_skipws_example]
+[endsect]
+[endsect]
+[endsect]
+
+
