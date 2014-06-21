@@ -8,6 +8,10 @@
 #include <boost/convert/detail/base.hpp>
 #include <stdio.h>
 
+#if defined(_MSC_VER)
+#   define snprintf _snprintf
+#endif
+
 namespace boost { namespace cnv
 {
     struct printf;

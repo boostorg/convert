@@ -15,8 +15,6 @@
 #   pragma warning(disable: 4348)
 #   pragma warning(disable: 4800)
 #   pragma warning(disable: 4996)
-
-#   define snprintf _snprintf
 #endif
 
 #if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
