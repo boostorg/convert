@@ -7,6 +7,7 @@
 
 #include <boost/convert/detail/base.hpp>
 #include <stdlib.h>
+#include <limits.h>
 
 namespace boost { namespace cnv
 {

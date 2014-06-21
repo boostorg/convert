@@ -6,6 +6,14 @@
 #include "./test.hpp"
 #include "./str_to_int.hpp"
 
+#include <boost/convert.hpp>
+#include <boost/convert/stream.hpp>
+#include <boost/convert/printf.hpp>
+#include <boost/convert/strtol.hpp>
+#include <boost/convert/lexical_cast.hpp>
+
+#include <boost/detail/lightweight_test.hpp>
+
 namespace arg = boost::cnv::parameter;
 
 using std::string;
@@ -50,13 +58,6 @@ test::cnv::force_in_type()
 int
 main(int argc, char const* argv[])
 {
-    example::getting_started();
-    example::getting_serious();
-    example::algorithms();
-    example::stream();
-    example::lexcast_converter();
-    example::default_converter();
-
     test::cnv::scratchpad();
     test::cnv::is_converter();
     test::cnv::stream();

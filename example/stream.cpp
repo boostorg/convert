@@ -7,6 +7,7 @@
 //[stream_headers1
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
+#include <boost/detail/lightweight_test.hpp>
 
 using std::string;
 using boost::convert;

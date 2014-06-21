@@ -5,24 +5,10 @@
 #ifndef BOOST_CONVERT_TEST_HPP
 #define BOOST_CONVERT_TEST_HPP
 
-#include "../example/example.hpp"
-#include <boost/convert.hpp>
-#include <boost/convert/lexical_cast.hpp>
-#include <boost/convert/stream.hpp>
-#include <boost/convert/printf.hpp>
-#include <boost/convert/strtol.hpp>
+#include <boost/make_default.hpp>
+#include <boost/static_assert.hpp>
 #include <boost/array.hpp>
-#include <boost/bind.hpp>
-#include <boost/detail/lightweight_test.hpp>
-#include <iomanip>
-#include <vector>
-#include <list>
-#include <iostream>
-#include <stdio.h>
-#include <sys/times.h>
-
-//#undef  BOOST_TEST
-//#define BOOST_TEST BOOST_ASSERT
+#include <string.h>
 
 //[change_declaration
 struct change
@@ -118,29 +104,6 @@ struct my_string
     char storage_[size_];
 };
 
-struct my_timer : boost::noncopyable
-{
-    my_timer (int const& sum) : sum_(sum), beg_(times(&tms_beg_)) {}
-
-    double value() const
-    {
-        struct tms tms_end;
-        double const   end = times(&tms_end);
-        int const  use_sum = (sum_ % 2) ? 0 : (sum_ % 2); BOOST_TEST(use_sum == 0);
-        double     use_beg = tms_beg_.tms_utime + tms_beg_.tms_stime;
-        double     use_end = tms_end .tms_utime + tms_end .tms_stime;
-
-//      This returns real time, i.e. affected by other processes. Still, it's OK if run as "nice -20 program-name".
-//      return (end - beg_) / sysconf(_SC_CLK_TCK) + use_sum;
-        return (use_end - use_beg) / sysconf(_SC_CLK_TCK) + use_sum;
-    }
-    private:
-
-    int const&     sum_;
-    struct tms tms_beg_;
-    double const   beg_;
-};
-
 namespace test
 {
     struct cnv
@@ -160,6 +123,8 @@ namespace test
 #else
 #error "Add here."
 #endif
+
+        struct timer;
 
         // C1. 18 = 9 positive + 9 negative numbers with the number of digits from 1 to 9.
         //     Even though INT_MAX(32) = 2147483647, i.e. 10 digits (not to mention long int)

@@ -4,6 +4,7 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include "./test.hpp"
+#include <boost/convert.hpp>
 #include <boost/convert/spirit.hpp>
 
 void

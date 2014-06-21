@@ -6,6 +6,8 @@
 #define BOOST_CONVERT_PRINTF_HPP
 
 #include <boost/convert/detail/base.hpp>
+#include <boost/mpl/vector.hpp>
+#include <boost/mpl/find.hpp>
 #include <stdio.h>
 
 #if defined(_MSC_VER)

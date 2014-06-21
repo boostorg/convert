@@ -4,7 +4,14 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include "./test.hpp"
+#include "./timer.hpp"
+#include <boost/convert.hpp>
+#include <boost/convert/stream.hpp>
+#include <boost/convert/printf.hpp>
+#include <boost/convert/strtol.hpp>
 #include <boost/convert/spirit.hpp>
+#include <boost/convert/lexical_cast.hpp>
+#include <boost/detail/lightweight_test.hpp>
 
 using std::string;
 
@@ -39,7 +46,7 @@ performance_str_to_int(Converter const& cnv)
     test::cnv::strings strings = test::cnv::get_strs(); // Create strings on the stack
     int const             size = strings.size();
     int                    sum = 0;
-    my_timer             timer (sum);
+    test::cnv::timer             timer (sum);
 
     for (int t = 0; t < test::cnv::num_cycles; ++t)
         for (int k = 0; k < size; ++k)
@@ -55,7 +62,7 @@ test::performance::str_to_int(Converter const& try_converter)
     test::cnv::strings strings = test::cnv::get_strs(); // Create strings on the stack
     int const             size = strings.size();
     int                    sum = 0;
-    my_timer             timer (sum);
+    test::cnv::timer     timer (sum);
 
     for (int t = 0; t < test::cnv::num_cycles; ++t)
         for (int k = 0; k < size; ++k)
@@ -68,10 +75,10 @@ template<typename Converter>
 double
 test::performance::int_to_str(Converter const& try_converter)
 {
-    test::cnv::ints ints = test::cnv::get_ints();
-    int const       size = ints.size();
-    int              sum = 0;
-    my_timer       timer (sum);
+    test::cnv::ints   ints = test::cnv::get_ints();
+    int const         size = ints.size();
+    int                sum = 0;
+    test::cnv::timer timer (sum);
 
     for (int t = 0; t < test::cnv::num_cycles; ++t)
         for (int k = 0; k < size; ++k)
@@ -84,9 +91,9 @@ template<typename Converter>
 double
 performance_str_to_type(Converter const& try_converter)
 {
-    char const* input[] = { "no", "up", "dn" };
-    int             sum = 0;
-    my_timer      timer (sum);
+    char const*    input[] = { "no", "up", "dn" };
+    int                sum = 0;
+    test::cnv::timer timer (sum);
 
     for (int k = 0; k < test::cnv::num_cycles; ++k)
     {
@@ -107,7 +114,7 @@ performance_type_to_str(Converter const& try_converter)
     boost::array<change, 3>   input = {{ change::no, change::up, change::dn }};
     boost::array<string, 3> results = {{ "no", "up", "dn" }};
     int                         sum = 0;
-    my_timer                  timer (sum);
+    test::cnv::timer           timer (sum);
 
     for (int k = 0; k < test::cnv::num_cycles; ++k)
     {

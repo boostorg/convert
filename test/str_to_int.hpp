@@ -6,6 +6,8 @@
 #define BOOST_CONVERT_TEST_STR_TO_INT_HPP
 
 #include "./test.hpp"
+#include <boost/convert.hpp>
+#include <boost/detail/lightweight_test.hpp>
 
 using std::string;
 

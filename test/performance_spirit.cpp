@@ -8,7 +8,11 @@
 // See these mentioned files for the copyright notice.
 
 #include "./test.hpp"
+#include <boost/convert.hpp>
 #include <boost/convert/spirit.hpp>
+#include <boost/convert/strtol.hpp>
+#include <boost/convert/lexical_cast.hpp>
+
 //#define main() old_str_to_int_test_spirit()
 //#include <libs/spirit/optimization/qi/int_parser.cpp>
 #include <libs/spirit/optimization/measure.hpp>
