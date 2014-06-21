@@ -8,7 +8,7 @@
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
 
-struct boost::cnv::custom : public boost::cnv::lexical_cast {};
+struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
 //]
 //[default_converter_headers1
 using std::string;

@@ -34,7 +34,7 @@ namespace boost
     namespace cnv
     {
         template<typename, typename, typename> struct adapter;
-        struct custom;
+        struct by_default;
     }
 
     /// @brief The main Boost.Convert deployment interface
@@ -57,11 +57,11 @@ namespace boost
         return result;
     }
 
-    /// @brief The deployment interface with the default boost::cnv::custom converter
+    /// @brief The deployment interface with the default boost::cnv::by_default converter
     /// @details For example,
     /// @code
-    ///    struct boost::cnv::custom : public boost::cnv::lexical_cast {};
-    ///    // boost::cnv::lexical_cast (through boost::cnv::custom) is deployed even though
+    ///    struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
+    ///    // boost::cnv::lexical_cast (through boost::cnv::by_default) is deployed even though
     //     // it is not supplied explicitly.
     ///    int    i1 = boost::convert<int>("123").value();
     ///    int    i2 = boost::convert<int>("uhm").value_or(-1);
@@ -72,7 +72,7 @@ namespace boost
     optional<TypeOut>
     convert(TypeIn const& value_in)
     {
-        return boost::convert<TypeOut>(value_in, cnv::custom());
+        return boost::convert<TypeOut>(value_in, cnv::by_default());
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter>
