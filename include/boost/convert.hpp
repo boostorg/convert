@@ -9,7 +9,7 @@
 //
 // 1. Alex Hagen-Zanker, Roland Bock, Rob Stewart for their considerable contributions to the design
 //    and implementation of the library;
-// 2. Andrzej Krzemienski for helping great deal to partition responsibilities and to ultimately pave
+// 2. Andrzej Krzemienski for helping to partition responsibilities and to ultimately pave
 //    the way for the boost::optional and future std::tr2::optional deployment;
 // 3. Edward Diener the Boost Review Manager for helping with the converters' design, his continuous
 //    involvement, technical and administrative help, guidance and advice;

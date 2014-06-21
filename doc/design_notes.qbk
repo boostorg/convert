@@ -137,9 +137,5 @@ Still, it needs to be acknowledged that `boost::optional` is a fairly new concep
  Out convert(In const&, Converter const&, boost::throw_on_failure);
 
 [endsect]
-[section TODO Converter Pluggability]
-[endsect]
-[section TODO Converter-parameter-related considerations (explicit, default, globally-set, others)]
-[endsect]
 [endsect]
 
