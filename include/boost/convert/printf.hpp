@@ -13,14 +13,12 @@ namespace boost { namespace cnv
     struct printf;
 }}
 
-struct boost::cnv::printf : public boost::cnv::detail::cnvbase
+struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::printf>
 {
-    typedef boost::cnv::printf  this_type;
-    typedef boost::cnv::detail::cnvbase base_type;
+    typedef boost::cnv::printf                     this_type;
+    typedef boost::cnv::detail::cnvbase<this_type> base_type;
 
-    CONVERT_FUNC_SET_BASE;
-    CONVERT_FUNC_SET_PRECISION;
-    CONVERT_FUNC_SET_UPPERCASE;
+    using base_type::operator();
 
     template<typename TypeIn>
     typename boost::disable_if<cnv::is_any_string<TypeIn>, void>::type

@@ -9,56 +9,53 @@
 
 namespace boost { namespace cnv { namespace detail
 {
-    struct cnvbase;
+    template<typename> struct cnvbase;
 }}}
 
+template<typename derived>
 struct boost::cnv::detail::cnvbase
 {
-    typedef boost::cnv::detail::cnvbase this_type;
+    typedef cnvbase this_type;
 
     cnvbase()
     :
         base_(10), precision_(0), uppercase_(false)
     {}
 
-    void operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::base, boost::cnv::base::type const>::type const& arg) const
+    derived const&
+    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::base, boost::cnv::base::type const>::type const& arg) const
     {
         boost::cnv::base::type base = arg[cnv::parameter::base];
         
         base_ = base == cnv::base::dec ? 10
               : base == cnv::base::hex ? 16
               : base == cnv::base::oct ? 8 : 0;
+
+        return dncast();
     }
-    void operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::precision, int const>::type const& arg) const
+    derived const&
+    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::precision, int const>::type const& arg) const
     {
         precision_ = arg[cnv::parameter::precision];
+
+        return dncast();
     }
-    void operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::uppercase, bool const>::type const& arg) const
+    derived const&
+    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::uppercase, bool const>::type const& arg) const
     {
         uppercase_ = arg[cnv::parameter::uppercase];
+
+        return dncast();
     }
     
     protected:
+
+    derived const& dncast() const { return static_cast<derived const&>(*this); }
 
     int mutable       base_;
     int mutable  precision_;
     bool mutable uppercase_;
 };
-
-#define CONVERT_FUNC_SET_BASE                                                                                               \
-    this_type const&                                                                                                        \
-    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::base, boost::cnv::base::type const>::type const& arg) const \
-    { return (base_type::operator()(arg), *this);  }
-
-#define CONVERT_FUNC_SET_PRECISION                                                                                          \
-    this_type const&                                                                                                        \
-    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::precision, int const>::type const& arg) const               \
-    { return (base_type::operator()(arg), *this);  }
-
-#define CONVERT_FUNC_SET_UPPERCASE                                                                                          \
-    this_type const&                                                                                                        \
-    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::uppercase, bool const>::type const& arg) const              \
-    { return (base_type::operator()(arg), *this);  }
 
 #define CONVERTER_PARAM_FUNC(PARAM_NAME, PARAM_TYPE)    \
     this_type&                                          \

@@ -13,14 +13,12 @@ namespace boost { namespace cnv
     struct strtol;
 }}
 
-struct boost::cnv::strtol : public boost::cnv::detail::cnvbase
+struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strtol>
 {
-    typedef boost::cnv::strtol          this_type;
-    typedef boost::cnv::detail::cnvbase base_type;
+    typedef boost::cnv::strtol                     this_type;
+    typedef boost::cnv::detail::cnvbase<this_type> base_type;
 
-    CONVERT_FUNC_SET_BASE;
-    CONVERT_FUNC_SET_PRECISION;
-    CONVERT_FUNC_SET_UPPERCASE;
+    using base_type::operator();
 
     void operator()(std::string const& v, boost::optional<int>&               r) const { operator()(v.c_str(), r); }
     void operator()(std::string const& v, boost::optional<long int>&          r) const { operator()(v.c_str(), r); }
