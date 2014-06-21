@@ -6,13 +6,17 @@
 #include "./test.hpp"
 #include <boost/function.hpp>
 
+using std::string;
+using boost::convert;
+using boost::lexical_cast;
+
 //[callable_example1
-void plain_old_func(std::string const& value_in, boost::optional<int>& value_out)
+void plain_old_func(string const& value_in, boost::optional<int>& value_out)
 //]
 {
     try
     {
-        value_out = boost::lexical_cast<int>(value_in);
+        value_out = lexical_cast<int>(value_in);
     }
     catch (...)
     {
@@ -21,7 +25,7 @@ void plain_old_func(std::string const& value_in, boost::optional<int>& value_out
 
 template<typename TypeIn, typename TypeOut>
 void
-convert_all_pof(TypeIn const&, boost::optional<TypeOut>&)
+convert_all(TypeIn const&, boost::optional<TypeOut>&)
 {
 }
 
@@ -41,34 +45,36 @@ struct converter1
     }
 };
 
-struct take_double { void operator()(double const&, boost::optional<std::string>&) const {}};
-struct    take_int { void operator()(int const&, boost::optional<std::string>&) const {}};
+struct take_double { void operator()(double const&, boost::optional<string>&) const {}};
+struct    take_int { void operator()(int const&, boost::optional<string>&) const {}};
 
 void
 test::cnv::callables()
 {
-    typedef boost::function<void (std::string const& value_in, boost::optional<int>&)> boost_func;
+    typedef boost::function<void (string const& value_in, boost::optional<int>&)> boost_func;
 
     char const* const str = "-12";
 
     // Testing old-function-based converter.
     //[callable_example2
-    int v01 = boost::convert<int>(str, plain_old_func).value_or(-1);
+    int v01 = convert<int>(str, plain_old_func).value_or(-1);
     //]
     // Testing boost::function-based converter.
-    int v02 = boost::convert<int>(str, boost_func(plain_old_func)).value_or(-1);
+    int v02 = convert<int>(str, boost_func(plain_old_func)).value_or(-1);
     // Testing crazy boost::bind-based converter.
     //[callable_example3
-    int v03 = boost::convert<int>(str, boost::bind(assign<int>, _2, boost::bind(boost::lexical_cast<int, std::string>, _1))).value_or(-1);
+    int v03 = convert<int>(str,
+                  boost::bind(assign<int>, _2,
+                      boost::bind(lexical_cast<int, string>, _1))).value_or(-1);
     //]
     BOOST_TEST(v01 == -12);
     BOOST_TEST(v02 == -12);
     BOOST_TEST(v03 == -12);
 
-    boost::convert<int>(str, convert_all_pof<std::string, int>);
-    boost::convert<std::string>(11, convert_all_pof<int, std::string>);
-    boost::convert<int>(str, converter1());
-    boost::convert<std::string>(11, converter1());
-    boost::convert<std::string>(11, take_double());
-    boost::convert<std::string>(11.23, take_int());
+    convert<int>(str, convert_all<string, int>);
+    convert<string>(11, convert_all<int, string>);
+    convert<int>(str, converter1());
+    convert<string>(11, converter1());
+    convert<string>(11, take_double());
+    convert<string>(11.23, take_int());
 }

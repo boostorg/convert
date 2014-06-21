@@ -10,6 +10,10 @@
 #include <boost/bind.hpp>
 #include <vector>
 
+using std::string;
+using boost::convert;
+using boost::lexical_cast;
+
 static
 void
 introduction()
@@ -44,8 +48,8 @@ void
 example1()
 {
     //[algorithm_example1
-    /*`The following code demonstrates a failed attempt to convert a few strings with `boost::lexical_cast` (and one of the
-       reasons ['Boost.Convert] has been developed):
+    /*`The following code demonstrates a failed attempt to convert a few strings with
+      `boost::lexical_cast` (and one of the reasons ['Boost.Convert] has been developed):
     */
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
@@ -57,7 +61,7 @@ example1()
            strs.begin(),
            strs.end(),
            std::back_inserter(ints),
-           boost::bind(boost::lexical_cast<int, std::string>, _1));
+           boost::bind(lexical_cast<int, string>, _1));
 
            BOOST_TEST(0 && "Never reached");
     }
@@ -84,7 +88,7 @@ example2()
         strs.begin(),
         strs.end(),
         std::back_inserter(ints),
-        boost::convert<int, std::string>(cnv).value_or(INT_MAX));
+        convert<int, string>(cnv).value_or(INT_MAX));
 
     BOOST_TEST(ints.size() == 3);
     BOOST_TEST(ints[0] == INT_MAX); // Failed conversion
@@ -112,7 +116,7 @@ example3()
            strs.begin(),
            strs.end(),
            std::back_inserter(ints),
-           boost::convert<int, std::string>(boost::cref(cnv(std::hex)(std::skipws))));
+           convert<int, string>(boost::cref(cnv(std::hex)(std::skipws))));
 
            BOOST_TEST(0 && "Never reached");
     }
@@ -138,7 +142,7 @@ example4()
         strs.begin(),
         strs.end(),
         std::back_inserter(ints),
-        boost::convert<int, std::string>(boost::cref(cnv(std::hex)(std::skipws))).value_or(-1));
+        convert<int, string>(boost::cref(cnv(std::hex)(std::skipws))).value_or(-1));
 
     BOOST_TEST(ints.size() == 3);
     BOOST_TEST(ints[0] ==  5);
@@ -146,12 +150,12 @@ example4()
     BOOST_TEST(ints[2] == -1); // Failed conversion
 
     /*`[important One notable difference in the deployment of `boost::cnv::cstream` with algorithms is
-       the use of `boost::cref` (or `std::ref` in C++11).
+       the use of `boost::cref` (or `std::cref` in C++11).
 
-       It needs to be remembered that with standard algorithms the deployed converter needs to be copyable or
-       moveable (C++11) and is, in fact, copied or moved by the respective algorithm before being used.
-       Given that `std::cstringstream` is not copyable, `boost::cnv::cstream` is not copyable either.
-       That limitation is routinely worked around using `boost::ref`.]
+       It needs to be remembered that with standard algorithms the deployed converter needs to be
+       copyable or moveable (C++11) and is, in fact, copied or moved by the respective algorithm
+       before being used. Given that `std::cstringstream` is not copyable, `boost::cnv::cstream` is
+       not copyable either. That limitation is routinely worked around using `boost::cref`.]
     */
     //]
 }
@@ -174,7 +178,7 @@ example5()
         ints.begin(),
         ints.end(),
         std::back_inserter(strs),
-        boost::convert<std::string, int>(boost::cref(cnv)));
+        convert<string, int>(boost::cref(cnv)));
 
     BOOST_TEST(strs.size() == 3);
     BOOST_TEST(strs[0] ==  "0XF");

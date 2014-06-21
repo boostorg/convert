@@ -8,6 +8,8 @@
 #include <boost/lexical_cast.hpp>
 
 using std::string;
+using boost::convert;
+using boost::lexical_cast;
 
 static void process_failure() {}
 static void log(...) {}
@@ -26,7 +28,7 @@ example1()
 
     {
         //[getting_serious_example1
-        int i2 = boost::convert<int>("not an int", cnv).value_or(-1); // after the call i2 == -1
+        int i2 = convert<int>("not an int", cnv).value_or(-1); // after the call i2==-1
 
         if (i2 == -1) process_failure();
         //]
@@ -35,8 +37,8 @@ example1()
         //[getting_serious_example2
         try
         {
-            int i1 = boost::lexical_cast<int>(str); // Throws if the conversion fails
-            int i2 = boost::convert<int>(str, cnv).value(); // Throws if the conversion fails
+            int i1 = lexical_cast<int>(str); // Throws when fails
+            int i2 = convert<int>(str, cnv).value(); // Throws when fails
         }
         catch (...)
         {
@@ -46,8 +48,8 @@ example1()
     }
     {
         //[getting_serious_example3
-        boost::optional<int> r1 = boost::convert<int>(str1, cnv); // Does not throw on conversion failure
-        boost::optional<int> r2 = boost::convert<int>(str2, cnv); // Does not throw on conversion failure
+        boost::optional<int> r1 = convert<int>(str1, cnv); // Does not throw
+        boost::optional<int> r2 = convert<int>(str2, cnv); // Does not throw
         // ...
         try // Delayed processing of potential exceptions
         {
@@ -62,8 +64,8 @@ example1()
         // Exceptions are avoided altogether
         int i1 = r1 ? r1.value() : fallback_value;
         int i2 = r2.value_or(fallback_value);
-        int i3 = boost::convert<int>(str3, cnv).value_or(fallback_value);
-        int i4 = boost::convert<int>(str3, cnv).value_or_eval(fallback_function);
+        int i3 = convert<int>(str3, cnv).value_or(fallback_value);
+        int i4 = convert<int>(str3, cnv).value_or_eval(fallback_function);
         //]
     }
 }
@@ -71,7 +73,7 @@ example1()
 //[getting_serious_example5
 struct fallback_func
 {
-    int operator()() const { log("Failed to convert"); return INT_MAX; }
+    int operator()() const { log("Failed to convert"); return 22; }
 };
 //]
 
@@ -92,8 +94,9 @@ example4()
     // ...proceed
     //]
     //[getting_serious_example6
-    int i2 = boost::convert<int>(str, cnv).value_or_eval(fallback_func()); // Fallback functor is called if failed
-    int i3 = boost::convert<int>(str, cnv, fallback_func()); // Fallback functor is called if failed
+    // Fallback function is called when failed
+    int i2 = convert<int>(str, cnv).value_or_eval(fallback_func());
+    int i3 = convert<int>(str, cnv, fallback_func());
     //]
 }
 static
@@ -109,13 +112,13 @@ example5()
     // b) i2: Calling the provided failure-processing function;
     // c) i3: Throwing an exception.
 
-    int i1 = boost::convert<int>(str, cnv, fallback_value); // Fallback value used if failed
-    int i2 = boost::convert<int>(str, cnv, fallback_func()); // Fallback functor is called if failed
+    int i1 = convert<int>(str, cnv, fallback_value);
+    int i2 = convert<int>(str, cnv, fallback_func());
 
     try
     {
         // Throwing behavior specified explicitly rather than implied
-        int i3 = boost::convert<int>(str, cnv, boost::throw_on_failure);
+        int i3 = convert<int>(str, cnv, boost::throw_on_failure);
     }
     catch (boost::bad_optional_access const&)
     {

@@ -54,7 +54,7 @@ main(int argc, char const* argv[])
     example::getting_serious();
     example::algorithms();
     example::stream();
-    example::lexical_cast();
+    example::lexcast_converter();
     example::default_converter();
 
     test::cnv::scratchpad();

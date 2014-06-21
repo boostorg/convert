@@ -10,7 +10,7 @@ As it was indicated in the previous section `boost::optional` is the actual type
 
  boost::optional<TypeOut> boost::convert(TypeIn const&, Converter const&);
  
-The signature is ['functionally-complete] and is the most efficient in deploying the underlying converter. That said, the following alternative interface but might be potentially better suitable for certain deployment scenarios (or due to personal preferences):
+The signature is ['functionally-complete] and is the most efficient in deploying the underlying converter. That said, the following alternative interface might be potentially better suitable for certain deployment scenarios (or due to personal preferences):
 
  Out convert(In const&, Converter const&, Out const& fallback_value);
  Out convert(In const&, Converter const&, Functor const& fallback_functor);
@@ -27,7 +27,7 @@ It still provides full support for various program flows and various degrees of 
  
 somewhat similar to what `boost::lexical_cast` does. The signature is deceivingly simple and, in reality, it can only handle one single deployment scenario; as in the case of `boost::lexical_cast` that is the exception-throwing conversion-failure detection. Consequently, in commercial software where process flows vary and reliability and operational continuity are important, that limitation often has to be compensated by a considerable amount of additional code (like try/catch blocks, etc.).
 
-On the other hand, the `boost::convert` signatures (although more verbose) provide full support for various program flows, behavioral unambiguity and readability.]
+On the other hand, the `boost::convert` signatures (although more verbose) provide full support for various program flows, behaviorally unambiguous and readable.]
 
 [endsect]
 

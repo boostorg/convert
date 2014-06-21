@@ -17,14 +17,15 @@ For a converter to be plugged in to the ['Boost.Convert] framework it needs to b
 
 if that is a general-purpose converter capable of handling many types (like string-to-type and type-to-string conversions). Alternatively, a purpose-built custom converter might only care to provide 
 
- bool operator()(TypeIn const& value_in, boost::optional<TypeOut>& result_out) const;
+ bool operator()(TypeIn const&, boost::optional<TypeOut>&) const;
 
-if its sole purpose is to handle one particular conversion\/transformation of ['TypeIn] to ['TypeOut]. For example, a converter from the operating-system-specific MBCS string format to the UCS-2 or UCS-4 (depending on `wchar_t` size) does not seem like such an unreasonable idea:
+if its sole purpose is to handle one particular conversion\/transformation of ['TypeIn] to ['TypeOut]. For example, a converter from the operating-system-specific MBCS string format to the UCS-2 or UCS-4 (depending on `wchar_t` size) might be one such example:
 
- void operator()(std::string const& value_in, boost::optional<std::wstring>& result_out) const;
+ void operator()(std::string const&, boost::optional<std::wstring>&) const;
 
 Alternatively again, an ad-hoc in-place ['callable] might be provided as a converter. For example, 
 
+[using_header]
 [callable_example3]
 
 or an old-fashioned function:

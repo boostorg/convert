@@ -15,6 +15,7 @@
 `boost::convert` basic deployment is not that different from `boost::lexical_cast` and, in fact, `boost::lexical_cast` functionality is easily deployed through `boost::convert` interface:
 
 [getting_started_headers1]
+[using_header]
 [getting_started_example1]
 
 [endsect]
@@ -22,6 +23,7 @@
 
 Sooner or later (during development or in the maintenance phase) these qualities become important when, say, the program flow favors a non-throwing behavior:
 
+[using_header]
 [getting_started_example2]
 
 Or, when the code is identified as too slow, the performance could be improved with minimal effort by replacing the original converter:
@@ -37,6 +39,7 @@ If, instead, the requirements change and legitimize more lenient user inputs or 
 [endsect]
 [section Basic Conversion-Failure Detection]
 
+[using_header]
 [getting_started_example5]
 
 The above calls can be interpreted as 
@@ -58,16 +61,7 @@ Or even shorter, if we do not care logging:
 
 So far the deployment of `boost::convert` seems more flexible, more compact and natural (your mileage may vary) and potentially more efficient compared to "raw" `boost::lexical_cast` deployment which achieves similar (excluding formatting) results with:
 
- int num_threads = default_num_threads;
-
- try
- {
-     num_threads = boost::lexical_cast<int>(str);
- }
- catch (...)
- {
-     log("bad num_threads");
- }
+[getting_started_example8]
 
 By design this is `boost::lexical_cast`'s only behavior. Straightforward and comprehensible. Unfortunately, it makes quite a few legitimate process\/program flows difficult and awkward to implement. ['Boost.Convert] offers new functionality, flexibility and convenience.
 

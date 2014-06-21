@@ -6,6 +6,7 @@
 
 [section Boost.Convert with Standard Algorithms]
 
+[using_header]
 [algorithm_example1]
 [algorithm_example2]
 [algorithm_example3]

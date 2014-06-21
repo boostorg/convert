@@ -27,9 +27,9 @@ Now `boost::optional` steps forward as the actual type returned by `boost::conve
 
  int i1 = boost::convert<int>(str1, cnv).value();
  int i2 = boost::convert<int>(str2, cnv).value_or(fallback_value);
- int i3 = boost::convert<int>(str2, cnv).value_or_eval(fallback_function);
+ int i3 = boost::convert<int>(str3, cnv).value_or_eval(fallback_function);
 
-Here `boost::convert` behavior (similar to `boost::lexical_cast`) reflect the fact that a conversion request is only a ['request] which may succeed but may also fail. Still, from the user perspective, `boost::lexical_cast` processes failure in a somewhat one-dimensional non-negotiable manner. `boost::convert` takes a softer approach and leaves the decision to the user. It is not unimaginable that on the library level throwing an exception to indicate a conversion failure might be the only available response. On the application level though, in my personal experience, the choice has overwhelmingly been to process those exceptions immediately or to, better still, avoid exceptions altogether with program flows similar to:
+Here `boost::convert` behavior (similar to `boost::lexical_cast`) reflect the fact that a conversion request is only a ['request] which may succeed but may also fail. Still, from the user perspective, `boost::lexical_cast` processes failure in a somewhat one-dimensional non-negotiable manner. `boost::convert` takes a softer approach and leaves the decision to the user. It is not unimaginable that on the library level propagating the conversin-failure exception might be the only available response. On the application level though, in my personal experience, the choice has overwhelmingly been to process those exceptions immediately or to, better still, avoid exceptions altogether with program flows similar to:
 
 [getting_serious_example4]
 

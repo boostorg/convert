@@ -11,7 +11,7 @@ struct example
 {
     static void   getting_started ();
     static void   getting_serious ();
-    static void      lexical_cast ();
+    static void lexcast_converter ();
     static void default_converter ();
     static void            stream ();
     static void        algorithms ();
