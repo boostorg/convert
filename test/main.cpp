@@ -65,7 +65,6 @@ main(int argc, char const* argv[])
 
     test::cnv::sfinae();
     test::cnv::int_to_string();
-    test::cnv::string_to_bool();
     test::cnv::str_to_int(boost::cnv::lexical_cast());
     test::cnv::str_to_int(boost::cnv::cstream());
     test::cnv::str_to_int(boost::cnv::strtol());

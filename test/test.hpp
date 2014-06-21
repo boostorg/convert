@@ -181,7 +181,6 @@ namespace test
         static void   lcast_converter ();
         static void            stream ();
         static void     int_to_string ();
-        static void    string_to_bool ();
         static void         user_type ();
         static void     force_in_type ();
         static void       performance ();
