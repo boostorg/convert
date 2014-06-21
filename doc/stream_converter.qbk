@@ -4,7 +4,7 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section std::stringstream-Based Converter]
+[section boost::cnv::stream Converter]
 
 [import ../example/stream.cpp]
 [import ../test/test.hpp]
@@ -117,14 +117,19 @@ Now such class can be deployed with the `std::stream`-based converter:
 [section Change Numeric Presentation Base (std::dec, std::hex, std::oct)]
 [stream_using]
 [stream_numbase_example]
+
 [endsect]
 [section Change Boolean Representation (std::boolalpha, std::noboolalpha)]
+
 [stream_using]
 [stream_boolalpha_example]
+
 [endsect]
 [section Change Processing of Leading White-Space Characters (std::skipws, std::noskipws)]
+
 [stream_using]
 [stream_skipws_example]
+
 [endsect]
 [endsect]
 [endsect]

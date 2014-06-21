@@ -36,5 +36,3 @@ With regard to converters the ['Boost.Convert] framework has been designed with 
 
 [note Converters shall be independent of and shall not rely on the ['Boost.Convert] infrastructure.] 
 
-[endsect]
-

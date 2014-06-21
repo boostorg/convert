@@ -9,11 +9,12 @@
 
 struct example
 {
-    static void getting_started ();
-    static void getting_serious ();
-    static void    lexical_cast ();
-    static void         stream ();
-    static void      algorithms ();
+    static void   getting_started ();
+    static void   getting_serious ();
+    static void      lexical_cast ();
+    static void default_converter ();
+    static void            stream ();
+    static void        algorithms ();
 };
 
 #endif // BOOST_CONVERT_EXAMPLE_HPP

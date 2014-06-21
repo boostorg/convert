@@ -4,7 +4,7 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section boost::lexical_cast-Based Converter]
+[section boost::cnv::lexical_cast Converter]
 
 [import ../example/lexical_cast.cpp]
 

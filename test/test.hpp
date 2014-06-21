@@ -171,21 +171,21 @@ namespace test
         static ints const&    get_ints ();
         static strings const& get_strs ();
 
-        static void    is_converter ();
-        static void      scratchpad ();
-        static void          sfinae ();
-        static void      algorithms ();
-        static void      encryption ();
-        static void       callables ();
-        static void       fallbacks ();
-        static void lcast_converter ();
-        static void         stream ();
-        static void   int_to_string ();
-        static void  string_to_bool ();
-        static void       user_type ();
-        static void   force_in_type ();
-        static void     performance ();
-        static void          spirit ();
+        static void      is_converter ();
+        static void        scratchpad ();
+        static void            sfinae ();
+        static void        algorithms ();
+        static void        encryption ();
+        static void         callables ();
+        static void         fallbacks ();
+        static void   lcast_converter ();
+        static void            stream ();
+        static void     int_to_string ();
+        static void    string_to_bool ();
+        static void         user_type ();
+        static void     force_in_type ();
+        static void       performance ();
+        static void            spirit ();
 
         template<typename Cnv> static void  str_to_int (Cnv const&);
         template<typename Cnv> static void type_to_str (Cnv const&);

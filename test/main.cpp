@@ -55,6 +55,7 @@ main(int argc, char const* argv[])
     example::algorithms();
     example::stream();
     example::lexical_cast();
+    example::default_converter();
 
     test::cnv::scratchpad();
     test::cnv::is_converter();

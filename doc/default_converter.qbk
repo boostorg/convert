@@ -1,0 +1,33 @@
+[/
+  Copyright (c) Vladimir Batov 2009-2014
+  Distributed under the Boost Software License, Version 1.0.
+  See copy at http://www.boost.org/LICENSE_1_0.txt.
+]
+
+[section boost::cnv::custom Default Converter]
+
+[import ../example/default_converter.cpp]
+
+The necessity to explicitly specify a converter as in
+
+ int i = boost::convert("123", converter).value();
+ 
+might be tedious or even error-prone if an application relies on certain consistent behavior associated with one particular converter. To accommodate such a scenario ['Boost.Convert] is capable of deploying the default converter if such is declared.
+
+It is worth mentioning that there is no default converter set by default and, consequently, without additional configuration steps the following call will fail to compile: 
+
+ int i = boost::convert("123").value(); // No default converter provided
+ 
+The code below defines `boost::cnv::custom` class. That class happens to be the default converter deployed by ['Boost.Convert]. 
+
+[default_converter_declaration]
+
+Consequently, the following code compiles and deploys `boost::cnv::lexical_cast` converter without explicitly supplied converter parameter:
+
+[default_converter_headers1]
+[default_converter_example1]
+
+
+
+[endsect]
+
