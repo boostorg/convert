@@ -48,14 +48,10 @@ static void getting_started_example1()
 static void getting_started_example2()
 {
     //[getting_started_example2
-    boost::cnv::lexical_cast cnv;
+    // Non-throwing behavior. Returns fallback value when failed.
+    int i = convert<int>("uhm", boost::cnv::lexical_cast()).value_or(-1);
 
-    // Non-throwing behavior. Return fallback values when failed.
-    int    i2 = convert<int>("uhm", cnv).value_or(-1);
-    string s2 = convert<string>(123, cnv).value_or("bad");
-
-    BOOST_TEST(i2 == -1);
-    BOOST_TEST(s2 == "123");
+    BOOST_TEST(i == -1);
     //]
 }
 
