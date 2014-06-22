@@ -1,7 +1,7 @@
 # bring in the rules for testing
 import testing ;
 
-project convert_tests 
+project convert_examples 
     : requirements
         <warnings>on
         <toolset>gcc:<warnings>all

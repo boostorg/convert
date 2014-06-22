@@ -77,7 +77,6 @@ main(int argc, char const* argv[])
     test::cnv::user_type();
     test::cnv::force_in_type();
     test::cnv::lcast_converter();
-    test::cnv::algorithms();
     test::cnv::callables();
     test::cnv::fallbacks();
     test::cnv::encryption();

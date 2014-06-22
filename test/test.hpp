@@ -139,7 +139,6 @@ namespace test
         static void      is_converter ();
         static void        scratchpad ();
         static void            sfinae ();
-        static void        algorithms ();
         static void        encryption ();
         static void         callables ();
         static void         fallbacks ();
