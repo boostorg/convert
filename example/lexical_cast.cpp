@@ -2,7 +2,6 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include "./example.hpp"
 //[lexical_cast_headers1
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
@@ -13,8 +12,8 @@ using boost::convert;
 using boost::lexical_cast;
 //]
 
-void
-example::lexcast_converter()
+int
+main(int argc, char const* argv[])
 {
     //[lexical_cast_example1
     boost::cnv::lexical_cast cnv;

@@ -2,7 +2,6 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include "./example.hpp"
 #include <boost/detail/lightweight_test.hpp>
 
 static
@@ -170,8 +169,8 @@ static void getting_started_example8()
     BOOST_TEST(num_dec == 123);
 }
 
-void
-example::getting_started()
+int
+main(int argc, char const* argv[])
 {
     getting_started_example1();
     getting_started_example2();

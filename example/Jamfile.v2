@@ -17,7 +17,16 @@ project convert_tests
         <include>$(BOOST_ROOT)
     ;  
 
-run [ glob *.cpp ] :  :  :  : convert_example ;
-    
+#run [ glob *.cpp ] :  :  :  : convert_example ;
+
+run algorithms.cpp ;
+run default_converter.cpp ;
+run getting_serious.cpp ; 
+run getting_started.cpp ; 
+run lexical_cast.cpp ;
+run stream.cpp ;
+
+compile-fail default_converter_fail.cpp ;
+
 
 

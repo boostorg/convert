@@ -3,7 +3,6 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include "../test/test.hpp"
-#include "./example.hpp"
 //[stream_headers1
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
@@ -86,8 +85,8 @@ example6()
     //]
 }
 
-void
-example::stream()
+int
+main(int argc, char const* argv[])
 {
     example1();
     example2();

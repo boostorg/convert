@@ -2,7 +2,6 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include "./example.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
 #include <boost/lexical_cast.hpp>
@@ -127,8 +126,8 @@ example5()
     //]
 }
 
-void
-example::getting_serious()
+int
+main(int argc, char const* argv[])
 {
     example1();
     example4();
