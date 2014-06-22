@@ -24,7 +24,7 @@ include $(DEVMAKE)/makefile
 
 else
 
-all: convert-test convert-example 
+all: convert-test 
 
 convert-test: $(wildcard test/*.cpp) 
 	g++ -O3 -o $@ $^ -I./include -I../boost_1_55_0 -lrt

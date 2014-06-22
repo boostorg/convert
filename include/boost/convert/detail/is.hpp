@@ -6,50 +6,20 @@
 #define BOOST_CONVERT_IS_CONVERTER_HPP
 
 #include <boost/convert/detail/forward.hpp>
+#include <boost/convert/detail/has_memfun_name.hpp>
 #include <boost/ref.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits.hpp>
-#include <boost/type_traits/detail/yes_no_type.hpp>
 #include <boost/function_types/is_function_pointer.hpp>
 #include <boost/function_types/function_arity.hpp>
 #include <boost/function_types/result_type.hpp>
-
-#undef  BOOST_CONVERT_FUNCNAME
-#define BOOST_CONVERT_FUNCNAME operator()
 
 namespace boost { namespace cnv
 {
     typedef ::boost::type_traits::yes_type yes_type;
     typedef ::boost::type_traits:: no_type  no_type;
 
-    template <typename type>
-    class has_funcname
-    {
-        // C1. This class only checks if type has a member function named BOOST_CONVERT_FUNCNAME.
-        // C2. The actual signature of BOOST_CONVERT_FUNCNAME is not taken into account.
-        //     If type::BOOST_CONVERT_FUNCNAME(any-signature) exists, then
-        //     the introduced base::BOOST_CONVERT_FUNCNAME will cause
-        //     mixin->BOOST_CONVERT_FUNCNAME() call to fail to compile (due to ambiguity).
-        // C3. &U::BOOST_CONVERT_FUNCNAME (a.k.a. &mixin::BOOST_CONVERT_FUNCNAME)
-        //     has the type of func_type only if type::BOOST_CONVERT_FUNCNAME does not exist.
-        //     If type::BOOST_CONVERT_FUNCNAME does exist, then mixin::BOOST_CONVERT_FUNCNAME is ambiguous
-        //     and "yes_type test (...)" kicks in instead.
-
-        struct  base { void BOOST_CONVERT_FUNCNAME(/*C2*/){} };
-        struct mixin : public base, public type {};
-
-        template <typename U, U> struct aux {};
-
-        typedef void (base::*func_type)();
-        typedef mixin* mixin_ptr;
-
-        template <typename U> static no_type  test (U*, aux<func_type, &U::BOOST_CONVERT_FUNCNAME>* =0); //C3
-        /*******************/ static yes_type test (...);
-
-        public:
-
-        BOOST_STATIC_CONSTANT(bool, value = (sizeof(yes_type) == sizeof(test(mixin_ptr(0)))));
-    };
+    DECLARE_HAS_MEMFUN_NAME(has_memfun, operator());
 
     namespace details
     {
@@ -68,8 +38,8 @@ namespace boost { namespace cnv
     {
         struct mixin : public type
         {
-            using type::BOOST_CONVERT_FUNCNAME;
-            no_type BOOST_CONVERT_FUNCNAME(...) const;
+            using type::operator();
+            no_type operator()(...) const;
         };
 
         typedef typename details::clone_constness<type, mixin>::type mixin_type;
@@ -102,13 +72,13 @@ namespace boost { namespace cnv
             static const bool value = sizeof(yes_type) == sizeof(
                                       return_value_check<type, R>::test(
                                       // Applying comma operator
-                                      (((mixin_type*) 0)->BOOST_CONVERT_FUNCNAME(*(arg1_type*)0, *(arg2_type*)0), details::void_exp_result<type>())));
+                                      (((mixin_type*) 0)->operator()(*(arg1_type*)0, *(arg2_type*)0), details::void_exp_result<type>())));
         };
 
         public:
 
-        // Check the existence of the FUNCNAME (with has_funcname) first, then the signature.
-        static bool const value = check<has_funcname<type>::value, func_signature>::value;
+        // Check the existence of the FUNCNAME (with has_memfun) first, then the signature.
+        static bool const value = check<has_memfun<type>::value, func_signature>::value;
     };
 }}
 
@@ -172,7 +142,7 @@ namespace boost { namespace cnv
     struct is_fun<Functor, TypeOut,
         typename enable_if_c<is_class<Functor>::value && !is_convertible<Functor, TypeOut>::value, void>::type>
     {
-        BOOST_STATIC_CONSTANT(bool, value = (check_functor<has_funcname<Functor>::value, Functor, TypeOut>::value));
+        BOOST_STATIC_CONSTANT(bool, value = (check_functor<has_memfun<Functor>::value, Functor, TypeOut>::value));
     };
 
     template<typename Function, typename TypeOut>
@@ -189,8 +159,6 @@ namespace boost { namespace cnv
         BOOST_STATIC_CONSTANT(bool, value = (is_convertible<func_out_type, out_type>::value));
     };
 }}
-
-#undef  BOOST_CONVERT_FUNCNAME
 
 #endif // BOOST_CONVERT_IS_CONVERTER_HPP
 
