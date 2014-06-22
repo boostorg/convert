@@ -1,0 +1,18 @@
+# bring in the rules for testing
+import testing ;
+
+project convert_tests 
+    : requirements
+        <warnings>on
+        <toolset>gcc:<warnings>all
+        <toolset>gcc-4.8:<cxxflags>"-Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
+        <toolset>msvc:<warnings>all
+        <include>../include
+        <include>$(BOOST_ROOT)
+    ;  
+
+run [ glob *.cpp ] :  :  :  : convert_test_main ;
+#exe convert_example : [ glob *.cpp ] ;
+    
+
+
