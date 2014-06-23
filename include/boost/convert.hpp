@@ -28,6 +28,24 @@
 
 namespace boost
 {
+    namespace detail
+    {
+        enum throw_on_failure {};
+    }
+    detail::throw_on_failure const throw_on_failure = detail::throw_on_failure(0);
+}
+
+namespace boost
+{
+    namespace cnv
+    {
+        template<typename, typename, typename> struct adapter;
+        struct by_default;
+    }
+}
+
+namespace boost
+{
     // C1. The "is_cnv<Converter>" check is done twice -- in the main convert(TypeIn, Convert) and in the
     //     secondary-interface (derived from the main) functions as well. Strictly speaking, the checks are
     //     not necessary in the derived functions as the main convert() does the check anyway.
@@ -35,15 +53,6 @@ namespace boost
     //     "additional" check as the error message points to the actual line in the application(!) code where
     //     the derived API was called incorrectly. Without that "additional" check the compiler points to the
     //     call to the main convert() inside the derived function.
-
-    struct throw_on_failure_type { enum type {};};
-    throw_on_failure_type::type const throw_on_failure = throw_on_failure_type::type(0);
-
-    namespace cnv
-    {
-        template<typename, typename, typename> struct adapter;
-        struct by_default;
-    }
 
     /// @brief The main Boost.Convert deployment interface
     /// @details This is the Boost.Convert main interface. For example,
@@ -85,7 +94,7 @@ namespace boost
 
     template<typename TypeOut, typename TypeIn, typename Converter>
     typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, TypeOut>::type //See C1
-    convert(TypeIn const& value_in, Converter const& converter, throw_on_failure_type::type)
+    convert(TypeIn const& value_in, Converter const& converter, boost::detail::throw_on_failure)
     {
         return convert<TypeOut>(value_in, converter).value();
     }
