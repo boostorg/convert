@@ -6,7 +6,7 @@ project convert_examples
         <warnings>on
         <toolset>gcc:<warnings>all
         <toolset>msvc:<warnings>all
-        <toolset>gcc-4.8:<cxxflags>"-Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
+        <toolset>gcc:<cxxflags>"-Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
         <toolset>msvc:<cxxflags>"/wd4996 /wd4512 /wd4610 /wd4510 /wd4127 /wd4701 /wd4127 /wd4305"
         <toolset>msvc:<asynch-exceptions>on
         <toolset>msvc:<define>_CRT_SECURE_NO_DEPRECATE
@@ -26,7 +26,7 @@ run getting_started.cpp ;
 run lexical_cast.cpp ;
 run stream.cpp ;
 
-compile-fail default_converter_fail.cpp ;
+compile-fail default_converter_fail.cpp : <warnings>off <cxxflags>"-w" ;
 
 
 

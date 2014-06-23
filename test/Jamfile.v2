@@ -5,8 +5,15 @@ project convert_tests
     : requirements
         <warnings>on
         <toolset>gcc:<warnings>all
-        <toolset>gcc-4.8:<cxxflags>"-Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
+        <toolset>gcc:<cxxflags>"-Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
+        <toolset>gcc:<linkflags>"-lrt"
         <toolset>msvc:<warnings>all
+        <toolset>msvc:<cxxflags>"/wd4996 /wd4512 /wd4610 /wd4510 /wd4127 /wd4701 /wd4127 /wd4305"
+        <toolset>msvc:<asynch-exceptions>on
+        <toolset>msvc:<define>_CRT_SECURE_NO_DEPRECATE
+        <toolset>msvc:<define>_SCL_SECURE_NO_DEPRECATE
+        <toolset>msvc:<define>_SCL_SECURE_NO_WARNINGS
+        <toolset>msvc:<define>_CRT_SECURE_NO_WARNINGS
         <include>../include
         <include>$(BOOST_ROOT)
     ;  
