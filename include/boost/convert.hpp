@@ -32,6 +32,8 @@ namespace boost
     {
         enum throw_on_failure {};
     }
+    /// @details The boost::throw_on_failure is the name of an object of the boost::detail::throw_on_failure
+    /// type that is used for disambiguation of desired exception-throwing behavior.
     detail::throw_on_failure const throw_on_failure = detail::throw_on_failure(0);
 }
 
@@ -55,14 +57,16 @@ namespace boost
     //     call to the main convert() inside the derived function.
 
     /// @brief The main Boost.Convert deployment interface
-    /// @details This is the Boost.Convert main interface. For example,
+    /// @param[in] value_in   The value to be converted
+    /// @param[in] converter  The converter to be used for conversion
+    /// @return The result of conversion together with the indication of success or failure
+    /// of the conversion request.
+    /// @details For example,
     /// @code
     ///    boost::cnv::cstream cnv;
     ///
-    ///    int    i1 = boost::convert<int>(" 12", cnv(std::skipws)).value();
-    ///    int    i2 = boost::convert<int>("uhm", cnv).value_or(-1);
-    ///    string s1 = boost::convert<string>(123.456, cnv)).value();
-    ///    string s2 = boost::convert<string>(123.456, cnv)).value_or("failed");
+    ///    boost::optional<int>    i = boost::convert<int>("12", cnv);
+    ///    boost::optional<string> s = boost::convert<string>(123.456, cnv);
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
@@ -74,15 +78,18 @@ namespace boost
         return result;
     }
 
-    /// @brief The deployment interface with the default boost::cnv::by_default converter
+    /// @brief The Boost.Convert deployment interface with the default converter
     /// @details For example,
     /// @code
+    ///    // boost::cnv::lexical_cast (through boost::cnv::by_default) will be deployed as
+    ///    // the default converter when no converter is provided explicitly.
+    ///
     ///    struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
-    ///    // boost::cnv::lexical_cast (through boost::cnv::by_default) is deployed even though
-    //     // it is not supplied explicitly.
-    ///    int    i1 = boost::convert<int>("123").value();
-    ///    int    i2 = boost::convert<int>("uhm").value_or(-1);
-    ///    string s1 = boost::convert<string>(123.456)).value();
+    ///
+    ///    boost::cnv::cstream cnv;
+    ///
+    ///    boost::optional<int>    i = boost::convert<int>("12");
+    ///    boost::optional<string> s = boost::convert<string>(123.456);
     /// @endcode
 
     template<typename TypeOut, typename TypeIn>
