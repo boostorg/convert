@@ -6,8 +6,9 @@
 #include "./test.hpp"
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
-#include <boost/convert/spirit.hpp>
 #include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 
 namespace { namespace local
 {
@@ -37,7 +38,7 @@ test::cnv::get_ints()
 
     if (!filled)
     {
-        boost::random::mt19937                     gen (std::time(0));
+        boost::random::mt19937                     gen (::time(0));
         boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
 //      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
 

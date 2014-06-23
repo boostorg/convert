@@ -1,3 +1,9 @@
+[/
+  Copyright (c) Vladimir Batov 2009-2014
+  Distributed under the Boost Software License, Version 1.0.
+  See copy at http://www.boost.org/LICENSE_1_0.txt.
+]
+
 [section Other Conversions]
 
 An interesting (and yet to be explored) feature of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. The ['Boost.Convert] API facade is type-agnostic and the plugged-in converter ultimately dictates what type transformations are available. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters.

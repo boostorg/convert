@@ -28,13 +28,16 @@
 [include return_value.qbk]
 [include algorithms.qbk]
 [include converters.qbk]
-[include lexcast_converter.qbk]
-[include stream_converter.qbk]
+[include     lexcast_converter.qbk]
+[include     stream_converter.qbk]
+[include     default_converter.qbk]
+[include section-end.qbk]
 [include performance.qbk]
 [include other.qbk]
 [include design_notes.qbk]
 [include acknowledgments.qbk]
 [include references.qbk]
-[include 98_ref.qbk]
-[include 99_index.qbk]
+[xinclude convert_reference.xml]
+'''<index/>'''
+
 

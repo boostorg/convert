@@ -32,7 +32,7 @@ else
    ECHO "Building the convert docs with automatic index generation disabled. Try building with --enable-index." ;
 }
 
-doxygen convert_ref
+doxygen convert_reference
   :
     [ glob $(here)/../include/boost/convert.hpp $(here)/../include/boost/make_default.hpp $(here)/../include/boost/convert/*.hpp ]
   : 
@@ -42,14 +42,14 @@ doxygen convert_ref
     <doxygen:param>SHOW_INCLUDE_FILES=NO
     <doxygen:param>MAX_INITIALIZER_LINES=0
     <doxygen:param>VERBATIM_HEADERS=NO
-    <reftitle>"Convert Reference"
+    <reftitle>"Reference"
 ;
 
 xml convert
   :
     00_main.qbk
   :
-    <dependency>convert_ref
+    <dependency>convert_reference
 ;
 
 boostbook standalone
@@ -57,7 +57,7 @@ boostbook standalone
      convert
   :
   <xsl:param>boost.root="../../../.."
-  <xsl:param>chunk.section.depth=8  # How far down we chunk nested sections, basically all of them.
+  <xsl:param>chunk.section.depth=8
   <xsl:param>toc.section.depth=8  # How far down sections get TOCs.
   <xsl:param>toc.max.depth=4  # Max depth in each TOC.
   

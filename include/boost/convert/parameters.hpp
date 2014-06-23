@@ -16,11 +16,11 @@ namespace boost
 
         namespace parameter
         {
-            BOOST_PARAMETER_KEYWORD(type,      base);
-            BOOST_PARAMETER_KEYWORD(type,    locale);
-            BOOST_PARAMETER_KEYWORD(type, precision);
-            BOOST_PARAMETER_KEYWORD(type, uppercase);
-            BOOST_PARAMETER_KEYWORD(type,  notation);
+            BOOST_PARAMETER_KEYWORD(type,      base)
+            BOOST_PARAMETER_KEYWORD(type,    locale)
+            BOOST_PARAMETER_KEYWORD(type, precision)
+            BOOST_PARAMETER_KEYWORD(type, uppercase)
+            BOOST_PARAMETER_KEYWORD(type,  notation)
         }
     }
 }

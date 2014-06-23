@@ -9,7 +9,7 @@
 //
 // 1. Alex Hagen-Zanker, Roland Bock, Rob Stewart for their considerable contributions to the design
 //    and implementation of the library;
-// 2. Andrzej Krzemienski for helping great deal to partition responsibilities and to ultimately pave
+// 2. Andrzej Krzemienski for helping to partition responsibilities and to ultimately pave
 //    the way for the boost::optional and future std::tr2::optional deployment;
 // 3. Edward Diener the Boost Review Manager for helping with the converters' design, his continuous
 //    involvement, technical and administrative help, guidance and advice;
@@ -28,51 +28,98 @@
 
 namespace boost
 {
-    struct throw_on_failure_type { enum type {};};
-    throw_on_failure_type::type const throw_on_failure = throw_on_failure_type::type(0);
+    namespace detail
+    {
+        enum throw_on_failure {};
+    }
+    /// @details The boost::throw_on_failure is the name of an object of the boost::detail::throw_on_failure
+    /// type that is used for disambiguation of desired exception-throwing behavior.
+    detail::throw_on_failure const throw_on_failure = detail::throw_on_failure(0);
+}
 
+namespace boost
+{
     namespace cnv
     {
         template<typename, typename, typename> struct adapter;
+        struct by_default;
     }
+}
+
+namespace boost
+{
+    // C1. The "is_cnv<Converter>" check is done twice -- in the main convert(TypeIn, Convert) and in the
+    //     secondary-interface (derived from the main) functions as well. Strictly speaking, the checks are
+    //     not necessary in the derived functions as the main convert() does the check anyway.
+    //     However, when things go wrong, the error messages seem considerably clearer/friendlier with that
+    //     "additional" check as the error message points to the actual line in the application(!) code where
+    //     the derived API was called incorrectly. Without that "additional" check the compiler points to the
+    //     call to the main convert() inside the derived function.
 
     /// @brief The main Boost.Convert deployment interface
-    /// @details This is the Boost.Convert main interface. For example,
+    /// @param[in] value_in   The value to be converted
+    /// @param[in] converter  The converter to be used for conversion
+    /// @return The result of conversion together with the indication of success or failure
+    /// of the conversion request.
+    /// @details For example,
     /// @code
     ///    boost::cnv::cstream cnv;
     ///
-    ///    int    i1 = boost::convert<int>(" 12", cnv(std::skipws)).value();
-    ///    int    i2 = boost::convert<int>("uhm", cnv).value_or(-1);
-    ///    string s1 = boost::convert<string>(123.456, cnv)).value();
-    ///    string s2 = boost::convert<string>(123.456, cnv)).value_or("failed");
+    ///    boost::optional<int>    i = boost::convert<int>("12", cnv);
+    ///    boost::optional<string> s = boost::convert<string>(123.456, cnv);
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
     typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, optional<TypeOut> >::type
     convert(TypeIn const& value_in, Converter const& converter)
     {
-            optional<TypeOut> result;
-            converter(value_in, result);
-            return result;
+        optional<TypeOut> result;
+        converter(value_in, result);
+        return result;
+    }
+
+    /// @brief The Boost.Convert deployment interface with the default converter
+    /// @details For example,
+    /// @code
+    ///    // boost::cnv::lexical_cast (through boost::cnv::by_default) will be deployed as
+    ///    // the default converter when no converter is provided explicitly.
+    ///
+    ///    struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
+    ///
+    ///    boost::cnv::cstream cnv;
+    ///
+    ///    boost::optional<int>    i = boost::convert<int>("12");
+    ///    boost::optional<string> s = boost::convert<string>(123.456);
+    /// @endcode
+
+    template<typename TypeOut, typename TypeIn>
+    optional<TypeOut>
+    convert(TypeIn const& value_in)
+    {
+        return boost::convert<TypeOut>(value_in, cnv::by_default());
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    TypeOut
-    convert(TypeIn const& value_in, Converter const& converter, throw_on_failure_type::type)
+    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, TypeOut>::type //See C1
+    convert(TypeIn const& value_in, Converter const& converter, boost::detail::throw_on_failure)
     {
         return convert<TypeOut>(value_in, converter).value();
     }
 
-    template<typename TypeOut, typename TypeIn, typename Converter, typename FallbackValue>
-    typename enable_if<is_convertible<FallbackValue, TypeOut>, TypeOut>::type
-    convert(TypeIn const& value_in, Converter const& converter, FallbackValue const& fallback)
+    template<typename TypeOut, typename TypeIn, typename Converter, typename Fallback>
+    typename enable_if_c<is_convertible<Fallback, TypeOut>::value &&
+                         cnv::is_cnv<Converter, TypeIn, TypeOut>::value, //See C1
+        TypeOut>::type
+    convert(TypeIn const& value_in, Converter const& converter, Fallback const& fallback)
     {
         return convert<TypeOut>(value_in, converter).value_or(fallback);
     }
 
-    template<typename TypeOut, typename TypeIn, typename Converter, typename FallbackFunc>
-    typename enable_if<cnv::is_fun<FallbackFunc, TypeOut>, TypeOut>::type
-    convert(TypeIn const& value_in, Converter const& converter, FallbackFunc fallback)
+    template<typename TypeOut, typename TypeIn, typename Converter, typename Fallback>
+    typename enable_if_c<cnv::is_fun<Fallback, TypeOut>::value &&
+                         cnv::is_cnv<Converter, TypeIn, TypeOut>::value, //See C1
+        TypeOut>::type
+    convert(TypeIn const& value_in, Converter const& converter, Fallback fallback)
     {
         return convert<TypeOut>(value_in, converter).value_or_eval(fallback);
     }
@@ -107,6 +154,7 @@ namespace boost
         return cnv::adapter<TypeOut, TypeIn, Converter>(cnv);
     }
 #endif
+
 }
 
 namespace boost { namespace cnv

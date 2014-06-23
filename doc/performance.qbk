@@ -1,3 +1,9 @@
+[/
+  Copyright (c) Vladimir Batov 2009-2014
+  Distributed under the Boost Software License, Version 1.0.
+  See copy at http://www.boost.org/LICENSE_1_0.txt.
+]
+
 [section Performance]
 
 The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. A few  converters have been tested as part of the ['Boost.Convert] framework (see ['test/performance.cpp]). The C++11 family of `std::to_string()`, `std::stoi()`, etc. were not tested due to unavailability.
