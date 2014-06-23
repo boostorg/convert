@@ -66,33 +66,29 @@ void
 test_skipws()
 {
     //[stream_skipws_example
-    boost::cnv::cstream    ccnv;
-    char const* const cstr_good = "  123";
-    char const* const  cstr_bad = "  123 "; // std::skipws only affects leading spaces.
-
-    ccnv(std::skipws);
-
-    BOOST_TEST( convert<int>(cstr_good, ccnv).value() == 123);
-    BOOST_TEST(!convert<int>( cstr_bad, ccnv));
-
-    ccnv(std::noskipws);
-
-    BOOST_TEST(!convert<int>(cstr_good, ccnv));
-    BOOST_TEST(!convert<int>( cstr_bad, ccnv));
-    //]
+    boost::cnv::cstream       ccnv;
     boost::cnv::wstream       wcnv;
+    char const* const    cstr_good = "  123";
+    char const* const     cstr_bad = "  123 "; // std::skipws only affects leading spaces.
     wchar_t const* const wstr_good = L"  123";
     wchar_t const* const  wstr_bad = L"  123 ";
 
+    ccnv(std::skipws);
     wcnv(std::skipws);
 
+    BOOST_TEST( convert<int>(cstr_good, ccnv).value() == 123);
+    BOOST_TEST(!convert<int>( cstr_bad, ccnv));
     BOOST_TEST( convert<int>(wstr_good, wcnv).value() == 123);
     BOOST_TEST(!convert<int>( wstr_bad, wcnv));
 
+    ccnv(std::noskipws);
     wcnv(std::noskipws);
 
+    BOOST_TEST(!convert<int>(cstr_good, ccnv));
+    BOOST_TEST(!convert<int>( cstr_bad, ccnv));
     BOOST_TEST(!convert<int>(wstr_good, wcnv));
     BOOST_TEST(!convert<int>( wstr_bad, wcnv));
+    //]
 }
 
 static
