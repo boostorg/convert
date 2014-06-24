@@ -105,20 +105,40 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
     CONVERTER_PARAM_FUNC(locale, std::locale)
     {
-        std::locale const& locale = arg[cnv::parameter::locale];
-        stream_.imbue(locale);
-        return *this;
+        return (stream_.imbue(arg[cnv::parameter::locale]), *this);
     }
     CONVERTER_PARAM_FUNC(precision, int)
     {
-        int precision = arg[cnv::parameter::precision];
-        stream_.precision(precision);
-        return *this;
+        return (stream_.precision(arg[cnv::parameter::precision]), *this);
+    }
+    CONVERTER_PARAM_FUNC(width, int)
+    {
+        return (stream_.width(arg[cnv::parameter::width]), *this);
+    }
+    CONVERTER_PARAM_FUNC(fill, char)
+    {
+        return (stream_.fill(arg[cnv::parameter::fill]), *this);
     }
     CONVERTER_PARAM_FUNC(uppercase, bool)
     {
         bool uppercase = arg[cnv::parameter::uppercase];
         uppercase ? (void) stream_.setf(std::ios::uppercase) : stream_.unsetf(std::ios::uppercase);
+        return *this;
+    }
+    CONVERTER_PARAM_FUNC(skipws, bool)
+    {
+        bool skipws = arg[cnv::parameter::skipws];
+        skipws ? (void) stream_.setf(std::ios::skipws) : stream_.unsetf(std::ios::skipws);
+        return *this;
+    }
+    CONVERTER_PARAM_FUNC(adjustment, boost::cnv::adjustment::type)
+    {
+        cnv::adjustment::type adjustment = arg[cnv::parameter::adjustment];
+
+        /**/ if (adjustment == cnv::adjustment:: left) stream_.setf(std::ios::adjustfield, std::ios:: left);
+        else if (adjustment == cnv::adjustment::right) stream_.setf(std::ios::adjustfield, std::ios::right);
+        else BOOST_ASSERT(!"Not implemented");
+
         return *this;
     }
     CONVERTER_PARAM_FUNC(base, boost::cnv::base::type)

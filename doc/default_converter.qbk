@@ -12,22 +12,15 @@ The necessity to explicitly specify a converter as in
 
  int i = boost::convert("123", converter).value();
  
-might be tedious or even error-prone if an application relies on certain consistent behavior associated with one particular converter. To accommodate such a scenario ['Boost.Convert] is capable of deploying the default converter if such is declared.
-
-It is worth mentioning that there is no default converter set by default and, consequently, without additional configuration steps the following call will fail to compile: 
+might be tedious or even error-prone if an application relies on certain consistent behavior associated with one particular converter. To accommodate such a scenario ['Boost.Convert] introduces and deploys `boost::cnv::by_default`. There is no default converter set by default and, consequently, without additional configuration steps the following call will fail to compile: 
 
  int i = boost::convert("123").value(); // No converter provided
  
-The code below defines `boost::cnv::by_default` class. That class happens to be the default converter deployed by ['Boost.Convert]. 
+After `boost::cnv::by_default` is defined, the following code compiles and deploys `boost::cnv::lexical_cast` when `boost::convert()` is called without an explicitly supplied converter:
 
 [default_converter_declaration]
-
-Consequently, the following code compiles and deploys `boost::cnv::lexical_cast` when `boost::convert` is called without an explicitly supplied converter parameter:
-
 [default_converter_headers1]
 [default_converter_example1]
-
-
 
 [endsect]
 

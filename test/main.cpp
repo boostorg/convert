@@ -21,26 +21,6 @@ namespace arg = boost::cnv::parameter;
 using std::string;
 using std::wstring;
 
-template<typename Converter>
-void
-test::cnv::type_to_str(Converter const& cnv)
-{
-    BOOST_TEST("255" == boost::convert<std::string>(255, cnv(arg::base = boost::cnv::base::dec)).value_or("bad"));
-    BOOST_TEST( "ff" == boost::convert<std::string>(255, cnv(arg::base = boost::cnv::base::hex)).value_or("bad"));
-    BOOST_TEST("377" == boost::convert<std::string>(255, cnv(arg::base = boost::cnv::base::oct)).value_or("bad"));
-}
-
-template<typename Converter>
-void
-test::cnv::str_to_type(Converter const& cnv)
-{
-    BOOST_TEST( 255 == boost::convert<int>("255", cnv(arg::base = boost::cnv::base::dec)).value_or(999));
-    BOOST_TEST( 999 == boost::convert<int>( "FF", cnv(arg::base = boost::cnv::base::dec)).value_or(999));
-    BOOST_TEST( 255 == boost::convert<int>( "FF", cnv(arg::base = boost::cnv::base::hex)).value_or(999));
-    BOOST_TEST( 173 == boost::convert<int>("255", cnv(arg::base = boost::cnv::base::oct)).value_or(999));
-    BOOST_TEST( 999 != boost::convert<double>("1.23", cnv).value_or(999));
-}
-
 void
 test::cnv::force_in_type()
 {
@@ -61,11 +41,13 @@ int
 main(int argc, char const* argv[])
 {
     test::cnv::scratchpad();
-    test::cnv::is_converter();
-    test::cnv::stream();
-    test::cnv::spirit();
-
     test::cnv::sfinae();
+    test::cnv::is_converter();
+    test::cnv::stream_converter();
+    test::cnv::spirit_converter();
+    test::cnv::lcast_converter();
+    test::cnv::printf_converter();
+    test::cnv::strtol_converter();
 
     test::cnv::str_to_int(boost::cnv::lexical_cast());
     test::cnv::str_to_int(boost::cnv::cstream());
@@ -79,13 +61,8 @@ main(int argc, char const* argv[])
     test::cnv::int_to_str(boost::cnv::printf());
     test::cnv::int_to_str(boost::cnv::spirit());
 
-    test::cnv::type_to_str(boost::cnv::printf());
-    test::cnv::str_to_type(boost::cnv::strtol()); 
-    test::cnv::str_to_type(boost::cnv::printf());
-    test::cnv::type_to_str(boost::cnv::printf());
     test::cnv::user_type();
     test::cnv::force_in_type();
-    test::cnv::lcast_converter();
     test::cnv::callables();
     test::cnv::fallbacks();
     test::cnv::encryption();

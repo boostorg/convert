@@ -6,8 +6,10 @@
 #define BOOST_CONVERT_PRINTF_HPP
 
 #include <boost/convert/detail/base.hpp>
+#include <boost/convert/detail/string_sfinae.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/find.hpp>
+#include <string>
 #include <stdio.h>
 
 #if defined(_MSC_VER)
@@ -27,24 +29,27 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
     using base_type::operator();
 
     template<typename TypeIn>
-    typename boost::disable_if<cnv::is_char_string<TypeIn>, void>::type
+    typename boost::disable_if<cnv::is_any_string<TypeIn>, void>::type
     operator()(TypeIn const& value_in, boost::optional<std::string>& result_out) const
     {
         int const     bufsz = 256;
         char     buf[bufsz];
-        int const num_chars = ::snprintf(buf, bufsz, format(pos<TypeIn>()), value_in);
+        char const*     fmt = precision_ ? pformat(pos<TypeIn>()) : format(pos<TypeIn>());
+        int const num_chars = precision_
+                            ? ::snprintf(buf, bufsz, fmt, precision_, value_in)
+                            : ::snprintf(buf, bufsz, fmt, value_in);
         bool const  success = num_chars < bufsz;
 
         if (success) result_out = std::string(buf);
     }
     template<typename TypeOut>
-    typename boost::disable_if<cnv::is_char_string<TypeOut>, void>::type
+    typename boost::disable_if<cnv::is_any_string<TypeOut>, void>::type
     operator()(std::string const& value_in, boost::optional<TypeOut>& result_out) const
     {
         this_type::operator()(value_in.c_str(), result_out);
     }
     template<typename TypeOut>
-    typename boost::disable_if<cnv::is_char_string<TypeOut>, void>::type
+    typename boost::disable_if<cnv::is_any_string<TypeOut>, void>::type
     operator()(char const* value_in, boost::optional<TypeOut>& result_out) const
     {
         TypeOut     result = boost::make_default<TypeOut>();
@@ -70,6 +75,17 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
         return type_pos::value;
     }
 
+    char const* pformat(int pos) const
+    {
+        static char const* d_format[] = { "%.*f", "%.*d", "%.*u", "%.*hd", "%.*hu", "%.*ld", "%.*lu" }; // Must match managed_types
+        static char const* x_format[] = { "%.*f", "%.*x", "%.*x", "%.*hx", "%.*hx", "%.*lx", "%.*lx" }; // Must match managed_types
+        static char const* o_format[] = { "%.*f", "%.*o", "%.*o", "%.*ho", "%.*ho", "%.*lo", "%.*lo" }; // Must match managed_types
+        char const*            format = base_ == 10 ? d_format[pos]
+                                      : base_ == 16 ? x_format[pos]
+                                      : base_ ==  8 ? o_format[pos]
+                                      : (BOOST_ASSERT(0), (char const*) 0);
+        return format;
+    }
     char const* format(int pos) const
     {
         static char const* d_format[] = { "%f", "%d", "%u", "%hd", "%hu", "%ld", "%lu" }; // Must match managed_types

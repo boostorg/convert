@@ -130,6 +130,8 @@ performance_type_to_str(Converter const& try_converter)
 void
 test::cnv::performance()
 {
+    printf("Started performance tests...\n");
+
     int const num_tries = 5;
 
     for (int k = 0; k < num_tries; ++k)
@@ -148,18 +150,18 @@ test::cnv::performance()
 
         printf("str-to-int: lxcast raw/cnv=%.2f/%.2f seconds (%.2f%%).\n", raw_time, cnv_time, change);
     }
-    printf("str-to-int: spirit/strtol/scanf/lcast/stream=%.2f/%.2f/%.2f/%.2f/%.2f seconds.\n",
+    printf("str-to-int: spirit/strtol/lcast/scanf/stream=%.2f/%.2f/%.2f/%.2f/%.2f seconds.\n",
            performance::str_to_int(boost::cnv::spirit()),
            performance::str_to_int(boost::cnv::strtol()),
-           performance::str_to_int(boost::cnv::printf()),
            performance::str_to_int(boost::cnv::lexical_cast()),
+           performance::str_to_int(boost::cnv::printf()),
            performance::str_to_int(boost::cnv::cstream()));
 
-    printf("int-to-str: spirit/ltostr/prntf/lcast/stream=%.2f/%.2f/%.2f/%.2f/%.2f seconds.\n",
+    printf("int-to-str: spirit/ltostr/lcast/prntf/stream=%.2f/%.2f/%.2f/%.2f/%.2f seconds.\n",
            performance::int_to_str(boost::cnv::spirit()),
            performance::int_to_str(boost::cnv::strtol()),
-           performance::int_to_str(boost::cnv::printf()),
            performance::int_to_str(boost::cnv::lexical_cast()),
+           performance::int_to_str(boost::cnv::printf()),
            performance::int_to_str(boost::cnv::cstream()));
 
     printf("str-to-user-type: lcast/stream=%.2f/%.2f seconds.\n",

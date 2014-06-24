@@ -17,7 +17,7 @@ namespace arg = boost::cnv::parameter;
 struct boost::cnv::by_default : public boost::cnv::spirit {};
 
 void
-test::cnv::spirit()
+test::cnv::spirit_converter()
 {
     boost::cnv::spirit cnv;
 

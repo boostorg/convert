@@ -20,6 +20,7 @@ main(int argc, char const* argv[])
     int    i = convert<int>("123").value();
     string s = convert<string>(123).value();
 
+    // No explicit converter provided. boost::cnv::by_default is used.
     BOOST_TEST(i == 123);
     BOOST_TEST(s == "123");
     //]

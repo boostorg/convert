@@ -143,17 +143,17 @@ namespace test
         static void         callables ();
         static void         fallbacks ();
         static void   lcast_converter ();
-        static void            stream ();
+        static void  stream_converter ();
+        static void  spirit_converter ();
+        static void  printf_converter ();
+        static void  strtol_converter ();
         static void     int_to_string ();
         static void         user_type ();
         static void     force_in_type ();
         static void       performance ();
-        static void            spirit ();
 
         template<typename Cnv> static void  str_to_int (Cnv const&);
         template<typename Cnv> static void  int_to_str (Cnv const&);
-        template<typename Cnv> static void type_to_str (Cnv const&);
-        template<typename Cnv> static void str_to_type (Cnv const&);
     };
     struct performance
     {

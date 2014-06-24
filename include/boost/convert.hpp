@@ -70,11 +70,11 @@ namespace boost
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, optional<TypeOut> >::type
+    typename enable_if<cnv::is_cnv<typename unwrap_reference<Converter>::type, TypeIn, TypeOut>, optional<TypeOut> >::type
     convert(TypeIn const& value_in, Converter const& converter)
     {
         optional<TypeOut> result;
-        converter(value_in, result);
+        boost::unwrap_ref(converter)(value_in, result);
         return result;
     }
 
@@ -96,7 +96,7 @@ namespace boost
     optional<TypeOut>
     convert(TypeIn const& value_in)
     {
-        return boost::convert<TypeOut>(value_in, cnv::by_default());
+        return boost::convert<TypeOut>(value_in, boost::cnv::by_default());
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter>

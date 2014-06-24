@@ -8,7 +8,7 @@
 
 [import ../example/stream.cpp]
 [import ../test/test.hpp]
-[import ../test/stream.cpp]
+[import ../test/stream_converter.cpp]
 
 The purpose of the converter is to provide conversion-related formatting and locale support not available with `boost::lexical_cast`. Advantages of deploying a `std::stream`-based conversion engine are 
 
@@ -113,23 +113,36 @@ Now such class can be deployed with the `std::stream`-based converter:
  direction dir2 = boost::lexical_cast<direction>(str); // Does not compile
 
 [endsect]
+
 [section Formatting Examples]
-[section Change Numeric Presentation Base (std::dec, std::hex, std::oct)]
+[section Numeric Base]
 [stream_using]
-[stream_numbase_example]
+[stream_numbase_example1]
+
+A more generic interface is also supported:
+
+[stream_cnv_namespace_shortcut]
+[stream_numbase_example2]
+[endsect]
+
+[section Field Width, Fill Character and Adjustment]
+[stream_width_example]
+[endsect]
+
+[section Leading White-Space Characters]
+[stream_using]
+[stream_skipws1_example]
+
+The alternative interface is also supported:
+
+[stream_cnv_namespace_shortcut]
+[stream_skipws2_example]
 
 [endsect]
-[section Change Boolean Representation (std::boolalpha, std::noboolalpha)]
 
+[section Format of Boolean Values]
 [stream_using]
 [stream_boolalpha_example]
-
-[endsect]
-[section Change Processing of Leading White-Space Characters (std::skipws, std::noskipws)]
-
-[stream_using]
-[stream_skipws_example]
-
 [endsect]
 [endsect]
 [endsect]
