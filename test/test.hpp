@@ -151,6 +151,7 @@ namespace test
         static void            spirit ();
 
         template<typename Cnv> static void  str_to_int (Cnv const&);
+        template<typename Cnv> static void  int_to_str (Cnv const&);
         template<typename Cnv> static void type_to_str (Cnv const&);
         template<typename Cnv> static void str_to_type (Cnv const&);
     };

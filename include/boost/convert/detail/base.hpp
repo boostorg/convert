@@ -50,7 +50,7 @@ struct boost::cnv::detail::cnvbase
     
     protected:
 
-    derived const& dncast() const { return static_cast<derived const&>(*this); }
+    derived const& dncast() const { return *static_cast<derived const*>(this); }
 
     int mutable       base_;
     int mutable  precision_;
