@@ -27,7 +27,7 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
     using base_type::operator();
 
     template<typename TypeIn>
-    typename boost::disable_if<cnv::is_any_string<TypeIn>, void>::type
+    typename boost::disable_if<cnv::is_char_string<TypeIn>, void>::type
     operator()(TypeIn const& value_in, boost::optional<std::string>& result_out) const
     {
         int const     bufsz = 256;
@@ -38,13 +38,13 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
         if (success) result_out = std::string(buf);
     }
     template<typename TypeOut>
-    typename boost::disable_if<cnv::is_any_string<TypeOut>, void>::type
+    typename boost::disable_if<cnv::is_char_string<TypeOut>, void>::type
     operator()(std::string const& value_in, boost::optional<TypeOut>& result_out) const
     {
         this_type::operator()(value_in.c_str(), result_out);
     }
     template<typename TypeOut>
-    typename boost::disable_if<cnv::is_any_string<TypeOut>, void>::type
+    typename boost::disable_if<cnv::is_char_string<TypeOut>, void>::type
     operator()(char const* value_in, boost::optional<TypeOut>& result_out) const
     {
         TypeOut     result = boost::make_default<TypeOut>();

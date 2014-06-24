@@ -83,12 +83,14 @@ static void getting_started_example4()
     catch (...) {}
 
     int    i2 = convert<int>("   123", cnv(std::skipws)).value(); // Success
-    string s1 = lexical_cast<string>(123.456);
-    string s2 = convert<string>(123.456, cnv(std::setprecision(4))).value();
+    string s1 = lexical_cast<string>(12.34567);
+    string s2 = convert<string>(12.34567, cnv(std::fixed)(std::setprecision(3))).value();
+    string s3 = convert<string>(12.34567, cnv(std::scientific)(std::setprecision(3))).value();
 
     BOOST_TEST(i2 == 123);
-    BOOST_TEST(s1 == "123.456"); // The only available output format
-    BOOST_TEST(s2 == "123.5");   // Precision was set to 4. Correctly rounded.
+    BOOST_TEST(s1 == "12.34567");  // No settable precision.
+    BOOST_TEST(s2 == "12.346");    // Precision was set to fixed 3. Correctly rounded.
+    BOOST_TEST(s3 == "1.235e+01"); // Precision was set to scientific 3. Correctly rounded.
     //]
 }
 
