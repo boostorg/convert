@@ -10,10 +10,10 @@ The performance of ['Boost.Convert] depends entirely on the performance of the c
 
 Performance was tested for string conversions to the `int` type and to a user-defined type. On a 64-bit 12.04 Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
 
- str-to-int: spirit/strtol/scanf/lcast/stream=2.06/6.84/26.59/10.94/26.26 seconds.
- int-to-str: spirit/ltostr/prntf/lcast/stream=NA/125.56/176.23/107.59/208.09 seconds.
- str-to-user-type: lcast/stream=3.75/1.91 seconds.
- user-type-to-str: lcast/stream=5.60/1.33 seconds.
+ str-to-int: spirit/strtol/scanf/lcast/stream=2.36/6.72/27.20/10.84/26.46 seconds.
+ int-to-str: spirit/ltostr/prntf/lcast/stream=19.00/21.83/32.51/19.60/31.04 seconds.
+ str-to-user-type: lcast/stream=3.80/1.95 seconds.
+ user-type-to-str: lcast/stream=5.58/1.31 seconds.
 
 For user-defined types two converters -- `boost::lexical_cast`-based and `std::stringstream`-based -- were tested. Both converters provide ['string-to-type] and ['type-to-string] conversions; both deploy the same -- `std::stream` -- conversion engine and I suspect both share the same noble goal -- to provide a uniform conversion interface and an extendible conversion framework where new types can be plugged in to the framework via:
 

@@ -155,7 +155,8 @@ test::cnv::performance()
            performance::str_to_int(boost::cnv::lexical_cast()),
            performance::str_to_int(boost::cnv::cstream()));
 
-    printf("int-to-str: spirit/ltostr/prntf/lcast/stream=NA/%.2f/%.2f/%.2f/%.2f seconds.\n",
+    printf("int-to-str: spirit/ltostr/prntf/lcast/stream=%.2f/%.2f/%.2f/%.2f/%.2f seconds.\n",
+           performance::int_to_str(boost::cnv::spirit()),
            performance::int_to_str(boost::cnv::strtol()),
            performance::int_to_str(boost::cnv::printf()),
            performance::int_to_str(boost::cnv::lexical_cast()),

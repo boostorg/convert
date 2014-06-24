@@ -131,7 +131,7 @@ namespace test
         //     we only test up to 9 digits as Spirit does not handle more than 9.
 
         typedef boost::array<my_string, 18> strings; //C1
-        typedef boost::array<int,      100>    ints;
+        typedef boost::array<int,       18>    ints;
 
         static ints const&    get_ints ();
         static strings const& get_strs ();

@@ -77,7 +77,7 @@ main(int argc, char const* argv[])
     test::cnv::int_to_str(boost::cnv::cstream());
     test::cnv::int_to_str(boost::cnv::strtol());
     test::cnv::int_to_str(boost::cnv::printf());
-//    test::cnv::int_to_str(boost::cnv::spirit());
+    test::cnv::int_to_str(boost::cnv::spirit());
 
     test::cnv::type_to_str(boost::cnv::printf());
     test::cnv::str_to_type(boost::cnv::strtol()); 

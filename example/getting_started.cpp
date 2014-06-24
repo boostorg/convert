@@ -63,7 +63,7 @@ static void getting_started_example3()
     boost::cnv::spirit cnv;
 
     int i1 = lexical_cast<int>("123");
-    int i2 = convert<int>("123", cnv).value(); // Five times faster
+    int i2 = convert<int>("123", cnv).value(); // Four times faster
     //]
 }
 
