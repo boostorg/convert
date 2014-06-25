@@ -7,7 +7,7 @@ using quickbook ;
 using doxygen ;
 
 path-constant here : . ; # convenient to refer to files in the same directory as this jamfile.v2
-path-constant boost-images : $(BOOST_ROOT)/doc/src/images ;
+path-constant boost-images : ../../../doc/src/images ;
 
 import modules ;
 
@@ -56,7 +56,7 @@ boostbook standalone
   :
      convert
   :
-  <xsl:param>boost.root="$(BOOST_ROOT)"
+  <xsl:param>boost.root=../../../..
   <xsl:param>chunk.section.depth=8
   <xsl:param>toc.section.depth=8  # How far down sections get TOCs.
   <xsl:param>toc.max.depth=4  # Max depth in each TOC.
@@ -82,15 +82,8 @@ boostbook standalone
   # better use SVG's instead:
   <format>pdf:<xsl:param>admon.graphics.extension=".svg"
   <format>pdf:<xsl:param>admon.graphics.path=$(boost-images)/
-        
-  <dependency>css
-  <dependency>images
   ;
 
-install css : [ glob $(BOOST_ROOT)/doc/src/*.css ]
-    : <location>html ;
-install images : [ glob $(BOOST_ROOT)/doc/src/images/*.png ]
-    : <location>html/images ;
 install pdfinstall
     : standalone
     : <location>.. <install-type>PDF <name>convert.pdf
