@@ -9,6 +9,7 @@
 #include <boost/static_assert.hpp>
 #include <boost/array.hpp>
 #include <string.h>
+#include <stdio.h>
 
 //[change_declaration
 struct change
