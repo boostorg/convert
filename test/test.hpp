@@ -131,7 +131,7 @@ namespace test
         //     we only test up to 9 digits as Spirit does not handle more than 9.
 
         typedef boost::array<my_string, 18> strings; //C1
-        typedef boost::array<int,      100>    ints;
+        typedef boost::array<int,       18>    ints;
 
         static ints const&    get_ints ();
         static strings const& get_strs ();
@@ -143,16 +143,17 @@ namespace test
         static void         callables ();
         static void         fallbacks ();
         static void   lcast_converter ();
-        static void            stream ();
+        static void  stream_converter ();
+        static void  spirit_converter ();
+        static void  printf_converter ();
+        static void  strtol_converter ();
         static void     int_to_string ();
         static void         user_type ();
         static void     force_in_type ();
         static void       performance ();
-        static void            spirit ();
 
         template<typename Cnv> static void  str_to_int (Cnv const&);
-        template<typename Cnv> static void type_to_str (Cnv const&);
-        template<typename Cnv> static void str_to_type (Cnv const&);
+        template<typename Cnv> static void  int_to_str (Cnv const&);
     };
     struct performance
     {

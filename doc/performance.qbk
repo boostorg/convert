@@ -10,21 +10,26 @@ The performance of ['Boost.Convert] depends entirely on the performance of the c
 
 Performance was tested for string conversions to the `int` type and to a user-defined type. On a 64-bit 12.04 Ubuntu box (compiled with gcc 4.6.3) tests produced the following results:
 
- str-to-int: spirit/strtol/scanf/lcast/stream=2.06/6.84/26.59/10.94/26.26 seconds.
- int-to-str: spirit/ltostr/prntf/lcast/stream=NA/125.56/176.23/107.59/208.09 seconds.
- str-to-user-type: lcast/stream=3.75/1.91 seconds.
- user-type-to-str: lcast/stream=5.60/1.33 seconds.
+ str-to-int: spirit/strtol/lcast/scanf/stream=2.55/6.62/10.91/26.53/26.66 seconds.
+ int-to-str: spirit/ltostr/lcast/prntf/stream=18.29/22.34/20.57/32.32/30.56 seconds.
 
-For user-defined types two converters -- `boost::lexical_cast`-based and `std::stringstream`-based -- were tested. Both converters provide ['string-to-type] and ['type-to-string] conversions; both deploy the same -- `std::stream` -- conversion engine and I suspect both share the same noble goal -- to provide a uniform conversion interface and an extendible conversion framework where new types can be plugged in to the framework via:
+The results above indicate that the `std::stream`-based and the `printf/scanf`-based converters compete for the slowest spot. Still, the `std::stream` seems to get the edge due to adequate formatting and locale support. That seems to cast the `scanf/printf`-based converter out of the race for the preferred general-purpose every-day converter.
+
+For user-defined types two converters -- `boost::cnv::lexical_cast` and `std::cnv::cstream` -- were tested. 
+
+ str-to-user-type: lcast/stream=3.80/1.95 seconds.
+ user-type-to-str: lcast/stream=5.58/1.31 seconds.
+
+Both converters provide ['string-to-type] and ['type-to-string] conversions; both deploy the same `std::stream` conversion engine; both provide extendible conversion framework where new types can be plugged in to the framework via:
 
  std::istream& operator>>(std::istream&, TypeOut&);
  std::ostream& operator<<(std::ostream&, TypeIn const&);
 
-Unfortunately that comes at a price as `std::stream`-based conversions of the basic (`int`, etc.) types are comparatively slow. Consequently, for basic types `boost::lexical_cast` implementation has been optimized to avoid `std::stream`. ['Boost.Convert] addresses that "optimization" need via pluggable converters. Consequently, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['Spirit], `std::to_string/std::stoi`, `strtol`, `printf/scanf`, `boost::lexical_cast` (directly or via the ['Boost.Convert] framework) might be an option to explore. 
+Unfortunately that extendibility comes at a price as `std::stream`-based conversions of the basic (`int`, etc.) types are comparatively slow. To address that `boost::lexical_cast` implementation has been optimized to avoid `std::stream` for basic types and ['Boost.Convert] addresses that "optimization" need via pluggable converters. Consequently, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['Spirit], `std::to_string/std::stoi`, `strtol`, `boost::lexical_cast` (directly or via the ['Boost.Convert] framework) might be an option to explore. 
 
-For user-defined types it appears to be quite a different story with the `std::stringstream`-based converter consistently outperforming `boost::lexical_cast` in the tests. These results probably reflect different underlying designs.
+For user-defined types though the `boost::cnv::cstream` converter seems to consistently outperfor `boost::lexical_cast` in the tests. These results probably reflect different underlying designs.
 
-The standard ['Boost.Convert] usage pattern is to create a converter or converters once and then re-use them. In turn, `boost::lexical_cast` also deploys the `std::stream` engine for user-defined types. However, due to its design `boost::lexical_cast` creates and then destroys an instance of a stream type every time the function is called. The [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html `boost::lexical_cast` performance] table indicates that the "std::stringstream with construction" operation is considerably more expensive compared to "std::stringstream without construction".
+The standard ['Boost.Convert] deployment pattern is to create a converter or converters once and then re-use them. In turn, `boost::lexical_cast` also deploys the `std::stream` engine for user-defined types. However, due to its design `boost::lexical_cast` creates and then destroys a `std::stream` instance every time the function is called and the [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html `boost::lexical_cast` performance] table indicates that the "std::stringstream ['with construction]" operation is considerably more expensive compared to "std::stringstream ['without construction]".
 
 Based on the performance data I tend to conclude that, given type-safety and benefits provided by the ['Boost.Convert] framework, it (with appropriate converters) should probably be the first choice for conversion-related tasks.
 

@@ -56,7 +56,7 @@ boostbook standalone
   :
      convert
   :
-  <xsl:param>boost.root="../../../.."
+  <xsl:param>boost.root="$(BOOST_ROOT)"
   <xsl:param>chunk.section.depth=8
   <xsl:param>toc.section.depth=8  # How far down sections get TOCs.
   <xsl:param>toc.max.depth=4  # Max depth in each TOC.

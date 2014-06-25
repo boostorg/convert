@@ -9,6 +9,8 @@
 
 namespace boost { namespace cnv { namespace detail
 {
+    using boost::parameter::aux::tag;
+
     template<typename> struct cnvbase;
 }}}
 
@@ -19,11 +21,11 @@ struct boost::cnv::detail::cnvbase
 
     cnvbase()
     :
-        base_(10), precision_(0), uppercase_(false)
+        base_(10), precision_(0), uppercase_(false), width_(0)
     {}
 
     derived const&
-    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::base, boost::cnv::base::type const>::type const& arg) const
+    operator()(tag<boost::cnv::parameter::type::base, boost::cnv::base::type const>::type const& arg)
     {
         boost::cnv::base::type base = arg[cnv::parameter::base];
         
@@ -34,27 +36,35 @@ struct boost::cnv::detail::cnvbase
         return dncast();
     }
     derived const&
-    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::precision, int const>::type const& arg) const
+    operator()(tag<boost::cnv::parameter::type::precision, int const>::type const& arg)
     {
-        precision_ = arg[cnv::parameter::precision];
-
-        return dncast();
+        precision_ = arg[cnv::parameter::precision]; return dncast();
     }
     derived const&
-    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::uppercase, bool const>::type const& arg) const
+    operator()(tag<boost::cnv::parameter::type::uppercase, bool const>::type const& arg)
     {
-        uppercase_ = arg[cnv::parameter::uppercase];
-
-        return dncast();
+        uppercase_ = arg[cnv::parameter::uppercase]; return dncast();
     }
-    
+    derived const&
+    operator()(tag<boost::cnv::parameter::type::width, int const>::type const& arg)
+    {
+        width_ = arg[cnv::parameter::width]; return dncast();
+    }
+    derived const&
+    operator()(tag<boost::cnv::parameter::type::fill, int const>::type const& arg)
+    {
+        fill_ = arg[cnv::parameter::fill]; return dncast();
+    }
+
     protected:
 
-    derived const& dncast() const { return static_cast<derived const&>(*this); }
+    derived const& dncast() const { return *static_cast<derived const*>(this); }
 
-    int mutable       base_;
-    int mutable  precision_;
-    bool mutable uppercase_;
+    int        base_;
+    int   precision_;
+    bool  uppercase_;
+    int       width_;
+    int        fill_;
 };
 
 #define CONVERTER_PARAM_FUNC(PARAM_NAME, PARAM_TYPE)    \
