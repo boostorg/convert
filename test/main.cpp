@@ -68,10 +68,10 @@ main(int argc, char const* argv[])
     test::cnv::callables();
     test::cnv::fallbacks();
     test::cnv::encryption();
+    test::cnv::performance();
 
     if (perf)
     {
-        test::cnv::performance();
         BOOST_TEST(test::performance::spirit_framework());
     }
     return boost::report_errors();
