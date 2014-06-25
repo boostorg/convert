@@ -66,32 +66,38 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     {
         result_out = this_type::ltostr(value_in, base_);
     }
-    static std::string ltostr(long int num, unsigned int base);
+    std::string ltostr(long int num, unsigned int base) const;
 };
 
 inline
 std::string
-boost::cnv::strtol::ltostr(long int num, unsigned int base) 
+boost::cnv::strtol::ltostr(long int num, unsigned int base) const
 { 
-    if (!num) return "0";
-
     int const     strsz = 256;
     char     str[strsz];
     int const sign_size = (num < 0) ? (num = -num, 1) : 0;
     char* const     beg = str + sign_size;
-    char* const     end = str + strsz;
+    char*           end = str + strsz / 2;
     char*           pos = end;
     
-    for (; num && beg < pos; num /= base) 
+    for (; num /*&& beg < pos*/; num /= base)
     { 
         int remainder = num % base;
         
-        if (remainder < 10) *(--pos) = remainder + '0'; 
-        else                *(--pos) = remainder - 10 + 'A'; 
+        if (remainder < 10) *(--pos) = remainder += '0';
+        else                *(--pos) = remainder += 'A' - 10;
     } 
     if (sign_size) 
         *(--pos) = '-'; 
     
+    if (width_)
+    {
+        int const num_fillers = width_ - (end - pos);
+        bool const      right = adjustment_ == boost::cnv::adjustment::right;
+
+        if (right) for (int k = 0; k < num_fillers; *(--pos) = fill_, ++k);
+        else       for (int k = 0; k < num_fillers; *(end++) = fill_, ++k);
+    }
     return std::string(pos, end); 
 } 
 

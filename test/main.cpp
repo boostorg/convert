@@ -40,6 +40,8 @@ test::cnv::force_in_type()
 int
 main(int argc, char const* argv[])
 {
+    bool perf = false;
+
     test::cnv::scratchpad();
     test::cnv::sfinae();
     test::cnv::is_converter();
@@ -67,7 +69,10 @@ main(int argc, char const* argv[])
     test::cnv::fallbacks();
     test::cnv::encryption();
     test::cnv::performance();
-    BOOST_TEST(test::performance::spirit_framework());
 
+    if (perf)
+    {
+        BOOST_TEST(test::performance::spirit_framework());
+    }
     return boost::report_errors();
 }

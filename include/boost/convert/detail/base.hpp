@@ -10,6 +10,7 @@
 namespace boost { namespace cnv { namespace detail
 {
     using boost::parameter::aux::tag;
+    namespace ARG = boost::cnv::parameter::type;
 
     template<typename> struct cnvbase;
 }}}
@@ -21,50 +22,56 @@ struct boost::cnv::detail::cnvbase
 
     cnvbase()
     :
-        base_(10), precision_(0), uppercase_(false), width_(0)
+        base_       (10),
+        precision_  (0),
+        uppercase_  (false),
+        width_      (0),
+        fill_       (' '),
+        adjustment_ (boost::cnv::adjustment::right)
     {}
 
-    derived const&
-    operator()(tag<boost::cnv::parameter::type::base, boost::cnv::base::type const>::type const& arg)
+    derived&
+    operator()(tag<ARG::base, boost::cnv::base::type const>::type const& arg)
     {
-        boost::cnv::base::type base = arg[cnv::parameter::base];
-        
-        base_ = base == cnv::base::dec ? 10
-              : base == cnv::base::hex ? 16
-              : base == cnv::base::oct ? 8 : 0;
-
-        return dncast();
+        base_ = arg[cnv::parameter::base]; return dncast();
     }
-    derived const&
-    operator()(tag<boost::cnv::parameter::type::precision, int const>::type const& arg)
+    derived&
+    operator()(tag<ARG::adjustment, boost::cnv::adjustment::type const>::type const& arg)
+    {
+        adjustment_ = arg[cnv::parameter::adjustment]; return dncast();
+    }
+    derived&
+    operator()(tag<ARG::precision, int const>::type const& arg)
     {
         precision_ = arg[cnv::parameter::precision]; return dncast();
     }
-    derived const&
-    operator()(tag<boost::cnv::parameter::type::uppercase, bool const>::type const& arg)
+    derived&
+    operator()(tag<ARG::uppercase, bool const>::type const& arg)
     {
         uppercase_ = arg[cnv::parameter::uppercase]; return dncast();
     }
-    derived const&
-    operator()(tag<boost::cnv::parameter::type::width, int const>::type const& arg)
+    derived&
+    operator()(tag<ARG::width, int const>::type const& arg)
     {
         width_ = arg[cnv::parameter::width]; return dncast();
     }
-    derived const&
-    operator()(tag<boost::cnv::parameter::type::fill, int const>::type const& arg)
+    derived&
+    operator()(tag<ARG::fill, char const>::type const& arg)
     {
         fill_ = arg[cnv::parameter::fill]; return dncast();
     }
 
     protected:
 
-    derived const& dncast() const { return *static_cast<derived const*>(this); }
+    derived const& dncast () const { return *static_cast<derived const*>(this); }
+    derived&       dncast ()       { return *static_cast<derived*>(this); }
 
-    int        base_;
-    int   precision_;
-    bool  uppercase_;
-    int       width_;
-    int        fill_;
+    int                                base_;
+    int                           precision_;
+    bool                          uppercase_;
+    int                               width_;
+    int                                fill_;
+    boost::cnv::adjustment::type adjustment_;
 };
 
 #define CONVERTER_PARAM_FUNC(PARAM_NAME, PARAM_TYPE)    \

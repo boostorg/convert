@@ -15,6 +15,7 @@ doc/convert_reference.xml
 .project
 .settings/
 .cproject
+convert-test
 
 Debug/
 Release/
