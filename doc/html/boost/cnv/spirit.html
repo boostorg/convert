@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Struct spirit</title>
 <link rel="stylesheet" href="../../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../../header/boost/convert/spirit_hpp.html" title="Header &lt;boost/convert/spirit.hpp&gt;">
 <link rel="prev" href="../../header/boost/convert/spirit_hpp.html" title="Header &lt;boost/convert/spirit.hpp&gt;">
@@ -24,24 +24,22 @@
 
 </span>
 <span class="keyword">struct</span> <a class="link" href="spirit.html" title="Struct spirit">spirit</a> <span class="special">{</span>
+  <span class="comment">// types</span>
+  <span class="keyword">typedef</span> <a class="link" href="spirit.html" title="Struct spirit">boost::cnv::spirit</a> <a name="boost.cnv.spirit.this_type"></a><span class="identifier">this_type</span><span class="special">;</span>
+  <span class="keyword">typedef</span> <span class="emphasis"><em><span class="identifier">unspecified</span></em></span>        <a name="boost.cnv.spirit.base_type"></a><span class="identifier">base_type</span><span class="special">;</span>
 
-  <span class="comment">// <a class="link" href="spirit.html#idp13923228-bb">public member functions</a></span>
-  <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> Iterator<span class="special">&gt;</span> 
-    <span class="keyword">void</span> <a class="link" href="spirit.html#idp13923412-bb"><span class="identifier">parse_</span></a><span class="special">(</span><span class="identifier">Iterator</span><span class="special">,</span> <span class="identifier">Iterator</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="keyword">int</span> <span class="special">&gt;</span> <span class="special">&amp;</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
-  <span class="keyword">void</span> <a class="link" href="spirit.html#idp13925332-bb"><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span></a><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="keyword">int</span> <span class="special">&gt;</span> <span class="special">&amp;</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
-  <span class="keyword">void</span> <a class="link" href="spirit.html#idp15394276-bb"><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span></a><span class="special">(</span><span class="keyword">char</span> <span class="keyword">const</span> <span class="special">*</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="keyword">int</span> <span class="special">&gt;</span> <span class="special">&amp;</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
+  <span class="comment">// <a class="link" href="spirit.html#idp9075392-bb">public member functions</a></span>
+  <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeIn<span class="special">,</span> <span class="keyword">typename</span> TypeOut<span class="special">&gt;</span> 
+    <span class="keyword">void</span> <a class="link" href="spirit.html#idp9075792-bb"><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span></a><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span> <span class="special">&amp;</span><span class="special">)</span> <span class="keyword">const</span><span class="special">;</span>
 <span class="special">}</span><span class="special">;</span></pre></div>
 <div class="refsect1">
-<a name="idp40465948"></a><h2>Description</h2>
+<a name="idp39244160"></a><h2>Description</h2>
 <div class="refsect2">
-<a name="idp40466156"></a><h3>
-<a name="idp13923228-bb"></a><code class="computeroutput">spirit</code> public member functions</h3>
-<div class="orderedlist"><ol class="orderedlist" type="1">
-<li class="listitem"><pre class="literallayout"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> Iterator<span class="special">&gt;</span> 
-  <span class="keyword">void</span> <a name="idp13923412-bb"></a><span class="identifier">parse_</span><span class="special">(</span><span class="identifier">Iterator</span> beg<span class="special">,</span> <span class="identifier">Iterator</span> end<span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="keyword">int</span> <span class="special">&gt;</span> <span class="special">&amp;</span> result_out<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
-<li class="listitem"><pre class="literallayout"><span class="keyword">void</span> <a name="idp13925332-bb"></a><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span> <span class="special">&amp;</span> str<span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="keyword">int</span> <span class="special">&gt;</span> <span class="special">&amp;</span> result<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
-<li class="listitem"><pre class="literallayout"><span class="keyword">void</span> <a name="idp15394276-bb"></a><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span><span class="special">(</span><span class="keyword">char</span> <span class="keyword">const</span> <span class="special">*</span> str<span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="keyword">int</span> <span class="special">&gt;</span> <span class="special">&amp;</span> result<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li>
-</ol></div>
+<a name="idp39244576"></a><h3>
+<a name="idp9075392-bb"></a><code class="computeroutput">spirit</code> public member functions</h3>
+<div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><pre class="literallayout"><span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeIn<span class="special">,</span> <span class="keyword">typename</span> TypeOut<span class="special">&gt;</span> 
+  <span class="keyword">void</span> <a name="idp9075792-bb"></a><span class="keyword">operator</span><span class="special">(</span><span class="special">)</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span> <span class="special">&amp;</span> value_in<span class="special">,</span> 
+                  <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span> <span class="special">&amp;</span> result_out<span class="special">)</span> <span class="keyword">const</span><span class="special">;</span></pre></li></ol></div>
 </div>
 </div>
 </div>

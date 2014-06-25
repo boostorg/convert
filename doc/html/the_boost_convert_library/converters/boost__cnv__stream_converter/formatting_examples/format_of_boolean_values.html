@@ -1,30 +1,31 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Change Boolean Representation (std::boolalpha, std::noboolalpha)</title>
-<link rel="stylesheet" href="../../../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="../../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
+<title>Format of Boolean Values</title>
+<link rel="stylesheet" href="../../../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="../../../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../formatting_examples.html" title="Formatting Examples">
-<link rel="prev" href="../formatting_examples.html" title="Formatting Examples">
-<link rel="next" href="change_processing_of_leading_white_space_characters__std__skipws__std__noskipws_.html" title="Change Processing of Leading White-Space Characters (std::skipws, std::noskipws)">
+<link rel="prev" href="leading_white_space_characters.html" title="Leading White-Space Characters">
+<link rel="next" href="../../boost__cnv__by_default_default_converter.html" title="boost::cnv::by_default Default Converter">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="../formatting_examples.html"><img src="../../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../formatting_examples.html"><img src="../../../images/up.png" alt="Up"></a><a accesskey="h" href="../../../index.html"><img src="../../../images/home.png" alt="Home"></a><a accesskey="n" href="change_processing_of_leading_white_space_characters__std__skipws__std__noskipws_.html"><img src="../../../images/next.png" alt="Next"></a>
+<a accesskey="p" href="leading_white_space_characters.html"><img src="../../../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../formatting_examples.html"><img src="../../../../images/up.png" alt="Up"></a><a accesskey="h" href="../../../../index.html"><img src="../../../../images/home.png" alt="Home"></a><a accesskey="n" href="../../boost__cnv__by_default_default_converter.html"><img src="../../../../images/next.png" alt="Next"></a>
 </div>
 <div class="section">
-<div class="titlepage"><div><div><h4 class="title">
-<a name="the_boost_convert_library.std__stringstream_based_converter.formatting_examples.change_boolean_representation__std__boolalpha__std__noboolalpha_"></a><a class="link" href="change_boolean_representation__std__boolalpha__std__noboolalpha_.html" title="Change Boolean Representation (std::boolalpha, std::noboolalpha)">Change
-        Boolean Representation (std::boolalpha, std::noboolalpha)</a>
-</h4></div></div></div>
+<div class="titlepage"><div><div><h5 class="title">
+<a name="the_boost_convert_library.converters.boost__cnv__stream_converter.formatting_examples.format_of_boolean_values"></a><a class="link" href="format_of_boolean_values.html" title="Format of Boolean Values">Format
+          of Boolean Values</a>
+</h5></div></div></div>
 <p>
 </p>
-<pre class="programlisting"><span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>
-<span class="keyword">using</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">;</span>
+<pre class="programlisting"><span class="keyword">using</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">;</span>
+<span class="keyword">using</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">wstring</span><span class="special">;</span>
+<span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>
 </pre>
 <p>
-        </p>
+          </p>
 <p>
 </p>
 <pre class="programlisting"><span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span> <span class="keyword">true</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">boolalpha</span><span class="special">)).</span><span class="identifier">value</span><span class="special">()</span> <span class="special">==</span>  <span class="string">"true"</span><span class="special">);</span>
@@ -40,7 +41,7 @@
 <span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">bool</span><span class="special">&gt;(</span><span class="string">"0"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">noboolalpha</span><span class="special">)).</span><span class="identifier">value</span><span class="special">()</span> <span class="special">==</span> <span class="keyword">false</span><span class="special">);</span>
 </pre>
 <p>
-        </p>
+          </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>
@@ -51,7 +52,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="../formatting_examples.html"><img src="../../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../formatting_examples.html"><img src="../../../images/up.png" alt="Up"></a><a accesskey="h" href="../../../index.html"><img src="../../../images/home.png" alt="Home"></a><a accesskey="n" href="change_processing_of_leading_white_space_characters__std__skipws__std__noskipws_.html"><img src="../../../images/next.png" alt="Next"></a>
+<a accesskey="p" href="leading_white_space_characters.html"><img src="../../../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../formatting_examples.html"><img src="../../../../images/up.png" alt="Up"></a><a accesskey="h" href="../../../../index.html"><img src="../../../../images/home.png" alt="Home"></a><a accesskey="n" href="../../boost__cnv__by_default_default_converter.html"><img src="../../../../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>

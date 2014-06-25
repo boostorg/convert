@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>The Default Constructible Type Requirement</title>
 <link rel="stylesheet" href="../../../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="../../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
 <link rel="up" href="../boost__cnv__stream_converter.html" title="boost::cnv::stream Converter">
 <link rel="prev" href="integration_of_user_defined_types.html" title="Integration of User-Defined Types">
@@ -92,9 +92,9 @@
 <p>
           The <code class="computeroutput"><span class="identifier">direction</span></code> type has
           no default state. It is not <span class="emphasis"><em>Default Constructible</em></span>
-          and, consequently, the following calls do not compile:
+          and, consequently, the following does not compile:
         </p>
-<pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Does not compile</span>
+<pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Does not compile</span>
 <span class="identifier">direction</span> <span class="identifier">dir2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Does not compile</span>
 </pre>
 <p>
@@ -115,7 +115,7 @@
           Now such class can be deployed with the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>-based
           converter:
         </p>
-<pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Compiles</span>
+<pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir1</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Compiles</span>
 <span class="identifier">direction</span> <span class="identifier">dir2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Does not compile</span>
 </pre>
 </div>
