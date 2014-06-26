@@ -3,10 +3,10 @@
   Distributed under the Boost Software License, Version 1.0.
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
+ 
+[import ../example/lexical_cast.cpp]
 
 [section boost::cnv::lexical_cast Converter]
-
-[import ../example/lexical_cast.cpp]
 
 The purpose of the converter is 
 

@@ -30,6 +30,7 @@
 [include converters.qbk]
 [include     lexcast_converter.qbk]
 [include     stream_converter.qbk]
+[include     strtol_converter.qbk]
 [include     default_converter.qbk]
 [include section-end.qbk]
 [include performance.qbk]

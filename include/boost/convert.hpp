@@ -154,7 +154,6 @@ namespace boost
         return cnv::adapter<TypeOut, TypeIn, Converter>(cnv);
     }
 #endif
-
 }
 
 namespace boost { namespace cnv
@@ -177,7 +176,7 @@ namespace boost { namespace cnv
 
         TypeOut operator()(TypeIn const& value_in)
         {
-            optional<TypeOut> result = convert<TypeOut>(value_in, unwrap_ref(converter_));
+            optional<TypeOut> result = convert<TypeOut>(value_in, converter_);
             return fallback_ ? result.value_or(*fallback_) : result.value();
         }
 
