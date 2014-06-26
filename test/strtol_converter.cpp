@@ -21,20 +21,20 @@ test_width()
 {
     boost::cnv::strtol cnv;
 
-    string s01 = convert<string>(12, cnv(arg::width = 4)).value();
-    string s02 = convert<string>(12, cnv(arg::width = 5)
-                                        (arg::fill = '*')).value();
-    string s03 = convert<string>(12, cnv(arg::width = 5)
-                                        (arg::fill = 'x')
-                                        (arg::adjustment = cnv::adjustment::left)).value();
+    string s01 = convert<string>( 12, cnv(arg::width = 4)).value();
+    string s02 = convert<string>( 12, cnv(arg::width = 5)
+                                         (arg::fill = '*')).value();
+    string s03 = convert<string>( 12, cnv(arg::width = 5)
+                                         (arg::fill = 'x')
+                                         (arg::adjustment = cnv::adjustment::left)).value();
+    string s04 = convert<string>(-98, cnv(arg::width = 6)
+                                         (arg::fill = 'Z')
+                                         (arg::adjustment = cnv::adjustment::right)).value();
 
     BOOST_TEST(s01 == "  12");
     BOOST_TEST(s02 == "***12");
     BOOST_TEST(s03 == "12xxx");
-
-    printf("%s\n", s01.c_str());
-    printf("%s\n", s02.c_str());
-    printf("%s\n", s03.c_str());
+    BOOST_TEST(s03 == "ZZZ-98");
 }
 
 static
