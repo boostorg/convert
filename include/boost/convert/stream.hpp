@@ -103,35 +103,34 @@ struct boost::cnv::basic_stream : boost::noncopyable
     template<typename Manipulator>
     this_type& operator()(Manipulator m) { return (stream_ >> m, *this); }
 
-    CONVERTER_PARAM_FUNC(locale, std::locale)
+    CONVERTER_PARAM_FUNC(locale, std::locale const)
     {
         return (stream_.imbue(arg[cnv::parameter::locale]), *this);
     }
-    CONVERTER_PARAM_FUNC(precision, int)
-    {
-        return (stream_.precision(arg[cnv::parameter::precision]), *this);
-    }
-    CONVERTER_PARAM_FUNC(width, int)
+    CONVERTER_PARAM_FUNC(precision, int const) { return (stream_.precision(arg[cnv::parameter::precision]), *this); }
+    CONVERTER_PARAM_FUNC(precision,       int) { return (stream_.precision(arg[cnv::parameter::precision]), *this); }
+
+    CONVERTER_PARAM_FUNC(width, int const)
     {
         return (stream_.width(arg[cnv::parameter::width]), *this);
     }
-    CONVERTER_PARAM_FUNC(fill, char)
+    CONVERTER_PARAM_FUNC(fill, char const)
     {
         return (stream_.fill(arg[cnv::parameter::fill]), *this);
     }
-    CONVERTER_PARAM_FUNC(uppercase, bool)
+    CONVERTER_PARAM_FUNC(uppercase, bool const)
     {
         bool uppercase = arg[cnv::parameter::uppercase];
         uppercase ? (void) stream_.setf(std::ios::uppercase) : stream_.unsetf(std::ios::uppercase);
         return *this;
     }
-    CONVERTER_PARAM_FUNC(skipws, bool)
+    CONVERTER_PARAM_FUNC(skipws, bool const)
     {
         bool skipws = arg[cnv::parameter::skipws];
         skipws ? (void) stream_.setf(std::ios::skipws) : stream_.unsetf(std::ios::skipws);
         return *this;
     }
-    CONVERTER_PARAM_FUNC(adjustment, boost::cnv::adjustment::type)
+    CONVERTER_PARAM_FUNC(adjustment, boost::cnv::adjustment::type const)
     {
         cnv::adjustment::type adjustment = arg[cnv::parameter::adjustment];
 
@@ -141,7 +140,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
         return *this;
     }
-    CONVERTER_PARAM_FUNC(base, boost::cnv::base::type)
+    CONVERTER_PARAM_FUNC(base, boost::cnv::base::type const)
     {
         cnv::base::type base = arg[cnv::parameter::base];
         
@@ -152,7 +151,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
         
         return *this;
     }
-    CONVERTER_PARAM_FUNC(notation, boost::cnv::notation::type)
+    CONVERTER_PARAM_FUNC(notation, boost::cnv::notation::type const)
     {
         cnv::notation::type notation = arg[cnv::parameter::notation];
         

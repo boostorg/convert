@@ -17,6 +17,27 @@ using boost::convert;
 namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;
 //]
+
+static
+void
+test_dbl_to_str()
+{
+    boost::cnv::cstream cnv;
+
+    cnv(std::fixed);
+
+    BOOST_TEST("100.00" == convert<string>( 99.999, cnv(arg::precision = 2)).value());
+    BOOST_TEST( "99.95" == convert<string>( 99.949, cnv(arg::precision = 2)).value());
+    BOOST_TEST("-99.95" == convert<string>(-99.949, cnv(arg::precision = 2)).value());
+    BOOST_TEST(  "99.9" == convert<string>( 99.949, cnv(arg::precision = 1)).value());
+    BOOST_TEST(  "1.00" == convert<string>(  0.999, cnv(arg::precision = 2)).value());
+    BOOST_TEST( "-1.00" == convert<string>( -0.999, cnv(arg::precision = 2)).value());
+    BOOST_TEST(  "0.95" == convert<string>(  0.949, cnv(arg::precision = 2)).value());
+    BOOST_TEST( "-0.95" == convert<string>( -0.949, cnv(arg::precision = 2)).value());
+    BOOST_TEST(   "1.9" == convert<string>(  1.949, cnv(arg::precision = 1)).value());
+    BOOST_TEST(  "-1.9" == convert<string>( -1.949, cnv(arg::precision = 1)).value());
+}
+
 static
 void
 test_numbase()
@@ -245,6 +266,7 @@ test::cnv::stream_converter()
     test_width();
     test_manipulators();
     test_locale();
+    test_dbl_to_str();
 
     boost::cnv::cstream ccnv; // std::stringstream-based char converter
     boost::cnv::wstream wcnv; // std::stringstream-based wchar_t converter

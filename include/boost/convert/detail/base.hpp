@@ -40,11 +40,9 @@ struct boost::cnv::detail::cnvbase
     {
         adjustment_ = arg[cnv::parameter::adjustment]; return dncast();
     }
-    derived&
-    operator()(tag<ARG::precision, int const>::type const& arg)
-    {
-        precision_ = arg[cnv::parameter::precision]; return dncast();
-    }
+    derived& operator()(tag<ARG::precision, int const>::type const& arg) { precision_ = arg[cnv::parameter::precision]; return dncast(); }
+    derived& operator()(tag<ARG::precision,       int>::type const& arg) { precision_ = arg[cnv::parameter::precision]; return dncast(); }
+
     derived&
     operator()(tag<ARG::uppercase, bool const>::type const& arg)
     {
@@ -76,6 +74,6 @@ struct boost::cnv::detail::cnvbase
 
 #define CONVERTER_PARAM_FUNC(PARAM_NAME, PARAM_TYPE)    \
     this_type&                                          \
-    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::PARAM_NAME, PARAM_TYPE const>::type const& arg)
+    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::PARAM_NAME, PARAM_TYPE>::type const& arg)
 
 #endif // BOOST_CONVERT_CONVERTER_BASE_HPP

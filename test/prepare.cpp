@@ -30,56 +30,6 @@ namespace { namespace local
     }
 }}
 
-test::cnv::ints const&
-test::cnv::get_ints()
-{
-    static test::cnv::ints ints;
-    static bool          filled;
-
-    if (!filled)
-    {
-        boost::random::mt19937                     gen (::time(0));
-        boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
-//      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
-
-        for (size_t k = 0; k < ints.size(); ++k)
-            ints[k] = dist(gen);
-
-        filled = true;
-    }
-    return ints;
-}
-
-#ifdef sdfsdfsdfsdfsdfsdf
-
-test::cnv::strings const&
-test::cnv::get_strs()
-{
-    static test::cnv::strings strings;
-    static bool                filled;
-
-    if (!filled)
-    {
-        test::cnv::ints const& ints = test::cnv::get_ints();
-
-        BOOST_ASSERT(strings.size() == ints.size());
-
-        for (size_t k = 0; k < ints.size(); ++k)
-        {
-            int const   this_i = ints[k];
-            std::string this_s = boost::convert<std::string>(this_i, boost::cnv::lexical_cast()).value();
-            int const   back_i = boost::convert<int>(this_s, boost::cnv::spirit()).value();
-
-            BOOST_ASSERT(this_i == back_i);
-
-            strings[k] = this_s;
-        }
-        filled = true;
-    }
-    return strings;
-}
-#endif
-
 test::cnv::strings const&
 test::cnv::get_strs()
 {
@@ -107,3 +57,73 @@ test::cnv::get_strs()
     return strings;
 }
 
+namespace test
+{
+    template<>
+    cnv::array<int>::type const&
+    cnv::get<int>()
+    {
+        static cnv::array<int>::type ints;
+        static bool                filled;
+
+        if (!filled)
+        {
+            boost::random::mt19937                     gen (::time(0));
+            boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
+    //      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
+
+            for (size_t k = 0; k < ints.size(); ++k)
+                ints[k] = dist(gen);
+
+            filled = true;
+        }
+        return ints;
+    }
+    template<>
+    cnv::array<long int>::type const&
+    cnv::get<long int>()
+    {
+        static cnv::array<long int>::type ints;
+        static bool                     filled;
+
+        if (!filled)
+        {
+            boost::random::mt19937                     gen (::time(0));
+            boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
+    //      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
+
+            for (size_t k = 0; k < ints.size(); ++k)
+                ints[k] = dist(gen);
+
+            filled = true;
+        }
+        return ints;
+    }
+    template<>
+    cnv::array<double>::type const&
+    cnv::get<double>()
+    {
+        static cnv::array<double>::type dbls;
+        static bool                   filled;
+
+        if (!filled)
+        {
+            boost::random::mt19937                     gen (::time(0));
+            boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
+    //      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
+
+            for (size_t k = 0; k < dbls.size(); ++k)
+                dbls[k] = double(dist(gen)) + 0.7654321;
+
+            filled = true;
+        }
+        return dbls;
+    }
+}
+
+namespace test
+{
+    template cnv::array<     int>::type const& cnv::get<     int>();
+    template cnv::array<long int>::type const& cnv::get<long int>();
+    template cnv::array<  double>::type const& cnv::get<  double>();
+}

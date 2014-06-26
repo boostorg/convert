@@ -63,7 +63,7 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
 
     template<typename Type> int pos() const
     {
-        typedef boost::mpl::vector<double,
+        typedef boost::mpl::vector<double, float,
                                    int, unsigned int,
                                    short int, unsigned short int,
                                    long int, unsigned long int
@@ -77,9 +77,9 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
 
     char const* pformat(int pos) const
     {
-        static char const* d_format[] = { "%.*f", "%.*d", "%.*u", "%.*hd", "%.*hu", "%.*ld", "%.*lu" }; // Must match managed_types
-        static char const* x_format[] = { "%.*f", "%.*x", "%.*x", "%.*hx", "%.*hx", "%.*lx", "%.*lx" }; // Must match managed_types
-        static char const* o_format[] = { "%.*f", "%.*o", "%.*o", "%.*ho", "%.*ho", "%.*lo", "%.*lo" }; // Must match managed_types
+        static char const* d_format[] = { "%.*f", "%.*f", "%.*d", "%.*u", "%.*hd", "%.*hu", "%.*ld", "%.*lu" }; // Must match managed_types
+        static char const* x_format[] = { "%.*f", "%.*f", "%.*x", "%.*x", "%.*hx", "%.*hx", "%.*lx", "%.*lx" }; // Must match managed_types
+        static char const* o_format[] = { "%.*f", "%.*f", "%.*o", "%.*o", "%.*ho", "%.*ho", "%.*lo", "%.*lo" }; // Must match managed_types
         char const*            format = base_ == 10 ? d_format[pos]
                                       : base_ == 16 ? x_format[pos]
                                       : base_ ==  8 ? o_format[pos]
@@ -88,9 +88,9 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
     }
     char const* format(int pos) const
     {
-        static char const* d_format[] = { "%f", "%d", "%u", "%hd", "%hu", "%ld", "%lu" }; // Must match managed_types
-        static char const* x_format[] = { "%f", "%x", "%x", "%hx", "%hx", "%lx", "%lx" }; // Must match managed_types
-        static char const* o_format[] = { "%f", "%o", "%o", "%ho", "%ho", "%lo", "%lo" }; // Must match managed_types
+        static char const* d_format[] = { "%f", "%f", "%d", "%u", "%hd", "%hu", "%ld", "%lu" }; // Must match managed_types
+        static char const* x_format[] = { "%f", "%f", "%x", "%x", "%hx", "%hx", "%lx", "%lx" }; // Must match managed_types
+        static char const* o_format[] = { "%f", "%f", "%o", "%o", "%ho", "%ho", "%lo", "%lo" }; // Must match managed_types
         char const*            format = base_ == 10 ? d_format[pos]
                                       : base_ == 16 ? x_format[pos]
                                       : base_ ==  8 ? o_format[pos]

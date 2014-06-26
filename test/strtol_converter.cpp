@@ -5,6 +5,7 @@
 
 #include "./test.hpp"
 #include <boost/convert.hpp>
+#include <boost/convert/stream.hpp>
 #include <boost/convert/strtol.hpp>
 #include <boost/detail/lightweight_test.hpp>
 
@@ -57,6 +58,43 @@ test_int_to_str()
 
 static
 void
+test_dbl_to_str()
+{
+    struct double_desc
+    {
+        double value;
+        int precision;
+    };
+    double_desc doubles[] =
+    {
+        { 99.999, 2 },
+        { 99.949, 2 },
+        {-99.949, 2 },
+        { 99.949, 1 },
+        {  0.999, 2 },
+        { -0.999, 2 },
+        {  0.949, 2 },
+        { -0.949, 2 },
+        {  1.949, 1 },
+        { -1.949, 1 }
+    };
+    int const             sz = sizeof(doubles) / sizeof(doubles[0]);
+    boost::cnv::strtol  cnv1;
+    boost::cnv::cstream cnv2;
+
+    cnv2(std::fixed);
+
+    for (int k = 0; k < sz; ++k)
+    {
+        string str1 = convert<string>(doubles[k].value, cnv1(arg::precision = doubles[k].precision)).value();
+        string str2 = convert<string>(doubles[k].value, cnv2(arg::precision = doubles[k].precision)).value();
+
+        BOOST_TEST(str1 == str2);
+    }
+}
+
+static
+void
 test_str_to_int()
 {
     boost::cnv::strtol cnv;
@@ -75,4 +113,5 @@ test::cnv::strtol_converter()
 {
     test_str_to_int();
     test_int_to_str();
+    test_dbl_to_str();
 }
