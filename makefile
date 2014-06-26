@@ -26,8 +26,8 @@ else
 
 all: convert-test 
 
-convert-test: $(wildcard test/*.cpp) 
-	g++ -O3 -o $@ $^ -I./include -I../boost_1_55_0 -lrt
+convert-test:  
+	g++ -O3 -o $@ $(wildcard test/*.cpp) -I./include -I../boost_1_55_0 -lrt
 
 endif
 

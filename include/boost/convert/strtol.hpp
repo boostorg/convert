@@ -74,14 +74,14 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     void operator()(char const* v, boost::optional<unsigned       int>& res) const { strtoul_ (v, res); }
     void operator()(char const* v, boost::optional<unsigned  long int>& res) const { strtoul_ (v, res); }
 
-    void operator()(     int v, boost::optional<std::string>& res) const { res = to_str(v, base_, width_); }
-    void operator()(long int v, boost::optional<std::string>& res) const { res = to_str(v, base_, width_); }
+    void operator()(     int v, boost::optional<std::string>& res) const { res = to_str(v); }
+    void operator()(long int v, boost::optional<std::string>& res) const { res = to_str(v); }
 
     void operator()(double value_in, boost::optional<std::string>& result_out) const
     {
         result_out = this_type::dtostr(value_in, precision_);
     }
-    template<typename T> std::string to_str (T, int base, int width) const;
+    template<typename T> std::string to_str (T) const;
     /******************/ std::string dtostr (double, unsigned int precision) const;
 
     // ULONG_MAX(8 bytes) = 18446744073709551615 (20 characters)
@@ -92,27 +92,27 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
 template<typename Type>
 inline
 std::string
-boost::cnv::strtol::to_str(Type value, int base, int width) const
+boost::cnv::strtol::to_str(Type value) const
 {
     char   buf[bufsize];
-    int const sign_size = (value < 0) ? (value = -value, 1) : 0;
-    char* const buf_beg = buf + sign_size;
+    int const is_negative = (value < 0) ? (value = -value, 1) : 0;
+    char* const buf_beg = buf + is_negative;
     char*           end = buf + bufsize / 2;
     char*           beg = end;
     
-    for (; value && buf_beg < beg; value /= base)
+    for (; value && buf_beg < beg; value /= base_)
     { 
-        int remainder = value % base;
+        int remainder = value % base_;
         
         if (remainder < 10) *(--beg) = remainder += '0';
         else                *(--beg) = remainder += 'A' - 10;
     } 
-    if (sign_size) 
+    if (is_negative)
         *(--beg) = '-';
 
-    if (width)
+    if (width_)
     {
-        int const num_fillers = width - (end - beg);
+        int const num_fillers = width_ - (end - beg);
         bool const      right = adjustment_ == boost::cnv::adjustment::right;
 
         if (right) for (int k = 0; k < num_fillers; *(--beg) = fill_, ++k);
@@ -125,14 +125,14 @@ inline
 std::string
 boost::cnv::strtol::dtostr(double value,  unsigned int precision) const
 {
-    int const sign_size = (value < 0) ? (value = -value, 1) : 0;
-    int       int_value = value;
-    double     fraction = value - int_value;
-    int const      base = 10;
-    char   buf[bufsize];
-    char* const buf_beg = buf + sign_size;
-    char*           end = buf + bufsize / 2;
-    char*           beg = end;
+    int const is_negative = (value < 0) ? (value = -value, 1) : 0;
+    int         int_value = value;
+    double       fraction = value - int_value;
+    int const        base = 10;
+    char     buf[bufsize];
+    char* const   buf_beg = buf + is_negative;
+    char*             end = buf + bufsize / 2;
+    char*             beg = end;
 
     for (; int_value /*&& buf_beg < beg*/; int_value /= base)
     {
@@ -141,35 +141,50 @@ boost::cnv::strtol::dtostr(double value,  unsigned int precision) const
         if (remainder < 10) *(--beg) = remainder += '0';
         else                *(--beg) = remainder += 'A' - 10;
     }
-    *(end++) = '.';
+    if (precision) *(end++) = '.';
 
-    while ((fraction *= base) && precision--)
+    for (; fraction && precision; --precision)
     {
-        int digit = int(fraction) % base;
+        int digit = fraction *= base;
         fraction -= digit;
 
         if (digit < 10) *(end++) = digit += '0';
         else            *(end++) = digit += 'A' - 10;
     }
-    if (fraction && 4 < int(fraction) % base) // Extra digit is =>5. Rounding up.
+    // Rounding up: from the middle (including) adds to the next bigger number on the axis.
+    // For positive: 5,6,7,8,9 add to the next on the axis.
+    // For negative: 5,4,3,2,1 add to the next on the axis, i.e. absolute numeric value is smaller.
+    if (fraction)
+        if (is_negative ? (0.5 < fraction) : (0.5 <= fraction)) // Extra digit is not 0. Round half-up.
     {
         char* prev = end;
 
         while (beg <= (*--prev == '.' ? --prev : prev))
         {
-            if (*prev != '9')
+            if (*prev == '9') *prev = '0';
+            else
             {
                 ++*prev;
                 break;
             }
-            else *prev = '0';
         }
         if (prev < beg)
             *(beg = prev) = '1';
     }
-    if (*beg == '.') *(--beg) = '0';
-    if (sign_size)   *(--beg) = '-';
+    for (; precision; --precision)
+        *(end++) = '0';
 
+    if (*beg == '.') *(--beg) = '0';
+    if (is_negative) *(--beg) = '-';
+
+    if (width_)
+    {
+        int const num_fillers = width_ - (end - beg);
+        bool const      right = adjustment_ == boost::cnv::adjustment::right;
+
+        if (right) for (int k = 0; k < num_fillers; *(--beg) = fill_, ++k);
+        else       for (int k = 0; k < num_fillers; *(end++) = fill_, ++k);
+    }
     return std::string(beg, end);
 }
 

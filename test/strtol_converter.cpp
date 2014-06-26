@@ -5,9 +5,12 @@
 
 #include "./test.hpp"
 #include <boost/convert.hpp>
-#include <boost/convert/stream.hpp>
 #include <boost/convert/strtol.hpp>
+#include <boost/convert/printf.hpp>
+#include <boost/convert/stream.hpp>
 #include <boost/detail/lightweight_test.hpp>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
 
 using std::string;
 using boost::convert;
@@ -31,10 +34,18 @@ test_width()
                                          (arg::fill = 'Z')
                                          (arg::adjustment = cnv::adjustment::right)).value();
 
+    string s05 = convert<string>(-12.3451, cnv(arg::precision = 2)
+                                              (arg::width = 10)
+                                              (arg::fill = '*')
+                                              (arg::adjustment = cnv::adjustment::left)).value();
+    string s06 = convert<string>(-12.3450, cnv(arg::adjustment = cnv::adjustment::right)).value();
+
     BOOST_TEST(s01 == "  12");
     BOOST_TEST(s02 == "***12");
     BOOST_TEST(s03 == "12xxx");
     BOOST_TEST(s04 == "ZZZ-98");
+    BOOST_TEST(s05 == "-12.35****");
+    BOOST_TEST(s06 == "****-12.35");
 }
 
 static
@@ -57,40 +68,51 @@ test_int_to_str()
 }
 
 static
+int
+get_precision()
+{
+    static boost::random::mt19937                     gen (::time(0));
+    static boost::random::uniform_int_distribution<> dist (0, 8);
+
+    return dist(gen);
+}
+
+static
+double
+get_double()
+{
+    static boost::random::mt19937                      gen (::time(0));
+    static double const                                max (1000000);
+    static boost::random::uniform_int_distribution<> dist1 (0, INT_MAX); // INT_MAX(32) = 2,147,483,647
+    static boost::random::uniform_int_distribution<> dist2 (0, max - 1);
+    static bool                                sign = false;
+
+    return (double(dist1(gen)) + double(dist2(gen)) / max) * ((sign = !sign) ? 1 : -1);
+}
+
+static
 void
 test_dbl_to_str()
 {
-    struct double_desc
-    {
-        double value;
-        int precision;
-    };
-    double_desc doubles[] =
-    {
-        { 99.999, 2 },
-        { 99.949, 2 },
-        {-99.949, 2 },
-        { 99.949, 1 },
-        {  0.999, 2 },
-        { -0.999, 2 },
-        {  0.949, 2 },
-        { -0.949, 2 },
-        {  1.949, 1 },
-        { -1.949, 1 }
-    };
-    int const             sz = sizeof(doubles) / sizeof(doubles[0]);
+    printf("cnv::strtol::%s: started...\n", __FUNCTION__);
+
+    int const     num_cycles = 1000000;
     boost::cnv::strtol  cnv1;
     boost::cnv::cstream cnv2;
 
     cnv2(std::fixed);
 
-    for (int k = 0; k < sz; ++k)
+    for (int k = 0; k < num_cycles; ++k)
     {
-        string str1 = convert<string>(doubles[k].value, cnv1(arg::precision = doubles[k].precision)).value();
-        string str2 = convert<string>(doubles[k].value, cnv2(arg::precision = doubles[k].precision)).value();
+        double    dbl = get_double();
+        int precision = get_precision();
+        string   str1 = convert<string>(dbl, cnv1(arg::precision = precision)).value();
+        string   str2 = convert<string>(dbl, cnv2(arg::precision = precision)).value();
 
-        BOOST_TEST(str1 == str2);
+        if (str1 != str2)
+            printf("dbl=%.10f (%d). <%s><%s>\n", dbl, precision, str1.c_str(), str2.c_str());
     }
+    printf("cnv::strtol::%s: finished.\n", __FUNCTION__);
 }
 
 static

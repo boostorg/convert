@@ -70,7 +70,7 @@ namespace test
         {
             boost::random::mt19937                     gen (::time(0));
             boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
-    //      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
+    //      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2,147,483,647
 
             for (size_t k = 0; k < ints.size(); ++k)
                 ints[k] = dist(gen);
