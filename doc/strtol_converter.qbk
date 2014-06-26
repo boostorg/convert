@@ -13,7 +13,7 @@ This converter started as a deployment example (with the `strtol` family of func
  ~/dev/convert/doc.>> uname -a
  Linux 3.13.0-29-generic SMP i686 GNU/Linux
  ~/dev/convert/doc.>> gcc --version
- gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2-I.
+ gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
  ~/dev/convert.>> g++ -O3 -o convert-test ... -I../boost_1_55_0 -lrt
 
  Started performance tests...
