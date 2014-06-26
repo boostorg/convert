@@ -1,0 +1,109 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>boost::cnv::strtol Converter</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
+<link rel="up" href="../converters.html" title="Converters">
+<link rel="prev" href="boost__cnv__stream_converter/formatting_examples/format_of_boolean_values.html" title="Format of Boolean Values">
+<link rel="next" href="boost__cnv__strtol_converter/formatting_support.html" title="Formatting Support">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="boost__cnv__stream_converter/formatting_examples/format_of_boolean_values.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../converters.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="boost__cnv__strtol_converter/formatting_support.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="the_boost_convert_library.converters.boost__cnv__strtol_converter"></a><a class="link" href="boost__cnv__strtol_converter.html" title="boost::cnv::strtol Converter">boost::cnv::strtol
+      Converter</a>
+</h3></div></div></div>
+<div class="toc"><dl class="toc">
+<dt><span class="section"><a href="boost__cnv__strtol_converter.html#the_boost_convert_library.converters.boost__cnv__strtol_converter.basic_deployment">Basic
+        Deployment</a></span></dt>
+<dt><span class="section"><a href="boost__cnv__strtol_converter/formatting_support.html">Formatting
+        Support</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="boost__cnv__strtol_converter/formatting_support.html#the_boost_convert_library.converters.boost__cnv__strtol_converter.formatting_support.numeric_base">Numeric
+          Base</a></span></dt>
+<dt><span class="section"><a href="boost__cnv__strtol_converter/formatting_support/field_width__fill_character_and_adjustment.html">Field
+          Width, Fill Character and Adjustment</a></span></dt>
+<dt><span class="section"><a href="boost__cnv__strtol_converter/formatting_support/floating_point_precision.html">Floating-Point
+          Precision</a></span></dt>
+</dl></dd>
+<dt><span class="section"><a href="boost__cnv__strtol_converter/limitations.html">Limitations</a></span></dt>
+</dl></div>
+<p>
+        This converter started as a deployment example (with the <code class="computeroutput"><span class="identifier">strtol</span></code>
+        family of functions as its conversion engine) and as a part of the performance
+        test. Surprisingly, the converter showed fairly decent all-around performance:
+      </p>
+<pre class="programlisting"><span class="special">~/</span><span class="identifier">dev</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">doc</span><span class="special">.&gt;&gt;</span> <span class="identifier">uname</span> <span class="special">-</span><span class="identifier">a</span>
+<span class="identifier">Linux</span> <span class="number">3.13</span><span class="special">.</span><span class="number">0</span><span class="special">-</span><span class="number">29</span><span class="special">-</span><span class="identifier">generic</span> <span class="identifier">SMP</span> <span class="identifier">i686</span> <span class="identifier">GNU</span><span class="special">/</span><span class="identifier">Linux</span>
+<span class="special">~/</span><span class="identifier">dev</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">doc</span><span class="special">.&gt;&gt;</span> <span class="identifier">gcc</span> <span class="special">--</span><span class="identifier">version</span>
+<span class="identifier">gcc</span> <span class="special">(</span><span class="identifier">Ubuntu</span> <span class="number">4.8</span><span class="special">.</span><span class="number">2</span><span class="special">-</span><span class="number">19u</span><span class="identifier">buntu1</span><span class="special">)</span> <span class="number">4.8</span><span class="special">.</span><span class="number">2</span><span class="special">-</span><span class="identifier">I</span><span class="special">.</span>
+<span class="special">~/</span><span class="identifier">dev</span><span class="special">/</span><span class="identifier">convert</span><span class="special">.&gt;&gt;</span> <span class="identifier">g</span><span class="special">++</span> <span class="special">-</span><span class="identifier">O3</span> <span class="special">-</span><span class="identifier">o</span> <span class="identifier">convert</span><span class="special">-</span><span class="identifier">test</span> <span class="special">...</span> <span class="special">-</span><span class="identifier">I</span><span class="special">../</span><span class="identifier">boost_1_55_0</span> <span class="special">-</span><span class="identifier">lrt</span>
+
+<span class="identifier">Started</span> <span class="identifier">performance</span> <span class="identifier">tests</span><span class="special">...</span>
+<span class="identifier">Testing</span><span class="special">:</span> <span class="number">3</span><span class="special">,-</span><span class="number">1</span><span class="special">,</span><span class="number">84</span><span class="special">,-</span><span class="number">54</span><span class="special">,</span><span class="number">441</span><span class="special">,-</span><span class="number">483</span><span class="special">,</span><span class="number">5706</span><span class="special">,-</span><span class="number">7068</span><span class="special">,</span><span class="number">91122</span><span class="special">,-</span><span class="number">41422</span><span class="special">,</span><span class="number">359792</span><span class="special">,-</span><span class="number">146466</span><span class="special">,</span><span class="number">8150700</span><span class="special">,-</span><span class="number">1066301</span><span class="special">,</span><span class="number">43537087</span><span class="special">,-</span><span class="number">37113789</span><span class="special">,</span><span class="number">561980284</span><span class="special">,-</span><span class="number">862083830</span>
+<span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="keyword">int</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtoi</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">19.33</span><span class="special">/</span>   <span class="number">49.00</span><span class="special">/</span>   <span class="number">99.82</span><span class="special">/</span>  <span class="number">194.98</span><span class="special">/</span>  <span class="number">209.11</span> <span class="identifier">seconds</span><span class="special">.</span>
+<span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">lng</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">19.11</span><span class="special">/</span>   <span class="number">48.75</span><span class="special">/</span>   <span class="number">99.80</span><span class="special">/</span>  <span class="number">194.57</span><span class="special">/</span>  <span class="number">202.84</span> <span class="identifier">seconds</span><span class="special">.</span>
+<span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">dbl</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtod</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>      <span class="identifier">NA</span><span class="special">/</span>  <span class="number">138.45</span><span class="special">/</span>  <span class="number">219.19</span><span class="special">/</span>  <span class="number">339.05</span><span class="special">/</span>  <span class="number">434.05</span> <span class="identifier">seconds</span><span class="special">.</span>
+<span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">itostr</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">prntf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>  <span class="number">161.83</span><span class="special">/</span>  <span class="number">158.21</span><span class="special">/</span>  <span class="number">194.37</span><span class="special">/</span>  <span class="number">262.21</span><span class="special">/</span>  <span class="number">284.66</span> <span class="identifier">seconds</span><span class="special">.</span>
+<span class="identifier">lng</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">ltostr</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">prntf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>  <span class="number">168.94</span><span class="special">/</span>  <span class="number">159.79</span><span class="special">/</span>  <span class="number">194.96</span><span class="special">/</span>  <span class="number">266.40</span><span class="special">/</span>  <span class="number">276.23</span> <span class="identifier">seconds</span><span class="special">.</span>
+<span class="identifier">dbl</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">dtostr</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">prntf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>      <span class="identifier">NA</span><span class="special">/</span>  <span class="number">164.20</span><span class="special">/</span> <span class="number">1158.23</span><span class="special">/</span>  <span class="number">917.12</span><span class="special">/</span> <span class="number">1118.74</span> <span class="identifier">seconds</span><span class="special">.</span>
+</pre>
+<p>
+        Consequently, it was extended to provide <code class="computeroutput"><span class="keyword">int</span><span class="special">/</span><span class="keyword">double</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">string</span></code>
+        conversion support and basic formatting facilities. At the moment it seems
+        to be a good choice for conversion tasks with moderate formatting requirements
+        and adequate performance.
+      </p>
+<p>
+        It should be noted though that the converter is nowhere as mature as <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+        or <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">stream</span></code>.
+      </p>
+<div class="section">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="the_boost_convert_library.converters.boost__cnv__strtol_converter.basic_deployment"></a><a class="link" href="boost__cnv__strtol_converter.html#the_boost_convert_library.converters.boost__cnv__strtol_converter.basic_deployment" title="Basic Deployment">Basic
+        Deployment</a>
+</h4></div></div></div>
+<p>
+</p>
+<pre class="programlisting"><span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+<span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
+
+<span class="keyword">using</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">;</span>
+<span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>
+
+<span class="keyword">struct</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span> <span class="special">{};</span>
+</pre>
+<p>
+        </p>
+<p>
+</p>
+<pre class="programlisting"><span class="identifier">string</span> <span class="keyword">const</span> <span class="identifier">not_int_str</span> <span class="special">=</span> <span class="string">"not an int"</span><span class="special">;</span>
+<span class="identifier">string</span> <span class="keyword">const</span>     <span class="identifier">std_str</span> <span class="special">=</span> <span class="string">"-11"</span><span class="special">;</span>
+<span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="keyword">const</span>  <span class="identifier">c_str</span> <span class="special">=</span> <span class="string">"-12"</span><span class="special">;</span>
+
+<span class="identifier">BOOST_TEST</span><span class="special">(</span> <span class="special">-</span><span class="number">1</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">not_int_str</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">));</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(-</span><span class="number">11</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span>    <span class="identifier">std_str</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">));</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(-</span><span class="number">12</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span>      <span class="identifier">c_str</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">));</span>
+</pre>
+<p>
+        </p>
+</div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009-2014 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. See copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>.
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="boost__cnv__stream_converter/formatting_examples/format_of_boolean_values.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../converters.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="boost__cnv__strtol_converter/formatting_support.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>
