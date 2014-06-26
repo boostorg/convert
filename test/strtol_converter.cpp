@@ -34,7 +34,7 @@ test_width()
     BOOST_TEST(s01 == "  12");
     BOOST_TEST(s02 == "***12");
     BOOST_TEST(s03 == "12xxx");
-    BOOST_TEST(s03 == "ZZZ-98");
+    BOOST_TEST(s04 == "ZZZ-98");
 }
 
 static

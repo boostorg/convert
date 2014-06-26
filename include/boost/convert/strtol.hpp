@@ -6,10 +6,9 @@
 #define BOOST_CONVERT_STRTOL_CONVERTER_HPP
 
 #include <boost/convert/detail/base.hpp>
+#include <limits>
 #include <stdlib.h>
 #include <limits.h>
-#include <stdio.h>
-#include <limits>
 
 namespace boost { namespace cnv
 {
@@ -20,7 +19,6 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
 {
     typedef boost::cnv::strtol                     this_type;
     typedef boost::cnv::detail::cnvbase<this_type> base_type;
-    typedef std::pair<char*, char*>            iterator_pair;
 
     using base_type::operator();
 
@@ -83,22 +81,26 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     {
         result_out = this_type::dtostr(value_in, precision_);
     }
-    template<typename T> iterator_pair to_str (T, int base, char*, int const) const;
-    template<typename T> std::string   to_str (T, int base, int width) const;
-    /******************/ std::string   dtostr (double, unsigned int precision) const;
+    template<typename T> std::string to_str (T, int base, int width) const;
+    /******************/ std::string dtostr (double, unsigned int precision) const;
+
+    // ULONG_MAX(8 bytes) = 18446744073709551615 (20 characters)
+    // double (8 bytes) max is 316 chars
+    static int const bufsize = 1024;
 };
 
 template<typename Type>
 inline
-boost::cnv::strtol::iterator_pair
-boost::cnv::strtol::to_str(Type value, int base, char* buf, int const buf_size) const
-{ 
+std::string
+boost::cnv::strtol::to_str(Type value, int base, int width) const
+{
+    char   buf[bufsize];
     int const sign_size = (value < 0) ? (value = -value, 1) : 0;
     char* const buf_beg = buf + sign_size;
-    char*           end = buf + buf_size / 2;
+    char*           end = buf + bufsize / 2;
     char*           beg = end;
     
-    for (; value /*&& buf_beg < beg*/; value /= base)
+    for (; value && buf_beg < beg; value /= base)
     { 
         int remainder = value % base;
         
@@ -108,20 +110,6 @@ boost::cnv::strtol::to_str(Type value, int base, char* buf, int const buf_size) 
     if (sign_size) 
         *(--beg) = '-';
 
-    return std::make_pair(beg, end);
-}
-
-template<typename Type>
-inline
-std::string
-boost::cnv::strtol::to_str(Type value, int base, int width) const
-{
-    int const   strsz = 256;
-    char   str[strsz];
-    iterator_pair res = to_str(value, base_, str, strsz);
-    char*         beg = res.first;
-    char*         end = res.second;
-    
     if (width)
     {
         int const num_fillers = width - (end - beg);
@@ -141,10 +129,9 @@ boost::cnv::strtol::dtostr(double value,  unsigned int precision) const
     int       int_value = value;
     double     fraction = value - int_value;
     int const      base = 10;
-    int const  buf_size = 256;
-    char  buf[buf_size];
+    char   buf[bufsize];
     char* const buf_beg = buf + sign_size;
-    char*           end = buf + buf_size / 2;
+    char*           end = buf + bufsize / 2;
     char*           beg = end;
 
     for (; int_value /*&& buf_beg < beg*/; int_value /= base)
