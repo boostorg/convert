@@ -177,7 +177,7 @@ namespace boost { namespace cnv
         TypeOut operator()(TypeIn const& value_in)
         {
             optional<TypeOut> result = convert<TypeOut>(value_in, converter_);
-            return fallback_ ? result.value_or(*fallback_) : result.value();
+            return result ? result.get() : fallback_.value();
         }
 
         protected:
