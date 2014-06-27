@@ -3,8 +3,8 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include <boost/convert.hpp>
-#include <boost/convert/lexical_cast.hpp>
 #include <boost/convert/stream.hpp>
+#include <boost/convert/lexical_cast.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>

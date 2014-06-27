@@ -2,7 +2,6 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include "../test/test.hpp"
 //[stream_headers1
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
@@ -11,7 +10,7 @@
 using std::string;
 using boost::convert;
 //]
-
+#include "../test/test.hpp"
 //[stream_headers2
 namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;

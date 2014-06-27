@@ -10,7 +10,6 @@
 #include <boost/make_default.hpp>
 #include <sstream>
 #include <iomanip>
-#include <stdio.h>
 
 namespace boost { namespace cnv
 {

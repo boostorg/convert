@@ -11,7 +11,6 @@
 #include <string>
 #include <istream>
 #include <memory.h> // Is needed for 'memset'
-#include <stdio.h>
 
 //[change_declaration
 struct change

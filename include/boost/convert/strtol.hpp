@@ -8,8 +8,8 @@
 #include <boost/convert/detail/base.hpp>
 #include <limits>
 #include <cmath>
-#include <stdlib.h>
-#include <limits.h>
+#include <cstdlib>
+#include <climits>
 
 namespace boost { namespace cnv
 {
