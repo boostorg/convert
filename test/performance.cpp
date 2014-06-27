@@ -86,7 +86,7 @@ test::performance::to_str(Converter const& try_converter)
     int                sum = 0;
     test::cnv::timer timer (sum);
 
-    for (int t = 0; t < test::cnv::num_cycles / 10; ++t)
+    for (int t = 0; t < test::cnv::num_cycles; ++t)
         for (int k = 0; k < size; ++k)
             sum += boost::convert<std::string>(Type(values[k]), try_converter).value()[0];
 
