@@ -8,7 +8,9 @@
 #include <boost/make_default.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/array.hpp>
-#include <string.h>
+#include <string>
+#include <istream>
+#include <memory.h> // Is needed for 'memset'
 #include <stdio.h>
 
 //[change_declaration
