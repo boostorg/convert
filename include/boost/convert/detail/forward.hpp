@@ -12,9 +12,14 @@
 #include <boost/optional.hpp>
 
 #if defined(_MSC_VER)
-#   pragma warning(disable: 4348)
-#   pragma warning(disable: 4800)
-#   pragma warning(disable: 4996)
+#   pragma warning(disable : 4348)
+#   pragma warning(disable : 4800)
+#   pragma warning(disable : 4996)
+#   pragma warning(disable : 4127)  // conditional expression is constant.
+#   pragma warning(disable : 4189)  // local variable is initialized but not referenced.
+#   pragma warning(disable : 4100)  // unreferenced formal parameter.
+#   pragma warning(disable : 4714)  // marked as __forceinline not #endif
+#   define _CRT_SECURE_NO_WARNINGS
 #endif
 
 #if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
