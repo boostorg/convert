@@ -157,7 +157,7 @@ test_dbl_to_str()
         string                   str2 = convert<string>(dbl, cnv2(arg::precision = precision)).value();
 
         if (str1 != str2)
-            printf("dbl=%.12f (%d)(%.*f). <%s><%s>\n", dbl, precision, precision, dbl, str1.c_str(), str2.c_str());
+            printf("dbl=%.12f(%d). (%s)(%.*f)(%s)\n", dbl, precision, str1.c_str(), precision, dbl, str2.c_str());
     }
     BOOST_TEST(    "0" == convert<string>(    0.0, cnv1(arg::precision = 0)).value());
     BOOST_TEST(  "0.0" == convert<string>(    0.0, cnv1(arg::precision = 1)).value());
@@ -178,6 +178,8 @@ test_dbl_to_str()
 void
 test::cnv::strtol_converter()
 {
+printf("%u, %d\n", sizeof(int), INT_MAX);
+
     test_str_to_int();
     test_base();
     test_width();
