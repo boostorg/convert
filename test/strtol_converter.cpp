@@ -10,6 +10,7 @@
 #include <boost/detail/lightweight_test.hpp>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
+#include <boost/random/uniform_01.hpp>
 
 //[strtol_basic_deployment_header
 #include <boost/convert.hpp>
@@ -93,37 +94,6 @@ test_base()
 
 static
 void
-test_int_to_str()
-{
-    test_base();
-    test_width();
-}
-
-static
-int
-get_precision()
-{
-    static boost::random::mt19937                     gen (::time(0));
-    static boost::random::uniform_int_distribution<> dist (0, 8);
-
-    return dist(gen);
-}
-
-static
-double
-get_double()
-{
-    static boost::random::mt19937                      gen (::time(0));
-    static double const                                max (1000000);
-    static boost::random::uniform_int_distribution<> dist1 (0, INT_MAX); // INT_MAX(32) = 2,147,483,647
-    static boost::random::uniform_int_distribution<> dist2 (0, max - 1);
-    static bool                                sign = false;
-
-    return (double(dist1(gen)) + double(dist2(gen)) / max) * ((sign = !sign) ? 1 : -1);
-}
-
-static
-void
 dbl_to_str_example()
 {
     //[strtol_precision
@@ -140,27 +110,68 @@ dbl_to_str_example()
 }
 
 static
+std::pair<double, int>
+get_random()
+{
+    static boost::random::mt19937                          gen (::time(0));
+    static boost::random::uniform_int_distribution<> precision (0, 8);
+    static boost::random::uniform_int_distribution<>  int_part (0, INT_MAX); // INT_MAX(32) = 2,147,483,647
+    static boost::random::uniform_01<double>          fraction; // uniform double in [0,1)
+    static bool                                           sign;
+
+    double dbl = (int_part(gen) + fraction(gen)) * ((sign = !sign) ? 1 : -1);
+
+//  printf("%.12f\n", dbl);
+
+    return std::make_pair(dbl, precision(gen));
+}
+
+static
 void
 test_dbl_to_str()
 {
-    printf("cnv::strtol::%s: started...\n", __FUNCTION__);
-
-    int const     num_cycles = 1000000;
+    double      round_up_abs01 = ::rint(-0.5);
+    double      round_up_abs02 = ::round(-0.5);
+    double      round_up_abs11 = ::rint(0.5);
+    double      round_up_abs12 = ::round(0.5);
+    int const      num_tries = 1000000;
     boost::cnv::strtol  cnv1;
     boost::cnv::cstream cnv2;
+    double huge_v = 987654321098765432109.123;
 
     cnv2(std::fixed);
 
-    for (int k = 0; k < num_cycles; ++k)
+    printf("cnv::strtol::%s: started with %d random numbers...\n", __FUNCTION__, num_tries);
+    printf("%f\n", huge_v);
+
+    string huge = convert<string>(huge_v, cnv1(arg::precision = 2)).value();
+
+    printf("%s\n", huge.c_str());
+
+    for (int k = 0; k < num_tries; ++k)
     {
-        double    dbl = get_double();
-        int precision = get_precision();
-        string   str1 = convert<string>(dbl, cnv1(arg::precision = precision)).value();
-        string   str2 = convert<string>(dbl, cnv2(arg::precision = precision)).value();
+        std::pair<double, int> random = get_random();
+        double                    dbl = random.first;
+        int                 precision = random.second;
+        string                   str1 = convert<string>(dbl, cnv1(arg::precision = precision)).value();
+        string                   str2 = convert<string>(dbl, cnv2(arg::precision = precision)).value();
 
         if (str1 != str2)
-            printf("dbl=%.10f (%d). <%s><%s>\n", dbl, precision, str1.c_str(), str2.c_str());
+            printf("dbl=%.12f (%d)(%.*f). <%s><%s>\n", dbl, precision, precision, dbl, str1.c_str(), str2.c_str());
     }
+    BOOST_TEST(    "0" == convert<string>(    0.0, cnv1(arg::precision = 0)).value());
+    BOOST_TEST(  "0.0" == convert<string>(    0.0, cnv1(arg::precision = 1)).value());
+    BOOST_TEST( "0.00" == convert<string>(    0.0, cnv1(arg::precision = 2)).value());
+    BOOST_TEST(    "1" == convert<string>(   0.95, cnv1(arg::precision = 0)).value());
+    BOOST_TEST(  "1.0" == convert<string>(   0.95, cnv1(arg::precision = 1)).value());
+    BOOST_TEST(  "0.9" == convert<string>(   0.94, cnv1(arg::precision = 1)).value());
+    BOOST_TEST(    "1" == convert<string>(   1.05, cnv1(arg::precision = 0)).value());
+    BOOST_TEST(  "1.1" == convert<string>(   1.05, cnv1(arg::precision = 1)).value());
+    BOOST_TEST("0.123" == convert<string>( 0.1234, cnv1(arg::precision = 3)).value());
+    BOOST_TEST("0.124" == convert<string>( 0.1235, cnv1(arg::precision = 3)).value());
+    BOOST_TEST(   "10" == convert<string>(  9.654, cnv1(arg::precision = 0)).value());
+    BOOST_TEST(  "902" == convert<string>(901.805, cnv1(arg::precision = 0)).value());
+
     printf("cnv::strtol::%s: finished.\n", __FUNCTION__);
 }
 
@@ -168,7 +179,8 @@ void
 test::cnv::strtol_converter()
 {
     test_str_to_int();
-    test_int_to_str();
+    test_base();
+    test_width();
     test_dbl_to_str();
     dbl_to_str_example();
 }

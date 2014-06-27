@@ -14,6 +14,10 @@
 #include <boost/detail/lightweight_test.hpp>
 
 using std::string;
+using boost::convert;
+
+namespace cnv = boost::cnv;
+namespace arg = boost::cnv::parameter;
 
 struct str_to_int_spirit
 {
@@ -21,7 +25,7 @@ struct str_to_int_spirit
     {
         char const* beg = str;
         char const* end = beg + strlen(str);
-        int result;
+        int      result;
 
         if (boost::spirit::qi::parse(beg, end, boost::spirit::int_, result))
             if (beg == end) // ensure the whole string was parsed
@@ -82,7 +86,7 @@ test::performance::to_str(Converter const& try_converter)
     int                sum = 0;
     test::cnv::timer timer (sum);
 
-    for (int t = 0; t < test::cnv::num_cycles; ++t)
+    for (int t = 0; t < test::cnv::num_cycles / 10; ++t)
         for (int k = 0; k < size; ++k)
             sum += boost::convert<std::string>(Type(values[k]), try_converter).value()[0];
 
@@ -129,12 +133,40 @@ performance_type_to_str(Converter const& try_converter)
     return timer.value();
 }
 
+template<typename Raw, typename Cnv>
+void
+performance_comparative(Raw const& raw, Cnv const& cnv, char const* txt)
+{
+    int const num_tries = 5;
+    double     cnv_time = 0;
+    double     raw_time = 0;
+    double       change = 0;
+
+    for (int k = 0; k < num_tries; ++k)
+    {
+        raw_time += performance_str_to_int(raw);
+        cnv_time += test::performance::str_to<int>(cnv);
+        change   += 100 * (1 - cnv_time / raw_time);
+    }
+    cnv_time /= num_tries;
+    raw_time /= num_tries;
+    change   /= num_tries;
+
+    printf("str-to-int: %s raw/cnv=%.2f/%.2f seconds (%.2f%%).\n", txt, raw_time, cnv_time, change);
+}
+
+static
+void
+performance_comparative()
+{
+    performance_comparative(str_to_int_spirit(), boost::cnv::spirit(),       "spirit");
+    performance_comparative(str_to_int_lxcast(), boost::cnv::lexical_cast(), "lxcast");
+}
+
 void
 test::cnv::performance()
 {
     printf("Started performance tests...\n");
-
-    int const num_tries = 5;
 
     printf("str-to-int: spirit/strtoi/lcast/scanf/stream=%8.2f/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
            performance::str_to<int>(boost::cnv::spirit()),
@@ -169,33 +201,20 @@ test::cnv::performance()
            performance::to_str<long int>(boost::cnv::cstream()));
     printf("dbl-to-str: spirit/dtostr/lcast/prntf/stream=      NA/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
 //         performance::to_str<double>(boost::cnv::spirit()),
-           performance::to_str<double>(boost::cnv::strtol()),
+           performance::to_str<double>(boost::cnv::strtol()(arg::precision = 6)),
            performance::to_str<double>(boost::cnv::lexical_cast()),
-           performance::to_str<double>(boost::cnv::printf()),
-           performance::to_str<double>(boost::cnv::cstream()));
+           performance::to_str<double>(boost::cnv::printf()(arg::precision = 6)),
+           performance::to_str<double>(boost::cnv::cstream()(arg::precision = 6)));
 
-    printf("str-to-user-type: lcast/stream=%8.2f/%8.2f seconds.\n",
+    printf("str-to-user-type: lcast/stream=%.2f/%.2f seconds.\n",
            performance_str_to_type(boost::cnv::lexical_cast()),
            performance_str_to_type(boost::cnv::cstream()));
-    printf("user-type-to-str: lcast/stream=%8.2f/%8.2f seconds.\n",
+    printf("user-type-to-str: lcast/stream=%.2f/%.2f seconds.\n",
            performance_type_to_str(boost::cnv::lexical_cast()),
            performance_type_to_str(boost::cnv::cstream()));
-#ifdef dfsdfsdfsdf
-    for (int k = 0; k < num_tries; ++k)
-    {
-        double cnv_time = performance::str_to_int(boost::cnv::spirit());
-        double raw_time = performance_str_to_int(str_to_int_spirit());
-        double   change = 100 * (1 - cnv_time / raw_time);
 
-        printf("str-to-int: spirit raw/cnv=%8.2f/%8.2f seconds (%8.2f%%).\n", raw_time, cnv_time, change);
-    }
-    for (int k = 0; k < num_tries; ++k)
+    if (0)
     {
-        double cnv_time = performance::str_to_int(boost::cnv::lexical_cast());
-        double raw_time = performance_str_to_int(str_to_int_lxcast());
-        double   change = 100 * (1 - cnv_time / raw_time);
-
-        printf("str-to-int: lxcast raw/cnv=%8.2f/%8.2f seconds (%8.2f%%).\n", raw_time, cnv_time, change);
+        performance_comparative();
     }
-#endif
 }
