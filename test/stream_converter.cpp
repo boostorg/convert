@@ -216,7 +216,7 @@ test_locale()
     std::locale  rus_locale;
     std::locale  eng_locale;
 
-    char const* eng_locale_name = test::cnv::is_msc ? "?MS-US?LOCALE"
+    char const* eng_locale_name = test::cnv::is_msc ? "English_United States.1251"
                                 : test::cnv::is_gcc ? "en_US.UTF-8"
                                 : "";
     char const* rus_locale_name = test::cnv::is_msc ? "Russian_Russia.1251"
