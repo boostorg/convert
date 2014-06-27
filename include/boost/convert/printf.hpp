@@ -10,11 +10,7 @@
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/find.hpp>
 #include <string>
-#include <stdio.h>
-
-#if defined(_MSC_VER)
-#   define snprintf _snprintf
-#endif
+#include <cstdio>
 
 namespace boost { namespace cnv
 {
