@@ -159,16 +159,17 @@ boost::cnv::strtol::round_up_abs(double fraction, uint_type precision, bool cons
     //          round(-0.4) =  0
     //          round(-0.5) = -1
     //          round(-0.6) = -1
+    // C3. INT_MAX(4bytes)=2,147,483,647. So, 10^8 seems appropriate. If not, drop it down to 4.
 
     int const tens[] = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000 };
 
-    for (int k = precision / 8; k; --k) fraction *= 100000000;
+    for (int k = precision / 8; k; --k) fraction *= 100000000; //C3.
 
     fraction *= tens[precision % 8]; //C1
 
     double  remainder = (fraction - std::floor(fraction)) * (is_negative ? -1 : 1);
-//  bool round_up_abs = int(::rint(remainder)) != 0;
-    bool round_up_abs = int(::round(remainder)) != 0; //C2
+//  bool round_up_abs = int(::rint(remainder));
+    bool round_up_abs = int(::round(remainder)); //C2
 
     return round_up_abs;
 }

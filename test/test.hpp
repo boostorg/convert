@@ -121,7 +121,7 @@ namespace test
 #elif defined(__GNUC__)
         static bool const    is_msc = false;
         static bool const    is_gcc = true;
-        static int const num_cycles = 10000000;
+        static int const num_cycles = 1000000;
 #else
 #error "Add here."
 #endif

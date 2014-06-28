@@ -3,6 +3,7 @@ ifneq ($(DEVMAKE),)
 BOOST_ROOT = $(HOME)/dev/boost_1_55_0
 
 cflags    = -Iinclude -I$(BOOST_ROOT) -Wno-unused-local-typedefs -Wno-unused-variable -Wno-uninitialized
+ldflags   = -lboost_timer -lboost_system
 target_1  = convert-test.exe
 sources_1 = $(wildcard test/*.cpp)
 
@@ -27,7 +28,7 @@ else
 all: convert-test 
 
 convert-test:  
-	g++ -O3 -o $@ $(wildcard test/*.cpp) -I./include -I../boost_1_55_0 -lrt
+	g++ -O3 -o $@ $(wildcard test/*.cpp) -I./include -I../boost_1_55_0 -lrt -lboost_timer -lboost_system
 
 endif
 
