@@ -64,9 +64,10 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
 
     template<typename T> std::string i_to_str (T) const;
     /******************/ std::string d_to_str (double) const;
-    static bool                  round_up_abs (double, unsigned int, bool const);
+    static double             adjust_fraction (double, int precision);
+    static int                       get_char (int v) { return (v < 10) ? (v += '0') : (v += 'A' - 10); }
 
-    // ULONG_MAX(8 bytes) = 18446744073709551615 (20 characters)
+    // ULONG_MAX(8 bytes) = 18446744073709551615 (20(10) or 32(2) characters)
     // double (8 bytes) max is 316 chars
     static int const bufsize = 1024;
 };
@@ -118,21 +119,18 @@ template<typename Type>
 std::string
 boost::cnv::strtol::i_to_str(Type value) const
 {
-    char     buf[bufsize];
-    int const is_negative = (value < 0) ? (value = -value, 1) : 0;
-    char* const   buf_beg = buf + is_negative;
-    char*             end = buf + bufsize / 2;
-    char*             beg = end;
+    // C1. Base=10 optimization improves performance 10%
 
-    for (; value && buf_beg < beg; value /= base_)
-    {
-        int digit = value % base_;
+    char   buf[bufsize];
+    bool const negative = (value < 0) ? (value = -value, true) : false;
+    char*           end = buf + bufsize / 2;
+    char*           beg = end;
 
-        if (digit < 10) *(--beg) = digit += '0';
-        else            *(--beg) = digit += 'A' - 10;
-    }
-    if (beg == end)  *(--beg) = '0';
-    if (is_negative) *(--beg) = '-';
+    if (base_ == 10) for (; value; *(--beg) = get_char(value %    10), value /= 10); //C1
+    else             for (; value; *(--beg) = get_char(value % base_), value /= base_);
+
+    if (beg == end) *(--beg) = '0';
+    if (negative)   *(--beg) = '-';
 
     if (width_)
     {
@@ -146,12 +144,13 @@ boost::cnv::strtol::i_to_str(Type value) const
 }
 
 inline
-bool
-boost::cnv::strtol::round_up_abs(double fraction, uint_type precision, bool const is_negative)
+double
+boost::cnv::strtol::adjust_fraction(double fraction, int precision)
 {
     // C1. Bring forward the fraction coming right after precision digits.
     //     That is, say, fraction=0.234567, precision=2. Then remainder=0.4567
-    // C2. ::round() returns the integral value that is nearest to x,
+    // C3. INT_MAX(4bytes)=2,147,483,647. So, 10^8 seems appropriate. If not, drop it down to 4.
+    // C4. ::round() returns the integral value that is nearest to x,
     //     with halfway cases rounded away from zero. Therefore,
     //          round( 0.4) =  0
     //          round( 0.5) =  1
@@ -159,7 +158,6 @@ boost::cnv::strtol::round_up_abs(double fraction, uint_type precision, bool cons
     //          round(-0.4) =  0
     //          round(-0.5) = -1
     //          round(-0.6) = -1
-    // C3. INT_MAX(4bytes)=2,147,483,647. So, 10^8 seems appropriate. If not, drop it down to 4.
 
     int const tens[] = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000 };
 
@@ -167,65 +165,43 @@ boost::cnv::strtol::round_up_abs(double fraction, uint_type precision, bool cons
 
     fraction *= tens[precision % 8]; //C1
 
-    double  remainder = (fraction - std::floor(fraction)) * (is_negative ? -1 : 1);
-//  bool round_up_abs = int(::rint(remainder));
-    bool round_up_abs = int(::round(remainder)); //C2
-
-    return round_up_abs;
+//  return ::rint(fraction); //C4
+    return ::round(fraction); //C4
 }
 
 inline
 std::string
 boost::cnv::strtol::d_to_str(double value) const
 {
-    int const  is_negative = (value < 0) ? (value = -value, 1) : 0;
-    double        int_part = std::floor(value);
-    double        fraction = value - int_part;
-    unsigned int precision = precision_;
-    bool const    round_up = round_up_abs(fraction, precision, is_negative);
-    int const         base = 10;
-    char      buf[bufsize];
-    char* const    buf_beg = buf + is_negative;
-    char*              end = buf + bufsize / 2;
-    char*              beg = end;
+    char   buf[bufsize];
+    char*           end = buf + bufsize / 2;
+    char*           beg = end;
+    char*          ipos = end - 1;
+    bool const negative = (value < 0) ? (value = -value, true) : false;
+    double        ipart = std::floor(value);
+    double        fpart = adjust_fraction(value - ipart, precision_);
+    int       precision = precision_;
+    int const      base = 10;
 
-    for (; 1 <= int_part /*&& buf_beg < beg*/; int_part /= base)
+    for (; 1 <= ipart; ipart /= base)
+        *(--beg) = get_char(ipart - std::floor(ipart / base) * base);
+
+    if (beg == end) *(--beg) = '0';
+    if (precision)  *(end++) = '.';
+
+    for (char* fpos = end += precision; precision; --precision, fpart /= base)
+        *(--fpos) = get_char(fpart - std::floor(fpart / base) * base);
+
+    if (1 <= fpart)
     {
-        int digit = int_part - std::floor(int_part / base) * base;
+        for (; beg <= ipos; --ipos)
+            if (*ipos == '9') *ipos = '0';
+            else { ++*ipos; break; }
 
-        if (digit < 10) *(--beg) = digit += '0';
-        else            *(--beg) = digit += 'A' - 10;
+        if (ipos < beg)
+            *(beg = ipos) = '1';
     }
-    if (beg == end)  *(--beg) = '0';
-    if (is_negative) *(--beg) = '-';
-    if (precision)   *(end++) = '.';
-
-    for (; fraction && precision; --precision)
-    {
-        int digit = fraction *= base;
-        fraction -= digit;
-
-        if (digit < 10) *(end++) = digit += '0';
-        else            *(end++) = digit += 'A' - 10;
-    }
-    if (round_up)
-    {
-        char* prev = end;
-
-        while (beg <= (*--prev == '.' ? --prev : prev))
-        {
-            if (*prev == '9') *prev = '0';
-            else
-            {
-                ++*prev;
-                break;
-            }
-        }
-        if (prev < beg)
-            *(beg = prev) = '1';
-    }
-    for (; precision; --precision)
-        *(end++) = '0';
+    if (negative) *(--beg) = '-';
 
     if (width_)
     {

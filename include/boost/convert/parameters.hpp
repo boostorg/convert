@@ -12,7 +12,7 @@ namespace boost
     namespace cnv
     {
         struct adjustment { enum type { left, right };};
-        struct base { enum type { dec =10, hex =16, oct =8 };};
+        struct base { enum type { bin =2, dec =10, hex =16, oct =8 };};
         struct notation { enum type { fixed, scientific };};
 
         namespace parameter

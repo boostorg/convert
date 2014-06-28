@@ -30,10 +30,8 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
     {
         int const     bufsz = 256;
         char     buf[bufsz];
-        char const*     fmt = precision_ ? pformat(pos<TypeIn>()) : format(pos<TypeIn>());
-        int const num_chars = precision_
-                            ? ::snprintf(buf, bufsz, fmt, precision_, value_in)
-                            : ::snprintf(buf, bufsz, fmt, value_in);
+        char const*     fmt = pformat(pos<TypeIn>());
+        int const num_chars = ::snprintf(buf, bufsz, fmt, precision_, value_in);
         bool const  success = num_chars < bufsz;
 
         if (success) result_out = std::string(buf);

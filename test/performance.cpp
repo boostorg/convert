@@ -169,14 +169,6 @@ performance_comparative(Raw const& raw, Cnv const& cnv, char const* txt)
     printf("str-to-int: %s raw/cnv=%.2f/%.2f seconds (%.2f%%).\n", txt, raw_time, cnv_time, change);
 }
 
-static
-void
-performance_comparative()
-{
-    performance_comparative(str_to_int_spirit(), boost::cnv::spirit(),       "spirit");
-    performance_comparative(str_to_int_lxcast(), boost::cnv::lexical_cast(), "lxcast");
-}
-
 void
 test::cnv::performance()
 {
@@ -229,6 +221,7 @@ test::cnv::performance()
 
     if (0)
     {
-        performance_comparative();
+        performance_comparative(str_to_int_spirit(), boost::cnv::spirit(),       "spirit");
+        performance_comparative(str_to_int_lxcast(), boost::cnv::lexical_cast(), "lxcast");
     }
 }
