@@ -4,7 +4,6 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include "./test.hpp"
-#include "./timer.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
 #include <boost/convert/printf.hpp>
@@ -12,12 +11,32 @@
 #include <boost/convert/spirit.hpp>
 #include <boost/convert/lexical_cast.hpp>
 #include <boost/detail/lightweight_test.hpp>
+#include <boost/timer/timer.hpp>
 
 using std::string;
 using boost::convert;
 
 namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;
+
+namespace { namespace local
+{
+    int sum = 0;
+
+    struct timer : public boost::timer::cpu_timer
+    {
+        typedef timer                   this_type;
+        typedef boost::timer::cpu_timer base_type;
+
+        double value() const
+        {
+            boost::timer::cpu_times times = base_type::elapsed();
+            int const             use_sum = (sum % 2) ? 0 : (sum % 2); BOOST_TEST(use_sum == 0);
+
+            return double(times.user + times.system) / 1000000000 + use_sum;
+        }
+    };
+}}
 
 struct str_to_int_spirit
 {
@@ -49,12 +68,11 @@ performance_str_to_int(Converter const& cnv)
 {
     test::cnv::strings strings = test::cnv::get_strs(); // Create strings on the stack
     int const             size = strings.size();
-    int                    sum = 0;
-    test::cnv::timer             timer (sum);
+    local::timer         timer;
 
     for (int t = 0; t < test::cnv::num_cycles; ++t)
         for (int k = 0; k < size; ++k)
-            sum += cnv(strings[k].c_str());
+            local::sum += cnv(strings[k].c_str());
 
     return timer.value();
 }
@@ -65,12 +83,11 @@ test::performance::str_to(Converter const& try_converter)
 {
     test::cnv::strings strings = test::cnv::get_strs(); // Create strings on the stack
     int const             size = strings.size();
-    int                    sum = 0;
-    test::cnv::timer     timer (sum);
+    local::timer         timer;
 
     for (int t = 0; t < test::cnv::num_cycles; ++t)
         for (int k = 0; k < size; ++k)
-            sum += boost::convert<Type>(strings[k].c_str(), try_converter).value();
+            local::sum += boost::convert<Type>(strings[k].c_str(), try_converter).value();
 
     return timer.value();
 }
@@ -81,14 +98,13 @@ test::performance::to_str(Converter const& try_converter)
 {
     typedef typename test::cnv::array<Type>::type collection;
 
-    collection      values = test::cnv::get<Type>();
-    int const         size = values.size();
-    int                sum = 0;
-    test::cnv::timer timer (sum);
+    collection  values = test::cnv::get<Type>();
+    int const     size = values.size();
+    local::timer timer;
 
     for (int t = 0; t < test::cnv::num_cycles; ++t)
         for (int k = 0; k < size; ++k)
-            sum += boost::convert<std::string>(Type(values[k]), try_converter).value()[0];
+            local::sum += boost::convert<std::string>(Type(values[k]), try_converter).value()[0];
 
     return timer.value();
 }
@@ -97,9 +113,8 @@ template<typename Converter>
 double
 performance_str_to_type(Converter const& try_converter)
 {
-    char const*    input[] = { "no", "up", "dn" };
-    int                sum = 0;
-    test::cnv::timer timer (sum);
+    char const* input[] = { "no", "up", "dn" };
+    local::timer  timer;
 
     for (int k = 0; k < test::cnv::num_cycles; ++k)
     {
@@ -108,7 +123,7 @@ performance_str_to_type(Converter const& try_converter)
 
         BOOST_TEST(res == k % 3);
 
-        sum += res; // Make sure chg is not optimized out
+        local::sum += res; // Make sure chg is not optimized out
     }
     return timer.value();
 }
@@ -119,8 +134,7 @@ performance_type_to_str(Converter const& try_converter)
 {
     boost::array<change, 3>   input = {{ change::no, change::up, change::dn }};
     boost::array<string, 3> results = {{ "no", "up", "dn" }};
-    int                         sum = 0;
-    test::cnv::timer           timer (sum);
+    local::timer              timer;
 
     for (int k = 0; k < test::cnv::num_cycles; ++k)
     {
@@ -128,7 +142,7 @@ performance_type_to_str(Converter const& try_converter)
 
         BOOST_TEST(res == results[k % 3]);
 
-        sum += res[0]; // Make sure res is not optimized out
+        local::sum += res[0]; // Make sure res is not optimized out
     }
     return timer.value();
 }

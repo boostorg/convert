@@ -28,7 +28,7 @@ else
 all: convert-test 
 
 convert-test:  
-	g++ -O3 -o $@ $(wildcard test/*.cpp) -I./include -I../boost_1_55_0 -lrt -lboost_timer -lboost_system
+	g++ -O3 -o $@ $(wildcard test/*.cpp) -I./include -I../boost_1_55_0 -lboost_timer -lboost_system
 
 endif
 
