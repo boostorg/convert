@@ -8,14 +8,14 @@
 
 [import ../test/callable.cpp]
 
-`boost::convert()` plays its role by providing a uniform interface and ensuring consistent behavior. However, it is the respective converter which does the hard work of turning custom-types into strings and strings into custom-types, etc., i.e. the actual type conversion\/transformation. 
+`boost::convert()` plays its role by providing a uniform interface and ensuring consistent behavior. However, it is the respective converter which does the hard work of turning custom-types into strings and strings into custom-types, etc., i.e. the actual type conversion\/transformation.
 
 For a converter to be plugged in to the ['Boost.Convert] framework it needs to be a ['callable] with the following signature:
 
  template<typename TypeOut, typename TypeIn>
  void operator()(TypeIn const& value_in, boost::optional<TypeOut>& result_out) const;
 
-if that is a general-purpose converter capable of handling many types (like string-to-type and type-to-string conversions). Alternatively, a purpose-built custom converter might only care to provide 
+if that is a general-purpose converter capable of handling many types (like string-to-type and type-to-string conversions). Alternatively, a purpose-built custom converter might only care to provide
 
  bool operator()(TypeIn const&, boost::optional<TypeOut>&) const;
 
@@ -23,7 +23,7 @@ if its sole purpose is to handle one particular conversion\/transformation of ['
 
  void operator()(std::string const&, boost::optional<std::wstring>&) const;
 
-Alternatively again, an ad-hoc in-place ['callable] might be provided as a converter. For example, 
+Alternatively again, an ad-hoc in-place ['callable] might be provided as a converter. For example,
 
 [using_header]
 [callable_example3]
@@ -33,7 +33,7 @@ or an old-fashioned function:
 [callable_example1]
 [callable_example2]
 
-With regard to converters the ['Boost.Convert] framework has been designed with the following requirements in mind: 
+With regard to converters the ['Boost.Convert] framework has been designed with the following requirements in mind:
 
-[note Converters shall be independent of and shall not rely on the ['Boost.Convert] infrastructure.] 
+[note Converters shall be independent from and must not rely on the ['Boost.Convert] infrastructure.]
 

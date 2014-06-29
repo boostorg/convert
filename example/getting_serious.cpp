@@ -2,7 +2,6 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-
 #ifdef _MSC_VER
 #  pragma warning(disable : 4127)  // conditional expression is constant.
 #  pragma warning(disable : 4189)  // local variable is initialized but not referenced.
@@ -15,6 +14,7 @@
 using std::string;
 using boost::convert;
 using boost::lexical_cast;
+using boost::optional;
 
 static void process_failure() {}
 static void log(...) {}

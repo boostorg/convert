@@ -8,8 +8,8 @@
 #include <boost/make_default.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/array.hpp>
-#include <string.h>
-#include <stdio.h>
+#include <string>
+#include <cstdio>
 
 //[change_declaration
 struct change

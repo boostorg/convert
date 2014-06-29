@@ -2,7 +2,7 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-
+#include <boost/detail/lightweight_test.hpp>
 
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
@@ -10,8 +10,6 @@
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
 #include <vector>
-
-#include "./example.hpp"
 
 static
 void
@@ -89,7 +87,8 @@ example2()
         strs.begin(),
         strs.end(),
         std::back_inserter(ints),
-        boost::convert<int, std::string>(cnv).value_or(INT_MAX));
+        boost::convert<int, std::string>(boost::cref(cnv)).value_or(INT_MAX));
+    //        boost::convert<int, std::string>(cnv).value_or(INT_MAX));
 
     // No exceptions thrown.
 
@@ -194,18 +193,13 @@ example5()
 //] [/algorithm_example5]
 }
 
-void
-example::algorithms()
+int
+main(int argc, char const* argv[])
 {
-    introduction();
-    example1();
-    example2();
-    example3();
-    example4();
-    example5();
-}
-
-int main()
-{
-  example::algorithms();
+  introduction();
+  example1();
+  example2();
+  example3();
+  example4();
+  example5();
 }

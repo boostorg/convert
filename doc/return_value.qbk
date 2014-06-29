@@ -4,20 +4,15 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section Return Value]
+[section:return_value Return Value]
 
 As it was indicated in the previous section `boost::optional` is the actual type returned by
 
  boost::optional<TypeOut> boost::convert(TypeIn const&, Converter const&);
-<<<<<<< Updated upstream
- 
-The signature is ['functionally-complete] and is the most efficient in deploying the underlying converter. That said, the following alternative interface might be potentially better suitable for certain deployment scenarios (or due to personal preferences):
-=======
 
 The signature is ['functionally-complete] and is the most efficient in deploying the underlying converter.
 That said, the following alternative interface but might be potentially better suitable
 for certain deployment scenarios (or due to personal preferences):
->>>>>>> Stashed changes
 
  Out convert(In const&, Converter const&, Out const& fallback_value);
  Out convert(In const&, Converter const&, Functor const& fallback_functor);
@@ -34,8 +29,8 @@ and processing and can be deployed in a similar fashion as follows:
 [^TypeOut boost::convert(TypeIn const&, Converter const&);]
 
 (somewhat similar to what `boost::lexical_cast` does).
-The signature is deceptively simple and, in reality (like `boost::lexical_cast`), it can only handle one single deployment scenario,
-that is throwing an exception if conversion fails.
+This signature is deceptively simple and, in reality (like `boost::lexical_cast`), it can only handle one scenario:
+throwing an exception if conversion fails.
 Consequently, in commercial software where process flows vary and reliability and operational continuity are important,
 that limitation often has to be compensated by a considerable amount of additional code (like try/catch blocks, etc.).
 
@@ -43,11 +38,11 @@ On the other hand, the `boost::convert` signatures (although more verbose)
 provide full support for various program flows, unambigous behavior and readability.
 ]
 
-<<<<<<< Updated upstream
-On the other hand, the `boost::convert` signatures (although more verbose) provide full support for various program flows, behaviorally unambiguous and readable.]
-=======
+On the other hand, the `boost::convert` signatures (although more verbose) provide full support for various program flows,
+are behaviorally unambiguous and readable.]
+
 [endsect] [/section Return Value]
->>>>>>> Stashed changes
+
 
 
 

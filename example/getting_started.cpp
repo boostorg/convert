@@ -2,14 +2,14 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include <boost/detail/lightweight_test.hpp>
-
 #ifdef _MSC_VER
 #  pragma warning(disable : 4127)  // conditional expression is constant.
 #  pragma warning(disable : 4189)  // local variable is initialized but not referenced.
 #  pragma warning(disable : 4100)  // unreferenced formal parameter.
-//#  pragma warning(disable : 4714)  // marked as __forceinline not inlined.
+#  pragma warning(disable : 4714)  // marked as __forceinline not inlined.
 #endif
+
+#include <boost/detail/lightweight_test.hpp>
 
 static
 void
@@ -47,7 +47,8 @@ static void getting_started_example1()
     }
     catch (std::exception const& ex)
     {
-        // Be aware and prepared that the conversion requests above can fail.
+        // Be aware that the conversion requests above can fail,
+        // so always use try'n'catch blocks to handle any exceptions thrown.
         // Ignore this at your peril!
       std::cout << "Exception " << ex.what() << std::endl;
 

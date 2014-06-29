@@ -8,6 +8,9 @@
 using std::string;
 using boost::convert;
 
+// This is expected to fail to compile:
+//'boost::cnv::by_default' : class has no constructors.
+
 int
 main(int argc, char const* argv[])
 {

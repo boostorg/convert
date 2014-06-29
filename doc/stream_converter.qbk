@@ -10,7 +10,7 @@
 [import ../test/test.hpp]
 [import ../test/stream_converter.cpp]
 
-The purpose of the converter is to provide conversion-related formatting and locale support not available with `boost::lexical_cast`. Advantages of deploying a `std::stream`-based conversion engine are 
+The purpose of the converter is to provide conversion-related formatting and locale support not available with `boost::lexical_cast`. Advantages of deploying a `std::stream`-based conversion engine are:
 
 * availability and maturity;
 * formatting and locale support;
@@ -39,11 +39,11 @@ An alternative (generic) formatting interface is currently being extended and ex
 
 [stream_headers2]
 [stream_example4]
- 
+
 which is equivalent to the following ['manipulator]-based variant:
- 
+
 [stream_example5]
- 
+
 [endsect]
 [section Locale Support]
 
@@ -58,7 +58,7 @@ Locale support is similar to the formatting support as demonstrated by the follo
 As the converter uses `std::stringstream` to do actual conversions it carries over the `std::stringstream`-imposed type requirements. Namely:
 
 * ['TypeIn] needs to be ['Output Streamable];
-* ['TypeOut] needs to be ['Input Streamable]; 
+* ['TypeOut] needs to be ['Input Streamable];
 
 In practical terms the mechanism for integrating a user-defined type into the ['Boost.Convert] framework (for deployment with this described `std::stringstream`-based converter) should be familiar to those who worked with `boost::lexical_cast`. That is, the respective type needs to have the following operators defined:
 
@@ -90,9 +90,9 @@ The temporary storage `result` is initialized with `boost::make_default()` the d
     template<typename T> T make_default() { return T(); }
  }
 
-Consequently, 
+Consequently,
 
-[note the `std::stream`-based converter (and converters like it) require the ['TypeOut] type to be ['Default Constructible] by default.]  
+[note the `std::stream`-based converter (and converters like it) require the ['TypeOut] type to be ['Default Constructible] by default.]
 
 That said, a well-designed type (in my opinion, anyway) should only have meaningful and unambiguous constructors... and the default constructor is not always and necessarily one of them. Consider the following as one such example:
 
