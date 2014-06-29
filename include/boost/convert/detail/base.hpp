@@ -6,6 +6,7 @@
 #define BOOST_CONVERT_CONVERTER_BASE_HPP
 
 #include <boost/convert/parameters.hpp>
+#include <cctype>
 
 namespace boost { namespace cnv { namespace detail
 {
@@ -27,18 +28,23 @@ struct boost::cnv::detail::cnvbase
         uppercase_  (false),
         width_      (0),
         fill_       (' '),
-        adjustment_ (boost::cnv::adjustment::right)
+        adjust_     (boost::cnv::adjust::right)
     {}
 
+    derived&
+    operator()(tag<ARG::locale, std::locale const>::type const& arg)
+    {
+        locale_ = arg[cnv::parameter::locale]; return dncast();
+    }
     derived&
     operator()(tag<ARG::base, boost::cnv::base::type const>::type const& arg)
     {
         base_ = arg[cnv::parameter::base]; return dncast();
     }
     derived&
-    operator()(tag<ARG::adjustment, boost::cnv::adjustment::type const>::type const& arg)
+    operator()(tag<ARG::adjust, boost::cnv::adjust::type const>::type const& arg)
     {
-        adjustment_ = arg[cnv::parameter::adjustment]; return dncast();
+        adjust_ = arg[cnv::parameter::adjust]; return dncast();
     }
     derived& operator()(tag<ARG::precision, int const>::type const& arg) { precision_ = arg[cnv::parameter::precision]; return dncast(); }
     derived& operator()(tag<ARG::precision,       int>::type const& arg) { precision_ = arg[cnv::parameter::precision]; return dncast(); }
@@ -61,16 +67,49 @@ struct boost::cnv::detail::cnvbase
 
     protected:
 
+    template<typename string_type> string_type format (char*, char*, char const*, char const*) const;
+
     derived const& dncast () const { return *static_cast<derived const*>(this); }
     derived&       dncast ()       { return *static_cast<derived*>(this); }
 
-    int                                base_;
-    int                           precision_;
-    bool                          uppercase_;
-    int                               width_;
-    int                                fill_;
-    boost::cnv::adjustment::type adjustment_;
+    int                        base_;
+    int                   precision_;
+    bool                  uppercase_;
+    int                       width_;
+    int                        fill_;
+    boost::cnv::adjust::type adjust_;
+    std::locale              locale_;
 };
+
+template<typename derived_type>
+template<typename string_type>
+inline
+string_type
+boost::cnv::detail::cnvbase<derived_type>::format(
+    char*          beg,
+    char*          end,
+    char const* bufbeg,
+    char const* bufend) const
+{
+    // TODO: Need boundary checks.
+
+    if (uppercase_)
+    {
+        for (char* p = beg; p < end; ++p) *p = toupper(*p);
+    }
+    if (width_)
+    {
+        int const num_fillers = width_ - (end - beg);
+        int const    num_left = adjust_ == boost::cnv::adjust::left ? 0
+                              : adjust_ == boost::cnv::adjust::right ? num_fillers
+                              : (num_fillers / 2);
+        int const   num_right = num_fillers - num_left;
+
+        for (int k = 0; k <  num_left; *(--beg) = fill_, ++k);
+        for (int k = 0; k < num_right; *(end++) = fill_, ++k);
+    }
+    return string_type(beg, end);
+}
 
 #define CONVERTER_PARAM_FUNC(PARAM_NAME, PARAM_TYPE)    \
     this_type&                                          \

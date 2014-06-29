@@ -11,13 +11,13 @@ namespace boost
 {
     namespace cnv
     {
-        struct adjustment { enum type { left, right };};
+        struct adjust { enum type { left, right, center };};
         struct base { enum type { bin =2, dec =10, hex =16, oct =8 };};
         struct notation { enum type { fixed, scientific };};
 
         namespace parameter
         {
-            BOOST_PARAMETER_KEYWORD(type, adjustment)
+            BOOST_PARAMETER_KEYWORD(type,     adjust)
             BOOST_PARAMETER_KEYWORD(type,       base)
             BOOST_PARAMETER_KEYWORD(type,       fill)
             BOOST_PARAMETER_KEYWORD(type,     locale)

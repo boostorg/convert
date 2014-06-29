@@ -174,25 +174,6 @@ test::cnv::performance()
 {
     printf("Started performance tests...\n");
 
-    printf("str-to-int: spirit/strtoi/lcast/scanf/stream=%8.2f/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
-           performance::str_to<int>(boost::cnv::spirit()),
-           performance::str_to<int>(boost::cnv::strtol()),
-           performance::str_to<int>(boost::cnv::lexical_cast()),
-           performance::str_to<int>(boost::cnv::printf()),
-           performance::str_to<int>(boost::cnv::cstream()));
-    printf("str-to-lng: spirit/strtol/lcast/scanf/stream=%8.2f/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
-           performance::str_to<long int>(boost::cnv::spirit()),
-           performance::str_to<long int>(boost::cnv::strtol()),
-           performance::str_to<long int>(boost::cnv::lexical_cast()),
-           performance::str_to<long int>(boost::cnv::printf()),
-           performance::str_to<long int>(boost::cnv::cstream()));
-    printf("str-to-dbl: spirit/strtod/lcast/scanf/stream=      NA/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
-//         performance::str_to<double>(boost::cnv::spirit()),
-           performance::str_to<double>(boost::cnv::strtol()),
-           performance::str_to<double>(boost::cnv::lexical_cast()),
-           performance::str_to<double>(boost::cnv::printf()),
-           performance::str_to<double>(boost::cnv::cstream()));
-
     printf("int-to-str: spirit/itostr/lcast/prntf/stream=%8.2f/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
            performance::to_str<int>(boost::cnv::spirit()),
            performance::to_str<int>(boost::cnv::strtol()),
@@ -211,6 +192,25 @@ test::cnv::performance()
            performance::to_str<double>(boost::cnv::lexical_cast()),
            performance::to_str<double>(boost::cnv::printf()(arg::precision = 6)),
            performance::to_str<double>(boost::cnv::cstream()(arg::precision = 6)));
+
+    printf("str-to-int: spirit/strtoi/lcast/scanf/stream=%8.2f/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
+           performance::str_to<int>(boost::cnv::spirit()),
+           performance::str_to<int>(boost::cnv::strtol()),
+           performance::str_to<int>(boost::cnv::lexical_cast()),
+           performance::str_to<int>(boost::cnv::printf()),
+           performance::str_to<int>(boost::cnv::cstream()));
+    printf("str-to-lng: spirit/strtol/lcast/scanf/stream=%8.2f/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
+           performance::str_to<long int>(boost::cnv::spirit()),
+           performance::str_to<long int>(boost::cnv::strtol()),
+           performance::str_to<long int>(boost::cnv::lexical_cast()),
+           performance::str_to<long int>(boost::cnv::printf()),
+           performance::str_to<long int>(boost::cnv::cstream()));
+    printf("str-to-dbl: spirit/strtod/lcast/scanf/stream=      NA/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
+//         performance::str_to<double>(boost::cnv::spirit()),
+           performance::str_to<double>(boost::cnv::strtol()),
+           performance::str_to<double>(boost::cnv::lexical_cast()),
+           performance::str_to<double>(boost::cnv::printf()),
+           performance::str_to<double>(boost::cnv::cstream()));
 
     printf("str-to-user-type: lcast/stream=%.2f/%.2f seconds.\n",
            performance_str_to_type(boost::cnv::lexical_cast()),

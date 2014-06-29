@@ -6,7 +6,7 @@
 #define BOOST_CONVERT_PRINTF_HPP
 
 #include <boost/convert/detail/base.hpp>
-#include <boost/convert/detail/string_sfinae.hpp>
+#include <boost/convert/detail/string.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/find.hpp>
 #include <string>

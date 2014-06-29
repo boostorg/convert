@@ -32,8 +32,8 @@ test_str_to_int()
     char const* const  c_str = "-12";
 
     BOOST_TEST( -1 == convert<int>(not_int_str).value_or(-1));
-    BOOST_TEST(-11 == convert<int>(    std_str).value_or(-1));
-    BOOST_TEST(-12 == convert<int>(      c_str).value_or(-1));
+    BOOST_TEST(-11 == convert<int>(    std_str).value());
+    BOOST_TEST(-12 == convert<int>(      c_str).value());
     //]
 }
 
@@ -59,16 +59,17 @@ test_width()
                                          (arg::fill = '*')).value();
     string s03 = convert<string>( 12, cnv(arg::width = 5)
                                          (arg::fill = 'x')
-                                         (arg::adjustment = cnv::adjustment::left)).value();
+                                         (arg::adjust = cnv::adjust::left)).value();
     string s04 = convert<string>(-98, cnv(arg::width = 6)
                                          (arg::fill = 'Z')
-                                         (arg::adjustment = cnv::adjustment::right)).value();
+                                         (arg::adjust = cnv::adjust::right)).value();
 
     string s05 = convert<string>(-12.3451, cnv(arg::precision = 2)
                                               (arg::width = 10)
                                               (arg::fill = '*')
-                                              (arg::adjustment = cnv::adjustment::left)).value();
-    string s06 = convert<string>(-12.3450, cnv(arg::adjustment = cnv::adjustment::right)).value();
+                                              (arg::adjust = cnv::adjust::left)).value();
+    string s06 = convert<string>(-12.3450, cnv(arg::adjust = cnv::adjust::right)).value();
+    string s07 = convert<string>(-12.3450, cnv(arg::adjust = cnv::adjust::center)).value();
 
     BOOST_TEST(s01 == "  12");
     BOOST_TEST(s02 == "***12");
@@ -76,6 +77,7 @@ test_width()
     BOOST_TEST(s04 == "ZZZ-98");
     BOOST_TEST(s05 == "-12.35****");
     BOOST_TEST(s06 == "****-12.35");
+    BOOST_TEST(s07 == "**-12.35**");
     //]
 }
 
@@ -86,10 +88,10 @@ test_base()
     //[strtol_numeric_base
     boost::cnv::strtol cnv;
 
-    BOOST_TEST("11111111" == convert<string>(255, cnv(arg::base = boost::cnv::base::bin)).value());
-    BOOST_TEST(     "255" == convert<string>(255, cnv(arg::base = boost::cnv::base::dec)).value());
-    BOOST_TEST(      "FF" == convert<string>(255, cnv(arg::base = boost::cnv::base::hex)).value());
-    BOOST_TEST(     "377" == convert<string>(255, cnv(arg::base = boost::cnv::base::oct)).value());
+    BOOST_TEST("11111110" == convert<string>(254, cnv(arg::base = boost::cnv::base::bin)).value());
+    BOOST_TEST(     "254" == convert<string>(254, cnv(arg::base = boost::cnv::base::dec)).value());
+    BOOST_TEST(      "FE" == convert<string>(254, cnv(arg::base = boost::cnv::base::hex)).value());
+    BOOST_TEST(     "376" == convert<string>(254, cnv(arg::base = boost::cnv::base::oct)).value());
     //]
 }
 
@@ -116,7 +118,7 @@ get_random()
 {
     static boost::random::mt19937                          gen (::time(0));
     static boost::random::uniform_int_distribution<> precision (0, 8);
-    static boost::random::uniform_int_distribution<>  int_part (0, INT_MAX); // INT_MAX(32) = 2,147,483,647
+    static boost::random::uniform_int_distribution<>  int_part (0, SHRT_MAX);
     static boost::random::uniform_01<double>          fraction; // uniform double in [0,1)
     static bool                                           sign;
 
@@ -156,15 +158,18 @@ test_dbl_to_str()
 //    string huge = convert<string>(huge_v, cnv1(arg::precision = 2)).value();
 //    printf("%s\n", huge.c_str());
 
-    int const num_tries = 1000000;
-    double const dbls[] = { 0.90, 1.0, 1.1, 0.94, 0.95, 0.96, 1.04, 1.05, 1.06, 9.654, 999.888 };
+    int const num_tries = 10000000;
+    double const dbls[] = { 0.90, 1.0, 1.1, 0.94, 0.96, 1.04, 1.05, 1.06, 9.654, 999.888 };
     int const  num_dbls = sizeof(dbls) / sizeof(dbls[0]);
 
     printf("cnv::strtol::%s: started with %d random numbers...\n", __FUNCTION__, num_tries);
 
-    BOOST_TEST(   "0" == convert<string>(0.0, boost::cnv::strtol()(arg::precision = 0)).value());
-    BOOST_TEST( "0.0" == convert<string>(0.0, boost::cnv::strtol()(arg::precision = 1)).value());
-    BOOST_TEST("0.00" == convert<string>(0.0, boost::cnv::strtol()(arg::precision = 2)).value());
+    BOOST_TEST(   "0" == convert<string>( 0.0, boost::cnv::strtol()(arg::precision = 0)).value());
+    BOOST_TEST( "0.0" == convert<string>( 0.0, boost::cnv::strtol()(arg::precision = 1)).value());
+    BOOST_TEST("0.00" == convert<string>( 0.0, boost::cnv::strtol()(arg::precision = 2)).value());
+    BOOST_TEST(   "1" == convert<string>(0.95, boost::cnv::strtol()(arg::precision = 0)).value());
+    BOOST_TEST( "1.0" == convert<string>(0.95, boost::cnv::strtol()(arg::precision = 1)).value());
+    BOOST_TEST("0.95" == convert<string>(0.95, boost::cnv::strtol()(arg::precision = 2)).value());
 
     for (int k = 0; k < num_tries; ++k)
         compare(get_random());

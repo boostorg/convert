@@ -26,6 +26,8 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     typedef unsigned long int                     ulint_type;
     typedef short int                              sint_type;
     typedef unsigned short int                    usint_type;
+    typedef long long int                         llint_type;
+    typedef unsigned long long int               ullint_type;
     typedef       float                             flt_type;
     typedef      double                             dbl_type;
     typedef long double                            ldbl_type;
@@ -76,12 +78,12 @@ template<typename Type>
 void
 boost::cnv::strtol::strtol_(char const* str, optional<Type>& result_out) const
 {
-    char const*        str_end = str + strlen(str);
-    char*              cnv_end = 0;
-    long long int const result = ::strtoll(str, &cnv_end, base_);
-    bool const            good = result != LLONG_MIN && result != LLONG_MAX && cnv_end == str_end;
-    Type const             min = std::numeric_limits<Type>::min();
-    Type const             max = std::numeric_limits<Type>::max();
+    char const*     str_end = str + strlen(str);
+    char*           cnv_end = 0;
+    llint_type const result = ::strtoll(str, &cnv_end, base_);
+    bool const         good = result != LLONG_MIN && result != LLONG_MAX && cnv_end == str_end;
+    Type const          min = std::numeric_limits<Type>::min();
+    Type const          max = std::numeric_limits<Type>::max();
 
     if (good && min <= result && result <= max)
         result_out = Type(result);
@@ -91,11 +93,11 @@ template<typename Type>
 void
 boost::cnv::strtol::strtoul_(char const* str, optional<Type>& result_out) const
 {
-    char const*                 str_end = str + strlen(str);
-    char*                       cnv_end = 0;
-    unsigned long long int const result = ::strtoull(str, &cnv_end, base_);
-    bool const                     good = result != ULLONG_MAX && cnv_end == str_end;
-    Type const                      max = std::numeric_limits<Type>::max();
+    char const*      str_end = str + strlen(str);
+    char*            cnv_end = 0;
+    ullint_type const result = ::strtoull(str, &cnv_end, base_);
+    bool const          good = result != ULLONG_MAX && cnv_end == str_end;
+    Type const           max = std::numeric_limits<Type>::max();
 
     if (good && result <= max)
         result_out = Type(result);
@@ -126,21 +128,13 @@ boost::cnv::strtol::i_to_str(Type value) const
     char*           end = buf + bufsize / 2;
     char*           beg = end;
 
-    if (base_ == 10) for (; value; *(--beg) = get_char(value %    10), value /= 10); //C1
+    if (base_ == 10) for (; value; *(--beg) = int(value % 10) + '0', value /= 10); //C1
     else             for (; value; *(--beg) = get_char(value % base_), value /= base_);
 
     if (beg == end) *(--beg) = '0';
     if (negative)   *(--beg) = '-';
 
-    if (width_)
-    {
-        int const num_fillers = width_ - (end - beg);
-        bool const      right = adjustment_ == boost::cnv::adjustment::right;
-
-        if (right) for (int k = 0; k < num_fillers; *(--beg) = fill_, ++k);
-        else       for (int k = 0; k < num_fillers; *(end++) = fill_, ++k);
-    }
-    return std::string(beg, end);
+    return base_type::format<std::string>(beg, end, buf, buf + bufsize);
 }
 
 inline
@@ -203,15 +197,7 @@ boost::cnv::strtol::d_to_str(double value) const
     }
     if (negative) *(--beg) = '-';
 
-    if (width_)
-    {
-        int const num_fillers = width_ - (end - beg);
-        bool const      right = adjustment_ == boost::cnv::adjustment::right;
-
-        if (right) for (int k = 0; k < num_fillers; *(--beg) = fill_, ++k);
-        else       for (int k = 0; k < num_fillers; *(end++) = fill_, ++k);
-    }
-    return std::string(beg, end);
+    return base_type::format<std::string>(beg, end, buf, buf + bufsize);
 }
 
 #endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP

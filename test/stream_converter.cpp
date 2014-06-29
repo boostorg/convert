@@ -158,7 +158,7 @@ test_width()
     string s11 = convert<string>(12, cnv(arg::width = 4)).value();
     string s12 = convert<string>(12, cnv(arg::width = 5)
                                         (arg::fill = ' ')
-                                        (arg::adjustment = cnv::adjustment::right)).value();
+                                        (arg::adjust = cnv::adjust::right)).value();
 
     BOOST_TEST(s11 == "12**");  // Field width was set to 4.
     BOOST_TEST(s12 == "   12"); // Field width was set to 5 with the ' ' filler.

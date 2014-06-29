@@ -6,7 +6,7 @@
 #define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
 #include <boost/convert/detail/base.hpp>
-#include <boost/convert/detail/string_sfinae.hpp>
+#include <boost/convert/detail/string.hpp>
 #include <boost/make_default.hpp>
 #include <sstream>
 #include <iomanip>
@@ -129,12 +129,12 @@ struct boost::cnv::basic_stream : boost::noncopyable
         skipws ? (void) stream_.setf(std::ios::skipws) : stream_.unsetf(std::ios::skipws);
         return *this;
     }
-    CONVERTER_PARAM_FUNC(adjustment, boost::cnv::adjustment::type const)
+    CONVERTER_PARAM_FUNC(adjust, boost::cnv::adjust::type const)
     {
-        cnv::adjustment::type adjustment = arg[cnv::parameter::adjustment];
+        cnv::adjust::type adjust = arg[cnv::parameter::adjust];
 
-        /**/ if (adjustment == cnv::adjustment:: left) stream_.setf(std::ios::adjustfield, std::ios:: left);
-        else if (adjustment == cnv::adjustment::right) stream_.setf(std::ios::adjustfield, std::ios::right);
+        /**/ if (adjust == cnv::adjust:: left) stream_.setf(std::ios::adjustfield, std::ios:: left);
+        else if (adjust == cnv::adjust::right) stream_.setf(std::ios::adjustfield, std::ios::right);
         else BOOST_ASSERT(!"Not implemented");
 
         return *this;
