@@ -105,25 +105,34 @@ struct corrected<String, typename boost::enable_if<is_any_string<String> >::type
     typedef std::basic_string<char_type>                   type;
 };
 
-template<class Type, class Enable =void>
-struct string_range
+struct str
 {
-    typedef Type type;
+    template<class String, class Enable =void>
+    struct range
+    {
+        typedef String type;
+        typedef typename type::iterator iterator;
+        typedef typename type::const_iterator const_iterator;
+
+        static iterator   begin (String const& s) { return s.begin(); }
+        static iterator     end (String const& s) { return s.end(); }
+        static std::size_t size (String const& s) { return s.size(); }
+    };
 };
 
 template<class String>
-struct string_range<String, typename boost::enable_if<is_c_string_of<String, char> >::type>
+struct str::range<String, typename boost::enable_if<is_c_string_of<String, char> >::type>
 {
     typedef typename boost::range_value<String>::type char_type;
     typedef char_type const*                           iterator;
 
-    static iterator       begin (String const& s) { return s; }
-    static iterator         end (String const& s) { return s + strlen(s); }
-    static std::streamsize size (String const& s) { return std::streamsize(strlen(s)); }
+    static iterator   begin (String const& s) { return s; }
+    static iterator     end (String const& s) { return s + strlen(s); }
+    static std::size_t size (String const& s) { return strlen(s); }
 };
 
 template<class String>
-struct string_range<String, typename boost::enable_if<is_c_string_of<String, wchar_t> >::type>
+struct str::range<String, typename boost::enable_if<is_c_string_of<String, wchar_t> >::type>
 {
     typedef typename boost::range_value<String>::type char_type;
     typedef char_type const*                           iterator;
@@ -134,7 +143,7 @@ struct string_range<String, typename boost::enable_if<is_c_string_of<String, wch
 };
 
 template<class String>
-struct string_range<String, typename boost::enable_if<is_std_string<String> >::type>
+struct str::range<String, typename boost::enable_if<is_std_string<String> >::type>
 {
     typedef typename boost::range_value<String>::type char_type;
     typedef char_type const*                  iterator;

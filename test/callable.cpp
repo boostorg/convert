@@ -3,12 +3,12 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include "./test.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include "./test.hpp"
 
 using std::string;
 using boost::convert;

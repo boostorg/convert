@@ -7,6 +7,7 @@
 
 #include <boost/convert/detail/base.hpp>
 #include <boost/convert/detail/string.hpp>
+#include <boost/make_default.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/find.hpp>
 #include <string>

@@ -184,12 +184,21 @@ test_dbl_to_str()
     printf("cnv::strtol::%s: finished.\n", __FUNCTION__);
 }
 
+static
+void
+test_user_string()
+{
+//    boost::optional<my_string> o = convert<my_string>(12);
+}
+
 void
 test::cnv::strtol_converter()
 {
+    dbl_to_str_example();
+
     test_str_to_int();
     test_base();
     test_dbl_to_str();
     test_width();
-    dbl_to_str_example();
+    test_user_string();
 }

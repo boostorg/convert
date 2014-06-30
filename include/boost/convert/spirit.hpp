@@ -52,11 +52,11 @@ struct boost::cnv::spirit : public boost::cnv::detail::cnvbase<boost::cnv::spiri
     typename boost::enable_if<cnv::is_any_string<StringIn>, void>::type
     operator()(StringIn const& string_in, boost::optional<int>& result_out) const
     {
-        typedef cnv::string_range<StringIn>   range_type;
+        typedef cnv::str::range<StringIn>   range_type;
         typedef typename range_type::char_type char_type;
 
-        char_type const* beg = cnv::string_range<StringIn>::begin(string_in);
-        char_type const* end = cnv::string_range<StringIn>::end(string_in);
+        char_type const* beg = cnv::str::range<StringIn>::begin(string_in);
+        char_type const* end = cnv::str::range<StringIn>::end(string_in);
         int           result;
 
         if (boost::spirit::qi::parse(beg, end, boost::spirit::int_, result))

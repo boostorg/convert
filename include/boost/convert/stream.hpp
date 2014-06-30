@@ -81,8 +81,8 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
         istream_type& istream = stream_;
         buffer_type*   oldbuf = istream.rdbuf();
-        char_type const*  beg = cnv::string_range<StringIn>::begin(string_in);
-        std::streamsize    sz = cnv::string_range<StringIn>::size(string_in);
+        char_type const*  beg = cnv::str::range<StringIn>::begin(string_in);
+        std::streamsize    sz = cnv::str::range<StringIn>::size(string_in);
         parser_type    strbuf (beg, sz); //C1
 
         istream.rdbuf(&strbuf);
