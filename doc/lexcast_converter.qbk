@@ -20,7 +20,7 @@ The converter can easily replace `boost::lexical_cast`, adding flexibility and c
 
 See the [classref boost::cnv::lexical_cast implementation] for details.
 
-In order for a user-defined type to be integrated into the `boost::lexical_cast` framework (at least until 1.47; see [@http://www.boost.org/doc/libs/1_47_0/libs/conversion/lexical_cast.htm `boost::lexical_cast` 1.47 documentation]):
+In order for a user-defined type to be integrated into the `boost::lexical_cast` framework:
 
 * ['TypeOut] needs to be ['Copy Constructible];
 * ['TypeOut] needs to be ['Default Constructible];
