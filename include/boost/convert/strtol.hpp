@@ -178,13 +178,13 @@ boost::cnv::strtol::d_to_str(double value) const
     int const      base = 10;
 
     for (; 1 <= ipart; ipart /= base)
-        *(--beg) = get_char(ipart - std::floor(ipart / base) * base);
+        *(--beg) = get_char(int(ipart - std::floor(ipart / base) * base));
 
     if (beg == end) *(--beg) = '0';
     if (precision)  *(end++) = '.';
 
     for (char* fpos = end += precision; precision; --precision, fpart /= base)
-        *(--fpos) = get_char(fpart - std::floor(fpart / base) * base);
+        *(--fpos) = get_char(int(fpart - std::floor(fpart / base) * base));
 
     if (1 <= fpart)
     {

@@ -18,6 +18,7 @@ project convert_test
     ;  
 
 run [ glob *.cpp ] :  :  :  : convert_test ;
+run spirit.cpp ;
     
 
 

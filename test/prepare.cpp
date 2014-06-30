@@ -8,6 +8,7 @@
 #include <boost/random/uniform_int_distribution.hpp>
 #include <cstdlib>
 #include <cstdio>
+#include <ctime>
 
 namespace { namespace local
 {

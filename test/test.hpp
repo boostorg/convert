@@ -11,6 +11,8 @@
 #include <string>
 #include <istream>
 #include <memory.h> // Is needed for 'memset'
+#include <boost/convert/detail/forward.hpp>
+#include "./forward.hpp"
 
 //[change_declaration
 struct change
@@ -150,7 +152,6 @@ namespace test
         static void         fallbacks ();
         static void   lcast_converter ();
         static void  stream_converter ();
-        static void  spirit_converter ();
         static void  printf_converter ();
         static void  strtol_converter ();
         static void     int_to_string ();
