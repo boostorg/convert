@@ -7,7 +7,7 @@
 #include <boost/convert.hpp>
 #include <boost/convert/spirit.hpp>
 #include <boost/detail/lightweight_test.hpp>
-#include <stdio.h>
+#include <cstdio>
 
 using std::string;
 using boost::convert;

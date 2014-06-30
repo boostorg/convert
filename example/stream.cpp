@@ -2,7 +2,6 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include "../test/test.hpp"
 //[stream_headers1
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
@@ -11,11 +10,12 @@
 using std::string;
 using boost::convert;
 //]
-
 //[stream_headers2
 namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;
 //]
+
+#include "../test/test.hpp"
 
 static
 void
@@ -24,8 +24,8 @@ example1()
     //[stream_example1
     boost::cnv::cstream cnv;
 
-    int    i2 = convert<int>("123", cnv).value(); // Throws when fails
-    int    i3 = convert<int>("uhm", cnv).value_or(-1); // Returns -1 when fails
+    int    i2 = convert<int>("123", cnv).value(); // Throws when fails.
+    int    i3 = convert<int>("uhm", cnv).value_or(-1); // Returns -1 when fails.
     string s2 = convert<string>(123, cnv).value();
 
     BOOST_TEST(i2 == 123);

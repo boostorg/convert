@@ -5,7 +5,7 @@
     License, Version 1.0. (See a copy at http://www.boost.org/LICENSE_1_0.txt)
 ===============================================================================/]
 
-[library The Boost Convert Library
+[library Boost.Convert
     [quickbook 1.5]
     [version 2.0]
     [id convert]
@@ -20,7 +20,7 @@
         See copy at [@http://www.boost.org/LICENSE_1_0.txt].
     ]
 ]
- 
+
 [include rationale.qbk]
 [include introduction.qbk]
 [include getting_started.qbk]
@@ -30,6 +30,7 @@
 [include converters.qbk]
 [include     lexcast_converter.qbk]
 [include     stream_converter.qbk]
+[include     strtol_converter.qbk]
 [include     default_converter.qbk]
 [include section-end.qbk]
 [include performance.qbk]

@@ -4,16 +4,16 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section boost::cnv::lexical_cast Converter]
-
 [import ../example/lexical_cast.cpp]
 
-The purpose of the converter is 
+[section:lexical_cast_converter boost::cnv::lexical_cast Converter]
 
-* to make use of the `boost::lexical_cast` functionality and performance that many people have become accustomed to and comfortable with;
-* to demonstrate how existing independent conversion\/transformation-related facilities might be incorporated in to the ['Boost.Convert] framework.
+The purpose of the converter is to
 
-The converter can easily replace `boost::lexical_cast`, adds flexibility and convenience:
+* Make use of the `boost::lexical_cast` functionality and performance that many people have become accustomed to and comfortable with;
+* Demonstrate how existing independent conversion\/transformation-related facilities might be incorporated in to the ['Boost.Convert] framework.
+
+The converter can easily replace `boost::lexical_cast`, adding flexibility and convenience:
 
 [lexical_cast_headers1]
 [lexical_cast_example1]

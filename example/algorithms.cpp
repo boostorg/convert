@@ -3,8 +3,8 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include <boost/convert.hpp>
-#include <boost/convert/lexical_cast.hpp>
 #include <boost/convert/stream.hpp>
+#include <boost/convert/lexical_cast.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
@@ -28,7 +28,7 @@ introduction()
     std::vector<int>             ints;
     boost::cnv::cstream           cnv;
 
-    cnv(std::hex)(std::skipws); // Instruct reading hexadecimal. Skip white spaces.
+    cnv(std::hex)(std::skipws); // Instruct to read as string of hexadecimal characters, and skip (leading) white spaces.
 
     std::transform(
         strs.begin(),
@@ -36,11 +36,12 @@ introduction()
         std::back_inserter(ints),
         boost::convert<int, std::string>(boost::cref(cnv)).value_or(-1));
 
-    BOOST_TEST(ints.size() == 3);
-    BOOST_TEST(ints[0] ==  5);
-    BOOST_TEST(ints[1] == 15);
-    BOOST_TEST(ints[2] == -1); // Failed conversion
-//]
+    BOOST_TEST(ints.size() == 3); // Number of values read.
+    BOOST_TEST(ints[0] ==  5); // " 5"
+    BOOST_TEST(ints[1] == 15); // "0XF"
+    BOOST_TEST(ints[2] == -1); // Returned value from a failed conversion of "not an int".
+//] //[/algorithm_introduction]
+
 }
 
 static
@@ -48,8 +49,8 @@ void
 example1()
 {
     //[algorithm_example1
-    /*`The following code demonstrates a failed attempt to convert a few strings with
-      `boost::lexical_cast` (and one of the reasons ['Boost.Convert] has been developed):
+    /*`The following code demonstrates a failed attempt to convert a few `string`s to `int`s
+    with `boost::lexical_cast` (and one of the reasons ['Boost.Convert] has been developed):
     */
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
@@ -63,7 +64,7 @@ example1()
            std::back_inserter(ints),
            boost::bind(lexical_cast<int, string>, _1));
 
-           BOOST_TEST(0 && "Never reached");
+           BOOST_TEST(0 && "Never reached!");
     }
     catch (std::exception&)
     {
@@ -77,8 +78,9 @@ void
 example2()
 {
     //[algorithm_example2
-    /*`Still, if the exception-throwing behavior is the desired behavior, then ['Boost.Convert] supports that or,
-       alternatively, offers a non-throwing process flow potentially using the same `boost::lexical_cast` converter:
+    /*`If the exception-throwing behavior is the desired behavior, then ['Boost.Convert] supports that.
+
+    Alternatively, it offers a nothrow process-flow returning instead INT_MAX using the same `boost::lexical_cast` converter:
     */
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     std::vector<int>             ints;
@@ -91,9 +93,9 @@ example2()
         convert<int, string>(cnv).value_or(INT_MAX));
 
     BOOST_TEST(ints.size() == 3);
-    BOOST_TEST(ints[0] == INT_MAX); // Failed conversion
-    BOOST_TEST(ints[1] == INT_MAX); // Failed conversion
-    BOOST_TEST(ints[2] == INT_MAX); // Failed conversion
+    BOOST_TEST(ints[0] == INT_MAX); // Failed conversion.
+    BOOST_TEST(ints[1] == INT_MAX); // Failed conversion.
+    BOOST_TEST(ints[2] == INT_MAX); // Failed conversion.
     //]
 }
 
@@ -103,7 +105,7 @@ example3()
 {
     //[algorithm_example3
     /*`Replacing the original `boost::lexical_cast`-based converter yields better results with exception-throwing
-       and non-throwing process flows supported:
+       and non-throwing process-flows supported:
     */
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
@@ -118,13 +120,15 @@ example3()
            std::back_inserter(ints),
            convert<int, string>(boost::cref(cnv(std::hex)(std::skipws))));
 
-           BOOST_TEST(0 && "Never reached");
+           BOOST_TEST(0 && "Never reached!");
     }
     catch (boost::bad_optional_access const&)
     {
         BOOST_TEST(ints.size() == 2); // Only the first two strings converted.
-        BOOST_TEST(ints[0] ==  5);
-        BOOST_TEST(ints[1] == 15);
+        BOOST_TEST(ints[0] ==  5); // " 5"
+        BOOST_TEST(ints[1] == 15); // "0XF"
+
+        // "not an int" is effectively ignored.
     }
     //]
 }
@@ -153,9 +157,11 @@ example4()
        the use of `boost::cref` (or `std::cref` in C++11).
 
        It needs to be remembered that with standard algorithms the deployed converter needs to be
-       copyable or moveable (C++11) and is, in fact, copied or moved by the respective algorithm
-       before being used. Given that `std::cstringstream` is not copyable, `boost::cnv::cstream` is
-       not copyable either. That limitation is routinely worked around using `boost::cref`.]
+       [@http://en.cppreference.com/w/cpp/concept/TriviallyCopyable copyable] or
+       [@http://en.cppreference.com/w/cpp/concept/MoveAssignable moveable (C++11)]
+       and is, in fact, copied or moved by the respective algorithm before being used.
+       Given that `std::cstringstream` is not copyable, `boost::cnv::cstream` is not copyable either.
+       That limitation is routinely worked-around using `boost::ref`.]
     */
     //]
 }
@@ -166,7 +172,7 @@ example5()
 {
     //[algorithm_example5
     /*`And, lastly, an example of algorithm-based integer-to-string formatted conversion with
-       `std::uppercase` and `std::showbase` formatting applied:
+       `std::hex`, `std::uppercase` and `std::showbase` formatting applied:
     */
     boost::array<int, 3>     ints = {{ 15, 16, 17 }};
     std::vector<std::string> strs;
@@ -181,10 +187,10 @@ example5()
         convert<string, int>(boost::cref(cnv)));
 
     BOOST_TEST(strs.size() == 3);
-    BOOST_TEST(strs[0] ==  "0XF");
-    BOOST_TEST(strs[1] == "0X10");
-    BOOST_TEST(strs[2] == "0X11");
-    //]
+    BOOST_TEST(strs[0] ==  "0XF"); // 15
+    BOOST_TEST(strs[1] == "0X10"); // 16
+    BOOST_TEST(strs[2] == "0X11"); // 17
+    //] [/algorithm_example5]
 }
 
 int

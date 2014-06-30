@@ -2,6 +2,11 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
+#ifdef _MSC_VER
+#  pragma warning(disable : 4127)  // conditional expression is constant.
+#  pragma warning(disable : 4189)  // local variable is initialized but not referenced.
+#endif
+
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
 #include <boost/lexical_cast.hpp>
@@ -9,6 +14,7 @@
 using std::string;
 using boost::convert;
 using boost::lexical_cast;
+using boost::optional;
 
 static void process_failure() {}
 static void log(...) {}
@@ -36,8 +42,8 @@ example1()
         //[getting_serious_example2
         try
         {
-            int i1 = lexical_cast<int>(str); // Throws when fails
-            int i2 = convert<int>(str, cnv).value(); // Throws when fails
+            int i1 = lexical_cast<int>(str); // Throws if the conversion fails.
+            int i2 = convert<int>(str, cnv).value(); // Throws if the conversion fails.
         }
         catch (...)
         {
@@ -47,20 +53,20 @@ example1()
     }
     {
         //[getting_serious_example3
-        boost::optional<int> r1 = convert<int>(str1, cnv); // Does not throw
-        boost::optional<int> r2 = convert<int>(str2, cnv); // Does not throw
+        optional<int> r1 = convert<int>(str1, cnv); // Does not throw on conversion failure.
+        optional<int> r2 = convert<int>(str2, cnv); // Does not throw on conversion failure.
         // ...
-        try // Delayed processing of potential exceptions
+        try // Delayed processing of potential exceptions.
         {
-            int i1 = r1.value(); // Will throw if conversion failed
-            int i2 = r2.value(); // Will throw if conversion failed
+            int i1 = r1.value(); // Will throw if conversion failed.
+            int i2 = r2.value(); // Will throw if conversion failed.
         }
         catch (boost::bad_optional_access const&)
         {
-            // Handle failed conversion
+            // Handle failed conversion.
         }
 
-        // Exceptions are avoided altogether
+        // Exceptions are avoided altogether.
         int i1 = r1 ? r1.value() : fallback_value;
         int i2 = r2.value_or(fallback_value);
         int i3 = convert<int>(str3, cnv).value_or(fallback_value);
@@ -86,7 +92,7 @@ example4()
     //[getting_serious_example4
     boost::optional<int> res = boost::convert<int>(str, cnv);
 
-    if (!res) log("str conversion failed");
+    if (!res) log("str conversion failed!");
 
     int i1 = res.value_or(fallback_value);
 
@@ -116,12 +122,12 @@ example5()
 
     try
     {
-        // Throwing behavior specified explicitly rather than implied
+        // Throwing behavior specified explicitly rather than implied.
         int i3 = convert<int>(str, cnv, boost::throw_on_failure);
     }
     catch (boost::bad_optional_access const&)
     {
-        // Handle failed conversion
+      // Handle failed conversion.
     }
     //]
 }

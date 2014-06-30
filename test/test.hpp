@@ -8,8 +8,9 @@
 #include <boost/make_default.hpp>
 #include <boost/static_assert.hpp>
 #include <boost/array.hpp>
-#include <string.h>
-#include <stdio.h>
+#include <string>
+#include <istream>
+#include <memory.h> // Is needed for 'memset'
 
 //[change_declaration
 struct change
@@ -120,7 +121,7 @@ namespace test
 #elif defined(__GNUC__)
         static bool const    is_msc = false;
         static bool const    is_gcc = true;
-        static int const num_cycles = 10000000;
+        static int const num_cycles = 1000000;
 #else
 #error "Add here."
 #endif
@@ -132,9 +133,13 @@ namespace test
         //     we only test up to 9 digits as Spirit does not handle more than 9.
 
         typedef boost::array<my_string, 18> strings; //C1
-        typedef boost::array<int,       18>    ints;
 
-        static ints const&    get_ints ();
+        template<typename Type>
+        struct array
+        {
+            typedef boost::array<Type, 18> type;
+        };
+        template<typename T> static typename array<T>::type const& get();
         static strings const& get_strs ();
 
         static void      is_converter ();
@@ -158,9 +163,9 @@ namespace test
     };
     struct performance
     {
-        template<typename Cnv> static double str_to_int (Cnv const&);
-        template<typename Cnv> static double int_to_str (Cnv const&);
-        static int                     spirit_framework ();
+        template<typename Type, typename Cnv> static double str_to (Cnv const&);
+        template<typename Type, typename Cnv> static double to_str (Cnv const&);
+        static int                                spirit_framework ();
     };
 }
 
