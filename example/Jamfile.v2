@@ -16,12 +16,12 @@ project convert_examples
         <include>../include
     ;
 
-run algorithms.cpp ;
-run default_converter.cpp ;
-run getting_serious.cpp ;
-run getting_started.cpp ;
-run lexical_cast.cpp ;
-run stream.cpp ;
+run algorithms.cpp        :  :  :  :  convert_example_algorithms ;
+run default_converter.cpp :  :  :  :  convert_example_default_converter ;
+run getting_serious.cpp   :  :  :  :  convert_example_getting_started ;
+run getting_started.cpp   :  :  :  :  convert_example_getting_serious ;
+run lexical_cast.cpp      :  :  :  :  convert_example_lexical_cast_converter ;
+run stream.cpp            :  :  :  :  convert_example_stream_converter ;
 
 compile-fail default_converter_fail.cpp : <warnings>off <cxxflags>"-w" ;
 

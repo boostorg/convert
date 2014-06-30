@@ -64,7 +64,6 @@ main(int argc, char const* argv[])
     test::cnv::callables();
     test::cnv::fallbacks();
     test::cnv::encryption();
-//    test::cnv::performance();
 
     return boost::report_errors();
 }

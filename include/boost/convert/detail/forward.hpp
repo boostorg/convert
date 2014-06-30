@@ -14,16 +14,16 @@
 #   define snprintf _snprintf
 #endif
 
-#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
-#undef BOOST_CONVERT_CXX11
-#else
-#define BOOST_CONVERT_CXX11
-#endif
-
 #define BOOST_NO_CXX11_REF_QUALIFIERS
 
 #include <boost/config.hpp>
 #include <boost/version.hpp>
 #include <boost/optional.hpp>
+
+#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
+#undef BOOST_CONVERT_CXX11
+#else
+#define BOOST_CONVERT_CXX11
+#endif
 
 #endif // BOOST_CONVERT_FORWARD_HPP

@@ -16,7 +16,7 @@ namespace arg = boost::cnv::parameter;
 
 struct boost::cnv::by_default : public boost::cnv::spirit {};
 
-void
+int
 main(int argc, char const* argv[])
 {
     boost::cnv::spirit cnv;
@@ -39,4 +39,6 @@ main(int argc, char const* argv[])
 //    BOOST_TEST( s2 && s2.value() == "12.34");
 
 //    printf("%s\n", s2->c_str());
+
+    return boost::report_errors();
 }

@@ -7,7 +7,6 @@
 
 #include <boost/make_default.hpp>
 #include <boost/static_assert.hpp>
-#include <boost/array.hpp>
 #include <string>
 #include <istream>
 #include <memory.h> // Is needed for 'memset'
@@ -115,34 +114,15 @@ namespace test
 #if defined(_MSC_VER)
         static bool const    is_msc = true;
         static bool const    is_gcc = false;
-        static int const num_cycles = 1000000;
 #elif defined(__CYGWIN__) 
         static bool const    is_msc = false;
         static bool const    is_gcc = true;
-        static int const num_cycles = 1000000;
 #elif defined(__GNUC__)
         static bool const    is_msc = false;
         static bool const    is_gcc = true;
-        static int const num_cycles = 1000000;
 #else
 #error "Add here."
 #endif
-
-        struct timer;
-
-        // C1. 18 = 9 positive + 9 negative numbers with the number of digits from 1 to 9.
-        //     Even though INT_MAX(32) = 2147483647, i.e. 10 digits (not to mention long int)
-        //     we only test up to 9 digits as Spirit does not handle more than 9.
-
-        typedef boost::array<my_string, 18> strings; //C1
-
-        template<typename Type>
-        struct array
-        {
-            typedef boost::array<Type, 18> type;
-        };
-        template<typename T> static typename array<T>::type const& get();
-        static strings const& get_strs ();
 
         static void      is_converter ();
         static void        scratchpad ();
@@ -157,16 +137,9 @@ namespace test
         static void     int_to_string ();
         static void         user_type ();
         static void     force_in_type ();
-        static void       performance ();
 
         template<typename Cnv> static void  str_to_int (Cnv const&);
         template<typename Cnv> static void  int_to_str (Cnv const&);
-    };
-    struct performance
-    {
-        template<typename Type, typename Cnv> static double str_to (Cnv const&);
-        template<typename Type, typename Cnv> static double to_str (Cnv const&);
-        static int                                spirit_framework ();
     };
 }
 

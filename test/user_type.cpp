@@ -6,6 +6,7 @@
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
 #include <boost/detail/lightweight_test.hpp>
+#include <boost/array.hpp>
 #include <vector>
 #include "./test.hpp"
 

@@ -17,8 +17,22 @@ project convert_test
         <include>../include
     ;  
 
-run [ glob *.cpp ] :  :  :  : convert_test ;
-run spirit.cpp ;
+run callable.cpp            
+    encryption.cpp          
+    fallbacks.cpp           
+    is_converter.cpp        
+    lcast_converter.cpp     
+    main.cpp                
+    printf_converter.cpp    
+    scratchpad.cpp          
+    sfinae.cpp              
+    stream_converter.cpp    
+    strtol_converter.cpp    
+    user_type.cpp           
+                    :  :  :  : convert_test ;
+run spirit.cpp      :  :  :  : convert_test_spirit_converter ;
+
+exe convert_test_performance : performance.cpp  ;
     
 
 

@@ -7,7 +7,6 @@
 // This code uses the performance testing framework from libs/spirit/optimization/measure.cpp.
 // See these mentioned files for the copyright notice.
 
-#include "./test.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/spirit.hpp>
 #include <boost/convert/strtol.hpp>
@@ -108,7 +107,7 @@ namespace
 }
 
 int
-test::performance::spirit_framework()
+main(int argc, char const argv[])
 {
     // This code has been adapted from libs/spirit/optimization/qi/int_parser.cpp.
     // This code uses the performance testing framework from libs/spirit/optimization/measure.cpp.
