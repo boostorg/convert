@@ -3,7 +3,6 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include "./test.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/printf.hpp>
 #include <boost/convert/stream.hpp>
@@ -11,6 +10,7 @@
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/uniform_01.hpp>
+#include "./test.hpp"
 
 //[strtol_basic_deployment_header
 #include <boost/convert.hpp>

@@ -128,7 +128,7 @@ example3()
         BOOST_TEST(ints[0] ==  5); // " 5"
         BOOST_TEST(ints[1] == 15); // "0XF"
 
-        // "not an int" is effectively ignored.
+        // "not an int" causes the exception thrown.
     }
     //]
 }

@@ -226,6 +226,6 @@ test::cnv::performance()
         performance_comparative(str_to_int_spirit(), boost::cnv::spirit(),       "spirit");
         performance_comparative(str_to_int_lxcast(), boost::cnv::lexical_cast(), "lxcast");
 
-        BOOST_TEST(test::performance::spirit_framework());
+//      BOOST_TEST(test::performance::spirit_framework());
     }
 }
