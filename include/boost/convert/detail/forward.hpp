@@ -5,22 +5,12 @@
 #ifndef BOOST_CONVERT_FORWARD_HPP
 #define BOOST_CONVERT_FORWARD_HPP
 
-#define BOOST_NO_CXX11_REF_QUALIFIERS
-
-#include <boost/config.hpp>
-#include <boost/version.hpp>
-#include <boost/optional.hpp>
-
 #if defined(_MSC_VER)
-#   pragma warning(disable : 4348)
-#   pragma warning(disable : 4800)
+#   pragma warning(disable : 4244)
+#   pragma warning(disable : 4224)
 #   pragma warning(disable : 4996)
-#   pragma warning(disable : 4127)  // conditional expression is constant.
-#   pragma warning(disable : 4189)  // local variable is initialized but not referenced.
-#   pragma warning(disable : 4100)  // unreferenced formal parameter.
-#   pragma warning(disable : 4714)  // marked as __forceinline not #endif
+#   pragma warning(disable : 4180) // qualifier applied to function type has no meaning
 
-#   define _CRT_SECURE_NO_WARNINGS
 #   define snprintf _snprintf
 #endif
 
@@ -29,5 +19,11 @@
 #else
 #define BOOST_CONVERT_CXX11
 #endif
+
+#define BOOST_NO_CXX11_REF_QUALIFIERS
+
+#include <boost/config.hpp>
+#include <boost/version.hpp>
+#include <boost/optional.hpp>
 
 #endif // BOOST_CONVERT_FORWARD_HPP
