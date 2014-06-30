@@ -1,13 +1,13 @@
 # bring in the rules for testing
 import testing ;
 
-project convert_examples 
+project convert_examples
     : requirements
         <warnings>on
         <toolset>gcc:<warnings>all
         <toolset>msvc:<warnings>all
         <toolset>gcc:<cxxflags>"-Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
-        <toolset>msvc:<cxxflags>"/wd4996 /wd4512 /wd4610 /wd4510 /wd4127 /wd4701 /wd4127 /wd4305"
+        <toolset>msvc:<cxxflags>"/wd4996 /wd4512 /wd4610 /wd4510 /wd4127 /wd4701 /wd4127 /wd4305 /wd4100 /wd4512 /wd4714"
         <toolset>msvc:<asynch-exceptions>on
         <toolset>msvc:<define>_CRT_SECURE_NO_DEPRECATE
         <toolset>msvc:<define>_SCL_SECURE_NO_DEPRECATE
@@ -15,14 +15,14 @@ project convert_examples
         <toolset>msvc:<define>_CRT_SECURE_NO_WARNINGS
         <include>../include
         <include>$(BOOST_ROOT)
-    ;  
+    ;
 
 #run [ glob *.cpp ] :  :  :  : convert_example ;
 
 run algorithms.cpp ;
 run default_converter.cpp ;
-run getting_serious.cpp ; 
-run getting_started.cpp ; 
+run getting_serious.cpp ;
+run getting_started.cpp ;
 run lexical_cast.cpp ;
 run stream.cpp ;
 

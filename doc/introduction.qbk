@@ -18,9 +18,10 @@
 * the `boost::convert()` user interface;
 * an extendible collection of pluggable converters.
 
-`boost::convert()` provides ['uniform deployment] and ['consistent behavior]. It implements new and familiar conversion\/transformation-related behavior such as:
+`boost::convert()` provides ['uniform deployment] and ['consistent behavior].
+It implements new and familiar conversion\/transformation-related behavior such as:
 
-* flexible exception-throwing, delayed-throwing and non-throwing failed-conversion behavior;
+* flexible exception-throwing, delayed-throwing and non-throwing behavior when conversion fails;
 * four types of the conversion-failure ['detection]:
     * within one process flow -- basic and generic;
     * as a branched process flow -- exception-based and function-based;
@@ -28,29 +29,37 @@
     * an exception thrown;
     * the fallback value returned;
     * the fallback function called;
-* means to deploy types that do not meet the ['Default Constructibility] requirement;
+* means to deploy types that do not meet the [@http://en.cppreference.com/w/cpp/concept/DefaultConstructible Default Constructibility] requirement;
 * support for standard algorithms.
 
-The collection of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be ['extendible] and extended over time. With the current proposal a few proof-of-the-concept string-to-type (and type-to-string) converters are supplied:
+The collection of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be ['extendible] and extended over time.
+With the current proposal a few proof-of-the-concept `string-to-type` (and `type-to-string`) converters are supplied:
 
 * `boost::lexical_cast`-based,
 * `printf/scanf`-based,
 * `strtol/ltostr`-based,
 * `std::stringstream`-based.
 
-The first three converters are meant to demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework. Although the `printf/scanf`-based and `strtol`-based converters already provide some basic formatting support.
+The first three converters are meant to demonstrate how existing and independent conversion facilities
+might be incorporated in to the ['Boost.Convert] framework.
+
+The `printf/scanf`-based and `strtol`-based converters already provide some basic formatting support.
 
 The `std::stream`-based converter draws on the standard `std::streams` functionality and provides:
 
 * string-to-type and type-to-string conversions;
-* formatting support (precision, base, upper/lower-case, scientific, etc.);
-* support for different locales;
+* formatting support (`ios` precision, base, upper/lower-case, scientific, etc.);
+* support for different `locale`s;
 * `char` and `wchar_t` support.
 
 [import ../example/algorithms.cpp]
 
 [algorithm_introduction]
 
-An interesting (and yet to be explored) property is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. `boost::convert()` is type-agnostic and the plugged-in converter ultimately dictates what types and conversions are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and ['deployed uniformly] by plugging-in special-purpose converters.
+An interesting (and yet to be explored) property is that ['Boost.Convert] is not limited to `string-to-type` and `type-to-string` conversions.
+`boost::convert()` is type-agnostic and the plugged-in converter ultimately dictates what types and conversions are supported.
+Consequently, a wide range of conversion\/transformation-related tasks can be addressed
+and ['deployed uniformly] by plugging-in special-purpose converters.
 
-[endsect]
+[endsect] [/section Introduction]
+

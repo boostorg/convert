@@ -18,9 +18,9 @@ int
 main(int argc, char const* argv[])
 {
     //[lexical_cast_example1
-    int    i1 = lexical_cast<int>("123"); // Throws when fails
-    int    i2 = convert<int>("123").value(); // Throws when fails
-    int    i3 = convert<int>("uhm").value_or(-1); // Returns -1 when fails
+    int    i1 = lexical_cast<int>("123"); // Throws if the conversion fails.
+    int    i2 = convert<int>("123").value(); // Throws if the conversion fails.
+    int    i3 = convert<int>("uhm").value_or(-1);  // Returns -1 if the conversion fails.
     string s1 = lexical_cast<string>(123);
     string s2 = convert<string>(123).value();
 

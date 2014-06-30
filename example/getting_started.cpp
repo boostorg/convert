@@ -2,18 +2,27 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
+#ifdef _MSC_VER
+#  pragma warning(disable : 4127)  // conditional expression is constant.
+#  pragma warning(disable : 4189)  // local variable is initialized but not referenced.
+#  pragma warning(disable : 4100)  // unreferenced formal parameter.
+#  pragma warning(disable : 4714)  // marked as __forceinline not inlined.
+#endif
+
 #include <boost/detail/lightweight_test.hpp>
 
 static
 void
 log(char const*)
 {
+  // Dummy function to demonstrate how problems might be logged.
 }
 
 //[getting_started_headers1
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
 //]
+
 //[using_header
 using std::string;
 using boost::lexical_cast;
@@ -36,18 +45,21 @@ static void getting_started_example1()
         BOOST_TEST(s1 == "123");
         BOOST_TEST(s2 == "123");
     }
-    catch (std::exception const&)
+    catch (std::exception const& ex)
     {
-        // Be aware and prepared that the conversion requests above can fail.
-        // Ignore this at your peril.
+        // Be aware that the conversion requests above can fail,
+        // so always use try'n'catch blocks to handle any exceptions thrown.
+        // Ignore this at your peril!
+      std::cout << "Exception " << ex.what() << std::endl;
+
     }
-    //]
+    //] [/getting_started_example1]
 }
 
 static void getting_started_example2()
 {
     //[getting_started_example2
-    // Non-throwing behavior. Returns fallback value when failed.
+    // Non-throwing behavior. Returns fallback value (-1) when failed.
     int i = convert<int>("uhm", boost::cnv::lexical_cast()).value_or(-1);
 
     BOOST_TEST(i == -1);
@@ -63,7 +75,7 @@ static void getting_started_example3()
     boost::cnv::spirit cnv;
 
     int i1 = lexical_cast<int>("123");
-    int i2 = convert<int>("123", cnv).value(); // Four times faster
+    int i2 = convert<int>("123", cnv).value(); // Four times faster than lexical_cast.
     //]
 }
 
@@ -77,7 +89,7 @@ static void getting_started_example4()
 
     try
     {
-        int i1 = lexical_cast<int>("   123"); // Does not work
+        int i1 = lexical_cast<int>("   123"); // Does not work.
         BOOST_TEST(!"Never reached");
     }
     catch (...) {}
@@ -90,7 +102,11 @@ static void getting_started_example4()
     BOOST_TEST(i2 == 123);
     BOOST_TEST(s1 == "12.34567");  // No settable precision.
     BOOST_TEST(s2 == "12.346");    // Precision was set to fixed 3. Correctly rounded.
+#ifdef _MSC_VER
+    BOOST_TEST(s3 == "1.235e+001"); // Precision was set to scientific 3. Correctly rounded.
+#else
     BOOST_TEST(s3 == "1.235e+01"); // Precision was set to scientific 3. Correctly rounded.
+#endif
     //]
 }
 
@@ -101,9 +117,9 @@ getting_started_example5()
     //[getting_started_example5
     boost::cnv::cstream cnv;
 
-    int i1 = lexical_cast<int>("123"); // Throws when fails
-    int i2 = convert<int>("123", cnv).value(); // Throws when fails
-    int i3 = convert<int>("uhm", cnv).value_or(-1); // Returns -1 when fails
+    int i1 = lexical_cast<int>("123"); // Throws when conversion fails.
+    int i2 = convert<int>("123", cnv).value(); // Throws when conversion fails.
+    int i3 = convert<int>("uhm", cnv).value_or(-1); // Returns -1 when conversion fails.
 
     BOOST_TEST(i1 == 123);
     BOOST_TEST(i2 == 123);
@@ -121,8 +137,8 @@ static void getting_started_example6()
 
     //[getting_started_example6
 
-    int num_hex = convert<int>(str1, cnv(std::hex)).value_or(-1); // Read as hex
-    int num_dec = convert<int>(str2, cnv(std::dec)).value_or(-1); // Read as decimal
+    int num_hex = convert<int>(str1, cnv(std::hex)).value_or(-1); // Read as hex.
+    int num_dec = convert<int>(str2, cnv(std::dec)).value_or(-1); // Read as decimal.
 
     if (num_hex == -1) log("bad num_hex"), num_hex = default_num_hex;
     if (num_dec == -1) log("bad num_dec"), num_dec = default_num_dec;
