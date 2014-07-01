@@ -9,6 +9,15 @@
 #  pragma warning(disable : 4714)  // marked as __forceinline not inlined.
 #endif
 
+namespace { namespace local
+{
+#if defined(_MSC_VER)
+    static bool const    is_msc = true;
+#else
+    static bool const    is_msc = false;
+#endif
+}}
+
 #include <boost/detail/lightweight_test.hpp>
 
 static
@@ -50,8 +59,7 @@ static void getting_started_example1()
         // Be aware that the conversion requests above can fail,
         // so always use try'n'catch blocks to handle any exceptions thrown.
         // Ignore this at your peril!
-      std::cout << "Exception " << ex.what() << std::endl;
-
+        std::cout << "Exception " << ex.what() << std::endl;
     }
     //] [/getting_started_example1]
 }
@@ -94,19 +102,16 @@ static void getting_started_example4()
     }
     catch (...) {}
 
-    int    i2 = convert<int>("   123", cnv(std::skipws)).value(); // Success
-    string s1 = lexical_cast<string>(12.34567);
-    string s2 = convert<string>(12.34567, cnv(std::fixed)(std::setprecision(3))).value();
-    string s3 = convert<string>(12.34567, cnv(std::scientific)(std::setprecision(3))).value();
+    int          i2 = convert<int>("   123", cnv(std::skipws)).value(); // Success
+    string       s1 = lexical_cast<string>(12.34567);
+    string       s2 = convert<string>(12.34567, cnv(std::fixed)(std::setprecision(3))).value();
+    string       s3 = convert<string>(12.34567, cnv(std::scientific)(std::setprecision(3))).value();
+    string expected = local::is_msc ? "1.235e+01" : "1.235e+001";
 
     BOOST_TEST(i2 == 123);
-    BOOST_TEST(s1 == "12.34567");  // No settable precision.
-    BOOST_TEST(s2 == "12.346");    // Precision was set to fixed 3. Correctly rounded.
-#ifdef _MSC_VER
-    BOOST_TEST(s3 == "1.235e+001"); // Precision was set to scientific 3. Correctly rounded.
-#else
-    BOOST_TEST(s3 == "1.235e+01"); // Precision was set to scientific 3. Correctly rounded.
-#endif
+    BOOST_TEST(s1 == "12.34567"); // No settable precision.
+    BOOST_TEST(s2 == "12.346");   // Precision was set to fixed 3.
+    BOOST_TEST(s3 == expected);   // Precision was set to scientific 3.
     //]
 }
 

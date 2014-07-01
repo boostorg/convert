@@ -8,7 +8,7 @@
 
 [section boost::cnv::strtol Converter]
 
-This converter started as a deployment example (with the `strtol` family of functions as its conversion engine) and as a part of the performance test. Surprisingly, the converter showed fairly decent all-around performance: 
+This converter started as a deployment example (with the `strtol` family of functions as its conversion engine) and as a part of the performance-test set. Surprisingly, the converter showed fairly decent all-around performance: 
 
  ~/dev/convert/doc.>> uname -a
  Linux 3.13.0-29-generic SMP i686 GNU/Linux

@@ -17,7 +17,7 @@ For a converter to be plugged in to the ['Boost.Convert] framework it needs to b
 
 if that is a general-purpose converter capable of handling many types (like string-to-type and type-to-string conversions). Alternatively, a purpose-built custom converter might only care to provide
 
- bool operator()(TypeIn const&, boost::optional<TypeOut>&) const;
+ void operator()(TypeIn const&, boost::optional<TypeOut>&) const;
 
 if its sole purpose is to handle one particular conversion\/transformation of ['TypeIn] to ['TypeOut]. For example, a converter from the operating-system-specific MBCS string format to the UCS-2 or UCS-4 (depending on `wchar_t` size) might be one such example:
 

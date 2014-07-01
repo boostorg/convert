@@ -18,7 +18,7 @@
 * the `boost::convert()` user interface;
 * an extendible collection of pluggable converters.
 
-`boost::convert()` provides ['uniform deployment] and ['consistent behavior].
+`boost::convert()` provides ['one consistent interface] and ensures ['consistent behavior].
 It implements new and familiar conversion\/transformation-related behavior such as:
 
 * flexible exception-throwing, delayed-throwing and non-throwing behavior when conversion fails;
@@ -29,7 +29,7 @@ It implements new and familiar conversion\/transformation-related behavior such 
     * an exception thrown;
     * the fallback value returned;
     * the fallback function called;
-* means to deploy types that do not meet the [@http://en.cppreference.com/w/cpp/concept/DefaultConstructible Default Constructibility] requirement;
+* means to deploy types that do not meet the [@http://en.cppreference.com/w/cpp/concept/DefaultConstructible ['Default Constructibility]] requirement;
 * support for standard algorithms.
 
 The collection of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be ['extendible] and extended over time.

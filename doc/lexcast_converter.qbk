@@ -18,7 +18,7 @@ The converter can easily replace `boost::lexical_cast`, adding flexibility and c
 [lexical_cast_headers1]
 [lexical_cast_example1]
 
-See the [classref boost::cnv::lexical_cast implementation] for details.
+See the [classref boost::cnv::lexical_cast `boost::cnv::lexical_cast` implementation] for details.
 
 In order for a user-defined type to be integrated into the `boost::lexical_cast` framework:
 

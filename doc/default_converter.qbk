@@ -4,7 +4,7 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section boost::cnv::by_default Default Converter]
+[section Default Converter]
 
 [import ../example/default_converter.cpp]
 
@@ -12,7 +12,9 @@ The necessity to explicitly specify a converter as in
 
  int i = boost::convert("123", converter).value();
  
-might be tedious or even error-prone if an application relies on certain consistent behavior associated with one particular converter. To accommodate such a scenario ['Boost.Convert] introduces and deploys `boost::cnv::by_default`. There is no default converter set by default and, consequently, without additional configuration steps the following call will fail to compile: 
+might be tedious or even error-prone if an application relies on certain consistent behavior associated with one particular converter. To accommodate such a scenario ['Boost.Convert] introduces the concept of the ['default converter] and deploys `boost::cnv::by_default` for the purpose. 
+
+There is no default converter set by default and, consequently, without additional configuration steps the following call will fail to compile: 
 
  int i = boost::convert("123").value(); // No converter provided
  

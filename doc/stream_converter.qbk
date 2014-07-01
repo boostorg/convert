@@ -18,7 +18,7 @@ The purpose of the converter is to provide conversion-related formatting and loc
 * instant re-use of available standard manipulators (`std::hex`, `std::setprecision`, `std::skipws`, etc.);
 * extendibility (via custom manipulators (see [link 1 \[1\]])).
 
-The converter is deployed as follows:
+The converter might be deployed as follows:
 
 [stream_headers1]
 [stream_example1]
@@ -47,7 +47,7 @@ which is equivalent to the following ['manipulator]-based variant:
 [endsect]
 [section Locale Support]
 
-Locale support is similar to the formatting support as demonstrated by the following example (the Linux version):
+Locale support is similar to the formatting support as demonstrated by the following example:
 
 [stream_headers2]
 [stream_locale_example1]
@@ -100,8 +100,8 @@ That said, a well-designed type (in my opinion, anyway) should only have meaning
 
 The `direction` type has no default state. It is not ['Default Constructible] and, consequently, the following does not compile:
 
- direction dir1 = boost::convert<direction>(str, cnv).value(); // Does not compile
- direction dir2 = boost::lexical_cast<direction>(str); // Does not compile
+ direction dir1 = convert<direction>(str, cnv).value(); // Does not compile
+ direction dir2 = lexical_cast<direction>(str);         // Does not compile
 
 However, ['Boost.Convert] is able to handle such a type with little help from the user -- the instructions ['how] to create that mentioned temporary storage:
 
@@ -109,8 +109,8 @@ However, ['Boost.Convert] is able to handle such a type with little help from th
 
 Now such class can be deployed with the `std::stream`-based converter:
 
- direction dir1 = boost::convert<direction>(str, cnv).value(); // Compiles
- direction dir2 = boost::lexical_cast<direction>(str); // Does not compile
+ direction dir1 = convert<direction>(str, cnv).value(); // Compiles
+ direction dir2 = lexical_cast<direction>(str); // Does not compile
 
 [endsect]
 

@@ -78,7 +78,7 @@ example1()
 //[getting_serious_example5
 struct fallback_func
 {
-    int operator()() const { log("Failed to convert"); return 22; }
+    int operator()() const { log("Failed to convert"); return 42; }
 };
 //]
 
@@ -112,7 +112,7 @@ example5()
     std::string const    str = "123";
     int const fallback_value = -1;
     //[getting_serious_example7
-    // Error-processing behavior are specified clearly and uniformly.
+    // Error-processing behavior are specified unambiguously and uniformly.
     // a) i1: Returning the provided fallback value;
     // b) i2: Calling the provided failure-processing function;
     // c) i3: Throwing an exception.

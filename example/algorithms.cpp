@@ -28,7 +28,8 @@ introduction()
     std::vector<int>             ints;
     boost::cnv::cstream           cnv;
 
-    cnv(std::hex)(std::skipws); // Instruct to read as string of hexadecimal characters, and skip (leading) white spaces.
+    // Instruct to read as a string of hexadecimal characters, skip (leading) white spaces.
+    cnv(std::hex)(std::skipws);
 
     std::transform(
         strs.begin(),
@@ -37,9 +38,9 @@ introduction()
         boost::convert<int, std::string>(boost::cref(cnv)).value_or(-1));
 
     BOOST_TEST(ints.size() == 3); // Number of values read.
-    BOOST_TEST(ints[0] ==  5); // " 5"
-    BOOST_TEST(ints[1] == 15); // "0XF"
-    BOOST_TEST(ints[2] == -1); // Returned value from a failed conversion of "not an int".
+    BOOST_TEST(ints[0] ==  5);    // " 5"
+    BOOST_TEST(ints[1] == 15);    // "0XF"
+    BOOST_TEST(ints[2] == -1);    // Returned value from a failed conversion of "not an int".
 //] //[/algorithm_introduction]
 
 }
@@ -49,8 +50,8 @@ void
 example1()
 {
     //[algorithm_example1
-    /*`The following code demonstrates a failed attempt to convert a few `string`s to `int`s
-    with `boost::lexical_cast` (and one of the reasons ['Boost.Convert] has been developed):
+    /*`The following code demonstrates a failed attempt (and one of the reasons ['Boost.Convert]
+       has been developed) to convert a few `string`s to `int`s with `boost::lexical_cast`:
     */
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
@@ -124,8 +125,8 @@ example3()
     catch (boost::bad_optional_access const&)
     {
         BOOST_TEST(ints.size() == 2); // Only the first two strings converted.
-        BOOST_TEST(ints[0] ==  5); // " 5"
-        BOOST_TEST(ints[1] == 15); // "0XF"
+        BOOST_TEST(ints[0] ==  5);    // " 5"
+        BOOST_TEST(ints[1] == 15);    // "0XF"
 
         // "not an int" causes the exception thrown.
     }
@@ -157,7 +158,7 @@ example4()
 
        It needs to be remembered that with standard algorithms the deployed converter needs to be
        [@http://en.cppreference.com/w/cpp/concept/TriviallyCopyable copyable] or
-       [@http://en.cppreference.com/w/cpp/concept/MoveAssignable moveable (C++11)]
+       [@http://en.cppreference.com/w/cpp/concept/MoveAssignable movable (C++11)]
        and is, in fact, copied or moved by the respective algorithm before being used.
        Given that `std::cstringstream` is not copyable, `boost::cnv::cstream` is not copyable either.
        That limitation is routinely worked-around using `boost::ref`.]
