@@ -79,8 +79,7 @@ example2()
 {
     //[algorithm_example2
     /*`If the exception-throwing behavior is the desired behavior, then ['Boost.Convert] supports that.
-
-    Alternatively, it offers a nothrow process-flow returning instead INT_MAX using the same `boost::lexical_cast` converter:
+      In addition, it also supports a non-throwing process-flow:
     */
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     std::vector<int>             ints;
@@ -90,12 +89,12 @@ example2()
         strs.begin(),
         strs.end(),
         std::back_inserter(ints),
-        convert<int, string>(cnv).value_or(INT_MAX));
+        convert<int, string>(cnv).value_or(-1));
 
     BOOST_TEST(ints.size() == 3);
-    BOOST_TEST(ints[0] == INT_MAX); // Failed conversion.
-    BOOST_TEST(ints[1] == INT_MAX); // Failed conversion.
-    BOOST_TEST(ints[2] == INT_MAX); // Failed conversion.
+    BOOST_TEST(ints[0] == -1); // Failed conversion does not throw.
+    BOOST_TEST(ints[1] == -1); // Failed conversion does not throw.
+    BOOST_TEST(ints[2] == -1); // Failed conversion does not throw.
     //]
 }
 
@@ -104,8 +103,8 @@ void
 example3()
 {
     //[algorithm_example3
-    /*`Replacing the original `boost::lexical_cast`-based converter yields better results with exception-throwing
-       and non-throwing process-flows supported:
+    /*`Replacing the `boost::cnv::lexical_cast` converter yields better results with exception-throwing
+       and non-throwing process-flows still supported:
     */
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};

@@ -11,7 +11,6 @@ project convert_test
         <warnings>on
         <toolset>gcc:<warnings>all
         <toolset>gcc:<cxxflags>"-Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
-        <toolset>gcc:<linkflags>"-lboost_timer -lboost_system"
         <toolset>msvc:<warnings>all
         <toolset>msvc:<cxxflags>"/wd4996 /wd4512 /wd4610 /wd4510 /wd4127 /wd4701 /wd4127 /wd4305 /wd4244 /wd4714 /wd4189"
         <toolset>msvc:<asynch-exceptions>on
@@ -37,7 +36,7 @@ run callable.cpp
                     :  :  :  : convert_test ;
 #run spirit.cpp      :  :  :  : convert_test_spirit_converter ;
 
-exe convert_test_performance : performance.cpp  ;
+exe convert_test_performance : performance.cpp /boost/timer//boost_timer ;
     
 
 
