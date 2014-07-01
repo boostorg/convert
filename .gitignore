@@ -7,6 +7,10 @@ doc/html/
 doc/convert_reference.xml
 *.log
 *.bat
+include/boost/none.hpp
+include/boost/none_t.hpp
+include/boost/optional.hpp
+include/boost/optional/
 
 #################
 ## Eclipse
