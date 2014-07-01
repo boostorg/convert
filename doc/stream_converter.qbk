@@ -40,7 +40,7 @@ An alternative (generic) formatting interface is currently being extended and ex
 [stream_headers2]
 [stream_example4]
 
-which is equivalent to the following ['manipulator]-based variant:
+is equivalent to the following ['std::manipulator]-based variant:
 
 [stream_example5]
 
@@ -69,7 +69,7 @@ For example,
 
 [change_declaration]
 
-That allows handling conversions of user-defined types with plugged-in `std::stringstream`-based converter:
+That allows handling conversions of user-defined types with plugged-in `boost::cnv::cstream` converter:
 
 [stream_example6]
 

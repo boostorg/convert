@@ -35,7 +35,7 @@ Both converters provide ['string-to-type] and ['type-to-string] conversions; bot
 
 Unfortunately that extendibility comes at a price as `std::stream`-based conversions of the basic (`int`, etc.) types are comparatively slow. To address that `boost::lexical_cast` implementation has been optimized to avoid `std::stream` for basic types and ['Boost.Convert] addresses that "optimization" need via pluggable converters. Consequently, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['Spirit], `std::to_string/std::stoi`, `strtol`, `boost::lexical_cast` (directly or via the ['Boost.Convert] framework) might be an option to explore.
 
-For user-defined types though the `boost::cnv::cstream` converter seems to consistently outperfor `boost::lexical_cast` in the tests. These results probably reflect different underlying designs.
+For user-defined types though the `boost::cnv::cstream` converter seems to consistently outperform `boost::lexical_cast` in the tests. These results probably reflect different underlying designs.
 
 The standard ['Boost.Convert] deployment pattern is to create a converter or converters once and then re-use them. In turn, `boost::lexical_cast` also deploys the `std::stream` engine for user-defined types. However, due to its design `boost::lexical_cast` creates and then destroys a `std::stream` instance every time the function is called and the [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html `boost::lexical_cast` performance] table indicates that the "std::stringstream ['with construction]" operation is considerably more expensive compared to "std::stringstream ['without construction]".
 
@@ -91,7 +91,7 @@ The purpose of the test was to deploy the same functionality directly and as par
  raw_spirit_str_to_int_test: 0.2989873150 [s]
  cnv_spirit_str_to_int_test: 0.3120227090 [s] +4% (slower)
 
-The results vary from run to run with the margin of error of around +/-5%. Accidentally, that is the biggest overhead of the ['Boost.Convert] framework these results show.
+The results vary from run to run with the deviation margin of around +/-5%. Accidentally, that is the biggest overhead of the ['Boost.Convert] framework these results show.
 
 Obviously, the results are driven by the deployed compiler optimization capabilities and the hardware and are likely to be different with a different compiler or a different version of the same compiler. For example, compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 the same test program produced:
 

@@ -31,7 +31,7 @@ Or, if the code is identified as too slow, the performance could be improved wit
 [getting_started_headers3]
 [getting_started_example3]
 
-If, instead, the requirements change and legitimize more lenient user inputs or require a certain output format, then, again, that could be achieved with minimal effort:
+If, instead, the requirements change and legitimize more lenient user inputs or require a certain output format, then, again, that could be achieved with:
 
 [getting_started_headers4]
 [getting_started_example4]
