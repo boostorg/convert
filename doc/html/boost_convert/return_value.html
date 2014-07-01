@@ -1,0 +1,85 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>Return Value</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
+<link rel="up" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
+<link rel="prev" href="default_converter.html" title="Default Converter">
+<link rel="next" href="algorithms.html" title="Boost.Convert with Standard Algorithms">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="default_converter.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="algorithms.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="boost_convert.return_value"></a><a class="link" href="return_value.html" title="Return Value">Return Value</a>
+</h2></div></div></div>
+<p>
+      As it was indicated previously <a href="..//home/vbatov/dev/boost_1_55_0/libs/optional/index.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code></a>
+      is the actual type returned by
+    </p>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">&gt;</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;);</span>
+</pre>
+<p>
+      The signature is <span class="emphasis"><em>functionally-complete</em></span> and is the most
+      efficient in deploying the underlying converter. That said, the following alternative
+      interface but might be potentially better suitable for certain deployment scenarios
+      (or due to personal preferences):
+    </p>
+<pre class="programlisting"><span class="identifier">Out</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">In</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Out</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">fallback_value</span><span class="special">);</span>
+<span class="identifier">Out</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">In</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Functor</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">fallback_functor</span><span class="special">);</span>
+<span class="identifier">Out</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">In</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">throw_on_failure</span><span class="special">);</span>
+</pre>
+<p>
+      It still provides unambigous behavior and readability, full support for various
+      program flows and various degrees of conversion-failure detection and processing
+      and can be deployed in a similar fashion as follows:
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">fallback_func</span>
+<span class="special">{</span>
+    <span class="keyword">int</span> <span class="keyword">operator</span><span class="special">()()</span> <span class="keyword">const</span> <span class="special">{</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"Failed to convert"</span><span class="special">);</span> <span class="keyword">return</span> <span class="number">42</span><span class="special">;</span> <span class="special">}</span>
+<span class="special">};</span>
+</pre>
+<p>
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="comment">// Error-processing behavior are specified unambiguously and uniformly.</span>
+<span class="comment">// a) i1: Returning the provided fallback value;</span>
+<span class="comment">// b) i2: Calling the provided failure-processing function;</span>
+<span class="comment">// c) i3: Throwing an exception.</span>
+
+<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">fallback_value</span><span class="special">);</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">fallback_func</span><span class="special">());</span>
+
+<span class="keyword">try</span>
+<span class="special">{</span>
+    <span class="comment">// Throwing behavior specified explicitly rather than implied.</span>
+    <span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">throw_on_failure</span><span class="special">);</span>
+<span class="special">}</span>
+<span class="keyword">catch</span> <span class="special">(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">bad_optional_access</span> <span class="keyword">const</span><span class="special">&amp;)</span>
+<span class="special">{</span>
+  <span class="comment">// Handle failed conversion.</span>
+<span class="special">}</span>
+</pre>
+<p>
+    </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009-2014 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. See copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>.
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="default_converter.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="algorithms.html"><img src="../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

@@ -1,18 +1,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Chapter&#160;1.&#160;The Boost Convert Library 2.0</title>
+<title>Chapter&#160;1.&#160;Boost.Convert 2.0</title>
 <link rel="stylesheet" href="boostbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="index.html" title="Chapter&#160;1.&#160;The Boost Convert Library 2.0">
-<link rel="next" href="the_boost_convert_library/introduction.html" title="Introduction">
+<link rel="home" href="index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
+<link rel="next" href="boost_convert/introduction.html" title="Introduction">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<div class="spirit-nav"><a accesskey="n" href="the_boost_convert_library/introduction.html"><img src="images/next.png" alt="Next"></a></div>
+<div class="spirit-nav"><a accesskey="n" href="boost_convert/introduction.html"><img src="images/next.png" alt="Next"></a></div>
 <div class="chapter">
 <div class="titlepage"><div>
 <div><h2 class="title">
-<a name="convert"></a>Chapter&#160;1.&#160;The Boost Convert Library 2.0</h2></div>
+<a name="convert"></a>Chapter&#160;1.&#160;Boost.Convert 2.0</h2></div>
 <div><div class="author"><h3 class="author">
 <span class="firstname">Vladimir</span> <span class="surname">Batov</span>
 </h3></div></div>
@@ -26,85 +26,82 @@
 <div class="toc">
 <p><b>Table of Contents</b></p>
 <dl class="toc">
-<dt><span class="section"><a href="index.html#the_boost_convert_library.rationale">Rationale</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/introduction.html">Introduction</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/getting_started.html">Getting Started</a></span></dt>
+<dt><span class="section"><a href="index.html#boost_convert.rationale">Rationale</a></span></dt>
+<dt><span class="section"><a href="boost_convert/introduction.html">Introduction</a></span></dt>
+<dt><span class="section"><a href="boost_convert/getting_started.html">Getting Started</a></span></dt>
 <dd><dl>
-<dt><span class="section"><a href="the_boost_convert_library/getting_started.html#the_boost_convert_library.getting_started.basic_deployment">Basic
+<dt><span class="section"><a href="boost_convert/getting_started.html#boost_convert.getting_started.basic_deployment">Basic
       Deployment</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/getting_started/flexibility_and_adaptability_to_change.html">Flexibility
+<dt><span class="section"><a href="boost_convert/getting_started/flexibility_and_adaptability_to_change.html">Flexibility
       and Adaptability to Change</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/getting_started/basic_conversion_failure_detection.html">Basic
+<dt><span class="section"><a href="boost_convert/getting_started/basic_conversion_failure_detection.html">Basic
       Conversion-Failure Detection</a></span></dt>
 </dl></dd>
-<dt><span class="section"><a href="the_boost_convert_library/better_error_detection.html">Better
-    Error Detection</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/return_value.html">Return Value</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/boost_convert_with_standard_algorithms.html">Boost.Convert
-    with Standard Algorithms</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters.html">Converters</a></span></dt>
+<dt><span class="section"><a href="boost_convert/error_detection.html">Better Error Detection</a></span></dt>
+<dt><span class="section"><a href="boost_convert/default_converter.html">Default Converter</a></span></dt>
+<dt><span class="section"><a href="boost_convert/return_value.html">Return Value</a></span></dt>
+<dt><span class="section"><a href="boost_convert/algorithms.html">Boost.Convert with Standard Algorithms</a></span></dt>
+<dt><span class="section"><a href="boost_convert/converters.html">Converters</a></span></dt>
 <dd><dl>
-<dt><span class="section"><a href="the_boost_convert_library/converters.html#the_boost_convert_library.converters.boost__cnv__lexical_cast_converter">boost::cnv::lexical_cast
+<dt><span class="section"><a href="boost_convert/converters.html#boost_convert.converters.lexical_cast_converter">boost::cnv::lexical_cast
       Converter</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__stream_converter.html">boost::cnv::stream
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__stream_converter.html">boost::cnv::stream
       Converter</a></span></dt>
 <dd><dl>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__stream_converter.html#the_boost_convert_library.converters.boost__cnv__stream_converter.formatting_support">Formatting
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__stream_converter.html#boost_convert.converters.boost__cnv__stream_converter.formatting_support">Formatting
         Support</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__stream_converter/locale_support.html">Locale
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__stream_converter/locale_support.html">Locale
         Support</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__stream_converter/integration_of_user_defined_types.html">Integration
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__stream_converter/integration_of_user_defined_types.html">Integration
         of User-Defined Types</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__stream_converter/the___default_constructible__type_requirement.html">The
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__stream_converter/the___default_constructible__type_requirement.html">The
         <span class="emphasis"><em>Default Constructible</em></span> Type Requirement</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__stream_converter/formatting_examples.html">Formatting
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__stream_converter/formatting_examples.html">Formatting
         Examples</a></span></dt>
 <dd><dl>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__stream_converter/formatting_examples.html#the_boost_convert_library.converters.boost__cnv__stream_converter.formatting_examples.numeric_base">Numeric
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__stream_converter/formatting_examples.html#boost_convert.converters.boost__cnv__stream_converter.formatting_examples.numeric_base">Numeric
           Base</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__stream_converter/formatting_examples/field_width__fill_character_and_adjustment.html">Field
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__stream_converter/formatting_examples/field_width__fill_character_and_adjustment.html">Field
           Width, Fill Character and Adjustment</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__stream_converter/formatting_examples/leading_white_space_characters.html">Leading
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__stream_converter/formatting_examples/leading_white_space_characters.html">Leading
           White-Space Characters</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__stream_converter/formatting_examples/format_of_boolean_values.html">Format
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__stream_converter/formatting_examples/format_of_boolean_values.html">Format
           of Boolean Values</a></span></dt>
 </dl></dd>
 </dl></dd>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__strtol_converter.html">boost::cnv::strtol
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__strtol_converter.html">boost::cnv::strtol
       Converter</a></span></dt>
 <dd><dl>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__strtol_converter.html#the_boost_convert_library.converters.boost__cnv__strtol_converter.basic_deployment">Basic
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__strtol_converter.html#boost_convert.converters.boost__cnv__strtol_converter.basic_deployment">Basic
         Deployment</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__strtol_converter/formatting_support.html">Formatting
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__strtol_converter/formatting_support.html">Formatting
         Support</a></span></dt>
 <dd><dl>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__strtol_converter/formatting_support.html#the_boost_convert_library.converters.boost__cnv__strtol_converter.formatting_support.numeric_base">Numeric
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__strtol_converter/formatting_support.html#boost_convert.converters.boost__cnv__strtol_converter.formatting_support.numeric_base">Numeric
           Base</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__strtol_converter/formatting_support/field_width__fill_character_and_adjustment.html">Field
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__strtol_converter/formatting_support/field_width__fill_character_and_adjustment.html">Field
           Width, Fill Character and Adjustment</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__strtol_converter/formatting_support/floating_point_precision.html">Floating-Point
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__strtol_converter/formatting_support/floating_point_precision.html">Floating-Point
           Precision</a></span></dt>
 </dl></dd>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__strtol_converter/limitations.html">Limitations</a></span></dt>
+<dt><span class="section"><a href="boost_convert/converters/boost__cnv__strtol_converter/limitations.html">Limitations</a></span></dt>
 </dl></dd>
-<dt><span class="section"><a href="the_boost_convert_library/converters/boost__cnv__by_default_default_converter.html">boost::cnv::by_default
-      Default Converter</a></span></dt>
 </dl></dd>
-<dt><span class="section"><a href="the_boost_convert_library/performance.html">Performance</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/boost_convert_performance_overhead.html">Boost.Convert
+<dt><span class="section"><a href="boost_convert/performance.html">Performance</a></span></dt>
+<dt><span class="section"><a href="boost_convert/boost_convert_performance_overhead.html">Boost.Convert
     Performance Overhead</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/other_conversions.html">Other Conversions</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/design_notes.html">Design
+<dt><span class="section"><a href="boost_convert/other_conversions.html">Other Conversions</a></span></dt>
+<dt><span class="section"><a href="boost_convert/design_notes.html">Design
     Notes</a></span></dt>
 <dd><dl>
-<dt><span class="section"><a href="the_boost_convert_library/design_notes.html#the_boost_convert_library.design_notes.requirements">Requirements</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/design_notes/converter_signature.html">Converter
+<dt><span class="section"><a href="boost_convert/design_notes.html#boost_convert.design_notes.requirements">Requirements</a></span></dt>
+<dt><span class="section"><a href="boost_convert/design_notes/converter_signature.html">Converter
       Signature</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/design_notes/user_interface_signature.html">User
+<dt><span class="section"><a href="boost_convert/design_notes/user_interface_signature.html">User
       Interface Signature</a></span></dt>
 </dl></dd>
-<dt><span class="section"><a href="the_boost_convert_library/acknowledgements.html">Acknowledgements</a></span></dt>
-<dt><span class="section"><a href="the_boost_convert_library/references.html">References</a></span></dt>
+<dt><span class="section"><a href="boost_convert/acknowledgements.html">Acknowledgements</a></span></dt>
+<dt><span class="section"><a href="boost_convert/references.html">References</a></span></dt>
 <dt><span class="section"><a href="reference.html">Reference</a></span></dt>
 <dd><dl>
 <dt><span class="section"><a href="reference.html#header.boost.convert_hpp">Header &lt;boost/convert.hpp&gt;</a></span></dt>
@@ -123,12 +120,12 @@
 <dd><dl></dl></dd>
 <dt><span class="section"><a href="header/boost/make_default_hpp.html">Header &lt;boost/make_default.hpp&gt;</a></span></dt>
 </dl></dd>
-<dt><span class="section"><a href="index/s15.html">Index</a></span></dt>
+<dt><span class="section"><a href="index/s16.html">Index</a></span></dt>
 </dl>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="the_boost_convert_library.rationale"></a><a class="link" href="index.html#the_boost_convert_library.rationale" title="Rationale">Rationale</a>
+<a name="boost_convert.rationale"></a><a class="link" href="index.html#boost_convert.rationale" title="Rationale">Rationale</a>
 </h2></div></div></div>
 <p>
       I have been using textual configuration files extensively, also processing
@@ -150,7 +147,8 @@
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
           many deployed user types simply did not meet <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-          requirements (namely, <span class="emphasis"><em>Default Constructibility</em></span>);
+          requirements (namely, <a href="http://en.cppreference.com/w/cpp/concept/DefaultConstructible" target="_top"><span class="emphasis"><em>Default
+          Constructibility</em></span></a>);
         </li>
 <li class="listitem">
           failure to convert a user-provided configuration parameter was not that
@@ -180,10 +178,10 @@
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
-<td align="left"><p><small>Last revised: June 27, 2014 at 13:06:24 GMT</small></p></td>
+<td align="left"><p><small>Last revised: July 01, 2014 at 11:32:47 GMT</small></p></td>
 <td align="right"><div class="copyright-footer"></div></td>
 </tr></table>
 <hr>
-<div class="spirit-nav"><a accesskey="n" href="the_boost_convert_library/introduction.html"><img src="images/next.png" alt="Next"></a></div>
+<div class="spirit-nav"><a accesskey="n" href="boost_convert/introduction.html"><img src="images/next.png" alt="Next"></a></div>
 </body>
 </html>
