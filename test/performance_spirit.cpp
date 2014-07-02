@@ -14,7 +14,7 @@
 
 //#define main() old_str_to_int_test_spirit()
 //#include <libs/spirit/optimization/qi/int_parser.cpp>
-#include <libs/spirit/optimization/measure.hpp>
+#include <libs/spirit/workbench/measure.hpp>
 #include <string>
 #include <vector>
 #include <cstdlib>

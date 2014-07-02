@@ -83,7 +83,7 @@ boost::cnv::strtol::strtol_(char const* str, optional<Type>& result_out) const
 
     char const*     str_end = str + strlen(str);
     char*           cnv_end = 0;
-    llint_type const result = ::strtoll(str, &cnv_end, base_);
+    llint_type const result = std::strtoll(str, &cnv_end, base_);
     bool const         good = result != LLONG_MIN && result != LLONG_MAX && cnv_end == str_end;
     Type const          min = std::numeric_limits<Type>::min();
     Type const          max = std::numeric_limits<Type>::max();
@@ -101,7 +101,7 @@ boost::cnv::strtol::strtoul_(char const* str, optional<Type>& result_out) const
 
     char const*      str_end = str + strlen(str);
     char*            cnv_end = 0;
-    ullint_type const result = ::strtoull(str, &cnv_end, base_);
+    ullint_type const result = std::strtoull(str, &cnv_end, base_);
     bool const          good = result != ULLONG_MAX && cnv_end == str_end;
     Type const           max = std::numeric_limits<Type>::max();
 
@@ -118,7 +118,7 @@ boost::cnv::strtol::strtod_(char const* str, optional<Type>& result_out) const
 
     char const*    str_end = str + strlen(str);
     char*          cnv_end = 0;
-    ldbl_type const result = ::strtold(str, &cnv_end);
+    ldbl_type const result = std::strtold(str, &cnv_end);
     bool const        good = result != -HUGE_VALL && result != HUGE_VALL && cnv_end == str_end;
     Type const         max = std::numeric_limits<Type>::max();
 

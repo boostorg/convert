@@ -40,7 +40,10 @@ include $(DEVMAKE)/makefile
 
 else
 
-all: convert-test convert-test-performance
+all: convert-test convert-test-performance convert-test-performance-spirit
+
+convert-test-performance-spirit: test/performance_spirit.cpp
+	g++ -O3 -o $@ $^ -Iinclude -I$(BOOST_ROOT) $(ldflags)
 
 convert-test-performance:
 	g++ -O3 -o $@ $(sources_2) -Iinclude -I$(BOOST_ROOT) $(ldflags)

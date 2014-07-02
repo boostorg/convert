@@ -27,12 +27,13 @@ struct boost::cnv::spirit : public boost::cnv::detail::cnvbase<boost::cnv::spiri
     {
         try
         {
+            result_out = coerce::as<TypeOut>(value_in, coerce::tag::none());
+
             // TODO: Just adding 'if' costs about 15-20% performance
             //       compared to that same but DIRECT call to coerce::as or qi::parse.
-
-            /**/ if (base_ == 10) result_out = coerce::as<TypeOut>(value_in, coerce::tag::none());
-            else if (base_ ==  8) result_out = coerce::as<TypeOut>(value_in, coerce::tag::oct());
-            else if (base_ == 16) result_out = coerce::as<TypeOut>(value_in, coerce::tag::hex());
+            //  /**/ if (base_ == 10) result_out = coerce::as<TypeOut>(value_in, coerce::tag::none());
+            //  else if (base_ ==  8) result_out = coerce::as<TypeOut>(value_in, coerce::tag::oct());
+            //  else if (base_ == 16) result_out = coerce::as<TypeOut>(value_in, coerce::tag::hex());
         }
         catch(boost::coerce::bad_cast const&)
         {

@@ -91,13 +91,6 @@ namespace { namespace local
             for (size_t k = 0; k < strings.size(); ++k)
                 strings[k] = local::gen_int(k/2 + 1, negative = !negative);
 
-            printf("Testing: ");
-
-            for (size_t k = 0; k < strings.size(); ++k)
-                printf("%s%s", k ? "," : "", strings[k].c_str());
-
-            printf("\n");
-
             filled = true;
         }
         return strings;
@@ -313,8 +306,8 @@ main(int argc, char const* argv[])
            local::to_str<long int>(boost::cnv::lexical_cast()),
            local::to_str<long int>(boost::cnv::printf()),
            local::to_str<long int>(boost::cnv::cstream()));
-    printf("dbl-to-str: spirit/dtostr/lcast/prntf/stream=      NA/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
-//         local::to_str<double>(boost::cnv::spirit()),
+    printf("dbl-to-str: spirit/dtostr/lcast/prntf/stream=%8.2f/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
+           local::to_str<double>(boost::cnv::spirit()),
            local::to_str<double>(boost::cnv::strtol()(arg::precision = 6)),
            local::to_str<double>(boost::cnv::lexical_cast()),
            local::to_str<double>(boost::cnv::printf()(arg::precision = 6)),
@@ -332,8 +325,8 @@ main(int argc, char const* argv[])
            local::str_to<long int>(boost::cnv::lexical_cast()),
            local::str_to<long int>(boost::cnv::printf()),
            local::str_to<long int>(boost::cnv::cstream()));
-    printf("str-to-dbl: spirit/strtod/lcast/scanf/stream=      NA/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
-//         local::str_to<double>(boost::cnv::spirit()),
+    printf("str-to-dbl: spirit/strtod/lcast/scanf/stream=%8.2f/%8.2f/%8.2f/%8.2f/%8.2f seconds.\n",
+           local::str_to<double>(boost::cnv::spirit()),
            local::str_to<double>(boost::cnv::strtol()),
            local::str_to<double>(boost::cnv::lexical_cast()),
            local::str_to<double>(boost::cnv::printf()),
