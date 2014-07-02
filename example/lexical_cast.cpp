@@ -30,4 +30,6 @@ main(int argc, char const* argv[])
     BOOST_TEST(s1 == "123");
     BOOST_TEST(s2 == "123");
     //]
+
+    return boost::report_errors();
 }

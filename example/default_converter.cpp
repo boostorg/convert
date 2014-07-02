@@ -24,5 +24,7 @@ main(int argc, char const* argv[])
     BOOST_TEST(i == 123);
     BOOST_TEST(s == "123");
     //]
+
+    return boost::report_errors();
 }
 

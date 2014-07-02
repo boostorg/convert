@@ -92,7 +92,7 @@ The temporary storage `result` is initialized with `boost::make_default()` the d
 
 Consequently,
 
-[note the `std::stream`-based converter (and converters like it) require the ['TypeOut] type to be ['Default Constructible] by default.]
+[note the `boost::cnv::cstream` and `boost::cnv::wstream` converters require the ['TypeOut] type to be ['Default Constructible] by default.]
 
 That said, a well-designed type (in my opinion, anyway) should only have meaningful and unambiguous constructors... and the default constructor is not always and necessarily one of them. Consider the following as one such example:
 

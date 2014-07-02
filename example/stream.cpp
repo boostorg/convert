@@ -91,4 +91,6 @@ main(int argc, char const* argv[])
     example1();
     example2();
     example6();
+
+    return boost::report_errors();
 }

@@ -15,7 +15,8 @@
 `boost::convert` basic deployment is not that different from `boost::lexical_cast` and, in fact, `boost::lexical_cast` functionality is easily deployed through `boost::convert` interface:
 
 [getting_started_headers1]
-[using_header]
+[getting_started_using]
+[getting_started_default_converter]
 [getting_started_example1]
 
 [endsect]
@@ -23,7 +24,7 @@
 
 Sooner or later (during development or in the maintenance phase) these qualities become important when, say, the program flow favors a non-throwing behavior:
 
-[using_header]
+[getting_started_using]
 [getting_started_example2]
 
 Or, if the code is identified as too slow, the performance could be improved with minimal effort by replacing the converter:
@@ -31,7 +32,7 @@ Or, if the code is identified as too slow, the performance could be improved wit
 [getting_started_headers3]
 [getting_started_example3]
 
-If, instead, the requirements change and legitimize more lenient user inputs or require a certain output format, then, again, that could be achieved with:
+If, instead, the requirements change to accept more input formats or to require a certain output format, then, again, that could be accommodated with:
 
 [getting_started_headers4]
 [getting_started_example4]
@@ -39,7 +40,7 @@ If, instead, the requirements change and legitimize more lenient user inputs or 
 [endsect]
 [section Basic Conversion-Failure Detection]
 
-[using_header]
+[getting_started_using]
 [getting_started_example5]
 
 The above calls can be interpreted as
@@ -57,7 +58,12 @@ That basic error detection might be sufficient for a variety of conversion deplo
 
 [getting_started_example6]
 
-Or even shorter, if we do not care about logging conversion failures:
+Or
+
+[getting_started_example9_func]
+[getting_started_example9]
+
+Or, if we do not care about logging conversion failures:
 
 [getting_started_example7]
 

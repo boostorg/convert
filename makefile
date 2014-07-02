@@ -1,7 +1,7 @@
-BOOST_ROOT = $(HOME)/dev/boost_1_55_0
+BOOST_ROOT = $(HOME)/dev/boost
 
 cflags    = -Iinclude -I$(BOOST_ROOT) -Wno-unused-local-typedefs -Wno-unused-variable -Wno-uninitialized
-ldflags   = -lboost_timer -lboost_system
+ldflags   = -lboost_timer -lboost_system -lboost_chrono
 target_1  = convert-test.exe
 sources_1 = test/callable.cpp			\
             test/encryption.cpp			\
@@ -43,7 +43,7 @@ else
 all: convert-test 
 
 convert-test:  
-	g++ -O3 -o $@ $(sources_1) -I./include -I../boost_1_55_0
+	g++ -O3 -o $@ $(sources_1) -Iinclude -I$(BOOST_ROOT)
 
 endif
 
