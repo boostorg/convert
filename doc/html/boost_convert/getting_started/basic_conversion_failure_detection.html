@@ -74,24 +74,44 @@
       </p>
 <p>
 </p>
-<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_hex</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Read as hex.</span>
-<span class="keyword">int</span> <span class="identifier">num_dec</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Read as decimal.</span>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Read as hex.</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Read as decimal.</span>
 
-<span class="keyword">if</span> <span class="special">(</span><span class="identifier">num_hex</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_hex"</span><span class="special">),</span> <span class="identifier">num_hex</span> <span class="special">=</span> <span class="identifier">default_num_hex</span><span class="special">;</span>
-<span class="keyword">if</span> <span class="special">(</span><span class="identifier">num_dec</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_dec"</span><span class="special">),</span> <span class="identifier">num_dec</span> <span class="special">=</span> <span class="identifier">default_num_dec</span><span class="special">;</span>
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">i1</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad i1"</span><span class="special">),</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">default_i1</span><span class="special">;</span>
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad i2"</span><span class="special">),</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">default_i2</span><span class="special">;</span>
 
 <span class="comment">// ... proceed</span>
 </pre>
 <p>
       </p>
 <p>
-        Or even shorter, if we do not care about logging conversion failures:
+        Or
       </p>
 <p>
 </p>
-<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_hex</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_num_hex</span><span class="special">);</span>
-<span class="keyword">int</span> <span class="identifier">num_dec</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_num_dec</span><span class="special">);</span>
-
+<pre class="programlisting"><span class="keyword">int</span>
+<span class="identifier">fallback_fun</span><span class="special">(</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">msg</span><span class="special">,</span> <span class="keyword">int</span> <span class="identifier">fallback_value</span><span class="special">)</span>
+<span class="special">{</span>
+    <span class="identifier">log</span><span class="special">(</span><span class="identifier">msg</span><span class="special">);</span> <span class="keyword">return</span> <span class="identifier">fallback_value</span><span class="special">;</span>
+<span class="special">}</span>
+</pre>
+<p>
+      </p>
+<p>
+</p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s1</span><span class="special">).</span><span class="identifier">value_or_eval</span><span class="special">(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">bind</span><span class="special">(</span><span class="identifier">fallback_fun</span><span class="special">,</span> <span class="string">"bad i1"</span><span class="special">,</span> <span class="identifier">default_i1</span><span class="special">));</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s2</span><span class="special">).</span><span class="identifier">value_or_eval</span><span class="special">(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">bind</span><span class="special">(</span><span class="identifier">fallback_fun</span><span class="special">,</span> <span class="string">"bad i2"</span><span class="special">,</span> <span class="identifier">default_i2</span><span class="special">));</span>
+<span class="comment">// ... proceed</span>
+</pre>
+<p>
+      </p>
+<p>
+        Or, if we do not care about logging conversion failures:
+      </p>
+<p>
+</p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_i1</span><span class="special">);</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_i2</span><span class="special">);</span>
 <span class="comment">// ... proceed</span>
 </pre>
 <p>
@@ -104,15 +124,15 @@
       </p>
 <p>
 </p>
-<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">num_dec</span> <span class="special">=</span> <span class="identifier">default_num_dec</span><span class="special">;</span>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">default_i1</span><span class="special">;</span>
 
 <span class="keyword">try</span>
 <span class="special">{</span>
-    <span class="identifier">num_dec</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span>
+    <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span>
 <span class="special">}</span>
 <span class="keyword">catch</span> <span class="special">(...)</span>
 <span class="special">{</span>
-    <span class="identifier">log</span><span class="special">(</span><span class="string">"bad num_dec"</span><span class="special">);</span>
+    <span class="identifier">log</span><span class="special">(</span><span class="string">"bad i1"</span><span class="special">);</span>
 <span class="special">}</span>
 </pre>
 <p>

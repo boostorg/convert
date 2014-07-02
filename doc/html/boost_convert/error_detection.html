@@ -92,7 +92,7 @@
 <p>
     </p>
 <p>
-      Now <a href="..//home/vbatov/dev/boost_1_55_0/libs/optional/index.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code></a>
+      Now <a href="..//home/vbatov/dev/boost/libs/optional/index.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code></a>
       steps forward as the actual type returned by <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> which until now we avoided by immediately
       calling its value-accessor methods:
     </p>
@@ -105,12 +105,12 @@
       reflects the fact that a conversion request is only a <span class="emphasis"><em>request</em></span>
       which may succeed but may also fail. Still, from the user perspective, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       processes failure in a somewhat one-dimensional non-negotiable manner. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
-      takes a softer approach and leaves the decision to the user. It is not unimaginable
-      that, on the library level, propagating the conversion-failure exception might
-      be the only available response. On the application level though, in my personal
-      experience, the choice has overwhelmingly been to process those exceptions
-      immediately or to, better still, avoid exceptions altogether with program flows
-      similar to:
+      takes a more flexible approach and leaves the decision to the user. It is not
+      unimaginable that, on the library level, propagating the conversion-failure
+      exception might be the only available response. On the application level though,
+      in my personal experience, the choice has overwhelmingly been to avoid conversion-failure
+      exception propagation or, better still, to avoid exceptions altogether with
+      program flows similar to:
     </p>
 <p>
 </p>
@@ -125,7 +125,7 @@
 <p>
     </p>
 <p>
-      Or alternatively:
+      and
     </p>
 <p>
 </p>

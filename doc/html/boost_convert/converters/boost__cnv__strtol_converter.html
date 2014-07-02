@@ -35,7 +35,7 @@
 </dl></div>
 <p>
         This converter started as a deployment example (with the <code class="computeroutput"><span class="identifier">strtol</span></code>
-        family of functions as its conversion engine) and as a part of the performance-test
+        family of functions as its conversion engine) and a part of the performance-test
         set. Surprisingly, the converter showed fairly decent all-around performance:
       </p>
 <pre class="programlisting"><span class="special">~/</span><span class="identifier">dev</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">doc</span><span class="special">.&gt;&gt;</span> <span class="identifier">uname</span> <span class="special">-</span><span class="identifier">a</span>
@@ -54,14 +54,14 @@
 <span class="identifier">dbl</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">dtostr</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">prntf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>      <span class="identifier">NA</span><span class="special">/</span>  <span class="number">164.20</span><span class="special">/</span> <span class="number">1158.23</span><span class="special">/</span>  <span class="number">917.12</span><span class="special">/</span> <span class="number">1118.74</span> <span class="identifier">seconds</span><span class="special">.</span>
 </pre>
 <p>
-        Consequently, it was extended to provide <code class="computeroutput"><span class="keyword">int</span><span class="special">/</span><span class="keyword">double</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">string</span></code>
-        conversion support and basic formatting facilities. At the moment it seems
-        to be a good choice for conversion tasks with moderate formatting requirements
-        and adequate performance.
+        Consequently, it was extended to provide additional conversion support and
+        basic formatting facilities. At the moment it seems to be a good choice for
+        conversion tasks with moderate formatting requirements and adequate performance.
       </p>
 <p>
         It should be noted though that the converter is nowhere as mature as <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-        or <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">stream</span></code>.
+        or <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">stream</span></code>
+        and, therefore, bugs are to be expected.
       </p>
 <div class="section">
 <div class="titlepage"><div><div><h4 class="title">
