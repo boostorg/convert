@@ -45,6 +45,10 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 [strtol_width]
 [endsect]
 
+[section Leading White-Space Characters]
+[strtol_skipws]
+[endsect]
+
 [section Floating-Point Precision]
 [strtol_precision]
 [endsect]

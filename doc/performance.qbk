@@ -6,7 +6,7 @@
 
 [section Performance]
 
-The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. A few  converters have been tested as part of the ['Boost.Convert] framework (see ['test/performance.cpp]). The C++11 family of `std::to_string()`, `std::stoi()`, etc. were not tested due to unavailability.
+The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. A few  converters have been tested as part of the ['Boost.Convert] framework (see ['test/performance.cpp]).
 
 Performance was tested for string conversions to the `int`, `long int`, `double` builtin types and to a user-defined type. On Ubuntu 12.04 64-bit (with Intel® Core™ i7 CPU 860 @ 2.80GHz×8 and 16GB of memory), compiled with gcc-4.6.3 tests produced the following results:
 

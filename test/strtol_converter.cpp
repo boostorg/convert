@@ -97,6 +97,18 @@ test_base()
 
 static
 void
+test_skipws()
+{
+    //[strtol_skipws
+    boost::cnv::strtol cnv;
+
+    BOOST_TEST(-1 == convert<int>(" 12", cnv(arg::skipws = false)).value_or(-1));
+    BOOST_TEST(12 == convert<int>(" 12", cnv(arg::skipws =  true)).value_or(-1));
+    //]
+}
+
+static
+void
 dbl_to_str_example()
 {
     //[strtol_precision
@@ -198,6 +210,7 @@ test::cnv::strtol_converter()
 
     test_str_to_int();
     test_base();
+    test_skipws();
     test_dbl_to_str();
     test_width();
     test_user_string();

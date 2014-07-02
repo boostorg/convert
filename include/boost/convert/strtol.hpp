@@ -78,6 +78,9 @@ template<typename Type>
 void
 boost::cnv::strtol::strtol_(char const* str, optional<Type>& result_out) const
 {
+    if (!skipws_ && std::isspace(*str))
+        return;
+
     char const*     str_end = str + strlen(str);
     char*           cnv_end = 0;
     llint_type const result = ::strtoll(str, &cnv_end, base_);
@@ -93,6 +96,9 @@ template<typename Type>
 void
 boost::cnv::strtol::strtoul_(char const* str, optional<Type>& result_out) const
 {
+    if (!skipws_ && std::isspace(*str))
+        return;
+
     char const*      str_end = str + strlen(str);
     char*            cnv_end = 0;
     ullint_type const result = ::strtoull(str, &cnv_end, base_);
@@ -107,6 +113,9 @@ template<typename Type>
 void
 boost::cnv::strtol::strtod_(char const* str, optional<Type>& result_out) const
 {
+    if (!skipws_ && std::isspace(*str))
+        return;
+
     char const*    str_end = str + strlen(str);
     char*          cnv_end = 0;
     ldbl_type const result = ::strtold(str, &cnv_end);

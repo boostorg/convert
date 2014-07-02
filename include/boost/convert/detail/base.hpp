@@ -24,6 +24,7 @@ struct boost::cnv::detail::cnvbase
     cnvbase()
     :
         base_       (10),
+        skipws_     (false),
         precision_  (0),
         uppercase_  (false),
         width_      (0),
@@ -49,11 +50,9 @@ struct boost::cnv::detail::cnvbase
     derived& operator()(tag<ARG::precision, int const>::type const& arg) { precision_ = arg[cnv::parameter::precision]; return dncast(); }
     derived& operator()(tag<ARG::precision,       int>::type const& arg) { precision_ = arg[cnv::parameter::precision]; return dncast(); }
 
-    derived&
-    operator()(tag<ARG::uppercase, bool const>::type const& arg)
-    {
-        uppercase_ = arg[cnv::parameter::uppercase]; return dncast();
-    }
+    derived& operator()(tag<ARG::uppercase, bool const>::type const& arg) { uppercase_ = arg[cnv::parameter::uppercase]; return dncast(); }
+    derived& operator()(tag<ARG::skipws,    bool const>::type const& arg) { skipws_    = arg[cnv::parameter::skipws]; return dncast(); }
+
     derived&
     operator()(tag<ARG::width, int const>::type const& arg)
     {
@@ -73,6 +72,7 @@ struct boost::cnv::detail::cnvbase
     derived&       dncast ()       { return *static_cast<derived*>(this); }
 
     int                        base_;
+    bool                     skipws_;
     int                   precision_;
     bool                  uppercase_;
     int                       width_;

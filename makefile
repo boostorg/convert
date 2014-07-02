@@ -1,7 +1,7 @@
 BOOST_ROOT = $(HOME)/dev/boost
 
 cflags    = -Iinclude -I$(BOOST_ROOT) -Wno-unused-local-typedefs -Wno-unused-variable -Wno-uninitialized
-ldflags   = -lboost_timer -lboost_system -lboost_chrono
+ldflags   = -L$(HOME)/dev/lib -lboost_timer -lboost_system -lboost_chrono
 target_1  = convert-test.exe
 sources_1 = test/callable.cpp			\
             test/encryption.cpp			\
@@ -40,7 +40,10 @@ include $(DEVMAKE)/makefile
 
 else
 
-all: convert-test 
+all: convert-test convert-test-performance
+
+convert-test-performance:
+	g++ -O3 -o $@ $(sources_2) -Iinclude -I$(BOOST_ROOT) $(ldflags)
 
 convert-test:  
 	g++ -O3 -o $@ $(sources_1) -Iinclude -I$(BOOST_ROOT)
