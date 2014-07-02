@@ -158,7 +158,7 @@ namespace { namespace local
     }
 }}
 
-struct str_to_int_spirit
+struct raw_str_to_int_spirit
 {
     int operator()(char const* str) const
     {
@@ -174,7 +174,7 @@ struct str_to_int_spirit
     }
 };
 
-struct str_to_int_lxcast
+struct raw_str_to_int_lxcast
 {
     int operator()(char const* str) const
     {
@@ -182,9 +182,9 @@ struct str_to_int_lxcast
     }
 };
 
-template<typename Converter>
+template<typename Type, typename Converter>
 double
-performance_str_to_int(Converter const& cnv)
+raw_str_to(Converter const& cnv)
 {
     local::strings strings = local::get_strs(); // Create strings on the stack
     int const         size = strings.size();
@@ -278,7 +278,7 @@ performance_comparative(Raw const& raw, Cnv const& cnv, char const* txt)
 
     for (int k = 0; k < num_tries; ++k)
     {
-        raw_time += performance_str_to_int(raw);
+        raw_time += raw_str_to<int>(raw);
         cnv_time += local::str_to<int>(cnv);
         change   += 100 * (1 - cnv_time / raw_time);
     }
@@ -339,8 +339,8 @@ main(int argc, char const* argv[])
            performance_type_to_str(boost::cnv::lexical_cast()),
            performance_type_to_str(boost::cnv::cstream()));
 
-    performance_comparative(str_to_int_spirit(), boost::cnv::spirit(),       "spirit");
-    performance_comparative(str_to_int_lxcast(), boost::cnv::lexical_cast(), "lxcast");
+    performance_comparative(raw_str_to_int_spirit(), boost::cnv::spirit(),       "spirit");
+    performance_comparative(raw_str_to_int_lxcast(), boost::cnv::lexical_cast(), "lxcast");
 
     return boost::report_errors();
 }
