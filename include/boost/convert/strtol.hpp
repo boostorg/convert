@@ -57,9 +57,9 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     void operator()(char const* v, optional<   dbl_type>& res) const { strtod_  (v, res); }
     void operator()(char const* v, optional<  ldbl_type>& res) const { strtod_  (v, res); }
 
-    void operator()( int_type v, optional<std::string>& res) const { res = i_to_str(v); }
-    void operator()(lint_type v, optional<std::string>& res) const { res = i_to_str(v); }
-    void operator()( dbl_type v, optional<std::string>& res) const { res = d_to_str(v); }
+    template<typename string_type> void operator()( int_type v, optional<string_type>& res) const { res = i_to_str<string_type>(v); }
+    template<typename string_type> void operator()(lint_type v, optional<string_type>& res) const { res = i_to_str<string_type>(v); }
+    template<typename string_type> void operator()( dbl_type v, optional<string_type>& res) const { res = d_to_str<string_type>(v); }
 
     private:
 
@@ -67,8 +67,8 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     template<typename Type> void  strtol_ (char const*, optional<Type>&) const;
     template<typename Type> void strtoul_ (char const*, optional<Type>&) const;
 
-    template<typename T> std::string i_to_str (T) const;
-    /******************/ std::string d_to_str (double) const;
+    template<typename string_type, typename T> string_type i_to_str (T) const;
+    template<typename string_type>             string_type d_to_str (double) const;
     static double             adjust_fraction (double, int precision);
     static int                       get_char (int v) { return (v < 10) ? (v += '0') : (v += 'A' - 10); }
 
@@ -129,8 +129,8 @@ boost::cnv::strtol::strtod_(char const* str, optional<Type>& result_out) const
         result_out = Type(result);
 }
 
-template<typename Type>
-std::string
+template<typename string_type, typename Type>
+string_type
 boost::cnv::strtol::i_to_str(Type value) const
 {
     // C1. Base=10 optimization improves performance 10%
@@ -146,7 +146,7 @@ boost::cnv::strtol::i_to_str(Type value) const
     if (beg == end) *(--beg) = '0';
     if (negative)   *(--beg) = '-';
 
-    return base_type::format<std::string>(beg, end, buf, buf + bufsize);
+    return base_type::format<string_type>(beg, end, buf, buf + bufsize);
 }
 
 inline
@@ -175,8 +175,9 @@ boost::cnv::strtol::adjust_fraction(double fraction, int precision)
     return ::round(fraction); //C4
 }
 
+template<typename string_type>
 inline
-std::string
+string_type
 boost::cnv::strtol::d_to_str(double value) const
 {
     char   buf[bufsize];
@@ -209,7 +210,7 @@ boost::cnv::strtol::d_to_str(double value) const
     }
     if (negative) *(--beg) = '-';
 
-    return base_type::format<std::string>(beg, end, buf, buf + bufsize);
+    return base_type::format<string_type>(beg, end, buf, buf + bufsize);
 }
 
 #endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP

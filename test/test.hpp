@@ -84,34 +84,58 @@ namespace boost
 }
 //]
 
+// Quick and dirty small-string implementation for performance tests to make sure we can have
+// and array of my_strings in one piece.
+//[my_string_declaration
 struct my_string
 {
     typedef my_string        this_type;
-    typedef char*             iterator;
     typedef char const* const_iterator;
 
-    my_string()
-    {
-        BOOST_STATIC_ASSERT(sizeof(this_type) == size_);
-        memset(storage_, 0, size_);
-    }
-
-    this_type& operator=(std::string const& str)
-    {
-        BOOST_ASSERT(str.size() < size_);
-        strcpy(storage_, str.c_str());
-        return *this;
-    }
+    my_string ();
+    my_string (const_iterator, const_iterator);
 
     char const*    c_str () const { return storage_; }
     const_iterator begin () const { return storage_; }
     const_iterator   end () const { return storage_ + strlen(storage_); }
+    this_type& operator= (char const*);
 
     private:
 
     static size_t const size_ = 12;
     char storage_[size_];
 };
+//]
+inline
+my_string::my_string()
+{
+    storage_[0] = 0;
+}
+
+inline
+my_string::my_string(const_iterator beg, const_iterator end)
+{
+    std::size_t const sz = end - beg;
+
+    BOOST_ASSERT(sz < size_);
+    memcpy(storage_, beg, sz); storage_[sz] = 0;
+}
+
+inline
+my_string&
+my_string::operator=(char const* str)
+{
+    BOOST_ASSERT(strlen(str) < size_);
+    strcpy(storage_, str);
+    return *this;
+}
+
+inline
+bool
+operator==(char const* s1, my_string const& s2)
+{
+    return strcmp(s1, s2.c_str()) == 0;
+}
 
 namespace test
 {

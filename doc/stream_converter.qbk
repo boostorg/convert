@@ -6,10 +6,6 @@
 
 [section boost::cnv::stream Converter]
 
-[import ../example/stream.cpp]
-[import ../test/test.hpp]
-[import ../test/stream_converter.cpp]
-
 The purpose of the converter is to provide conversion-related formatting and locale support not available with `boost::lexical_cast`. Advantages of deploying a `std::stream`-based conversion engine are:
 
 * availability and maturity;

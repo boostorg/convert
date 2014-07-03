@@ -12,6 +12,7 @@
 #include <boost/convert/strtol.hpp>
 #include <boost/convert/lexical_cast.hpp>
 #include "./test.hpp"
+#include "./prepare.hpp"
 
 //#define main() old_str_to_int_test_spirit()
 //#include <libs/spirit/optimization/qi/int_parser.cpp>
@@ -25,48 +26,6 @@ namespace
 {
     namespace local
     {
-        // C1. 18 = 9 positive + 9 negative numbers with the number of digits from 1 to 9.
-        //     Even though INT_MAX(32) = 2147483647, i.e. 10 digits (not to mention long int)
-        //     we only test up to 9 digits as Spirit does not handle more than 9.
-
-        typedef boost::array<my_string, 18> strings; //C1
-        ///////////////////////////////////////////////////////////////////////////
-        // Generate a random number string with N digits
-        std::string
-        gen_int(int digits, bool negative)
-        {
-            std::string result;
-
-            if (negative)                       // Prepend a '-'
-                result += '-';
-
-            result += '1' + (rand()%9);         // The first digit cannot be '0'
-
-            for (int i = 1; i < digits; ++i)    // Generate the remaining digits
-                result += '0' + (rand()%10);
-            return result;
-        }
-
-        local::strings const&
-        get_strs()
-        {
-            static local::strings strings;
-            static bool                filled;
-            static bool              negative = true;
-
-            if (!filled)
-            {
-                // Seed the random generator
-                srand(time(0));
-
-                for (size_t k = 0; k < strings.size(); ++k)
-                    strings[k] = local::gen_int(k/2 + 1, negative = !negative);
-
-                filled = true;
-            }
-            return strings;
-        }
-
         struct base : test::base
         {
             base() : strings_(local::get_strs()) {}

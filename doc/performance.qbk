@@ -5,6 +5,7 @@
 ]
 
 [section Performance]
+[section Converters Compared]
 
 The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. A few  converters have been tested as part of the ['Boost.Convert] framework (see ['test/performance.cpp]).
 
@@ -46,7 +47,7 @@ Based on the performance data, I tend to conclude that, given type-safety and be
 
 ['Boost.Convert] framework adds an additional layer of indirection and some ['Boost.Convert] converters are wrappers around actual conversion facilities such as `strtol()`, `boost::lexical_cast`,  `boost::spirit`, etc. Consequently, there might be justified concerns with regard to the performance overhead introduced by the framework as opposed to deploying conversion facilities directly.
 
-To test that [funcref test::performance::spirit_framework test::performance::spirit_framework] code has been borrowed and adapted from the Spirit optimization framework (see $BOOST_ROOT/libs/spirit/optimization/qi/int_parser.cpp). The tests were
+To test that the Spirit performance code has been borrowed and adapted from the Spirit optimization framework (see $BOOST_ROOT/libs/spirit/workbench/qi/int_parser.cpp). The tests were
 
 # compiled using gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3;
 # with optimization: `g++ -O3 test/*.cpp example/*.cpp -Iinclude -I../boost_1_55_0 -lrt`;
@@ -124,3 +125,22 @@ That is, according to the results, conversions deployed through ['Boost.Convert]
 Based on the results, I tend to conclude that ['Boost.Convert] running overhead varies from small to undetectable depending on the compiler, hardware and deployment scenarios. It has to be noted though, that that conclusion has been made based ['only] on the compilers and hardware I tested ['Boost.Convert] on. The picture might be quite different on platforms that were not available to me for testing.
 
 [endsect]
+[section The Bigger Picture]
+
+It needs to be noted that the presented performance data (and potential performance-related concerns) have to be taken in perspective. A special project with serious high performance requirements is most likely to require special solutions which are most likely to cast out many generic libraries. Still, the existence of such projects did not kill or diminish in any way the existence of generic libraries. And ['Boost.Convert] is one such ['generic] library.
+
+More so, if one is concerned with performance, then, in all likelihood, for the great majority of the commercial projects ['Boost.Convert] might be far from the top on the profiler's list. For example, as part of the ['int-to-string] performance test `std::string` was replaced with the following custom ['small-string] type:
+
+[my_string_declaration]
+
+which is essentially a glorified 12-bytes character buffer sufficient to accommodate string representations of 32-bit integers. Deployed with the same converter and the same algorithm: 
+
+[small_string_results]
+
+It produced the following results:
+
+ strtol int-to std::string/small-string=14.49/4.02 seconds.
+
+[endsect]
+[endsect]
+

@@ -200,7 +200,12 @@ static
 void
 test_user_string()
 {
-//    boost::optional<my_string> o = convert<my_string>(12);
+    //[strtol_user_string
+    boost::cnv::strtol cnv;
+
+    BOOST_TEST(  "12" == convert<my_string>(12, cnv).value());
+    BOOST_TEST("0.95" == convert<my_string>(0.95, cnv(arg::precision = 2)).value());
+    //]
 }
 
 void

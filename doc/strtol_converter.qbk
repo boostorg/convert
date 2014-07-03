@@ -53,6 +53,12 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 [endsect]
 [endsect]
 
+[section Support for Custom String Types]
+
+[my_string_declaration]
+[strtol_user_string]
+
+[endsect]
 [section Limitations]
 
 Due to `strtoll` behavior with respect to LLONG_MAX and LLONG_MIN the `boost::cnv::strol` converter treats those values as failure.
