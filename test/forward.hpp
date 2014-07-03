@@ -11,6 +11,7 @@
 #   pragma warning(disable: 4100) // unreferenced formal parameter.
 #   pragma warning(disable: 4714) // marked as __forceinline not #endif
 #   pragma warning(disable: 4706)
+#   pragma warning(disable: 4005)
 #endif
 
 #endif // BOOST_CONVERT_FORWARD_HPP
