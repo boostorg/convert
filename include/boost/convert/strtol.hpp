@@ -16,6 +16,9 @@ namespace boost { namespace cnv
     struct strtol;
 }}
 
+/// @brief std::strtol-based extended converter
+/// @details The converter offers a fairly decent overall performance and moderate formatting facilities.
+
 struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strtol>
 {
     typedef boost::cnv::strtol                     this_type;

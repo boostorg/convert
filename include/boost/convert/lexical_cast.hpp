@@ -12,6 +12,15 @@ namespace boost { namespace cnv
     struct lexical_cast;
 }}
 
+/// @brief boost::lexical_cast-based converter
+/// @details The purpose of the converter is to
+/// * Make use of the boost::lexical_cast functionality and performance that many people have become
+/// accustomed to and comfortable with;
+/// * Demonstrate how existing independent conversion/transformation-related facilities might be
+//  incorporated in to the Boost.Convert framework.
+///
+/// The converter can easily replace boost::lexical_cast, adding flexibility and convenience.
+
 struct boost::cnv::lexical_cast
 {
     template<typename TypeOut, typename TypeIn>
