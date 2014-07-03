@@ -129,7 +129,7 @@ A more generic interface is also supported:
 [stream_width_example]
 [endsect]
 
-[section Leading White-Space Characters]
+[section Leading Whitespace Characters]
 [stream_using]
 [stream_skipws1_example]
 

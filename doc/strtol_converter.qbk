@@ -44,7 +44,7 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 [strtol_width]
 [endsect]
 
-[section Leading White-Space Characters]
+[section Leading Whitespace Characters]
 [strtol_skipws]
 [endsect]
 
