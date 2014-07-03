@@ -42,7 +42,6 @@
 [include other.qbk]
 [include design_notes.qbk]
 [include acknowledgments.qbk]
-[include references.qbk]
 [xinclude convert_reference.xml]
 '''<index/>'''
 

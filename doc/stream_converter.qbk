@@ -12,7 +12,7 @@ The purpose of the converter is to provide conversion-related formatting and loc
 * formatting and locale support;
 * familiar interface and deployment;
 * instant re-use of available standard manipulators (`std::hex`, `std::setprecision`, `std::skipws`, etc.);
-* extendibility (via custom manipulators (see [link 1 \[1\]])).
+* extendibility via custom manipulators (see [@http://www.cecalc.ula.ve/documentacion/tutoriales/PGICDK/doc/pgC++_lib/stdlibug/str_5412.htm Stream Storage for Private Use: iword, pword, and xalloc] by Rogue Wave Software).
 
 The converter might be deployed as follows:
 
