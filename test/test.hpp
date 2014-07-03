@@ -136,7 +136,6 @@ namespace test
         static void  strtol_converter ();
         static void     int_to_string ();
         static void         user_type ();
-        static void     force_in_type ();
 
         template<typename Cnv> static void  str_to_int (Cnv const&);
         template<typename Cnv> static void  int_to_str (Cnv const&);

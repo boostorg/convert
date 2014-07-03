@@ -34,9 +34,9 @@ run callable.cpp
     strtol_converter.cpp    
     user_type.cpp           
                     :  :  :  : convert_test ;
-#run spirit.cpp      :  :  :  : convert_test_spirit_converter ;
 
 exe convert_test_performance : performance.cpp /boost/timer//boost_timer ;
+#exe convert_test_performance_spirit : spirit.cpp ;
     
 
 

@@ -19,22 +19,7 @@ namespace arg = boost::cnv::parameter;
 
 using std::string;
 using std::wstring;
-
-void
-test::cnv::force_in_type()
-{
-    boost::cnv::cstream cnv;
-
-    string const      s1 = boost::convert<string>(-1, cnv).value();
-    string const      s2 = boost::convert<string, unsigned int>(-1, cnv).value();
-    char const* expected = sizeof(unsigned int) == 4 ? "4294967295" : 0;
-
-    if (expected)
-    {
-        BOOST_TEST(s1 == "-1");
-        BOOST_TEST(s2 == expected);
-    }
-}
+using boost::convert;
 
 int
 main(int argc, char const* argv[])
@@ -60,7 +45,6 @@ main(int argc, char const* argv[])
 //    test::cnv::int_to_str(boost::cnv::spirit());
 
     test::cnv::user_type();
-    test::cnv::force_in_type();
     test::cnv::callables();
     test::cnv::fallbacks();
     test::cnv::encryption();
