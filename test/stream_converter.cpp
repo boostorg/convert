@@ -144,9 +144,9 @@ test_width()
     string s02 = convert<string>(12, cnv(std::setw(5))(std::setfill('*'))).value();
     string s03 = convert<string>(12, cnv(std::setw(5))(std::setfill('*'))(std::left)).value();
 
-    BOOST_TEST(s01 == "  12");  // Field width was set to 4.
-    BOOST_TEST(s02 == "***12"); // Field width was set to 5 with the '*' filler.
-    BOOST_TEST(s03 == "12***"); // Field width was set to 5 with the '*' filler and left adjustment
+    BOOST_TEST(s01 == "  12");  // Field width = 4.
+    BOOST_TEST(s02 == "***12"); // Field width = 5, filler = '*'.
+    BOOST_TEST(s03 == "12***"); // Field width = 5, filler = '*', left adjustment
 
     /*`It needs to be remembered that `boost::cnv::stream` converter uses `std::stream` as its underlying
        conversion engine. Consequently, formatting-related behavior are driven by the `std::stream`. Namely,
@@ -218,18 +218,15 @@ test_locale()
     std::locale  eng_locale;
 
     char const* eng_locale_name = test::cnv::is_msc ? "English_United States.1251"
-                                : test::cnv::is_gcc ? "en_US.UTF-8"
-                                : "";
+                                : test::cnv::is_gcc ? "en_US.UTF-8" : "";
     char const* rus_locale_name = test::cnv::is_msc ? "Russian_Russia.1251"
-                                : test::cnv::is_gcc ? "ru_RU.UTF-8"
-                                : "";
+                                : test::cnv::is_gcc ? "ru_RU.UTF-8" : "";
     char const*    rus_expected = test::cnv::is_msc ? "1,235e-002"
                                 : test::cnv::is_gcc ? "1,235e-02" : "";
     char const*    eng_expected = test::cnv::is_msc ? "1.235e-002"
                                 : test::cnv::is_gcc ? "1.235e-02" : "";
     char const*      double_s01 = test::cnv::is_msc ? "1.2345E-002"
-                                : test::cnv::is_gcc ? "1.2345E-02"
-                                : "";
+                                : test::cnv::is_gcc ? "1.2345E-02" : "";
 
 //  cnv(std::setprecision(4))(std::uppercase)(std::scientific);
     cnv(arg::precision = 4)

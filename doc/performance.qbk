@@ -19,8 +19,8 @@ Performance was tested for string conversions to the `int`, `long int`, `double`
 
 The results above indicate that 
 
-* the Spirit-based converter was the fastest for int-to-string and long-to-string conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions;
-* the `std::stream`-based and the `printf/scanf`-based converters compete for the slowest spot. Still, the `std::stream` seems to get the edge due to adequate formatting and locale support. That seems to cast the `scanf/printf`-based converter out of the race for the preferred general-purpose every-day converter;
+* the Spirit-based converter was the fastest for `int`, `long` and `double`-to-string conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions;
+* the `std::stream`-based and the `printf/scanf`-based converters competed for the slowest spot. Still, the `std::stream` seems to get the edge due to adequate formatting and locale support. That seems to cast the `scanf/printf`-based converter out of the race for the preferred general-purpose every-day converter;
 * the extended `strtol`-based converter was surprisingly fast and with basic formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream'. So, bugs are to be expected.
 
 For user-defined types two converters -- `boost::cnv::lexical_cast` and `std::cnv::cstream` -- were tested.
@@ -121,6 +121,6 @@ Obviously, the results are driven by the deployed compiler optimization capabili
 
 That is, according to the results, conversions deployed through ['Boost.Convert] framework had no detectable overhead.
 
-Based on the results, I tend to conclude that ['Boost.Convert] running overhead varies from small to undetectable depending on the compiler, hardware and deployment scenarios.
+Based on the results, I tend to conclude that ['Boost.Convert] running overhead varies from small to undetectable depending on the compiler, hardware and deployment scenarios. It has to be noted though, that that conclusion has been made based ['only] on the compilers and hardware I tested ['Boost.Convert] on. The picture might be quite different on platforms that were not available to me for testing.
 
 [endsect]
