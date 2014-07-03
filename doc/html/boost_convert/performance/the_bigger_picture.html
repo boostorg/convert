@@ -22,7 +22,7 @@
         It needs to be noted that the presented performance data (and potential performance-related
         concerns) have to be taken in perspective. A special project with serious
         high performance requirements is most likely to require special solutions
-        which most likely to cast out many generic libraries. Still, the existence
+        which are most likely to cast out many generic libraries. Still, the existence
         of such projects did not kill or diminish in any way the existence of generic
         libraries. And <span class="emphasis"><em>Boost.Convert</em></span> is one such <span class="emphasis"><em>generic</em></span>
         library.
@@ -64,13 +64,17 @@
         same converter and the same algorithm:
       </p>
 <p>
-        [small_string_results]
+</p>
+<pre class="programlisting"><span class="identifier">printf</span><span class="special">(</span><span class="string">"strtol int-to std::string/small-string: %.2f/%.2f seconds.\n"</span><span class="special">,</span>
+       <span class="identifier">local</span><span class="special">::</span><span class="identifier">to_str</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">,</span> <span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span><span class="special">()),</span>
+       <span class="identifier">local</span><span class="special">::</span><span class="identifier">to_str</span><span class="special">&lt;</span>  <span class="identifier">my_string</span><span class="special">,</span> <span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span><span class="special">()));</span>
+</pre>
+<p>
       </p>
 <p>
         It produced the following results:
       </p>
-<pre class="programlisting"><span class="identifier">strtol</span> <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">=</span><span class="number">14.49</span><span class="special">/</span> <span class="number">4.02</span> <span class="identifier">seconds</span><span class="special">.</span>
-<span class="identifier">strtol</span> <span class="identifier">dbl</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">=</span><span class="number">24.38</span><span class="special">/</span><span class="number">14.15</span> <span class="identifier">seconds</span><span class="special">.</span>
+<pre class="programlisting"><span class="identifier">strtol</span> <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">=</span><span class="number">14.49</span><span class="special">/</span><span class="number">4.02</span> <span class="identifier">seconds</span><span class="special">.</span>
 </pre>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

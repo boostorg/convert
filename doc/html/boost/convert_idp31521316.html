@@ -5,29 +5,29 @@
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
-<link rel="up" href="../convert/reference.html#header.boost.convert_hpp" title="Header &lt;boost/convert.hpp&gt;">
-<link rel="prev" href="convert_idp9453740.html" title="Function template convert">
+<link rel="up" href="../reference.html#header.boost.convert_hpp" title="Header &lt;boost/convert.hpp&gt;">
+<link rel="prev" href="convert_idp31509580.html" title="Function template convert">
 <link rel="next" href="../header/boost/convert/lexical_cast_hpp.html" title="Header &lt;boost/convert/lexical_cast.hpp&gt;">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="convert_idp9453740.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../convert/reference.html#header.boost.convert_hpp"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="../header/boost/convert/lexical_cast_hpp.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="convert_idp31509580.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../reference.html#header.boost.convert_hpp"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="../header/boost/convert/lexical_cast_hpp.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 <div class="refentry">
-<a name="boost.convert_idp9465628"></a><div class="titlepage"></div>
+<a name="boost.convert_idp31521316"></a><div class="titlepage"></div>
 <div class="refnamediv">
 <h2><span class="refentrytitle">Function template convert</span></h2>
 <p>boost::convert &#8212; Boost.Convert main deployment interface with algorithms. </p>
 </div>
 <h2 xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv-title">Synopsis</h2>
-<div xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv"><pre class="synopsis"><span class="comment">// In header: &lt;<a class="link" href="../convert/reference.html#header.boost.convert_hpp" title="Header &lt;boost/convert.hpp&gt;">boost/convert.hpp</a>&gt;
+<div xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" class="refsynopsisdiv"><pre class="synopsis"><span class="comment">// In header: &lt;<a class="link" href="../reference.html#header.boost.convert_hpp" title="Header &lt;boost/convert.hpp&gt;">boost/convert.hpp</a>&gt;
 
 </span>
 <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> TypeOut<span class="special">,</span> <span class="keyword">typename</span> TypeIn<span class="special">,</span> <span class="keyword">typename</span> Converter<span class="special">&gt;</span> 
   <span class="identifier">enable_if</span><span class="special">&lt;</span> <span class="identifier">cnv</span><span class="special">::</span><span class="identifier">is_cnv</span><span class="special">&lt;</span> <span class="identifier">Converter</span><span class="special">,</span> <span class="identifier">TypeIn</span><span class="special">,</span> <span class="identifier">TypeOut</span> <span class="special">&gt;</span><span class="special">,</span> <span class="keyword">typename</span> <a class="link" href="cnv/adapter.html" title="Struct template adapter">cnv::adapter</a><span class="special">&lt;</span> <span class="identifier">TypeOut</span><span class="special">,</span> <span class="identifier">TypeIn</span><span class="special">,</span> <span class="identifier">Converter</span> <span class="special">&gt;</span> <span class="special">&gt;</span><span class="special">::</span><span class="identifier">type</span> 
   <span class="identifier">convert</span><span class="special">(</span><span class="identifier">Converter</span> <span class="keyword">const</span> <span class="special">&amp;</span> cnv<span class="special">)</span><span class="special">;</span></pre></div>
 <div class="refsect1">
-<a name="idp41802764"></a><h2>Description</h2>
+<a name="idp56963372"></a><h2>Description</h2>
 <p>For example, </p>
 <pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">array</span><span class="special">&lt;</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span><span class="special">,</span> <span class="number">3</span><span class="special">&gt;</span> <span class="identifier">strs</span> <span class="special">=</span> <span class="special">{</span><span class="special">{</span> <span class="string">" 5"</span><span class="special">,</span> <span class="string">"0XF"</span><span class="special">,</span> <span class="string">"not an int"</span> <span class="special">}</span><span class="special">}</span><span class="special">;</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>             <span class="identifier">ints</span><span class="special">;</span>
@@ -53,7 +53,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="convert_idp9453740.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../convert/reference.html#header.boost.convert_hpp"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="../header/boost/convert/lexical_cast_hpp.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="convert_idp31509580.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../reference.html#header.boost.convert_hpp"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="../header/boost/convert/lexical_cast_hpp.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>
