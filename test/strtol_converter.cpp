@@ -170,7 +170,7 @@ test_dbl_to_str()
 //    string huge = convert<string>(huge_v, cnv1(arg::precision = 2)).value();
 //    printf("%s\n", huge.c_str());
 
-    int const num_tries = 10000000;
+    int const num_tries = 1000000;
     double const dbls[] = { 0.90, 1.0, 1.1, 0.94, 0.96, 1.04, 1.05, 1.06, 9.654, 999.888 };
     int const  num_dbls = sizeof(dbls) / sizeof(dbls[0]);
 
