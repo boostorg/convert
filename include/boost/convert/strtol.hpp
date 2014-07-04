@@ -23,72 +23,64 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
 {
     typedef boost::cnv::strtol                     this_type;
     typedef boost::cnv::detail::cnvbase<this_type> base_type;
-    typedef int                                     int_type;
-    typedef unsigned int                           uint_type;
-    typedef long int                               lint_type;
-    typedef unsigned long int                     ulint_type;
-    typedef short int                              sint_type;
-    typedef unsigned short int                    usint_type;
-    typedef long long int                         llint_type;
-    typedef unsigned long long int               ullint_type;
-    typedef       float                             flt_type;
-    typedef      double                             dbl_type;
-    typedef long double                            ldbl_type;
 
     using base_type::operator();
 
-    void operator()(std::string const& v, optional<  int_type>& r) const { operator()(v.c_str(), r); }
-    void operator()(std::string const& v, optional< sint_type>& r) const { operator()(v.c_str(), r); }
-    void operator()(std::string const& v, optional< lint_type>& r) const { operator()(v.c_str(), r); }
-    void operator()(std::string const& v, optional< uint_type>& r) const { operator()(v.c_str(), r); }
-    void operator()(std::string const& v, optional<usint_type>& r) const { operator()(v.c_str(), r); }
-    void operator()(std::string const& v, optional<ulint_type>& r) const { operator()(v.c_str(), r); }
-    void operator()(std::string const& v, optional<  flt_type>& r) const { operator()(v.c_str(), r); }
-    void operator()(std::string const& v, optional<  dbl_type>& r) const { operator()(v.c_str(), r); }
-    void operator()(std::string const& v, optional< ldbl_type>& r) const { operator()(v.c_str(), r); }
+    void str_to(std::string const& v, optional< uint_type>& r) const { str_to(v.c_str(), r); }
+    void str_to(std::string const& v, optional<usint_type>& r) const { str_to(v.c_str(), r); }
+    void str_to(std::string const& v, optional<ulint_type>& r) const { str_to(v.c_str(), r); }
+    void str_to(std::string const& v, optional<  flt_type>& r) const { str_to(v.c_str(), r); }
+    void str_to(std::string const& v, optional<  dbl_type>& r) const { str_to(v.c_str(), r); }
+    void str_to(std::string const& v, optional< ldbl_type>& r) const { str_to(v.c_str(), r); }
 
-    void operator()(char const* v, optional<   int_type>& res) const { strtol_  (v, res); }
-    void operator()(char const* v, optional<  sint_type>& res) const { strtol_  (v, res); }
-    void operator()(char const* v, optional<  lint_type>& res) const { strtol_  (v, res); }
-    void operator()(char const* v, optional<  uint_type>& res) const { strtoul_ (v, res); }
-    void operator()(char const* v, optional< usint_type>& res) const { strtoul_ (v, res); }
-    void operator()(char const* v, optional< ulint_type>& res) const { strtoul_ (v, res); }
-    void operator()(char const* v, optional<   flt_type>& res) const { strtod_  (v, res); }
-    void operator()(char const* v, optional<   dbl_type>& res) const { strtod_  (v, res); }
-    void operator()(char const* v, optional<  ldbl_type>& res) const { strtod_  (v, res); }
+    template<typename string_type> void str_to(string_type const& v, optional<   int_type>& r) const { strtol_  (v, r); }
+    template<typename string_type> void str_to(string_type const& v, optional<  sint_type>& r) const { strtol_  (v, r); }
+    template<typename string_type> void str_to(string_type const& v, optional<  lint_type>& r) const { strtol_  (v, r); }
 
-    template<typename string_type> void operator()( int_type v, optional<string_type>& res) const { res = i_to_str<string_type>(v); }
-    template<typename string_type> void operator()(lint_type v, optional<string_type>& res) const { res = i_to_str<string_type>(v); }
-    template<typename string_type> void operator()( dbl_type v, optional<string_type>& res) const { res = d_to_str<string_type>(v); }
+    void str_to(char const* v, optional<  uint_type>& res) const { strtoul_ (v, res); }
+    void str_to(char const* v, optional< usint_type>& res) const { strtoul_ (v, res); }
+    void str_to(char const* v, optional< ulint_type>& res) const { strtoul_ (v, res); }
+    void str_to(char const* v, optional<   flt_type>& res) const { strtod_  (v, res); }
+    void str_to(char const* v, optional<   dbl_type>& res) const { strtod_  (v, res); }
+    void str_to(char const* v, optional<  ldbl_type>& res) const { strtod_  (v, res); }
+
+    detail::str_range to_str ( int_type v, char* buf) const { return i_to_str(v, buf); }
+    detail::str_range to_str (lint_type v, char* buf) const { return i_to_str(v, buf); }
+    detail::str_range to_str ( dbl_type v, char* buf) const;
 
     private:
 
     template<typename Type> void  strtod_ (char const*, optional<Type>&) const;
-    template<typename Type> void  strtol_ (char const*, optional<Type>&) const;
+    template<typename string_type, typename Type> void  strtol_ (string_type const&, optional<Type>&) const;
     template<typename Type> void strtoul_ (char const*, optional<Type>&) const;
 
-    template<typename string_type, typename T> string_type i_to_str (T) const;
-    template<typename string_type>             string_type d_to_str (double) const;
-    static double             adjust_fraction (double, int precision);
-    static int                       get_char (int v) { return (v < 10) ? (v += '0') : (v += 'A' - 10); }
+    template<typename T> detail::str_range i_to_str (T, char*) const;
+    static double           adjust_fraction (double, int precision);
+    static int                     get_char (int v) { return (v < 10) ? (v += '0') : (v += 'A' - 10); }
 };
 
-template<typename Type>
+template<typename string_type, typename out_type>
 void
-boost::cnv::strtol::strtol_(char const* str, optional<Type>& result_out) const
+boost::cnv::strtol::strtol_(string_type const& string_in, optional<out_type>& result_out) const
 {
-    if (!skipws_ && std::isspace(*str))
+    typedef typename boost::range_iterator<string_type const>::type iterator;
+    typedef typename boost::iterator_range<iterator>::type    iterator_range;
+
+    iterator_range range = boost::as_literal(string_in);
+    char const*      beg = &*range.begin();
+    char const*  str_end = &*range.end();
+    char*        cnv_end = 0;
+
+    if (!skipws_ && std::isspace(*beg))
         return;
 
-    char const*     str_end = str + strlen(str);
-    char*           cnv_end = 0;
-    llint_type const result = std::strtoll(str, &cnv_end, base_);
+    llint_type const result = std::strtoll(beg, &cnv_end, base_);
     bool const         good = result != LLONG_MIN && result != LLONG_MAX && cnv_end == str_end;
-    Type const          min = std::numeric_limits<Type>::min();
-    Type const          max = std::numeric_limits<Type>::max();
+    out_type const      min = std::numeric_limits<out_type>::min();
+    out_type const      max = std::numeric_limits<out_type>::max();
 
     if (good && min <= result && result <= max)
-        result_out = Type(result);
+        result_out = out_type(result);
 }
 
 template<typename Type>
@@ -125,16 +117,15 @@ boost::cnv::strtol::strtod_(char const* str, optional<Type>& result_out) const
         result_out = Type(result);
 }
 
-template<typename string_type, typename Type>
-string_type
-boost::cnv::strtol::i_to_str(Type value) const
+template<typename Type>
+boost::cnv::detail::str_range
+boost::cnv::strtol::i_to_str(Type value, char* buf) const
 {
     // C1. Base=10 optimization improves performance 10%
 
-    char  buf[bufsize_];
+    char*           beg = buf + bufsize_ / 2;
+    char*           end = beg;
     bool const negative = (value < 0) ? (value = -value, true) : false;
-    char*           end = buf + base_type::bufsize_ / 2;
-    char*           beg = end;
 
     if (base_ == 10) for (; value; *(--beg) = int(value % 10) + '0', value /= 10); //C1
     else             for (; value; *(--beg) = get_char(value % base_), value /= base_);
@@ -142,7 +133,7 @@ boost::cnv::strtol::i_to_str(Type value) const
     if (beg == end) *(--beg) = '0';
     if (negative)   *(--beg) = '-';
 
-    return base_type::format<string_type>(beg, end, buf);
+    return detail::str_range(beg, end);
 }
 
 inline
@@ -150,7 +141,7 @@ double
 boost::cnv::strtol::adjust_fraction(double fraction, int precision)
 {
     // C1. Bring forward the fraction coming right after precision digits.
-    //     That is, say, fraction=0.234567, precision=2. Then remainder=0.4567
+    //     That is, say, fraction=0.234567, precision=2. Then brought forward=23.4567
     // C3. INT_MAX(4bytes)=2,147,483,647. So, 10^8 seems appropriate. If not, drop it down to 4.
     // C4. ::round() returns the integral value that is nearest to x,
     //     with halfway cases rounded away from zero. Therefore,
@@ -171,14 +162,12 @@ boost::cnv::strtol::adjust_fraction(double fraction, int precision)
     return ::round(fraction); //C4
 }
 
-template<typename string_type>
 inline
-string_type
-boost::cnv::strtol::d_to_str(double value) const
+boost::cnv::detail::str_range
+boost::cnv::strtol::to_str(double value, char* buf) const
 {
-    char  buf[bufsize_];
-    char*           end = buf + base_type::bufsize_ / 2;
-    char*           beg = end;
+    char*           beg = buf + bufsize_ / 2;
+    char*           end = beg;
     char*          ipos = end - 1;
     bool const negative = (value < 0) ? (value = -value, true) : false;
     double        ipart = std::floor(value);
@@ -206,7 +195,7 @@ boost::cnv::strtol::d_to_str(double value) const
     }
     if (negative) *(--beg) = '-';
 
-    return base_type::format<string_type>(beg, end, buf);
+    return detail::str_range(beg, end);
 }
 
 #endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP

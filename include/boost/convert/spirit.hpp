@@ -36,16 +36,6 @@ struct boost::cnv::spirit : public boost::cnv::detail::cnvbase<boost::cnv::spiri
 
     using base_type::operator();
 
-    template<typename string_type> void operator()(        int v, optional<string_type>& r) const { to_str(v, r); }
-    template<typename string_type> void operator()(   long int v, optional<string_type>& r) const { to_str(v, r); }
-    template<typename string_type> void operator()(     double v, optional<string_type>& r) const { to_str(v, r); }
-    template<typename string_type> void operator()(long double v, optional<string_type>& r) const { to_str(v, r); }
-
-    template<typename string_type> void operator()(string_type const& s, optional<        int>& r) const { str_to(s, r); }
-    template<typename string_type> void operator()(string_type const& s, optional<   long int>& r) const { str_to(s, r); }
-    template<typename string_type> void operator()(string_type const& s, optional<     double>& r) const { str_to(s, r); }
-    template<typename string_type> void operator()(string_type const& s, optional<long double>& r) const { str_to(s, r); }
-
     template<typename string_type, typename out_type>
     void
     str_to(string_type const& string_in, optional<out_type>& result_out) const
@@ -63,27 +53,16 @@ struct boost::cnv::spirit : public boost::cnv::detail::cnvbase<boost::cnv::spiri
             if (beg == end) // ensure the whole string has been parsed
                 result_out = result;
     }
-    template<typename in_type, typename string_type>
-    void
-    to_str(in_type const& value_in, optional<string_type>& result_out) const
+    template<typename in_type, typename char_type>
+    detail::str_range
+    to_str(in_type value_in, char_type* beg) const
     {
-        typedef char const* iterator;
         typedef cnv::detail::generator<in_type> generator;
 
-        char buf[bufsize_];
-        char*          beg = buf + bufsize_ / 2;
-        char*          end = beg;
-        bool          good = boost::spirit::karma::generate(end, generator(), value_in);
-
-        if (good)
-            result_out = base_type::format<string_type>(beg, end, buf);
-//            result_out = coerce::as<TypeOut>(value_in, coerce::tag::none());
-
-            // TODO: Just adding 'if' costs about 15-20% performance
-            //       compared to that same but DIRECT call to coerce::as or qi::parse.
-            //  /**/ if (base_ == 10) result_out = coerce::as<TypeOut>(value_in, coerce::tag::none());
-            //  else if (base_ ==  8) result_out = coerce::as<TypeOut>(value_in, coerce::tag::oct());
-            //  else if (base_ == 16) result_out = coerce::as<TypeOut>(value_in, coerce::tag::hex());
+        char_type* end = beg;
+        bool      good = boost::spirit::karma::generate(end, generator(), value_in);
+        
+        return detail::str_range(beg, good ? end : beg);
     }
 };
 

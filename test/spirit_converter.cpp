@@ -12,12 +12,14 @@
 using std::string;
 using boost::convert;
 
+namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;
 
 struct boost::cnv::by_default : public boost::cnv::spirit {};
 
+static
 void
-test::cnv::spirit_converter()
+test_spirit()
 {
     char const* const   c_stri ("12345");
     char const* const   c_strd ("123.45");
@@ -41,7 +43,18 @@ test::cnv::spirit_converter()
     BOOST_TEST(!convert<   int>("uhm"));
     BOOST_TEST(!convert<double>("12.uhm"));
 
-    BOOST_TEST( "1234" == convert<std::string>( 1234).value());
-    BOOST_TEST("12.34" == convert<std::string>(12.34).value());
-    printf("%s\n", convert<std::string>(12.34).value().c_str());
+    BOOST_TEST( "1234" == convert<string>(1234).value());
+    BOOST_TEST("12xxx" == convert<string>(12, cnv(arg::width = 5)
+                                                 (arg::fill = 'x')
+                                                 (arg::adjust = cnv::adjust::left)).value());
+    BOOST_TEST("x12xx" == convert<string>(12, cnv(arg::adjust = cnv::adjust::center)).value());
+
+//    BOOST_TEST("12.34" == convert<std::string>(12.34).value());
+//    printf("%s\n", convert<std::string>(12.34).value().c_str());
+}
+
+void
+test::cnv::spirit_converter()
+{
+    test_spirit();
 }

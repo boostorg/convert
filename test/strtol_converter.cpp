@@ -30,10 +30,12 @@ test_str_to_int()
     string const not_int_str = "not an int";
     string const     std_str = "-11";
     char const* const  c_str = "-12";
+    my_string const   my_str (c_str, c_str + strlen(c_str));
 
     BOOST_TEST( -1 == convert<int>(not_int_str).value_or(-1));
     BOOST_TEST(-11 == convert<int>(    std_str).value());
     BOOST_TEST(-12 == convert<int>(      c_str).value());
+    BOOST_TEST(-12 == convert<int>(     my_str).value());
     //]
 }
 
