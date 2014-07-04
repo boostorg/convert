@@ -21,28 +21,31 @@ namespace boost { namespace cnv
 
 struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strtol>
 {
+    // C1. Functions cannot be generalized to take [begin, end) ranges.
+    //     Main functions have to take "char const*" as that is what strtol() and its family
+    //     work with. That is, strtol() expects a \0 terminated string.
+    //     So, feeding ranges is wrong as ranges are not mandated to
+    //     have the trailing \0. Therefore, strol() will fail.
+
     typedef boost::cnv::strtol                     this_type;
     typedef boost::cnv::detail::cnvbase<this_type> base_type;
 
     using base_type::operator();
 
-    void str_to(std::string const& v, optional< uint_type>& r) const { str_to(v.c_str(), r); }
-    void str_to(std::string const& v, optional<usint_type>& r) const { str_to(v.c_str(), r); }
-    void str_to(std::string const& v, optional<ulint_type>& r) const { str_to(v.c_str(), r); }
-    void str_to(std::string const& v, optional<  flt_type>& r) const { str_to(v.c_str(), r); }
-    void str_to(std::string const& v, optional<  dbl_type>& r) const { str_to(v.c_str(), r); }
-    void str_to(std::string const& v, optional< ldbl_type>& r) const { str_to(v.c_str(), r); }
+    void str_to(char const* v, optional<   int_type>& r) const { strtol_  (v, r); } //C1
+    void str_to(char const* v, optional<  sint_type>& r) const { strtol_  (v, r); }
+    void str_to(char const* v, optional<  lint_type>& r) const { strtol_  (v, r); }
+    void str_to(char const* v, optional<  uint_type>& r) const { strtoul_ (v, r); }
+    void str_to(char const* v, optional< usint_type>& r) const { strtoul_ (v, r); }
+    void str_to(char const* v, optional< ulint_type>& r) const { strtoul_ (v, r); }
+    void str_to(char const* v, optional<   flt_type>& r) const { strtod_  (v, r); }
+    void str_to(char const* v, optional<   dbl_type>& r) const { strtod_  (v, r); }
+    void str_to(char const* v, optional<  ldbl_type>& r) const { strtod_  (v, r); }
 
-    template<typename string_type> void str_to(string_type const& v, optional<   int_type>& r) const { strtol_  (v, r); }
-    template<typename string_type> void str_to(string_type const& v, optional<  sint_type>& r) const { strtol_  (v, r); }
-    template<typename string_type> void str_to(string_type const& v, optional<  lint_type>& r) const { strtol_  (v, r); }
-
-    void str_to(char const* v, optional<  uint_type>& res) const { strtoul_ (v, res); }
-    void str_to(char const* v, optional< usint_type>& res) const { strtoul_ (v, res); }
-    void str_to(char const* v, optional< ulint_type>& res) const { strtoul_ (v, res); }
-    void str_to(char const* v, optional<   flt_type>& res) const { strtod_  (v, res); }
-    void str_to(char const* v, optional<   dbl_type>& res) const { strtod_  (v, res); }
-    void str_to(char const* v, optional<  ldbl_type>& res) const { strtod_  (v, res); }
+    template<typename T> void str_to(std::string const& v, optional<T>& r) const
+    {
+        if (!v.empty()) str_to(v.c_str(/*C1*/), r);
+    }
 
     detail::str_range to_str ( int_type v, char* buf) const { return i_to_str(v, buf); }
     detail::str_range to_str (lint_type v, char* buf) const { return i_to_str(v, buf); }
@@ -51,7 +54,7 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     private:
 
     template<typename Type> void  strtod_ (char const*, optional<Type>&) const;
-    template<typename string_type, typename Type> void  strtol_ (string_type const&, optional<Type>&) const;
+    template<typename Type> void  strtol_ (char const*, optional<Type>&) const;
     template<typename Type> void strtoul_ (char const*, optional<Type>&) const;
 
     template<typename T> detail::str_range i_to_str (T, char*) const;
@@ -59,22 +62,16 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     static int                     get_char (int v) { return (v < 10) ? (v += '0') : (v += 'A' - 10); }
 };
 
-template<typename string_type, typename out_type>
+template<typename out_type>
 void
-boost::cnv::strtol::strtol_(string_type const& string_in, optional<out_type>& result_out) const
+boost::cnv::strtol::strtol_(char const* str, optional<out_type>& result_out) const
 {
-    typedef typename boost::range_iterator<string_type const>::type iterator;
-    typedef typename boost::iterator_range<iterator>::type    iterator_range;
-
-    iterator_range range = boost::as_literal(string_in);
-    char const*      beg = &*range.begin();
-    char const*  str_end = &*range.end();
-    char*        cnv_end = 0;
-
-    if (!skipws_ && std::isspace(*beg))
+    if (!skipws_ && std::isspace(*str))
         return;
 
-    llint_type const result = std::strtoll(beg, &cnv_end, base_);
+    char const*     str_end = str + strlen(str);
+    char*           cnv_end = 0;
+    llint_type const result = std::strtoll(str, &cnv_end, base_);
     bool const         good = result != LLONG_MIN && result != LLONG_MAX && cnv_end == str_end;
     out_type const      min = std::numeric_limits<out_type>::min();
     out_type const      max = std::numeric_limits<out_type>::max();
