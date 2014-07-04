@@ -85,14 +85,18 @@ static void getting_started_example2()
 
 //[getting_started_headers3
 #include <boost/convert/strtol.hpp>
+#include <boost/convert/spirit.hpp>
 //]
 static void getting_started_example3()
 {
     //[getting_started_example3
-    boost::cnv::strtol cnv;
+    boost::cnv::lexical_cast cnv1;
+    boost::cnv::strtol       cnv2;
+    boost::cnv::spirit       cnv3;
 
-    int i1 = lexical_cast<int>("123");
-    int i2 = convert<int>("123", cnv).value(); // Two times faster than lexical_cast.
+    int i1 = convert<int>("123", cnv1).value();
+    int i2 = convert<int>("123", cnv2).value(); // Two times faster than lexical_cast.
+    int i3 = convert<int>("123", cnv3).value(); // Four times faster than lexical_cast.
     //]
 }
 

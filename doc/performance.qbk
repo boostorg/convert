@@ -139,7 +139,8 @@ which is essentially a glorified 12-bytes character buffer sufficient to accommo
 
 It produced the following results:
 
- strtol int-to std::string/small-string=14.49/4.02 seconds.
+ strtol int-to std::string/small-string: 14.56/4.28 seconds.
+ spirit int-to std::string/small-string: 16.12/6.06 seconds.
 
 [endsect]
 [endsect]

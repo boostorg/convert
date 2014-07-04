@@ -71,10 +71,6 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     template<typename string_type>             string_type d_to_str (double) const;
     static double             adjust_fraction (double, int precision);
     static int                       get_char (int v) { return (v < 10) ? (v += '0') : (v += 'A' - 10); }
-
-    // ULONG_MAX(8 bytes) = 18446744073709551615 (20(10) or 32(2) characters)
-    // double (8 bytes) max is 316 chars
-    static int const bufsize = 1024;
 };
 
 template<typename Type>
@@ -135,9 +131,9 @@ boost::cnv::strtol::i_to_str(Type value) const
 {
     // C1. Base=10 optimization improves performance 10%
 
-    char   buf[bufsize];
+    char  buf[bufsize_];
     bool const negative = (value < 0) ? (value = -value, true) : false;
-    char*           end = buf + bufsize / 2;
+    char*           end = buf + base_type::bufsize_ / 2;
     char*           beg = end;
 
     if (base_ == 10) for (; value; *(--beg) = int(value % 10) + '0', value /= 10); //C1
@@ -146,7 +142,7 @@ boost::cnv::strtol::i_to_str(Type value) const
     if (beg == end) *(--beg) = '0';
     if (negative)   *(--beg) = '-';
 
-    return base_type::format<string_type>(beg, end, buf, buf + bufsize);
+    return base_type::format<string_type>(beg, end, buf);
 }
 
 inline
@@ -180,8 +176,8 @@ inline
 string_type
 boost::cnv::strtol::d_to_str(double value) const
 {
-    char   buf[bufsize];
-    char*           end = buf + bufsize / 2;
+    char  buf[bufsize_];
+    char*           end = buf + base_type::bufsize_ / 2;
     char*           beg = end;
     char*          ipos = end - 1;
     bool const negative = (value < 0) ? (value = -value, true) : false;
@@ -210,7 +206,7 @@ boost::cnv::strtol::d_to_str(double value) const
     }
     if (negative) *(--beg) = '-';
 
-    return base_type::format<string_type>(beg, end, buf, buf + bufsize);
+    return base_type::format<string_type>(beg, end, buf);
 }
 
 #endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP

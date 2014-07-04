@@ -14,10 +14,10 @@ sources_1 = test/callable.cpp			\
             test/sfinae.cpp				\
             test/stream_converter.cpp	\
             test/strtol_converter.cpp	\
+            test/spirit_converter.cpp	\
             test/user_type.cpp
 
 target_2 = convert-test-performance.exe
-target_3 = convert-test-spirit.exe
 target_4 = convert-example-algorithms
 target_5 = convert-example-default_converter
 target_6 = convert-example-getting_serious
@@ -26,7 +26,6 @@ target_8 = convert-example-lexical_cast
 target_9 = convert-example-stream
 
 sources_2 = test/performance.cpp
-sources_3 = test/spirit.cpp
 sources_4 = example/algorithms.cpp
 sources_5 = example/default_converter.cpp
 sources_6 = example/getting_serious.cpp

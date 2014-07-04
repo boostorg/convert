@@ -5,6 +5,9 @@ bin/
 doc/bin/
 doc/html/
 doc/convert_reference.xml
+doc/doxygen/
+doc/inspect.txt
+convert.pdf
 *.log
 *.bat
 include/boost/none.hpp

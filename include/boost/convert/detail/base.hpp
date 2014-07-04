@@ -66,11 +66,14 @@ struct boost::cnv::detail::cnvbase
 
     protected:
 
-    template<typename string_type> string_type format (char*, char*, char const*, char const*) const;
+    template<typename string_type> string_type format (char*, char*, char const*) const;
 
     derived const& dncast () const { return *static_cast<derived const*>(this); }
     derived&       dncast ()       { return *static_cast<derived*>(this); }
 
+    // ULONG_MAX(8 bytes) = 18446744073709551615 (20(10) or 32(2) characters)
+    // double (8 bytes) max is 316 chars
+    static int const        bufsize_ = 1024;
     int                        base_;
     bool                     skipws_;
     int                   precision_;
@@ -88,8 +91,7 @@ string_type
 boost::cnv::detail::cnvbase<derived_type>::format(
     char*          beg,
     char*          end,
-    char const* bufbeg,
-    char const* bufend) const
+    char const* bufbeg) const
 {
     // TODO: Need boundary checks.
 

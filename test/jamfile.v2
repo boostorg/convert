@@ -35,6 +35,7 @@ run callable.cpp
     sfinae.cpp              
     stream_converter.cpp    
     strtol_converter.cpp    
+    spirit_converter.cpp    
     user_type.cpp           
                     :  :  :  : convert_test ;
 
