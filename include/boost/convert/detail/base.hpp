@@ -61,7 +61,7 @@ struct boost::cnv::detail::cnvbase
     BOOST_CNV_STRING_OP (string_type const& s, optional< dbl_type>& r) const { dncast().str_to(s, r); }
     BOOST_CNV_STRING_OP (string_type const& s, optional<ldbl_type>& r) const { dncast().str_to(s, r); }
 
-    BOOST_CNV_PARAM_OP (locale,  std::locale const) { locale_    = arg[ARG::   locale]; return dncast(); }
+//  BOOST_CNV_PARAM_OP (locale,  std::locale const) { locale_    = arg[ARG::   locale]; return dncast(); }
     BOOST_CNV_PARAM_OP (base,     base::type const) { base_      = arg[ARG::     base]; return dncast(); }
     BOOST_CNV_PARAM_OP (adjust, adjust::type const) { adjust_    = arg[ARG::   adjust]; return dncast(); }
     BOOST_CNV_PARAM_OP (precision,       int const) { precision_ = arg[ARG::precision]; return dncast(); }
@@ -142,7 +142,7 @@ struct boost::cnv::detail::cnvbase
     int                width_;
     int                 fill_;
     adjust::type      adjust_;
-    std::locale       locale_;
+//  std::locale       locale_;
 };
 
 #undef BOOST_CNV_STRING_OP
