@@ -4,30 +4,41 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section Performance]
-[section Converters Compared]
+[section:performance Performance]
+[section:converters_compared Converters Compared]
 
-The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. A few  converters have been tested as part of the ['Boost.Convert] framework (see ['test/performance.cpp]).
+The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. A few converters have been tested for string conversions to the `int`, `long int`, `double` builtin types and to a user-defined type. 
 
-Performance was tested for string conversions to the `int`, `long int`, `double` builtin types and to a user-defined type. On Ubuntu 12.04 64-bit (with Intel® Core™ i7 CPU 860 @ 2.80GHz×8 and 16GB of memory), compiled with gcc-4.6.3 tests produced the following results:
+In turn, the relative and absolute performance of every particular converter depends on the platform, the compiler used and the particular implementation of the underlying conversion component (`std::stream`, `printf`, ['Boost.Spirit], etc.). Consequently, the results below are only a rough guide of ['relative] performance of the mentioned converters on the tested platforms. 
 
- str-to-int: spirit/strtoi/lcast/scanf/stream=    3.21/    6.86/   11.15/   27.23/   26.61 seconds.
- str-to-lng: spirit/strtol/lcast/scanf/stream=    2.98/    6.71/   14.90/   26.95/   27.17 seconds.
- str-to-dbl: spirit/strtod/lcast/scanf/stream=      NA/   14.65/   17.59/   42.34/   54.23 seconds.
- int-to-str: spirit/itostr/lcast/prntf/stream=   20.99/   17.15/   20.59/   33.55/   30.96 seconds.
- lng-to-str: spirit/ltostr/lcast/prntf/stream=   21.65/   23.18/   21.37/   33.68/   30.48 seconds.
- dbl-to-str: spirit/dtostr/lcast/prntf/stream=      NA/   27.59/  178.47/  141.68/  145.53 seconds.
+Compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 tests produced the following results:
 
-The results above indicate that 
+ int-to-str: spirit/itostr/lcast/prntf/stream=  16.76/  15.52/  20.53/  26.80/  29.06 seconds.
+ lng-to-str: spirit/ltostr/lcast/prntf/stream=  16.96/  14.95/  20.65/  26.82/  28.62 seconds.
+ dbl-to-str: spirit/dtostr/lcast/prntf/stream= 105.56/  36.46/ 119.55/  92.42/ 109.97 seconds.
+ str-to-int: spirit/strtoi/lcast/scanf/stream=   2.07/   5.48/  10.66/  19.49/  20.90 seconds.
+ str-to-lng: spirit/strtol/lcast/scanf/stream=   2.09/   6.79/  10.21/  19.57/  20.58 seconds.
+ str-to-dbl: spirit/strtod/lcast/scanf/stream=   4.83/  14.65/  29.46/  33.67/  44.87 seconds.
 
-* the Spirit-based converter was the fastest for `int`, `long` and `double`-to-string conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions;
-* the `std::stream`-based and the `printf/scanf`-based converters competed for the slowest spot. Still, the `std::stream` seems to get the edge due to adequate formatting and locale support. That seems to cast the `scanf/printf`-based converter out of the race for the preferred general-purpose every-day converter;
-* the extended `strtol`-based converter was surprisingly fast and with basic formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream'. So, bugs are to be expected.
+Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following results (adjusted):
 
-For user-defined types two converters -- `boost::cnv::lexical_cast` and `std::cnv::cstream` -- were tested.
+ int-to-str: spirit/itostr/lcast/prntf/stream=  16.77/  14.94/  20.22/  44.24/  30.99 seconds.
+ lng-to-str: spirit/ltostr/lcast/prntf/stream=  18.02/  16.16/  20.74/  32.71/  30.59 seconds.
+ dbl-to-str: spirit/dtostr/lcast/prntf/stream=  59.88/  31.23/ 184.14/ 159.21/ 138.44 seconds.
+ str-to-int: spirit/strtoi/lcast/scanf/stream=   2.12/   9.84/  11.59/  27.82/  29.84 seconds.
+ str-to-lng: spirit/strtol/lcast/scanf/stream=   2.12/   9.55/  14.47/  27.50/  29.97 seconds.
+ str-to-dbl: spirit/strtod/lcast/scanf/stream=   3.45/  15.80/  17.28/  42.38/  56.25 seconds.
 
- str-to-user-type: lcast/stream=3.80/1.95 seconds.
- user-type-to-str: lcast/stream=5.58/1.31 seconds.
+Based on the results we might conclude that
+
+* the Spirit.Qi-based converter was the fastest for string to `int`, `long` and `double` conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions; Spirit.Karma ['to-string] performance was relatively modest;
+* the `std::stream`-based and the `printf/scanf`-based converters were consistently the slowest. Still, given their maturity and availability, they might be options to consider if conversion performance is not your primary concern;
+* the extended `strtol`-based converter was reasonably fast and with basic formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream`. So, bugs are to be expected.
+
+For user-defined types two converters -- `boost::cnv::lexical_cast` and `std::cnv::cstream` -- were tested with the following results:
+
+ str-to-user-type: lcast/stream=3.41/1.74 seconds.
+ user-type-to-str: lcast/stream=6.08/1.51 seconds.
 
 Both converters provide ['string-to-type] and ['type-to-string] conversions; both deploy the same `std::stream` conversion engine; both provide extendible conversion framework where new types can be plugged in to the framework via:
 
@@ -49,91 +60,50 @@ Based on the performance data, I tend to conclude that, given type-safety and be
 
 To test that the Spirit performance code has been borrowed and adapted from the Spirit optimization framework (see $BOOST_ROOT/libs/spirit/workbench/qi/int_parser.cpp). The tests were
 
-# compiled using gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3;
-# with optimization: `g++ -O3 test/*.cpp example/*.cpp -Iinclude -I../boost_1_55_0 -lrt`;
-# on Ubuntu 12.04 (Linux 3.2.0-57-generic #87-Ubuntu SMP x86_64 GNU/Linux);
+# compiled using gcc-4.6.3 and gcc-4.8.2;
+# with optimization: `g++ -O3 test/performance_spirit.cpp -Iinclude -I../boost_1_55_0 -lrt`;
+# on 64-bit Ubuntu 12.04 and 32-bit Ubuntu 14.04;
 # run against the input of randomly generated 18 numeric strings (9 positive and 9 negative numbers with the number of digits from 1 to 9);
 # run for
     * `boost::lexical_cast` and `boost::lexical_cast`-based converter;
-    * `strtol()` and `strtol()`-based converter;
     * `boost::spirit::qi::parse` and `boost::spirit::qi::parse`-based converter.
 
 The purpose of the test was to deploy the same functionality directly and as part of the ['Boost.Convert] framework. Results are shown below for several consecutive runs:
 
- Testing: 7,-8,13,-89,753,-670,7671,-1905,45436,-13998,573220,-188715,7527646,-1173621,95095988,-23161933,930008666,-852473336
- raw_lxcast_str_to_int_test: 1.0823377580 [s]
- cnv_lxcast_str_to_int_test: 1.1032241400 [s] +2% (slower)
- raw_strtol_str_to_int_test: 0.6941694690 [s]
- cnv_strtol_str_to_int_test: 0.7003099920 [s] +1% (slower)
- raw_spirit_str_to_int_test: 0.2791614670 [s]
- cnv_spirit_str_to_int_test: 0.2853485740 [s] +2% (slower)
+ gcc-4.6.3 (64-bit)
+ raw_lxcast_str_to_int_test: 1.0519380820 [s]
+ cnv_lxcast_str_to_int_test: 1.0610808300 [s] (1% slower)
+ raw_spirit_str_to_int_test: 0.2794660490 [s]
+ cnv_spirit_str_to_int_test: 0.2636677510 [s] (5% faster)
 
- Testing: 2,-5,95,-76,251,-139,5201,-9062,73362,-75915,984138,-163058,5301562,-6099471,44139215,-66342869,472999835,-944425688
- raw_lxcast_str_to_int_test: 1.1507759000 [s]
- cnv_lxcast_str_to_int_test: 1.1809066170 [s] +3% (slower)
- raw_strtol_str_to_int_test: 0.6825586860 [s]
- cnv_strtol_str_to_int_test: 0.7065548380 [s] +4% (slower)
- raw_spirit_str_to_int_test: 0.2794743890 [s]
- cnv_spirit_str_to_int_test: 0.2881680850 [s] +3% (slower)
+ raw_lxcast_str_to_int_test: 1.1781400560 [s]
+ cnv_lxcast_str_to_int_test: 1.1261309050 [s] (4% faster)
+ raw_spirit_str_to_int_test: 0.2628718470 [s]
+ cnv_spirit_str_to_int_test: 0.2619931870 [s] (0% faster)
 
- Testing: 8,-3,27,-96,534,-557,3666,-2616,74990,-49153,790361,-656663,1499238,-7220122,73338528,-30197954,990405980,-912554300
- raw_lxcast_str_to_int_test: 1.1296698930 [s]
- cnv_lxcast_str_to_int_test: 1.1872108850 [s] +5% (slower)
- raw_strtol_str_to_int_test: 0.6948299650 [s]
- cnv_strtol_str_to_int_test: 0.6976610260 [s] +0%
- raw_spirit_str_to_int_test: 0.2720586660 [s]
- cnv_spirit_str_to_int_test: 0.2867466020 [s] +5% (slower)
+ gcc-4.8.2 (32-bit)
+ raw_lxcast_str_to_int_test: 8.5153330600 [s]
+ cnv_lxcast_str_to_int_test: 8.6989499850 [s] (2% slower)
+ raw_spirit_str_to_int_test: 2.4197476510 [s]
+ cnv_spirit_str_to_int_test: 2.4594171510 [s] (2% slower)
 
- Testing: 7,-4,88,-29,330,-179,4087,-7338,52740,-63806,829806,-829998,4089882,-4877638,56854373,-19034155,646856901,-979329889
- raw_lxcast_str_to_int_test: 1.1702910200 [s]
- cnv_lxcast_str_to_int_test: 1.1962990700 [s] +2% (slower)
- raw_strtol_str_to_int_test: 0.7284593480 [s]
- cnv_strtol_str_to_int_test: 0.7476771280 [s] +3% (slower)
- raw_spirit_str_to_int_test: 0.2989873150 [s]
- cnv_spirit_str_to_int_test: 0.3120227090 [s] +4% (slower)
+ raw_lxcast_str_to_int_test: 8.4136546980 [s]
+ cnv_lxcast_str_to_int_test: 8.5322524600 [s] (1% slower)
+ raw_spirit_str_to_int_test: 2.3842388060 [s]
+ cnv_spirit_str_to_int_test: 2.3812094400 [s] (0% faster)
 
-The results vary from run to run with the deviation margin of around +/-5%. Accidentally, that is the biggest overhead of the ['Boost.Convert] framework these results show.
-
-Obviously, the results are driven by the deployed compiler optimization capabilities and the hardware and are likely to be different with a different compiler or a different version of the same compiler. For example, compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 the same test program produced:
-
- Testing: 3,-3,69,-85,333,-308,5199,-8718,63246,-11449,403616,-461493,8143020,-7167525,76245261,-97796055,496749962,-231859811
- raw_lxcast_str_to_int_test: 10.5022676440 [s]
- cnv_lxcast_str_to_int_test: 10.4914070410 [s] +0%
- raw_strtol_str_to_int_test: 4.6645884930 [s]
- cnv_strtol_str_to_int_test: 4.5271582360 [s] -3% (faster)
- raw_spirit_str_to_int_test: 2.0830079010 [s]
- cnv_spirit_str_to_int_test: 2.0799894250 [s] +0%
-
- Testing: 6,-5,91,-93,195,-242,4404,-8261,28994,-97687,617025,-176081,6875359,-8879866,76203813,-85062763,931984407,-377353317
- raw_lxcast_str_to_int_test: 10.3305214320 [s]
- cnv_lxcast_str_to_int_test: 10.3119178060 [s] +0%
- raw_strtol_str_to_int_test: 4.6692997760 [s]
- cnv_strtol_str_to_int_test: 4.5556425890 [s] -3% (faster)
- raw_spirit_str_to_int_test: 2.0824675450 [s]
- cnv_spirit_str_to_int_test: 2.0794554230 [s] +0%
-
- Testing: 7,-7,51,-75,421,-317,7378,-1856,88457,-56696,260894,-638672,8253023,-2875442,12050842,-93716785,349799927,-214159799
- raw_lxcast_str_to_int_test: 10.2471819180 [s]
- cnv_lxcast_str_to_int_test: 10.1953968470 [s] -1% (faster)
- raw_strtol_str_to_int_test: 4.6421032960 [s]
- cnv_strtol_str_to_int_test: 4.5181249010 [s] -2% (faster)
- raw_spirit_str_to_int_test: 2.0729036830 [s]
- cnv_spirit_str_to_int_test: 2.0623086900 [s] -1% (faster)
-
-That is, according to the results, conversions deployed through ['Boost.Convert] framework had no detectable overhead.
-
-Based on the results, I tend to conclude that ['Boost.Convert] running overhead varies from small to undetectable depending on the compiler, hardware and deployment scenarios. It has to be noted though, that that conclusion has been made based ['only] on the compilers and hardware I tested ['Boost.Convert] on. The picture might be quite different on platforms that were not available to me for testing.
+The results vary from run to run with deviation margins of up to +/-5%. The results indicate that the ['Boost.Convert] framework had no detectable running overhead with the tested compiler, hardware and deployment scenarios. The results might be well different on other platforms.
 
 [endsect]
 [section The Bigger Picture]
 
 It needs to be noted that the presented performance data (and potential performance-related concerns) have to be taken in perspective. A special project with serious high performance requirements is most likely to require special solutions which are most likely to cast out many generic libraries. Still, the existence of such projects did not kill or diminish in any way the existence of generic libraries. And ['Boost.Convert] is one such ['generic] library.
 
-More so, if one is concerned with performance, then, in all likelihood, for the great majority of the commercial projects ['Boost.Convert] might be far from the top on the profiler's list. For example, as part of the ['int-to-string] performance test `std::string` was replaced with the following custom ['small-string] type:
+More so, if one is concerned with performance, then, in all likelihood, for the great majority of the commercial projects ['Boost.Convert] might be far from the top on the performance profiler's list. For example, as part of the ['int-to-string] performance test `std::string` was replaced with a custom ['small-string] type to eliminate `std::string`-related overhead:
 
 [my_string_declaration]
 
-which is essentially a glorified 12-bytes character buffer sufficient to accommodate string representations of 32-bit integers. Deployed with the same converter and the same algorithm: 
+The class above is essentially a glorified 12-bytes character buffer sufficient to accommodate string representations of 32-bit integers. Deployed with the same converters and the same algorithm: 
 
 [small_string_results]
 
@@ -141,6 +111,11 @@ It produced the following results:
 
  strtol int-to std::string/small-string: 14.56/4.28 seconds.
  spirit int-to std::string/small-string: 16.12/6.06 seconds.
+ 
+The results demonstrate that for the projects that deal with string conversions and routinely deploy `std::string` facilities the conversion-related overhead will be far outweighed by the overhead of `std::string`-related operations.
+
+ 
+ 
 
 [endsect]
 [endsect]

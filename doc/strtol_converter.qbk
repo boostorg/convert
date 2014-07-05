@@ -8,23 +8,7 @@
 
 [section boost::cnv::strtol Converter]
 
-This converter started as a deployment example (with the `strtol` family of functions as its conversion engine) and a part of the performance-test set. Surprisingly, the converter showed fairly decent all-around performance: 
-
- ~/dev/convert/doc.>> uname -a
- Linux 3.13.0-29-generic SMP i686 GNU/Linux
- ~/dev/convert/doc.>> gcc --version
- gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
- ~/dev/convert.>> g++ -O3 -o convert-test-performance test/performance.cpp ...
- ~/dev/convert.>> ./convert-test-performance 
- Started performance tests...
- int-to-str: spirit/itostr/lcast/prntf/stream=   18.15/   14.39/   20.32/   27.23/   28.85 seconds.
- lng-to-str: spirit/ltostr/lcast/prntf/stream=   18.30/   14.63/   20.32/   27.53/   28.75 seconds.
- dbl-to-str: spirit/dtostr/lcast/prntf/stream=  120.23/   36.24/  117.30/   91.37/  107.30 seconds.
- str-to-int: spirit/strtoi/lcast/scanf/stream=    2.02/    5.40/   10.70/   19.51/   20.89 seconds.
- str-to-lng: spirit/strtol/lcast/scanf/stream=    2.04/    6.77/   10.19/   19.61/   20.61 seconds.
- str-to-dbl: spirit/strtod/lcast/scanf/stream=    4.42/   14.35/   27.67/   34.09/   43.52 seconds.
-
-Consequently, it was extended to provide additional conversion support and basic formatting facilities. At the moment it seems to be a good choice for conversion tasks with moderate formatting requirements and adequate performance.
+The converter started as a deployment example (with the `strtol` family of functions as its conversion engine) and a part of the performance-test set. Surprisingly, the converter showed fairly decent all-around performance (see [link boost_convert.performance.converters_compared Converters Compared]) and, consequently, was extended to provide additional conversion support and formatting. At the moment it seems to be a good choice with moderate formatting facilities and adequate performance.
 
 It should be noted though that the converter is nowhere as mature as `boost::cnv::lexical_cast` or `boost::cnv::stream` and, therefore, bugs are to be expected.
 
@@ -61,7 +45,7 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 [endsect]
 [section Limitations]
 
-Due to `strtoll` behavior with respect to LLONG_MAX and LLONG_MIN the `boost::cnv::strol` converter treats those values as failure.
+* Due to `strtoll` behavior with respect to LLONG_MAX and LLONG_MIN the `boost::cnv::strol` converter treats those values as failure.
 
 [endsect]
 [endsect]

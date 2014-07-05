@@ -88,10 +88,10 @@ test_base()
     //[strtol_numeric_base
     boost::cnv::strtol cnv;
 
-    BOOST_TEST("11111110" == convert<string>(254, cnv(arg::base = boost::cnv::base::bin)).value());
-    BOOST_TEST(     "254" == convert<string>(254, cnv(arg::base = boost::cnv::base::dec)).value());
-    BOOST_TEST(      "FE" == convert<string>(254, cnv(arg::base = boost::cnv::base::hex)).value());
-    BOOST_TEST(     "376" == convert<string>(254, cnv(arg::base = boost::cnv::base::oct)).value());
+    BOOST_TEST("11111110" == convert<string>(254, cnv(arg::base = cnv::base::bin)).value());
+    BOOST_TEST(     "254" == convert<string>(254, cnv(arg::base = cnv::base::dec)).value());
+    BOOST_TEST(      "FE" == convert<string>(254, cnv(arg::base = cnv::base::hex)).value());
+    BOOST_TEST(     "376" == convert<string>(254, cnv(arg::base = cnv::base::oct)).value());
     //]
 }
 
@@ -176,12 +176,12 @@ test_dbl_to_str()
 
     printf("cnv::strtol::%s: started with %d random numbers...\n", __FUNCTION__, num_tries);
 
-    BOOST_TEST(   "0" == convert<string>( 0.0, boost::cnv::strtol()(arg::precision = 0)).value());
-    BOOST_TEST( "0.0" == convert<string>( 0.0, boost::cnv::strtol()(arg::precision = 1)).value());
-    BOOST_TEST("0.00" == convert<string>( 0.0, boost::cnv::strtol()(arg::precision = 2)).value());
-    BOOST_TEST(   "1" == convert<string>(0.95, boost::cnv::strtol()(arg::precision = 0)).value());
-    BOOST_TEST( "1.0" == convert<string>(0.95, boost::cnv::strtol()(arg::precision = 1)).value());
-    BOOST_TEST("0.95" == convert<string>(0.95, boost::cnv::strtol()(arg::precision = 2)).value());
+    BOOST_TEST(   "0" == convert<string>( 0.0, cnv::strtol()(arg::precision = 0)).value());
+    BOOST_TEST( "0.0" == convert<string>( 0.0, cnv::strtol()(arg::precision = 1)).value());
+    BOOST_TEST("0.00" == convert<string>( 0.0, cnv::strtol()(arg::precision = 2)).value());
+    BOOST_TEST(   "1" == convert<string>(0.95, cnv::strtol()(arg::precision = 0)).value());
+    BOOST_TEST( "1.0" == convert<string>(0.95, cnv::strtol()(arg::precision = 1)).value());
+    BOOST_TEST("0.95" == convert<string>(0.95, cnv::strtol()(arg::precision = 2)).value());
 
     for (int k = 0; k < num_tries; ++k)
         compare(get_random());
