@@ -30,10 +30,10 @@
 <p>
         More so, if one is concerned with performance, then, in all likelihood, for
         the great majority of the commercial projects <span class="emphasis"><em>Boost.Convert</em></span>
-        might be far from the top on the profiler's list. For example, as part of
-        the <span class="emphasis"><em>int-to-string</em></span> performance test <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span></code>
-        was replaced with the following custom <span class="emphasis"><em>small-string</em></span>
-        type:
+        might be far from the top on the performance profiler's list. For example,
+        as part of the <span class="emphasis"><em>int-to-string</em></span> performance test <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span></code>
+        was replaced with a custom <span class="emphasis"><em>small-string</em></span> type to eliminate
+        <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span></code>-related overhead:
       </p>
 <p>
 </p>
@@ -59,23 +59,33 @@
 <p>
       </p>
 <p>
-        which is essentially a glorified 12-bytes character buffer sufficient to
-        accommodate string representations of 32-bit integers. Deployed with the
-        same converter and the same algorithm:
+        The class above is essentially a glorified 12-bytes character buffer sufficient
+        to accommodate string representations of 32-bit integers. Deployed with the
+        same converters and the same algorithm:
       </p>
 <p>
 </p>
 <pre class="programlisting"><span class="identifier">printf</span><span class="special">(</span><span class="string">"strtol int-to std::string/small-string: %.2f/%.2f seconds.\n"</span><span class="special">,</span>
        <span class="identifier">local</span><span class="special">::</span><span class="identifier">to_str</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">,</span> <span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span><span class="special">()),</span>
        <span class="identifier">local</span><span class="special">::</span><span class="identifier">to_str</span><span class="special">&lt;</span>  <span class="identifier">my_string</span><span class="special">,</span> <span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span><span class="special">()));</span>
+<span class="identifier">printf</span><span class="special">(</span><span class="string">"spirit int-to std::string/small-string: %.2f/%.2f seconds.\n"</span><span class="special">,</span>
+       <span class="identifier">local</span><span class="special">::</span><span class="identifier">to_str</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">,</span> <span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">spirit</span><span class="special">()),</span>
+       <span class="identifier">local</span><span class="special">::</span><span class="identifier">to_str</span><span class="special">&lt;</span>  <span class="identifier">my_string</span><span class="special">,</span> <span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">spirit</span><span class="special">()));</span>
 </pre>
 <p>
       </p>
 <p>
         It produced the following results:
       </p>
-<pre class="programlisting"><span class="identifier">strtol</span> <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">=</span><span class="number">14.49</span><span class="special">/</span><span class="number">4.02</span> <span class="identifier">seconds</span><span class="special">.</span>
+<pre class="programlisting"><span class="identifier">strtol</span> <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">:</span> <span class="number">14.56</span><span class="special">/</span><span class="number">4.28</span> <span class="identifier">seconds</span><span class="special">.</span>
+<span class="identifier">spirit</span> <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">:</span> <span class="number">16.12</span><span class="special">/</span><span class="number">6.06</span> <span class="identifier">seconds</span><span class="special">.</span>
 </pre>
+<p>
+        The results demonstrate that for the projects that deal with string conversions
+        and routinely deploy <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span></code>
+        facilities the conversion-related overhead will be far outweighed by the
+        overhead of <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span></code>-related operations.
+      </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>
