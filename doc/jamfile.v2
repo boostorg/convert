@@ -1,7 +1,8 @@
 # Convert documentation Jamfile
-#
-# Copyright 2009-2014 Vladimir Batov
-#
+
+#  Copyright (c) Vladimir Batov 2009-2014
+#  Distributed under the Boost Software License, Version 1.0.
+#  See copy at http://www.boost.org/LICENSE_1_0.txt.
 
 using quickbook ;
 using doxygen ;
@@ -35,14 +36,22 @@ else
 doxygen convert_reference
   :
     [ glob $(here)/../include/boost/convert.hpp $(here)/../include/boost/make_default.hpp $(here)/../include/boost/convert/*.hpp ]
-  : 
+  :
     <doxygen:param>PROJECT_NAME="CONVERT"
     <doxygen:param>PROJECT_NUMBER=3
     <doxygen:param>SORT_MEMBER_DOCS=NO
     <doxygen:param>SHOW_INCLUDE_FILES=NO
     <doxygen:param>MAX_INITIALIZER_LINES=0
     <doxygen:param>VERBATIM_HEADERS=NO
-    <reftitle>"Reference"
+    <doxygen:param>WARNINGS=NO # If WARN_IF_UNDOCUMENTED is set to YES, then doxygen will generate warnings for undocumented members.
+    # If EXTRACT_ALL is set to YES then this flag will automatically be disabled.
+    <doxygen:param>WARN_IF_UNDOCUMENTED=NO # If WARN_IF_UNDOCUMENTED is set to YES,
+    # then doxygen will generate warnings for undocumented members.
+    <doxygen:param>WARN_IF_DOC_ERROR=YES # If WARN_IF_DOC_ERROR is set to YES, Doxygen will generate warnings for
+    # potential errors in the documentation.
+
+    #<reftitle>"Reference"
+    <xsl:param>"boost.doxygen.reftitle=Boost.Convert C++ Reference"
 ;
 
 xml convert
@@ -60,7 +69,7 @@ boostbook standalone
   <xsl:param>chunk.section.depth=8
   <xsl:param>toc.section.depth=8  # How far down sections get TOCs.
   <xsl:param>toc.max.depth=4  # Max depth in each TOC.
-  
+
   # PDF Options:
   # TOC Generation: this is needed for FOP-0.9 and later:
   <xsl:param>fop1.extensions=0
