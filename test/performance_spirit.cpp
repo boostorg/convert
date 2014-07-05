@@ -52,25 +52,6 @@ namespace
         }
         boost::cnv::lexical_cast cnv;
     };
-    struct raw_strtol_str_to_int_test : local::base
-    {
-        static int parse(char const* str)
-        {
-            char const* str_end = str + strlen(str);
-            char*       cnv_end = 0;
-            long int     result = ::strtol(str, &cnv_end, 10);
-
-            if (INT_MIN <= result && result <= INT_MAX && cnv_end == str_end)
-                return int(result);
-
-            return (BOOST_ASSERT(0), 0);
-        }
-        void benchmark()
-        {
-            for (size_t i = 0; i < strings_.size(); ++i)
-                this->val += parse(strings_[i].c_str());
-        }
-    };
     struct raw_spirit_str_to_int_test : local::base
     {
         static int parse(char const* str)
@@ -90,15 +71,6 @@ namespace
             for (size_t i = 0; i < strings_.size(); ++i)
                 this->val += parse(strings_[i].c_str());
         }
-    };
-    struct cnv_strtol_str_to_int_test : local::base
-    {
-        void benchmark()
-        {
-            for (size_t i = 0; i < strings_.size(); ++i)
-                this->val += boost::convert<int>(strings_[i].c_str(), cnv).value();
-        }
-        boost::cnv::strtol cnv;
     };
     struct cnv_spirit_str_to_int_test : local::base
     {
@@ -122,8 +94,6 @@ main(int argc, char const* argv[])
         10000000, // This is the maximum repetitions to execute
         (raw_lxcast_str_to_int_test)
         (cnv_lxcast_str_to_int_test)
-        (raw_strtol_str_to_int_test)
-        (cnv_strtol_str_to_int_test)
         (raw_spirit_str_to_int_test)
         (cnv_spirit_str_to_int_test)
     )
