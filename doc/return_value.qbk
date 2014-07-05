@@ -24,6 +24,15 @@ and processing and can be deployed in a similar fashion as follows:
 [getting_serious_example5]
 [getting_serious_example7]
 
+Still, the described interfaces are convenience wrappers around the main interface which provides the described behavior with:
+
+[getting_serious_example8]
+
+or
+
+[getting_serious_default_converter]
+[getting_serious_example9]
+
 [endsect] [/section Return Value]
 
 

@@ -31,7 +31,7 @@ Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following resu
 
 Based on the results we might conclude that
 
-* the Spirit.Qi-based converter was the fastest for string to `int`, `long` and `double` conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions; Spirit.Karma ['to-string] performance was relatively modest;
+* the ['Spirit.Qi]-based converter was the fastest for string to `int`, `long` and `double` conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions; ['Spirit.Karma]'s ['to-string] performance was relatively modest;
 * the `std::stream`-based and the `printf/scanf`-based converters were consistently the slowest. Still, given their maturity and availability, they might be options to consider if conversion performance is not your primary concern;
 * the extended `strtol`-based converter was reasonably fast and with basic formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream`. So, bugs are to be expected.
 
@@ -92,7 +92,7 @@ The purpose of the test was to deploy the same functionality directly and as par
  raw_spirit_str_to_int_test: 2.3842388060 [s]
  cnv_spirit_str_to_int_test: 2.3812094400 [s] (0% faster)
 
-The results vary from run to run with deviation margins of up to +/-5%. The results indicate that the ['Boost.Convert] framework had no detectable running overhead with the tested compiler, hardware and deployment scenarios. The results might be well different on other platforms.
+The results vary from run to run with deviation margins of up to +/-5%. The results indicate that the ['Boost.Convert] framework had no detectable running overhead with the tested compiler, hardware and deployment scenarios. The results might be different on other platforms.
 
 [endsect]
 [section The Bigger Picture]
@@ -112,7 +112,7 @@ It produced the following results:
  strtol int-to std::string/small-string: 14.56/4.28 seconds.
  spirit int-to std::string/small-string: 16.12/6.06 seconds.
  
-The results demonstrate that for the projects that deal with string conversions and routinely deploy `std::string` facilities the conversion-related overhead will be far outweighed by the overhead of `std::string`-related operations.
+The results demonstrate that for the projects that deal with string conversions and routinely deploy `std::string` facilities the conversion-related overhead will be well outweighed by the overhead of `std::string`-related operations.
 
  
  

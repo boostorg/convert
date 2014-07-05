@@ -36,12 +36,13 @@ The `boost::convert()` user interface
 * advertises, provides and ensures ['certain consistent behavior];
 * provides ['one consistent interface] to various conversion facilities.
 
-The collection of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be ['extendible] and extended over time. With the current proposal the following converters are supplied:
+The collection of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be ['extendible] and extended over time. With the current proposal the following converters are provided:
 
 * `boost::lexical_cast`-based,
 * `printf/scanf`-based,
 * `strtol/ltostr`-based,
-* `std::stringstream`-based.
+* `std::stringstream`-based,
+* ['Boost.Spirit]-based.
 
 The converters demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
 

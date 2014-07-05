@@ -76,7 +76,7 @@ static void getting_started_example1()
 static void getting_started_example2()
 {
     //[getting_started_example2
-    // Non-throwing behavior. Returns fallback value (-1) when failed.
+    // Does not throw. Returns fallback value (-1) when failed.
     int i = convert<int>("uhm", boost::cnv::lexical_cast()).value_or(-1);
 
     BOOST_TEST(i == -1); // Conversion failed. 'i' assigned the fallback value.
@@ -123,8 +123,8 @@ static void getting_started_example4()
 
     BOOST_TEST(i2 == 123);
     BOOST_TEST(s1 == "12.34567"); // Precision is not configurable.
-    BOOST_TEST(s2 == "12.346");   // Precision was set to fixed 3.
-    BOOST_TEST(s3 == expected);   // Precision was set to scientific 3.
+    BOOST_TEST(s2 == "12.346");   // Precision was set to 3. Fixed.
+    BOOST_TEST(s3 == expected);   // Precision was set to 3. Scientific.
     //]
 }
 

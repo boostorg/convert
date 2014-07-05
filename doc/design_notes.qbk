@@ -7,7 +7,7 @@
 [#quickbook.ref.design_notes]
 [section:design_notes Design Notes]
 
-Feel free to skip this section. It is here to document the process and the decisions made during design to be able to review and to reevaluate and to ensure the relevancy and the correctness of those decisions and ultimately the design. Still, this section might be useful for understanding why certain decisions have been made and why ['Boost.Convert] is the way it is.
+Feel free to skip this section. It is here to document the process and the decisions made during design to be able to review and to reevaluate and to ensure the relevancy and the correctness of those decisions and ultimately the design. Still, this section might be useful for understanding why and how certain decisions have been made and why ['Boost.Convert] is the way it is.
 
 [section Requirements]
 
@@ -38,21 +38,21 @@ The following converter signatures have been considered:
  void operator()(TypeIn const&, boost::optional<TypeOut>&); //#2
  boost::optional<TypeOut> operator()(TypeIn const&); //#3
 
-From the design perspective the signature #1 has the advantage of providing the best ['separation of concerns]. Namely, it leaves the respective converter with only one task -- the actual task of conversion. In practice though that can result in unnecessary performance overhead. Namely, given an instance of `TypeOut` type is supplied from outside, a storage for that instance needs to be allocated and, most importantly, initialized. That initialization phase (which can be expensive) is an unnecessary overhead as, if the conversion operation succeeds, the initial value is overridden with the actual result, if it fails, then the value of the `TypeOut` instance is either meaningless or worse misleading.
+From the design perspective the signature #1 has the advantage of providing the best ['separation of concerns]. Namely, it leaves the respective converter with only one task -- the actual task of conversion. In practice though that can result in unnecessary performance overhead. Namely, given an instance of ['TypeOut] type is supplied from outside, a storage for that instance needs to be allocated and, most importantly, initialized. That initialization phase (which can be expensive) is an unnecessary overhead as, if the conversion operation succeeds, the initial value is overridden with the actual result, if it fails, then the value of the ['TypeOut] instance is either meaningless or worse misleading.
 
-The signature #2 avoids the initialization overhead by deploying `boost::optional`'s ability to allocate storage ['without initializing it]. The storage for `TypeOut` is still allocated outside but it is not initialized. It is now converter's responsibility to know ['how] to initialize the `TypeOut` instance and, ['when] needed, to actually initialize it. In practice it is usually easier than it might sound. For example, `strtol()`-based converter might have something along the following lines:
+The signature #2 avoids the initialization overhead by deploying `boost::optional`'s ability to allocate storage ['without initializing it]. Now the storage for ['TypeOut] is still allocated outside but it is not initialized. It is now converter's responsibility to know ['how] to initialize the ['TypeOut] instance and, ['when] needed, to actually initialize it. In practice it is usually easier than it might sound. For example, `strtol()`-based converter might have something along the following lines:
 
- void operator()(char const* value_in, boost::optional<int>& result_out) const
+ void operator()(char const* str_in, boost::optional<int>& result_out) const
  {
-    char const* str_end = value_in + strlen(value_in);
+    char const* str_end = str_in + strlen(str_in);
     char*       cnv_end = 0;
-    long int     result = ::strtol(value_in, &cnv_end, base_);
+    long int     result = ::strtol(str_in, &cnv_end, base_);
 
     if (INT_MIN <= result && result <= INT_MAX && cnv_end == str_end)
         result_out = int(result);
  }
 
-The signature #3 has been briefly considered as aesthetically advantageous and more idiomatic. Unfortunately, it lacked automatic deduction of the `TypeOut` which, consequently, had to be specified explicitly. For different types of supported converters (class-based, plain old functions, lambdas) that complicated considerably the implementation of the ['Boost.Convert] infrastructure and restricted implementation of the respective converters.
+The signature #3 has been briefly considered as aesthetically advantageous and more idiomatic. Unfortunately, it lacked automatic deduction of the ['TypeOut] which, consequently, had to be specified explicitly. For different types of supported converters (class-based, plain old functions, lambdas) that complicated considerably the implementation of the ['Boost.Convert] infrastructure and restricted implementation of the respective converters.
 
 [endsect] [/section:converter_signature Converter Signature]
 
