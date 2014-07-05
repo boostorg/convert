@@ -44,7 +44,6 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
 
         iterator_range range = boost::as_literal(string_in);
         iterator         beg = range.begin();
-        iterator         end = range.end();
         out_type      result = boost::make_default<out_type>();
         int const   num_read = ::sscanf(&*beg, format(pos<out_type>()), &result);
 

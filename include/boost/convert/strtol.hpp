@@ -69,12 +69,12 @@ boost::cnv::strtol::strtol_(char const* str, optional<out_type>& result_out) con
     if (!skipws_ && std::isspace(*str))
         return;
 
-    char const*     str_end = str + strlen(str);
-    char*           cnv_end = 0;
-    llint_type const result = std::strtoll(str, &cnv_end, base_);
-    bool const         good = result != LLONG_MIN && result != LLONG_MAX && cnv_end == str_end;
-    out_type const      min = std::numeric_limits<out_type>::min();
-    out_type const      max = std::numeric_limits<out_type>::max();
+    char const*       str_end = str + strlen(str);
+    char*             cnv_end = 0;
+    llint_type const   result = std::strtoll(str, &cnv_end, base_);
+    bool const           good = result != LLONG_MIN && result != LLONG_MAX && cnv_end == str_end;
+    static out_type const min = std::numeric_limits<out_type>::min();
+    static out_type const max = std::numeric_limits<out_type>::max();
 
     if (good && min <= result && result <= max)
         result_out = out_type(result);
