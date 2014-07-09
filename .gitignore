@@ -15,6 +15,12 @@ include/boost/none_t.hpp
 include/boost/optional.hpp
 include/boost/optional/
 
+convert.config
+convert.creator
+convert.creator.user
+convert.files
+convert.includes
+
 #################
 ## Eclipse
 #################
