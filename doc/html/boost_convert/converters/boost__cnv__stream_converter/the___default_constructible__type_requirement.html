@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>The Default Constructible Type Requirement</title>
 <link rel="stylesheet" href="../../../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="../../../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../boost__cnv__stream_converter.html" title="boost::cnv::stream Converter">
 <link rel="prev" href="integration_of_user_defined_types.html" title="Integration of User-Defined Types">
@@ -47,9 +47,10 @@
 <th align="left">Note</th>
 </tr>
 <tr><td align="left" valign="top"><p>
-            the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code> and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">wstream</span></code>
-            converters require the <span class="emphasis"><em>TypeOut</em></span> type to be <span class="emphasis"><em>Default
-            Constructible</em></span> by default.
+            <span class="bold"><strong>By default</strong></span> the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code>
+            and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">wstream</span></code> converters require the <span class="emphasis"><em>TypeOut</em></span>
+            type to be <a href="http://en.cppreference.com/w/cpp/concept/DefaultConstructible" target="_top"><span class="emphasis"><em>Default
+            Constructible</em></span></a>.
           </p></td></tr>
 </table></div>
 <p>
@@ -91,8 +92,9 @@
         </p>
 <p>
           The <code class="computeroutput"><span class="identifier">direction</span></code> type has
-          no default state. It is not <span class="emphasis"><em>Default Constructible</em></span>
-          and, consequently, the following does not compile:
+          no default state. It is not <a href="http://en.cppreference.com/w/cpp/concept/DefaultConstructible" target="_top"><span class="emphasis"><em>Default
+          Constructible</em></span></a> and, consequently, the following does
+          not compile:
         </p>
 <pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Does not compile</span>
 <span class="identifier">direction</span> <span class="identifier">dir2</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span>         <span class="comment">// Does not compile</span>

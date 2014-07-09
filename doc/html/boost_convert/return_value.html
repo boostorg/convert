@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Return Value</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="prev" href="default_converter.html" title="Default Converter">
@@ -66,6 +66,35 @@
 <span class="special">{</span>
   <span class="comment">// Handle failed conversion.</span>
 <span class="special">}</span>
+</pre>
+<p>
+    </p>
+<p>
+      Still, the described interfaces are convenience wrappers around the main interface
+      which provides the described behavior with:
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">m1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">fallback_value</span><span class="special">);</span>
+<span class="keyword">int</span> <span class="identifier">m2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or_eval</span><span class="special">(</span><span class="identifier">fallback_func</span><span class="special">());</span>
+<span class="keyword">int</span> <span class="identifier">m3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
+</pre>
+<p>
+    </p>
+<p>
+      or
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span> <span class="special">{};</span>
+</pre>
+<p>
+    </p>
+<p>
+</p>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">n1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">fallback_value</span><span class="special">);</span>
+<span class="keyword">int</span> <span class="identifier">n2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">).</span><span class="identifier">value_or_eval</span><span class="special">(</span><span class="identifier">fallback_func</span><span class="special">());</span>
+<span class="keyword">int</span> <span class="identifier">n3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
 </pre>
 <p>
     </p>

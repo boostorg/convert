@@ -34,9 +34,9 @@ boost_convert/acknowledgements.html
 reference.html
 boost/cnv/adapter.html
 boost/throw_on_failure.html
-boost/convert_idp31601764.html
-boost/convert_idp33348644.html
-boost/convert_idp33359764.html
+boost/convert_idm24304.html
+boost/convert_idp7404320.html
+boost/convert_idp9872208.html
 header/boost/convert/lexical_cast_hpp.html
 boost/cnv/lexical_cast.html
 header/boost/convert/parameters_hpp.html
@@ -49,7 +49,8 @@ header/boost/convert/spirit_hpp.html
 boost/cnv/spirit.html
 header/boost/convert/stream_hpp.html
 boost/cnv/basic_stream.html
-boost/cnv/basic_stream/parser_type.html
+boost/cnv/basic_stream/ibuffer_type.html
+boost/cnv/basic_stream/obuffer_type.html
 header/boost/convert/strtol_hpp.html
 boost/cnv/strtol.html
 header/boost/make_default_hpp.html

@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Converters</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="prev" href="algorithms.html" title="Boost.Convert with Standard Algorithms">
@@ -17,7 +17,7 @@
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
 <a name="boost_convert.converters"></a><a class="link" href="converters.html" title="Converters">Converters</a>
 </h2></div></div></div>
-<div class="toc"><dl class="toc">
+<div class="toc"><dl>
 <dt><span class="section"><a href="converters.html#boost_convert.converters.lexical_cast_converter">boost::cnv::lexical_cast
       Converter</a></span></dt>
 <dt><span class="section"><a href="converters/boost__cnv__stream_converter.html">boost::cnv::stream
@@ -154,7 +154,7 @@
 <p>
         The purpose of the converter is to
       </p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
             Make use of the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
             functionality and performance that many people have become accustomed
@@ -207,12 +207,14 @@
 <p>
         In order for a user-defined type to be integrated into the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> framework:
       </p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-            <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Copy Constructible</em></span>;
+            <span class="emphasis"><em>TypeOut</em></span> needs to be <a href="http://en.cppreference.com/w/cpp/concept/CopyConstructible" target="_top"><span class="emphasis"><em>Copy
+            Constructible</em></span></a>;
           </li>
 <li class="listitem">
-            <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Default Constructible</em></span>;
+            <span class="emphasis"><em>TypeOut</em></span> needs to be <a href="http://en.cppreference.com/w/cpp/concept/DefaultConstructible" target="_top"><span class="emphasis"><em>Default
+            Constructible</em></span></a>;
           </li>
 <li class="listitem">
             <span class="emphasis"><em>TypeOut</em></span> needs to be <span class="emphasis"><em>Input Streamable</em></span>;

@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Function template make_default</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../header/boost/make_default_hpp.html" title="Header &lt;boost/make_default.hpp&gt;">
 <link rel="prev" href="../header/boost/make_default_hpp.html" title="Header &lt;boost/make_default.hpp&gt;">
@@ -25,29 +25,23 @@
 </span>
 <span class="keyword">template</span><span class="special">&lt;</span><span class="keyword">typename</span> T<span class="special">&gt;</span> <span class="identifier">T</span> <span class="identifier">make_default</span><span class="special">(</span><span class="special">)</span><span class="special">;</span></pre></div>
 <div class="refsect1">
-<a name="idp52611780"></a><h2>Description</h2>
+<a name="idp11128912"></a><h2>Description</h2>
 <p>A considerable number of libraries require an instance of a class provided (storage created and initialized). For example, </p>
-<pre class="programlisting"><span class="identifier">Type</span> <span class="identifier">result</span><span class="special">;</span>
-<span class="special">...</span>
-<span class="identifier">istream</span> <span class="special">&gt;&gt;</span> <span class="identifier">result</span><span class="special">;</span>
+<pre class="programlisting">    <span class="identifier">Type</span> <span class="identifier">result</span><span class="special">;</span>
+    <span class="special">...</span>
+    <span class="identifier">istream</span> <span class="special">&gt;&gt;</span> <span class="identifier">result</span><span class="special">;</span>
 </pre>
-<p> In generic code that results in the Default Constructibility requirement imposed on every type 'Type' to be used with the respective code. Inevitably, that requirement</p>
-<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
-<li class="listitem"><p>either excludes all the classes that for various reasons do not meet that requirement or</p></li>
-<li class="listitem"><p>imposes certain (not necessarily desirable) design/implementation onto respective classes.</p></li>
-</ul></div>
-<p>
-</p>
+<p> In generic code that results in the Default Constructibility requirement imposed on every type 'Type' to be used with the respective code. Inevitably, that requirement either excludes all the classes that for various reasons do not meet that requirement or imposes certain (not necessarily desirable) design/implementation onto respective classes.</p>
 <p>Deployment of boost::make_default() eliminates the Default Constructibility requirement with </p>
-<pre class="programlisting"><span class="identifier">Type</span> <span class="identifier">result</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">make_default</span><span class="special">&lt;</span><span class="identifier">Type</span><span class="special">&gt;</span><span class="special">(</span><span class="special">)</span><span class="special">;</span>
-<span class="special">...</span>
-<span class="identifier">istream</span> <span class="special">&gt;&gt;</span> <span class="identifier">result</span><span class="special">;</span>
+<pre class="programlisting">    <span class="identifier">Type</span> <span class="identifier">result</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">make_default</span><span class="special">&lt;</span><span class="identifier">Type</span><span class="special">&gt;</span><span class="special">(</span><span class="special">)</span><span class="special">;</span>
+    <span class="special">...</span>
+    <span class="identifier">istream</span> <span class="special">&gt;&gt;</span> <span class="identifier">result</span><span class="special">;</span>
 </pre>
 <p> Classes with no default constructor can now be included via a boost::make_default() specialization: </p>
-<pre class="programlisting"><span class="keyword">namespace</span> <span class="identifier">boost</span>
-<span class="special">{</span>
-    <span class="keyword">template</span><span class="special">&lt;</span><span class="special">&gt;</span> <span class="keyword">inline</span> <span class="identifier">Type</span> <span class="identifier">make_default</span><span class="special">&lt;</span><span class="identifier">Type</span><span class="special">&gt;</span><span class="special">(</span><span class="special">)</span> <span class="special">{</span> <span class="keyword">return</span> <span class="identifier">Type</span><span class="special">(</span><span class="identifier">parameters</span><span class="special">)</span><span class="special">;</span> <span class="special">}</span>
-<span class="special">}</span>
+<pre class="programlisting"> <span class="keyword">namespace</span> <span class="identifier">boost</span>
+ <span class="special">{</span>
+     <span class="keyword">template</span><span class="special">&lt;</span><span class="special">&gt;</span> <span class="keyword">inline</span> <span class="identifier">Type</span> <span class="identifier">make_default</span><span class="special">&lt;</span><span class="identifier">Type</span><span class="special">&gt;</span><span class="special">(</span><span class="special">)</span> <span class="special">{</span> <span class="keyword">return</span> <span class="identifier">Type</span><span class="special">(</span><span class="identifier">parameters</span><span class="special">)</span><span class="special">;</span> <span class="special">}</span>
+ <span class="special">}</span>
 </pre>
 <p> </p>
 </div>

@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>The Bigger Picture</title>
 <link rel="stylesheet" href="../../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../performance.html" title="Performance">
 <link rel="prev" href="boost_convert_performance_overhead.html" title="Boost.Convert Performance Overhead">
@@ -71,20 +71,26 @@
 <span class="identifier">printf</span><span class="special">(</span><span class="string">"spirit int-to std::string/small-string: %.2f/%.2f seconds.\n"</span><span class="special">,</span>
        <span class="identifier">local</span><span class="special">::</span><span class="identifier">to_str</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">,</span> <span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">spirit</span><span class="special">()),</span>
        <span class="identifier">local</span><span class="special">::</span><span class="identifier">to_str</span><span class="special">&lt;</span>  <span class="identifier">my_string</span><span class="special">,</span> <span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">spirit</span><span class="special">()));</span>
+<span class="identifier">printf</span><span class="special">(</span><span class="string">"stream int-to std::string/small-string: %.2f/%.2f seconds.\n"</span><span class="special">,</span>
+       <span class="identifier">local</span><span class="special">::</span><span class="identifier">to_str</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">,</span> <span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span><span class="special">()),</span>
+       <span class="identifier">local</span><span class="special">::</span><span class="identifier">to_str</span><span class="special">&lt;</span>  <span class="identifier">my_string</span><span class="special">,</span> <span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span><span class="special">()));</span>
 </pre>
 <p>
       </p>
 <p>
-        It produced the following results:
+        It produced the following results (compiled with <code class="computeroutput"><span class="identifier">gcc</span>
+        <span class="special">-</span><span class="identifier">O3</span></code>):
       </p>
-<pre class="programlisting"><span class="identifier">strtol</span> <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">:</span> <span class="number">14.56</span><span class="special">/</span><span class="number">4.28</span> <span class="identifier">seconds</span><span class="special">.</span>
-<span class="identifier">spirit</span> <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">:</span> <span class="number">16.12</span><span class="special">/</span><span class="number">6.06</span> <span class="identifier">seconds</span><span class="special">.</span>
+<pre class="programlisting"><span class="identifier">strtol</span> <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">:</span> <span class="number">1.57</span><span class="special">/</span><span class="number">0.45</span> <span class="identifier">seconds</span><span class="special">.</span>
+<span class="identifier">spirit</span> <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">:</span> <span class="number">1.79</span><span class="special">/</span><span class="number">0.76</span> <span class="identifier">seconds</span><span class="special">.</span>
+<span class="identifier">stream</span> <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">/</span><span class="identifier">small</span><span class="special">-</span><span class="identifier">string</span><span class="special">:</span> <span class="number">2.77</span><span class="special">/</span><span class="number">1.83</span> <span class="identifier">seconds</span><span class="special">.</span>
 </pre>
 <p>
         The results demonstrate that for the projects that deal with string conversions
         and routinely deploy <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span></code>
-        facilities the conversion-related overhead will be far outweighed by the
-        overhead of <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span></code>-related operations.
+        facilities the conversion-related overhead will be outweighed (or at least
+        offset as in the case of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code>) by the overhead of <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span></code>-related
+        operations.
       </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

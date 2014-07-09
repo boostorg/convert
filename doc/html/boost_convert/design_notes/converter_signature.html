@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Converter Signature</title>
 <link rel="stylesheet" href="../../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../design_notes.html" title="Design Notes">
 <link rel="prev" href="../design_notes.html" title="Design Notes">
@@ -30,28 +30,27 @@
         the best <span class="emphasis"><em>separation of concerns</em></span>. Namely, it leaves the
         respective converter with only one task -- the actual task of conversion.
         In practice though that can result in unnecessary performance overhead. Namely,
-        given an instance of <code class="computeroutput"><span class="identifier">TypeOut</span></code>
-        type is supplied from outside, a storage for that instance needs to be allocated
-        and, most importantly, initialized. That initialization phase (which can
-        be expensive) is an unnecessary overhead as, if the conversion operation
-        succeeds, the initial value is overridden with the actual result, if it fails,
-        then the value of the <code class="computeroutput"><span class="identifier">TypeOut</span></code>
+        given an instance of <span class="emphasis"><em>TypeOut</em></span> type is supplied from outside,
+        a storage for that instance needs to be allocated and, most importantly,
+        initialized. That initialization phase (which can be expensive) is an unnecessary
+        overhead as, if the conversion operation succeeds, the initial value is overridden
+        with the actual result, if it fails, then the value of the <span class="emphasis"><em>TypeOut</em></span>
         instance is either meaningless or worse misleading.
       </p>
 <p>
         The signature #2 avoids the initialization overhead by deploying <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code>'s ability to allocate storage
-        <span class="emphasis"><em>without initializing it</em></span>. The storage for <code class="computeroutput"><span class="identifier">TypeOut</span></code> is still allocated outside but
-        it is not initialized. It is now converter's responsibility to know <span class="emphasis"><em>how</em></span>
-        to initialize the <code class="computeroutput"><span class="identifier">TypeOut</span></code>
+        <span class="emphasis"><em>without initializing it</em></span>. Now the storage for <span class="emphasis"><em>TypeOut</em></span>
+        is still allocated outside but it is not initialized. It is now converter's
+        responsibility to know <span class="emphasis"><em>how</em></span> to initialize the <span class="emphasis"><em>TypeOut</em></span>
         instance and, <span class="emphasis"><em>when</em></span> needed, to actually initialize it.
         In practice it is usually easier than it might sound. For example, <code class="computeroutput"><span class="identifier">strtol</span><span class="special">()</span></code>-based
         converter might have something along the following lines:
       </p>
-<pre class="programlisting"><span class="keyword">void</span> <span class="keyword">operator</span><span class="special">()(</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">value_in</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span>
+<pre class="programlisting"><span class="keyword">void</span> <span class="keyword">operator</span><span class="special">()(</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">str_in</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;&amp;</span> <span class="identifier">result_out</span><span class="special">)</span> <span class="keyword">const</span>
 <span class="special">{</span>
-   <span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">str_end</span> <span class="special">=</span> <span class="identifier">value_in</span> <span class="special">+</span> <span class="identifier">strlen</span><span class="special">(</span><span class="identifier">value_in</span><span class="special">);</span>
+   <span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">str_end</span> <span class="special">=</span> <span class="identifier">str_in</span> <span class="special">+</span> <span class="identifier">strlen</span><span class="special">(</span><span class="identifier">str_in</span><span class="special">);</span>
    <span class="keyword">char</span><span class="special">*</span>       <span class="identifier">cnv_end</span> <span class="special">=</span> <span class="number">0</span><span class="special">;</span>
-   <span class="keyword">long</span> <span class="keyword">int</span>     <span class="identifier">result</span> <span class="special">=</span> <span class="special">::</span><span class="identifier">strtol</span><span class="special">(</span><span class="identifier">value_in</span><span class="special">,</span> <span class="special">&amp;</span><span class="identifier">cnv_end</span><span class="special">,</span> <span class="identifier">base_</span><span class="special">);</span>
+   <span class="keyword">long</span> <span class="keyword">int</span>     <span class="identifier">result</span> <span class="special">=</span> <span class="special">::</span><span class="identifier">strtol</span><span class="special">(</span><span class="identifier">str_in</span><span class="special">,</span> <span class="special">&amp;</span><span class="identifier">cnv_end</span><span class="special">,</span> <span class="identifier">base_</span><span class="special">);</span>
 
    <span class="keyword">if</span> <span class="special">(</span><span class="identifier">INT_MIN</span> <span class="special">&lt;=</span> <span class="identifier">result</span> <span class="special">&amp;&amp;</span> <span class="identifier">result</span> <span class="special">&lt;=</span> <span class="identifier">INT_MAX</span> <span class="special">&amp;&amp;</span> <span class="identifier">cnv_end</span> <span class="special">==</span> <span class="identifier">str_end</span><span class="special">)</span>
        <span class="identifier">result_out</span> <span class="special">=</span> <span class="keyword">int</span><span class="special">(</span><span class="identifier">result</span><span class="special">);</span>
@@ -60,11 +59,10 @@
 <p>
         The signature #3 has been briefly considered as aesthetically advantageous
         and more idiomatic. Unfortunately, it lacked automatic deduction of the
-        <code class="computeroutput"><span class="identifier">TypeOut</span></code> which, consequently,
-        had to be specified explicitly. For different types of supported converters
-        (class-based, plain old functions, lambdas) that complicated considerably
-        the implementation of the <span class="emphasis"><em>Boost.Convert</em></span> infrastructure
-        and restricted implementation of the respective converters.
+        <span class="emphasis"><em>TypeOut</em></span> which, consequently, had to be specified explicitly.
+        For different types of supported converters (class-based, plain old functions,
+        lambdas) that complicated considerably the implementation of the <span class="emphasis"><em>Boost.Convert</em></span>
+        infrastructure and restricted implementation of the respective converters.
       </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
