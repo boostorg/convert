@@ -6,9 +6,8 @@
 #define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
 #include <boost/convert/detail/base.hpp>
-#include <boost/convert/detail/string.hpp>
+#include <boost/convert/detail/is_char.hpp>
 #include <boost/make_default.hpp>
-#include <boost/range/iterator_range_core.hpp>
 #include <sstream>
 #include <iomanip>
 
@@ -23,27 +22,51 @@ namespace boost { namespace cnv
 template<class Char>
 struct boost::cnv::basic_stream : boost::noncopyable
 {
+    // C01. In string-to-type conversions we must ensure that the "string" is a CONTIGUOUS ARRAY of
+    //      characters because "ibuffer_type" uses/relies on that (it deals with char_type*).
+    //      Consequently, trying to generalize the supplied string as a range is misleading and, in fact,
+    //      wrong, as ranges are not required to be contiguous as strings.
+    //      Therefore, for string-to-type conversions we ON PURPOSE only take "char_type const*"
+    //      (and, of course, std::string) to highlight that fact and NOT to mislead the user into believing that
+    //      a non-contiguous range (like std::list<char_type>) can be passed as well.
+    // C02. On the other hand, the type-to-string conversions ARE GENERALIZED on the string type.
+    //      That allows us to use other than std::string types for output .
+    // C11. Use the provided "string_in" as the input (read-from) buffer and, consequently,
+    //      avoid the overhead associated with stream_.str(string_in) --
+    //      copying of the content into internal buffer.
+    // C12. The "strbuf.gptr() != strbuf.egptr()" check replaces "istream.eof() != true"
+    //      which for some reason does not work when we try converting the "true" string
+    //      to "bool" with std::boolalpha set. Seems that istream state gets unsynced compared
+    //      to the actual underlying buffer.
+
     typedef Char                                 char_type;
     typedef boost::cnv::basic_stream<char_type>  this_type;
     typedef std::basic_stringstream<char_type> stream_type;
     typedef std::basic_istream<char_type>     istream_type;
     typedef std::basic_streambuf<char_type>    buffer_type;
-    typedef std::basic_string<char_type>   std_string_type;
+    typedef std::basic_string<char_type>       string_type;
     typedef std::ios_base& (*manipulator_type)(std::ios_base&);
 
-    struct parser_type : public buffer_type
+    struct ibuffer_type : public buffer_type
     {
         using buffer_type::eback;
         using buffer_type::gptr;
         using buffer_type::egptr;
 
-        parser_type(char_type const* beg, std::streamsize sz)
+        ibuffer_type(char_type const* beg) // Contiguous(!) range.
         {
+            std::size_t sz = trait::size(beg);
             char_type* b = const_cast<char_type*>(beg);
             char_type* e = b + sz;
 
             buffer_type::setg(b, b, e);
         }
+    };
+    struct obuffer_type : public buffer_type
+    {
+        using buffer_type::pbase;
+        using buffer_type::pptr;
+        using buffer_type::epptr;
     };
 
     basic_stream()
@@ -56,48 +79,46 @@ struct boost::cnv::basic_stream : boost::noncopyable
         stream_(std::move(that.stream_))
     {}
 #endif
+
     template<typename TypeIn, typename StringOut>
-    typename boost::enable_if_c<
-        !cnv::is_string_of<TypeIn, char_type>::value && cnv::is_string_of<StringOut, char_type>::value,
-        void>::type
-    operator()(TypeIn const& value_in, boost::optional<StringOut>& string_out) const
+    void
+    operator()(TypeIn const& value_in, boost::optional<StringOut/*C02*/>& string_out) const
     {
         stream_.clear();            // Clear the flags
-        stream_.str(std_string_type()); // Clear/empty the content of the stream
+        stream_.str(string_type()); // Clear/empty the content of the stream
 
         if (!(stream_ << value_in).fail())
-            string_out = stream_.str();
+        {
+            buffer_type*     buf = stream_.rdbuf();
+            obuffer_type*   obuf = static_cast<obuffer_type*>(buf);
+            char_type const* beg = obuf->pbase();
+            char_type const* end = obuf->pptr();
+
+            string_out = StringOut(beg, end); // Instead of stream_.str();
+        }
     }
-    template<typename StringIn, typename TypeOut>
-    typename boost::enable_if_c<
-        cnv::is_string_of<StringIn, char_type>::value && !cnv::is_string_of<TypeOut, char_type>::value,
-        void>::type
-    operator()(StringIn const& string_in, boost::optional<TypeOut>& result_out) const
+
+    template<typename TypeOut>
+    void
+    operator()(string_type const& string_in/*C01*/, boost::optional<TypeOut>& result_out) const
     {
-        // C1. The code below the provided string_in as the buffer and, consequently, avoids
-        //     the overhead associated with stream_.str(string_in) -- copying of the content
-        //     into internal buffer.
-        // C2. The "strbuf.gptr() != strbuf.egptr()" check replaces "istream.eof() != true"
-        //     which for some reason does not work when we try converting the "true" string
-        //     to "bool" with std::boolalpha set. Seems that istream state gets unsynced compared
-        //     to the actual underlying buffer.
+        this->operator()(string_in.c_str(), result_out);
+    }
 
-        typedef typename boost::range_iterator<StringIn const>::type str_iterator;
-        typedef boost::iterator_range<str_iterator> str_range;
-
+    template<typename TypeOut>
+    void
+    operator()(char_type const* string_in/*C01*/, boost::optional<TypeOut>& result_out) const
+    {
         istream_type& istream = stream_;
         buffer_type*   oldbuf = istream.rdbuf();
-        str_range       range = boost::as_literal(string_in);
-        char_type const*  beg = &range.front(); // Contiguous(!) range.
-        std::streamsize    sz = range.size();
-        parser_type    strbuf (beg, sz); //C1
+        ibuffer_type   newbuf (string_in); //C11
 
-        istream.rdbuf(&strbuf);
+        istream.rdbuf(&newbuf);
         istream.clear(); // Clear the flags
 
         istream >> *(result_out = boost::make_default<TypeOut>());
 
-        if (istream.fail() || strbuf.gptr() != strbuf.egptr()/*C2*/)
+        if (istream.fail() || newbuf.gptr() != newbuf.egptr()/*C12*/)
             result_out = boost::none;
 
         istream.rdbuf(oldbuf);

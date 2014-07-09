@@ -38,9 +38,9 @@ test_dbl_to_str()
     BOOST_TEST(   "1.9" == convert<string>(  1.949, cnv(arg::precision = 1)).value());
     BOOST_TEST(  "-1.9" == convert<string>( -1.949, cnv(arg::precision = 1)).value());
 
-//    BOOST_TEST("100.00" == convert<my_string>( 99.999, cnv(arg::precision = 2)).value());
-//    BOOST_TEST( "99.95" == convert<my_string>( 99.949, cnv(arg::precision = 2)).value());
-//    BOOST_TEST("-99.95" == convert<my_string>(-99.949, cnv(arg::precision = 2)).value());
+    BOOST_TEST("100.00" == convert<my_string>( 99.999, cnv(arg::precision = 2)).value());
+    BOOST_TEST( "99.95" == convert<my_string>( 99.949, cnv(arg::precision = 2)).value());
+    BOOST_TEST("-99.95" == convert<my_string>(-99.949, cnv(arg::precision = 2)).value());
 }
 
 static
@@ -116,10 +116,12 @@ test_skipws()
     ccnv(std::skipws); // Skip leading whitespaces
     wcnv(std::skipws);
 
-    BOOST_TEST( convert<int>(cstr_good, ccnv).value() == 123);
-    BOOST_TEST(!convert<int>( cstr_bad, ccnv));
-    BOOST_TEST( convert<int>(wstr_good, wcnv).value() == 123);
-    BOOST_TEST(!convert<int>( wstr_bad, wcnv));
+    BOOST_TEST(  123 == convert<int>(cstr_good, ccnv).value());
+    BOOST_TEST(  123 == convert<int>(wstr_good, wcnv).value());
+    BOOST_TEST("123" == convert<string>("  123", ccnv).value());
+
+    BOOST_TEST(!convert<int>(cstr_bad, ccnv));
+    BOOST_TEST(!convert<int>(wstr_bad, wcnv));
 
     ccnv(std::noskipws); // Do not ignore leading whitespaces
     wcnv(std::noskipws);
@@ -133,7 +135,8 @@ test_skipws()
     //[stream_skipws2_example
     ccnv(arg::skipws = true); // Skip leading whitespaces
 
-    BOOST_TEST(convert<int>(cstr_good, ccnv).value() == 123);
+    BOOST_TEST(  123 == convert<int>(cstr_good, ccnv).value());
+    BOOST_TEST("123" == convert<string>(cstr_good, ccnv).value());
     //]
 }
 

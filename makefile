@@ -1,7 +1,7 @@
 BOOST_ROOT = $(HOME)/dev/boost
 
 cflags    = -O3 -Iinclude -I$(BOOST_ROOT) -Wno-unused-local-typedefs -Wno-unused-variable -Wno-uninitialized
-ldflags   = -L$(HOME)/dev/lib -lboost_timer -lboost_system -lboost_chrono
+ldflags   = -L$(HOME)/dev/lib -lboost_timer -lboost_system -lboost_chrono -lrt
 target_1  = convert-test.exe
 sources_1 = test/callable.cpp			\
             test/encryption.cpp			\

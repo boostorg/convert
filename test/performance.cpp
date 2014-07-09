@@ -258,6 +258,9 @@ main(int argc, char const* argv[])
     printf("spirit int-to std::string/small-string: %.2f/%.2f seconds.\n",
            local::to_str<std::string, int>(boost::cnv::spirit()),
            local::to_str<  my_string, int>(boost::cnv::spirit()));
+    printf("stream int-to std::string/small-string: %.2f/%.2f seconds.\n",
+           local::to_str<std::string, int>(boost::cnv::cstream()),
+           local::to_str<  my_string, int>(boost::cnv::cstream()));
     //]
     printf("int-to-str: spirit/itostr/lcast/prntf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
            local::to_str<std::string, int>(boost::cnv::spirit()),

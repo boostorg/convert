@@ -20,14 +20,14 @@ Compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 tests produced the following resu
  str-to-lng: spirit/strtol/lcast/scanf/stream=   2.09/   6.79/  10.21/  19.57/  20.58 seconds.
  str-to-dbl: spirit/strtod/lcast/scanf/stream=   4.83/  14.65/  29.46/  33.67/  44.87 seconds.
 
-Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following results (adjusted):
+Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following results:
 
- int-to-str: spirit/itostr/lcast/prntf/stream=  16.77/  14.94/  20.22/  44.24/  30.99 seconds.
- lng-to-str: spirit/ltostr/lcast/prntf/stream=  18.02/  16.16/  20.74/  32.71/  30.59 seconds.
- dbl-to-str: spirit/dtostr/lcast/prntf/stream=  59.88/  31.23/ 184.14/ 159.21/ 138.44 seconds.
- str-to-int: spirit/strtoi/lcast/scanf/stream=   2.12/   9.84/  11.59/  27.82/  29.84 seconds.
- str-to-lng: spirit/strtol/lcast/scanf/stream=   2.12/   9.55/  14.47/  27.50/  29.97 seconds.
- str-to-dbl: spirit/strtod/lcast/scanf/stream=   3.45/  15.80/  17.28/  42.38/  56.25 seconds.
+ int-to-str: spirit/itostr/lcast/prntf/stream=   1.68/   1.43/   1.96/   3.24/   2.68 seconds.
+ lng-to-str: spirit/ltostr/lcast/prntf/stream=   1.77/   1.54/   2.14/   3.28/   2.68 seconds.
+ dbl-to-str: spirit/dtostr/lcast/prntf/stream=   5.63/   3.03/  17.96/  13.67/  13.73 seconds.
+ str-to-int: spirit/strtoi/lcast/scanf/stream=   0.38/   0.97/   1.14/   2.69/   3.06 seconds.
+ str-to-lng: spirit/strtol/lcast/scanf/stream=   0.21/   0.78/   1.47/   2.67/   3.12 seconds.
+ str-to-dbl: spirit/strtod/lcast/scanf/stream=   0.44/   1.56/   1.70/   4.36/   5.57 seconds.
 
 Based on the results we might conclude that
 
@@ -107,15 +107,13 @@ The class above is essentially a glorified 12-bytes character buffer sufficient 
 
 [small_string_results]
 
-It produced the following results:
+It produced the following results (compiled with `gcc -O3`):
 
- strtol int-to std::string/small-string: 14.56/4.28 seconds.
- spirit int-to std::string/small-string: 16.12/6.06 seconds.
+ strtol int-to std::string/small-string: 1.57/0.45 seconds.
+ spirit int-to std::string/small-string: 1.79/0.76 seconds.
+ stream int-to std::string/small-string: 2.77/1.83 seconds.
  
-The results demonstrate that for the projects that deal with string conversions and routinely deploy `std::string` facilities the conversion-related overhead will be well outweighed by the overhead of `std::string`-related operations.
-
- 
- 
+The results demonstrate that for the projects that deal with string conversions and routinely deploy `std::string` facilities the conversion-related overhead will be outweighed (or at least offset as in the case of `boost::cnv::cstream`) by the overhead of `std::string`-related operations.
 
 [endsect]
 [endsect]
