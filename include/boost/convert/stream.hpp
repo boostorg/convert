@@ -56,10 +56,9 @@ struct boost::cnv::basic_stream : boost::noncopyable
         ibuffer_type(char_type const* beg) // Contiguous(!) range.
         {
             std::size_t sz = trait::size(beg);
-            char_type* b = const_cast<char_type*>(beg);
-            char_type* e = b + sz;
+            char_type*   b = const_cast<char_type*>(beg);
 
-            buffer_type::setg(b, b, e);
+            buffer_type::setg(b, b, b + sz);
         }
     };
     struct obuffer_type : public buffer_type
@@ -69,15 +68,9 @@ struct boost::cnv::basic_stream : boost::noncopyable
         using buffer_type::epptr;
     };
 
-    basic_stream()
-    :
-        stream_(std::ios_base::in | std::ios_base::out)
-    {}
+    basic_stream() : stream_(std::ios_base::in | std::ios_base::out) {}
 #if defined(BOOST_CONVERT_CXX11)
-    basic_stream(this_type&& that)
-    :
-        stream_(std::move(that.stream_))
-    {}
+    basic_stream(this_type&& other) : stream_(std::move(other.stream_)) {}
 #endif
 
     template<typename TypeIn, typename StringOut>
