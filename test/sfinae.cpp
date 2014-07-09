@@ -21,16 +21,13 @@ test::cnv::sfinae()
     // Test string SFINAE.
     ////////////////////////////////////////////////////////////////////////////
 
-    bool q01 = boost::cnv::is_any_string<std::string>::value;
-    bool q02 = boost::cnv::is_any_string<char const*>::value;
-    bool q03 = boost::cnv::is_any_string<std::wstring>::value;
-    bool q04 = boost::cnv::is_any_string<wchar_t const*>::value;
-    bool q05 = boost::cnv::is_any_string<char []>::value;
-    bool q06 = boost::cnv::is_any_string<wchar_t []>::value;
-    bool q07 = boost::cnv::is_any_string<std::vector<char> >::value;
-    bool q08 = boost::cnv::is_any_string<std::list<wchar_t> >::value;
-    bool q98 = boost::cnv::is_any_string<int>::value;
-    bool q99 = boost::cnv::is_any_string<local::a_struct>::value;
+    bool q01 = boost::cnv::is_string_of<std::string, char>::value;
+    bool q02 = boost::cnv::is_string_of<char const*, char>::value;
+    bool q05 = boost::cnv::is_string_of<char [], char>::value;
+
+    bool q03 = boost::cnv::is_string_of<std::wstring, wchar_t>::value;
+    bool q04 = boost::cnv::is_string_of<wchar_t const*, wchar_t>::value;
+    bool q06 = boost::cnv::is_string_of<wchar_t [], wchar_t>::value;
 
     BOOST_TEST( q01);
     BOOST_TEST( q02);
@@ -38,8 +35,4 @@ test::cnv::sfinae()
     BOOST_TEST( q04);
     BOOST_TEST( q05);
     BOOST_TEST( q06);
-    BOOST_TEST(!q07); // Support withdrawn. So, evaluates to false.
-    BOOST_TEST(!q08); // Support withdrawn. So, evaluates to false.
-    BOOST_TEST(!q98);
-    BOOST_TEST(!q99);
 }

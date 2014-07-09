@@ -7,7 +7,6 @@
 
 #include <boost/convert/detail/base.hpp>
 #include <boost/convert/detail/forward.hpp>
-#include <boost/convert/detail/string.hpp>
 #include <boost/spirit/include/qi_parse.hpp>
 #include <boost/spirit/include/qi_numeric.hpp>
 #include <boost/spirit/include/qi_string.hpp>

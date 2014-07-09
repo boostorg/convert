@@ -55,101 +55,10 @@ class is_std_string_of
     BOOST_STATIC_CONSTANT(bool, value = (sizeof(yes_type) == sizeof(test(ptr_type(0)))));
 };
 
-template<class String>
-struct is_c_string
-{
-    BOOST_STATIC_CONSTANT(bool, value = (is_c_string_of<String, char>::value || is_c_string_of<String, wchar_t>::value));
-};
-
-template<class String>
-struct is_std_string
-{
-    BOOST_STATIC_CONSTANT(bool, value = (is_std_string_of<String, char>::value || is_std_string_of<String, wchar_t>::value));
-};
-
 template<class String, class Char>
 struct is_string_of
 {
     BOOST_STATIC_CONSTANT(bool, value = (is_c_string_of<String, Char>::value || is_std_string_of<String, Char>::value));
-};
-
-template<class T>
-struct is_char_string
-{
-    BOOST_STATIC_CONSTANT(bool, value = (is_string_of<T, char>::value));
-};
-
-template<class T>
-struct is_wide_string
-{
-    BOOST_STATIC_CONSTANT(bool, value = (is_string_of<T, wchar_t>::value));
-};
-
-template<class T>
-struct is_any_string
-{
-    BOOST_STATIC_CONSTANT(bool, value = (is_char_string<T>::value || is_wide_string<T>::value));
-};
-
-template<class Type, class Enable =void>
-struct corrected
-{
-    typedef Type type;
-};
-
-template<class String>
-struct corrected<String, typename boost::enable_if<is_any_string<String> >::type>
-{
-    typedef typename boost::range_value<String>::type char_type;
-    typedef std::basic_string<char_type>                   type;
-};
-
-struct str
-{
-    template<class String, class Enable =void>
-    struct range
-    {
-        typedef String type;
-        typedef typename type::iterator iterator;
-        typedef typename type::const_iterator const_iterator;
-
-        static iterator   begin (String const& s) { return s.begin(); }
-        static iterator     end (String const& s) { return s.end(); }
-        static std::size_t size (String const& s) { return s.size(); }
-    };
-};
-
-template<class String>
-struct str::range<String, typename boost::enable_if<is_c_string_of<String, char> >::type>
-{
-    typedef typename boost::range_value<String>::type char_type;
-    typedef char_type const*                           iterator;
-
-    static iterator   begin (String const& s) { return s; }
-    static iterator     end (String const& s) { return s + strlen(s); }
-    static std::size_t size (String const& s) { return strlen(s); }
-};
-
-template<class String>
-struct str::range<String, typename boost::enable_if<is_c_string_of<String, wchar_t> >::type>
-{
-    typedef typename boost::range_value<String>::type char_type;
-    typedef char_type const*                           iterator;
-
-    static iterator       begin (String const& s) { return s; }
-    static iterator         end (String const& s) { return s + strlen(s); }
-    static std::streamsize size (String const& s) { return std::streamsize(wcslen(s)); }
-};
-
-template<class String>
-struct str::range<String, typename boost::enable_if<is_std_string<String> >::type>
-{
-    typedef typename boost::range_value<String>::type char_type;
-    typedef char_type const*                  iterator;
-
-    static iterator       begin (String const& s) { return &*s.begin(); }
-    static iterator         end (String const& s) { return &*s.end(); }
-    static std::streamsize size (String const& s) { return std::streamsize(s.size()); }
 };
 
 }}

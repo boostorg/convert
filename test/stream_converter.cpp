@@ -37,6 +37,10 @@ test_dbl_to_str()
     BOOST_TEST( "-0.95" == convert<string>( -0.949, cnv(arg::precision = 2)).value());
     BOOST_TEST(   "1.9" == convert<string>(  1.949, cnv(arg::precision = 1)).value());
     BOOST_TEST(  "-1.9" == convert<string>( -1.949, cnv(arg::precision = 1)).value());
+
+//    BOOST_TEST("100.00" == convert<my_string>( 99.999, cnv(arg::precision = 2)).value());
+//    BOOST_TEST( "99.95" == convert<my_string>( 99.949, cnv(arg::precision = 2)).value());
+//    BOOST_TEST("-99.95" == convert<my_string>(-99.949, cnv(arg::precision = 2)).value());
 }
 
 static

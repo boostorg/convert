@@ -27,7 +27,12 @@ namespace boost { namespace cnv { namespace detail
     };
 }}}
 
-#define BOOST_CNV_STRING_OP                                         \
+#define BOOST_CNV_TO_STRING_OP                                      \
+    template<typename string_type>                                  \
+    typename boost::enable_if<is_string<string_type>, void>::type   \
+    operator()
+
+#define BOOST_CNV_STRING_TO_OP                                      \
     template<typename string_type>                                  \
     typename boost::enable_if<is_string<string_type>, void>::type   \
     operator()
@@ -51,15 +56,15 @@ struct boost::cnv::detail::cnvbase
     typedef double                    dbl_type;
     typedef long double              ldbl_type;
 
-    BOOST_CNV_STRING_OP ( int_type v, optional<string_type>& r) const { to_str_(v, r); }
-    BOOST_CNV_STRING_OP (lint_type v, optional<string_type>& r) const { to_str_(v, r); }
-    BOOST_CNV_STRING_OP ( dbl_type v, optional<string_type>& r) const { to_str_(v, r); }
-    BOOST_CNV_STRING_OP (ldbl_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING_OP ( int_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING_OP (lint_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING_OP ( dbl_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING_OP (ldbl_type v, optional<string_type>& r) const { to_str_(v, r); }
 
-    BOOST_CNV_STRING_OP (string_type const& s, optional< int_type>& r) const { dncast().str_to(s, r); }
-    BOOST_CNV_STRING_OP (string_type const& s, optional<lint_type>& r) const { dncast().str_to(s, r); }
-    BOOST_CNV_STRING_OP (string_type const& s, optional< dbl_type>& r) const { dncast().str_to(s, r); }
-    BOOST_CNV_STRING_OP (string_type const& s, optional<ldbl_type>& r) const { dncast().str_to(s, r); }
+    BOOST_CNV_STRING_TO_OP (string_type const& s, optional< int_type>& r) const { dncast().str_to(s, r); }
+    BOOST_CNV_STRING_TO_OP (string_type const& s, optional<lint_type>& r) const { dncast().str_to(s, r); }
+    BOOST_CNV_STRING_TO_OP (string_type const& s, optional< dbl_type>& r) const { dncast().str_to(s, r); }
+    BOOST_CNV_STRING_TO_OP (string_type const& s, optional<ldbl_type>& r) const { dncast().str_to(s, r); }
 
 //  BOOST_CNV_PARAM_OP (locale,  std::locale const) { locale_    = arg[ARG::   locale]; return dncast(); }
     BOOST_CNV_PARAM_OP (base,     base::type const) { base_      = arg[ARG::     base]; return dncast(); }

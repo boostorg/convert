@@ -8,6 +8,7 @@
 #include <boost/convert/detail/base.hpp>
 #include <boost/convert/detail/string.hpp>
 #include <boost/make_default.hpp>
+#include <boost/range/iterator_range_core.hpp>
 #include <sstream>
 #include <iomanip>
 
@@ -27,7 +28,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
     typedef std::basic_stringstream<char_type> stream_type;
     typedef std::basic_istream<char_type>     istream_type;
     typedef std::basic_streambuf<char_type>    buffer_type;
-    typedef std::basic_string<char_type>       string_type;
+    typedef std::basic_string<char_type>   std_string_type;
     typedef std::ios_base& (*manipulator_type)(std::ios_base&);
 
     struct parser_type : public buffer_type
@@ -55,19 +56,21 @@ struct boost::cnv::basic_stream : boost::noncopyable
         stream_(std::move(that.stream_))
     {}
 #endif
-    template<typename TypeIn>
-    typename boost::enable_if_c<!cnv::is_any_string<TypeIn>::value, void>::type
-    operator()(TypeIn const& value_in, boost::optional<string_type>& string_out) const
+    template<typename TypeIn, typename StringOut>
+    typename boost::enable_if_c<
+        !cnv::is_string_of<TypeIn, char_type>::value && cnv::is_string_of<StringOut, char_type>::value,
+        void>::type
+    operator()(TypeIn const& value_in, boost::optional<StringOut>& string_out) const
     {
         stream_.clear();            // Clear the flags
-        stream_.str(string_type()); // Clear/empty the content of the stream
+        stream_.str(std_string_type()); // Clear/empty the content of the stream
 
         if (!(stream_ << value_in).fail())
             string_out = stream_.str();
     }
-    template<typename TypeOut, typename StringIn>
+    template<typename StringIn, typename TypeOut>
     typename boost::enable_if_c<
-        cnv::is_any_string<StringIn>::value && !cnv::is_any_string<TypeOut>::value, 
+        cnv::is_string_of<StringIn, char_type>::value && !cnv::is_string_of<TypeOut, char_type>::value,
         void>::type
     operator()(StringIn const& string_in, boost::optional<TypeOut>& result_out) const
     {
@@ -79,10 +82,14 @@ struct boost::cnv::basic_stream : boost::noncopyable
         //     to "bool" with std::boolalpha set. Seems that istream state gets unsynced compared
         //     to the actual underlying buffer.
 
+        typedef typename boost::range_iterator<StringIn const>::type str_iterator;
+        typedef boost::iterator_range<str_iterator> str_range;
+
         istream_type& istream = stream_;
         buffer_type*   oldbuf = istream.rdbuf();
-        char_type const*  beg = cnv::str::range<StringIn>::begin(string_in);
-        std::streamsize    sz = cnv::str::range<StringIn>::size(string_in);
+        str_range       range = boost::as_literal(string_in);
+        char_type const*  beg = &range.front(); // Contiguous(!) range.
+        std::streamsize    sz = range.size();
         parser_type    strbuf (beg, sz); //C1
 
         istream.rdbuf(&strbuf);
@@ -102,21 +109,11 @@ struct boost::cnv::basic_stream : boost::noncopyable
     template<typename Manipulator>
     this_type& operator()(Manipulator m) { return (stream_ >> m, *this); }
 
-    CONVERTER_PARAM_FUNC(locale, std::locale const)
-    {
-        return (stream_.imbue(arg[cnv::parameter::locale]), *this);
-    }
-    CONVERTER_PARAM_FUNC(precision, int const) { return (stream_.precision(arg[cnv::parameter::precision]), *this); }
-    CONVERTER_PARAM_FUNC(precision,       int) { return (stream_.precision(arg[cnv::parameter::precision]), *this); }
-
-    CONVERTER_PARAM_FUNC(width, int const)
-    {
-        return (stream_.width(arg[cnv::parameter::width]), *this);
-    }
-    CONVERTER_PARAM_FUNC(fill, char const)
-    {
-        return (stream_.fill(arg[cnv::parameter::fill]), *this);
-    }
+    CONVERTER_PARAM_FUNC(locale, std::locale const) { return (stream_.imbue(arg[cnv::parameter::locale]), *this); }
+    CONVERTER_PARAM_FUNC(precision, int const)      { return (stream_.precision(arg[cnv::parameter::precision]), *this); }
+    CONVERTER_PARAM_FUNC(precision,       int)      { return (stream_.precision(arg[cnv::parameter::precision]), *this); }
+    CONVERTER_PARAM_FUNC(width, int const)          { return (stream_.width(arg[cnv::parameter::width]), *this); }
+    CONVERTER_PARAM_FUNC(fill, char const)          { return (stream_.fill(arg[cnv::parameter::fill]), *this); }
     CONVERTER_PARAM_FUNC(uppercase, bool const)
     {
         bool uppercase = arg[cnv::parameter::uppercase];
