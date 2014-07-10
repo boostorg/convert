@@ -72,13 +72,19 @@ namespace boost
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    typename enable_if<cnv::is_cnv<typename unwrap_reference<Converter>::type, TypeIn, TypeOut>,
-        optional<TypeOut> >::type
+    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, optional<TypeOut> >::type
     convert(TypeIn const& value_in, Converter const& converter)
     {
         optional<TypeOut> result;
-        boost::unwrap_ref(converter)(value_in, result);
+        converter(value_in, result);
         return result;
+    }
+
+    template<typename TypeOut, typename TypeIn, typename Converter>
+    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, optional<TypeOut> >::type
+    convert(TypeIn const& value_in, boost::reference_wrapper<Converter const> const& converter)
+    {
+        return boost::convert<TypeOut>(value_in, boost::unwrap_ref(converter));
     }
 
     /// @brief Boost.Convert deployment interface with the default converter
@@ -144,17 +150,24 @@ namespace boost
     template<typename TypeOut, typename TypeIn, typename Converter>
     typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
     typename cnv::adapter<TypeOut, TypeIn, Converter> >::type
-//#ifdef BOOST_CONVERT_CXX11
-//    convert(Converter&& cnv)
-//    {
-//        return cnv::adapter<TypeOut, TypeIn, Converter>(std::forward<Converter>(cnv));
-//    }
-//#else
     convert(Converter const& cnv)
     {
         return cnv::adapter<TypeOut, TypeIn, Converter>(cnv);
     }
-//#endif
+
+    template<typename TypeOut, typename TypeIn, typename Converter>
+    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
+    typename cnv::adapter<TypeOut, TypeIn, boost::reference_wrapper<Converter const> > >::type
+    convert(boost::reference_wrapper<Converter const> const& cnv)
+    {
+        return cnv::adapter<TypeOut, TypeIn, boost::reference_wrapper<Converter const> >(cnv);
+    }
+    //#ifdef BOOST_CONVERT_CXX11
+    //    convert(Converter&& cnv)
+    //    {
+    //        return cnv::adapter<TypeOut, TypeIn, Converter>(std::forward<Converter>(cnv));
+    //    }
+    //#endif
 }
 
 namespace boost { namespace cnv

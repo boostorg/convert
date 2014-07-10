@@ -87,17 +87,8 @@ namespace boost { namespace cnv
     template<typename, typename, typename, typename =void>
     struct is_cnv { BOOST_STATIC_CONSTANT(bool, value = false); };
 
-    template<typename CnvRef, typename TypeIn, typename TypeOut>
-    struct is_cnv<CnvRef, TypeIn, TypeOut, typename enable_if<is_reference_wrapper<CnvRef>, void>::type>
-    {
-        typedef typename unwrap_reference<CnvRef>::type cnv_type;
-
-        BOOST_STATIC_CONSTANT(bool, value = (is_cnv<cnv_type, TypeIn, TypeOut>::value));
-    };
-
     template<typename Converter, typename TypeIn, typename TypeOut>
-    struct is_cnv<Converter, TypeIn, TypeOut,
-        typename enable_if_c<is_class<Converter>::value && !is_reference_wrapper<Converter>::value, void>::type>
+    struct is_cnv<Converter, TypeIn, TypeOut, typename enable_if<is_class<Converter>, void>::type>
     {
         typedef Converter cnv_type;
         typedef void signature_type(TypeIn const&, optional<TypeOut>&);

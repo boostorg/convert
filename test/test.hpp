@@ -93,7 +93,7 @@ struct my_string
     typedef char const* const_iterator;
 
     my_string ();
-    my_string (const_iterator, const_iterator);
+    my_string (const_iterator, const_iterator =0);
 
     char const*    c_str () const { return storage_; }
     const_iterator begin () const { return storage_; }
@@ -115,7 +115,7 @@ my_string::my_string()
 inline
 my_string::my_string(const_iterator beg, const_iterator end)
 {
-    std::size_t const sz = end - beg;
+    std::size_t const sz = end ? (end - beg) : strlen(beg);
 
     BOOST_ASSERT(sz < size_);
     memcpy(storage_, beg, sz); storage_[sz] = 0;

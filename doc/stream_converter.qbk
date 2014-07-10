@@ -70,6 +70,38 @@ That allows handling conversions of user-defined types with plugged-in `boost::c
 [stream_example6]
 
 [endsect]
+[section Support for Custom String Types]
+
+`boost::cnv::stream` is asymmetric in what string and string-like types it accepts when those types are provided as input or requested as output. 
+
+[h3 Input String]
+
+When a string is the source, then `boost::cnv::stream` only accepts a contiguous 0-terminated sequence of the corresponding character type (`char` or `wchar_t`), i.e. the old-fashioned C string. `std::string` is also accepted as it provides such a sequence via the `std::string::c_str()` method. No other string-like ranges are accepted. That is done due to efficiency considerations.
+
+`std::stringstream` is implemented entirely in terms of `std::basic_streambuf` which, in turn, operates on a ['contiguous character sequence], also called the ['buffer] (see [@http://en.cppreference.com/w/cpp/io/basic_streambuf `std::basic_streambuf`] for details). For efficiency reasons `boost::cnv::stream` uses the provided input (read-only) string as the ['buffer] and, consequently, requires that provided input string to be a contiguous character sequence.
+
+It the user needs to deploy their own string-like types with `boost::cnv::stream`, then those types would require a method functionally similar to `std::string::c_str()`. That requirement has been made intentionally explicit (instead of providing that functionality implicitly) so that the user is aware of the associated cost and, therefore, is in a position to address that via optimization or a different design:
+
+ boost::cnv::cstream cnv;
+
+ int i1 = convert<int>("11", cnv).value(); // Compiles. Input of "char const*" type.
+ int i2 = convert<int>(std::string("11"), cnv).value(); // Compiles. Input of std::string type.
+ int i3 = convert<int>(my_string("11"), cnv).value(); // Does not compile. Input of my_string type.
+ int i4 = convert<int>(my_string("11").c_str(), cnv).value(); // Compiles. Input of "char const*" type.
+
+[h3 Output String]
+
+When a string is the target, then the respective type does not have the restrictions described in the previous chapter. Consequently, any type that provides 
+
+ MyType::MyType(char const* beg, char const* end)
+ 
+constructor can be deployed in type-to-string conversions:
+
+[stream_my_string]
+
+See [link boost_convert.performance.the_bigger_picture The Bigger Picture] chapter for the discussion of potential advantages of custom strings.
+
+[endsect]
 [section The ['Default Constructible] Type Requirement]
 
 Due to `std::stream` design it requires an ['initialized] temporary storage of ['TypeOut] type to put the result of the requested conversion to. The `std::stream`-based converter achieves that with:

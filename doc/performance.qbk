@@ -95,7 +95,7 @@ The purpose of the test was to deploy the same functionality directly and as par
 The results for consecutive runs vary with deviations of up to +/-2%. Under 2% is also the deviation of the "cnv" code compared to the "raw" code. That indicates that the ['Boost.Convert] framework had no detectable running overhead with the tested compilers, hardware and deployment scenarios. The results might be different on other platforms.
 
 [endsect]
-[section The Bigger Picture]
+[section:the_bigger_picture The Bigger Picture]
 
 The presented performance data (and potential performance-related concerns) have to be taken in perspective. A special project with serious high performance requirements is most likely to require special solutions which are most likely to cast out many generic libraries. Still, the existence of such projects did not kill or diminish in any way the existence of generic libraries. And ['Boost.Convert] is one such ['generic] library.
 
