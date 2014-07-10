@@ -24,8 +24,8 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     // C1. Functions cannot be generalized to take [begin, end) ranges.
     //     Main functions have to take "char const*" as that is what strtol() and its family
     //     work with. That is, strtol() expects a \0 terminated string.
-    //     So, feeding ranges is wrong as ranges are not mandated to
-    //     have the trailing \0. Therefore, strol() will fail.
+    //     So, feeding ranges is wrong as ranges are not mandated to be contiguous and
+    //     to have the trailing \0. Therefore, strol() will fail.
 
     typedef boost::cnv::strtol                     this_type;
     typedef boost::cnv::detail::cnvbase<this_type> base_type;
