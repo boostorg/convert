@@ -26,6 +26,7 @@
 #define BOOST_CONVERT_HPP
 
 #include <boost/convert/detail/is.hpp>
+#include <boost/ref.hpp>
 
 namespace boost
 {

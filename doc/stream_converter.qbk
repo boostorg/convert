@@ -99,7 +99,7 @@ constructor can be deployed in type-to-string conversions:
 
 [stream_my_string]
 
-See [link boost_convert.performance.the_bigger_picture The Bigger Picture] chapter for the discussion of potential advantages of custom strings.
+See [link boost_convert.performance.the_bigger_picture The Bigger Picture] chapter for the discussion of potential advantages of deploying custom strings.
 
 [endsect]
 [section The ['Default Constructible] Type Requirement]
