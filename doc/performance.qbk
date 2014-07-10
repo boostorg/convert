@@ -58,10 +58,10 @@ Based on the performance data, I tend to conclude that, given type-safety and be
 
 ['Boost.Convert] framework adds an additional layer of indirection and some ['Boost.Convert] converters are wrappers around actual conversion facilities such as `strtol()`, `boost::lexical_cast`,  `boost::spirit`, etc. Consequently, there might be justified concerns with regard to the performance overhead introduced by the framework as opposed to deploying conversion facilities directly.
 
-To test that the Spirit performance code has been borrowed and adapted from the Spirit optimization framework (see $BOOST_ROOT/libs/spirit/workbench/qi/int_parser.cpp). The tests were
+To test that code has been borrowed and adapted from the Spirit.Qi performance/optimization framework (see $BOOST_ROOT/libs/spirit/workbench/qi/int_parser.cpp). The tests were
 
 # compiled using gcc-4.6.3 and gcc-4.8.2;
-# with optimization: `g++ -O3 test/performance_spirit.cpp -Iinclude -I../boost_1_55_0 -lrt`;
+# with optimization: `g++ -O3 test/performance_spirit.cpp -Iinclude -I../boost_1_56_0 -lrt`;
 # on 64-bit Ubuntu 12.04 and 32-bit Ubuntu 14.04;
 # run against the input of randomly generated 18 numeric strings (9 positive and 9 negative numbers with the number of digits from 1 to 9);
 # run for
@@ -71,33 +71,33 @@ To test that the Spirit performance code has been borrowed and adapted from the 
 The purpose of the test was to deploy the same functionality directly and as part of the ['Boost.Convert] framework. Results are shown below for several consecutive runs:
 
  gcc-4.6.3 (64-bit)
- raw_lxcast_str_to_int_test: 1.0519380820 [s]
- cnv_lxcast_str_to_int_test: 1.0610808300 [s] (1% slower)
- raw_spirit_str_to_int_test: 0.2794660490 [s]
- cnv_spirit_str_to_int_test: 0.2636677510 [s] (5% faster)
+ raw_lxcast_str_to_int_test: 1.0504170070 [s] 
+ cnv_lxcast_str_to_int_test: 1.0610595810 [s] (1% slower than raw above)
+ raw_spirit_str_to_int_test: 0.2845369110 [s] 
+ cnv_spirit_str_to_int_test: 0.2834834560 [s] (1% faster than raw above) 
 
- raw_lxcast_str_to_int_test: 1.1781400560 [s]
- cnv_lxcast_str_to_int_test: 1.1261309050 [s] (4% faster)
- raw_spirit_str_to_int_test: 0.2628718470 [s]
- cnv_spirit_str_to_int_test: 0.2619931870 [s] (0% faster)
+ raw_lxcast_str_to_int_test: 1.0770350390 [s] (2% slower than prev. run) 
+ cnv_lxcast_str_to_int_test: 1.0607665160 [s] (1% faster than raw above) 
+ raw_spirit_str_to_int_test: 0.2792295470 [s] (2% faster than prev. run)
+ cnv_spirit_str_to_int_test: 0.2827574570 [s] (1% slower than raw above) 
 
  gcc-4.8.2 (32-bit)
  raw_lxcast_str_to_int_test: 8.5153330600 [s]
- cnv_lxcast_str_to_int_test: 8.6989499850 [s] (2% slower)
+ cnv_lxcast_str_to_int_test: 8.6989499850 [s] (2% slower than raw above)
  raw_spirit_str_to_int_test: 2.4197476510 [s]
- cnv_spirit_str_to_int_test: 2.4594171510 [s] (2% slower)
+ cnv_spirit_str_to_int_test: 2.4594171510 [s] (2% slower than raw above)
 
- raw_lxcast_str_to_int_test: 8.4136546980 [s]
- cnv_lxcast_str_to_int_test: 8.5322524600 [s] (1% slower)
- raw_spirit_str_to_int_test: 2.3842388060 [s]
- cnv_spirit_str_to_int_test: 2.3812094400 [s] (0% faster)
+ raw_lxcast_str_to_int_test: 8.4136546980 [s] (1% faster than prev. run)
+ cnv_lxcast_str_to_int_test: 8.5322524600 [s] (1% slower than raw above)
+ raw_spirit_str_to_int_test: 2.3842388060 [s] (1% faster than prev. run)
+ cnv_spirit_str_to_int_test: 2.3812094400 [s] (0% faster than raw above)
 
-The results vary from run to run with deviation margins of up to +/-5%. The results indicate that the ['Boost.Convert] framework had no detectable running overhead with the tested compiler, hardware and deployment scenarios. The results might be different on other platforms.
+The results for consecutive runs vary with deviations of up to +/-2%. Under 2% is also the deviation of the "cnv" code compared to the "raw" code. That indicates that the ['Boost.Convert] framework had no detectable running overhead with the tested compilers, hardware and deployment scenarios. The results might be different on other platforms.
 
 [endsect]
 [section The Bigger Picture]
 
-It needs to be noted that the presented performance data (and potential performance-related concerns) have to be taken in perspective. A special project with serious high performance requirements is most likely to require special solutions which are most likely to cast out many generic libraries. Still, the existence of such projects did not kill or diminish in any way the existence of generic libraries. And ['Boost.Convert] is one such ['generic] library.
+The presented performance data (and potential performance-related concerns) have to be taken in perspective. A special project with serious high performance requirements is most likely to require special solutions which are most likely to cast out many generic libraries. Still, the existence of such projects did not kill or diminish in any way the existence of generic libraries. And ['Boost.Convert] is one such ['generic] library.
 
 More so, if one is concerned with performance, then, in all likelihood, for the great majority of the commercial projects ['Boost.Convert] might be far from the top on the performance profiler's list. For example, as part of the ['int-to-string] performance test `std::string` was replaced with a custom ['small-string] type to eliminate `std::string`-related overhead:
 
