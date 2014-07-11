@@ -13,21 +13,21 @@ In turn, the relative and absolute performance of every particular converter dep
 
 Compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 tests produced the following results:
 
- int-to-str: spirit/itostr/lcast/prntf/stream=  16.87/  14.97/  20.31/  26.42/  25.53 seconds.
- lng-to-str: spirit/ltostr/lcast/prntf/stream=  16.83/  15.14/  20.23/  27.01/  25.20 seconds.
- dbl-to-str: spirit/dtostr/lcast/prntf/stream= 107.09/  36.63/ 116.88/  90.65/ 103.79 seconds.
- str-to-int: spirit/strtoi/lcast/scanf/stream=   2.08/   5.19/  10.74/  19.66/  20.65 seconds.
- str-to-lng: spirit/strtol/lcast/scanf/stream=   2.04/   5.72/  10.35/  19.49/  20.39 seconds.
- str-to-dbl: spirit/strtod/lcast/scanf/stream=   5.07/  14.32/  30.01/  34.07/  44.04 seconds.
+ str-to-int: spirit/strtoi/lcast/scanf/stream=   2.02/   4.54/  10.82/  19.47/  20.58 seconds.
+ str-to-lng: spirit/strtol/lcast/scanf/stream=   2.10/   4.51/  10.41/  19.61/  20.45 seconds.
+ str-to-dbl: spirit/strtod/lcast/scanf/stream=   3.50/  12.68/  26.89/  34.05/  42.56 seconds.
+ int-to-str: spirit/itostr/lcast/prntf/stream=  16.77/  15.47/  20.40/  26.29/  25.43 seconds.
+ lng-to-str: spirit/ltostr/lcast/prntf/stream=  16.36/  14.80/  20.32/  27.24/  25.19 seconds.
+ dbl-to-str: spirit/dtostr/lcast/prntf/stream= 107.41/  36.54/ 116.65/  91.56/ 105.86 seconds.
 
 Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following results:
 
- int-to-str: spirit/itostr/lcast/prntf/stream=   1.68/   1.48/   2.02/   3.27/   2.73 seconds.
- lng-to-str: spirit/ltostr/lcast/prntf/stream=   1.82/   1.56/   2.11/   3.27/   2.69 seconds.
- dbl-to-str: spirit/dtostr/lcast/prntf/stream=   5.73/   3.03/  18.20/  13.97/  13.86 seconds.
- str-to-int: spirit/strtoi/lcast/scanf/stream=   0.42/   0.66/   1.17/   2.74/   3.10 seconds.
- str-to-lng: spirit/strtol/lcast/scanf/stream=   0.21/   0.78/   1.52/   2.71/   3.14 seconds.
- str-to-dbl: spirit/strtod/lcast/scanf/stream=   0.42/   1.44/   1.72/   4.24/   5.45 seconds.
+ str-to-int: spirit/strtoi/lcast/scanf/stream=   0.29/   0.47/   1.14/   2.75/   3.15 seconds.
+ str-to-lng: spirit/strtol/lcast/scanf/stream=   0.24/   0.72/   1.54/   2.73/   3.23 seconds.
+ str-to-dbl: spirit/strtod/lcast/scanf/stream=   0.40/   1.44/   1.70/   4.32/   5.59 seconds.
+ int-to-str: spirit/itostr/lcast/prntf/stream=   1.75/   1.53/   2.06/   3.34/   2.73 seconds.
+ lng-to-str: spirit/ltostr/lcast/prntf/stream=   1.91/   1.63/   2.19/   3.39/   2.77 seconds.
+ dbl-to-str: spirit/dtostr/lcast/prntf/stream=   5.64/   3.00/  17.89/  14.24/  13.67 seconds.
 
 Based on the results we might conclude that
 
