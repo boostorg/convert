@@ -13,12 +13,12 @@ In turn, the relative and absolute performance of every particular converter dep
 
 Compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 tests produced the following results:
 
- int-to-str: spirit/itostr/lcast/prntf/stream=  16.76/  15.52/  20.53/  26.80/  29.06 seconds.
- lng-to-str: spirit/ltostr/lcast/prntf/stream=  16.96/  14.95/  20.65/  26.82/  28.62 seconds.
- dbl-to-str: spirit/dtostr/lcast/prntf/stream= 105.56/  36.46/ 119.55/  92.42/ 109.97 seconds.
- str-to-int: spirit/strtoi/lcast/scanf/stream=   2.07/   5.48/  10.66/  19.49/  20.90 seconds.
- str-to-lng: spirit/strtol/lcast/scanf/stream=   2.09/   6.79/  10.21/  19.57/  20.58 seconds.
- str-to-dbl: spirit/strtod/lcast/scanf/stream=   4.83/  14.65/  29.46/  33.67/  44.87 seconds.
+ int-to-str: spirit/itostr/lcast/prntf/stream=  16.87/  14.97/  20.31/  26.42/  25.53 seconds.
+ lng-to-str: spirit/ltostr/lcast/prntf/stream=  16.83/  15.14/  20.23/  27.01/  25.20 seconds.
+ dbl-to-str: spirit/dtostr/lcast/prntf/stream= 107.09/  36.63/ 116.88/  90.65/ 103.79 seconds.
+ str-to-int: spirit/strtoi/lcast/scanf/stream=   2.08/   5.19/  10.74/  19.66/  20.65 seconds.
+ str-to-lng: spirit/strtol/lcast/scanf/stream=   2.04/   5.72/  10.35/  19.49/  20.39 seconds.
+ str-to-dbl: spirit/strtod/lcast/scanf/stream=   5.07/  14.32/  30.01/  34.07/  44.04 seconds.
 
 Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following results:
 
@@ -31,9 +31,9 @@ Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following resu
 
 Based on the results we might conclude that
 
-* the ['Spirit.Qi]-based converter was the fastest for string to `int`, `long` and `double` conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions; ['Spirit.Karma]'s ['to-string] performance was relatively modest;
+* the ['Spirit.Qi]-based converter was the fastest for string to `int`, `long` and `double` conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions; ['Spirit.Karma]'s ['to-string] performance was not as impressive;
 * the `std::stream`-based and the `printf/scanf`-based converters were consistently the slowest. Still, given their maturity and availability, they might be options to consider if conversion performance is not your primary concern;
-* the extended `strtol`-based converter was reasonably fast and with basic formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream`. So, bugs are to be expected.
+* the `strtol`-inspired converter was reasonably fast and with basic formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream`. So, bugs are to be expected.
 
 For user-defined types two converters -- `boost::cnv::lexical_cast` and `std::cnv::cstream` -- were tested with the following results:
 
@@ -56,7 +56,7 @@ Based on the performance data, I tend to conclude that, given type-safety and be
 [endsect]
 [section Boost.Convert Performance Overhead]
 
-['Boost.Convert] framework adds an additional layer of indirection and some ['Boost.Convert] converters are wrappers around actual conversion facilities such as `strtol()`, `boost::lexical_cast`,  `boost::spirit`, etc. Consequently, there might be justified concerns with regard to the performance overhead introduced by the framework as opposed to deploying conversion facilities directly.
+['Boost.Convert] framework adds an additional layer of indirection and some ['Boost.Convert] converters are wrappers around actual conversion facilities such as `boost::lexical_cast`, `boost::spirit`, etc. Consequently, there might be reasonable concerns with regard to the performance overhead introduced by the framework as opposed to deploying conversion facilities directly.
 
 To test that code has been borrowed and adapted from the Spirit.Qi performance/optimization framework (see $BOOST_ROOT/libs/spirit/workbench/qi/int_parser.cpp). The tests were
 
@@ -97,9 +97,9 @@ The results for consecutive runs vary with deviations of up to +/-2%. Under 2% i
 [endsect]
 [section:the_bigger_picture The Bigger Picture]
 
-The presented performance data (and potential performance-related concerns) have to be taken in perspective. A special project with serious high performance requirements is most likely to require special solutions which are most likely to cast out many generic libraries. Still, the existence of such projects did not kill or diminish in any way the existence of generic libraries. And ['Boost.Convert] is one such ['generic] library.
+The presented conversion-related performance data (and potential performance-related concerns) have to be taken in perspective. A special project with serious high performance requirements is most likely to require special solutions which are most likely to cast out many generic libraries. Still, the existence of such projects did not kill or diminish in any way the existence of generic libraries. And ['Boost.Convert] is one such ['generic] library.
 
-More so, if one is concerned with performance, then, in all likelihood, for the great majority of the commercial projects ['Boost.Convert] might be far from the top on the performance profiler's list. For example, as part of the ['int-to-string] performance test `std::string` was replaced with a custom ['small-string] type to eliminate `std::string`-related overhead:
+More so, if performance is a concern, then, in all likelihood, for the great majority of the mainstream projects ['Boost.Convert] will be far from the top on the performance profiler's list. For example, to measure conversion-related overhead relative to `std::string`-related overhead, `std::string` was replaced with a custom ['small-string] type:
 
 [my_string_declaration]
 

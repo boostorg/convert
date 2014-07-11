@@ -40,7 +40,7 @@ The collection of pluggable converters is independent of the ['Boost.Convert] AP
 
 * `boost::lexical_cast`-based,
 * `printf/scanf`-based,
-* `strtol/ltostr`-based,
+* `strtol`-inspired,
 * `std::stringstream`-based,
 * ['Boost.Spirit]-based.
 

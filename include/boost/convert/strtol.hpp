@@ -13,6 +13,27 @@
 
 namespace boost { namespace cnv
 {
+    namespace detail
+    {
+        template<typename T> struct types {};
+
+        template<> struct types<int>
+        {
+            typedef unsigned int unsigned_type;
+        };
+        template<> struct types<short int>
+        {
+            typedef unsigned int unsigned_type;
+        };
+        template<> struct types<long int>
+        {
+            typedef unsigned long int unsigned_type;
+        };
+        template<> struct types<long long int>
+        {
+            typedef unsigned long long int unsigned_type;
+        };
+    };
     struct strtol;
 }}
 
@@ -43,9 +64,9 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
 
     using base_type::operator();
 
-    void str_to(char const* v, optional<   int_type>& r) const { strtol_  (v, r); } //C1
-    void str_to(char const* v, optional<  sint_type>& r) const { strtol_  (v, r); }
-    void str_to(char const* v, optional<  lint_type>& r) const { strtol_  (v, r); }
+    void str_to(char const* v, optional<   int_type>& r) const { strtoi_  (v, r); } //C1
+    void str_to(char const* v, optional<  sint_type>& r) const { strtoi_  (v, r); }
+    void str_to(char const* v, optional<  lint_type>& r) const { strtoi_  (v, r); }
     void str_to(char const* v, optional<  uint_type>& r) const { strtoul_ (v, r); }
     void str_to(char const* v, optional< usint_type>& r) const { strtoul_ (v, r); }
     void str_to(char const* v, optional< ulint_type>& r) const { strtoul_ (v, r); }
@@ -65,30 +86,14 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     private:
 
     template<typename Type> void  strtod_ (char const*, optional<Type>&) const;
-    template<typename Type> void  strtol_ (char const*, optional<Type>&) const;
+    template<typename Type> void  strtoi_ (char const*, optional<Type>&) const;
+    template<typename Type> void  strtou_ (char const*, optional<Type>&) const;
     template<typename Type> void strtoul_ (char const*, optional<Type>&) const;
 
     template<typename T> detail::str_range i_to_str (T, char*) const;
     static double           adjust_fraction (double, int precision);
     static int                     get_char (int v) { return (v < 10) ? (v += '0') : (v += 'A' - 10); }
 };
-
-template<typename out_type>
-void
-boost::cnv::strtol::strtol_(char const* str, optional<out_type>& result_out) const
-{
-    if (!skipws_ && std::isspace(*str))
-        return;
-
-    char*             cnv_end = 0;
-    llint_type const   result = std::strtoll(str, &cnv_end, base_);
-    bool const           good = result != LLONG_MIN && result != LLONG_MAX && *cnv_end == 0/*C2*/;
-    static out_type const min = std::numeric_limits<out_type>::min();
-    static out_type const max = std::numeric_limits<out_type>::max();
-
-    if (good && min <= result && result <= max)
-        result_out = out_type(result);
-}
 
 template<typename Type>
 void
@@ -201,6 +206,86 @@ boost::cnv::strtol::to_str(double value, char* buf) const
     if (negative) *(--beg) = '-';
 
     return detail::str_range(beg, end);
+}
+
+template<typename out_type>
+void
+boost::cnv::strtol::strtoi_(char const* s, boost::optional<out_type>& result_out) const
+{
+    typedef typename detail::types<out_type>::unsigned_type unsigned_type;
+
+    /**/ if (skipws_) for (; std::isspace(*s); ++s);
+    else if (std::isspace(*s)) return;
+
+    unsigned int   base = base_;
+    unsigned int     ch = *s++;
+    bool const negative = ch == '-' ? (ch = *s++, true) : ch == '+' ? (ch = *s++, false) : false;
+
+    if ((base == 0 || base == 16) && ch == '0' && (*s == 'x' || *s == 'X'))
+    {
+        ch = *++s; ++s; base = 16;
+    }
+    if (base == 0)
+        base = ch == '0' ? 8 : 10;
+
+    unsigned_type const    max = std::numeric_limits<out_type>::max() + (negative ? 1 : 0);
+    unsigned_type const cutoff = max / base;
+    unsigned int  const cutlim = max % base;
+    unsigned_type       result = 0;
+
+    for (; ch; ch = *s++)
+    {
+        /**/ if (std::isdigit(ch)) ch -= '0';
+        else if (std::isalpha(ch)) ch -= (std::isupper(ch) ? 'A' : 'a') - 10;
+        else return;
+
+        if (base <= ch || cutoff < result || (result == cutoff && cutlim < ch))
+            return;
+
+        result *= base;
+        result += ch;
+    }
+    result_out = negative ? -out_type(result) : out_type(result);
+}
+
+template<typename Type>
+void
+boost::cnv::strtol::strtou_(char const* s, boost::optional<Type>& result_out) const
+{
+    /**/ if (skipws_) for (; std::isspace(*s); ++s);
+    else if (std::isspace(*s)) return;
+
+    unsigned int   base = base_;
+    unsigned int     ch = *s++;
+
+    if ((base == 0 || base == 16) && ch == '0' && (*s == 'x' || *s == 'X'))
+    {
+        ch = *++s; ++s; base = 16;
+    }
+    if (base == 0)
+        base = ch == '0' ? 8 : 10;
+
+    static Type const max = std::numeric_limits<Type>::max();
+    Type           cutoff = max / base;
+    unsigned int   cutlim = max % base;
+    Type           result = 0;
+
+    for (; ch; ch = *s++)
+    {
+        /**/ if (std::isdigit(ch)) ch -= '0';
+        else if (std::isalpha(ch)) ch -= (std::isupper(ch) ? 'A' : 'a') - 10;
+        else return;
+
+        if (ch >= base)
+            return;
+
+        if (result > cutoff || (result == cutoff && ch > cutlim))
+            return;
+
+        result *= base;
+        result += ch;
+    }
+    result_out = result;
 }
 
 #endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP
