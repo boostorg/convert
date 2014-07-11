@@ -10,6 +10,7 @@
 #include <boost/spirit/include/qi_parse.hpp>
 #include <boost/spirit/include/qi_numeric.hpp>
 #include <boost/spirit/include/qi_string.hpp>
+#include <boost/range/as_literal.hpp>
 
 #include <boost/convert/detail/coerce/detail/karma.hpp>
 

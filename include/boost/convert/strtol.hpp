@@ -25,7 +25,18 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     //     Main functions have to take "char const*" as that is what strtol() and its family
     //     work with. That is, strtol() expects a \0 terminated string.
     //     So, feeding ranges is wrong as ranges are not mandated to be contiguous and
-    //     to have the trailing \0. Therefore, strol() will fail.
+    //     to have the trailing \0. Otherwise, strol() will fail.
+    // C2. Old C-strings have an advantage over [begin, end) ranges. They do not need the 'end' iterator!
+    //     Instead, they provide a sentinel (0 terminator). Consequently, C strings can be traversed
+    //     without the need to compare if the 'end' has been reached (i.e. "for (; it != end; ++it)").
+    //     Instead, the current character is checked if it's 0 (i.e. "for (; *p; ++p)") which is faster.
+    //
+    //     So, the implementation takes advantage of the fact. Namely, we simply check if *cnv_end == 0
+    //     instead of traversing once with strlen() to find the end iterator and then comparing to it as in
+    //
+    //         char const* str_end = str + strlen(str); // Unnecessary traversal!
+    //         ...
+    //         bool const     good = ... && cnv_end == str_end;
 
     typedef boost::cnv::strtol                     this_type;
     typedef boost::cnv::detail::cnvbase<this_type> base_type;
@@ -69,10 +80,9 @@ boost::cnv::strtol::strtol_(char const* str, optional<out_type>& result_out) con
     if (!skipws_ && std::isspace(*str))
         return;
 
-    char const*       str_end = str + strlen(str);
     char*             cnv_end = 0;
     llint_type const   result = std::strtoll(str, &cnv_end, base_);
-    bool const           good = result != LLONG_MIN && result != LLONG_MAX && cnv_end == str_end;
+    bool const           good = result != LLONG_MIN && result != LLONG_MAX && *cnv_end == 0/*C2*/;
     static out_type const min = std::numeric_limits<out_type>::min();
     static out_type const max = std::numeric_limits<out_type>::max();
 
@@ -87,10 +97,9 @@ boost::cnv::strtol::strtoul_(char const* str, optional<Type>& result_out) const
     if (!skipws_ && std::isspace(*str))
         return;
 
-    char const*      str_end = str + strlen(str);
     char*            cnv_end = 0;
     ullint_type const result = std::strtoull(str, &cnv_end, base_);
-    bool const          good = result != ULLONG_MAX && cnv_end == str_end;
+    bool const          good = result != ULLONG_MAX && *cnv_end == 0/*C2*/;
     Type const           max = std::numeric_limits<Type>::max();
 
     if (good && result <= max)
@@ -104,10 +113,9 @@ boost::cnv::strtol::strtod_(char const* str, optional<Type>& result_out) const
     if (!skipws_ && std::isspace(*str))
         return;
 
-    char const*    str_end = str + strlen(str);
     char*          cnv_end = 0;
     ldbl_type const result = std::strtold(str, &cnv_end);
-    bool const        good = result != -HUGE_VALL && result != HUGE_VALL && cnv_end == str_end;
+    bool const        good = result != -HUGE_VALL && result != HUGE_VALL && *cnv_end == 0/*C2*/;
     Type const         max = std::numeric_limits<Type>::max();
 
     if (good && -max <= result && result <= max)

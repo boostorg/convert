@@ -29,6 +29,8 @@ convert.includes
 .settings/
 .cproject
 convert-test
+convert-test-performance
+convert-test-performance-spirit
 
 Debug/
 Release/

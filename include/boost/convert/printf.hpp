@@ -9,6 +9,7 @@
 #include <boost/make_default.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/find.hpp>
+#include <boost/range/as_literal.hpp>
 #include <string>
 #include <cstdio>
 

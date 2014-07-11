@@ -7,7 +7,6 @@
 
 #include <boost/convert/parameters.hpp>
 #include <boost/utility/enable_if.hpp>
-#include <boost/range/as_literal.hpp>
 #include <cctype>
 #include <cstring>
 

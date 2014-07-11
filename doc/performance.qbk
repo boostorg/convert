@@ -22,12 +22,12 @@ Compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 tests produced the following resu
 
 Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following results:
 
- int-to-str: spirit/itostr/lcast/prntf/stream=   1.68/   1.43/   1.96/   3.24/   2.68 seconds.
- lng-to-str: spirit/ltostr/lcast/prntf/stream=   1.77/   1.54/   2.14/   3.28/   2.68 seconds.
- dbl-to-str: spirit/dtostr/lcast/prntf/stream=   5.63/   3.03/  17.96/  13.67/  13.73 seconds.
- str-to-int: spirit/strtoi/lcast/scanf/stream=   0.38/   0.97/   1.14/   2.69/   3.06 seconds.
- str-to-lng: spirit/strtol/lcast/scanf/stream=   0.21/   0.78/   1.47/   2.67/   3.12 seconds.
- str-to-dbl: spirit/strtod/lcast/scanf/stream=   0.44/   1.56/   1.70/   4.36/   5.57 seconds.
+ int-to-str: spirit/itostr/lcast/prntf/stream=   1.68/   1.48/   2.02/   3.27/   2.73 seconds.
+ lng-to-str: spirit/ltostr/lcast/prntf/stream=   1.82/   1.56/   2.11/   3.27/   2.69 seconds.
+ dbl-to-str: spirit/dtostr/lcast/prntf/stream=   5.73/   3.03/  18.20/  13.97/  13.86 seconds.
+ str-to-int: spirit/strtoi/lcast/scanf/stream=   0.42/   0.66/   1.17/   2.74/   3.10 seconds.
+ str-to-lng: spirit/strtol/lcast/scanf/stream=   0.21/   0.78/   1.52/   2.71/   3.14 seconds.
+ str-to-dbl: spirit/strtod/lcast/scanf/stream=   0.42/   1.44/   1.72/   4.24/   5.45 seconds.
 
 Based on the results we might conclude that
 
