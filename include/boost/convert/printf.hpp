@@ -26,26 +26,21 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
     using base_type::operator();
 
     template<typename in_type>
-    detail::str_range
+    cnv::range<char*>
     to_str(in_type value_in, char* buf) const
     {
         char const*     fmt = pformat(pos<in_type>());
         int const num_chars = ::snprintf(buf, bufsize_, fmt, precision_, value_in);
         bool const  success = num_chars < bufsize_;
 
-        return detail::str_range(buf, success ? (buf + num_chars) : buf);
+        return cnv::range<char*>(buf, success ? (buf + num_chars) : buf);
     }
     template<typename string_type, typename out_type>
     void
-    str_to(string_type const& string_in, optional<out_type>& result_out) const
+    str_to(cnv::range<string_type> range, optional<out_type>& result_out) const
     {
-        typedef typename boost::range_iterator<string_type const>::type iterator;
-        typedef typename boost::iterator_range<iterator>::type    iterator_range;
-
-        iterator_range range = boost::as_literal(string_in);
-        iterator         beg = range.begin();
-        out_type      result = boost::make_default<out_type>();
-        int const   num_read = ::sscanf(&*beg, format(pos<out_type>()), &result);
+        out_type    result = boost::make_default<out_type>();
+        int const num_read = ::sscanf(&*range.begin(), format(pos<out_type>()), &result);
 
         if (num_read == 1)
             result_out = result;

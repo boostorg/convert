@@ -38,23 +38,21 @@ struct boost::cnv::spirit : public boost::cnv::detail::cnvbase<boost::cnv::spiri
 
     template<typename string_type, typename out_type>
     void
-    str_to(string_type const& string_in, optional<out_type>& result_out) const
+    str_to(cnv::range<string_type> range, optional<out_type>& result_out) const
     {
-        typedef typename boost::range_iterator<string_type const>::type     iterator;
-        typedef typename boost::iterator_range<iterator>::type        iterator_range;
+        typedef typename cnv::range<string_type>::iterator                  iterator;
         typedef typename boost::spirit::traits::create_parser<out_type>::type parser;
 
-        iterator_range range = boost::as_literal(string_in);
-        iterator         beg = range.begin();
-        iterator         end = range.end();
-        out_type      result;
+        iterator    beg = range.begin();
+        iterator    end = range.end();
+        out_type result;
 
         if (boost::spirit::qi::parse(beg, end, parser(), result))
             if (beg == end) // ensure the whole string has been parsed
                 result_out = result;
     }
     template<typename in_type, typename char_type>
-    detail::str_range
+    cnv::range<char*>
     to_str(in_type value_in, char_type* beg) const
     {
         typedef cnv::detail::generator<in_type> generator;
@@ -62,7 +60,7 @@ struct boost::cnv::spirit : public boost::cnv::detail::cnvbase<boost::cnv::spiri
         char_type* end = beg;
         bool      good = boost::spirit::karma::generate(end, generator(), value_in);
         
-        return detail::str_range(beg, good ? end : beg);
+        return cnv::range<char*>(beg, good ? end : beg);
     }
 };
 

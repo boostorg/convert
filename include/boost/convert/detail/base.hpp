@@ -6,14 +6,12 @@
 #define BOOST_CONVERT_CONVERTER_BASE_HPP
 
 #include <boost/convert/parameters.hpp>
-#include <boost/utility/enable_if.hpp>
+#include <boost/convert/detail/range.hpp>
 #include <cctype>
 #include <cstring>
 
 namespace boost { namespace cnv { namespace detail
 {
-    typedef std::pair<char*, char*>  str_range;
-
     using boost::parameter::aux::tag;
     namespace ARG = boost::cnv::parameter;
 
@@ -55,16 +53,17 @@ struct boost::cnv::detail::cnvbase
     typedef double                    dbl_type;
     typedef long double              ldbl_type;
 
+    // Basic type to string
     BOOST_CNV_TO_STRING_OP ( int_type v, optional<string_type>& r) const { to_str_(v, r); }
     BOOST_CNV_TO_STRING_OP (lint_type v, optional<string_type>& r) const { to_str_(v, r); }
     BOOST_CNV_TO_STRING_OP ( dbl_type v, optional<string_type>& r) const { to_str_(v, r); }
     BOOST_CNV_TO_STRING_OP (ldbl_type v, optional<string_type>& r) const { to_str_(v, r); }
-
-    BOOST_CNV_STRING_TO_OP (string_type const& s, optional< int_type>& r) const { dncast().str_to(s, r); }
-    BOOST_CNV_STRING_TO_OP (string_type const& s, optional<lint_type>& r) const { dncast().str_to(s, r); }
-    BOOST_CNV_STRING_TO_OP (string_type const& s, optional< dbl_type>& r) const { dncast().str_to(s, r); }
-    BOOST_CNV_STRING_TO_OP (string_type const& s, optional<ldbl_type>& r) const { dncast().str_to(s, r); }
-
+    // String to basic type
+    BOOST_CNV_STRING_TO_OP (string_type const& s, optional< int_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO_OP (string_type const& s, optional<lint_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO_OP (string_type const& s, optional< dbl_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO_OP (string_type const& s, optional<ldbl_type>& r) const { str_to_(s, r); }
+    // Formatters
 //  BOOST_CNV_PARAM_OP (locale,  std::locale const) { locale_    = arg[ARG::   locale]; return dncast(); }
     BOOST_CNV_PARAM_OP (base,     base::type const) { base_      = arg[ARG::     base]; return dncast(); }
     BOOST_CNV_PARAM_OP (adjust, adjust::type const) { adjust_    = arg[ARG::   adjust]; return dncast(); }
@@ -88,14 +87,31 @@ struct boost::cnv::detail::cnvbase
         adjust_     (boost::cnv::adjust::right)
     {}
 
-    template<typename type_in, typename string_type>
+    template<typename string_type, typename out_type>
     void
-    to_str_(type_in value_in, optional<string_type>& result_out) const
+    str_to_(string_type const& str, optional<out_type>& result_out) const
     {
-        char buf[bufsize_];
-        str_range    range = dncast().to_str(value_in, buf);
-        char*          beg = range.first;
-        char*          end = range.second;
+        typedef cnv::range<string_type const>    range_type;
+        typedef typename range_type::iterator iterator_type;
+
+        range_type   range (str);
+        iterator_type& beg = range.begin();
+
+        /**/ if (skipws_) for (; std::isspace(*beg); ++beg);
+        else if (std::isspace(*beg)) return;
+
+        dncast().str_to(range, result_out);
+    }
+    template<typename in_type, typename string_type>
+    void
+    to_str_(in_type value_in, optional<string_type>& result_out) const
+    {
+        typedef typename cnv::range<string_type>::char_type char_type;
+
+        char_type buf[bufsize_];
+        cnv::range<char_type*> range = dncast().to_str(value_in, buf);
+        char_type*               beg = range.begin();
+        char_type*               end = range.end();
 
         if (beg < end)
         {
@@ -105,12 +121,13 @@ struct boost::cnv::detail::cnvbase
         }
     }
 
+    template<typename char_type>
     void
-    format_(char* buf, char*& beg, char*& end) const
+    format_(char_type* buf, char_type*& beg, char_type*& end) const
     {
         if (uppercase_)
         {
-            for (char* p = beg; p < end; ++p) *p = toupper(*p);
+            for (char_type* p = beg; p < end; ++p) *p = std::toupper(*p);
         }
         if (width_)
         {
@@ -124,7 +141,7 @@ struct boost::cnv::detail::cnvbase
                                  || (buf + bufsize_ < end + num_right); // No room for right fillers
             if (move)
             {
-                std::memmove(buf + num_left, beg, str_size);
+                std::memmove(buf + num_left, beg, str_size * sizeof(char_type));
                 beg = buf + num_left;
                 end = beg + str_size;
             }

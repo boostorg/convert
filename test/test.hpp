@@ -83,13 +83,12 @@ namespace boost
     }
 }
 //]
-
-// Quick and dirty small-string implementation for performance tests to make sure we can have
-// and array of my_strings in one piece.
+// Quick and dirty small-string implementation for performance tests.
 //[my_string_declaration
 struct my_string
 {
     typedef my_string        this_type;
+    typedef char*             iterator;
     typedef char const* const_iterator;
 
     my_string ();

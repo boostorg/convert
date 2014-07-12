@@ -2,27 +2,19 @@
 #define BOOST_CONVERT_DETAIL_IS_STRING_HPP
 
 #include <boost/convert/detail/has_memfun_name.hpp>
-#include <boost/convert/detail/is_char.hpp>
+#include <boost/convert/detail/char.hpp>
 #include <boost/range/iterator_range_core.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <string>
 
 namespace boost { namespace cnv { namespace trait
 {
-    DECLARE_HAS_MEMFUN_NAME(has_begin, begin);
-    DECLARE_HAS_MEMFUN_NAME(  has_end, end);
-
-    template<typename T> struct is_range
-    {
-        static bool const value = has_begin<T>::value && has_end<T>::value;
-    };
-
     // String is different from the Range as it must be contiguous.
 
     template <typename T>                struct is_string        : mpl::false_ {};
-    template <typename T>                struct is_string<T*>    : trait::is_char<T> { typedef typename remove_const<T>::type char_type; };
-    template <typename T, std::size_t N> struct is_string<T [N]> : trait::is_char<T> { typedef typename remove_const<T>::type char_type; };
-    template <typename T, typename C, typename A> struct is_string<std::basic_string<T, C, A> > : trait::is_char<T> { typedef T char_type; };
+    template <typename T>                struct is_string<T*>    : cnv::is_char<T> { typedef typename remove_const<T>::type char_type; };
+    template <typename T, std::size_t N> struct is_string<T [N]> : cnv::is_char<T> { typedef typename remove_const<T>::type char_type; };
+    template <typename T, typename C, typename A> struct is_string<std::basic_string<T, C, A> > : cnv::is_char<T> { typedef T char_type; };
 
     template <typename T, typename C> struct is_string_of
     {

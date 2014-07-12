@@ -231,17 +231,14 @@ performance_comparative(Raw const& raw, Cnv const& cnv, char const* txt)
     int const num_tries = 5;
     double     cnv_time = 0;
     double     raw_time = 0;
-    double       change = 0;
 
-    for (int k = 0; k < num_tries; ++k)
-    {
-        raw_time += raw_str_to<int>(raw);
-        cnv_time += local::str_to<int>(cnv);
-        change   += 100 * (1 - cnv_time / raw_time);
-    }
+    for (int k = 0; k < num_tries; ++k) cnv_time += local::str_to<int>(cnv);
+    for (int k = 0; k < num_tries; ++k) raw_time += raw_str_to<int>(raw);
+
     cnv_time /= num_tries;
     raw_time /= num_tries;
-    change   /= num_tries;
+
+    double change = 100 * (1 - cnv_time / raw_time);
 
     printf("str-to-int: %s raw/cnv=%.2f/%.2f seconds (%.2f%%).\n", txt, raw_time, cnv_time, change);
 }

@@ -8,7 +8,6 @@
 #include <boost/type_traits.hpp>
 #include <boost/type_traits/decay.hpp>
 #include <boost/type_traits/detail/yes_no_type.hpp>
-#include <boost/utility/enable_if.hpp>
 #include <boost/range.hpp>
 #include <string>
 

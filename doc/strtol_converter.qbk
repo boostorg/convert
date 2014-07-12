@@ -22,6 +22,7 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 [section Numeric Base]
 [strtol_numeric_base_header]
 [strtol_numeric_base]
+[wide_strtol_numeric_base]
 [endsect]
 
 [section Field Width, Fill Character and Adjustment]
@@ -30,6 +31,7 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 
 [section Leading Whitespace Characters]
 [strtol_skipws]
+[wide_strtol_skipws]
 [endsect]
 
 [section Floating-Point Precision]
@@ -37,10 +39,17 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 [endsect]
 [endsect]
 
-[section Support for Custom String Types]
+[section Supported String Types]
 
+[section Wide String]
+[wide_strtol_numeric_base]
+[wide_strtol_skipws]
+[endsect]
+
+[section Custom String Types]
 [my_string_declaration]
 [strtol_user_string]
+[endsect]
 
 [endsect]
 [endsect]

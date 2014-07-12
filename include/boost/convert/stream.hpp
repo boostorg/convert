@@ -6,7 +6,7 @@
 #define BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
 
 #include <boost/convert/detail/base.hpp>
-#include <boost/convert/detail/is_char.hpp>
+#include <boost/convert/detail/char.hpp>
 #include <boost/make_default.hpp>
 #include <sstream>
 #include <iomanip>
@@ -55,7 +55,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
         ibuffer_type(char_type const* beg) // Contiguous(!) range.
         {
-            std::size_t sz = trait::size(beg);
+            std::size_t sz = std::char_traits<char_type>::length(beg);
             char_type*   b = const_cast<char_type*>(beg);
 
             buffer_type::setg(b, b, b + sz);
