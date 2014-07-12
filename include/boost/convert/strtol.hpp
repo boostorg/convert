@@ -65,9 +65,9 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<  uint_type>& r) const { strtoul_ (&*v.begin(), r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional< usint_type>& r) const { strtoul_ (&*v.begin(), r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional< ulint_type>& r) const { strtoul_ (&*v.begin(), r); }
-    template<typename string_type> void str_to(cnv::range<string_type> v, optional<   flt_type>& r) const { strtod_  (&*v.begin(), r); }
-    template<typename string_type> void str_to(cnv::range<string_type> v, optional<   dbl_type>& r) const { strtod_  (&*v.begin(), r); }
-    template<typename string_type> void str_to(cnv::range<string_type> v, optional<  ldbl_type>& r) const { strtod_  (&*v.begin(), r); }
+    template<typename string_type> void str_to(cnv::range<string_type> v, optional<   flt_type>& r) const { str_to_d (v, r); }
+    template<typename string_type> void str_to(cnv::range<string_type> v, optional<   dbl_type>& r) const { str_to_d (v, r); }
+    template<typename string_type> void str_to(cnv::range<string_type> v, optional<  ldbl_type>& r) const { str_to_d (v, r); }
 
     template <typename char_type> cnv::range<char_type*> to_str ( int_type v, char_type* buf) const { return i_to_str(v, buf); }
     template <typename char_type> cnv::range<char_type*> to_str (lint_type v, char_type* buf) const { return i_to_str(v, buf); }
@@ -75,10 +75,10 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
 
     private:
 
-    template<typename string_type, typename out_type> void                str_to_i (cnv::range<string_type>, optional<out_type>&) const;
     template<typename char_type, typename in_type> cnv::range<char_type*> i_to_str (in_type, char_type*) const;
+    template<typename string_type, typename out_type> void                str_to_i (cnv::range<string_type>, optional<out_type>&) const;
+    template<typename string_type, typename out_type> void                str_to_d (cnv::range<string_type>, optional<out_type>&) const;
 
-    template<typename Type> void  strtod_ (char const*, optional<Type>&) const;
     template<typename Type> void  strtou_ (char const*, optional<Type>&) const;
     template<typename Type> void strtoul_ (char const*, optional<Type>&) const;
 
@@ -96,19 +96,6 @@ boost::cnv::strtol::strtoul_(char const* str, optional<Type>& result_out) const
     Type const           max = std::numeric_limits<Type>::max();
 
     if (good && result <= max)
-        result_out = Type(result);
-}
-
-template<typename Type>
-void
-boost::cnv::strtol::strtod_(char const* str, optional<Type>& result_out) const
-{
-    char*          cnv_end = 0;
-    ldbl_type const result = std::strtold(str, &cnv_end);
-    bool const        good = result != -HUGE_VALL && result != HUGE_VALL && *cnv_end == 0/*C2*/;
-    Type const         max = std::numeric_limits<Type>::max();
-
-    if (good && -max <= result && result <= max)
         result_out = Type(result);
 }
 
@@ -230,6 +217,24 @@ boost::cnv::strtol::str_to_i(cnv::range<string_type> range, boost::optional<out_
         result += ch;
     }
     result_out = negative ? -out_type(result) : out_type(result);
+}
+
+template<typename string_type, typename out_type>
+void
+boost::cnv::strtol::str_to_d(cnv::range<string_type> range, optional<out_type>& result_out) const
+{
+    typedef cnv::range<string_type>                            range_type;
+    typedef typename range_type::iterator                        iterator;
+    typedef typename range_type::char_type                      char_type;
+
+    char_type const*   str = &*range.begin(); // Currently only works with 'char'
+    char*          cnv_end = 0;
+    ldbl_type const result = std::strtold(str, &cnv_end);
+    bool const        good = result != -HUGE_VALL && result != HUGE_VALL && *cnv_end == 0/*C2*/;
+    out_type const     max = std::numeric_limits<out_type>::max();
+
+    if (good && -max <= result && result <= max)
+        result_out = out_type(result);
 }
 
 #endif // BOOST_CONVERT_STRTOL_CONVERTER_HPP

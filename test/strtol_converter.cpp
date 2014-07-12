@@ -50,6 +50,7 @@ test_str_to_int()
 #include <boost/convert/strtol.hpp>
 
 using std::string;
+using std::wstring;
 using boost::convert;
 
 namespace cnv = boost::cnv;
