@@ -19,8 +19,6 @@ int
 main(int argc, char const* argv[])
 {
     test::cnv::spirit_converter();
-    test::cnv::scratchpad();
-    test::cnv::sfinae();
     test::cnv::is_converter();
     test::cnv::stream_converter();
     test::cnv::lcast_converter();

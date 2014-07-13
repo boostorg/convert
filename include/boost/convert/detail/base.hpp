@@ -6,7 +6,7 @@
 #define BOOST_CONVERT_CONVERTER_BASE_HPP
 
 #include <boost/convert/parameters.hpp>
-#include <boost/convert/detail/range.hpp>
+#include <boost/convert/detail/is_string.hpp>
 #include <cctype>
 #include <cstring>
 
@@ -16,25 +16,19 @@ namespace boost { namespace cnv { namespace detail
     namespace ARG = boost::cnv::parameter;
 
     template<typename> struct cnvbase;
-
-    template<typename string_type>
-    struct is_string
-    {
-        static bool const value = true; // TBD
-    };
 }}}
 
-#define BOOST_CNV_TO_STRING_OP                                      \
-    template<typename string_type>                                  \
-    typename boost::enable_if<is_string<string_type>, void>::type   \
+#define BOOST_CNV_TO_STRING                                             \
+    template<typename string_type>                                      \
+    typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
     operator()
 
-#define BOOST_CNV_STRING_TO_OP                                      \
-    template<typename string_type>                                  \
-    typename boost::enable_if<is_string<string_type>, void>::type   \
+#define BOOST_CNV_STRING_TO                                             \
+    template<typename string_type>                                      \
+    typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
     operator()
 
-#define BOOST_CNV_PARAM_OP(param_name, param_type) \
+#define BOOST_CNV_PARAM(param_name, param_type)                         \
     derived_type& operator()(tag<ARG::type::param_name, param_type>::type const& arg)
 
 template<typename derived_type>
@@ -54,25 +48,35 @@ struct boost::cnv::detail::cnvbase
     typedef long double              ldbl_type;
 
     // Basic type to string
-    BOOST_CNV_TO_STRING_OP ( int_type v, optional<string_type>& r) const { to_str_(v, r); }
-    BOOST_CNV_TO_STRING_OP (lint_type v, optional<string_type>& r) const { to_str_(v, r); }
-    BOOST_CNV_TO_STRING_OP ( dbl_type v, optional<string_type>& r) const { to_str_(v, r); }
-    BOOST_CNV_TO_STRING_OP (ldbl_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING (  int_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING ( uint_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING ( lint_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING (ulint_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING ( sint_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING (usint_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING (  flt_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING (  dbl_type v, optional<string_type>& r) const { to_str_(v, r); }
+    BOOST_CNV_TO_STRING ( ldbl_type v, optional<string_type>& r) const { to_str_(v, r); }
     // String to basic type
-    BOOST_CNV_STRING_TO_OP (string_type const& s, optional< int_type>& r) const { str_to_(s, r); }
-    BOOST_CNV_STRING_TO_OP (string_type const& s, optional<lint_type>& r) const { str_to_(s, r); }
-    BOOST_CNV_STRING_TO_OP (string_type const& s, optional< dbl_type>& r) const { str_to_(s, r); }
-    BOOST_CNV_STRING_TO_OP (string_type const& s, optional<ldbl_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO (string_type const& s, optional<  int_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO (string_type const& s, optional< uint_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO (string_type const& s, optional< lint_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO (string_type const& s, optional<ulint_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO (string_type const& s, optional< sint_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO (string_type const& s, optional<usint_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO (string_type const& s, optional<  flt_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO (string_type const& s, optional<  dbl_type>& r) const { str_to_(s, r); }
+    BOOST_CNV_STRING_TO (string_type const& s, optional< ldbl_type>& r) const { str_to_(s, r); }
     // Formatters
-//  BOOST_CNV_PARAM_OP (locale,  std::locale const) { locale_    = arg[ARG::   locale]; return dncast(); }
-    BOOST_CNV_PARAM_OP (base,     base::type const) { base_      = arg[ARG::     base]; return dncast(); }
-    BOOST_CNV_PARAM_OP (adjust, adjust::type const) { adjust_    = arg[ARG::   adjust]; return dncast(); }
-    BOOST_CNV_PARAM_OP (precision,       int const) { precision_ = arg[ARG::precision]; return dncast(); }
-    BOOST_CNV_PARAM_OP (precision,             int) { precision_ = arg[ARG::precision]; return dncast(); }
-    BOOST_CNV_PARAM_OP (uppercase,      bool const) { uppercase_ = arg[ARG::uppercase]; return dncast(); }
-    BOOST_CNV_PARAM_OP (skipws,         bool const) { skipws_    = arg[ARG::   skipws]; return dncast(); }
-    BOOST_CNV_PARAM_OP (width,           int const) { width_     = arg[ARG::    width]; return dncast(); }
-    BOOST_CNV_PARAM_OP (fill,           char const) {  fill_     = arg[ARG::     fill]; return dncast(); }
+//  BOOST_CNV_PARAM (locale,  std::locale const) { locale_    = arg[ARG::   locale]; return dncast(); }
+    BOOST_CNV_PARAM (base,     base::type const) { base_      = arg[ARG::     base]; return dncast(); }
+    BOOST_CNV_PARAM (adjust, adjust::type const) { adjust_    = arg[ARG::   adjust]; return dncast(); }
+    BOOST_CNV_PARAM (precision,       int const) { precision_ = arg[ARG::precision]; return dncast(); }
+    BOOST_CNV_PARAM (precision,             int) { precision_ = arg[ARG::precision]; return dncast(); }
+    BOOST_CNV_PARAM (uppercase,      bool const) { uppercase_ = arg[ARG::uppercase]; return dncast(); }
+    BOOST_CNV_PARAM (skipws,         bool const) { skipws_    = arg[ARG::   skipws]; return dncast(); }
+    BOOST_CNV_PARAM (width,           int const) { width_     = arg[ARG::    width]; return dncast(); }
+    BOOST_CNV_PARAM (fill,           char const) {  fill_     = arg[ARG::     fill]; return dncast(); }
 
     protected:
 
@@ -166,11 +170,8 @@ struct boost::cnv::detail::cnvbase
 //  std::locale       locale_;
 };
 
-#undef BOOST_CNV_STRING_OP
-#undef BOOST_CNV_PARAM_OP
-
-#define CONVERTER_PARAM_FUNC(PARAM_NAME, PARAM_TYPE)    \
-    this_type&                                          \
-    operator()(boost::parameter::aux::tag<boost::cnv::parameter::type::PARAM_NAME, PARAM_TYPE>::type const& arg)
+#undef BOOST_CNV_TO_STRING
+#undef BOOST_CNV_STRING_TO
+#undef BOOST_CNV_PARAM
 
 #endif // BOOST_CONVERT_CONVERTER_BASE_HPP

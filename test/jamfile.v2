@@ -32,13 +32,10 @@ run callable.cpp
     lcast_converter.cpp     
     main.cpp                
     printf_converter.cpp    
-    scratchpad.cpp          
-    sfinae.cpp              
     stream_converter.cpp    
     strtol_converter.cpp    
     spirit_converter.cpp    
-    user_type.cpp           
-                    :  :  :  : convert_test ;
+    user_type.cpp :  :  :  : convert_test ;
 
     
 

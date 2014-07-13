@@ -10,8 +10,6 @@ sources_1 = test/callable.cpp			\
             test/lcast_converter.cpp	\
             test/main.cpp				\
             test/printf_converter.cpp	\
-            test/scratchpad.cpp			\
-            test/sfinae.cpp				\
             test/stream_converter.cpp	\
             test/strtol_converter.cpp	\
             test/spirit_converter.cpp	\

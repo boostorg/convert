@@ -37,12 +37,12 @@
 
 #define DECLARE_HAS_MEMFUN_NAME(class_name, memfun_name)                                                \
                                                                                                         \
-    template <typename T>                                                                               \
+    template <typename __T__>                                                                           \
     class class_name                                                                                    \
     {                                                                                                   \
-        typedef typename ::boost::remove_const<T>::type type;                                           \
-        typedef ::boost::type_traits::yes_type      yes_type;                                           \
-        typedef ::boost::type_traits:: no_type       no_type;                                           \
+        typedef typename ::boost::remove_const<__T__>::type type;                                       \
+        typedef ::boost::type_traits::yes_type          yes_type;                                       \
+        typedef ::boost::type_traits:: no_type           no_type;                                       \
                                                                                                         \
         struct  base { void memfun_name(/*C2*/){} };                                                    \
         struct mixin : public base, public type {};                                                     \

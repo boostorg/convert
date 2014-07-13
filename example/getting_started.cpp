@@ -12,9 +12,9 @@
 namespace { namespace local
 {
 #if defined(_MSC_VER)
-    static bool const    is_msc = true;
+    static bool const is_msc = true;
 #else
-    static bool const    is_msc = false;
+    static bool const is_msc = false;
 #endif
 }}
 

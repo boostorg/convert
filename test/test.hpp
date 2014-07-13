@@ -142,20 +142,11 @@ namespace test
     {
 #if defined(_MSC_VER)
         static bool const    is_msc = true;
-        static bool const    is_gcc = false;
-#elif defined(__CYGWIN__) 
-        static bool const    is_msc = false;
-        static bool const    is_gcc = true;
-#elif defined(__GNUC__)
-        static bool const    is_msc = false;
-        static bool const    is_gcc = true;
 #else
-#error "Add here."
+        static bool const    is_msc = false;
 #endif
 
         static void      is_converter ();
-        static void        scratchpad ();
-        static void            sfinae ();
         static void        encryption ();
         static void         callables ();
         static void         fallbacks ();

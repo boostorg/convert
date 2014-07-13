@@ -1,5 +1,5 @@
-#ifndef BOOST_CONVERT_DETAIL_CHAR_HPP
-#define BOOST_CONVERT_DETAIL_CHAR_HPP
+#ifndef BOOST_CONVERT_DETAIL_IS_CHAR_HPP
+#define BOOST_CONVERT_DETAIL_IS_CHAR_HPP
 
 #include <boost/mpl/bool.hpp>
 #include <boost/type_traits/remove_const.hpp>
