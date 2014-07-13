@@ -1,0 +1,74 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>String Types</title>
+<link rel="stylesheet" href="../../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="../../../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
+<link rel="up" href="../boost__cnv__stream_converter.html" title="boost::cnv::stream Converter">
+<link rel="prev" href="integration_of_user_defined_types.html" title="Integration of User-Defined Types">
+<link rel="next" href="the___default_constructible__type_requirement.html" title="The Default Constructible Type Requirement">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="integration_of_user_defined_types.html"><img src="../../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../boost__cnv__stream_converter.html"><img src="../../../images/up.png" alt="Up"></a><a accesskey="h" href="../../../index.html"><img src="../../../images/home.png" alt="Home"></a><a accesskey="n" href="the___default_constructible__type_requirement.html"><img src="../../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="boost_convert.converters.boost__cnv__stream_converter.string_types"></a><a class="link" href="string_types.html" title="String Types">String
+        Types</a>
+</h4></div></div></div>
+<p>
+          <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">stream</span></code> is asymmetric in what string and
+          string-like types it accepts when those types are provided as input or
+          requested as output.
+        </p>
+<h5>
+<a name="boost_convert.converters.boost__cnv__stream_converter.string_types.h0"></a>
+          <span class="phrase"><a name="boost_convert.converters.boost__cnv__stream_converter.string_types.input_string"></a></span><a class="link" href="string_types.html#boost_convert.converters.boost__cnv__stream_converter.string_types.input_string">Input
+          String</a>
+        </h5>
+<p>
+          When a string is the source, then <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">stream</span></code>
+          only accepts a contiguous 0-terminated sequence of the corresponding character
+          type (<code class="computeroutput"><span class="keyword">char</span></code> or <code class="computeroutput"><span class="keyword">wchar_t</span></code>), i.e. the old-fashioned C string.
+          <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span></code> is also accepted as it provides
+          such a sequence via the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">::</span><span class="identifier">c_str</span><span class="special">()</span></code> method. No other string-like ranges are
+          accepted. That is done due to efficiency considerations.
+        </p>
+<p>
+          <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code> is implemented entirely
+          in terms of <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">basic_streambuf</span></code> which, in turn, operates
+          on a <span class="emphasis"><em>contiguous character sequence</em></span>, also called the
+          <span class="emphasis"><em>buffer</em></span> (see <a href="http://en.cppreference.com/w/cpp/io/basic_streambuf" target="_top"><code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">basic_streambuf</span></code></a> for details).
+          For efficiency reasons <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">stream</span></code>
+          uses the provided input (read-only) string as the <span class="emphasis"><em>buffer</em></span>
+          and, consequently, requires that provided input string to be a contiguous
+          character sequence.
+        </p>
+<p>
+          It the user needs to deploy their own string-like types with <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">stream</span></code>, then those types would require
+          a method functionally similar to <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">::</span><span class="identifier">c_str</span><span class="special">()</span></code>. That requirement has been made intentionally
+          explicit (instead of providing it implicitly) so that the user is aware
+          of the associated cost and, therefore, is in a position to address that
+          via optimization or a different design.
+        </p>
+<h5>
+<a name="boost_convert.converters.boost__cnv__stream_converter.string_types.h1"></a>
+          <span class="phrase"><a name="boost_convert.converters.boost__cnv__stream_converter.string_types.output_string"></a></span><a class="link" href="string_types.html#boost_convert.converters.boost__cnv__stream_converter.string_types.output_string">Output
+          String</a>
+        </h5>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009-2014 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. See copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>.
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="integration_of_user_defined_types.html"><img src="../../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../boost__cnv__stream_converter.html"><img src="../../../images/up.png" alt="Up"></a><a accesskey="h" href="../../../index.html"><img src="../../../images/home.png" alt="Home"></a><a accesskey="n" href="the___default_constructible__type_requirement.html"><img src="../../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

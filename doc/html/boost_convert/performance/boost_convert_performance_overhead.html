@@ -21,15 +21,15 @@
 <p>
         <span class="emphasis"><em>Boost.Convert</em></span> framework adds an additional layer of
         indirection and some <span class="emphasis"><em>Boost.Convert</em></span> converters are wrappers
-        around actual conversion facilities such as <code class="computeroutput"><span class="identifier">strtol</span><span class="special">()</span></code>, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>,
+        around actual conversion facilities such as <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>,
         <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">spirit</span></code>, etc. Consequently, there might
-        be justified concerns with regard to the performance overhead introduced
+        be reasonable concerns with regard to the performance overhead introduced
         by the framework as opposed to deploying conversion facilities directly.
       </p>
 <p>
-        To test that the Spirit performance code has been borrowed and adapted from
-        the Spirit optimization framework (see $BOOST_ROOT/libs/spirit/workbench/qi/int_parser.cpp).
-        The tests were
+        To test that code has been borrowed and adapted from the Spirit.Qi performance/optimization
+        framework (see $BOOST_ROOT/libs/spirit/workbench/qi/int_parser.cpp). The
+        tests were
       </p>
 <div class="orderedlist"><ol class="orderedlist" type="1">
 <li class="listitem">
@@ -37,7 +37,7 @@
           </li>
 <li class="listitem">
             with optimization: <code class="computeroutput"><span class="identifier">g</span><span class="special">++</span> <span class="special">-</span><span class="identifier">O3</span>
-            <span class="identifier">test</span><span class="special">/</span><span class="identifier">performance_spirit</span><span class="special">.</span><span class="identifier">cpp</span> <span class="special">-</span><span class="identifier">Iinclude</span> <span class="special">-</span><span class="identifier">I</span><span class="special">../</span><span class="identifier">boost_1_55_0</span> <span class="special">-</span><span class="identifier">lrt</span></code>;
+            <span class="identifier">test</span><span class="special">/</span><span class="identifier">performance_spirit</span><span class="special">.</span><span class="identifier">cpp</span> <span class="special">-</span><span class="identifier">Iinclude</span> <span class="special">-</span><span class="identifier">I</span><span class="special">../</span><span class="identifier">boost_1_56_0</span> <span class="special">-</span><span class="identifier">lrt</span></code>;
           </li>
 <li class="listitem">
             on 64-bit Ubuntu 12.04 and 32-bit Ubuntu 14.04;
@@ -65,32 +65,33 @@
         shown below for several consecutive runs:
       </p>
 <pre class="programlisting"><span class="identifier">gcc</span><span class="special">-</span><span class="number">4.6</span><span class="special">.</span><span class="number">3</span> <span class="special">(</span><span class="number">64</span><span class="special">-</span><span class="identifier">bit</span><span class="special">)</span>
-<span class="identifier">raw_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">1.0519380820</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
-<span class="identifier">cnv_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">1.0610808300</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">1</span><span class="special">%</span> <span class="identifier">slower</span><span class="special">)</span>
-<span class="identifier">raw_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">0.2794660490</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
-<span class="identifier">cnv_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">0.2636677510</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">5</span><span class="special">%</span> <span class="identifier">faster</span><span class="special">)</span>
+<span class="identifier">raw_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">1.0504170070</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
+<span class="identifier">cnv_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">1.0610595810</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">1</span><span class="special">%</span> <span class="identifier">slower</span> <span class="identifier">than</span> <span class="identifier">raw</span> <span class="identifier">above</span><span class="special">)</span>
+<span class="identifier">raw_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">0.2845369110</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
+<span class="identifier">cnv_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">0.2834834560</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">1</span><span class="special">%</span> <span class="identifier">faster</span> <span class="identifier">than</span> <span class="identifier">raw</span> <span class="identifier">above</span><span class="special">)</span>
 
-<span class="identifier">raw_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">1.1781400560</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
-<span class="identifier">cnv_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">1.1261309050</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">4</span><span class="special">%</span> <span class="identifier">faster</span><span class="special">)</span>
-<span class="identifier">raw_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">0.2628718470</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
-<span class="identifier">cnv_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">0.2619931870</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">0</span><span class="special">%</span> <span class="identifier">faster</span><span class="special">)</span>
+<span class="identifier">raw_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">1.0770350390</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">2</span><span class="special">%</span> <span class="identifier">slower</span> <span class="identifier">than</span> <span class="identifier">prev</span><span class="special">.</span> <span class="identifier">run</span><span class="special">)</span>
+<span class="identifier">cnv_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">1.0607665160</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">1</span><span class="special">%</span> <span class="identifier">faster</span> <span class="identifier">than</span> <span class="identifier">raw</span> <span class="identifier">above</span><span class="special">)</span>
+<span class="identifier">raw_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">0.2792295470</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">2</span><span class="special">%</span> <span class="identifier">faster</span> <span class="identifier">than</span> <span class="identifier">prev</span><span class="special">.</span> <span class="identifier">run</span><span class="special">)</span>
+<span class="identifier">cnv_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">0.2827574570</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">1</span><span class="special">%</span> <span class="identifier">slower</span> <span class="identifier">than</span> <span class="identifier">raw</span> <span class="identifier">above</span><span class="special">)</span>
 
 <span class="identifier">gcc</span><span class="special">-</span><span class="number">4.8</span><span class="special">.</span><span class="number">2</span> <span class="special">(</span><span class="number">32</span><span class="special">-</span><span class="identifier">bit</span><span class="special">)</span>
 <span class="identifier">raw_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">8.5153330600</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
-<span class="identifier">cnv_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">8.6989499850</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">2</span><span class="special">%</span> <span class="identifier">slower</span><span class="special">)</span>
+<span class="identifier">cnv_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">8.6989499850</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">2</span><span class="special">%</span> <span class="identifier">slower</span> <span class="identifier">than</span> <span class="identifier">raw</span> <span class="identifier">above</span><span class="special">)</span>
 <span class="identifier">raw_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.4197476510</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
-<span class="identifier">cnv_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.4594171510</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">2</span><span class="special">%</span> <span class="identifier">slower</span><span class="special">)</span>
+<span class="identifier">cnv_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.4594171510</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">2</span><span class="special">%</span> <span class="identifier">slower</span> <span class="identifier">than</span> <span class="identifier">raw</span> <span class="identifier">above</span><span class="special">)</span>
 
-<span class="identifier">raw_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">8.4136546980</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
-<span class="identifier">cnv_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">8.5322524600</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">1</span><span class="special">%</span> <span class="identifier">slower</span><span class="special">)</span>
-<span class="identifier">raw_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.3842388060</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span>
-<span class="identifier">cnv_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.3812094400</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">0</span><span class="special">%</span> <span class="identifier">faster</span><span class="special">)</span>
+<span class="identifier">raw_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">8.4136546980</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">1</span><span class="special">%</span> <span class="identifier">faster</span> <span class="identifier">than</span> <span class="identifier">prev</span><span class="special">.</span> <span class="identifier">run</span><span class="special">)</span>
+<span class="identifier">cnv_lxcast_str_to_int_test</span><span class="special">:</span> <span class="number">8.5322524600</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">1</span><span class="special">%</span> <span class="identifier">slower</span> <span class="identifier">than</span> <span class="identifier">raw</span> <span class="identifier">above</span><span class="special">)</span>
+<span class="identifier">raw_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.3842388060</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">1</span><span class="special">%</span> <span class="identifier">faster</span> <span class="identifier">than</span> <span class="identifier">prev</span><span class="special">.</span> <span class="identifier">run</span><span class="special">)</span>
+<span class="identifier">cnv_spirit_str_to_int_test</span><span class="special">:</span> <span class="number">2.3812094400</span> <span class="special">[</span><span class="identifier">s</span><span class="special">]</span> <span class="special">(</span><span class="number">0</span><span class="special">%</span> <span class="identifier">faster</span> <span class="identifier">than</span> <span class="identifier">raw</span> <span class="identifier">above</span><span class="special">)</span>
 </pre>
 <p>
-        The results vary from run to run with deviation margins of up to +/-5%. The
-        results indicate that the <span class="emphasis"><em>Boost.Convert</em></span> framework had
-        no detectable running overhead with the tested compiler, hardware and deployment
-        scenarios. The results might be well different on other platforms.
+        The results for consecutive runs vary with deviations of up to +/-2%. Under
+        2% is also the deviation of the "cnv" code compared to the "raw"
+        code. That indicates that the <span class="emphasis"><em>Boost.Convert</em></span> framework
+        had no detectable running overhead with the tested compilers, hardware and
+        deployment scenarios. The results might be different on other platforms.
       </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

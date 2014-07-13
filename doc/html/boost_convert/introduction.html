@@ -107,7 +107,7 @@
 <p>
       The collection of pluggable converters is independent of the <span class="emphasis"><em>Boost.Convert</em></span>
       API facade and is designed to be <span class="emphasis"><em>extendible</em></span> and extended
-      over time. With the current proposal the following converters are supplied:
+      over time. With the current proposal the following converters are provided:
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
@@ -117,10 +117,13 @@
           <code class="computeroutput"><span class="identifier">printf</span><span class="special">/</span><span class="identifier">scanf</span></code>-based,
         </li>
 <li class="listitem">
-          <code class="computeroutput"><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">ltostr</span></code>-based,
+          <code class="computeroutput"><span class="identifier">strtol</span></code>-inspired,
         </li>
 <li class="listitem">
-          <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based.
+          <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based,
+        </li>
+<li class="listitem">
+          <span class="emphasis"><em>Boost.Spirit</em></span>-based.
         </li>
 </ul></div>
 <p>

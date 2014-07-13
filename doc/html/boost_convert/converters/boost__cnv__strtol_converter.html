@@ -33,18 +33,23 @@
 <dt><span class="section"><a href="boost__cnv__strtol_converter/formatting_support/floating_point_precision.html">Floating-Point
           Precision</a></span></dt>
 </dl></dd>
-<dt><span class="section"><a href="boost__cnv__strtol_converter/support_for_custom_string_types.html">Support
-        for Custom String Types</a></span></dt>
-<dt><span class="section"><a href="boost__cnv__strtol_converter/limitations.html">Limitations</a></span></dt>
+<dt><span class="section"><a href="boost__cnv__strtol_converter/supported_string_types.html">Supported
+        String Types</a></span></dt>
+<dd><dl>
+<dt><span class="section"><a href="boost__cnv__strtol_converter/supported_string_types.html#boost_convert.converters.boost__cnv__strtol_converter.supported_string_types.wide_string">Wide
+          String</a></span></dt>
+<dt><span class="section"><a href="boost__cnv__strtol_converter/supported_string_types/custom_string_types.html">Custom
+          String Types</a></span></dt>
+</dl></dd>
 </dl></div>
 <p>
         The converter started as a deployment example (with the <code class="computeroutput"><span class="identifier">strtol</span></code>
         family of functions as its conversion engine) and a part of the performance-test
         set. Surprisingly, the converter showed fairly decent all-around performance
         (see <a class="link" href="../performance.html#boost_convert.performance.converters_compared" title="Converters Compared">Converters
-        Compared</a>) and, consequently, was extended to provide additional conversion
-        support and formatting. At the moment it seems to be a good choice with moderate
-        formatting facilities and adequate performance.
+        Compared</a>) and, consequently, has been rewritten and extended to provide
+        additional conversion support and formatting. At the moment it seems to be
+        a good choice with moderate formatting facilities and adequate performance.
       </p>
 <p>
         It should be noted though that the converter is nowhere as mature as <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
@@ -62,6 +67,7 @@
 <span class="preprocessor">#include</span> <span class="special">&lt;</span><span class="identifier">boost</span><span class="special">/</span><span class="identifier">convert</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">.</span><span class="identifier">hpp</span><span class="special">&gt;</span>
 
 <span class="keyword">using</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">;</span>
+<span class="keyword">using</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">wstring</span><span class="special">;</span>
 <span class="keyword">using</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">;</span>
 
 <span class="keyword">struct</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span> <span class="special">{};</span>
@@ -70,13 +76,20 @@
         </p>
 <p>
 </p>
-<pre class="programlisting"><span class="identifier">string</span> <span class="keyword">const</span> <span class="identifier">not_int_str</span> <span class="special">=</span> <span class="string">"not an int"</span><span class="special">;</span>
-<span class="identifier">string</span> <span class="keyword">const</span>     <span class="identifier">std_str</span> <span class="special">=</span> <span class="string">"-11"</span><span class="special">;</span>
-<span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="keyword">const</span>  <span class="identifier">c_str</span> <span class="special">=</span> <span class="string">"-12"</span><span class="special">;</span>
+<pre class="programlisting"><span class="identifier">string</span> <span class="keyword">const</span>        <span class="identifier">bad_str</span> <span class="special">=</span> <span class="string">"not an int"</span><span class="special">;</span>
+<span class="identifier">string</span> <span class="keyword">const</span>        <span class="identifier">std_str</span> <span class="special">=</span> <span class="string">"-11"</span><span class="special">;</span>
+<span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="keyword">const</span>     <span class="identifier">c_str</span> <span class="special">=</span> <span class="string">"-12"</span><span class="special">;</span>
+<span class="identifier">wstring</span> <span class="keyword">const</span>      <span class="identifier">bad_wstr</span> <span class="special">=</span> <span class="identifier">L</span><span class="string">"not an int"</span><span class="special">;</span>
+<span class="identifier">wstring</span> <span class="keyword">const</span>      <span class="identifier">wstd_str</span> <span class="special">=</span> <span class="identifier">L</span><span class="string">"-11"</span><span class="special">;</span>
+<span class="keyword">wchar_t</span> <span class="keyword">const</span><span class="special">*</span> <span class="keyword">const</span> <span class="identifier">wc_str</span> <span class="special">=</span> <span class="identifier">L</span><span class="string">"-12"</span><span class="special">;</span>
 
-<span class="identifier">BOOST_TEST</span><span class="special">(</span> <span class="special">-</span><span class="number">1</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">not_int_str</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">));</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(-</span><span class="number">11</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span>    <span class="identifier">std_str</span><span class="special">).</span><span class="identifier">value</span><span class="special">());</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(-</span><span class="number">12</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span>      <span class="identifier">c_str</span><span class="special">).</span><span class="identifier">value</span><span class="special">());</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span> <span class="special">-</span><span class="number">1</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">bad_str</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">));</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(-</span><span class="number">11</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">std_str</span><span class="special">).</span><span class="identifier">value</span><span class="special">());</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(-</span><span class="number">12</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span>  <span class="identifier">c_str</span><span class="special">).</span><span class="identifier">value</span><span class="special">());</span>
+
+<span class="identifier">BOOST_TEST</span><span class="special">(</span> <span class="special">-</span><span class="number">1</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">bad_wstr</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">));</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(-</span><span class="number">11</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">wstd_str</span><span class="special">).</span><span class="identifier">value</span><span class="special">());</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(-</span><span class="number">12</span> <span class="special">==</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span>  <span class="identifier">wc_str</span><span class="special">).</span><span class="identifier">value</span><span class="special">());</span>
 </pre>
 <p>
         </p>
