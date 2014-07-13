@@ -44,7 +44,7 @@ namespace boost
 {
     namespace cnv
     {
-        template<typename, typename, typename> struct adapter;
+        template<typename, typename, typename> struct adaptor;
         struct by_default;
     }
 }
@@ -150,23 +150,23 @@ namespace boost
 
     template<typename TypeOut, typename TypeIn, typename Converter>
     typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
-    typename cnv::adapter<TypeOut, TypeIn, Converter> >::type
+    typename cnv::adaptor<TypeOut, TypeIn, Converter> >::type
     convert(Converter const& cnv)
     {
-        return cnv::adapter<TypeOut, TypeIn, Converter>(cnv);
+        return cnv::adaptor<TypeOut, TypeIn, Converter>(cnv);
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter>
     typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
-    typename cnv::adapter<TypeOut, TypeIn, boost::reference_wrapper<Converter const> > >::type
+    typename cnv::adaptor<TypeOut, TypeIn, boost::reference_wrapper<Converter const> > >::type
     convert(boost::reference_wrapper<Converter const> const& cnv)
     {
-        return cnv::adapter<TypeOut, TypeIn, boost::reference_wrapper<Converter const> >(cnv);
+        return cnv::adaptor<TypeOut, TypeIn, boost::reference_wrapper<Converter const> >(cnv);
     }
     //#ifdef BOOST_CONVERT_CXX11
     //    convert(Converter&& cnv)
     //    {
-    //        return cnv::adapter<TypeOut, TypeIn, Converter>(std::forward<Converter>(cnv));
+    //        return cnv::adaptor<TypeOut, TypeIn, Converter>(std::forward<Converter>(cnv));
     //    }
     //#endif
 }
@@ -174,14 +174,14 @@ namespace boost
 namespace boost { namespace cnv
 {
     template<typename TypeOut, typename TypeIn, typename Converter>
-    struct adapter
+    struct adaptor
     {
-        typedef adapter this_type;
+        typedef adaptor this_type;
 
 //#ifdef BOOST_CONVERT_CXX11
-//        adapter(Converter&& cnv) : converter_(std::forward<Converter>(cnv)) {}
+//        adaptor(Converter&& cnv) : converter_(std::forward<Converter>(cnv)) {}
 //#else
-        adapter(Converter const& cnv) : converter_(cnv) {}
+        adaptor(Converter const& cnv) : converter_(cnv) {}
 //#endif
         this_type&
         value_or(TypeOut const& fallback)
