@@ -277,11 +277,13 @@ test_user_str()
     boost::cnv::cstream cnv;
     my_string        my_str("123");
 
+    cnv(std::setprecision(2))(std::fixed);
+
     BOOST_TEST(123 == convert<int>(my_str, cnv).value());
 
-    BOOST_TEST("100.00" == convert<my_string>( 99.999, cnv(arg::precision = 2)).value());
-    BOOST_TEST( "99.95" == convert<my_string>( 99.949, cnv(arg::precision = 2)).value());
-    BOOST_TEST("-99.95" == convert<my_string>(-99.949, cnv(arg::precision = 2)).value());
+    BOOST_TEST("100.00" == convert<my_string>( 99.999, cnv).value());
+    BOOST_TEST( "99.95" == convert<my_string>( 99.949, cnv).value());
+    BOOST_TEST("-99.95" == convert<my_string>(-99.949, cnv).value());
     //]
 }
 
