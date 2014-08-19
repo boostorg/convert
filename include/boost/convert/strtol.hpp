@@ -33,7 +33,7 @@ namespace boost { namespace cnv
         {
             typedef unsigned long long int unsigned_type;
         };
-    };
+    }
     struct strtol;
 }}
 
