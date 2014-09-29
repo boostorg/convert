@@ -10,7 +10,8 @@ project convert_test
     : requirements
         <warnings>on
         <toolset>gcc:<warnings>all
-        <toolset>gcc:<cxxflags>"-Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
+        <toolset>gcc:<cxxflags>"-O3 -Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
+        <toolset>gcc:<linkflags>"-lrt"
         <toolset>msvc:<warnings>all
         <toolset>msvc:<cxxflags>"/wd4996 /wd4512 /wd4610 /wd4510 /wd4127 /wd4701 /wd4127 /wd4305 /wd4244 /wd4714 /wd4189"
         <toolset>msvc:<asynch-exceptions>on
@@ -21,6 +22,9 @@ project convert_test
         <include>../include
     ;  
 
+exe convert_test_performance : performance.cpp /boost/timer//boost_timer ;
+exe convert_test_performance_spirit : performance_spirit.cpp ;
+
 run callable.cpp            
     encryption.cpp          
     fallbacks.cpp           
@@ -28,15 +32,11 @@ run callable.cpp
     lcast_converter.cpp     
     main.cpp                
     printf_converter.cpp    
-    scratchpad.cpp          
-    sfinae.cpp              
     stream_converter.cpp    
     strtol_converter.cpp    
-    user_type.cpp           
-                    :  :  :  : convert_test ;
-#run spirit.cpp      :  :  :  : convert_test_spirit_converter ;
+    spirit_converter.cpp    
+    user_type.cpp :  :  :  : convert_test ;
 
-exe convert_test_performance : performance.cpp /boost/timer//boost_timer ;
     
 
 

@@ -5,6 +5,7 @@
 #ifndef BOOST_CONVERT_HAS_MEMFUN_NAME_HPP
 #define BOOST_CONVERT_HAS_MEMFUN_NAME_HPP
 
+#include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/detail/yes_no_type.hpp>
 
 // This macro allows to check if a type has a member function named "memfun_name"... regardless of the signature.
@@ -36,11 +37,12 @@
 
 #define DECLARE_HAS_MEMFUN_NAME(class_name, memfun_name)                                                \
                                                                                                         \
-    template <typename type>                                                                            \
+    template <typename __T__>                                                                           \
     class class_name                                                                                    \
     {                                                                                                   \
-        typedef ::boost::type_traits::yes_type yes_type;                                                \
-        typedef ::boost::type_traits:: no_type  no_type;                                                \
+        typedef typename ::boost::remove_const<__T__>::type type;                                       \
+        typedef ::boost::type_traits::yes_type          yes_type;                                       \
+        typedef ::boost::type_traits:: no_type           no_type;                                       \
                                                                                                         \
         struct  base { void memfun_name(/*C2*/){} };                                                    \
         struct mixin : public base, public type {};                                                     \

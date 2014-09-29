@@ -6,10 +6,10 @@
 #define BOOST_CONVERT_PRINTF_HPP
 
 #include <boost/convert/detail/base.hpp>
-#include <boost/convert/detail/string.hpp>
 #include <boost/make_default.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/find.hpp>
+#include <boost/range/as_literal.hpp>
 #include <string>
 #include <cstdio>
 
@@ -25,30 +25,22 @@ struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::print
 
     using base_type::operator();
 
-    template<typename TypeIn>
-    typename boost::disable_if<cnv::is_any_string<TypeIn>, void>::type
-    operator()(TypeIn const& value_in, boost::optional<std::string>& result_out) const
+    template<typename in_type>
+    cnv::range<char*>
+    to_str(in_type value_in, char* buf) const
     {
-        int const     bufsz = 256;
-        char     buf[bufsz];
-        char const*     fmt = pformat(pos<TypeIn>());
-        int const num_chars = ::snprintf(buf, bufsz, fmt, precision_, value_in);
-        bool const  success = num_chars < bufsz;
+        char const*     fmt = pformat(pos<in_type>());
+        int const num_chars = ::snprintf(buf, bufsize_, fmt, precision_, value_in);
+        bool const  success = num_chars < bufsize_;
 
-        if (success) result_out = std::string(buf);
+        return cnv::range<char*>(buf, success ? (buf + num_chars) : buf);
     }
-    template<typename TypeOut>
-    typename boost::disable_if<cnv::is_any_string<TypeOut>, void>::type
-    operator()(std::string const& value_in, boost::optional<TypeOut>& result_out) const
+    template<typename string_type, typename out_type>
+    void
+    str_to(cnv::range<string_type> range, optional<out_type>& result_out) const
     {
-        this_type::operator()(value_in.c_str(), result_out);
-    }
-    template<typename TypeOut>
-    typename boost::disable_if<cnv::is_any_string<TypeOut>, void>::type
-    operator()(char const* value_in, boost::optional<TypeOut>& result_out) const
-    {
-        TypeOut     result = boost::make_default<TypeOut>();
-        int const num_read = ::sscanf(value_in, format(pos<TypeOut>()), &result);
+        out_type    result = boost::make_default<out_type>();
+        int const num_read = ::sscanf(&*range.begin(), format(pos<out_type>()), &result);
 
         if (num_read == 1)
             result_out = result;

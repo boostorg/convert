@@ -8,26 +8,9 @@
 
 [section boost::cnv::strtol Converter]
 
-This converter started as a deployment example (with the `strtol` family of functions as its conversion engine) and as a part of the performance test. Surprisingly, the converter showed fairly decent all-around performance: 
+The converter started as a deployment example (with the `strtol` family of functions as its conversion engine) and a part of the performance-test set. Surprisingly, the converter showed fairly decent all-around performance (see [link boost_convert.performance.converters_compared Converters Compared]) and, consequently, has been rewritten and extended to provide additional conversion support and formatting. At the moment it seems to be a good choice with moderate formatting facilities and adequate performance.
 
- ~/dev/convert/doc.>> uname -a
- Linux 3.13.0-29-generic SMP i686 GNU/Linux
- ~/dev/convert/doc.>> gcc --version
- gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
- ~/dev/convert.>> g++ -O3 -o convert-test ... -I../boost_1_55_0 -lrt
-
- Started performance tests...
- Testing: 3,-1,84,-54,441,-483,5706,-7068,91122,-41422,359792,-146466,8150700,-1066301,43537087,-37113789,561980284,-862083830
- str-to-int: spirit/strtoi/lcast/scanf/stream=   19.33/   49.00/   99.82/  194.98/  209.11 seconds.
- str-to-lng: spirit/strtol/lcast/scanf/stream=   19.11/   48.75/   99.80/  194.57/  202.84 seconds.
- str-to-dbl: spirit/strtod/lcast/scanf/stream=      NA/  138.45/  219.19/  339.05/  434.05 seconds.
- int-to-str: spirit/itostr/lcast/prntf/stream=  161.83/  158.21/  194.37/  262.21/  284.66 seconds.
- lng-to-str: spirit/ltostr/lcast/prntf/stream=  168.94/  159.79/  194.96/  266.40/  276.23 seconds.
- dbl-to-str: spirit/dtostr/lcast/prntf/stream=      NA/  164.20/ 1158.23/  917.12/ 1118.74 seconds.
-
-Consequently, it was extended to provide `int/double-to-string` conversion support and basic formatting facilities. At the moment it seems to be a good choice for conversion tasks with moderate formatting requirements and adequate performance.
-
-It should be noted though that the converter is nowhere as mature as `boost::cnv::lexical_cast` or `boost::cnv::stream`.
+It should be noted though that the converter is nowhere as mature as `boost::cnv::lexical_cast` or `boost::cnv::stream` and, therefore, bugs are to be expected.
 
 [section Basic Deployment]
 [strtol_basic_deployment_header]
@@ -39,10 +22,16 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 [section Numeric Base]
 [strtol_numeric_base_header]
 [strtol_numeric_base]
+[wide_strtol_numeric_base]
 [endsect]
 
 [section Field Width, Fill Character and Adjustment]
 [strtol_width]
+[endsect]
+
+[section Leading Whitespace Characters]
+[strtol_skipws]
+[wide_strtol_skipws]
 [endsect]
 
 [section Floating-Point Precision]
@@ -50,9 +39,17 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 [endsect]
 [endsect]
 
-[section Limitations]
+[section Supported String Types]
 
-Due to `strtoll` behavior with respect to LLONG_MAX and LLONG_MIN the `boost::cnv::strol` converter treats those values as failure.
+[section Wide String]
+[wide_strtol_numeric_base]
+[wide_strtol_skipws]
+[endsect]
+
+[section Custom String Types]
+[my_string_declaration]
+[strtol_user_string]
+[endsect]
 
 [endsect]
 [endsect]

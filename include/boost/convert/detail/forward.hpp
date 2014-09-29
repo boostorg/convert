@@ -6,10 +6,11 @@
 #define BOOST_CONVERT_FORWARD_HPP
 
 #if defined(_MSC_VER)
-#   pragma warning(disable : 4244)
-#   pragma warning(disable : 4224)
-#   pragma warning(disable : 4996)
-#   pragma warning(disable : 4180) // qualifier applied to function type has no meaning
+#   pragma warning(disable: 4244)
+#   pragma warning(disable: 4224)
+#   pragma warning(disable: 4996)
+#   pragma warning(disable: 4180) // qualifier applied to function type has no meaning
+#   pragma warning(disable: 4100) // unreferenced formal parameter
 
 #   define snprintf _snprintf
 #endif

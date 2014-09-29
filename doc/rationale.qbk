@@ -12,7 +12,7 @@ The `boost::lexical_cast` library (with its orthogonal and extendible design) lo
 
 Unfortunately, 
 
-* many deployed user types simply did not meet `boost::lexical_cast` requirements (namely, ['Default Constructibility]); 
+* many deployed user types simply did not meet `boost::lexical_cast` requirements (namely, [@http://en.cppreference.com/w/cpp/concept/DefaultConstructible ['Default Constructibility]]); 
 * failure to convert a user-provided configuration parameter was not that rare or exceptional to justify the hassle and the overhead of exception processing; 
 * additional flexibility (['if], ['when] and ['how]) to handle conversion failures was needed;
 * additional conversion-related functionality (formatting and locale support) were needed. 

@@ -9,7 +9,7 @@
 
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
-#include <boost/lexical_cast.hpp>
+#include <boost/convert/lexical_cast.hpp>
 
 using std::string;
 using boost::convert;
@@ -20,6 +20,9 @@ static void process_failure() {}
 static void log(...) {}
 static int fallback_function() { return -1; }
 
+//[getting_serious_default_converter
+struct boost::cnv::by_default : public boost::cnv::cstream {};
+//]
 static
 void
 example1()
@@ -78,7 +81,7 @@ example1()
 //[getting_serious_example5
 struct fallback_func
 {
-    int operator()() const { log("Failed to convert"); return 22; }
+    int operator()() const { log("Failed to convert"); return 42; }
 };
 //]
 
@@ -106,13 +109,13 @@ example4()
 }
 static
 void
-example5()
+example7()
 {
     boost::cnv::cstream  cnv;
     std::string const    str = "123";
     int const fallback_value = -1;
     //[getting_serious_example7
-    // Error-processing behavior are specified clearly and uniformly.
+    // Error-processing behavior are specified unambiguously and uniformly.
     // a) i1: Returning the provided fallback value;
     // b) i2: Calling the provided failure-processing function;
     // c) i3: Throwing an exception.
@@ -130,6 +133,16 @@ example5()
       // Handle failed conversion.
     }
     //]
+    //[getting_serious_example8
+    int m1 = convert<int>(str, cnv).value_or(fallback_value);
+    int m2 = convert<int>(str, cnv).value_or_eval(fallback_func());
+    int m3 = convert<int>(str, cnv).value();
+    //]
+    //[getting_serious_example9
+    int n1 = convert<int>(str).value_or(fallback_value);
+    int n2 = convert<int>(str).value_or_eval(fallback_func());
+    int n3 = convert<int>(str).value();
+    //]
 }
 
 int
@@ -137,5 +150,5 @@ main(int argc, char const* argv[])
 {
     example1();
     example4();
-    example5();
+    example7();
 }

@@ -6,12 +6,12 @@
 #define BOOST_CONVERT_TEST_FORWARD_HPP
 
 #if defined(_MSC_VER)
-#   pragma warning(disable : 4189)  // local variable is initialized but not referenced.
-#   pragma warning(disable : 4127)  // conditional expression is constant.
-#   pragma warning(disable : 4100)  // unreferenced formal parameter.
-#   pragma warning(disable : 4714)  // marked as __forceinline not #endif
-
-#   define _CRT_SECURE_NO_WARNINGS
+#   pragma warning(disable: 4189) // local variable is initialized but not referenced.
+#   pragma warning(disable: 4127) // conditional expression is constant.
+#   pragma warning(disable: 4100) // unreferenced formal parameter.
+#   pragma warning(disable: 4714) // marked as __forceinline not #endif
+#   pragma warning(disable: 4706)
+#   pragma warning(disable: 4005)
 #endif
 
 #endif // BOOST_CONVERT_FORWARD_HPP

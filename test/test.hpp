@@ -74,38 +74,67 @@ struct direction
 //[direction_declaration_make_default
 namespace boost
 {
-    template<> inline direction make_default<direction>() { return direction(direction::up); }
+    template<>
+    inline
+    direction
+    make_default<direction>()
+    {
+        return direction(direction::up);
+    }
 }
 //]
-
+// Quick and dirty small-string implementation for performance tests.
+//[my_string_declaration
 struct my_string
 {
     typedef my_string        this_type;
     typedef char*             iterator;
     typedef char const* const_iterator;
 
-    my_string()
-    {
-        BOOST_STATIC_ASSERT(sizeof(this_type) == size_);
-        memset(storage_, 0, size_);
-    }
-
-    this_type& operator=(std::string const& str)
-    {
-        BOOST_ASSERT(str.size() < size_);
-        strcpy(storage_, str.c_str());
-        return *this;
-    }
+    my_string ();
+    my_string (const_iterator, const_iterator =0);
 
     char const*    c_str () const { return storage_; }
     const_iterator begin () const { return storage_; }
     const_iterator   end () const { return storage_ + strlen(storage_); }
+    this_type& operator= (char const*);
 
     private:
 
     static size_t const size_ = 12;
     char storage_[size_];
 };
+//]
+inline
+my_string::my_string()
+{
+    storage_[0] = 0;
+}
+
+inline
+my_string::my_string(const_iterator beg, const_iterator end)
+{
+    std::size_t const sz = end ? (end - beg) : strlen(beg);
+
+    BOOST_ASSERT(sz < size_);
+    memcpy(storage_, beg, sz); storage_[sz] = 0;
+}
+
+inline
+my_string&
+my_string::operator=(char const* str)
+{
+    BOOST_ASSERT(strlen(str) < size_);
+    strcpy(storage_, str);
+    return *this;
+}
+
+inline
+bool
+operator==(char const* s1, my_string const& s2)
+{
+    return strcmp(s1, s2.c_str()) == 0;
+}
 
 namespace test
 {
@@ -113,20 +142,11 @@ namespace test
     {
 #if defined(_MSC_VER)
         static bool const    is_msc = true;
-        static bool const    is_gcc = false;
-#elif defined(__CYGWIN__) 
-        static bool const    is_msc = false;
-        static bool const    is_gcc = true;
-#elif defined(__GNUC__)
-        static bool const    is_msc = false;
-        static bool const    is_gcc = true;
 #else
-#error "Add here."
+        static bool const    is_msc = false;
 #endif
 
         static void      is_converter ();
-        static void        scratchpad ();
-        static void            sfinae ();
         static void        encryption ();
         static void         callables ();
         static void         fallbacks ();
@@ -134,9 +154,9 @@ namespace test
         static void  stream_converter ();
         static void  printf_converter ();
         static void  strtol_converter ();
+        static void  spirit_converter ();
         static void     int_to_string ();
         static void         user_type ();
-        static void     force_in_type ();
 
         template<typename Cnv> static void  str_to_int (Cnv const&);
         template<typename Cnv> static void  int_to_str (Cnv const&);

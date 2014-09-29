@@ -9,6 +9,8 @@
 
 using std::string;
 using boost::convert;
+
+struct boost::cnv::by_default : public boost::cnv::cstream {};
 //]
 //[stream_headers2
 namespace cnv = boost::cnv;
@@ -22,11 +24,9 @@ void
 example1()
 {
     //[stream_example1
-    boost::cnv::cstream cnv;
-
-    int    i2 = convert<int>("123", cnv).value(); // Throws when fails.
-    int    i3 = convert<int>("uhm", cnv).value_or(-1); // Returns -1 when fails.
-    string s2 = convert<string>(123, cnv).value();
+    int    i2 = convert<int>("123").value();      // Throws when fails.
+    int    i3 = convert<int>("uhm").value_or(-1); // Returns -1 when fails.
+    string s2 = convert<string>(123).value();
 
     BOOST_TEST(i2 == 123);
     BOOST_TEST(i3 == -1);
@@ -91,4 +91,6 @@ main(int argc, char const* argv[])
     example1();
     example2();
     example6();
+
+    return boost::report_errors();
 }
