@@ -227,9 +227,8 @@ test_manipulators()
     BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "0XF");
 }
 
-static
 void
-test_locale()
+test_locale_example()
 {
     //[stream_locale_example1
     boost::cnv::cstream cnv;
@@ -267,6 +266,43 @@ test_locale()
     BOOST_TEST(double_rus == rus_expected);
     BOOST_TEST(double_eng == eng_expected);
     //]
+}
+
+static
+void
+test_locale()
+{
+    boost::cnv::cstream     cnv;
+    std::locale      rus_locale;
+    std::locale      eng_locale;
+    bool             eng_ignore = false;
+    bool             rus_ignore = false;
+    char const* eng_locale_name = test::cnv::is_msc ? "English_United States.1251" : "en_US.UTF-8";
+    char const* rus_locale_name = test::cnv::is_msc ? "Russian_Russia.1251" : "ru_RU.UTF-8";
+    char const*    eng_expected = test::cnv::is_msc ? "1.235e-002" : "1.235e-02";
+    char const*    rus_expected = test::cnv::is_msc ? "1,235e-002" : "1,235e-02";
+    char const*      double_s01 = test::cnv::is_msc ? "1.2345E-002" : "1.2345E-02";
+
+    cnv(arg::precision = 4)
+       (arg::uppercase = true)
+       (arg::notation = cnv::notation::scientific);
+
+    double double_v01 = convert<double>(double_s01, cnv).value();
+    string double_s02 = convert<string>(double_v01, cnv).value();
+
+    BOOST_TEST(double_s01 == double_s02);
+
+    try { eng_locale = std::locale(eng_locale_name); }
+    catch (...) { printf("Bad locale %s. Ignored.\n", eng_locale_name); eng_ignore = true; }
+
+    try { rus_locale = std::locale(rus_locale_name); }
+    catch (...) { printf("Bad locale %s. Ignored.\n", rus_locale_name); rus_ignore = true; }
+
+//  cnv(std::setprecision(3))(std::nouppercase);
+    cnv(arg::precision = 3)(arg::uppercase = false);
+
+    if (!eng_ignore) BOOST_TEST(eng_expected == convert<string>(double_v01, cnv(eng_locale)).value());
+    if (!rus_ignore) BOOST_TEST(rus_expected == convert<string>(double_v01, cnv(rus_locale)).value());
 }
 
 static
