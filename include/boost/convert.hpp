@@ -88,24 +88,6 @@ namespace boost
         return boost::convert<TypeOut>(value_in, boost::unwrap_ref(converter));
     }
 
-    /// @brief Boost.Convert deployment interface with the default converter
-    /// @details For example,
-    /// @code
-    ///    struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
-    ///
-    ///    // boost::cnv::lexical_cast (through boost::cnv::by_default) is deployed
-    ///    // as the default converter when no converter is provided explicitly.
-    ///    boost::optional<int>    i = boost::convert<int>("12");
-    ///    boost::optional<string> s = boost::convert<string>(123.456);
-    /// @endcode
-
-    template<typename TypeOut, typename TypeIn>
-    optional<TypeOut>
-    convert(TypeIn const& value_in)
-    {
-        return boost::convert<TypeOut>(value_in, boost::cnv::by_default());
-    }
-
     template<typename TypeOut, typename TypeIn, typename Converter>
     typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
         TypeOut>::type //See C1
@@ -169,6 +151,38 @@ namespace boost
     //        return cnv::reference<TypeOut, TypeIn, Converter>(std::forward<Converter>(cnv));
     //    }
     //#endif
+}
+
+namespace boost
+{
+    /// @brief Boost.Convert deployment interface with the default converter
+    /// @details For example,
+    /// @code
+    ///    struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
+    ///
+    ///    // boost::cnv::lexical_cast (through boost::cnv::by_default) is deployed
+    ///    // as the default converter when no converter is provided explicitly.
+    ///    boost::optional<int>    i = boost::convert<int>("12");
+    ///    boost::optional<string> s = boost::convert<string>(123.456);
+    /// @endcode
+
+    namespace cnv { namespace detail
+    {
+        template<typename TypeOut, typename TypeIn, typename Converter =boost::cnv::by_default>
+        struct delayed_resolution
+        {
+            static optional<TypeOut> convert(TypeIn const& value_in)
+            {
+                return boost::convert<TypeOut>(value_in, Converter());
+            }
+        };
+    }}
+    template<typename TypeOut, typename TypeIn>
+    optional<TypeOut>
+    convert(TypeIn const& value_in)
+    {
+        return cnv::detail::delayed_resolution<TypeOut, TypeIn>::convert(value_in);
+    }
 }
 
 namespace boost { namespace cnv
