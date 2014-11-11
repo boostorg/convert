@@ -9,6 +9,7 @@
 #include <boost/static_assert.hpp>
 #include <string>
 #include <istream>
+#include <string.h> // For strlen, strcmp, memcpy
 #include <memory.h> // Is needed for 'memset'
 #include <boost/convert/detail/forward.hpp>
 #include "./forward.hpp"
