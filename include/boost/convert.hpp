@@ -105,44 +105,6 @@ namespace boost
     {
         return convert<TypeOut>(value_in, converter).value_or_eval(fallback);
     }
-
-    /// @brief Boost.Convert main deployment interface with algorithms
-    /// @details For example,
-    /// @code
-    ///    boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
-    ///    std::vector<int>             ints;
-    ///    boost::cnv::cstream           cnv;
-    ///
-    ///    cnv(std::hex)(std::skipws);
-    ///
-    ///    std::transform(
-    ///        strs.begin(),
-    ///        strs.end(),
-    ///        std::back_inserter(ints),
-    ///        boost::convert<int>(cnv).value_or(-1));
-    /// @endcode
-
-    template<typename TypeOut, typename TypeIn, typename Converter>
-    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
-    typename cnv::reference<TypeOut, TypeIn, Converter> >::type
-    convert(Converter const& cnv)
-    {
-        return cnv::reference<TypeOut, TypeIn, Converter>(cnv);
-    }
-
-    template<typename TypeOut, typename TypeIn, typename Converter>
-    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
-    typename cnv::reference<TypeOut, TypeIn, boost::reference_wrapper<Converter> > >::type
-    convert(boost::reference_wrapper<Converter> cnv/*pass by value*/)
-    {
-        return cnv::reference<TypeOut, TypeIn, boost::reference_wrapper<Converter> >(cnv);
-    }
-    //#ifdef BOOST_CONVERT_CXX11
-    //    convert(Converter&& cnv)
-    //    {
-    //        return cnv::reference<TypeOut, TypeIn, Converter>(std::forward<Converter>(cnv));
-    //    }
-    //#endif
 }
 
 namespace boost
@@ -175,6 +137,40 @@ namespace boost
     {
         return cnv::detail::delayed_resolution<TypeOut, TypeIn>::convert(value_in);
     }
+}
+
+namespace boost
+{
+    /// @brief Boost.Convert deployment interface with algorithms
+    /// @details For example,
+    /// @code
+    ///    boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
+    ///    std::vector<int>             ints;
+    ///    boost::cnv::cstream           cnv;
+    ///
+    ///    cnv(std::hex)(std::skipws);
+    ///
+    ///    std::transform(
+    ///        strs.begin(),
+    ///        strs.end(),
+    ///        std::back_inserter(ints),
+    ///        boost::convert<int>(boost::cref(cnv)).value_or(-1));
+    /// @endcode
+
+    template<typename TypeOut, typename TypeIn, typename Converter>
+    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
+    typename cnv::reference<TypeOut, TypeIn, Converter> >::type
+    convert(Converter const& cnv)
+    {
+        return cnv::reference<TypeOut, TypeIn, Converter>(cnv);
+    }
+
+    //#ifdef BOOST_CONVERT_CXX11
+    //    convert(Converter&& cnv)
+    //    {
+    //        return cnv::reference<TypeOut, TypeIn, Converter>(std::forward<Converter>(cnv));
+    //    }
+    //#endif
 }
 
 namespace boost { namespace cnv
