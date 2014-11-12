@@ -26,7 +26,6 @@
 #define BOOST_CONVERT_HPP
 
 #include <boost/convert/detail/is.hpp>
-#include <boost/ref.hpp>
 
 namespace boost
 {
@@ -52,10 +51,10 @@ namespace boost
 namespace boost
 {
     // C1. The "is_cnv<Converter>" check is done twice -- in the main convert(TypeIn, Convert) and
-    //     in the secondary-interface (derived from the main) functions as well. Strictly speaking,
-    //     the checks are not necessary in the derived functions as the main convert() does the check
-    //     anyway. However, when things go wrong, the error messages seem considerably clearer with
-    //     that "additional" check as the error message points to the actual line in the application(!)
+    //     in the secondary-interface (eventually calling convert(TypeIn, Convert)) functions as well.
+    //     Strictly speaking, those checks are not necessary in the secondary functions as the main convert()
+    //     does the check anyway. However, when things go wrong, the error messages seem considerably clearer
+    //     with that "additional" check as the error message points to the actual line in the application(!)
     //     code where the derived API was called incorrectly. Without that "additional" check the
     //     compiler points to the call to the main convert() inside the derived function.
 
@@ -70,6 +69,7 @@ namespace boost
     ///
     ///    boost::optional<int>    i = boost::convert<int>("12", cnv);
     ///    boost::optional<string> s = boost::convert<string>(123.456, cnv);
+    ///    boost::optional<string> s = boost::convert<string>(123.456, boost::cref(cnv));
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
@@ -77,20 +77,12 @@ namespace boost
     convert(TypeIn const& value_in, Converter const& converter)
     {
         optional<TypeOut> result;
-        converter(value_in, result);
+        boost::unwrap_ref(converter)(value_in, result);
         return result;
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, optional<TypeOut> >::type
-    convert(TypeIn const& value_in, boost::reference_wrapper<Converter const> const& converter)
-    {
-        return boost::convert<TypeOut>(value_in, boost::unwrap_ref(converter));
-    }
-
-    template<typename TypeOut, typename TypeIn, typename Converter>
-    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
-        TypeOut>::type //See C1
+    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, TypeOut>::type //See C1
     convert(TypeIn const& value_in, Converter const& converter, boost::detail::throw_on_failure)
     {
         return convert<TypeOut>(value_in, converter).value();
@@ -140,10 +132,10 @@ namespace boost
 
     template<typename TypeOut, typename TypeIn, typename Converter>
     typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>,
-    typename cnv::reference<TypeOut, TypeIn, boost::reference_wrapper<Converter const> > >::type
-    convert(boost::reference_wrapper<Converter const> const& cnv)
+    typename cnv::reference<TypeOut, TypeIn, boost::reference_wrapper<Converter> > >::type
+    convert(boost::reference_wrapper<Converter> cnv/*pass by value*/)
     {
-        return cnv::reference<TypeOut, TypeIn, boost::reference_wrapper<Converter const> >(cnv);
+        return cnv::reference<TypeOut, TypeIn, boost::reference_wrapper<Converter> >(cnv);
     }
     //#ifdef BOOST_CONVERT_CXX11
     //    convert(Converter&& cnv)

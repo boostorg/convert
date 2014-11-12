@@ -12,6 +12,7 @@
 #include <boost/function_types/is_function_pointer.hpp>
 #include <boost/function_types/function_arity.hpp>
 #include <boost/function_types/result_type.hpp>
+#include <boost/ref.hpp>
 
 namespace boost { namespace cnv
 {
@@ -28,8 +29,8 @@ namespace boost { namespace cnv
         template <typename type, typename U> U const& operator, (U const&, void_exp_result<type>);
         template <typename type, typename U> U&       operator, (U&,       void_exp_result<type>);
 
-        template <typename src, typename dst> struct clone_constness { typedef dst type; };
-        template <typename src, typename dst> struct clone_constness<src const, dst> { typedef dst const type; };
+        template <typename src, typename dst> struct match_constness { typedef dst type; };
+        template <typename src, typename dst> struct match_constness<src const, dst> { typedef dst const type; };
     }
 
     template <typename type, typename func_signature>
@@ -41,7 +42,7 @@ namespace boost { namespace cnv
             no_type operator()(...) const;
         };
 
-        typedef typename details::clone_constness<type, mixin>::type mixin_type;
+        typedef typename details::match_constness<type, mixin>::type mixin_type;
 
         template <typename T, typename due_type>
         struct return_value_check
@@ -89,7 +90,7 @@ namespace boost { namespace cnv
     template<typename Converter, typename TypeIn, typename TypeOut>
     struct is_cnv<Converter, TypeIn, TypeOut, typename enable_if<is_class<Converter>, void>::type>
     {
-        typedef Converter cnv_type;
+        typedef typename ::boost::unwrap_reference<Converter>::type cnv_type;
         typedef void signature_type(TypeIn const&, optional<TypeOut>&);
 
         BOOST_STATIC_CONSTANT(bool, value = (is_callable<cnv_type, signature_type>::value));
