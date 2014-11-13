@@ -79,6 +79,8 @@ test::cnv::callables()
     convert<string>(11, convert_all<int, string>);
     convert<int>(str, converter1());
     convert<string>(11, converter1());
-    convert<string>(11, take_double());
+    convert<string>(11.23, take_double());
+    convert<string>(11,    take_double());
+    convert<string>(11,    take_int());
     convert<string>(11.23, take_int());
 }
