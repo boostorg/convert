@@ -6,7 +6,7 @@
 #define BOOST_CONVERT_IS_CONVERTER_HPP
 
 #include <boost/convert/detail/forward.hpp>
-#include <boost/convert/detail/has_memfun_name.hpp>
+#include <boost/convert/detail/has_member.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits.hpp>
 #include <boost/function_types/is_function_pointer.hpp>
@@ -19,7 +19,8 @@ namespace boost { namespace cnv
     typedef ::boost::type_traits::yes_type yes_type;
     typedef ::boost::type_traits:: no_type  no_type;
 
-    DECLARE_HAS_MEMFUN_NAME(has_memfun, operator());
+    // has_callop<T>::value indicates if T has a function-call operator
+    DECLARE_HAS_MEMBER(has_callop, operator());
 
     namespace details
     {
@@ -29,8 +30,8 @@ namespace boost { namespace cnv
         template <typename type, typename U> U const& operator, (U const&, void_exp_result<type>);
         template <typename type, typename U> U&       operator, (U&,       void_exp_result<type>);
 
-        template <typename src, typename dst> struct match_constness { typedef dst type; };
-        template <typename src, typename dst> struct match_constness<src const, dst> { typedef dst const type; };
+        template <typename src, typename dst> struct match_const { typedef dst type; };
+        template <typename src, typename dst> struct match_const<src const, dst> { typedef dst const type; };
     }
 
     template <typename type, typename func_signature>
@@ -42,7 +43,7 @@ namespace boost { namespace cnv
             no_type operator()(...) const;
         };
 
-        typedef typename details::match_constness<type, mixin>::type mixin_type;
+        typedef typename details::match_const<type, mixin>::type mixin_type;
 
         template <typename T, typename due_type>
         struct return_value_check
@@ -77,8 +78,8 @@ namespace boost { namespace cnv
 
         public:
 
-        // Check the existence of the FUNCNAME (with has_memfun) first, then the signature.
-        static bool const value = check<has_memfun<type>::value, func_signature>::value;
+        // Check the existence of the operator() (with has_callop) first, then the signature.
+        static bool const value = check<has_callop<type>::value, func_signature>::value;
     };
 }}
 
@@ -133,7 +134,7 @@ namespace boost { namespace cnv
     struct is_fun<Functor, TypeOut,
         typename enable_if_c<is_class<Functor>::value && !is_convertible<Functor, TypeOut>::value, void>::type>
     {
-        BOOST_STATIC_CONSTANT(bool, value = (check_functor<has_memfun<Functor>::value, Functor, TypeOut>::value));
+        BOOST_STATIC_CONSTANT(bool, value = (check_functor<has_callop<Functor>::value, Functor, TypeOut>::value));
     };
 
     template<typename Function, typename TypeOut>

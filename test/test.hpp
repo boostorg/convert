@@ -147,6 +147,7 @@ namespace test
         static bool const    is_msc = false;
 #endif
 
+        static void        has_memfun ();
         static void      is_converter ();
         static void        encryption ();
         static void         callables ();

@@ -18,8 +18,9 @@
 int
 main(int argc, char const* argv[])
 {
-    test::cnv::spirit_converter();
+    test::cnv::has_memfun();
     test::cnv::is_converter();
+    test::cnv::spirit_converter();
     test::cnv::stream_converter();
     test::cnv::lcast_converter();
     test::cnv::printf_converter();

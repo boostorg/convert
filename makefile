@@ -6,6 +6,7 @@ target_1  = convert-test.exe
 sources_1 = test/callable.cpp			\
             test/encryption.cpp			\
             test/fallbacks.cpp			\
+            test/has_memfun.cpp			\
             test/is_converter.cpp		\
             test/lcast_converter.cpp	\
             test/main.cpp				\

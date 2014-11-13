@@ -28,6 +28,7 @@ exe convert_test_performance_spirit : performance_spirit.cpp ;
 run callable.cpp            
     encryption.cpp          
     fallbacks.cpp           
+    has_memfun.cpp        
     is_converter.cpp        
     lcast_converter.cpp     
     main.cpp                

@@ -1,7 +1,7 @@
 #ifndef BOOST_CONVERT_DETAIL_RANGE_HPP
 #define BOOST_CONVERT_DETAIL_RANGE_HPP
 
-#include <boost/convert/detail/has_memfun_name.hpp>
+#include <boost/convert/detail/has_member.hpp>
 #include <boost/convert/detail/is_char.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/range/iterator.hpp>
@@ -16,8 +16,8 @@ namespace boost { namespace cnv
 
         template<typename T> struct is_range<T, /*is_class=*/true>
         {
-            DECLARE_HAS_MEMFUN_NAME(has_begin, begin);
-            DECLARE_HAS_MEMFUN_NAME(  has_end, end);
+        	DECLARE_HAS_MEMBER(has_begin, begin);
+        	DECLARE_HAS_MEMBER(  has_end, end);
 
             static bool const value = has_begin<T>::value && has_end<T>::value;
         };
