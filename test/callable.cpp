@@ -75,12 +75,21 @@ test::cnv::callables()
     BOOST_TEST(v02 == -12);
     BOOST_TEST(v03 == -12);
 
+    converter1  cnv1;
+    take_double cnv2;
+    take_int    cnv3;
+
     convert<int>(str, convert_all<string, int>);
     convert<string>(11, convert_all<int, string>);
-    convert<int>(str, converter1());
-    convert<string>(11, converter1());
-    convert<string>(11.23, take_double());
-    convert<string>(11,    take_double());
-    convert<string>(11,    take_int());
-    convert<string>(11.23, take_int());
+    convert<   int>(str,   cnv1);
+    convert<string>(11,    cnv1);
+    convert<string>(11.23, cnv2);
+    convert<string>(11,    cnv2);
+    convert<string>(11,    cnv3);
+    convert<string>(11.23, cnv3);
+
+    // ^^^^^^^^^^^^^^^^^^^^^^^^
+    // When I call convert<string>(11, take_int());
+    // MSVC8-11 fail to compile lines 84-89.
+    // So, I am trying to figure out what they do not like
 }
