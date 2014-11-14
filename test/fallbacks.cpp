@@ -26,9 +26,8 @@ struct    functor_foo { int       func (int) const { local::   called_functor_fo
 int   function_int () { local:: called_function_int = true; return INT_MAX; }
 long function_long () { local::called_function_long = true; return INT_MAX; }
 
-static
-void
-fallback_function()
+int
+main(int argc, char const* argv[])
 {
     boost::cnv::cstream cnv;
     functor_foo         foo;
@@ -71,10 +70,7 @@ fallback_function()
     catch (boost::bad_optional_access const&)
     {
     }
+
+    return boost::report_errors();
 }
 
-void
-test::cnv::fallbacks()
-{
-    fallback_function();
-}

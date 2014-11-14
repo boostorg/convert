@@ -18,8 +18,6 @@
 int
 main(int argc, char const* argv[])
 {
-    test::cnv::has_memfun();
-    test::cnv::is_converter();
     test::cnv::spirit_converter();
     test::cnv::stream_converter();
     test::cnv::lcast_converter();
@@ -39,8 +37,6 @@ main(int argc, char const* argv[])
     test::cnv::int_to_str(boost::cnv::spirit());
 
     test::cnv::user_type();
-    test::cnv::callables();
-    test::cnv::fallbacks();
     test::cnv::encryption();
 
     return boost::report_errors();

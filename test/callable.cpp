@@ -52,8 +52,8 @@ struct converter1
 struct take_double { void operator()(double const&, boost::optional<string>&) const {}};
 struct    take_int { void operator()(int const&, boost::optional<string>&) const {}};
 
-void
-test::cnv::callables()
+int
+main(int argc, char const* argv[])
 {
     typedef boost::function<void (string const& value_in, boost::optional<int>&)> boost_func;
 
@@ -92,4 +92,6 @@ test::cnv::callables()
     // When I call convert<string>(11, take_int());
     // MSVC8-11 fail to compile lines 84-89.
     // So, I am trying to figure out what they do not like
+
+    return boost::report_errors();
 }

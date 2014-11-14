@@ -49,8 +49,8 @@ namespace { namespace local
     };
 }}
 
-void
-test::cnv::is_converter()
+int
+main(int argc, char const* argv[])
 {
     BOOST_TEST( (boost::cnv::is_cnv<local::converter01, int, string>::value));
     BOOST_TEST( (boost::cnv::is_cnv<local::converter01, double, string>::value));
@@ -73,5 +73,7 @@ test::cnv::is_converter()
     BOOST_TEST(!(boost::cnv::is_cnv<local::not_converter11, int, string>::value));
     BOOST_TEST(!(boost::cnv::is_cnv<local::not_converter12, int, string>::value));
     BOOST_TEST(!(boost::cnv::is_cnv<local::not_converter13, int, string>::value));
+
+    return boost::report_errors();
 }
 

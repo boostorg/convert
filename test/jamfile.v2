@@ -25,11 +25,12 @@ project convert_test
 exe convert_test_performance : performance.cpp /boost/timer//boost_timer ;
 exe convert_test_performance_spirit : performance_spirit.cpp ;
 
-run callable.cpp            
-    encryption.cpp          
-    fallbacks.cpp           
-    has_memfun.cpp        
-    is_converter.cpp        
+run has_memfun.cpp   :  :  :  : convert_test_has_memfun ;
+run callable.cpp     :  :  :  : convert_test_callable ;
+run is_converter.cpp :  :  :  : convert_test_is_converter ;
+run fallbacks.cpp    :  :  :  : convert_test_fallbacks ;
+
+run encryption.cpp          
     lcast_converter.cpp     
     main.cpp                
     printf_converter.cpp    

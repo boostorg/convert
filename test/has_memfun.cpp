@@ -27,8 +27,8 @@ namespace { namespace local
     struct yes9 { void* foo (char const*, int) const { return 0; } };
 }}
 
-void
-test::cnv::has_memfun()
+int
+main(int argc, char const* argv[])
 {
 	BOOST_TEST(boost::cnv::has_callop<local::no1>::value == false);
 	BOOST_TEST(        local::has_foo<local::no1>::value == false);
@@ -43,5 +43,7 @@ test::cnv::has_memfun()
 	BOOST_TEST(local::has_foo<local::yes7>::value ==  true);
 	BOOST_TEST(local::has_foo<local::yes8>::value ==  true);
 	BOOST_TEST(local::has_foo<local::yes9>::value ==  true);
+
+    return boost::report_errors();
 }
 
