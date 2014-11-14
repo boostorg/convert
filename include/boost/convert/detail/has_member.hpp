@@ -49,11 +49,11 @@
                                                                                                     \
         template <typename U, U> struct aux {};                                                     \
                                                                                                     \
-        typedef void (base::*func_type)();                                                          \
         typedef mixin* mixin_ptr;                                                                   \
                                                                                                     \
-        template <typename U> static no_type  test (U*, aux<func_type, &U::__member_name__>* =0);   \
-        /*******************/ static yes_type test (...); /*C3*/                                    \
+        /*******************/ static yes_type test(...); /*C3*/                                     \
+        template <typename U> static no_type  test(U*,                                              \
+                                                   aux<void (base::*)(), &U::__member_name__>* =0); \
                                                                                                     \
         public:                                                                                     \
                                                                                                     \
