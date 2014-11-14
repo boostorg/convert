@@ -34,23 +34,23 @@ namespace boost { namespace cnv
         template <typename src, typename dst> struct match_const<src const, dst> { typedef dst const type; };
     }
 
-    template <typename type, typename func_signature>
+    template <typename class_type, typename func_signature>
     class is_callable
     {
-        struct mixin : public type
+        struct mixin : public class_type
         {
-            using type::operator();
+            using class_type::operator();
             no_type operator()(...) const;
         };
 
-        typedef typename details::match_const<type, mixin>::type mixin_type;
+        typedef typename details::match_const<class_type, mixin>::type mixin_type;
 
         template <typename T, typename due_type>
         struct return_value_check
         {
             // Overloads in case due_type has template constructor
             static no_type  test (no_type);
-            static no_type  test (details::void_exp_result<type>);
+            static no_type  test (details::void_exp_result<class_type>);
             static no_type  test (...);
             static yes_type test (due_type);
         };
@@ -71,15 +71,15 @@ namespace boost { namespace cnv
             typedef typename boost::decay<Arg2>::type arg2_type;
 
             static const bool value = sizeof(yes_type) == sizeof(
-                                      return_value_check<type, R>::test(
+                                      return_value_check<class_type, R>::test(
                                       // Applying comma operator
-                                      (((mixin_type*) 0)->operator()(*(arg1_type*)0, *(arg2_type*)0), details::void_exp_result<type>())));
+                                      (((mixin_type*) 0)->operator()(*(arg1_type*)0, *(arg2_type*)0), details::void_exp_result<class_type>())));
         };
 
         public:
 
         // Check the existence of the operator() (with has_callop) first, then the signature.
-        static bool const value = check<has_callop<type>::value, func_signature>::value;
+        static bool const value = check<has_callop<class_type>::value, func_signature>::value;
     };
 }}
 
@@ -88,13 +88,13 @@ namespace boost { namespace cnv
     template<typename, typename, typename, typename =void>
     struct is_cnv { BOOST_STATIC_CONSTANT(bool, value = false); };
 
-    template<typename Converter, typename TypeIn, typename TypeOut>
-    struct is_cnv<Converter, TypeIn, TypeOut, typename enable_if<is_class<Converter>, void>::type>
+    template<typename Class, typename TypeIn, typename TypeOut>
+    struct is_cnv<Class, TypeIn, TypeOut, typename enable_if<is_class<Class>, void>::type>
     {
-        typedef typename ::boost::unwrap_reference<Converter>::type cnv_type;
+        typedef typename ::boost::unwrap_reference<Class>::type class_type;
         typedef void signature_type(TypeIn const&, optional<TypeOut>&);
 
-        BOOST_STATIC_CONSTANT(bool, value = (is_callable<cnv_type, signature_type>::value));
+        BOOST_STATIC_CONSTANT(bool, value = (is_callable<class_type, signature_type>::value));
     };
 
     template<typename Function, typename TypeIn, typename TypeOut>
