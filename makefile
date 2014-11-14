@@ -7,9 +7,7 @@ sources_1 = test/encryption.cpp			\
             test/lcast_converter.cpp	\
             test/main.cpp				\
             test/printf_converter.cpp	\
-            test/stream_converter.cpp	\
             test/strtol_converter.cpp	\
-            test/spirit_converter.cpp	\
             test/user_type.cpp
 
 target_2  = convert-test-has-memfun.exe
@@ -23,6 +21,12 @@ sources_4 = test/is_converter.cpp
 
 target_5  = convert-test-is-fallbacks.exe
 sources_5 = test/fallbacks.cpp
+
+target_6  = convert-test-spirit-converter.exe
+sources_6 = test/spirit_converter.cpp
+
+target_7  = convert-test-stream-converter.exe
+sources_7 = test/stream_converter.cpp
 
 target_21 = convert-test-performance.exe
 target_22 = convert-test-performance-spirit.exe

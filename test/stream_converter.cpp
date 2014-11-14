@@ -323,8 +323,8 @@ test_user_str()
     //]
 }
 
-void
-test::cnv::stream_converter()
+int
+main(int argc, char const* argv[])
 {
     test_numbase();
     test_boolalpha();
@@ -334,4 +334,6 @@ test::cnv::stream_converter()
     test_locale();
     test_dbl_to_str();
     test_user_str();
+
+    return boost::report_errors();
 }

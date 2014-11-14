@@ -149,10 +149,8 @@ namespace test
 
         static void        encryption ();
         static void   lcast_converter ();
-        static void  stream_converter ();
         static void  printf_converter ();
         static void  strtol_converter ();
-        static void  spirit_converter ();
         static void     int_to_string ();
         static void         user_type ();
 

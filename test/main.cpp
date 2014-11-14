@@ -18,8 +18,6 @@
 int
 main(int argc, char const* argv[])
 {
-    test::cnv::spirit_converter();
-    test::cnv::stream_converter();
     test::cnv::lcast_converter();
     test::cnv::printf_converter();
     test::cnv::strtol_converter();
