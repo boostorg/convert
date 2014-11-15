@@ -31,14 +31,10 @@ run is_converter.cpp     :  :  :  : convert_test_is_converter ;
 run fallbacks.cpp        :  :  :  : convert_test_fallbacks ;
 run spirit_converter.cpp :  :  :  : convert_test_spirit_converter ;
 run stream_converter.cpp :  :  :  : convert_test_stream_converter ;
-
-run encryption.cpp          
-    lcast_converter.cpp     
-    main.cpp                
-    printf_converter.cpp    
-    strtol_converter.cpp    
-    user_type.cpp :  :  :  : convert_test ;
-
-    
-
+run printf_converter.cpp :  :  :  : convert_test_printf_converter ;
+run strtol_converter.cpp :  :  :  : convert_test_strtol_converter ;
+run lcast_converter.cpp  :  :  :  : convert_test_lcast_converter ;
+run encryption.cpp       :  :  :  : convert_test_encryption ;
+run user_type.cpp        :  :  :  : convert_test_user_type ;
+run str_to_int.cpp       :  :  :  : convert_test_str_to_int ;
 

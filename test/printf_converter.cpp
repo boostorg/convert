@@ -49,9 +49,11 @@ local::int_to_str()
     BOOST_TEST(s02 == "12.346");
 }
 
-void
-test::cnv::printf_converter()
+int
+main(int argc, char const* argv[])
 {
     local::str_to_int();
     local::int_to_str();
+
+    return boost::report_errors();
 }

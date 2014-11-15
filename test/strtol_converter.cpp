@@ -227,8 +227,8 @@ test_user_string()
     //]
 }
 
-void
-test::cnv::strtol_converter()
+int
+main(int argc, char const* argv[])
 {
     dbl_to_str_example();
 
@@ -238,4 +238,6 @@ test::cnv::strtol_converter()
     test_dbl_to_str();
     test_width();
     test_user_string();
+
+    return boost::report_errors();
 }

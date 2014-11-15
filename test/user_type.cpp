@@ -75,9 +75,11 @@ test_algorithms()
     BOOST_TEST(strs3[2] == "2");
 }
 
-void
-test::cnv::user_type()
+int
+main(int argc, char const* argv[])
 {
     test_user_type();
     test_algorithms();
+
+    return boost::report_errors();
 }

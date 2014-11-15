@@ -49,8 +49,8 @@ test_dbl_to_str()
 //    printf(  "-1.9 %s\n", convert<string>( -1.949).value().c_str());
 }
 
-void
-test::cnv::lcast_converter()
+int
+main(int argc, char const* argv[])
 {
     string const not_int_str = "not an int";
     string const     std_str = "-11";
@@ -65,4 +65,6 @@ test::cnv::lcast_converter()
 
     test_invalid();
     test_dbl_to_str();
+
+    return boost::report_errors();
 }

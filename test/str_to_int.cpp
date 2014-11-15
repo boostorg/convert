@@ -18,10 +18,6 @@
 int
 main(int argc, char const* argv[])
 {
-    test::cnv::lcast_converter();
-    test::cnv::printf_converter();
-    test::cnv::strtol_converter();
-
     test::cnv::str_to_int(boost::cnv::lexical_cast());
     test::cnv::str_to_int(boost::cnv::cstream());
     test::cnv::str_to_int(boost::cnv::strtol());
@@ -33,9 +29,6 @@ main(int argc, char const* argv[])
     test::cnv::int_to_str(boost::cnv::strtol());
     test::cnv::int_to_str(boost::cnv::printf());
     test::cnv::int_to_str(boost::cnv::spirit());
-
-    test::cnv::user_type();
-    test::cnv::encryption();
 
     return boost::report_errors();
 }

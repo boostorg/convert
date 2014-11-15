@@ -20,8 +20,8 @@ my_cypher(std::string const& value_in, boost::optional<std::string>& value_out)
     return true;
 }
 
-void
-test::cnv::encryption()
+int
+main(int argc, char const* argv[])
 {
     ////////////////////////////////////////////////////////////////////////////
     // Testing custom converter.
@@ -32,4 +32,6 @@ test::cnv::encryption()
 
     BOOST_TEST(encrypted == "123");
     BOOST_TEST(decrypted == "ABC");
+
+    return boost::report_errors();
 }

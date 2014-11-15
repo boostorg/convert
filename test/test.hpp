@@ -147,12 +147,7 @@ namespace test
         static bool const    is_msc = false;
 #endif
 
-        static void        encryption ();
-        static void   lcast_converter ();
-        static void  printf_converter ();
-        static void  strtol_converter ();
         static void     int_to_string ();
-        static void         user_type ();
 
         template<typename Cnv> static void  str_to_int (Cnv const&);
         template<typename Cnv> static void  int_to_str (Cnv const&);
