@@ -10,6 +10,7 @@
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/uniform_01.hpp>
+#include <boost/lexical_cast.hpp>
 #include "./test.hpp"
 
 //[strtol_basic_deployment_header
@@ -22,6 +23,31 @@ using boost::convert;
 
 struct boost::cnv::by_default : public boost::cnv::strtol {};
 //]
+
+static
+void
+test_str_to_uint()
+{
+    string const         bad_str = "not an int";
+    string const         neg_str = "-11";
+    string const         std_str = "11";
+    char const* const      c_str = "12";
+    unsigned int const      imax = std::numeric_limits<unsigned int>::max();
+    unsigned long int const lmax = std::numeric_limits<unsigned long int>::max();
+    std::string const   imax_str = boost::lexical_cast<std::string>(imax);
+    std::string const   lmax_str = boost::lexical_cast<std::string>(lmax);
+
+    BOOST_TEST( 0 == convert<unsigned int>(bad_str).value_or(0));
+    BOOST_TEST( 0 == convert<unsigned int>(neg_str).value_or(0));
+    BOOST_TEST( 0 == convert<unsigned long int>(neg_str).value_or(0));
+    BOOST_TEST( 0 == convert<unsigned long int>(neg_str).value_or(0));
+    BOOST_TEST(11 == convert<unsigned int>(std_str).value());
+    BOOST_TEST(12 == convert<unsigned int>(  c_str).value());
+    BOOST_TEST(11 == convert<unsigned long int>(std_str).value());
+    BOOST_TEST(12 == convert<unsigned long int>(  c_str).value());
+    BOOST_TEST(imax == convert<     unsigned int>(imax_str).value());
+    BOOST_TEST(lmax == convert<unsigned long int>(lmax_str).value());
+}
 
 static
 void
@@ -233,6 +259,7 @@ main(int argc, char const* argv[])
     dbl_to_str_example();
 
     test_str_to_int();
+    test_str_to_uint();
     test_base();
     test_skipws();
     test_dbl_to_str();
