@@ -146,11 +146,6 @@ namespace test
 #else
         static bool const    is_msc = false;
 #endif
-
-        static void     int_to_string ();
-
-        template<typename Cnv> static void  str_to_int (Cnv const&);
-        template<typename Cnv> static void  int_to_str (Cnv const&);
     };
 }
 
