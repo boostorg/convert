@@ -19,6 +19,8 @@ namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;
 //]
 
+#define VALUE_TEST(CONVERT, RESULT) BOOST_TEST(CONVERT && CONVERT.value() == RESULT)
+
 static
 void
 test_dbl_to_str()
@@ -27,16 +29,16 @@ test_dbl_to_str()
 
     cnv(std::fixed);
 
-    BOOST_TEST("100.00" == convert<string>( 99.999, cnv(arg::precision = 2)).value());
-    BOOST_TEST( "99.95" == convert<string>( 99.949, cnv(arg::precision = 2)).value());
-    BOOST_TEST("-99.95" == convert<string>(-99.949, cnv(arg::precision = 2)).value());
-    BOOST_TEST(  "99.9" == convert<string>( 99.949, cnv(arg::precision = 1)).value());
-    BOOST_TEST(  "1.00" == convert<string>(  0.999, cnv(arg::precision = 2)).value());
-    BOOST_TEST( "-1.00" == convert<string>( -0.999, cnv(arg::precision = 2)).value());
-    BOOST_TEST(  "0.95" == convert<string>(  0.949, cnv(arg::precision = 2)).value());
-    BOOST_TEST( "-0.95" == convert<string>( -0.949, cnv(arg::precision = 2)).value());
-    BOOST_TEST(   "1.9" == convert<string>(  1.949, cnv(arg::precision = 1)).value());
-    BOOST_TEST(  "-1.9" == convert<string>( -1.949, cnv(arg::precision = 1)).value());
+    VALUE_TEST(convert<string>( 99.999, cnv(arg::precision = 2)), "100.00");
+    VALUE_TEST(convert<string>( 99.949, cnv(arg::precision = 2)),  "99.95");
+    VALUE_TEST(convert<string>(-99.949, cnv(arg::precision = 2)), "-99.95");
+    VALUE_TEST(convert<string>( 99.949, cnv(arg::precision = 1)),   "99.9");
+    VALUE_TEST(convert<string>(  0.999, cnv(arg::precision = 2)),   "1.00");
+    VALUE_TEST(convert<string>( -0.999, cnv(arg::precision = 2)),  "-1.00");
+    VALUE_TEST(convert<string>(  0.949, cnv(arg::precision = 2)),   "0.95");
+    VALUE_TEST(convert<string>( -0.949, cnv(arg::precision = 2)),  "-0.95");
+    VALUE_TEST(convert<string>(  1.949, cnv(arg::precision = 1)),    "1.9");
+    VALUE_TEST(convert<string>( -1.949, cnv(arg::precision = 1)),   "-1.9");
 }
 
 static
@@ -49,41 +51,41 @@ test_numbase()
      */
     boost::cnv::cstream ccnv;
 
-    BOOST_TEST(17 == convert<int>( "11", ccnv(std::hex)).value()); // 11(16) = 17(10)
-    BOOST_TEST( 9 == convert<int>( "11", ccnv(std::oct)).value()); // 11(8)  = 9(10)
-    BOOST_TEST(11 == convert<int>( "11", ccnv(std::dec)).value());
+    VALUE_TEST(convert<int>( "11", ccnv(std::hex)), 17); // 11(16) = 17(10)
+    VALUE_TEST(convert<int>( "11", ccnv(std::oct)),  9); // 11(8)  = 9(10)
+    VALUE_TEST(convert<int>( "11", ccnv(std::dec)), 11);
 
-    BOOST_TEST( "12" == convert<string>(18, ccnv(std::hex)).value()); // 18(10) = 12(16)
-    BOOST_TEST( "12" == convert<string>(10, ccnv(std::oct)).value()); // 10(10) = 12(8)
-    BOOST_TEST( "12" == convert<string>(12, ccnv(std::dec)).value());
-    BOOST_TEST("377" == convert<string>(255, ccnv(arg::base = boost::cnv::base::oct)).value());
-    BOOST_TEST( "ff" == convert<string>(255, ccnv(arg::base = boost::cnv::base::hex)).value());
-    BOOST_TEST("255" == convert<string>(255, ccnv(arg::base = boost::cnv::base::dec)).value());
+    VALUE_TEST(convert<string>( 18, ccnv(std::hex)), "12"); // 18(10) = 12(16)
+    VALUE_TEST(convert<string>( 10, ccnv(std::oct)), "12"); // 10(10) = 12(8)
+    VALUE_TEST(convert<string>( 12, ccnv(std::dec)), "12");
+    VALUE_TEST(convert<string>(255, ccnv(arg::base = boost::cnv::base::oct)), "377");
+    VALUE_TEST(convert<string>(255, ccnv(arg::base = boost::cnv::base::hex)),  "ff");
+    VALUE_TEST(convert<string>(255, ccnv(arg::base = boost::cnv::base::dec)), "255");
 
     ccnv(std::showbase);
 
-    BOOST_TEST("0x12" == convert<string>(18, ccnv(std::hex)).value());
-    BOOST_TEST( "012" == convert<string>(10, ccnv(std::oct)).value());
+    VALUE_TEST(convert<string>(18, ccnv(std::hex)), "0x12");
+    VALUE_TEST(convert<string>(10, ccnv(std::oct)),  "012");
 
     ccnv(std::uppercase);
 
-    BOOST_TEST("0X12" == convert<string>(18, ccnv(std::hex)).value());
+    VALUE_TEST(convert<string>(18, ccnv(std::hex)), "0X12");
     //]
     //[stream_numbase_example2
-    BOOST_TEST(17 == convert<int>("11", ccnv(arg::base = cnv::base::hex)).value());
-    BOOST_TEST( 9 == convert<int>("11", ccnv(arg::base = cnv::base::oct)).value());
-    BOOST_TEST(11 == convert<int>("11", ccnv(arg::base = cnv::base::dec)).value());
+    VALUE_TEST(convert<int>("11", ccnv(arg::base = cnv::base::hex)), 17);
+    VALUE_TEST(convert<int>("11", ccnv(arg::base = cnv::base::oct)),  9);
+    VALUE_TEST(convert<int>("11", ccnv(arg::base = cnv::base::dec)), 11);
     //]
     //[wide_stream_numeric_base
     boost::cnv::wstream wcnv;
 
-    BOOST_TEST(17 == convert<int>(L"11", wcnv(std::hex)).value()); // 11(16) = 17(10)
-    BOOST_TEST( 9 == convert<int>(L"11", wcnv(std::oct)).value()); // 11(8)  = 9(10)
-    BOOST_TEST(11 == convert<int>(L"11", wcnv(std::dec)).value());
+    VALUE_TEST(convert<int>(L"11", wcnv(std::hex)), 17); // 11(16) = 17(10)
+    VALUE_TEST(convert<int>(L"11", wcnv(std::oct)),  9); // 11(8)  = 9(10)
+    VALUE_TEST(convert<int>(L"11", wcnv(std::dec)), 11);
 
-    BOOST_TEST(L"254" == convert<wstring>(254, wcnv(arg::base = cnv::base::dec)).value());
-    BOOST_TEST( L"fe" == convert<wstring>(254, wcnv(arg::base = cnv::base::hex)).value());
-    BOOST_TEST(L"376" == convert<wstring>(254, wcnv(arg::base = cnv::base::oct)).value());
+    VALUE_TEST(convert<wstring>(254, wcnv(arg::base = cnv::base::dec)), L"254");
+    VALUE_TEST(convert<wstring>(254, wcnv(arg::base = cnv::base::hex)),  L"fe");
+    VALUE_TEST(convert<wstring>(254, wcnv(arg::base = cnv::base::oct)), L"376");
     //]
 }
 
@@ -93,17 +95,17 @@ test_boolalpha()
 {
     boost::cnv::cstream cnv;
     //[stream_boolalpha_example
-    BOOST_TEST(convert<string>( true, cnv(std::boolalpha)).value() ==  "true");
-    BOOST_TEST(convert<string>(false, cnv(std::boolalpha)).value() == "false");
+    VALUE_TEST(convert<string>( true, cnv(std::boolalpha)),  "true");
+    VALUE_TEST(convert<string>(false, cnv(std::boolalpha)), "false");
 
-    BOOST_TEST(convert<bool>( "true", cnv(std::boolalpha)).value() ==  true);
-    BOOST_TEST(convert<bool>("false", cnv(std::boolalpha)).value() == false);
+    VALUE_TEST(convert<bool>( "true", cnv(std::boolalpha)),  true);
+    VALUE_TEST(convert<bool>("false", cnv(std::boolalpha)), false);
 
-    BOOST_TEST(convert<string>( true, cnv(std::noboolalpha)).value() == "1");
-    BOOST_TEST(convert<string>(false, cnv(std::noboolalpha)).value() == "0");
+    VALUE_TEST(convert<string>( true, cnv(std::noboolalpha)), "1");
+    VALUE_TEST(convert<string>(false, cnv(std::noboolalpha)), "0");
 
-    BOOST_TEST(convert<bool>("1", cnv(std::noboolalpha)).value() ==  true);
-    BOOST_TEST(convert<bool>("0", cnv(std::noboolalpha)).value() == false);
+    VALUE_TEST(convert<bool>("1", cnv(std::noboolalpha)),  true);
+    VALUE_TEST(convert<bool>("0", cnv(std::noboolalpha)), false);
     //]
 }
 
@@ -118,8 +120,8 @@ test_skipws()
 
     ccnv(std::skipws); // Skip leading whitespaces
 
-    BOOST_TEST(  123 == convert<int>(cstr_good, ccnv).value());
-    BOOST_TEST("123" == convert<string>("  123", ccnv).value());
+    VALUE_TEST(convert<int>(cstr_good, ccnv),    123);
+    VALUE_TEST(convert<string>("  123", ccnv), "123");
 
     BOOST_TEST(!convert<int>(cstr_bad, ccnv));
 
@@ -132,8 +134,8 @@ test_skipws()
     //[stream_skipws2_example
     ccnv(arg::skipws = true); // Skip leading whitespaces
 
-    BOOST_TEST(  123 == convert<int>(cstr_good, ccnv).value());
-    BOOST_TEST("123" == convert<string>(cstr_good, ccnv).value());
+    VALUE_TEST(convert<   int>(cstr_good, ccnv),   123);
+    VALUE_TEST(convert<string>(cstr_good, ccnv), "123");
     //]
     //[wide_stream_skipws
     boost::cnv::wstream       wcnv;
@@ -142,7 +144,7 @@ test_skipws()
 
     wcnv(std::skipws);
 
-    BOOST_TEST(123 == convert<int>(wstr_good, wcnv).value());
+    VALUE_TEST(convert<int>(wstr_good, wcnv), 123);
     BOOST_TEST(!convert<int>(wstr_bad, wcnv));
 
     wcnv(std::noskipws);
@@ -159,13 +161,13 @@ test_width()
     //[stream_width_example
     boost::cnv::cstream cnv;
 
-    string s01 = convert<string>(12, cnv(std::setw(4))).value();
-    string s02 = convert<string>(12, cnv(std::setw(5))(std::setfill('*'))).value();
-    string s03 = convert<string>(12, cnv(std::setw(5))(std::setfill('*'))(std::left)).value();
+    boost::optional<string> s01 = convert<string>(12, cnv(std::setw(4)));
+    boost::optional<string> s02 = convert<string>(12, cnv(std::setw(5))(std::setfill('*')));
+    boost::optional<string> s03 = convert<string>(12, cnv(std::setw(5))(std::setfill('*'))(std::left));
 
-    BOOST_TEST(s01 == "  12");  // Field width = 4.
-    BOOST_TEST(s02 == "***12"); // Field width = 5, filler = '*'.
-    BOOST_TEST(s03 == "12***"); // Field width = 5, filler = '*', left adjustment
+    BOOST_TEST(s01 && s01.value() == "  12");  // Field width = 4.
+    BOOST_TEST(s02 && s02.value() == "***12"); // Field width = 5, filler = '*'.
+    BOOST_TEST(s03 && s03.value() == "12***"); // Field width = 5, filler = '*', left adjustment
 
     /*`It needs to be remembered that `boost::cnv::stream` converter uses `std::stream` as its underlying
        conversion engine. Consequently, formatting-related behavior are driven by the `std::stream`. Namely,
@@ -174,13 +176,13 @@ test_width()
      */
 
     // The fill and adjustment remain '*' and 'left'.
-    string s11 = convert<string>(12, cnv(arg::width = 4)).value();
-    string s12 = convert<string>(12, cnv(arg::width = 5)
+    boost::optional<string> s11 = convert<string>(12, cnv(arg::width = 4));
+    boost::optional<string> s12 = convert<string>(12, cnv(arg::width = 5)
                                         (arg::fill = ' ')
-                                        (arg::adjust = cnv::adjust::right)).value();
+                                        (arg::adjust = cnv::adjust::right));
 
-    BOOST_TEST(s11 == "12**");  // Field width was set to 4.
-    BOOST_TEST(s12 == "   12"); // Field width was set to 5 with the ' ' filler.
+    BOOST_TEST(s11 && s11.value() == "12**");  // Field width was set to 4.
+    BOOST_TEST(s12 && s12.value() == "   12"); // Field width was set to 5 with the ' ' filler.
     //]
 }
 
@@ -203,28 +205,28 @@ test_manipulators()
 
     ccnv(std::noshowbase)(std::nouppercase)(std::oct);
 
-    BOOST_TEST(boost::convert<string>(255, ccnv).value() == "377");
-    BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "17");
+    VALUE_TEST(boost::convert<string>(255, ccnv), "377");
+    VALUE_TEST(boost::convert<string>( 15, ccnv),  "17");
 
     ccnv(std::showbase);
 
-    BOOST_TEST(boost::convert<string>(255, ccnv).value() == "0377");
-    BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "017");
+    VALUE_TEST(boost::convert<string>(255, ccnv), "0377");
+    VALUE_TEST(boost::convert<string>( 15, ccnv),  "017");
 
     ccnv(std::uppercase)(std::hex);
 
-    BOOST_TEST(boost::convert<string>(255, ccnv).value() == "0XFF");
-    BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "0XF");
+    VALUE_TEST(boost::convert<string>(255, ccnv), "0XFF");
+    VALUE_TEST(boost::convert<string>( 15, ccnv),  "0XF");
 
     ccnv(std::noshowbase)(std::nouppercase)(std::oct);
 
-    BOOST_TEST(boost::convert<string>(255, ccnv).value() == "377");
-    BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "17");
+    VALUE_TEST(boost::convert<string>(255, ccnv), "377");
+    VALUE_TEST(boost::convert<string>( 15, ccnv),  "17");
 
     ccnv(std::showbase)(arg::uppercase = true)(arg::base = cnv::base::hex);
 
-    BOOST_TEST(boost::convert<string>(255, ccnv).value() == "0XFF");
-    BOOST_TEST(boost::convert<string>( 15, ccnv).value() ==  "0XF");
+    VALUE_TEST(boost::convert<string>(255, ccnv), "0XFF");
+    VALUE_TEST(boost::convert<string>( 15, ccnv),  "0XF");
 }
 
 void
@@ -246,8 +248,8 @@ test_locale_example()
        (arg::uppercase = true)
        (arg::notation = cnv::notation::scientific);
 
-    double double_v01 = convert<double>(double_s01, cnv).value();
-    string double_s02 = convert<string>(double_v01, cnv).value();
+    double double_v01 = convert<double>(double_s01, cnv).value_or(0);
+    string double_s02 = convert<string>(double_v01, cnv).value_or("bad");
 
     BOOST_TEST(double_s01 == double_s02);
 
@@ -260,8 +262,8 @@ test_locale_example()
 //  cnv(std::setprecision(3))(std::nouppercase);
     cnv(arg::precision = 3)(arg::uppercase = false);
 
-    string double_rus = convert<string>(double_v01, cnv(rus_locale)).value();
-    string double_eng = convert<string>(double_v01, cnv(eng_locale)).value();
+    string double_rus = convert<string>(double_v01, cnv(rus_locale)).value_or("bad double_rus");
+    string double_eng = convert<string>(double_v01, cnv(eng_locale)).value_or("bad double_eng");
 
     BOOST_TEST(double_rus == rus_expected);
     BOOST_TEST(double_eng == eng_expected);
@@ -287,8 +289,8 @@ test_locale()
        (arg::uppercase = true)
        (arg::notation = cnv::notation::scientific);
 
-    double double_v01 = convert<double>(double_s01, cnv).value();
-    string double_s02 = convert<string>(double_v01, cnv).value();
+    double double_v01 = convert<double>(double_s01, cnv).value_or(0);
+    string double_s02 = convert<string>(double_v01, cnv).value_or("bad");
 
     BOOST_TEST(double_s01 == double_s02);
 
@@ -301,8 +303,8 @@ test_locale()
 //  cnv(std::setprecision(3))(std::nouppercase);
     cnv(arg::precision = 3)(arg::uppercase = false);
 
-    if (!eng_ignore) BOOST_TEST(eng_expected == convert<string>(double_v01, cnv(eng_locale)).value());
-    if (!rus_ignore) BOOST_TEST(rus_expected == convert<string>(double_v01, cnv(rus_locale)).value());
+    if (!eng_ignore) VALUE_TEST(convert<string>(double_v01, cnv(eng_locale)), eng_expected);
+    if (!rus_ignore) VALUE_TEST(convert<string>(double_v01, cnv(rus_locale)), rus_expected);
 }
 
 static
@@ -315,25 +317,35 @@ test_user_str()
 
     cnv(std::setprecision(2))(std::fixed);
 
-    BOOST_TEST(123 == convert<int>(my_str, cnv).value());
+    VALUE_TEST(convert<int>(my_str, cnv), 123);
 
-    BOOST_TEST("100.00" == convert<my_string>( 99.999, cnv).value());
-    BOOST_TEST( "99.95" == convert<my_string>( 99.949, cnv).value());
-    BOOST_TEST("-99.95" == convert<my_string>(-99.949, cnv).value());
+    VALUE_TEST(convert<my_string>( 99.999, cnv), "100.00");
+    VALUE_TEST(convert<my_string>( 99.949, cnv),  "99.95");
+    VALUE_TEST(convert<my_string>(-99.949, cnv), "-99.95");
     //]
 }
 
 int
 main(int argc, char const* argv[])
 {
-    test_numbase();
-    test_boolalpha();
-    test_skipws();
-    test_width();
-    test_manipulators();
-    test_locale();
-    test_dbl_to_str();
-    test_user_str();
-
+	try
+	{
+		test_numbase();
+		test_boolalpha();
+		test_skipws();
+		test_width();
+		test_manipulators();
+		test_locale();
+		test_dbl_to_str();
+		test_user_str();
+	}
+	catch(boost::bad_optional_access const&)
+	{
+	    BOOST_TEST(!"Caught boost::bad_optional_access exception");
+	}
+	catch(...)
+	{
+	    BOOST_TEST(!"Caught an unknown exception");
+	}
     return boost::report_errors();
 }

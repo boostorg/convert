@@ -130,12 +130,8 @@ my_string::operator=(char const* str)
     return *this;
 }
 
-inline
-bool
-operator==(char const* s1, my_string const& s2)
-{
-    return strcmp(s1, s2.c_str()) == 0;
-}
+inline bool operator==(char const* s1, my_string const& s2) { return strcmp(s1, s2.c_str()) == 0; }
+inline bool operator==(my_string const& s1, char const* s2) { return strcmp(s2, s1.c_str()) == 0; }
 
 namespace test
 {
