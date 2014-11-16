@@ -127,7 +127,7 @@ namespace boost { namespace cnv
         static yes_type test (TypeOut const&);
         static no_type  test (...);
 
-        static const bool value = sizeof(yes_type) == sizeof(test(((Functor const*) 0)->operator()()));
+        static const bool value = sizeof(yes_type) == sizeof(test(((Functor*) 0)->operator()()));
     };
 
     template<typename Functor, typename TypeOut>
