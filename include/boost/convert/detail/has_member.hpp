@@ -7,6 +7,7 @@
 
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/detail/yes_no_type.hpp>
+#include <boost/tti/has_member_function.hpp>
 
 // This macro allows to check if a type has a member function named "memfun_name"... regardless of the signature.
 // If takes advantage of the following behavior related to function resolution.
@@ -59,5 +60,8 @@
                                                                                                     \
         BOOST_STATIC_CONSTANT(bool, value = (sizeof(yes_type) == sizeof(test(mixin_ptr(0)))));      \
     }
+
+#define TTI_DECLARE_HAS_MEMBER(__class_name__, __func_name__) \
+		BOOST_TTI_TRAIT_HAS_MEMBER_FUNCTION(__class_name__, __func_name__)
 
 #endif // BOOST_CONVERT_HAS_MEMFUN_NAME_HPP
