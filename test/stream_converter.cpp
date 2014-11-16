@@ -132,25 +132,25 @@ test_skipws()
     BOOST_TEST(!convert<int>( cstr_bad, ccnv));
     //]
     //[stream_skipws2_example
-    ccnv(arg::skipws = true); // Skip leading whitespaces
+    ccnv(arg::skipws = true); // Ignore leading whitespaces
 
     VALUE_TEST(convert<   int>(cstr_good, ccnv),   123);
     VALUE_TEST(convert<string>(cstr_good, ccnv), "123");
     //]
     //[wide_stream_skipws
-    boost::cnv::wstream       wcnv;
-    wchar_t const* const wstr_good = L"  123";
-    wchar_t const* const  wstr_bad = L"  123 ";
+    boost::cnv::wstream wcnv;
 
-    wcnv(std::skipws);
+    wcnv(std::noskipws); // Do not ignore leading whitespaces
 
-    VALUE_TEST(convert<int>(wstr_good, wcnv), 123);
-    BOOST_TEST(!convert<int>(wstr_bad, wcnv));
+    VALUE_TEST( convert<int>(   L"123", wcnv), 123);
+    BOOST_TEST(!convert<int>( L"  123", wcnv));
+    BOOST_TEST(!convert<int>(L"  123 ", wcnv));
 
-    wcnv(std::noskipws);
+//  wcnv(std::skipws); // Ignore leading whitespaces
+    wcnv(arg::skipws = true); // Ignore leading whitespaces
 
-    BOOST_TEST(!convert<int>(wstr_good, wcnv));
-    BOOST_TEST(!convert<int>( wstr_bad, wcnv));
+    VALUE_TEST( convert<int>( L"  123", wcnv), 123);
+    BOOST_TEST(!convert<int>(L"  123 ", wcnv));
     //]
 }
 
