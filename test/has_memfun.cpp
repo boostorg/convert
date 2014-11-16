@@ -15,16 +15,17 @@ namespace { namespace local
 	DECLARE_HAS_MEMBER(has_foo, foo);
 
 	struct  no1 { void zoo () {} };
-	struct yes1 { void operator() () {} };
-    struct yes2 { void operator() () const {} };
-    struct yes3 { int  operator() (int) { return 0; } };
-    struct yes4 { int  operator() (int) const { return 0; } };
+	struct yes01 { void operator() () {} };
+    struct yes02 { void operator() () const {} };
+    struct yes03 { int  operator() (int) { return 0; } };
+    struct yes04 { int  operator() (int) const { return 0; } };
+    struct yes05 { int  operator() (int) const { return 0; } void operator() () const {} };
 
-    struct yes5 { int foo; void moo() {} };
-    struct yes6 { void  foo () {} };
-    struct yes7 { void  foo () const {} };
-    struct yes8 { void* foo (char const*, int) { return 0; } };
-    struct yes9 { void* foo (char const*, int) const { return 0; } };
+    struct yes11 { int foo; void moo() {} };
+    struct yes12 { void  foo () {} };
+    struct yes13 { void  foo () const {} };
+    struct yes14 { void* foo (char const*, int) { return 0; } };
+    struct yes15 { void* foo (char const*, int) const { return 0; } };
 }}
 
 int
@@ -33,16 +34,17 @@ main(int argc, char const* argv[])
 	BOOST_TEST(boost::cnv::has_funop<local::no1>::value == false);
 	BOOST_TEST(       local::has_foo<local::no1>::value == false);
 
-	BOOST_TEST(boost::cnv::has_funop<local::yes1>::value ==  true);
-	BOOST_TEST(boost::cnv::has_funop<local::yes2>::value ==  true);
-	BOOST_TEST(boost::cnv::has_funop<local::yes3>::value ==  true);
-	BOOST_TEST(boost::cnv::has_funop<local::yes4>::value ==  true);
+	BOOST_TEST(boost::cnv::has_funop<local::yes01>::value ==  true);
+	BOOST_TEST(boost::cnv::has_funop<local::yes02>::value ==  true);
+	BOOST_TEST(boost::cnv::has_funop<local::yes03>::value ==  true);
+	BOOST_TEST(boost::cnv::has_funop<local::yes04>::value ==  true);
+	BOOST_TEST(boost::cnv::has_funop<local::yes05>::value ==  true);
 
-	BOOST_TEST(local::has_foo<local::yes5>::value ==  true);
-	BOOST_TEST(local::has_foo<local::yes6>::value ==  true);
-	BOOST_TEST(local::has_foo<local::yes7>::value ==  true);
-	BOOST_TEST(local::has_foo<local::yes8>::value ==  true);
-	BOOST_TEST(local::has_foo<local::yes9>::value ==  true);
+	BOOST_TEST(local::has_foo<local::yes11>::value ==  true);
+	BOOST_TEST(local::has_foo<local::yes12>::value ==  true);
+	BOOST_TEST(local::has_foo<local::yes13>::value ==  true);
+	BOOST_TEST(local::has_foo<local::yes14>::value ==  true);
+	BOOST_TEST(local::has_foo<local::yes15>::value ==  true);
 
     return boost::report_errors();
 }

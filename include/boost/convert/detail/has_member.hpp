@@ -47,12 +47,12 @@
         struct  base { void __member_name__(/*C2*/) {}};                                        \
         struct mixin : public base, public check_type {};                                       \
                                                                                                 \
-        template <typename U, U> struct aux {};                                                 \
+        template <void (base::*)()> struct aux {};                                              \
                                                                                                 \
         typedef mixin* mixin_ptr;                                                               \
                                                                                                 \
         template <typename U>                                                                   \
-        static no_type  test(U*, aux<void (base::*)(), &U::__member_name__>* =0); /*C3*/        \
+        static no_type  test(U*, aux<&U::__member_name__>* =0); /*C3*/                          \
         static yes_type test(...);                                                              \
                                                                                                 \
         public:                                                                                 \
