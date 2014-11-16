@@ -19,8 +19,8 @@ namespace boost { namespace cnv
     typedef ::boost::type_traits::yes_type yes_type;
     typedef ::boost::type_traits:: no_type  no_type;
 
-    // has_callop<T>::value indicates if T has a function-call operator
-    DECLARE_HAS_MEMBER(has_callop, operator());
+    // has_funop<T>::value indicates if T has a function-call operator
+    DECLARE_HAS_MEMBER(has_funop, operator());
 
     namespace details
     {
@@ -78,8 +78,8 @@ namespace boost { namespace cnv
 
         public:
 
-        // Check the existence of the operator() (with has_callop) first, then the signature.
-        static bool const value = check<has_callop<class_type>::value, func_signature>::value;
+        // Check the existence of the operator() (with has_funop) first, then the signature.
+        static bool const value = check<has_funop<class_type>::value, func_signature>::value;
     };
 }}
 
@@ -134,7 +134,7 @@ namespace boost { namespace cnv
     struct is_fun<Functor, TypeOut,
         typename enable_if_c<is_class<Functor>::value && !is_convertible<Functor, TypeOut>::value, void>::type>
     {
-        BOOST_STATIC_CONSTANT(bool, value = (check_functor<has_callop<Functor>::value, Functor, TypeOut>::value));
+        BOOST_STATIC_CONSTANT(bool, value = (check_functor<has_funop<Functor>::value, Functor, TypeOut>::value));
     };
 
     template<typename Function, typename TypeOut>

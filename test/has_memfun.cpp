@@ -30,13 +30,13 @@ namespace { namespace local
 int
 main(int argc, char const* argv[])
 {
-	BOOST_TEST(boost::cnv::has_callop<local::no1>::value == false);
+	BOOST_TEST(boost::cnv::has_funop<local::no1>::value == false);
 	BOOST_TEST(        local::has_foo<local::no1>::value == false);
 
-	BOOST_TEST(boost::cnv::has_callop<local::yes1>::value ==  true);
-	BOOST_TEST(boost::cnv::has_callop<local::yes2>::value ==  true);
-	BOOST_TEST(boost::cnv::has_callop<local::yes3>::value ==  true);
-	BOOST_TEST(boost::cnv::has_callop<local::yes4>::value ==  true);
+	BOOST_TEST(boost::cnv::has_funop<local::yes1>::value ==  true);
+	BOOST_TEST(boost::cnv::has_funop<local::yes2>::value ==  true);
+	BOOST_TEST(boost::cnv::has_funop<local::yes3>::value ==  true);
+	BOOST_TEST(boost::cnv::has_funop<local::yes4>::value ==  true);
 
 	BOOST_TEST(local::has_foo<local::yes5>::value ==  true);
 	BOOST_TEST(local::has_foo<local::yes6>::value ==  true);
