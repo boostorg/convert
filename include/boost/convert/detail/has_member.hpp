@@ -7,7 +7,6 @@
 
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/type_traits/detail/yes_no_type.hpp>
-#include <boost/tti/has_member_function.hpp>
 
 // This macro allows to check if a type has a member function named "memfun_name"... regardless of the signature.
 // If takes advantage of the following behavior related to function resolution.
@@ -36,32 +35,29 @@
 //     If __T__::member_name does exist, then mixin::member_name is ambiguous
 //     and "yes_type test (...)" kicks in instead.
 
-#define DECLARE_HAS_MEMBER(__class_name__, __member_name__)                                         \
-                                                                                                    \
-    template <typename __T__>                                                                       \
-    class __class_name__                                                                            \
-    {                                                                                               \
-        typedef typename ::boost::remove_const<__T__>::type check_type;                             \
-        typedef ::boost::type_traits::yes_type                yes_type;                             \
-        typedef ::boost::type_traits:: no_type                 no_type;                             \
-                                                                                                    \
-        struct  base { void __member_name__(/*C2*/) {}};                                            \
-        struct mixin : public base, public check_type {};                                           \
-                                                                                                    \
-        template <typename U, U> struct aux {};                                                     \
-                                                                                                    \
-        typedef mixin* mixin_ptr;                                                                   \
-                                                                                                    \
-        /*******************/ static yes_type test(...); /*C3*/                                     \
-        template <typename U> static no_type  test(U*,                                              \
-                                                   aux<void (base::*)(), &U::__member_name__>* =0); \
-                                                                                                    \
-        public:                                                                                     \
-                                                                                                    \
-        BOOST_STATIC_CONSTANT(bool, value = (sizeof(yes_type) == sizeof(test(mixin_ptr(0)))));      \
+#define DECLARE_HAS_MEMBER(__class_name__, __member_name__)                                     \
+                                                                                                \
+    template <typename __T__>                                                                   \
+    class __class_name__                                                                        \
+    {                                                                                           \
+        typedef typename ::boost::remove_const<__T__>::type check_type;                         \
+        typedef ::boost::type_traits::yes_type                yes_type;                         \
+        typedef ::boost::type_traits:: no_type                 no_type;                         \
+                                                                                                \
+        struct  base { void __member_name__(/*C2*/) {}};                                        \
+        struct mixin : public base, public check_type {};                                       \
+                                                                                                \
+        template <typename U, U> struct aux {};                                                 \
+                                                                                                \
+        typedef mixin* mixin_ptr;                                                               \
+                                                                                                \
+        template <typename U>                                                                   \
+        static no_type  test(U*, aux<void (base::*)(), &U::__member_name__>* =0);               \
+        static yes_type test(...); /*C3*/                                                       \
+                                                                                                \
+        public:                                                                                 \
+                                                                                                \
+        BOOST_STATIC_CONSTANT(bool, value = (sizeof(yes_type) == sizeof(test(mixin_ptr(0)))));  \
     }
-
-#define TTI_DECLARE_HAS_MEMBER(__class_name__, __func_name__) \
-		BOOST_TTI_TRAIT_HAS_MEMBER_FUNCTION(__class_name__, __func_name__)
 
 #endif // BOOST_CONVERT_HAS_MEMFUN_NAME_HPP
