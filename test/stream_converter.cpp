@@ -178,8 +178,8 @@ test_width()
     // The fill and adjustment remain '*' and 'left'.
     boost::optional<string> s11 = convert<string>(12, cnv(arg::width = 4));
     boost::optional<string> s12 = convert<string>(12, cnv(arg::width = 5)
-                                        (arg::fill = ' ')
-                                        (arg::adjust = cnv::adjust::right));
+                                                         (arg::fill = ' ')
+                                                         (arg::adjust = cnv::adjust::right));
 
     BOOST_TEST(s11 && s11.value() == "12**");  // Field width was set to 4.
     BOOST_TEST(s12 && s12.value() == "   12"); // Field width was set to 5 with the ' ' filler.
