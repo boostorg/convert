@@ -82,7 +82,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
     // Formatters
     template<typename manipulator>
-    this_type& operator() (manipulator m) { return (stream_ >> m, *this); }
+    this_type& operator() (manipulator m) { return (stream_ << m, *this); }
     this_type& operator() (manipulator_type m) { return (m(stream_), *this); }
     this_type& operator() (std::locale const& l) { return (stream_.imbue(l), *this); }
 

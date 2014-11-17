@@ -12,7 +12,7 @@
 #   pragma warning(disable: 4180) // qualifier applied to function type has no meaning
 #   pragma warning(disable: 4100) // unreferenced formal parameter
 
-if _MSC_VER < 1900
+#if _MSC_VER < 1900
 #   define snprintf _snprintf
 #endif
 
