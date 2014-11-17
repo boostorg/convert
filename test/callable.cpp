@@ -53,7 +53,7 @@ struct take_double { void operator()(double const&, boost::optional<string>&) co
 struct    take_int { void operator()(int const&, boost::optional<string>&) const {}};
 
 int
-main(int argc, char const* argv[])
+CONVERT_TEST_MAIN(int argc, char const* argv[])
 {
     typedef boost::function<void (string const& value_in, boost::optional<int>&)> boost_func;
 
@@ -95,3 +95,4 @@ main(int argc, char const* argv[])
 
     return boost::report_errors();
 }
+

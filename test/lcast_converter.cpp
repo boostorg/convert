@@ -50,7 +50,7 @@ test_dbl_to_str()
 }
 
 int
-main(int argc, char const* argv[])
+CONVERT_TEST_MAIN(int argc, char const* argv[])
 {
     string const not_int_str = "not an int";
     string const     std_str = "-11";

@@ -50,7 +50,7 @@ namespace { namespace local
 }}
 
 int
-main(int argc, char const* argv[])
+CONVERT_TEST_MAIN(int argc, char const* argv[])
 {
     BOOST_TEST( (boost::cnv::is_cnv<local::converter01, int, string>::value));
     BOOST_TEST( (boost::cnv::is_cnv<local::converter01, double, string>::value));

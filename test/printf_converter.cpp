@@ -13,14 +13,8 @@ using boost::convert;
 
 namespace arg = boost::cnv::parameter;
 
-namespace { namespace local
-{
-    void str_to_int();
-    void int_to_str();
-}}
-
-void
-local::str_to_int()
+int
+CONVERT_TEST_MAIN(int argc, char const* argv[])
 {
     boost::cnv::printf cnv;
 
@@ -31,12 +25,6 @@ local::str_to_int()
     BOOST_TEST( -1 == convert<int>(not_int_str, cnv).value_or(-1));
     BOOST_TEST(-11 == convert<int>(std_str,     cnv).value_or(-1));
     BOOST_TEST(-12 == convert<int>(c_str,       cnv).value_or(-1));
-}
-
-void
-local::int_to_str()
-{
-    boost::cnv::printf cnv;
 
     BOOST_TEST("255" == convert<std::string>(255, cnv(arg::base = boost::cnv::base::dec)).value());
     BOOST_TEST( "ff" == convert<std::string>(255, cnv(arg::base = boost::cnv::base::hex)).value());
@@ -47,13 +35,6 @@ local::int_to_str()
 
     BOOST_TEST(s01 == "12.345600");
     BOOST_TEST(s02 == "12.346");
-}
-
-int
-main(int argc, char const* argv[])
-{
-    local::str_to_int();
-    local::int_to_str();
 
     return boost::report_errors();
 }

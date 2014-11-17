@@ -254,7 +254,7 @@ test_user_string()
 }
 
 int
-main(int argc, char const* argv[])
+CONVERT_TEST_MAIN(int argc, char const* argv[])
 {
     dbl_to_str_example();
 

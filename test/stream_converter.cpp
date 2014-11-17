@@ -326,7 +326,7 @@ test_user_str()
 }
 
 int
-main(int argc, char const* argv[])
+CONVERT_TEST_MAIN(int argc, char const* argv[])
 {
 	try
 	{

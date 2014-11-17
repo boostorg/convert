@@ -18,7 +18,7 @@ namespace arg = boost::cnv::parameter;
 struct boost::cnv::by_default : public boost::cnv::spirit {};
 
 int
-main(int argc, char const* argv[])
+CONVERT_TEST_MAIN(int argc, char const* argv[])
 {
     char const* const   c_stri ("12345");
     char const* const   c_strd ("123.45");

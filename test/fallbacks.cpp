@@ -27,7 +27,7 @@ int   function_int () { local:: called_function_int = true; return INT_MAX; }
 long function_long () { local::called_function_long = true; return INT_MAX; }
 
 int
-main(int argc, char const* argv[])
+CONVERT_TEST_MAIN(int argc, char const* argv[])
 {
     boost::cnv::cstream cnv;
     functor_foo         foo;
@@ -73,4 +73,3 @@ main(int argc, char const* argv[])
 
     return boost::report_errors();
 }
-

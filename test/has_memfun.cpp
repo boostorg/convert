@@ -29,7 +29,7 @@ namespace { namespace local
 }}
 
 int
-main(int argc, char const* argv[])
+CONVERT_TEST_MAIN(int argc, char const* argv[])
 {
 	BOOST_TEST(boost::cnv::has_funop<local::no1>::value == false);
 	BOOST_TEST(       local::has_foo<local::no1>::value == false);

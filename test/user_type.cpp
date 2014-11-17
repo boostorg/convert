@@ -76,7 +76,7 @@ test_algorithms()
 }
 
 int
-main(int argc, char const* argv[])
+CONVERT_TEST_MAIN(int argc, char const* argv[])
 {
     test_user_type();
     test_algorithms();
