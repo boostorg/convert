@@ -30,7 +30,7 @@ main(argc, argv)                                            \
     return boost::report_errors();                          \
 }                                                           \
                                                             \
-temlplate<typename T>                                       \
+template<typename T>                                        \
 int                                                         \
 unused() /* Won't be instantiated*/
 
