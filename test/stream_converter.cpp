@@ -270,6 +270,19 @@ test_locale_example()
     //]
 }
 
+void
+test_locale(double v, boost::cnv::cstream const& cnv, char const* expected)
+{
+	boost::optional<string> res = convert<string>(v, cnv);
+	std::string             str = res ? *res : "conversion failed";
+
+	BOOST_TEST(res);
+	BOOST_TEST(str == expected);
+
+	if (str != expected)
+		printf("%s [%d]: result=<%s>, expected=<%s>\n", __FILE__, __LINE__, str.c_str(), expected);
+}
+
 static
 void
 test_locale()
@@ -289,10 +302,14 @@ test_locale()
        (arg::uppercase = true)
        (arg::notation = cnv::notation::scientific);
 
-    double double_v01 = convert<double>(double_s01, cnv).value_or(0);
-    string double_s02 = convert<string>(double_v01, cnv).value_or("bad");
+    double const double_v01 = convert<double>(double_s01, cnv).value_or(0);
+    string const double_s02 = convert<string>(double_v01, cnv).value_or("bad");
 
+    BOOST_TEST(double_v01 != 0);
     BOOST_TEST(double_s01 == double_s02);
+
+    if (double_s01 != double_s02)
+		printf("%s [%d]: <%s> != <%s>\n", __FILE__, __LINE__, double_s01, double_s02.c_str());
 
     try { eng_locale = std::locale(eng_locale_name); }
     catch (...) { printf("Bad locale %s. Ignored.\n", eng_locale_name); eng_ignore = true; }
@@ -303,8 +320,8 @@ test_locale()
 //  cnv(std::setprecision(3))(std::nouppercase);
     cnv(arg::precision = 3)(arg::uppercase = false);
 
-    if (!eng_ignore) VALUE_TEST(convert<string>(double_v01, cnv(eng_locale)), eng_expected);
-    if (!rus_ignore) VALUE_TEST(convert<string>(double_v01, cnv(rus_locale)), rus_expected);
+    if (!eng_ignore) test_locale(double_v01, cnv(eng_locale), eng_expected);
+    if (!rus_ignore) test_locale(double_v01, cnv(rus_locale), rus_expected);
 }
 
 static
