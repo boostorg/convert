@@ -3,6 +3,12 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
+#include <boost/convert/detail/forward.hpp>
+
+#ifdef BOOST_CONVERT_BROKEN_COMPILER
+int main(int, char const* []) { return 0; }
+#else
+
 #include "./test.hpp"
 #include <boost/convert.hpp>
 #include <boost/detail/lightweight_test.hpp>
@@ -50,7 +56,7 @@ namespace { namespace local
 }}
 
 int
-CONVERT_TEST_MAIN(int argc, char const* argv[])
+main(int argc, char const* argv[])
 {
     BOOST_TEST( (boost::cnv::is_cnv<local::converter01, int, string>::value));
     BOOST_TEST( (boost::cnv::is_cnv<local::converter01, double, string>::value));
@@ -77,3 +83,4 @@ CONVERT_TEST_MAIN(int argc, char const* argv[])
     return boost::report_errors();
 }
 
+#endif

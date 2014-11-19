@@ -3,6 +3,12 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
+#include <boost/convert/detail/forward.hpp>
+
+#ifdef BOOST_CONVERT_BROKEN_COMPILER
+int main(int, char const* []) { return 0; }
+#else
+
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
 #include <boost/detail/lightweight_test.hpp>
@@ -76,10 +82,12 @@ test_algorithms()
 }
 
 int
-CONVERT_TEST_MAIN(int argc, char const* argv[])
+main(int argc, char const* argv[])
 {
     test_user_type();
     test_algorithms();
 
     return boost::report_errors();
 }
+
+#endif

@@ -3,18 +3,19 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include "./test.hpp"
+#include <boost/convert/detail/forward.hpp>
 
+#ifdef BOOST_CONVERT_BROKEN_COMPILER
+int main(int, char const* []) { return 0; }
+#else
+
+#include "./test.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
 #include <boost/convert/printf.hpp>
 #include <boost/convert/strtol.hpp>
 #include <boost/convert/lexical_cast.hpp>
 #include <boost/convert/spirit.hpp>
-#include <boost/detail/lightweight_test.hpp>
-
-#include "./test.hpp"
-#include <boost/convert.hpp>
 #include <boost/detail/lightweight_test.hpp>
 
 using std::string;
@@ -126,7 +127,7 @@ str_to_int(Converter const& cnv)
 }
 
 int
-CONVERT_TEST_MAIN(int argc, char const* argv[])
+main(int argc, char const* argv[])
 {
     boost::cnv::lexical_cast lxcast_cnv;
     boost::cnv::cstream      stream_cnv;
@@ -148,3 +149,5 @@ CONVERT_TEST_MAIN(int argc, char const* argv[])
 
     return boost::report_errors();
 }
+
+#endif

@@ -3,6 +3,12 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
+#include <boost/convert/detail/forward.hpp>
+
+#ifdef BOOST_CONVERT_BROKEN_COMPILER
+int main(int, char const* []) { return 0; }
+#else
+
 #include "./test.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
@@ -50,7 +56,7 @@ test_dbl_to_str()
 }
 
 int
-CONVERT_TEST_MAIN(int argc, char const* argv[])
+main(int argc, char const* argv[])
 {
     string const not_int_str = "not an int";
     string const     std_str = "-11";
@@ -68,3 +74,5 @@ CONVERT_TEST_MAIN(int argc, char const* argv[])
 
     return boost::report_errors();
 }
+
+#endif

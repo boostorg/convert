@@ -5,8 +5,6 @@
 #ifndef BOOST_CONVERT_FORWARD_HPP
 #define BOOST_CONVERT_FORWARD_HPP
 
-#include <stdio.h>
-
 #if defined(_MSC_VER)
 #   pragma warning(disable: 4244)
 #   pragma warning(disable: 4224)
@@ -21,23 +19,7 @@
 #endif
 
 #if defined(BOOST_INTEL_CXX_VERSION) && (BOOST_INTEL_CXX_VERSION <= 1200)
-
-#define CONVERT_TEST_MAIN(argc, argv)                       \
-                                                            \
-main(argc, argv)                                            \
-{                                                           \
-    printf("Test skipped due to compiler deficiencies\n");  \
-    return boost::report_errors();                          \
-}                                                           \
-                                                            \
-template<typename T>                                        \
-int                                                         \
-unused() /* Won't be instantiated*/
-
-#else
-
-#define CONVERT_TEST_MAIN(argc, argv) main(argc, argv)
-
+#define BOOST_CONVERT_BROKEN_COMPILER
 #endif
 
 #define BOOST_NO_CXX11_REF_QUALIFIERS

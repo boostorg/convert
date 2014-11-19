@@ -3,6 +3,12 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
+#include <boost/convert/detail/forward.hpp>
+
+#ifdef BOOST_CONVERT_BROKEN_COMPILER
+int main(int, char const* []) { return 0; }
+#else
+
 #include <boost/convert.hpp>
 #include <boost/convert/printf.hpp>
 #include <boost/convert/stream.hpp>
@@ -254,7 +260,7 @@ test_user_string()
 }
 
 int
-CONVERT_TEST_MAIN(int argc, char const* argv[])
+main(int argc, char const* argv[])
 {
     dbl_to_str_example();
 
@@ -268,3 +274,5 @@ CONVERT_TEST_MAIN(int argc, char const* argv[])
 
     return boost::report_errors();
 }
+
+#endif

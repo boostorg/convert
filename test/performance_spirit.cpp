@@ -7,6 +7,12 @@
 // This code uses the performance testing framework from libs/spirit/optimization/measure.cpp.
 // See these mentioned files for the copyright notice.
 
+#include <boost/convert/detail/forward.hpp>
+
+#ifdef BOOST_CONVERT_BROKEN_COMPILER
+int main(int, char const* []) { return 0; }
+#else
+
 #include <boost/convert.hpp>
 #include <boost/convert/spirit.hpp>
 #include <boost/convert/strtol.hpp>
@@ -104,3 +110,4 @@ main(int argc, char const* argv[])
     return test::live_code != 0;
 }
 
+#endif
