@@ -27,8 +27,8 @@ test_user_type()
 
     direction const            up_dir1 = direction::up;
     direction const            dn_dir1 = direction::dn;
-    string const           up_dir0_str = boost::convert<string, direction>(direction::up, cnv).value();
-    string const           dn_dir0_str = boost::convert<string, direction>(direction::dn, cnv).value();
+//  string const           up_dir0_str = boost::convert<string, direction>(direction::up, cnv).value();
+//  string const           dn_dir0_str = boost::convert<string, direction>(direction::dn, cnv).value();
     string const           up_dir1_str = boost::convert<string>(up_dir1, cnv).value();
     string const           dn_dir1_str = boost::convert<string>(dn_dir1, cnv).value();
     direction const            up_dir2 = boost::convert<direction>(up_dir1_str, cnv).value();
@@ -38,8 +38,8 @@ test_user_type()
     direction const            dn_dir4 = boost::convert<direction>("junk", cnv).value_or(direction::dn);
     boost::optional<direction> up_dir4 = boost::convert<direction>("junk", cnv);
 
-    BOOST_TEST(up_dir0_str == "up");
-    BOOST_TEST(dn_dir0_str == "dn");
+//  BOOST_TEST(up_dir0_str == "up");
+//  BOOST_TEST(dn_dir0_str == "dn");
     BOOST_TEST(up_dir1_str == "up");
     BOOST_TEST(dn_dir1_str == "dn");
     BOOST_TEST(up_dir2 == up_dir1);
