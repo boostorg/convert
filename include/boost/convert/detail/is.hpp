@@ -66,20 +66,20 @@ namespace boost { namespace cnv
             no_type operator()(...) const;
         };
 
-        typedef typename details::match_const<class_type, mixin>::type mixin_type;
+        typedef typename details::match_const<class_type, mixin>::type* mixin_ptr;
 
-        template <typename T, typename due_type>
-        struct return_value_check
+        template<typename T, typename return_type>
+        struct return_type_check
         {
-            // Overloads in case due_type has template constructor
+            // Overloads in case return_type has template constructor
             static no_type  test (no_type);
             static no_type  test (details::void_exp_result<class_type>);
             static no_type  test (...);
-            static yes_type test (due_type);
+            static yes_type test (return_type);
         };
 
-        template <typename T>
-        struct return_value_check<T, void>
+        template<typename T>
+        struct return_type_check<T, void>
         {
             static yes_type test (...);
             static no_type  test (no_type);
@@ -90,13 +90,14 @@ namespace boost { namespace cnv
         template <typename Arg1, typename Arg2, typename R>
         struct check<true, R (Arg1, Arg2)>
         {
-            typedef typename boost::decay<Arg1>::type arg1_type;
-            typedef typename boost::decay<Arg2>::type arg2_type;
+            typedef typename boost::decay<Arg1>::type* arg1_ptr;
+            typedef typename boost::decay<Arg2>::type* arg2_ptr;
 
             static const bool value = sizeof(yes_type) == sizeof(
-                                      return_value_check<class_type, R>::test(
+                                      return_type_check<class_type, R>::test(
                                       // Applying comma operator
-                                      (((mixin_type*) 0)->operator()(*(arg1_type*)0, *(arg2_type*)0), details::void_exp_result<class_type>())));
+                                      (mixin_ptr(0)->operator()(*arg1_ptr(0), *arg2_ptr(0)),
+                                      details::void_exp_result<class_type>())));
         };
 
         public:
