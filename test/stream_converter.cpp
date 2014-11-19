@@ -300,9 +300,9 @@ test_locale()
     bool             rus_ignore = false;
     char const* eng_locale_name = test::cnv::is_msc ? "English_United States.1251" : "en_US.UTF-8";
     char const* rus_locale_name = test::cnv::is_msc ? "Russian_Russia.1251" : "ru_RU.UTF-8";
-    char const*    eng_expected = test::cnv::is_msc ? "1.235e-002" : "1.235e-02";
-    char const*    rus_expected = test::cnv::is_msc ? "1,235e-002" : "1,235e-02";
-    char const*      double_s01 = test::cnv::is_msc ? "1.2345E-002" : "1.2345E-02";
+    char const*    eng_expected = test::cnv::is_old_msc ? "1.235e-002" : "1.235e-02";
+    char const*    rus_expected = test::cnv::is_old_msc ? "1,235e-002" : "1,235e-02";
+    char const*      double_s01 = test::cnv::is_old_msc ? "1.2345E-002" : "1.2345E-02";
 
     cnv(arg::precision = 4)
        (arg::uppercase = true)

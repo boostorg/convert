@@ -137,10 +137,15 @@ namespace test
 {
     struct cnv
     {
-#if defined(_MSC_VER)
-        static bool const    is_msc = true;
+#if defined(_MSC_VER) && _MSC_VER < 1900
+        static bool const     is_msc = true;
+        static bool const is_old_msc = true;
+#elif defined(_MSC_VER)
+        static bool const     is_msc = true;
+        static bool const is_old_msc = false;
 #else
-        static bool const    is_msc = false;
+        static bool const     is_msc = false;
+        static bool const is_old_msc = false;
 #endif
     };
 }
