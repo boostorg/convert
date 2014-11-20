@@ -18,10 +18,6 @@
 
 #endif
 
-#if defined(BOOST_INTEL_CXX_VERSION) && (BOOST_INTEL_CXX_VERSION <= 1200)
-#define BOOST_CONVERT_BROKEN_COMPILER
-#endif
-
 #define BOOST_NO_CXX11_REF_QUALIFIERS
 
 #include <boost/config.hpp>
@@ -32,6 +28,10 @@
 #undef BOOST_CONVERT_CXX11
 #else
 #define BOOST_CONVERT_CXX11
+#endif
+
+#if defined(BOOST_INTEL_CXX_VERSION) && (BOOST_INTEL_CXX_VERSION <= 1200)
+#define BOOST_CONVERT_BROKEN_COMPILER
 #endif
 
 #endif // BOOST_CONVERT_FORWARD_HPP
