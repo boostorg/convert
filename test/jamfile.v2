@@ -11,7 +11,6 @@ project convert_test
         <warnings>on
         <toolset>gcc:<warnings>all
         <toolset>gcc:<cxxflags>"-O3 -Wno-unused-local-typedefs -Wno-unused-variable -Wno-long-long"
-        <toolset>gcc:<linkflags>"-lrt"
         <toolset>msvc:<warnings>all
         <toolset>msvc:<cxxflags>"/wd4996 /wd4512 /wd4610 /wd4510 /wd4127 /wd4701 /wd4127 /wd4305 /wd4244 /wd4714 /wd4189"
         <toolset>msvc:<asynch-exceptions>on

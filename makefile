@@ -1,7 +1,7 @@
 BOOST_ROOT = $(HOME)/dev/boost
 
 cflags    = -O3 -Iinclude -I$(BOOST_ROOT) -Wno-unused-local-typedefs -Wno-unused-variable -Wno-uninitialized
-ldflags   = -L$(HOME)/dev/lib -lboost_timer -lboost_system -lboost_chrono -lrt
+ldflags   = -L$(HOME)/dev/lib -lboost_timer -lboost_system -lboost_chrono
 
 target_1  = convert-test-has-memfun
 target_2  = convert-test-callable
