@@ -39,7 +39,7 @@ using boost::lexical_cast;
 using boost::convert;
 //]
 //[getting_started_default_converter
-// Optional definition of the default converter
+// Definition of the default converter (optional)
 struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
 //]
 static void getting_started_example1()
@@ -49,12 +49,12 @@ static void getting_started_example1()
     {
         boost::cnv::lexical_cast cnv; // boost::lexical_cast-based converter
 
-        int    i1 = lexical_cast<int>("123");
-        int    i2 = convert<int>("123").value(); // With the default converter
-        int    i3 = convert<int>("123", cnv).value(); // With explicitly supplied converter
+        int    i1 = lexical_cast<int>("123");          // boost::lexical_cast standard deployment
+        int    i2 = convert<int>("123").value();       // boost::convert with the default converter
+        int    i3 = convert<int>("123", cnv).value();  // boost::convert with an explicit converter
         string s1 = lexical_cast<string>(123);
-        string s2 = convert<string>(123).value(); // With the default converter
-        string s3 = convert<string>(123, cnv).value(); // With explicitly supplied converter
+        string s2 = convert<string>(123).value();      // boost::convert with the default converter
+        string s3 = convert<string>(123, cnv).value(); // boost::convert with an explicit converter
 
         BOOST_TEST(i1 == 123);
         BOOST_TEST(i2 == 123);
@@ -135,8 +135,8 @@ getting_started_example5()
     //[getting_started_example5
     boost::cnv::cstream cnv;
 
-    int i1 = lexical_cast<int>("123"); // Throws when conversion fails.
-    int i2 = convert<int>("123", cnv).value(); // Throws when conversion fails.
+    int i1 = lexical_cast<int>("123");              // Throws when conversion fails.
+    int i2 = convert<int>("123", cnv).value();      // Throws when conversion fails.
     int i3 = convert<int>("uhm", cnv).value_or(-1); // Returns -1 when conversion fails.
 
     BOOST_TEST(i1 == 123);
@@ -155,11 +155,11 @@ static void getting_started_example6()
 
     //[getting_started_example6
 
-    int i1 = convert<int>(s1, cnv(std::hex)).value_or(-1); // Read as hex.
-    int i2 = convert<int>(s2, cnv(std::dec)).value_or(-1); // Read as decimal.
+    int i1 = convert<int>(s1, cnv(std::hex)).value_or(-1); // Read as hex
+    int i2 = convert<int>(s2, cnv(std::dec)).value_or(-1); // Read as decimal
 
-    if (i1 == -1) log("bad i1"), i1 = default_i1;
-    if (i2 == -1) log("bad i2"), i2 = default_i2;
+    if (i1 == -1) log("bad i1"), i1 = default_i1; // Log failure. Proceed with the default
+    if (i2 == -1) log("bad i2"), i2 = default_i2; // Log failure. Proceed with the default
 
     // ... proceed
     //]
@@ -177,8 +177,8 @@ static void getting_started_example7()
 
     //[getting_started_example7
 
-    int i1 = convert<int>(s1, cnv(std::hex)).value_or(default_i1);
-    int i2 = convert<int>(s2, cnv(std::dec)).value_or(default_i2);
+    int i1 = convert<int>(s1, cnv(std::hex)).value_or(default_i1); // If failed, proceed with the default
+    int i2 = convert<int>(s2, cnv(std::dec)).value_or(default_i2); // If failed, proceed with the default
     // ... proceed
     //]
     BOOST_TEST(i1 == 291);

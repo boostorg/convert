@@ -8,22 +8,22 @@
 
 ['Boost.Convert] builds on the `boost::lexical_cast` experience and takes those type conversion\/transformation-related ideas further
 
-* to be applicable to a wider range of conversion-related deployment scenarios,
 * to provide a more flexible, configurable and extendible type-conversion framework,
+* to be applicable to a wider range of conversion-related deployment scenarios,
 * to provide generic consistent behavior,
 * to ['unify and to uniformly deploy] various conversion facilities ['through one consistent interface].
 
 ['Boost.Convert] provides new and familiar conversion\/transformation-related functionality such as:
 
-* the choice of exception-throwing, delayed exception-throwing and non-throwing conversion-failure processing;
+* means to deploy types that do not meet the [@http://en.cppreference.com/w/cpp/concept/DefaultConstructible ['Default Constructibility]] requirement;
+* the choice of immediate or delayed exception-throwing and non-throwing conversion-failure processing;
 * four types of the conversion-failure ['detection]:
-    * within one process flow -- basic and generic;
+    * as part of the same process flow -- basic and generic;
     * as a branched process flow -- exception-based and function-based;
 * flexibility of conversion-failure ['processing] via:
     * an exception thrown;
     * the fallback value returned;
     * the fallback function called;
-* means to deploy types that do not meet the [@http://en.cppreference.com/w/cpp/concept/DefaultConstructible ['Default Constructibility]] requirement;
 * support for standard algorithms.
 
 ['Boost.Convert] consists of two components:
@@ -36,7 +36,7 @@ The `boost::convert()` user interface
 * advertises, provides and ensures ['certain consistent behavior];
 * provides ['one consistent interface] to various conversion facilities.
 
-The collection of pluggable converters is independent of the ['Boost.Convert] API facade and is designed to be ['extendible] and extended over time. With the current proposal the following converters are provided:
+The collection of pluggable converters is independent of the `boost::convert()` API facade and is designed to be ['extendible] and extended over time. With the current proposal the following converters are provided:
 
 * `boost::lexical_cast`-based,
 * `printf/scanf`-based,
@@ -44,10 +44,10 @@ The collection of pluggable converters is independent of the ['Boost.Convert] AP
 * `std::stringstream`-based,
 * ['Boost.Spirit]-based.
 
-The converters demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework. For example, the `std::stream`-based converter draws on the standard `std::streams` functionality and provides:
+The converters provide new and familiar functionality and demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework. For example, the `std::stream`-based converter draws on the standard `std::streams` functionality and provides:
 
 * string-to-type and type-to-string conversions;
-* formatting support (`ios` precision, base, upper/lower-case, scientific, etc.);
+* formatting support (`std::ios`-based precision, base, upper/lower-case, scientific, etc.);
 * support for different `locale`s;
 * `char` and `wchar_t` support.
 

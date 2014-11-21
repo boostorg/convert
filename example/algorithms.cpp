@@ -20,7 +20,7 @@ introduction()
 {
 //[algorithm_introduction
 
-   /*`The following code demonstrates conversion of an array of integers from their textual hexadecimal
+   /*`The following code demonstrates conversion of an array of integers from their textual ['hexadecimal]
       representation and assigns -1 to those which fail to convert:
    */
 
@@ -28,7 +28,7 @@ introduction()
     std::vector<int>             ints;
     boost::cnv::cstream           cnv;
 
-    // Instruct to read as a string of hexadecimal characters, skip (leading) white spaces.
+    // Configure converter to read as a string of hexadecimal characters, skip (leading) white spaces.
     cnv(std::hex)(std::skipws);
 
     std::transform(
@@ -37,10 +37,10 @@ introduction()
         std::back_inserter(ints),
         boost::convert<int, std::string>(boost::cref(cnv)).value_or(-1));
 
-    BOOST_TEST(ints.size() == 3); // Number of values read.
+    BOOST_TEST(ints.size() == 3); // Number of values processed.
     BOOST_TEST(ints[0] ==  5);    // " 5"
     BOOST_TEST(ints[1] == 15);    // "0XF"
-    BOOST_TEST(ints[2] == -1);    // Returned value from a failed conversion of "not an int".
+    BOOST_TEST(ints[2] == -1);    // "not an int"
 //] //[/algorithm_introduction]
 
 }

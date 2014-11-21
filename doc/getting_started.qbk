@@ -12,19 +12,21 @@
 
 [section Basic Deployment]
 
-One of `boost::convert` deployments is not that different from `boost::lexical_cast` and, in fact, `boost::lexical_cast` functionality is easily deployed through `boost::convert` interface:
+For die-hard `boost::lexical_cast` users or as a transition to `boost::convert`, one of `boost::convert` deployments is not that different from `boost::lexical_cast` and, in fact, `boost::lexical_cast` functionality is easily deployed through `boost::convert` interface:
 
 [getting_started_headers1]
 [getting_started_using]
 [getting_started_default_converter]
 [getting_started_example1]
 
+[important As we explore `boost::convert` behavior and interfaces further, to some they might appear unduly complex, excessive, verbose, etc... nothing like `atoi()`... so famous for all the bad reasons. :-) It is important to fully understand and as fully appreciate the fact that a conversion request is only a ['request] which may succeed but may also fail. `boost::convert` (as `boost::lexical_cast`) behavior and interfaces reflect that fact.]
+
 [endsect]
 [section Flexibility and Adaptability to Change]
 
 [:[*['"There is nothing more constant than change" Heraclitus]]]
 
-Sooner or later (during initial development or in the maintenance phase) these qualities become important. ['Boost.Convert] deployment helps to adjust and to change in line with the evolution of the requirements. Say, the program flow would benefit from the non-throwing behavior:
+Sooner or later (during initial development or in the maintenance phase) flexibility and adaptability become important. ['Boost.Convert] deployment helps to adjust and to change in line with the evolution of the requirements. Say, the program flow would benefit from the non-throwing behavior:
 
 [getting_started_using]
 [getting_started_example2]
@@ -34,7 +36,7 @@ Or, the code is identified as too slow. Then the performance could be improved w
 [getting_started_headers3]
 [getting_started_example3]
 
-If, instead, the requirements change to accept more input formats or to require a certain output format, then, again, that could be accommodated with:
+If, instead, the requirements change to mandate more input formats or to require a certain output format, then, again, that could be accommodated with:
 
 [getting_started_headers4]
 [getting_started_example4]
@@ -50,9 +52,9 @@ The above calls can be interpreted as
 * "['convert a string to int]" for `i1` and `i2` and
 * "['convert a string to int and return -1 if the conversion fails]" for `i3`.
 
-The `i1` and `i2` deployments look sufficiently close and behave identically. Namely, if the requested conversion fails, an exception is thrown. The user request \"['convert a string to int]\"  does not say what to do if conversion fails. Consequently, `boost::lexical_cast` and `boost::convert` treat conversion-failure as "exceptional" and throw.
+The `i1` and `i2` deployments look sufficiently close and behave identically. Namely, if the requested conversion fails, an exception is thrown. The user instructions do not describe what to do if conversion fails. Consequently, `boost::lexical_cast` and `boost::convert` treat conversion-failure as "exceptional" and throw.
 
-The `i3` specification, on the other hand, is explicit about what to do if conversion fails, so a supplied fallback value is returned if the requested conversion fails.
+The `i3` specification, on the other hand, is explicit about conversion failures, so a supplied fallback value is returned if the requested conversion fails.
 
 That basic error detection and processing might be sufficient for a variety of conversion deployments. For example:
 
@@ -67,13 +69,13 @@ Or, if we do not care about logging conversion failures:
 
 [getting_started_example7]
 
-So far the deployment of `boost::convert` seems more flexible, more compact and natural (your mileage may vary) and potentially more efficient compared to `boost::lexical_cast` which achieves similar (but without formatting control) results with:
+So far the deployment of `boost::convert` seems more flexible, more compact and natural (your mileage may vary) and potentially more efficient compared to `boost::lexical_cast` which achieves similar (but without formatting) results with:
 
 [getting_started_example8]
 
 By design, this is `boost::lexical_cast`'s only behavior: straightforward and comprehensible, but limited.
 Unfortunately, it makes quite a few legitimate process\/program flows difficult and awkward to implement.
-['Boost.Convert] offers additional functionality, flexibility and convenience.
+['Boost.Convert] addresses that with additional functionality, flexibility and convenience.
 
 [endsect]
 [endsect]

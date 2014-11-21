@@ -45,7 +45,7 @@ example1()
         //[getting_serious_example2
         try
         {
-            int i1 = lexical_cast<int>(str); // Throws if the conversion fails.
+            int i1 = lexical_cast<int>(str);         // Throws if the conversion fails.
             int i2 = convert<int>(str, cnv).value(); // Throws if the conversion fails.
         }
         catch (...)
