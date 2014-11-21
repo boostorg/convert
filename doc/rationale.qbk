@@ -6,7 +6,7 @@
 
 [section Rationale]
 
-I have been using textual configuration files extensively, also processing and preparing considerable amounts of data in XML. Consequently, I had a need for a library that would provide a ['uniform and extendible] interface to convert various data between their internal binary representations and external (predominantly textual) representations. 
+I was using textual configuration files extensively and I was also processing and preparing considerable amounts of data in XML. Consequently, I had a need for a library that would provide a ['uniform and extendible] interface to convert various data between their internal binary representations and external (predominantly textual) representations. 
 
 The `boost::lexical_cast` library (with its orthogonal and extendible design) looked very promising and was by far the preferred candidate compared to others (see [@http://www.gotw.ca/publications/mill19.htm The String Formatters of Manor Farm] by H. Sutter for the discussion of alternatives). 
 

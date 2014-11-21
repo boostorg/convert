@@ -20,7 +20,7 @@ introduction()
 {
 //[algorithm_introduction
 
-   /*`For example, the following code converts an array of integers from their textual hexadecimal
+   /*`The following code demonstrates conversion of an array of integers from their textual hexadecimal
       representation and assigns -1 to those which fail to convert:
    */
 

@@ -47,7 +47,7 @@ static void getting_started_example1()
     //[getting_started_example1
     try
     {
-        boost::cnv::lexical_cast cnv;
+        boost::cnv::lexical_cast cnv; // boost::lexical_cast-based converter
 
         int    i1 = lexical_cast<int>("123");
         int    i2 = convert<int>("123").value(); // With the default converter

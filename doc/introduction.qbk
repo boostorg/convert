@@ -15,7 +15,7 @@
 
 ['Boost.Convert] provides new and familiar conversion\/transformation-related functionality such as:
 
-* flexible exception-throwing, delayed-throwing and non-throwing behavior when conversion fails;
+* the choice of exception-throwing, delayed exception-throwing and non-throwing conversion-failure processing;
 * four types of the conversion-failure ['detection]:
     * within one process flow -- basic and generic;
     * as a branched process flow -- exception-based and function-based;
@@ -44,9 +44,7 @@ The collection of pluggable converters is independent of the ['Boost.Convert] AP
 * `std::stringstream`-based,
 * ['Boost.Spirit]-based.
 
-The converters demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework.
-
-The `std::stream`-based converter draws on the standard `std::streams` functionality and provides:
+The converters demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework. For example, the `std::stream`-based converter draws on the standard `std::streams` functionality and provides:
 
 * string-to-type and type-to-string conversions;
 * formatting support (`ios` precision, base, upper/lower-case, scientific, etc.);
@@ -57,8 +55,8 @@ The `std::stream`-based converter draws on the standard `std::streams` functiona
 
 [algorithm_introduction]
 
-An interesting (and yet to be explored) property is that ['Boost.Convert] is not limited to `string-to-type` and `type-to-string` conversions. The `boost::convert()` interface is type-agnostic and the plugged-in converter ultimately dictates what types and conversions are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed
-and ['deployed uniformly] by plugging-in special-purpose converters.
+[note An interesting (and yet to be explored) property is that ['Boost.Convert] is not limited to `string-to-type` and `type-to-string` conversions. The `boost::convert()` interface is type-agnostic and the plugged-in converter ultimately dictates what types and conversions are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed
+and ['deployed uniformly] by plugging-in special-purpose converters.]
 
 [endsect] [/section Introduction]
 

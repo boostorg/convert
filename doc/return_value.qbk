@@ -6,12 +6,11 @@
 
 [section:return_value Return Value]
 
-As it was indicated previously [@boost:/libs/optional/index.html `boost::optional`] is the actual type returned by
+As it was indicated previously [@boost:/libs/optional/index.html `boost::optional`] is the actual type returned by `boost::convert()`:
 
  boost::optional<TypeOut> boost::convert(TypeIn const&, Converter const&);
 
-The signature is ['functionally-complete] and is the most efficient in deploying the underlying converter.
-That said, the following alternative interface but might be potentially better suitable
+The signature is ['functionally-complete] and is the most efficient in deploying the underlying converter. That said, the following alternative interface might be potentially more suitable
 for certain deployment scenarios (or due to personal preferences):
 
  Out convert(In const&, Converter const&, Out const& fallback_value);

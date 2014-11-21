@@ -116,9 +116,9 @@ example7()
     int const fallback_value = -1;
     //[getting_serious_example7
     // Error-processing behavior are specified unambiguously and uniformly.
-    // a) i1: Returning the provided fallback value;
-    // b) i2: Calling the provided failure-processing function;
-    // c) i3: Throwing an exception.
+    // a) i1: Returns the provided fallback value;
+    // b) i2: Calls the provided failure-processing function;
+    // c) i3: Throws an exception.
 
     int i1 = convert<int>(str, cnv, fallback_value);
     int i2 = convert<int>(str, cnv, fallback_func());
