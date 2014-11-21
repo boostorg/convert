@@ -8,7 +8,7 @@
 
 [import ../test/callable.cpp]
 
-`boost::convert()` plays its role by providing a uniform interface and ensuring consistent behavior. However, it is the respective converter which does the hard work of turning custom-types into strings and strings into custom-types, etc., i.e. the actual type conversion\/transformation.
+`boost::convert()` API plays its role by providing a ['uniform interface] and ensuring ['consistent behavior]. However, it is the respective converter which does the hard work of turning custom-types into strings and strings into custom-types, etc., i.e. the actual type conversion\/transformation.
 
 For a converter to be plugged in to the ['Boost.Convert] framework it needs to be a ['callable] with the following signature:
 

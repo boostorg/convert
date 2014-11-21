@@ -12,7 +12,7 @@ The necessity to explicitly specify a converter as in
 
  int i = boost::convert<int>("123", converter).value();
  
-might be tedious or even error-prone if an application relies on certain consistent behavior associated with one particular converter. To accommodate such a scenario ['Boost.Convert] introduces the concept of the ['default converter] and deploys `boost::cnv::by_default` for the purpose. 
+provides considerable flexibility and configurability. However, in certain contexts it might be tedious or even error-prone if an application relies on certain consistent behavior associated with one particular converter type. To accommodate such a scenario ['Boost.Convert] introduces the concept of the ['default converter] and deploys `boost::cnv::by_default` for the purpose. 
 
 There is no default converter set by default and, consequently, without additional configuration steps the following call will fail to compile: 
 
