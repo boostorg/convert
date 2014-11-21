@@ -2,28 +2,37 @@
 #define BOOST_CONVERT_DETAIL_RANGE_HPP
 
 #include <boost/convert/detail/has_member.hpp>
-#include <boost/convert/detail/is_char.hpp>
+#include <boost/convert/detail/char.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/range/iterator.hpp>
 
 namespace boost { namespace cnv
 {
-    template<typename T, typename enable =void> struct range;
-
     namespace detail
     {
         template<typename T, bool is_class> struct is_range : mpl::false_ {};
 
+        template<typename T> struct is_range<T*, false>
+        {
+            static bool const value = true;
+        };
+        template <typename T, std::size_t N> struct is_range<T [N], false>
+        {
+            static bool const value = true;
+        };
         template<typename T> struct is_range<T, /*is_class=*/true>
         {
-        	DECLARE_HAS_MEMBER(has_begin, begin);
-        	DECLARE_HAS_MEMBER(  has_end, end);
+            DECLARE_HAS_MEMBER(has_begin, begin);
+            DECLARE_HAS_MEMBER(  has_end, end);
 
             static bool const value = has_begin<T>::value && has_end<T>::value;
         };
     }
+    template<typename T> struct is_range : detail::is_range<typename remove_const<T>::type, boost::is_class<T>::value> {};
+    template<typename T, typename enable =void> struct range;
+
     template<typename T>
-    struct range<T, typename enable_if<detail::is_range<T, is_class<T>::value>, void>::type>
+    struct range<T, typename enable_if_c<is_class<T>::value && is_range<T>::value>::type>
     {
         typedef typename boost::range_iterator<T>::type    iterator;
         typedef typename boost::range_iterator<T>::type sentry_type;

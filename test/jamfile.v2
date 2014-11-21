@@ -36,4 +36,5 @@ run lcast_converter.cpp  :  :  :  : convert_test_lcast_converter ;
 run encryption.cpp       :  :  :  : convert_test_encryption ;
 run user_type.cpp        :  :  :  : convert_test_user_type ;
 run str_to_int.cpp       :  :  :  : convert_test_str_to_int ;
+run sfinae.cpp           :  :  :  : convert_test_sfinae ;
 

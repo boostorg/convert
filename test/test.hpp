@@ -12,7 +12,15 @@
 #include <string.h> // For strlen, strcmp, memcpy
 #include <memory.h> // Is needed for 'memset'
 #include <boost/convert/detail/forward.hpp>
-#include "./forward.hpp"
+
+#if defined(_MSC_VER)
+#   pragma warning(disable: 4189) // local variable is initialized but not referenced.
+#   pragma warning(disable: 4127) // conditional expression is constant.
+#   pragma warning(disable: 4100) // unreferenced formal parameter.
+#   pragma warning(disable: 4714) // marked as __forceinline not #endif
+#   pragma warning(disable: 4706)
+#   pragma warning(disable: 4005)
+#endif
 
 //[change_declaration
 struct change
@@ -88,9 +96,10 @@ namespace boost
 //[my_string_declaration
 struct my_string
 {
-    typedef my_string        this_type;
-    typedef char*             iterator;
-    typedef char const* const_iterator;
+    typedef my_string              this_type;
+    typedef char                  value_type;
+    typedef value_type*             iterator;
+    typedef value_type const* const_iterator;
 
     my_string ();
     my_string (const_iterator, const_iterator =0);
