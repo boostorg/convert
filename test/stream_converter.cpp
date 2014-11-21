@@ -25,8 +25,6 @@ namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;
 //]
 
-#define VALUE_TEST(CONVERT, RESULT) BOOST_TEST(CONVERT && CONVERT.value() == RESULT)
-
 static
 void
 test_dbl_to_str()
@@ -104,14 +102,14 @@ test_boolalpha()
     BOOST_TEST(convert<string>( true, cnv(std::boolalpha)).value_or("bad") ==  "true");
     BOOST_TEST(convert<string>(false, cnv(std::boolalpha)).value_or("bad") == "false");
 
-    VALUE_TEST(convert<bool>( "true", cnv(std::boolalpha)),  true);
-    VALUE_TEST(convert<bool>("false", cnv(std::boolalpha)), false);
+    BOOST_TEST(convert<bool>( "true", cnv(std::boolalpha)).value_or(false) ==  true);
+    BOOST_TEST(convert<bool>("false", cnv(std::boolalpha)).value_or( true) == false);
 
     BOOST_TEST(convert<string>( true, cnv(std::noboolalpha)).value_or("bad") == "1");
     BOOST_TEST(convert<string>(false, cnv(std::noboolalpha)).value_or("bad") == "0");
 
-    VALUE_TEST(convert<bool>("1", cnv(std::noboolalpha)),  true);
-    VALUE_TEST(convert<bool>("0", cnv(std::noboolalpha)), false);
+    BOOST_TEST(convert<bool>("1", cnv(std::noboolalpha)).value_or(false) ==  true);
+    BOOST_TEST(convert<bool>("0", cnv(std::noboolalpha)).value_or( true) == false);
     //]
 }
 
@@ -127,8 +125,8 @@ test_skipws_char()
     ccnv(std::skipws);        // Ignore leading whitespaces
 //  ccnv(arg::skipws = true); // Ignore leading whitespaces. Alternative interface
 
-    VALUE_TEST(convert<int>(cstr_good, ccnv),    123);
-    VALUE_TEST(convert<string>("  123", ccnv), "123");
+    BOOST_TEST(convert<int>(cstr_good, ccnv).value_or(0) == 123);
+    BOOST_TEST(convert<string>("  123", ccnv).value_or("bad") == "123");
 
     BOOST_TEST(!convert<int>(cstr_bad, ccnv));
 
@@ -143,8 +141,8 @@ test_skipws_char()
     ccnv(std::skipws);        // Ignore leading whitespaces
 //  ccnv(arg::skipws = true); // Ignore leading whitespaces. Alternative interface
 
-    VALUE_TEST(convert<   int>(cstr_good, ccnv),   123);
-    VALUE_TEST(convert<string>(cstr_good, ccnv), "123");
+    BOOST_TEST(convert<   int>(cstr_good, ccnv).value_or(0) == 123);
+    BOOST_TEST(convert<string>(cstr_good, ccnv).value_or("bad") == "123");
     //]
 }
 
@@ -157,14 +155,14 @@ test_skipws_wchar()
 
     wcnv(std::noskipws); // Do not ignore leading whitespaces
 
-    VALUE_TEST( convert<int>(   L"123", wcnv), 123);
+    BOOST_TEST( convert<int>(   L"123", wcnv).value_or(0) == 123);
     BOOST_TEST(!convert<int>( L"  123", wcnv));
     BOOST_TEST(!convert<int>(L"  123 ", wcnv));
 
     wcnv(std::skipws);        // Ignore leading whitespaces
 //  wcnv(arg::skipws = true); // Ignore leading whitespaces. Alternative interface
 
-    VALUE_TEST( convert<int>( L"  123", wcnv), 123);
+    BOOST_TEST( convert<int>( L"  123", wcnv).value_or(0) == 123);
     BOOST_TEST(!convert<int>(L"  123 ", wcnv));
     //]
 }
@@ -220,28 +218,28 @@ test_manipulators()
 
     ccnv(std::noshowbase)(std::nouppercase)(std::oct);
 
-    VALUE_TEST(boost::convert<string>(255, ccnv), "377");
-    VALUE_TEST(boost::convert<string>( 15, ccnv),  "17");
+    BOOST_TEST(boost::convert<string>(255, ccnv).value_or("bad") == "377");
+    BOOST_TEST(boost::convert<string>( 15, ccnv).value_or("bad") ==  "17");
 
     ccnv(std::showbase);
 
-    VALUE_TEST(boost::convert<string>(255, ccnv), "0377");
-    VALUE_TEST(boost::convert<string>( 15, ccnv),  "017");
+    BOOST_TEST(boost::convert<string>(255, ccnv).value_or("bad") == "0377");
+    BOOST_TEST(boost::convert<string>( 15, ccnv).value_or("bad") ==  "017");
 
     ccnv(std::uppercase)(std::hex);
 
-    VALUE_TEST(boost::convert<string>(255, ccnv), "0XFF");
-    VALUE_TEST(boost::convert<string>( 15, ccnv),  "0XF");
+    BOOST_TEST(boost::convert<string>(255, ccnv).value_or("bad") == "0XFF");
+    BOOST_TEST(boost::convert<string>( 15, ccnv).value_or("bad") ==  "0XF");
 
     ccnv(std::noshowbase)(std::nouppercase)(std::oct);
 
-    VALUE_TEST(boost::convert<string>(255, ccnv), "377");
-    VALUE_TEST(boost::convert<string>( 15, ccnv),  "17");
+    BOOST_TEST(boost::convert<string>(255, ccnv).value_or("bad") == "377");
+    BOOST_TEST(boost::convert<string>( 15, ccnv).value_or("bad") ==  "17");
 
     ccnv(std::showbase)(arg::uppercase = true)(arg::base = cnv::base::hex);
 
-    VALUE_TEST(boost::convert<string>(255, ccnv), "0XFF");
-    VALUE_TEST(boost::convert<string>( 15, ccnv),  "0XF");
+    BOOST_TEST(boost::convert<string>(255, ccnv).value_or("bad") == "0XFF");
+    BOOST_TEST(boost::convert<string>( 15, ccnv).value_or("bad") ==  "0XF");
 }
 
 void
@@ -349,11 +347,11 @@ test_user_str()
 
     cnv(std::setprecision(2))(std::fixed);
 
-    VALUE_TEST(convert<int>(my_str, cnv), 123);
+    BOOST_TEST(convert<int>(my_str, cnv).value_or(0) == 123);
 
-    VALUE_TEST(convert<my_string>( 99.999, cnv), "100.00");
-    VALUE_TEST(convert<my_string>( 99.949, cnv),  "99.95");
-    VALUE_TEST(convert<my_string>(-99.949, cnv), "-99.95");
+    BOOST_TEST(convert<my_string>( 99.999, cnv).value_or("bad") == "100.00");
+    BOOST_TEST(convert<my_string>( 99.949, cnv).value_or("bad") ==  "99.95");
+    BOOST_TEST(convert<my_string>(-99.949, cnv).value_or("bad") == "-99.95");
     //]
 }
 
