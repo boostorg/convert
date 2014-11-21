@@ -158,6 +158,9 @@ namespace test
 #elif defined(_MSC_VER)
         static bool const     is_msc = true;
         static bool const is_old_msc = false;
+#elif defined(__MINGW32__)
+        static bool const     is_msc = true;
+        static bool const is_old_msc = true;
 #else
         static bool const     is_msc = false;
         static bool const is_old_msc = false;
