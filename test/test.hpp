@@ -146,6 +146,12 @@ namespace test
 {
     struct cnv
     {
+#if defined(__QNXNTO__)
+        static bool const     is_qnx = true;
+#else
+        static bool const     is_qnx = false;
+#endif
+
 #if defined(_MSC_VER) && _MSC_VER < 1900
         static bool const     is_msc = true;
         static bool const is_old_msc = true;
