@@ -14,6 +14,13 @@ int main(int, char const* []) { return 0; }
 #include <boost/detail/lightweight_test.hpp>
 #include "./test.hpp"
 
+namespace { namespace local
+{
+    DECLARE_HAS_MEMBER(has_begin, begin);
+    DECLARE_HAS_MEMBER(  has_end, end);
+}}
+
+
 struct no_range
 {
 };
@@ -47,6 +54,12 @@ struct no_end
 int
 main(int argc, char const* argv[])
 {
+    BOOST_TEST(local::has_begin<no_range>::value == false);
+    BOOST_TEST(local::has_begin<no_begin>::value == false);
+    BOOST_TEST(local::has_begin<no_end>::value == true);
+    BOOST_TEST(local::has_begin<yes_range1>::value == true);
+    BOOST_TEST(local::has_begin<yes_range2>::value == true);
+
     BOOST_TEST(boost::cnv::is_range<no_range>::value == false);
     BOOST_TEST(boost::cnv::is_range<no_begin>::value == false);
     BOOST_TEST(boost::cnv::is_range<no_end>::value == false);

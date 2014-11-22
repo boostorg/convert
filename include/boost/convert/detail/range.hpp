@@ -12,14 +12,14 @@ namespace boost { namespace cnv
     {
         template<typename T, bool is_class> struct is_range : mpl::false_ {};
 
-        template<typename T> struct is_range<T*, false>
-        {
-            static bool const value = true;
-        };
-        template <typename T, std::size_t N> struct is_range<T [N], false>
-        {
-            static bool const value = true;
-        };
+//        template<typename T> struct is_range<T*, false>
+//        {
+//            static bool const value = true;
+//        };
+//        template <typename T, std::size_t N> struct is_range<T [N], false>
+//        {
+//            static bool const value = true;
+//        };
         template<typename T> struct is_range<T, /*is_class=*/true>
         {
             DECLARE_HAS_MEMBER(has_begin, begin);
