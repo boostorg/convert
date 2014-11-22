@@ -12,19 +12,19 @@
 // If takes advantage of the following behavior related to function resolution.
 // Say, both, foo and base, declare a method with the same name "func":
 //
-//      struct   foo { int func () { return 0; } };
-//      struct  base { int func (int, int) { return 0; } };
+//      struct   foo { int  func (int, int) { return 0; } };
+//      struct  base { void func () {} };
 //      struct mixin : public foo, public base {};
 //
 // Now, if we inherit from both -- foo and base -- classes, then the following calls will fail
-//      ((mixin*( 0)->func();
-//      ((mixin*( 0)->func(5, 5);
+//      mixin_ptr(0)->func();
+//      mixin_ptr(0)->func(5, 5);
 // with the error message (gcc): request for member ‘func’ is ambiguous
-// regardless is we provide any arguments or not even though one might expect that arg-based signature
-// resolution might kick in. The only wqay to deploy those methods is:
+// regardless if we provide any arguments or not even though one might expect that arg-based signature
+// resolution might kick in. The only way to deploy those methods is:
 //
-//      ((mixin*( 0)->foo::func();
-//      ((mixin*( 0)->base::func(5, 5);
+//      mixin_ptr(0)->foo::func();
+//      mixin_ptr(0)->base::func(5, 5);
 //
 // C2. The actual signature of memfun_name is not taken into account.
 //     If type::memfun_name(any-signature) exists, then
@@ -44,7 +44,7 @@
         typedef ::boost::type_traits::yes_type                yes_type;                         \
         typedef ::boost::type_traits:: no_type                 no_type;                         \
                                                                                                 \
-        struct  base { void __member_name__(/*C2*/) {}};                                        \
+        struct  base { void __member_name__(/*C2*/); };                                         \
         struct mixin : public base, public check_type {};                                       \
                                                                                                 \
         template <void (base::*)()> struct aux {};                                              \
