@@ -83,10 +83,7 @@ struct direction
 //[direction_declaration_make_default
 namespace boost
 {
-    template<>
-    inline
-    direction
-    make_default<direction>()
+    template<> inline direction make_default<direction>()
     {
         return direction(direction::up);
     }

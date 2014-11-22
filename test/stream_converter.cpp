@@ -117,7 +117,7 @@ static
 void
 test_skipws_char()
 {
-    //[stream_skipws1_example
+    //[stream_skipws_example
     boost::cnv::cstream    ccnv;
     char const* const cstr_good = "  123";
     char const* const  cstr_bad = "  123 "; // std::skipws only affects leading spaces.
@@ -136,13 +136,6 @@ test_skipws_char()
     // All conversions fail.
     BOOST_TEST(!convert<int>(cstr_good, ccnv));
     BOOST_TEST(!convert<int>( cstr_bad, ccnv));
-    //]
-    //[stream_skipws2_example
-    ccnv(std::skipws);        // Ignore leading whitespaces
-//  ccnv(arg::skipws = true); // Ignore leading whitespaces. Alternative interface
-
-    BOOST_TEST(convert<   int>(cstr_good, ccnv).value_or(0) == 123);
-    BOOST_TEST(convert<string>(cstr_good, ccnv).value_or("bad") == "123");
     //]
 }
 

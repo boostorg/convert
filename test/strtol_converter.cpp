@@ -60,21 +60,21 @@ void
 test_str_to_int()
 {
     //[strtol_basic_deployment
-    string const        bad_str = "not an int";
-    string const        std_str = "-11";
-    char const* const     c_str = "-12";
-    wstring const      bad_wstr = L"not an int";
-    wstring const      wstd_str = L"-11";
-    wchar_t const* const wc_str = L"-12";
+    string const    bad_str = "not an int";
+    string const    std_str = "-11";
+    char const* const c_str = "-12";
 
     BOOST_TEST( -1 == convert<int>(bad_str).value_or(-1));
     BOOST_TEST(-11 == convert<int>(std_str).value());
     BOOST_TEST(-12 == convert<int>(  c_str).value());
+    //]
+    wstring const      bad_wstr = L"not an int";
+    wstring const      wstd_str = L"-11";
+    wchar_t const* const wc_str = L"-12";
 
     BOOST_TEST( -1 == convert<int>(bad_wstr).value_or(-1));
     BOOST_TEST(-11 == convert<int>(wstd_str).value());
     BOOST_TEST(-12 == convert<int>(  wc_str).value());
-    //]
 }
 
 //[strtol_numeric_base_header

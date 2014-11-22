@@ -153,12 +153,7 @@ A more generic interface is also supported:
 
 [section Leading Whitespace Characters]
 [stream_using]
-[stream_skipws1_example]
-
-The alternative interface is also supported:
-
-[stream_cnv_namespace_shortcut]
-[stream_skipws2_example]
+[stream_skipws_example]
 
 [endsect]
 

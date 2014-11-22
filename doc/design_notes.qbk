@@ -117,7 +117,7 @@ The important qualities of the API are that it is ['functionally-complete] and t
 
  boost::optional<Out> out = boost::convert(in);
 
-The API has several deployment-related advantages. First, it says exactly what it does. Given a conversion request is only a ['request], the API returns `boost::optional` essentially saying "I'll try but I might fail. Proceed as you find appropriate.". Honest and simple. I prefer it to "I'll try. I might fail but you do not want to know about it." or "I'll try. If I fail, you die." or "I'll try. I might fail but I'll send you a letter about it separately". :-)
+The API has several deployment-related advantages. First, it says exactly what it does. Given a conversion request is only a ['request], the API returns `boost::optional` essentially saying "I'll try but I might fail. Proceed as you find appropriate.". Honest and simple. I prefer it to "I'll try. I might fail but you do not want to know about it." or "I'll try. If I fail, you die." or variations along these lines. :-)
 
 On a more serious note though the interface allows for batched conveyor-style conversions. Namely, attempting to convert several values, in sequence, storing the `boost::optional` results and, then, analyzing/validating them (without losing the information if each individual conversion was successful or not) in some semi-automated way.
 
@@ -132,7 +132,7 @@ Again, that API does not have to be the only API ['Boost.Convert] provides. Howe
 
 Given that it is extremely difficult (if not impossible) to come up with a library API that could please everyone, we might as well settle on the ['essential] API and let the users build their own APIs (as in the example above) to satisfy their aesthetic preferences.
 
-Still, it needs to be acknowledged that `boost::optional` is a fairly new concept and quite a few people are not comfortable using it or find it unreasonable for `boost::optional` to be the result. Consequently, ['Boost.Convert] provides an alternative (more conventional) interface:
+Still, it needs to be acknowledged that `boost::optional` is a fairly new concept and some people are reluctant using it or find its deployment unreasonably complicating. Consequently, ['Boost.Convert] provides an alternative (more conventional) interface:
 
  Out convert(In const&, Converter const&, Out const& fallback_value);
  Out convert(In const&, Converter const&, Functor const& fallback_functor);

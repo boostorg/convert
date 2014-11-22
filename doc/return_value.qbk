@@ -4,7 +4,7 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section:return_value Return Value]
+[section:return_value Alternative Interface]
 
 As it was indicated previously [@boost:/libs/optional/index.html `boost::optional`] is the actual type returned by `boost::convert()`:
 
