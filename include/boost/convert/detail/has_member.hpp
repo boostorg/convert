@@ -35,29 +35,26 @@
 //     If __T__::member_name does exist, then mixin::member_name is ambiguous
 //     and "yes_type test (...)" kicks in instead.
 
-#define DECLARE_HAS_MEMBER(__class_name__, __member_name__)                                     \
-                                                                                                \
-    template <typename __T__>                                                                   \
-    class __class_name__                                                                        \
-    {                                                                                           \
-        typedef typename ::boost::remove_const<__T__>::type check_type;                         \
-        typedef ::boost::type_traits::yes_type                yes_type;                         \
-        typedef ::boost::type_traits:: no_type                 no_type;                         \
-                                                                                                \
-        struct  base { void __member_name__(/*C2*/); };                                         \
-        struct mixin : public base, public check_type {};                                       \
-                                                                                                \
-        template <void (base::*)()> struct aux {};                                              \
-                                                                                                \
-        typedef mixin* mixin_ptr;                                                               \
-                                                                                                \
-        template <typename U>                                                                   \
-        static no_type  test(U*, aux<&U::__member_name__>* =0); /*C3*/                          \
-        static yes_type test(...);                                                              \
-                                                                                                \
-        public:                                                                                 \
-                                                                                                \
-        BOOST_STATIC_CONSTANT(bool, value = (sizeof(yes_type) == sizeof(test(mixin_ptr(0)))));  \
+#define DECLARE_HAS_MEMBER(__class_name__, __member_name__)                                 \
+                                                                                            \
+    template <typename __T__>                                                               \
+    class __class_name__                                                                    \
+    {                                                                                       \
+        typedef typename ::boost::remove_const<__T__>::type check_type;                     \
+        typedef ::boost::type_traits::yes_type                yes_type;                     \
+        typedef ::boost::type_traits:: no_type                 no_type;                     \
+                                                                                            \
+        struct  base { void __member_name__(/*C2*/); };                                     \
+        struct mixin : public base, public check_type {};                                   \
+                                                                                            \
+        template <void (base::*)()> struct aux {};                                          \
+                                                                                            \
+        template <typename U> static no_type  test(aux<&U::__member_name__>*); /*C3*/       \
+        template <typename U> static yes_type test(...);                                    \
+                                                                                            \
+        public:                                                                             \
+                                                                                            \
+        BOOST_STATIC_CONSTANT(bool, value = (sizeof(yes_type) == sizeof(test<mixin>(0))));  \
     }
 
 #endif // BOOST_CONVERT_HAS_MEMFUN_NAME_HPP
