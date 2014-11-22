@@ -69,8 +69,8 @@ main(int argc, char const* argv[])
     BOOST_TEST(boost::cnv::is_range<yes_range2 const>::value == true);
     BOOST_TEST(boost::cnv::is_range<std::string>::value == true);
     BOOST_TEST(boost::cnv::is_range<std::wstring>::value == true);
-    BOOST_TEST(boost::cnv::is_range<char*>::value == true);
-    BOOST_TEST(boost::cnv::is_range<char[25]>::value == true);
+//  BOOST_TEST(boost::cnv::is_range<char*>::value == true);
+//  BOOST_TEST(boost::cnv::is_range<char[25]>::value == true);
     BOOST_TEST(boost::cnv::is_range<my_string>::value == true);
 
     BOOST_TEST(boost::cnv::is_string<direction>::value == false);
