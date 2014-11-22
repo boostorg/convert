@@ -34,11 +34,10 @@ boost_convert/design_notes/converter_signature.html
 boost_convert/design_notes/user_interface_signature.html
 boost_convert/acknowledgements.html
 boost_convert_c___reference.html
-boost/cnv/adapter.html
+boost/cnv/reference.html
 boost/throw_on_failure.html
-boost/convert_idp5212380.html
-boost/convert_idp5219356.html
-boost/convert_idp5230476.html
+boost/convert_idp16235232.html
+boost/convert_idp16262176.html
 header/boost/convert/lexical_cast_hpp.html
 boost/cnv/lexical_cast.html
 header/boost/convert/parameters_hpp.html

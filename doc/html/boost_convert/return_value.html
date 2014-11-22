@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Return Value</title>
+<title>Alternative Interface</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
@@ -15,23 +15,23 @@
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="boost_convert.return_value"></a><a class="link" href="return_value.html" title="Return Value">Return Value</a>
+<a name="boost_convert.return_value"></a><a class="link" href="return_value.html" title="Alternative Interface">Alternative Interface</a>
 </h2></div></div></div>
 <p>
-      As it was indicated previously <a href="..//home/vbatov/dev/boost/libs/optional/index.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code></a>
-      is the actual type returned by
+      As it was indicated previously <a href="../../../../../libs/optional/index.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code></a>
+      is the actual type returned by <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>:
     </p>
 <pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">&gt;</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;);</span>
 </pre>
 <p>
       The signature is <span class="emphasis"><em>functionally-complete</em></span> and is the most
       efficient in deploying the underlying converter. That said, the following alternative
-      interface but might be potentially better suitable for certain deployment scenarios
+      interface might be potentially more suitable for certain deployment scenarios
       (or due to personal preferences):
     </p>
-<pre class="programlisting"><span class="identifier">Out</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">In</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Out</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">fallback_value</span><span class="special">);</span>
-<span class="identifier">Out</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">In</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Functor</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">fallback_functor</span><span class="special">);</span>
-<span class="identifier">Out</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">In</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">throw_on_failure</span><span class="special">);</span>
+<pre class="programlisting"><span class="identifier">TypeOut</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">TypeOut</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">fallback_value</span><span class="special">);</span>
+<span class="identifier">TypeOut</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Functor</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">fallback_functor</span><span class="special">);</span>
+<span class="identifier">TypeOut</span> <span class="identifier">convert</span><span class="special">(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">Converter</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">throw_on_failure</span><span class="special">);</span>
 </pre>
 <p>
       It still provides unambigous behavior and readability, full support for various
@@ -50,9 +50,9 @@
 <p>
 </p>
 <pre class="programlisting"><span class="comment">// Error-processing behavior are specified unambiguously and uniformly.</span>
-<span class="comment">// a) i1: Returning the provided fallback value;</span>
-<span class="comment">// b) i2: Calling the provided failure-processing function;</span>
-<span class="comment">// c) i3: Throwing an exception.</span>
+<span class="comment">// a) i1: Returns the provided fallback value;</span>
+<span class="comment">// b) i2: Calls the provided failure-processing function;</span>
+<span class="comment">// c) i3: Throws an exception.</span>
 
 <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">fallback_value</span><span class="special">);</span>
 <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">fallback_func</span><span class="special">());</span>

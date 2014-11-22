@@ -39,9 +39,10 @@
 </p>
 <pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">my_string</span>
 <span class="special">{</span>
-    <span class="keyword">typedef</span> <span class="identifier">my_string</span>        <span class="identifier">this_type</span><span class="special">;</span>
-    <span class="keyword">typedef</span> <span class="keyword">char</span><span class="special">*</span>             <span class="identifier">iterator</span><span class="special">;</span>
-    <span class="keyword">typedef</span> <span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">const_iterator</span><span class="special">;</span>
+    <span class="keyword">typedef</span> <span class="identifier">my_string</span>              <span class="identifier">this_type</span><span class="special">;</span>
+    <span class="keyword">typedef</span> <span class="keyword">char</span>                  <span class="identifier">value_type</span><span class="special">;</span>
+    <span class="keyword">typedef</span> <span class="identifier">value_type</span><span class="special">*</span>             <span class="identifier">iterator</span><span class="special">;</span>
+    <span class="keyword">typedef</span> <span class="identifier">value_type</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">const_iterator</span><span class="special">;</span>
 
     <span class="identifier">my_string</span> <span class="special">();</span>
     <span class="identifier">my_string</span> <span class="special">(</span><span class="identifier">const_iterator</span><span class="special">,</span> <span class="identifier">const_iterator</span> <span class="special">=</span><span class="number">0</span><span class="special">);</span>
@@ -62,7 +63,7 @@
 <p>
         The class above is essentially a glorified 12-bytes character buffer sufficient
         to accommodate string representations of 32-bit integers. Deployed with the
-        same converters and the same algorithm:
+        same converters and the same algorithms:
       </p>
 <p>
 </p>

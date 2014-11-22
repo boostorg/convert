@@ -33,11 +33,12 @@
       outside the valid/sensible range to indicate conversion failures. If so, such
       deployment might be adequate without introducing non-deterministic behavior.
       Alternatively, it might be not that uncommon to ignore conversion failures
-      altogether and to simply proceed with the supplied fallback value.
+      altogether and to simply log the failure and to proceed with the supplied fallback
+      value.
     </p>
 <p>
       Applications outside these mentioned categories still require conversion failure
-      to be reliably detected and processed accordingly. The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>'s
+      reliably detected and processed accordingly. The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>'s
       answer is to throw on failure and <span class="emphasis"><em>Boost.Convert</em></span> supports
       that behavior as well:
     </p>
@@ -45,7 +46,7 @@
 </p>
 <pre class="programlisting"><span class="keyword">try</span>
 <span class="special">{</span>
-    <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Throws if the conversion fails.</span>
+    <span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span>         <span class="comment">// Throws if the conversion fails.</span>
     <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws if the conversion fails.</span>
 <span class="special">}</span>
 <span class="keyword">catch</span> <span class="special">(...)</span>
@@ -92,7 +93,7 @@
 <p>
     </p>
 <p>
-      Now <a href="..//home/vbatov/dev/boost/libs/optional/index.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code></a>
+      Now <a href="../../../../../libs/optional/index.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code></a>
       steps forward as the actual type returned by <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> which until now we avoided by immediately
       calling its value-accessor methods:
     </p>
@@ -101,15 +102,14 @@
 <span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str3</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or_eval</span><span class="special">(</span><span class="identifier">fallback_function</span><span class="special">);</span>
 </pre>
 <p>
-      Here <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> behavior (similar to <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>)
-      reflects the fact that a conversion request is only a <span class="emphasis"><em>request</em></span>
-      which may succeed but may also fail. Still, from the user perspective, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      Still, from the user perspective, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       processes failure in a somewhat one-dimensional non-negotiable manner. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
-      takes a more flexible approach and leaves the decision to the user. It is not
-      unimaginable that, on the library level, propagating the conversion-failure
-      exception might be the only available response. On the application level though,
-      in my personal experience, the choice has overwhelmingly been to avoid conversion-failure
-      exception propagation or, better still, to avoid exceptions altogether with
+      takes a more flexible approach, provides choice and leaves the decision to
+      the user. It probably is not unimaginable that, on the library level, propagating
+      the conversion-failure exception might be the only sensible response. On the
+      application level though, in my personal experience, the choice has overwhelmingly
+      been to handle conversion failures locally, i.e. avoiding conversion-failure
+      exception propagation or, better still, avoiding exceptions altogether with
       program flows similar to:
     </p>
 <p>

@@ -43,8 +43,10 @@
       Deployment</a>
 </h3></div></div></div>
 <p>
-        <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> basic deployment is not that different
-        from <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> and, in fact, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> functionality is easily deployed
+        For die-hard <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> users or as a transition to
+        <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>, one of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
+        deployments is not that different from <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+        and, in fact, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> functionality is easily deployed
         through <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> interface:
       </p>
 <p>
@@ -64,7 +66,7 @@
       </p>
 <p>
 </p>
-<pre class="programlisting"><span class="comment">// Optional definition of the default converter</span>
+<pre class="programlisting"><span class="comment">// Definition of the default converter (optional)</span>
 <span class="keyword">struct</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span> <span class="special">{};</span>
 </pre>
 <p>
@@ -73,14 +75,14 @@
 </p>
 <pre class="programlisting"><span class="keyword">try</span>
 <span class="special">{</span>
-    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span> <span class="identifier">cnv</span><span class="special">;</span>
+    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span> <span class="identifier">cnv</span><span class="special">;</span> <span class="comment">// boost::lexical_cast-based converter</span>
 
-    <span class="keyword">int</span>    <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">);</span>
-    <span class="keyword">int</span>    <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// With the default converter</span>
-    <span class="keyword">int</span>    <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// With explicitly supplied converter</span>
+    <span class="keyword">int</span>    <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">);</span>          <span class="comment">// boost::lexical_cast standard deployment</span>
+    <span class="keyword">int</span>    <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>       <span class="comment">// boost::convert with the default converter</span>
+    <span class="keyword">int</span>    <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>  <span class="comment">// boost::convert with an explicit converter</span>
     <span class="identifier">string</span> <span class="identifier">s1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">);</span>
-    <span class="identifier">string</span> <span class="identifier">s2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// With the default converter</span>
-    <span class="identifier">string</span> <span class="identifier">s3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// With explicitly supplied converter</span>
+    <span class="identifier">string</span> <span class="identifier">s2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>      <span class="comment">// boost::convert with the default converter</span>
+    <span class="identifier">string</span> <span class="identifier">s3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// boost::convert with an explicit converter</span>
 
     <span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i1</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
     <span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
@@ -99,6 +101,22 @@
 </pre>
 <p>
       </p>
+<div class="important"><table border="0" summary="Important">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Important]" src="../images/important.png"></td>
+<th align="left">Important</th>
+</tr>
+<tr><td align="left" valign="top"><p>
+          As we explore <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> behavior and interfaces further,
+          to some they might appear unduly complex, excessive, verbose, etc... nothing
+          like <code class="computeroutput"><span class="identifier">atoi</span><span class="special">()</span></code>...
+          so famous for all the bad reasons. :-) It is important to fully understand
+          and as fully appreciate the fact that a conversion request is only a <span class="emphasis"><em>request</em></span>
+          which may succeed but may also fail. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
+          (as <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>) behavior and interfaces
+          reflect that fact.
+        </p></td></tr>
+</table></div>
 </div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

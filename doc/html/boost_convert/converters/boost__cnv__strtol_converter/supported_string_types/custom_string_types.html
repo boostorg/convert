@@ -22,9 +22,10 @@
 </p>
 <pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">my_string</span>
 <span class="special">{</span>
-    <span class="keyword">typedef</span> <span class="identifier">my_string</span>        <span class="identifier">this_type</span><span class="special">;</span>
-    <span class="keyword">typedef</span> <span class="keyword">char</span><span class="special">*</span>             <span class="identifier">iterator</span><span class="special">;</span>
-    <span class="keyword">typedef</span> <span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">const_iterator</span><span class="special">;</span>
+    <span class="keyword">typedef</span> <span class="identifier">my_string</span>              <span class="identifier">this_type</span><span class="special">;</span>
+    <span class="keyword">typedef</span> <span class="keyword">char</span>                  <span class="identifier">value_type</span><span class="special">;</span>
+    <span class="keyword">typedef</span> <span class="identifier">value_type</span><span class="special">*</span>             <span class="identifier">iterator</span><span class="special">;</span>
+    <span class="keyword">typedef</span> <span class="identifier">value_type</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">const_iterator</span><span class="special">;</span>
 
     <span class="identifier">my_string</span> <span class="special">();</span>
     <span class="identifier">my_string</span> <span class="special">(</span><span class="identifier">const_iterator</span><span class="special">,</span> <span class="identifier">const_iterator</span> <span class="special">=</span><span class="number">0</span><span class="special">);</span>

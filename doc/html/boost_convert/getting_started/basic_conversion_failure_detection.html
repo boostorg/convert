@@ -30,8 +30,8 @@
 </p>
 <pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span> <span class="identifier">cnv</span><span class="special">;</span>
 
-<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">);</span> <span class="comment">// Throws when conversion fails.</span>
-<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Throws when conversion fails.</span>
+<span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">);</span>              <span class="comment">// Throws when conversion fails.</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>      <span class="comment">// Throws when conversion fails.</span>
 <span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"uhm"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Returns -1 when conversion fails.</span>
 
 <span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i1</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
@@ -56,29 +56,27 @@
 <p>
         The <code class="computeroutput"><span class="identifier">i1</span></code> and <code class="computeroutput"><span class="identifier">i2</span></code> deployments look sufficiently close
         and behave identically. Namely, if the requested conversion fails, an exception
-        is thrown.
-      </p>
-<p>
-        The user request "<span class="emphasis"><em>convert a string to int</em></span>"
-        does not say what to do if conversion fails. Consequently, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
-        treat conversion-failure as "exceptional" and throw.
+        is thrown. The user instructions do not describe what to do if conversion
+        fails. Consequently, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+        and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> treat conversion-failure as "exceptional"
+        and throw.
       </p>
 <p>
         The <code class="computeroutput"><span class="identifier">i3</span></code> specification, on
-        the other hand, is explicit about what to do if conversion fails, so a supplied
-        fallback value is returned if the requested conversion fails.
+        the other hand, is explicit about conversion failures, so a supplied fallback
+        value is returned if the requested conversion fails.
       </p>
 <p>
-        That basic error detection might be sufficient for a variety of conversion
-        deployments. For example:
+        That basic error detection and processing might be sufficient for a variety
+        of conversion deployments. For example:
       </p>
 <p>
 </p>
-<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Read as hex.</span>
-<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Read as decimal.</span>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Read as hex</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// Read as decimal</span>
 
-<span class="keyword">if</span> <span class="special">(</span><span class="identifier">i1</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad i1"</span><span class="special">),</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">default_i1</span><span class="special">;</span>
-<span class="keyword">if</span> <span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad i2"</span><span class="special">),</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">default_i2</span><span class="special">;</span>
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">i1</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad i1"</span><span class="special">),</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">default_i1</span><span class="special">;</span> <span class="comment">// Log failure. Proceed with the default</span>
+<span class="keyword">if</span> <span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="identifier">log</span><span class="special">(</span><span class="string">"bad i2"</span><span class="special">),</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">default_i2</span><span class="special">;</span> <span class="comment">// Log failure. Proceed with the default</span>
 
 <span class="comment">// ... proceed</span>
 </pre>
@@ -110,8 +108,8 @@
       </p>
 <p>
 </p>
-<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_i1</span><span class="special">);</span>
-<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_i2</span><span class="special">);</span>
+<pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s1</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_i1</span><span class="special">);</span> <span class="comment">// If failed, proceed with the default</span>
+<span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">s2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">dec</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">default_i2</span><span class="special">);</span> <span class="comment">// If failed, proceed with the default</span>
 <span class="comment">// ... proceed</span>
 </pre>
 <p>
@@ -120,7 +118,7 @@
         So far the deployment of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
         seems more flexible, more compact and natural (your mileage may vary) and
         potentially more efficient compared to <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-        which achieves similar (but without formatting control) results with:
+        which achieves similar (but without formatting) results with:
       </p>
 <p>
 </p>
@@ -141,8 +139,8 @@
         By design, this is <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>'s
         only behavior: straightforward and comprehensible, but limited. Unfortunately,
         it makes quite a few legitimate process/program flows difficult and awkward
-        to implement. <span class="emphasis"><em>Boost.Convert</em></span> offers new functionality,
-        flexibility and convenience.
+        to implement. <span class="emphasis"><em>Boost.Convert</em></span> addresses that with additional
+        functionality, flexibility and convenience.
       </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
