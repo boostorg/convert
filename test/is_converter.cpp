@@ -58,6 +58,8 @@ namespace { namespace local
 int
 main(int argc, char const* argv[])
 {
+    BOOST_TEST( (boost::cnv::is_callable<local::converter11, void (int const&, boost::optional<string>&)>::value));
+
     BOOST_TEST( (boost::cnv::is_cnv<local::converter01, int, string>::value));
     BOOST_TEST( (boost::cnv::is_cnv<local::converter01, double, string>::value));
     BOOST_TEST( (boost::cnv::is_cnv<local::converter01, short int, string>::value));

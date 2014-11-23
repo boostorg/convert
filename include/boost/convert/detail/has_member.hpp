@@ -34,7 +34,7 @@
 //     If __T__::member_name does exist, then mixin::__member_name__ is ambiguous
 //     and "yes_type test (...)" kicks in instead.
 
-#define DECLARE_HAS_MEMBER(__class_name__, __member_name__)                                 \
+#define BOOST_DECLARE_HAS_MEMBER(__class_name__, __member_name__)                           \
                                                                                             \
     template <typename __T__>                                                               \
     class __class_name__                                                                    \

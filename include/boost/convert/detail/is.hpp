@@ -20,31 +20,8 @@ namespace boost { namespace cnv
     typedef ::boost::type_traits:: no_type  no_type;
 
     // has_funop<T>::value indicates if T has a function-call operator
-//    DECLARE_HAS_MEMBER(has_funop, operator());
+    BOOST_DECLARE_HAS_MEMBER(has_funop, operator());
 
-    // TEMPORARY EXPLICIT SUBSTITUTION OF DECLARE_HAS_MEMBER TO SEE WHY MSVC FAILS
-    template <typename __T__>
-    class has_funop
-    {
-        typedef typename ::boost::remove_const<__T__>::type check_type;
-        typedef ::boost::type_traits::yes_type                yes_type;
-        typedef ::boost::type_traits:: no_type                 no_type;
-
-        struct  base { void operator()(/*C2*/) {}};
-        struct mixin : public base, public check_type {};
-
-        template <void (base::*)()> struct aux {};
-
-        typedef mixin* mixin_ptr;
-
-        template <typename U>
-        static no_type  test(U*, aux<&U::operator()>* =0);
-        static yes_type test(...);
-
-        public:
-
-        BOOST_STATIC_CONSTANT(bool, value = (sizeof(yes_type) == sizeof(test(mixin_ptr(0)))));
-    };
     namespace details
     {
         template <typename type> class void_exp_result {};

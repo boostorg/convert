@@ -16,8 +16,8 @@ int main(int, char const* []) { return 0; }
 
 namespace { namespace local
 {
-    DECLARE_HAS_MEMBER(has_begin, begin);
-    DECLARE_HAS_MEMBER(  has_end, end);
+    BOOST_DECLARE_HAS_MEMBER(has_begin, begin);
+    BOOST_DECLARE_HAS_MEMBER(  has_end, end);
 }}
 
 

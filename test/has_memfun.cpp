@@ -18,7 +18,7 @@ using std::wstring;
 
 namespace { namespace local
 {
-	DECLARE_HAS_MEMBER(has_foo, foo);
+	BOOST_DECLARE_HAS_MEMBER(has_foo, foo);
 
 	struct  no1 { void zoo () {} };
 	struct yes01 { void operator() () {} };
