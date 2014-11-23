@@ -17,8 +17,8 @@ namespace boost
     /// @endcode
     /// In generic code that results in the Default Constructibility requirement imposed
     /// on every type 'Type' to be used with the respective code. Inevitably, that requirement
-    /// * either excludes all the classes that for various reasons do not meet that requirement or
-    /// * imposes certain (not necessarily desirable) design/implementation onto respective classes.
+    /// a) either excludes all the classes that for various reasons do not meet that requirement or
+    /// b) imposes certain (not necessarily desirable) design/implementation onto respective classes.
     ///
     /// Deployment of boost::make_default() eliminates the Default Constructibility requirement with
     /// @code
