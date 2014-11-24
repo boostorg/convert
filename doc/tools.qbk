@@ -10,9 +10,9 @@ This section describes a few supporting tools written as part of ['Boost.Convert
 
 [section BOOST_DECLARE_HAS_MEMBER]
 
-The BOOST_DECLARE_HAS_MEMBER macro allows to declare a trait which would in turn let introspect the existence of a class member with the specified name. 
+The BOOST_DECLARE_HAS_MEMBER macro allows to declare a trait which would in turn let introspect the existence of a class member (a data member or a member function) with the specified name. 
 
-For example, the following declarations introduce `local::has_begin`, `local::has_end` and `local::has_funop` traits which will allow to test if the supplied class has respectively `begin`, `end` and `operator()` member functions:
+For example, the following declarations introduce `local::has_begin`, `local::has_end` and `local::has_funop` traits which will allow to test if the supplied class has respectively `begin`, `end` and `operator()` members:
 
 [has_member_declaration]
 
@@ -21,7 +21,7 @@ Now these traits can be uses as follows:
 [has_member_classes_tested]
 [has_member_usage]
 
-As it can be seen from the example the traits only check for the existence of a member (be that a data member of a member function) with the specified name. 
+As it can be seen from the example the traits only check for the existence of a member (be that a data member or a member function) with the specified name. 
 
 [endsect]
 [section `boost::cnv::is_callable`]
