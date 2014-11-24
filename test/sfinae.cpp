@@ -42,9 +42,6 @@ namespace { namespace local
 }}
 //]
 
-
-
-
 namespace { namespace local
 {
     struct  no1 { void zoo () {} };
@@ -91,6 +88,60 @@ struct no_end
     char const* begin() const { return 0; }
 };
 
+namespace { namespace callable
+{
+    struct  test1 { int  operator()(double, std::string); };
+    struct  test2 { void operator()(double, std::string); };
+    struct  test3 { void operator()(int); };
+    struct  test4 { std::string operator()(int) const; };
+    struct  test5 { std::string operator()(int, std::string const& =std::string()) const; };
+
+
+//    struct  test2 { template<typename T> T operator()(int, std::string); };
+}}
+
+static
+void
+test_is_callable()
+{
+    // C1. Unfortunately, passing 'double' where 'int' is expected returns 'true'.
+    //     The same as the following compiles:
+    //          void fun(int) {}
+    //          fun(double(1));
+
+    BOOST_TEST((boost::cnv::is_callable<callable::test1, int (double, std::string)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test1, double (int, std::string)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test1, void (double, std::string)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test1, void (int, std::string)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test1, void (int, char const*)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test1, int (double, int)>::value == false));
+    BOOST_TEST((boost::cnv::is_callable<callable::test1, int (double)>::value == false));
+
+    BOOST_TEST((boost::cnv::is_callable<callable::test2, int  (double, std::string)>::value == false));
+    BOOST_TEST((boost::cnv::is_callable<callable::test2, void (double, std::string)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test2, void (   int, std::string)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test2, void (   int, char const*)>::value == true));
+
+    BOOST_TEST((boost::cnv::is_callable<callable::test3,       void (double)>::value == true)); //C1
+    BOOST_TEST((boost::cnv::is_callable<callable::test3,       void (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test3 const, void (int)>::value == false));
+
+    BOOST_TEST((boost::cnv::is_callable<callable::test4 const, std::string (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test4,       std::string (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test4 const, void (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test4,       void (int)>::value == true));
+
+    BOOST_TEST((boost::cnv::is_callable<callable::test5, std::string (int, std::string)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test5, std::string (int, std::string const&)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test5, void        (int, char const*)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test5,       std::string (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test5 const, std::string (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test5,       void (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test5 const, void (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test5,       void (char const*)>::value == false));
+    BOOST_TEST((boost::cnv::is_callable<callable::test5 const, void (char const*)>::value == false));
+}
+
 int
 main(int argc, char const* argv[])
 {
@@ -110,6 +161,8 @@ main(int argc, char const* argv[])
 
     //[is_callable_usage
     //]
+
+    test_is_callable();
 
     BOOST_TEST(boost::cnv::has_funop<local::no1>::value == false);
 

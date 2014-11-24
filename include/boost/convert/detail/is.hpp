@@ -24,33 +24,34 @@ namespace boost { namespace cnv
 
     namespace details
     {
-        template <typename type> class void_exp_result {};
+        struct if_void_return {};
 
         // Overloaded comma operator.
-        template <typename type, typename U> U const& operator, (U const&, void_exp_result<type>);
-        template <typename type, typename U> U&       operator, (U&,       void_exp_result<type>);
+        template <typename U> U const& operator, (U const&, if_void_return);
+        template <typename U> U&       operator, (U&,       if_void_return);
 
-        template <typename src, typename dst> struct match_const { typedef dst type; };
-        template <typename src, typename dst> struct match_const<src const, dst> { typedef dst const type; };
     }
 
     template <typename class_type, typename func_signature>
     class is_callable
     {
+        template <typename src, typename dst> struct match_const { typedef dst type; };
+        template <typename src, typename dst> struct match_const<src const, dst> { typedef dst const type; };
+
         struct mixin : public class_type
         {
             using class_type::operator();
             no_type operator()(...) const;
         };
 
-        typedef typename details::match_const<class_type, mixin>::type* mixin_ptr;
+        typedef typename match_const<class_type, mixin>::type* mixin_ptr;
 
         template<typename T, typename return_type>
         struct return_type_check
         {
             // Overloads in case return_type has template constructor
             static no_type  test (no_type);
-            static no_type  test (details::void_exp_result<class_type>);
+            static no_type  test (details::if_void_return);
             static no_type  test (...);
             static yes_type test (return_type);
         };
@@ -64,17 +65,30 @@ namespace boost { namespace cnv
 
         template <bool has, typename F> struct check { static const bool value = false; };
 
+        // No-args case needs to be implemented differently and has not been implemented yet.
+        //        template <typename R>
+        //        struct check<true, R ()>
+
+        template <typename Arg1, typename R>
+        struct check<true, R (Arg1)>
+        {
+            typedef typename boost::decay<Arg1>::type* a1;
+
+            static const bool value = sizeof(yes_type)
+                                   == sizeof(return_type_check<class_type, R>::test(
+                                      (mixin_ptr(0)->operator()(*a1(0)),
+                                      details::if_void_return())));
+        };
         template <typename Arg1, typename Arg2, typename R>
         struct check<true, R (Arg1, Arg2)>
         {
-            typedef typename boost::decay<Arg1>::type* arg1_ptr;
-            typedef typename boost::decay<Arg2>::type* arg2_ptr;
+            typedef typename boost::decay<Arg1>::type* a1;
+            typedef typename boost::decay<Arg2>::type* a2;
 
-            static const bool value = sizeof(yes_type) == sizeof(
-                                      return_type_check<class_type, R>::test(
-                                      // Applying comma operator
-                                      (mixin_ptr(0)->operator()(*arg1_ptr(0), *arg2_ptr(0)),
-                                      details::void_exp_result<class_type>())));
+            static const bool value = sizeof(yes_type)
+                                   == sizeof(return_type_check<class_type, R>::test(
+                                      (mixin_ptr(0)->operator()(*a1(0), *a2(0)),
+                                      details::if_void_return())));
         };
 
         public:
