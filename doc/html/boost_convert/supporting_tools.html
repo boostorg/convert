@@ -32,15 +32,15 @@
 </h3></div></div></div>
 <p>
         The BOOST_DECLARE_HAS_MEMBER macro allows to declare a trait which would
-        in turn let introspect the existence of a class member with the specified
-        name.
+        in turn let introspect the existence of a class member (a data member or
+        a member function) with the specified name.
       </p>
 <p>
         For example, the following declarations introduce <code class="computeroutput"><span class="identifier">local</span><span class="special">::</span><span class="identifier">has_begin</span></code>,
         <code class="computeroutput"><span class="identifier">local</span><span class="special">::</span><span class="identifier">has_end</span></code> and <code class="computeroutput"><span class="identifier">local</span><span class="special">::</span><span class="identifier">has_funop</span></code>
         traits which will allow to test if the supplied class has respectively <code class="computeroutput"><span class="identifier">begin</span></code>, <code class="computeroutput"><span class="identifier">end</span></code>
         and <code class="computeroutput"><span class="keyword">operator</span><span class="special">()</span></code>
-        member functions:
+        members:
       </p>
 <p>
 </p>
@@ -95,7 +95,7 @@
       </p>
 <p>
         As it can be seen from the example the traits only check for the existence
-        of a member (be that a data member of a member function) with the specified
+        of a member (be that a data member or a member function) with the specified
         name.
       </p>
 </div>
