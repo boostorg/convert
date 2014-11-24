@@ -14,12 +14,29 @@ int main(int, char const* []) { return 0; }
 #include <boost/detail/lightweight_test.hpp>
 #include "./test.hpp"
 
+//[has_member_declaration
 namespace { namespace local
 {
     BOOST_DECLARE_HAS_MEMBER(has_begin, begin);
     BOOST_DECLARE_HAS_MEMBER(  has_end, end);
 }}
+//]
 
+namespace { namespace local
+{
+    struct  no1 { void zoo () {} };
+    struct yes01 { void operator() () {} };
+    struct yes02 { void operator() () const {} };
+    struct yes03 { int  operator() (int) { return 0; } };
+    struct yes04 { int  operator() (int) const { return 0; } };
+    struct yes05 { int  operator() (int) const { return 0; } void operator() () const {} };
+
+    struct yes11 { int foo; void moo() {} };
+    struct yes12 { void  foo () {} };
+    struct yes13 { void  foo () const {} };
+    struct yes14 { void* foo (char const*, int) { return 0; } };
+    struct yes15 { void* foo (char const*, int) const { return 0; } };
+}}
 
 struct no_range
 {
@@ -54,6 +71,15 @@ struct no_end
 int
 main(int argc, char const* argv[])
 {
+    BOOST_TEST(boost::cnv::has_funop<local::no1>::value == false);
+    BOOST_TEST(     local::has_begin<local::no1>::value == false);
+
+    BOOST_TEST(boost::cnv::has_funop<local::yes01>::value ==  true);
+    BOOST_TEST(boost::cnv::has_funop<local::yes02>::value ==  true);
+    BOOST_TEST(boost::cnv::has_funop<local::yes03>::value ==  true);
+    BOOST_TEST(boost::cnv::has_funop<local::yes04>::value ==  true);
+    BOOST_TEST(boost::cnv::has_funop<local::yes05>::value ==  true);
+
     BOOST_TEST(local::has_begin<no_range>::value == false);
     BOOST_TEST(local::has_begin<no_begin>::value == false);
     BOOST_TEST(local::has_begin<no_end>::value == true);

@@ -3,7 +3,6 @@ BOOST_ROOT = $(HOME)/dev/boost
 cflags    = -O3 -Iinclude -I$(BOOST_ROOT) -Wno-unused-variable -Wno-uninitialized
 ldflags   = -L$(HOME)/dev/lib -lboost_timer -lboost_system -lboost_chrono
 
-target_1  = convert-test-has-memfun
 target_2  = convert-test-callable
 target_3  = convert-test-is-converter
 target_4  = convert-test-fallbacks
@@ -17,7 +16,6 @@ target_11 = convert-test-user-type
 target_12 = convert-test-str-to-int
 target_13 = convert-test-sfinae
 
-sources_1  = test/has_memfun.cpp
 sources_2  = test/callable.cpp
 sources_3  = test/is_converter.cpp
 sources_4  = test/fallbacks.cpp

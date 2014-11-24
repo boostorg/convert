@@ -25,6 +25,7 @@
 [import ../example/stream.cpp]
 [import ../test/stream_converter.cpp]
 [import ../test/performance.cpp]
+[import ../test/sfinae.cpp]
 
 [include rationale.qbk]
 [include introduction.qbk]
@@ -41,6 +42,7 @@
 [include performance.qbk]
 [include other.qbk]
 [include design_notes.qbk]
+[include tools.qbk]
 [include acknowledgments.qbk]
 [xinclude convert_reference.xml]
 '''<index/>'''
