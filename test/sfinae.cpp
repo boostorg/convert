@@ -19,8 +19,31 @@ namespace { namespace local
 {
     BOOST_DECLARE_HAS_MEMBER(has_begin, begin);
     BOOST_DECLARE_HAS_MEMBER(  has_end, end);
+    BOOST_DECLARE_HAS_MEMBER(has_funop, operator());
 }}
 //]
+
+//[has_member_classes_tested
+namespace { namespace local
+{
+    template<typename T> struct is_range
+    {
+        static bool const value = local::has_begin<T>::value && local::has_end<T>::value;
+    };
+
+    struct test1 { int   begin; };
+    struct test2 { char* begin(); };
+    struct test3 { void  begin(int); };
+    struct test4
+    {
+        char* begin();
+        char*   end();
+    };
+}}
+//]
+
+
+
 
 namespace { namespace local
 {
@@ -44,10 +67,10 @@ struct no_range
 
 struct yes_range1
 {
-    char* begin() { return 0; }
-    char const* begin() const { return 0; }
-    char* end() { return 0; }
-    char const* end() const { return 0; }
+    char* begin();
+    char const* begin() const;
+    char* end();
+    char const* end() const;
 };
 
 struct yes_range2
@@ -71,8 +94,24 @@ struct no_end
 int
 main(int argc, char const* argv[])
 {
+    //[has_member_usage
+    BOOST_TEST(local::has_begin<local::test1>::value ==  true);
+    BOOST_TEST(local::has_begin<local::test2>::value ==  true);
+    BOOST_TEST(local::has_begin<local::test3>::value ==  true);
+    BOOST_TEST(local::has_begin<local::test4>::value ==  true);
+    BOOST_TEST(local::  has_end<local::test1>::value == false);
+    BOOST_TEST(local::  has_end<local::test2>::value == false);
+    BOOST_TEST(local::  has_end<local::test3>::value == false);
+    BOOST_TEST(local::  has_end<local::test4>::value ==  true);
+
+    BOOST_TEST(local::is_range<local::test1>::value == false);
+    BOOST_TEST(local::is_range<local::test4>::value ==  true);
+    //]
+
+    //[is_callable_usage
+    //]
+
     BOOST_TEST(boost::cnv::has_funop<local::no1>::value == false);
-    BOOST_TEST(     local::has_begin<local::no1>::value == false);
 
     BOOST_TEST(boost::cnv::has_funop<local::yes01>::value ==  true);
     BOOST_TEST(boost::cnv::has_funop<local::yes02>::value ==  true);
