@@ -74,7 +74,7 @@ class __trait_name__                                                            
     {                                                                                       \
         typedef typename boost::decay<Arg1>::type* a1;                                      \
                                                                                             \
-        static const bool value = sizeof(boost::type_traits::yes_type)                      \
+        static bool const value = sizeof(boost::type_traits::yes_type)                      \
                                == sizeof(boost::cnv::detail::redirect<class_type, R>::test( \
                                   (mixin_ptr(0)->__member_name__(*a1(0)),                   \
                                    boost::cnv::detail::void_return_substitute())));         \
@@ -85,7 +85,7 @@ class __trait_name__                                                            
         typedef typename boost::decay<Arg1>::type* a1;                                      \
         typedef typename boost::decay<Arg2>::type* a2;                                      \
                                                                                             \
-        static const bool value = sizeof(boost::type_traits::yes_type)                      \
+        static bool const value = sizeof(boost::type_traits::yes_type)                      \
                                == sizeof(boost::cnv::detail::redirect<class_type, R>::test( \
                                   (mixin_ptr(0)->__member_name__(*a1(0), *a2(0)),           \
                                    boost::cnv::detail::void_return_substitute())));         \
