@@ -67,7 +67,7 @@ class __class_name__                                                            
                                                                                             \
         static const bool value = sizeof(boost::cnv::detail::yes_type)                      \
                                == sizeof(boost::cnv::detail::redirect<class_type, R>::test( \
-                                  (mixin_ptr(0)->operator()(*a1(0)),                        \
+                                  (mixin_ptr(0)->__member_name__(*a1(0)),                   \
                                           boost::cnv::detail::void_return_substitute())));  \
         };                                                                                  \
         template <typename Arg1, typename Arg2, typename R>                                 \
@@ -78,7 +78,7 @@ class __class_name__                                                            
                                                                                             \
         static const bool value = sizeof(boost::cnv::detail::yes_type)                      \
                                == sizeof(boost::cnv::detail::redirect<class_type, R>::test( \
-                                  (mixin_ptr(0)->operator()(*a1(0), *a2(0)),                \
+                                  (mixin_ptr(0)->__member_name__(*a1(0), *a2(0)),           \
                                           boost::cnv::detail::void_return_substitute())));  \
     };                                                                                      \
                                                                                             \
