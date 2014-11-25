@@ -33,13 +33,15 @@
 //     has the type of func_type only if __T__::__member_name__ does not exist.
 //     If __T__::member_name does exist, then mixin::__member_name__ is ambiguous
 //     and "yes_type test (...)" kicks in instead.
+// C4. Need to find some unique/ugly name so that it does not clash if this macro is
+//     used inside some other template class;
 
-#define BOOST_DECLARE_HAS_MEMBER(__class_name__, __member_name__)                           \
+#define BOOST_DECLARE_HAS_MEMBER(__trait_name__, __member_name__)                           \
                                                                                             \
-    template <typename __T__>                                                               \
-    class __class_name__                                                                    \
+    template <typename __boost_has_member_T__> /*C4*/                                       \
+    class __trait_name__                                                                    \
     {                                                                                       \
-        typedef typename ::boost::remove_const<__T__>::type check_type;                     \
+        typedef typename ::boost::remove_const<__boost_has_member_T__>::type check_type;    \
         typedef ::boost::type_traits::yes_type                yes_type;                     \
         typedef ::boost::type_traits:: no_type                 no_type;                     \
                                                                                             \
