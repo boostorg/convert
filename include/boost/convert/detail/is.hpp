@@ -22,31 +22,20 @@ namespace boost { namespace cnv
     // has_funop<T>::value indicates if T has a function-call operator
     BOOST_DECLARE_HAS_MEMBER(has_funop, operator());
 
-    namespace details
+    namespace detail
     {
-        struct if_void_return {};
+        struct void_return_substitute {};
 
-        // Overloaded comma operator.
-        template <typename U> U const& operator, (U const&, if_void_return);
-        template <typename U> U&       operator, (U&,       if_void_return);
+        // The overloaded comma operator only kicks in for U != void essentially short-circuiting
+        // itself ineffective. Otherwise, when U=void, the standard op,() kicks in and returns
+        // 'void_return_substitute'.
+        template<typename U> U const&   operator, (U const&, void_return_substitute);
+        template<typename U> U&         operator, (U&,       void_return_substitute);
 
-    }
-
-    template <typename class_type, typename func_signature>
-    class is_callable
-    {
         template <typename src, typename dst> struct match_const { typedef dst type; };
         template <typename src, typename dst> struct match_const<src const, dst> { typedef dst const type; };
-
-        struct mixin : public class_type
-        {
-            using class_type::operator();
-            no_type operator()(...) const;
-        };
-
-        typedef typename match_const<class_type, mixin>::type* mixin_ptr;
-
         template<typename T, typename return_type>
+
         struct return_type_check
         {
             static no_type  test (...);
@@ -59,6 +48,18 @@ namespace boost { namespace cnv
             static yes_type test (...);
             static no_type  test (no_type);
         };
+    }
+
+    template <typename class_type, typename func_signature>
+    class is_callable
+    {
+        struct mixin : public class_type
+        {
+            using class_type::operator();
+            no_type operator()(...) const;
+        };
+
+        typedef typename boost::cnv::detail::match_const<class_type, mixin>::type* mixin_ptr;
 
         template <bool has, typename F> struct check { static const bool value = false; };
 
@@ -72,9 +73,9 @@ namespace boost { namespace cnv
             typedef typename boost::decay<Arg1>::type* a1;
 
             static const bool value = sizeof(yes_type)
-                                   == sizeof(return_type_check<class_type, R>::test(
+                                   == sizeof(detail::return_type_check<class_type, R>::test(
                                       (mixin_ptr(0)->operator()(*a1(0)),
-                                      details::if_void_return())));
+                                      detail::void_return_substitute())));
         };
         template <typename Arg1, typename Arg2, typename R>
         struct check<true, R (Arg1, Arg2)>
@@ -83,9 +84,9 @@ namespace boost { namespace cnv
             typedef typename boost::decay<Arg2>::type* a2;
 
             static const bool value = sizeof(yes_type)
-                                   == sizeof(return_type_check<class_type, R>::test(
+                                   == sizeof(detail::return_type_check<class_type, R>::test(
                                       (mixin_ptr(0)->operator()(*a1(0), *a2(0)),
-                                      details::if_void_return())));
+                                      detail::void_return_substitute())));
         };
 
         public:

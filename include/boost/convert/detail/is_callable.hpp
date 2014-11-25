@@ -9,7 +9,7 @@
 
 namespace boost { namespace cnv
 {
-    namespace details
+    namespace detail
     {
         struct if_void_return {};
 
@@ -46,7 +46,7 @@ class __trait_name__
     {
         // Overloads in case return_type has template constructor
         static no_type  test (no_type);
-        static no_type  test (boost::cnv::details::if_void_return<class_type>);
+        static no_type  test (boost::cnv::detail::if_void_return<class_type>);
         static no_type  test (...);
         static yes_type test (return_type);
     };
@@ -70,7 +70,7 @@ class __trait_name__
                                == sizeof(return_type_check<class_type, R>::test(
                                   // Applying comma operator
                                   (mixin_ptr(0)->__member_name__(*arg1_ptr(0), *arg2_ptr(0)),
-                                  boost::cnv::details::if_void_return())));
+                                  boost::cnv::detail::if_void_return())));
     };
 
     public:
