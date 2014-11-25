@@ -95,6 +95,8 @@ namespace { namespace callable
     struct  test3 { void operator()(int); };
     struct  test4 { std::string operator()(int) const; };
     struct  test5 { std::string operator()(int, std::string const& =std::string()) const; };
+    struct  test6 { template<typename T> std::string operator()(T) const; };
+    struct  test7 { template<typename T> T operator()(T) const; };
 
 
 //    struct  test2 { template<typename T> T operator()(int, std::string); };
@@ -140,6 +142,16 @@ test_is_callable()
     BOOST_TEST((boost::cnv::is_callable<callable::test5 const, void (int)>::value == true));
     BOOST_TEST((boost::cnv::is_callable<callable::test5,       void (char const*)>::value == false));
     BOOST_TEST((boost::cnv::is_callable<callable::test5 const, void (char const*)>::value == false));
+
+    BOOST_TEST((boost::cnv::is_callable<callable::test6, std::string (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test6, std::string (std::string)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test6, void        (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test6, void        (std::string)>::value == true));
+
+    BOOST_TEST((boost::cnv::is_callable<callable::test7, std::string (int)>::value == false));
+    BOOST_TEST((boost::cnv::is_callable<callable::test7, std::string (std::string)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test7, void        (int)>::value == true));
+    BOOST_TEST((boost::cnv::is_callable<callable::test7, void        (std::string)>::value == true));
 }
 
 int

@@ -49,9 +49,6 @@ namespace boost { namespace cnv
         template<typename T, typename return_type>
         struct return_type_check
         {
-            // Overloads in case return_type has template constructor
-            static no_type  test (no_type);
-            static no_type  test (details::if_void_return);
             static no_type  test (...);
             static yes_type test (return_type);
         };
