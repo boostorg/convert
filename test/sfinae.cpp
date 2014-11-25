@@ -23,6 +23,13 @@ namespace { namespace local
 }}
 //]
 
+//[is_callable_declaration
+namespace { namespace local
+{
+    BOOST_DECLARE_IS_CALLABLE(is_callable, operator());
+}}
+//]
+
 //[has_member_classes_tested
 namespace { namespace local
 {
@@ -107,51 +114,51 @@ void
 test_is_callable()
 {
     // C1. Unfortunately, passing 'double' where 'int' is expected returns 'true'.
-    //     The same as the following compiles:
+    //     The same as the following (which successfully compiles):
     //          void fun(int) {}
     //          fun(double(1));
 
-    BOOST_TEST((boost::cnv::is_callable<callable::test1, int (double, std::string)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test1, double (int, std::string)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test1, void (double, std::string)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test1, void (int, std::string)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test1, void (int, char const*)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test1, int (double, int)>::value == false));
-    BOOST_TEST((boost::cnv::is_callable<callable::test1, int (double)>::value == false));
+    BOOST_TEST((local::is_callable<callable::test1, int (double, std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test1, double (int, std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test1, void (double, std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test1, void (int, std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test1, void (int, char const*)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test1, int (double, int)>::value == false));
+    BOOST_TEST((local::is_callable<callable::test1, int (double)>::value == false));
 
-    BOOST_TEST((boost::cnv::is_callable<callable::test2, int  (double, std::string)>::value == false));
-    BOOST_TEST((boost::cnv::is_callable<callable::test2, void (double, std::string)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test2, void (   int, std::string)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test2, void (   int, char const*)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test2, int  (double, std::string)>::value == false));
+    BOOST_TEST((local::is_callable<callable::test2, void (double, std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test2, void (   int, std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test2, void (   int, char const*)>::value == true));
 
-    BOOST_TEST((boost::cnv::is_callable<callable::test3,       void (double)>::value == true)); //C1
-    BOOST_TEST((boost::cnv::is_callable<callable::test3,       void (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test3 const, void (int)>::value == false));
+    BOOST_TEST((local::is_callable<callable::test3,       void (double)>::value == true)); //C1
+    BOOST_TEST((local::is_callable<callable::test3,       void (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test3 const, void (int)>::value == false));
 
-    BOOST_TEST((boost::cnv::is_callable<callable::test4 const, std::string (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test4,       std::string (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test4 const, void (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test4,       void (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test4 const, std::string (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test4,       std::string (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test4 const, void (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test4,       void (int)>::value == true));
 
-    BOOST_TEST((boost::cnv::is_callable<callable::test5, std::string (int, std::string)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test5, std::string (int, std::string const&)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test5, void        (int, char const*)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test5,       std::string (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test5 const, std::string (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test5,       void (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test5 const, void (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test5,       void (char const*)>::value == false));
-    BOOST_TEST((boost::cnv::is_callable<callable::test5 const, void (char const*)>::value == false));
+    BOOST_TEST((local::is_callable<callable::test5, std::string (int, std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test5, std::string (int, std::string const&)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test5, void        (int, char const*)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test5,       std::string (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test5 const, std::string (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test5,       void (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test5 const, void (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test5,       void (char const*)>::value == false));
+    BOOST_TEST((local::is_callable<callable::test5 const, void (char const*)>::value == false));
 
-    BOOST_TEST((boost::cnv::is_callable<callable::test6, std::string (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test6, std::string (std::string)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test6, void        (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test6, void        (std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test6, std::string (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test6, std::string (std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test6, void        (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test6, void        (std::string)>::value == true));
 
-    BOOST_TEST((boost::cnv::is_callable<callable::test7, std::string (int)>::value == false));
-    BOOST_TEST((boost::cnv::is_callable<callable::test7, std::string (std::string)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test7, void        (int)>::value == true));
-    BOOST_TEST((boost::cnv::is_callable<callable::test7, void        (std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test7, std::string (int)>::value == false));
+    BOOST_TEST((local::is_callable<callable::test7, std::string (std::string)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test7, void        (int)>::value == true));
+    BOOST_TEST((local::is_callable<callable::test7, void        (std::string)>::value == true));
 }
 
 int
@@ -176,13 +183,13 @@ main(int argc, char const* argv[])
 
     test_is_callable();
 
-    BOOST_TEST(boost::cnv::has_funop<local::no1>::value == false);
+    BOOST_TEST(local::has_funop<local::no1>::value == false);
 
-    BOOST_TEST(boost::cnv::has_funop<local::yes01>::value ==  true);
-    BOOST_TEST(boost::cnv::has_funop<local::yes02>::value ==  true);
-    BOOST_TEST(boost::cnv::has_funop<local::yes03>::value ==  true);
-    BOOST_TEST(boost::cnv::has_funop<local::yes04>::value ==  true);
-    BOOST_TEST(boost::cnv::has_funop<local::yes05>::value ==  true);
+    BOOST_TEST(local::has_funop<local::yes01>::value ==  true);
+    BOOST_TEST(local::has_funop<local::yes02>::value ==  true);
+    BOOST_TEST(local::has_funop<local::yes03>::value ==  true);
+    BOOST_TEST(local::has_funop<local::yes04>::value ==  true);
+    BOOST_TEST(local::has_funop<local::yes05>::value ==  true);
 
     BOOST_TEST(local::has_begin<no_range>::value == false);
     BOOST_TEST(local::has_begin<no_begin>::value == false);

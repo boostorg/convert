@@ -6,95 +6,13 @@
 #define BOOST_CONVERT_IS_CONVERTER_HPP
 
 #include <boost/convert/detail/forward.hpp>
-#include <boost/convert/detail/has_member.hpp>
+#include <boost/convert/detail/is_callable.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits.hpp>
 #include <boost/function_types/is_function_pointer.hpp>
 #include <boost/function_types/function_arity.hpp>
 #include <boost/function_types/result_type.hpp>
 #include <boost/ref.hpp>
-
-namespace boost { namespace cnv
-{
-    typedef ::boost::type_traits::yes_type yes_type;
-    typedef ::boost::type_traits:: no_type  no_type;
-
-    // has_funop<T>::value indicates if T has a function-call operator
-    BOOST_DECLARE_HAS_MEMBER(has_funop, operator());
-
-    namespace detail
-    {
-        struct void_return_substitute {};
-
-        // The overloaded comma operator only kicks in for U != void essentially short-circuiting
-        // itself ineffective. Otherwise, when U=void, the standard op,() kicks in and returns
-        // 'void_return_substitute'.
-        template<typename U> U const&   operator, (U const&, void_return_substitute);
-        template<typename U> U&         operator, (U&,       void_return_substitute);
-
-        template <typename src, typename dst> struct match_const { typedef dst type; };
-        template <typename src, typename dst> struct match_const<src const, dst> { typedef dst const type; };
-        template<typename T, typename return_type>
-
-        struct return_type_check
-        {
-            static no_type  test (...);
-            static yes_type test (return_type);
-        };
-
-        template<typename T>
-        struct return_type_check<T, void>
-        {
-            static yes_type test (...);
-            static no_type  test (no_type);
-        };
-    }
-
-    template <typename class_type, typename func_signature>
-    class is_callable
-    {
-        struct mixin : public class_type
-        {
-            using class_type::operator();
-            no_type operator()(...) const;
-        };
-
-        typedef typename boost::cnv::detail::match_const<class_type, mixin>::type* mixin_ptr;
-
-        template <bool has, typename F> struct check { static const bool value = false; };
-
-        // No-args case needs to be implemented differently and has not been implemented yet.
-        //        template <typename R>
-        //        struct check<true, R ()>
-
-        template <typename Arg1, typename R>
-        struct check<true, R (Arg1)>
-        {
-            typedef typename boost::decay<Arg1>::type* a1;
-
-            static const bool value = sizeof(yes_type)
-                                   == sizeof(detail::return_type_check<class_type, R>::test(
-                                      (mixin_ptr(0)->operator()(*a1(0)),
-                                      detail::void_return_substitute())));
-        };
-        template <typename Arg1, typename Arg2, typename R>
-        struct check<true, R (Arg1, Arg2)>
-        {
-            typedef typename boost::decay<Arg1>::type* a1;
-            typedef typename boost::decay<Arg2>::type* a2;
-
-            static const bool value = sizeof(yes_type)
-                                   == sizeof(detail::return_type_check<class_type, R>::test(
-                                      (mixin_ptr(0)->operator()(*a1(0), *a2(0)),
-                                      detail::void_return_substitute())));
-        };
-
-        public:
-
-        // Check the existence of the operator() (with has_funop) first, then the signature.
-        static bool const value = check<has_funop<class_type>::value, func_signature>::value;
-    };
-}}
 
 namespace boost { namespace cnv
 {
@@ -106,6 +24,8 @@ namespace boost { namespace cnv
     {
         typedef typename ::boost::unwrap_reference<Class>::type class_type;
         typedef void signature_type(TypeIn const&, optional<TypeOut>&);
+
+        BOOST_DECLARE_IS_CALLABLE(is_callable, operator());
 
         BOOST_STATIC_CONSTANT(bool, value = (is_callable<class_type, signature_type>::value));
     };
@@ -128,6 +48,9 @@ namespace boost { namespace cnv
 
 namespace boost { namespace cnv
 {
+    typedef ::boost::type_traits::yes_type yes_type;
+    typedef ::boost::type_traits:: no_type  no_type;
+
     template <bool has_operator, typename Functor, typename TypeOut>
     struct check_functor { BOOST_STATIC_CONSTANT(bool, value = false); };
 
@@ -147,6 +70,8 @@ namespace boost { namespace cnv
     struct is_fun<Functor, TypeOut,
         typename enable_if_c<is_class<Functor>::value && !is_convertible<Functor, TypeOut>::value, void>::type>
     {
+        BOOST_DECLARE_HAS_MEMBER(has_funop, operator());
+
         BOOST_STATIC_CONSTANT(bool, value = (check_functor<has_funop<Functor>::value, Functor, TypeOut>::value));
     };
 
