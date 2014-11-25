@@ -43,7 +43,7 @@
         typedef ::boost::type_traits::yes_type                yes_type;                     \
         typedef ::boost::type_traits:: no_type                 no_type;                     \
                                                                                             \
-        struct  base { void __member_name__(/*C2*/); };                                     \
+        struct  base { void __member_name__(/*C2*/) {}};                                    \
         struct mixin : public base, public check_type {};                                   \
                                                                                             \
         template <void (base::*)()> struct aux {};                                          \
