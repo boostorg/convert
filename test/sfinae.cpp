@@ -40,12 +40,12 @@ namespace { namespace local
     };
 
     struct test1 { int   begin; };
-    struct test2 { char* begin(); };
-    struct test3 { void  begin(int); };
+    struct test2 { char* begin() { return 0; } };
+    struct test3 { void  begin(int) {} };
     struct test4
     {
-        char* begin();
-        char*   end();
+        char* begin() { return 0; }
+        char*   end() { return 0; }
     };
 }}
 //]
@@ -58,12 +58,6 @@ namespace { namespace local
     struct yes03 { int  operator() (int) { return 0; } };
     struct yes04 { int  operator() (int) const { return 0; } };
     struct yes05 { int  operator() (int) const { return 0; } void operator() () const {} };
-
-    struct yes11 { int foo; void moo() {} };
-    struct yes12 { void  foo () {} };
-    struct yes13 { void  foo () const {} };
-    struct yes14 { void* foo (char const*, int) { return 0; } };
-    struct yes15 { void* foo (char const*, int) const { return 0; } };
 }}
 
 struct no_range
@@ -72,10 +66,10 @@ struct no_range
 
 struct yes_range1
 {
-    char* begin();
-    char const* begin() const;
-    char* end();
-    char const* end() const;
+    char* begin() { return 0; }
+    char const* begin() const { return 0; }
+    char* end() { return 0; }
+    char const* end() const { return 0; }
 };
 
 struct yes_range2
@@ -99,21 +93,21 @@ struct no_end
 //[is_callable_classes_tested
 namespace { namespace callable
 {
-    struct  test1 { int  operator()(double, std::string); };
-    struct  test2 { void operator()(double, std::string); };
-    struct  test3 { void operator()(int); };
-    struct  test4 { std::string operator()(int) const; };
-    struct  test5 { std::string operator()(int, std::string const& =std::string()) const; };
-    struct  test6 { template<typename T> std::string operator()(T) const; };
-    struct  test7 { template<typename T> T operator()(T) const; };
+    struct  test1 { int  operator()(double, std::string) { return 0; }};
+    struct  test2 { void operator()(double, std::string) {}};
+    struct  test3 { void operator()(int) {}};
+    struct  test4 { std::string operator()(int) const { return std::string(); }};
+    struct  test5 { std::string operator()(int, std::string const& =std::string()) const { return std::string(); }};
+    struct  test6 { template<typename T> std::string operator()(T) const { return std::string(); }};
+    struct  test7 { template<typename T> T operator()(T) const  { return T(); }};
 
-    struct  test11 { int  func(double, std::string); };
-    struct  test12 { void func(double, std::string); };
-    struct  test13 { void func(int); };
-    struct  test14 { std::string func(int) const; };
-    struct  test15 { std::string func(int, std::string const& =std::string()) const; };
-    struct  test16 { template<typename T> std::string func(T) const; };
-    struct  test17 { template<typename T> T func(T) const; };
+    struct  test11 { int  func(double, std::string) { return 0; }};
+    struct  test12 { void func(double, std::string) {}};
+    struct  test13 { void func(int) {}};
+    struct  test14 { std::string func(int) const { return std::string(); }};
+    struct  test15 { std::string func(int, std::string const& =std::string()) const { return std::string(); }};
+    struct  test16 { template<typename T> std::string func(T) const { return std::string(); }};
+    struct  test17 { template<typename T> T func(T) const { return T(); }};
 }}
 //]
 
