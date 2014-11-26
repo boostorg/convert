@@ -43,6 +43,7 @@
 [include other.qbk]
 [include design_notes.qbk]
 [include tools.qbk]
+[include limitations.qbk]
 [include acknowledgments.qbk]
 [xinclude convert_reference.xml]
 '''<index/>'''
