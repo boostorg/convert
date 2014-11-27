@@ -6,17 +6,17 @@
 
 [section Supported Compilers]
 
-['Boost.Convert] makes use of SFINAE for correct `boost::convert()` deployment depending on the context. Unfortunately, SFINAE support varies for different compilers and different versions of those compilers. Consequently, some compilers fail to compile ['Boost.Convert]. Namely,
+['Boost.Convert] makes extensive use of SFINAE for correct `boost::convert()` deployment depending on the context. Unfortunately, the correctness and the completeness of SFINAE support varies with different compilers and different versions of those compilers. Consequently, some compilers fail to compile ['Boost.Convert] API (although the actual functionality provided by the converters themselves is probably availabable via other non-standard means). ['Boost.Convert] has been tested through the Boost regression-testing framework with the folowing results: 
 
-* CLANG ...
+* CLANG. Successfully tested with versions from 2.9 to 3.6;
 
-* GCC versions from 4.2.1 through to 5.0 successfully compile and run ['Boost.Convert] regression tests. Earlier versions were not tested.
+* GCC. Successfully tested with versions from 4.2.1 through to 5.0. Earlier versions were not tested;
 
-* MinGW ...
+* Intel C++ compiler. Successfully tested with versions from 12.1 forward. Earlier versions fail to compile ['Boost.Convert];
 
-* Intel C++ compiler versions from 12.1 forward successfully compile and run ['Boost.Convert] regression tests. Earlier versions fail to compile ['Boost.Convert].
+* MSVC ... still waiting for the latest results...
 
-*MSVC ...
+Please visit [@http://www.boost.org/development/tests/develop/developer/convert.html ['Boost.Convert] regression test summary] for the latest available report.
 
 [endsect]
 
