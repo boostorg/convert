@@ -19,7 +19,7 @@ For die-hard `boost::lexical_cast` users or as a transition to `boost::convert`,
 [getting_started_default_converter]
 [getting_started_example1]
 
-[important As we explore `boost::convert` behavior and interfaces further, to some they might appear unduly complex, excessive, verbose, etc... nothing like `atoi()`... so famous for all the bad reasons. :-) It is important to fully understand and as fully appreciate the fact that a conversion request is only a ['request] which may succeed but may also fail. `boost::convert` (as `boost::lexical_cast`) behavior and interfaces reflect that fact.]
+[important As we explore `boost::convert` behavior and interfaces further, to some they might appear unduly complex, excessive, verbose, etc... nothing like `atoi()`... so famous for all the bad reasons. :-) It is important to fully understand and as fully appreciate the fact that a conversion request is only a ['request] which may succeed but may also fail. `boost::convert` (as `boost::lexical_cast`) behavior and interfaces reflect that.]
 
 [endsect]
 [section Flexibility and Adaptability to Change]

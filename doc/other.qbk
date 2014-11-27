@@ -4,9 +4,9 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section:other_conversions Other Conversions]
+[section:other_conversions Beyond Basic Conversions]
 
-An interesting (and yet to be fully explored) property of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. The ['Boost.Convert] API facade is type-agnostic and the plugged-in converter ultimately dictates what type transformations are available. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and deployed ['uniformly] by plugging-in special-purpose converters.
+An interesting (and yet to be fully explored) property of the described design is that ['Boost.Convert] is not limited to string-to-type and type-to-string conversions. The `boost::convert()` interface is type-agnostic and the plugged-in converter ultimately dictates what type transformations are available. Consequently, a wide range of conversion\/transformation-related tasks can be addressed and ['deployed uniformly] by plugging-in special-purpose converters.
 
 As an experiment, the code below (taken from ['test/encryption.cpp]) does not do type conversion. Instead, it applies a string transformation:
 

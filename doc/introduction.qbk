@@ -55,8 +55,5 @@ The converters provide new and familiar functionality and demonstrate how existi
 
 [algorithm_introduction]
 
-[note An interesting (and yet to be explored) property is that ['Boost.Convert] is not limited to `string-to-type` and `type-to-string` conversions. The `boost::convert()` interface is type-agnostic and the plugged-in converter ultimately dictates what types and conversions are supported. Consequently, a wide range of conversion\/transformation-related tasks can be addressed
-and ['deployed uniformly] by plugging-in special-purpose converters.]
-
 [endsect] [/section Introduction]
 
