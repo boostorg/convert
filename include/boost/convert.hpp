@@ -50,14 +50,6 @@ namespace boost
 
 namespace boost
 {
-    // C1. The "is_cnv<Converter>" check is done twice -- in the main convert(TypeIn, Convert) and
-    //     in the secondary-interface (eventually calling convert(TypeIn, Convert)) functions as well.
-    //     Strictly speaking, those checks are not necessary in the secondary functions as the main convert()
-    //     does the check anyway. However, when things go wrong, the error messages seem considerably clearer
-    //     with that "additional" check as the error message points to the actual line in the application(!)
-    //     code where the derived API was called incorrectly. Without that "additional" check the
-    //     compiler points to the call to the main convert() inside the derived function.
-
     /// @brief Boost.Convert main deployment interface
     /// @param[in] value_in   Value to be converted
     /// @param[in] converter  Converter to be used for conversion
@@ -80,6 +72,19 @@ namespace boost
         boost::unwrap_ref(converter)(value_in, result);
         return result;
     }
+}
+
+namespace boost
+{
+    // C1. The "is_cnv<Converter>" check is done twice -- in the main convert(TypeIn, Convert) and
+    //     in this secondary-interface (eventually calling convert(TypeIn, Convert)) functions as well.
+    //     Strictly speaking, those checks in the secondary functions are redundant. However, when
+    //     things go wrong, the error messages seem considerably clearer with that "additional" check
+    //     as the error message points to the actual line in the application(!) code where the derived
+    //     API was called incorrectly. Without that additional check the compiler points to the call to
+    //     the main convert() inside the derived function.
+
+    /// @brief Boost.Convert non-optional deployment interface
 
     template<typename TypeOut, typename TypeIn, typename Converter>
     typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, TypeOut>::type //See C1
@@ -89,18 +94,16 @@ namespace boost
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter, typename Fallback>
-    typename enable_if_c<is_convertible<Fallback, TypeOut>::value &&
-                         cnv::is_cnv<Converter, TypeIn, TypeOut>::value, //See C1
-        TypeOut>::type
+    typename enable_if_c<cnv::is_cnv<Converter, TypeIn, TypeOut>::value &&  //See C1
+                        is_convertible<Fallback, TypeOut>::value, TypeOut>::type
     convert(TypeIn const& value_in, Converter const& converter, Fallback const& fallback)
     {
         return convert<TypeOut>(value_in, converter).value_or(fallback);
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter, typename Fallback>
-    typename enable_if_c<cnv::is_fun<Fallback, TypeOut>::value &&
-                         cnv::is_cnv<Converter, TypeIn, TypeOut>::value, //See C1
-        TypeOut>::type
+    typename enable_if_c<cnv::is_cnv<Converter, TypeIn, TypeOut>::value &&  //See C1
+                         cnv::is_fun<Fallback, TypeOut>::value, TypeOut>::type
     convert(TypeIn const& value_in, Converter const& converter, Fallback fallback)
     {
         return convert<TypeOut>(value_in, converter).value_or_eval(fallback);
@@ -132,7 +135,7 @@ namespace boost
         };
     }}
     template<typename TypeOut, typename TypeIn>
-    optional<TypeOut>
+    boost::optional<TypeOut>
     convert(TypeIn const& value_in)
     {
         return cnv::detail::delayed_resolution<TypeOut, TypeIn>::convert(value_in);
