@@ -67,12 +67,12 @@
     <span class="special">};</span>
 
     <span class="keyword">struct</span> <span class="identifier">test1</span> <span class="special">{</span> <span class="keyword">int</span>   <span class="identifier">begin</span><span class="special">;</span> <span class="special">};</span>
-    <span class="keyword">struct</span> <span class="identifier">test2</span> <span class="special">{</span> <span class="keyword">char</span><span class="special">*</span> <span class="identifier">begin</span><span class="special">();</span> <span class="special">};</span>
-    <span class="keyword">struct</span> <span class="identifier">test3</span> <span class="special">{</span> <span class="keyword">void</span>  <span class="identifier">begin</span><span class="special">(</span><span class="keyword">int</span><span class="special">);</span> <span class="special">};</span>
+    <span class="keyword">struct</span> <span class="identifier">test2</span> <span class="special">{</span> <span class="keyword">char</span><span class="special">*</span> <span class="identifier">begin</span><span class="special">()</span> <span class="special">{</span> <span class="keyword">return</span> <span class="number">0</span><span class="special">;</span> <span class="special">}</span> <span class="special">};</span>
+    <span class="keyword">struct</span> <span class="identifier">test3</span> <span class="special">{</span> <span class="keyword">void</span>  <span class="identifier">begin</span><span class="special">(</span><span class="keyword">int</span><span class="special">)</span> <span class="special">{}</span> <span class="special">};</span>
     <span class="keyword">struct</span> <span class="identifier">test4</span>
     <span class="special">{</span>
-        <span class="keyword">char</span><span class="special">*</span> <span class="identifier">begin</span><span class="special">();</span>
-        <span class="keyword">char</span><span class="special">*</span>   <span class="identifier">end</span><span class="special">();</span>
+        <span class="keyword">char</span><span class="special">*</span> <span class="identifier">begin</span><span class="special">()</span> <span class="special">{</span> <span class="keyword">return</span> <span class="number">0</span><span class="special">;</span> <span class="special">}</span>
+        <span class="keyword">char</span><span class="special">*</span>   <span class="identifier">end</span><span class="special">()</span> <span class="special">{</span> <span class="keyword">return</span> <span class="number">0</span><span class="special">;</span> <span class="special">}</span>
     <span class="special">};</span>
 <span class="special">}}</span>
 </pre>
