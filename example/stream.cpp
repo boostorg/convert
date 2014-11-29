@@ -55,8 +55,8 @@ example2()
     //[stream_example3
     ccnv(std::showbase)(std::uppercase)(std::hex);
 
-    BOOST_TEST(convert<string>(255, ccnv).value() == "0XFF");
-    BOOST_TEST(convert<string>( 15, ccnv).value() ==  "0XF");
+    BOOST_TEST(convert<string>(255, ccnv, "bad") == "0XFF");
+    BOOST_TEST(convert<string>( 15, ccnv, "bad") ==  "0XF");
     //]
     //[stream_example4
     ccnv(arg::base = cnv::base::dec)
@@ -75,11 +75,11 @@ example6()
     //[stream_example6
     boost::cnv::cstream cnv;
 
-    change up = convert<change>("up", cnv).value();
-    string s1 = convert<string>(up, cnv).value();
-    string s2 = convert<string, change>(change::dn, cnv).value();
+    change up = convert<change>("up", cnv, change::no);
+    string s1 = convert<string>(up, cnv, "bad");
+    string s2 = convert<string, change>(change::dn, cnv, "bad");
 
-    BOOST_TEST(up.value() == change::up);
+    BOOST_TEST(up == change::up);
     BOOST_TEST(s1 == "up");
     BOOST_TEST(s2 == "dn");
     //]

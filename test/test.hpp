@@ -31,26 +31,32 @@ struct change
 
     change(value_type v =no) : value_(v) {}
 
-    friend std::istream& operator>>(std::istream& stream, this_type& chg)
-    {
-        std::string str; stream >> str;
-
-        /**/ if (str == "up") chg.value_ = up;
-        else if (str == "dn") chg.value_ = dn;
-        else if (str == "no") chg.value_ = no;
-        else stream.setstate(std::ios_base::failbit);
-
-        return stream;
-    }
-    friend std::ostream& operator<<(std::ostream& stream, this_type const& chg)
-    {
-        return stream << (chg.value_ == up ? "up" : chg.value_ == dn ? "dn" : "no");
-    }
+    bool operator==(value_type v) const { return value_ == v; }
+    bool operator!=(value_type v) const { return value_ != v; }
 
     value_type value() const { return value_; }
 
     private: value_type value_;
 };
+//]
+//[change_stream_operators
+
+std::istream& operator>>(std::istream& stream, change& chg)
+{
+    std::string str; stream >> str;
+
+    /**/ if (str == "up") chg = change::up;
+    else if (str == "dn") chg = change::dn;
+    else if (str == "no") chg = change::no;
+    else stream.setstate(std::ios_base::failbit);
+
+    return stream;
+}
+
+std::ostream& operator<<(std::ostream& stream, change const& chg)
+{
+    return stream << (chg == change::up ? "up" : chg == change::dn ? "dn" : "no");
+}
 //]
 //[direction_declaration
 struct direction

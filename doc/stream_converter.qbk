@@ -40,34 +40,37 @@ is equivalent to the following ['std::manipulator]-based variant:
 
 [stream_example5]
 
+[section Numeric Base]
+[stream_using]
+[stream_numbase_example1]
+
+A more generic interface is also supported:
+
+[stream_cnv_namespace_shortcut]
+[stream_numbase_example2]
 [endsect]
+
+[section Field Width, Fill Character and Adjustment]
+[stream_width_example]
+[endsect]
+
+[section Leading Whitespace Characters]
+[stream_using]
+[stream_skipws_example]
+[endsect]
+
+[section Format of Boolean Values]
+[stream_using]
+[stream_boolalpha_example]
+[endsect]
+[endsect]
+
 [section Locale Support]
 
 Locale support is similar to the formatting support as demonstrated by the following example:
 
 [stream_headers2]
 [stream_locale_example1]
-
-[endsect]
-[section:integration_of_user_types Integration of User-Defined Types]
-
-As the converter uses `std::stringstream` to do actual conversions it carries over the `std::stringstream`-imposed type requirements. Namely:
-
-* ['TypeIn] needs to be ['Output Streamable];
-* ['TypeOut] needs to be ['Input Streamable];
-
-In practical terms the mechanism for integrating a user-defined type into the ['Boost.Convert] framework (for deployment with this described `std::stringstream`-based converter) should be familiar to those who worked with `boost::lexical_cast`. That is, the respective type needs to have the following operators defined:
-
- std::istream& operator>>(std::istream&, TypeOut&);
- std::ostream& operator<<(std::ostream&, TypeIn const&);
-
-For example,
-
-[change_declaration]
-
-That allows handling conversions of user-defined types with plugged-in `boost::cnv::cstream` converter:
-
-[stream_example6]
 
 [endsect]
 [section Supported String Types]
@@ -95,6 +98,28 @@ constructor can be deployed in type-to-string conversions.
 See [link boost_convert.performance.the_bigger_picture The Bigger Picture] chapter for the discussion of potential advantages of deploying custom strings.
 
 [endsect]
+[endsect]
+[section:integration_of_user_types Integration of User-Defined Types]
+
+As the converter uses `std::stringstream` to do actual conversions it carries over the `std::stringstream`-imposed type requirements. Namely:
+
+* ['TypeIn] needs to be ['Output Streamable];
+* ['TypeOut] needs to be ['Input Streamable];
+
+In practical terms the mechanism for integrating a user-defined type into the ['Boost.Convert] framework (for deployment with this described `std::stringstream`-based converter) should be familiar to those who worked with `boost::lexical_cast`. That is, the respective type needs to have the following operators defined:
+
+ std::istream& operator>>(std::istream&, TypeOut&);
+ std::ostream& operator<<(std::ostream&, TypeIn const&);
+
+For example,
+
+[change_declaration]
+[change_stream_operators]
+
+That allows handling conversions of user-defined types with plugged-in `boost::cnv::cstream` converter:
+
+[stream_example6]
+
 [endsect]
 [section The ['Default Constructible] Type Requirement]
 
@@ -134,33 +159,6 @@ Now such class can be deployed with the `std::stream`-based converter:
  direction dir1 = convert<direction>(str, cnv).value(); // Compiles
  direction dir2 = lexical_cast<direction>(str); // Does not compile
 
-[endsect]
-
-[section Formatting Examples]
-[section Numeric Base]
-[stream_using]
-[stream_numbase_example1]
-
-A more generic interface is also supported:
-
-[stream_cnv_namespace_shortcut]
-[stream_numbase_example2]
-[endsect]
-
-[section Field Width, Fill Character and Adjustment]
-[stream_width_example]
-[endsect]
-
-[section Leading Whitespace Characters]
-[stream_using]
-[stream_skipws_example]
-
-[endsect]
-
-[section Format of Boolean Values]
-[stream_using]
-[stream_boolalpha_example]
-[endsect]
 [endsect]
 [endsect]
 

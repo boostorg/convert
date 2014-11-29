@@ -52,5 +52,10 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 [endsect]
 
 [endsect]
+
+[section Integration of User-Defined Types]
+[endsect]
+
+
 [endsect]
 
