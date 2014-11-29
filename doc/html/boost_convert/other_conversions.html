@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Other Conversions</title>
+<title>Beyond Basic Conversions</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
@@ -15,16 +15,15 @@
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="boost_convert.other_conversions"></a><a class="link" href="other_conversions.html" title="Other Conversions">Other Conversions</a>
+<a name="boost_convert.other_conversions"></a><a class="link" href="other_conversions.html" title="Beyond Basic Conversions">Beyond Basic Conversions</a>
 </h2></div></div></div>
 <p>
       An interesting (and yet to be fully explored) property of the described design
       is that <span class="emphasis"><em>Boost.Convert</em></span> is not limited to string-to-type
-      and type-to-string conversions. The <span class="emphasis"><em>Boost.Convert</em></span> API
-      facade is type-agnostic and the plugged-in converter ultimately dictates what
-      type transformations are available. Consequently, a wide range of conversion/transformation-related
-      tasks can be addressed and deployed <span class="emphasis"><em>uniformly</em></span> by plugging-in
-      special-purpose converters.
+      and type-to-string conversions. The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> interface is type-agnostic and the plugged-in
+      converter ultimately dictates what type transformations are available. Consequently,
+      a wide range of conversion/transformation-related tasks can be addressed and
+      <span class="emphasis"><em>deployed uniformly</em></span> by plugging-in special-purpose converters.
     </p>
 <p>
       As an experiment, the code below (taken from <span class="emphasis"><em>test/encryption.cpp</em></span>)

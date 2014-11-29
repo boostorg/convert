@@ -167,7 +167,7 @@
     <span class="identifier">strs</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span>
     <span class="identifier">strs</span><span class="special">.</span><span class="identifier">end</span><span class="special">(),</span>
     <span class="identifier">std</span><span class="special">::</span><span class="identifier">back_inserter</span><span class="special">(</span><span class="identifier">ints</span><span class="special">),</span>
-    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">,</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cref</span><span class="special">(</span><span class="identifier">cnv</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">));</span>
+    <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">apply</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cref</span><span class="special">(</span><span class="identifier">cnv</span><span class="special">)).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">));</span>
 
 <span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">ints</span><span class="special">.</span><span class="identifier">size</span><span class="special">()</span> <span class="special">==</span> <span class="number">3</span><span class="special">);</span> <span class="comment">// Number of values processed.</span>
 <span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">ints</span><span class="special">[</span><span class="number">0</span><span class="special">]</span> <span class="special">==</span>  <span class="number">5</span><span class="special">);</span>    <span class="comment">// " 5"</span>
@@ -176,20 +176,6 @@
 </pre>
 <p>
     </p>
-<div class="note"><table border="0" summary="Note">
-<tr>
-<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="../images/note.png"></td>
-<th align="left">Note</th>
-</tr>
-<tr><td align="left" valign="top"><p>
-        An interesting (and yet to be explored) property is that <span class="emphasis"><em>Boost.Convert</em></span>
-        is not limited to <code class="computeroutput"><span class="identifier">string</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">type</span></code> and <code class="computeroutput"><span class="identifier">type</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">string</span></code> conversions. The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> interface is type-agnostic and the plugged-in
-        converter ultimately dictates what types and conversions are supported. Consequently,
-        a wide range of conversion/transformation-related tasks can be addressed
-        and <span class="emphasis"><em>deployed uniformly</em></span> by plugging-in special-purpose
-        converters.
-      </p></td></tr>
-</table></div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>
