@@ -29,10 +29,7 @@ introduction()
     // Configure converter to read as a string of hexadecimal characters, skip (leading) white spaces.
     cnv(std::hex)(std::skipws);
 
-    std::transform(
-        strs.begin(),
-        strs.end(),
-        std::back_inserter(ints),
+    std::transform(strs.begin(), strs.end(), std::back_inserter(ints),
         boost::cnv::apply<int>(boost::cref(cnv)).value_or(-1));
 
     BOOST_TEST(ints.size() == 3); // Number of values processed.
@@ -56,13 +53,10 @@ example1()
 
     try
     {
-       std::transform(
-           strs.begin(),
-           strs.end(),
-           std::back_inserter(ints),
-           boost::bind(boost::lexical_cast<int, string>, _1));
+        std::transform(strs.begin(), strs.end(), std::back_inserter(ints),
+            boost::bind(boost::lexical_cast<int, string>, _1));
 
-           BOOST_TEST(0 && "Never reached!");
+        BOOST_TEST(0 && "Never reached!");
     }
     catch (std::exception&)
     {
@@ -83,10 +77,7 @@ example2()
     std::vector<int>             ints;
     boost::cnv::lexical_cast      cnv;
 
-    std::transform(
-        strs.begin(),
-        strs.end(),
-        std::back_inserter(ints),
+    std::transform(strs.begin(), strs.end(), std::back_inserter(ints),
         boost::cnv::apply<int>(cnv).value_or(-1));
 
     BOOST_TEST(ints.size() == 3);
@@ -111,13 +102,10 @@ example3()
 
     try
     {
-      std::transform(
-           strs.begin(),
-           strs.end(),
-           std::back_inserter(ints),
-           boost::cnv::apply<int>(boost::cref(cnv(std::hex)(std::skipws))));
+        std::transform(strs.begin(), strs.end(), std::back_inserter(ints),
+            boost::cnv::apply<int>(boost::cref(cnv(std::hex)(std::skipws))));
 
-           BOOST_TEST(0 && "Never reached!");
+        BOOST_TEST(0 && "Never reached!");
     }
     catch (boost::bad_optional_access const&)
     {
@@ -139,10 +127,8 @@ example4()
     boost::cnv::cstream           cnv;
 
 //[algorithm_example4
-    std::transform(
-        strs.begin(),
-        strs.end(),
-        std::back_inserter(ints),
+
+    std::transform(strs.begin(), strs.end(), std::back_inserter(ints),
         boost::cnv::apply<int>(boost::cref(cnv(std::hex)(std::skipws))).value_or(-1));
 
     BOOST_TEST(ints.size() == 3);
@@ -177,10 +163,7 @@ example5()
 
     cnv(std::hex)(std::uppercase)(std::showbase);
 
-    std::transform(
-        ints.begin(),
-        ints.end(),
-        std::back_inserter(strs),
+    std::transform(ints.begin(), ints.end(), std::back_inserter(strs),
         boost::cnv::apply<string>(boost::cref(cnv)));
 
     BOOST_TEST(strs.size() == 3);
