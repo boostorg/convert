@@ -61,9 +61,9 @@ test_algorithms()
     std::vector<std::string>            strs3;
     boost::cnv::cstream                   cnv;
 
-    std::transform(chgs1.begin(), chgs1.end(), std::back_inserter(strs1), boost::convert<std::string, change>(boost::cref(cnv)));
-    std::transform(chgs2.begin(), chgs2.end(), std::back_inserter(strs2), boost::convert<std::string, change>(boost::cref(cnv)));
-    std::transform(chgs2.begin(), chgs2.end(), std::back_inserter(strs3), boost::convert<std::string, change::value_type>(boost::cref(cnv)));
+    std::transform(chgs1.begin(), chgs1.end(), std::back_inserter(strs1), boost::cnv::apply<string>(boost::cref(cnv)));
+    std::transform(chgs2.begin(), chgs2.end(), std::back_inserter(strs2), boost::cnv::apply<string, change>(boost::cref(cnv)));
+    std::transform(chgs2.begin(), chgs2.end(), std::back_inserter(strs3), boost::cnv::apply<string>(boost::cref(cnv)));
 
     BOOST_TEST(strs1.size() == 3);
     BOOST_TEST(strs1[0] == "no");

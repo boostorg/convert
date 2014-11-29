@@ -107,6 +107,7 @@ example4()
     int i3 = convert<int>(str, cnv, fallback_func());
     //]
 }
+
 static
 void
 example7()

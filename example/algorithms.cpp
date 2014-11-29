@@ -11,8 +11,6 @@
 #include <vector>
 
 using std::string;
-using boost::convert;
-using boost::lexical_cast;
 
 static
 void
@@ -35,21 +33,20 @@ introduction()
         strs.begin(),
         strs.end(),
         std::back_inserter(ints),
-        boost::convert<int, std::string>(boost::cref(cnv)).value_or(-1));
+        boost::cnv::apply<int>(boost::cref(cnv)).value_or(-1));
 
     BOOST_TEST(ints.size() == 3); // Number of values processed.
     BOOST_TEST(ints[0] ==  5);    // " 5"
     BOOST_TEST(ints[1] == 15);    // "0XF"
     BOOST_TEST(ints[2] == -1);    // "not an int"
-//] //[/algorithm_introduction]
-
+//]
 }
 
 static
 void
 example1()
 {
-    //[algorithm_example1
+//[algorithm_example1
     /*`The following code demonstrates a failed attempt (and one of the reasons ['Boost.Convert]
        has been developed) to convert a few `string`s to `int`s with `boost::lexical_cast`:
     */
@@ -63,7 +60,7 @@ example1()
            strs.begin(),
            strs.end(),
            std::back_inserter(ints),
-           boost::bind(lexical_cast<int, string>, _1));
+           boost::bind(boost::lexical_cast<int, string>, _1));
 
            BOOST_TEST(0 && "Never reached!");
     }
@@ -71,14 +68,14 @@ example1()
     {
         BOOST_TEST(ints.size() == 0); // No strings converted.
     }
-    //]
+//]
 }
 
 static
 void
 example2()
 {
-    //[algorithm_example2
+//[algorithm_example2
     /*`If the exception-throwing behavior is the desired behavior, then ['Boost.Convert] supports that.
       In addition, it also provides a non-throwing process-flow:
     */
@@ -90,20 +87,20 @@ example2()
         strs.begin(),
         strs.end(),
         std::back_inserter(ints),
-        convert<int, string>(cnv).value_or(-1));
+        boost::cnv::apply<int>(cnv).value_or(-1));
 
     BOOST_TEST(ints.size() == 3);
     BOOST_TEST(ints[0] == -1); // Failed conversion does not throw.
     BOOST_TEST(ints[1] == -1); // Failed conversion does not throw.
     BOOST_TEST(ints[2] == -1); // Failed conversion does not throw.
-    //]
+//]
 }
 
 static
 void
 example3()
 {
-    //[algorithm_example3
+//[algorithm_example3
     /*`Replacing the `boost::cnv::lexical_cast` converter yields better results with exception-throwing
        and non-throwing process-flows still supported:
     */
@@ -118,7 +115,7 @@ example3()
            strs.begin(),
            strs.end(),
            std::back_inserter(ints),
-           convert<int, string>(boost::cref(cnv(std::hex)(std::skipws))));
+           boost::cnv::apply<int>(boost::cref(cnv(std::hex)(std::skipws))));
 
            BOOST_TEST(0 && "Never reached!");
     }
@@ -130,7 +127,7 @@ example3()
 
         // "not an int" causes the exception thrown.
     }
-    //]
+//]
 }
 
 static
@@ -141,12 +138,12 @@ example4()
     std::vector<int>             ints;
     boost::cnv::cstream           cnv;
 
-    //[algorithm_example4
+//[algorithm_example4
     std::transform(
         strs.begin(),
         strs.end(),
         std::back_inserter(ints),
-        convert<int, string>(boost::cref(cnv(std::hex)(std::skipws))).value_or(-1));
+        boost::cnv::apply<int>(boost::cref(cnv(std::hex)(std::skipws))).value_or(-1));
 
     BOOST_TEST(ints.size() == 3);
     BOOST_TEST(ints[0] ==  5);
@@ -163,14 +160,14 @@ example4()
        Given that `std::cstringstream` is not copyable, `boost::cnv::cstream` is not copyable either.
        That limitation is routinely worked-around using `boost::ref`.]
     */
-    //]
+//]
 }
 
 static
 void
 example5()
 {
-    //[algorithm_example5
+//[algorithm_example5
     /*`And, lastly, an example of algorithm-based integer-to-string formatted conversion with
        `std::hex`, `std::uppercase` and `std::showbase` formatting applied:
     */
@@ -184,13 +181,13 @@ example5()
         ints.begin(),
         ints.end(),
         std::back_inserter(strs),
-        convert<string, int>(boost::cref(cnv)));
+        boost::cnv::apply<string>(boost::cref(cnv)));
 
     BOOST_TEST(strs.size() == 3);
     BOOST_TEST(strs[0] ==  "0XF"); // 15
     BOOST_TEST(strs[1] == "0X10"); // 16
     BOOST_TEST(strs[2] == "0X11"); // 17
-    //] [/algorithm_example5]
+//] [/algorithm_example5]
 }
 
 int

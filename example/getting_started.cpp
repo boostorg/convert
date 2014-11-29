@@ -42,7 +42,10 @@ using boost::convert;
 // Definition of the default converter (optional)
 struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
 //]
-static void getting_started_example1()
+
+static
+void
+getting_started_example1()
 {
     //[getting_started_example1
     try
@@ -73,7 +76,9 @@ static void getting_started_example1()
     //] [/getting_started_example1]
 }
 
-static void getting_started_example2()
+static
+void
+getting_started_example2()
 {
     //[getting_started_example2
     // Does not throw. Returns fallback value (-1) when failed.
@@ -87,7 +92,10 @@ static void getting_started_example2()
 #include <boost/convert/strtol.hpp>
 #include <boost/convert/spirit.hpp>
 //]
-static void getting_started_example3()
+
+static
+void
+getting_started_example3()
 {
     //[getting_started_example3
     boost::cnv::lexical_cast cnv1;
@@ -103,7 +111,10 @@ static void getting_started_example3()
 //[getting_started_headers4
 #include <boost/convert/stream.hpp>
 //]
-static void getting_started_example4()
+
+static
+void
+getting_started_example4()
 {
     //[getting_started_example4
     boost::cnv::cstream cnv;
@@ -145,7 +156,9 @@ getting_started_example5()
     //]
 }
 
-static void getting_started_example6()
+static
+void
+getting_started_example6()
 {
     std::string const    s1 = "123";
     std::string const    s2 = "456";
@@ -167,7 +180,9 @@ static void getting_started_example6()
     BOOST_TEST(i2 == 456);
 }
 
-static void getting_started_example7()
+static
+void
+getting_started_example7()
 {
     std::string const    s1 = "123";
     std::string const    s2 = "456";
@@ -193,7 +208,9 @@ fallback_fun(char const* msg, int fallback_value)
     log(msg); return fallback_value;
 }
 //]
-static void getting_started_example9()
+static
+void
+getting_started_example9()
 {
     std::string const s1 = "123";
     std::string const s2 = "456";
@@ -209,7 +226,9 @@ static void getting_started_example9()
     BOOST_TEST(i2 == 456);
 }
 
-static void getting_started_example8()
+static
+void
+getting_started_example8()
 {
     std::string const str = "123";
     int const  default_i1 = 12;
