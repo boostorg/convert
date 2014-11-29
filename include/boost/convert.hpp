@@ -29,39 +29,30 @@
 
 namespace boost
 {
-    namespace detail
-    {
-        enum throw_on_failure {};
-    }
-    /// @details The boost::throw_on_failure is the name of an object of the
-    /// boost::detail::throw_on_failure type that is used for disambiguation
-    /// of desired exception-throwing behavior.
-    detail::throw_on_failure const throw_on_failure = detail::throw_on_failure(0);
-}
+    namespace detail { enum throw_on_failure {}; }
 
-namespace boost
-{
+    /// @details The boost::throw_on_failure is the name of an object of the
+    /// boost::detail::throw_on_failure type that is used to indicate
+    /// desired exception-throwing behavior.
+    detail::throw_on_failure const throw_on_failure = detail::throw_on_failure(0);
+
     namespace cnv
     {
         template<typename, typename, typename> struct reference;
         struct by_default;
     }
-}
 
-namespace boost
-{
     /// @brief Boost.Convert main deployment interface
-    /// @param[in] value_in   Value to be converted
+    /// @param[in] value_in   Value of the TypeIn type to be converted to the TyeOut type
     /// @param[in] converter  Converter to be used for conversion
-    /// @return Result of conversion together with the indication of success or failure
-    /// of the conversion request.
+    /// @return boost::optional<TypeOut> result of conversion together with the indication of
+    ///         success or failure of the conversion request.
     /// @details For example,
     /// @code
     ///    boost::cnv::cstream cnv;
     ///
     ///    boost::optional<int>    i = boost::convert<int>("12", cnv);
     ///    boost::optional<string> s = boost::convert<string>(123.456, cnv);
-    ///    boost::optional<string> s = boost::convert<string>(123.456, boost::cref(cnv));
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
@@ -71,6 +62,35 @@ namespace boost
         optional<TypeOut> result;
         boost::unwrap_ref(converter)(value_in, result);
         return result;
+    }
+
+    namespace cnv { namespace detail
+    {
+        template<typename TypeOut, typename TypeIn, typename Converter =boost::cnv::by_default>
+        struct delayed_resolution
+        {
+            static optional<TypeOut> convert(TypeIn const& value_in)
+            {
+                return boost::convert<TypeOut>(value_in, Converter());
+            }
+        };
+    }}
+    /// @brief Boost.Convert deployment interface with the default converter
+    /// @details For example,
+    /// @code
+    ///    struct boost::cnv::by_default : public boost::cnv::cstream {};
+    ///
+    ///    // boost::cnv::cstream (through boost::cnv::by_default) is deployed
+    ///    // as the default converter when no converter is provided explicitly.
+    ///    boost::optional<int>    i = boost::convert<int>("12");
+    ///    boost::optional<string> s = boost::convert<string>(123.456);
+    /// @endcode
+
+    template<typename TypeOut, typename TypeIn>
+    boost::optional<TypeOut>
+    convert(TypeIn const& value_in)
+    {
+        return cnv::detail::delayed_resolution<TypeOut, TypeIn>::convert(value_in);
     }
 }
 
@@ -107,38 +127,6 @@ namespace boost
     convert(TypeIn const& value_in, Converter const& converter, Fallback fallback)
     {
         return convert<TypeOut>(value_in, converter).value_or_eval(fallback);
-    }
-}
-
-namespace boost
-{
-    /// @brief Boost.Convert deployment interface with the default converter
-    /// @details For example,
-    /// @code
-    ///    struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
-    ///
-    ///    // boost::cnv::lexical_cast (through boost::cnv::by_default) is deployed
-    ///    // as the default converter when no converter is provided explicitly.
-    ///    boost::optional<int>    i = boost::convert<int>("12");
-    ///    boost::optional<string> s = boost::convert<string>(123.456);
-    /// @endcode
-
-    namespace cnv { namespace detail
-    {
-        template<typename TypeOut, typename TypeIn, typename Converter =boost::cnv::by_default>
-        struct delayed_resolution
-        {
-            static optional<TypeOut> convert(TypeIn const& value_in)
-            {
-                return boost::convert<TypeOut>(value_in, Converter());
-            }
-        };
-    }}
-    template<typename TypeOut, typename TypeIn>
-    boost::optional<TypeOut>
-    convert(TypeIn const& value_in)
-    {
-        return cnv::detail::delayed_resolution<TypeOut, TypeIn>::convert(value_in);
     }
 }
 
