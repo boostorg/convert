@@ -101,8 +101,8 @@ void
 example3()
 {
 //[algorithm_example3
-    /*`Replacing the `boost::cnv::lexical_cast` converter yields better results with exception-throwing
-       and non-throwing process-flows still supported:
+    /*`Deploying `boost::cnv::cstream` with better formatting capabilities yields
+       better results with exception-throwing and non-throwing process-flows still supported:
     */
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
@@ -158,7 +158,7 @@ example4()
        [@http://en.cppreference.com/w/cpp/concept/MoveAssignable movable (C++11)]
        and is, in fact, copied or moved by the respective algorithm before being used.
        Given that `std::cstringstream` is not copyable, `boost::cnv::cstream` is not copyable either.
-       That limitation is routinely worked-around using `boost::ref`.]
+       That limitation is routinely worked-around using `boost::ref` or `boost::cref`.]
     */
 //]
 }
@@ -168,7 +168,7 @@ void
 example5()
 {
 //[algorithm_example5
-    /*`And, lastly, an example of algorithm-based integer-to-string formatted conversion with
+    /*`And now an example of algorithm-based integer-to-string formatted conversion with
        `std::hex`, `std::uppercase` and `std::showbase` formatting applied:
     */
     boost::array<int, 3>     ints = {{ 15, 16, 17 }};
@@ -187,7 +187,7 @@ example5()
     BOOST_TEST(strs[0] ==  "0XF"); // 15
     BOOST_TEST(strs[1] == "0X10"); // 16
     BOOST_TEST(strs[2] == "0X11"); // 17
-//] [/algorithm_example5]
+//]
 }
 
 int

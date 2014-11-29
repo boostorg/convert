@@ -26,6 +26,7 @@
 [import ../test/stream_converter.cpp]
 [import ../test/performance.cpp]
 [import ../test/sfinae.cpp]
+[import ../test/user_type.cpp]
 
 [include rationale.qbk]
 [include introduction.qbk]

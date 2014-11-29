@@ -54,6 +54,7 @@ static
 void
 test_algorithms()
 {
+//[algorithm_example6
     boost::array<change, 3>             chgs1 = {{ change::no, change::up, change::dn }};
     boost::array<change::value_type, 3> chgs2 = {{ change::no, change::up, change::dn }};
     std::vector<std::string>            strs1;
@@ -61,9 +62,17 @@ test_algorithms()
     std::vector<std::string>            strs3;
     boost::cnv::cstream                   cnv;
 
-    std::transform(chgs1.begin(), chgs1.end(), std::back_inserter(strs1), boost::cnv::apply<string>(boost::cref(cnv)));
-    std::transform(chgs2.begin(), chgs2.end(), std::back_inserter(strs2), boost::cnv::apply<string, change>(boost::cref(cnv)));
-    std::transform(chgs2.begin(), chgs2.end(), std::back_inserter(strs3), boost::cnv::apply<string>(boost::cref(cnv)));
+    std::transform(
+        chgs1.begin(), 
+        chgs1.end(), 
+        std::back_inserter(strs1), 
+        boost::cnv::apply<string>(boost::cref(cnv)));
+
+    std::transform(
+        chgs2.begin(), 
+        chgs2.end(), 
+        std::back_inserter(strs2), 
+        boost::cnv::apply<string>(boost::cref(cnv)));
 
     BOOST_TEST(strs1.size() == 3);
     BOOST_TEST(strs1[0] == "no");
@@ -71,14 +80,23 @@ test_algorithms()
     BOOST_TEST(strs1[2] == "dn");
 
     BOOST_TEST(strs2.size() == 3);
-    BOOST_TEST(strs2[0] == "no");
-    BOOST_TEST(strs2[1] == "up");
-    BOOST_TEST(strs2[2] == "dn");
+    BOOST_TEST(strs2[0] == "0");
+    BOOST_TEST(strs2[1] == "1");
+    BOOST_TEST(strs2[2] == "2");
+//]
+//[algorithm_example7
+
+    std::transform(
+        chgs2.begin(), 
+        chgs2.end(), 
+        std::back_inserter(strs3), 
+        boost::cnv::apply<string, change>(boost::cref(cnv)));
 
     BOOST_TEST(strs3.size() == 3);
-    BOOST_TEST(strs3[0] == "0");
-    BOOST_TEST(strs3[1] == "1");
-    BOOST_TEST(strs3[2] == "2");
+    BOOST_TEST(strs3[0] == "no");
+    BOOST_TEST(strs3[1] == "up");
+    BOOST_TEST(strs3[2] == "dn");
+//]
 }
 
 int

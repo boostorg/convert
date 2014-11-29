@@ -4,7 +4,7 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section boost::cnv::stream Converter]
+[section:stream_converter boost::cnv::stream Converter]
 
 The purpose of the converter is to provide conversion-related formatting and locale support not available with `boost::lexical_cast`. Advantages of deploying a `std::stream`-based conversion engine are:
 
@@ -49,7 +49,7 @@ Locale support is similar to the formatting support as demonstrated by the follo
 [stream_locale_example1]
 
 [endsect]
-[section Integration of User-Defined Types]
+[section:integration_of_user_types Integration of User-Defined Types]
 
 As the converter uses `std::stringstream` to do actual conversions it carries over the `std::stringstream`-imposed type requirements. Namely:
 
