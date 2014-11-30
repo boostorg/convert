@@ -25,15 +25,10 @@
 //[change_declaration
 struct change
 {
-    typedef change this_type;
-
     enum value_type { no, up, dn };
 
     change(value_type v =no) : value_(v) {}
-
-    bool operator==(value_type v) const { return value_ == v; }
-    bool operator!=(value_type v) const { return value_ != v; }
-
+    bool operator==(change v) const { return value_ == v.value_; }
     value_type value() const { return value_; }
 
     private: value_type value_;
@@ -80,25 +75,27 @@ struct direction
     enum value_type { up, dn };
 
     direction(value_type value) : value_(value) {}
-    bool operator==(direction const& that) const { return value_ == that.value_; }
-
-    friend std::istream& operator>>(std::istream& stream, direction& dir)
-    {
-        std::string str; stream >> str;
-
-        /**/ if (str == "up") dir.value_ = up;
-        else if (str == "dn") dir.value_ = dn;
-        else stream.setstate(std::ios_base::failbit);
-
-        return stream;
-    }
-    friend std::ostream& operator<<(std::ostream& stream, direction const& dir)
-    {
-        return stream << (dir.value_ == up ? "up" : "dn");
-    }
+    bool operator==(direction that) const { return value_ == that.value_; }
+    value_type value() const { return value_; }
 
     private: value_type value_;
 };
+//]
+//[direction_stream_operators
+std::istream& operator>>(std::istream& stream, direction& dir)
+{
+    std::string str; stream >> str;
+
+    /**/ if (str == "up") dir = direction::up;
+    else if (str == "dn") dir = direction::dn;
+    else stream.setstate(std::ios_base::failbit);
+
+    return stream;
+}
+std::ostream& operator<<(std::ostream& stream, direction const& dir)
+{
+    return stream << (dir.value() == direction::up ? "up" : "dn");
+}
 //]
 //[direction_declaration_make_default
 namespace boost

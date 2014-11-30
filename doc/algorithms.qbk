@@ -14,9 +14,9 @@
 
 So far it was sufficient to supply only one type to `boost::cnv::apply<TypeOut>` -- the target ['TypeOut] type. The source ['TypeIn] type has been provided implicitly through the algorithm and often it all just works (as the examples above demonstrate). However, at times more control is needed regarding the ['TypeIn] type and `boost::cnv::apply()` provides such control via explicit `boost::cnv::apply<TypeOut, TypeIn>`.
 
-The following example demonstrates an interesting potential problem related to the `change` class (see [link boost_convert.converters.stream_converter.integration_of_user_types `change` declaration]). The class is essentially a glorified `enum`, a user-friendly (and safer in the C++03 world) convenience wrapper around the actual `enum value_type { no, up, dn }`. 
+The following example demonstrates an interesting potential problem related to the ['`change`] class (see [link boost_convert.converters.stream_converter.integration_of_user_types `change` declaration]). The class is essentially a glorified `enum`, a user-friendly (and safer in the C++03 world) convenience wrapper around the actual `enum value_type { no, up, dn }`. 
 
-In particular, an array of `change` values (`chgs1`) sensibly converts to readable "no", "up" and "dn" strings (`strs1`) when an array of `change::value_type` values (`chgs2`) converts to obscure "0", "1" and "2" (`strs2`).
+In particular, an array of ['`change`] values (`chgs1`) sensibly converts to readable "no", "up" and "dn" strings (`strs1`) when an array of ['`change::value_type`] values (`chgs2`) converts to obscure "0", "1" and "2" (`strs2`).
 
 [algorithm_example6]
 

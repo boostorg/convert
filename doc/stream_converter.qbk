@@ -144,6 +144,7 @@ Consequently,
 That said, a well-designed type (in my opinion, anyway) should only have meaningful and unambiguous constructors... and the default constructor is not always and necessarily one of them. Consider the following as one such example:
 
 [direction_declaration]
+[direction_stream_operators]
 
 The `direction` type has no default state. It is not [@http://en.cppreference.com/w/cpp/concept/DefaultConstructible ['Default Constructible]] and, consequently, the following does not compile:
 
