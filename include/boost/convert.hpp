@@ -56,7 +56,7 @@ namespace boost
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, optional<TypeOut> >::type
+    boost::optional<TypeOut>
     convert(TypeIn const& value_in, Converter const& converter)
     {
         optional<TypeOut> result;
@@ -96,34 +96,24 @@ namespace boost
 
 namespace boost
 {
-    // C1. The "is_cnv<Converter>" check is done twice -- in the main convert(TypeIn, Convert) and
-    //     in this secondary-interface (eventually calling convert(TypeIn, Convert)) functions as well.
-    //     Strictly speaking, those checks in the secondary functions are redundant. However, when
-    //     things go wrong, the error messages seem considerably clearer with that "additional" check
-    //     as the error message points to the actual line in the application(!) code where the derived
-    //     API was called incorrectly. Without that additional check the compiler points to the call to
-    //     the main convert() inside the derived function.
-
     /// @brief Boost.Convert non-optional deployment interface
 
     template<typename TypeOut, typename TypeIn, typename Converter>
-    typename enable_if<cnv::is_cnv<Converter, TypeIn, TypeOut>, TypeOut>::type //See C1
+    TypeOut
     convert(TypeIn const& value_in, Converter const& converter, boost::detail::throw_on_failure)
     {
         return convert<TypeOut>(value_in, converter).value();
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter, typename Fallback>
-    typename enable_if_c<cnv::is_cnv<Converter, TypeIn, TypeOut>::value &&  //See C1
-                        is_convertible<Fallback, TypeOut>::value, TypeOut>::type
+    typename enable_if<is_convertible<Fallback, TypeOut>, TypeOut>::type
     convert(TypeIn const& value_in, Converter const& converter, Fallback const& fallback)
     {
         return convert<TypeOut>(value_in, converter).value_or(fallback);
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter, typename Fallback>
-    typename enable_if_c<cnv::is_cnv<Converter, TypeIn, TypeOut>::value &&  //See C1
-                         cnv::is_fun<Fallback, TypeOut>::value, TypeOut>::type
+    typename enable_if<cnv::is_fun<Fallback, TypeOut>, TypeOut>::type
     convert(TypeIn const& value_in, Converter const& converter, Fallback fallback)
     {
         return convert<TypeOut>(value_in, converter).value_or_eval(fallback);
