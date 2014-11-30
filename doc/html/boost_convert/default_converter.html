@@ -31,23 +31,23 @@
       for the purpose.
     </p>
 <p>
-      There is no default converter set by default and, consequently, without additional
-      configuration steps the following call will fail to compile:
+      <span class="emphasis"><em>There is no default converter set by default</em></span> and, consequently,
+      without additional configuration steps the following call will fail to compile:
     </p>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// No converter provided</span>
 </pre>
 <p>
       After <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code>
-      is defined:
+      is defined as:
     </p>
 <p>
 </p>
-<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span> <span class="special">{};</span>
+<pre class="programlisting"><span class="keyword">struct</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span> <span class="special">:</span> <span class="keyword">public</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span> <span class="special">{</span> <span class="identifier">by_default</span><span class="special">()</span> <span class="special">{</span> <span class="special">(*</span><span class="keyword">this</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">uppercase</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">);</span> <span class="special">}};</span>
 </pre>
 <p>
     </p>
 <p>
-      the following code compiles and deploys <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> when <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> is called without an explicitly supplied
+      the code compiles and deploys <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code> when <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> is called without an explicitly supplied
       converter:
     </p>
 <p>
@@ -60,14 +60,28 @@
 <p>
 </p>
 <pre class="programlisting"><span class="comment">// No explicit converter provided. boost::cnv::by_default is used.</span>
-<span class="keyword">int</span>    <span class="identifier">i</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
-<span class="identifier">string</span> <span class="identifier">s</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">123</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
+<span class="keyword">int</span>    <span class="identifier">i</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"F"</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
+<span class="identifier">string</span> <span class="identifier">s</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">255</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span>
 
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s</span> <span class="special">==</span> <span class="string">"123"</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i</span> <span class="special">==</span> <span class="number">15</span><span class="special">);</span>   <span class="comment">// 15(10) = F(16)</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s</span> <span class="special">==</span> <span class="string">"FF"</span><span class="special">);</span> <span class="comment">// 255(10) = FF(16)</span>
 </pre>
 <p>
     </p>
+<div class="note"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="../images/note.png"></td>
+<th align="left">Note</th>
+</tr>
+<tr><td align="left" valign="top"><p>
+        The price to pay for the convenience is the potential loss of flexibility
+        and performance. When a converter is not provided explicitly by the user,
+        the default converter is created, potentially configured, deployed and destroyed
+        during every <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
+        call. Consequently, if efficiency of this particular component is important,
+        then those operations need to be cheap.
+      </p></td></tr>
+</table></div>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
 <td align="left"></td>
