@@ -18,9 +18,13 @@ provides considerable flexibility, configurability and efficiency. However, in c
 
  int i = boost::convert<int>("123").value(); // No converter provided
  
-After `boost::cnv::by_default` is defined as:
+After `boost::cnv::by_default` is defined simply as:
 
-[default_converter_declaration]
+[default_converter_declaration_simple]
+
+or potentially with formatting:
+
+[default_converter_declaration_formatted]
 
 the code compiles and deploys `boost::cnv::cstream` when `boost::convert()` is called without an explicitly supplied converter:
 

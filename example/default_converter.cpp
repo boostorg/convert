@@ -6,7 +6,13 @@
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
 #include <boost/detail/lightweight_test.hpp>
-//[default_converter_declaration
+
+#ifdef ONLY_FOR_DEMONSTRATION_PURPOSES
+//[default_converter_declaration_simple
+struct boost::cnv::by_default : public boost::cnv::cstream {};
+//]
+#endif
+//[default_converter_declaration_formatted
 struct boost::cnv::by_default : public boost::cnv::cstream { by_default() { (*this)(std::uppercase)(std::hex); }};
 //]
 //[default_converter_headers1
