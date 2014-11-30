@@ -259,33 +259,23 @@ test_user_string()
     //]
 }
 
-void
-operator>>(change const& in, boost::optional<std::string>& out)
-{
-    out = std::string(in.value() == change::up ? "up" : in.value() == change::dn ? "dn" : "no");
-}
-
-void
-operator>>(std::string const& in, boost::optional<change>& out)
-{
-    /**/ if (in == "up") out = change::up;
-    else if (in == "dn") out = change::dn;
-    else if (in == "no") out = change::no;
-}
-
 static
 void
 test_user_type()
 {
+    //[strtol_user_type
     boost::cnv::strtol cnv;
     change          up_chg = change::up;
     change          dn_chg = change::dn;
 
     BOOST_TEST(convert<std::string>(up_chg, cnv, "bad") == "up");
     BOOST_TEST(convert<std::string>(dn_chg, cnv, "bad") == "dn");
+    BOOST_TEST(convert<std::string>(    12, cnv, "bad") == "12");
 
     BOOST_TEST(convert<change>("up", cnv, change::no) == change::up);
     BOOST_TEST(convert<change>("dn", cnv, change::no) == change::dn);
+    BOOST_TEST(convert<   int>("12", cnv, -1) == 12);
+    //]
 }
 
 int

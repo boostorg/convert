@@ -40,7 +40,6 @@ struct change
 };
 //]
 //[change_stream_operators
-
 std::istream& operator>>(std::istream& stream, change& chg)
 {
     std::string str; stream >> str;
@@ -56,6 +55,21 @@ std::istream& operator>>(std::istream& stream, change& chg)
 std::ostream& operator<<(std::ostream& stream, change const& chg)
 {
     return stream << (chg == change::up ? "up" : chg == change::dn ? "dn" : "no");
+}
+//]
+//[change_convert_operators
+void
+operator>>(change const& chg, boost::optional<std::string>& str)
+{
+    str = std::string(chg.value() == change::up ? "up" : chg.value() == change::dn ? "dn" : "no");
+}
+
+void
+operator>>(std::string const& str, boost::optional<change>& chg)
+{
+    /**/ if (str == "up") chg = change::up;
+    else if (str == "dn") chg = change::dn;
+    else if (str == "no") chg = change::no;
 }
 //]
 //[direction_declaration

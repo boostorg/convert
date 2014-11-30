@@ -116,7 +116,7 @@ For example,
 [change_declaration]
 [change_stream_operators]
 
-That allows handling conversions of user-defined types with plugged-in `boost::cnv::cstream` converter:
+That allows handling conversions of user-defined types with `boost::cnv::cstream` converter:
 
 [stream_example6]
 

@@ -259,7 +259,7 @@ main(int argc, char const* argv[])
            local::to_str<std::string, int>(boost::cnv::cstream()),
            local::to_str<  my_string, int>(boost::cnv::cstream()));
     //]
-    printf("str-to-int: spirit/strtoi/lcast/scanf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
+    printf("str-to-int: spirit/strtol/lcast/scanf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
            local::str_to<int>(boost::cnv::spirit()),
            local::str_to<int>(boost::cnv::strtol()),
            local::str_to<int>(boost::cnv::lexical_cast()),
@@ -271,38 +271,40 @@ main(int argc, char const* argv[])
            local::str_to<long int>(boost::cnv::lexical_cast()),
            local::str_to<long int>(boost::cnv::printf()),
            local::str_to<long int>(boost::cnv::cstream()));
-    printf("str-to-dbl: spirit/strtod/lcast/scanf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
+    printf("str-to-dbl: spirit/strtol/lcast/scanf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
            local::str_to<double>(boost::cnv::spirit()),
            local::str_to<double>(boost::cnv::strtol()),
            local::str_to<double>(boost::cnv::lexical_cast()),
            local::str_to<double>(boost::cnv::printf()),
            local::str_to<double>(boost::cnv::cstream()));
 
-    printf("int-to-str: spirit/itostr/lcast/prntf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
+    printf("int-to-str: spirit/strtol/lcast/prntf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
            local::to_str<std::string, int>(boost::cnv::spirit()),
            local::to_str<std::string, int>(boost::cnv::strtol()),
            local::to_str<std::string, int>(boost::cnv::lexical_cast()),
            local::to_str<std::string, int>(boost::cnv::printf()),
            local::to_str<std::string, int>(boost::cnv::cstream()));
-    printf("lng-to-str: spirit/ltostr/lcast/prntf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
+    printf("lng-to-str: spirit/strtol/lcast/prntf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
            local::to_str<std::string, long int>(boost::cnv::spirit()),
            local::to_str<std::string, long int>(boost::cnv::strtol()),
            local::to_str<std::string, long int>(boost::cnv::lexical_cast()),
            local::to_str<std::string, long int>(boost::cnv::printf()),
            local::to_str<std::string, long int>(boost::cnv::cstream()));
-    printf("dbl-to-str: spirit/dtostr/lcast/prntf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
+    printf("dbl-to-str: spirit/strtol/lcast/prntf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
            local::to_str<std::string, double>(boost::cnv::spirit()),
            local::to_str<std::string, double>(boost::cnv::strtol()(arg::precision = 6)),
            local::to_str<std::string, double>(boost::cnv::lexical_cast()),
            local::to_str<std::string, double>(boost::cnv::printf()(arg::precision = 6)),
            local::to_str<std::string, double>(boost::cnv::cstream()(arg::precision = 6)));
 
-    printf("str-to-user-type: lcast/stream=%.2f/%.2f seconds.\n",
+    printf("str-to-user-type: lcast/stream/strtol=%.2f/%.2f/%.2f seconds.\n",
            performance_str_to_type(boost::cnv::lexical_cast()),
-           performance_str_to_type(boost::cnv::cstream()));
-    printf("user-type-to-str: lcast/stream=%.2f/%.2f seconds.\n",
+           performance_str_to_type(boost::cnv::cstream()),
+           performance_str_to_type(boost::cnv::strtol()));
+    printf("user-type-to-str: lcast/stream/strtol=%.2f/%.2f/%.2f seconds.\n",
            performance_type_to_str(boost::cnv::lexical_cast()),
-           performance_type_to_str(boost::cnv::cstream()));
+           performance_type_to_str(boost::cnv::cstream()),
+           performance_type_to_str(boost::cnv::strtol()));
 
     performance_comparative(raw_str_to_int_spirit(), boost::cnv::spirit(),       "spirit");
     performance_comparative(raw_str_to_int_lxcast(), boost::cnv::lexical_cast(), "lxcast");
