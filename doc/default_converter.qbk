@@ -14,18 +14,20 @@ The necessity to explicitly specify a converter as in
  
 provides considerable flexibility and configurability. However, in certain contexts it might be tedious or even error-prone if an application relies on certain consistent behavior associated with one particular converter type. To accommodate such a scenario ['Boost.Convert] introduces the concept of the ['default converter] and deploys `boost::cnv::by_default` for the purpose. 
 
-There is no default converter set by default and, consequently, without additional configuration steps the following call will fail to compile: 
+['There is no default converter set by default] and, consequently, without additional configuration steps the following call will fail to compile: 
 
  int i = boost::convert<int>("123").value(); // No converter provided
  
-After `boost::cnv::by_default` is defined:
+After `boost::cnv::by_default` is defined as:
 
 [default_converter_declaration]
 
-the following code compiles and deploys `boost::cnv::lexical_cast` when `boost::convert()` is called without an explicitly supplied converter:
+the code compiles and deploys `boost::cnv::cstream` when `boost::convert()` is called without an explicitly supplied converter:
 
 [default_converter_headers1]
 [default_converter_example1]
+
+[note The price to pay for the convenience is the potential loss of flexibility and performance. When a converter is not provided explicitly by the user, the default converter is created, potentially configured, deployed and destroyed during every `boost::convert()` call. Consequently, if efficiency of this particular component is important, then those operations need to be cheap.]
 
 [endsect]
 

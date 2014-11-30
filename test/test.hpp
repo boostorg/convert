@@ -53,14 +53,12 @@ std::ostream& operator<<(std::ostream& stream, change const& chg)
 }
 //]
 //[change_convert_operators
-void
-operator>>(change const& chg, boost::optional<std::string>& str)
+inline void operator>>(change const& chg, boost::optional<std::string>& str)
 {
-    str = std::string(chg.value() == change::up ? "up" : chg.value() == change::dn ? "dn" : "no");
+    str = chg.value() == change::up ? "up" : chg.value() == change::dn ? "dn" : "no";
 }
 
-void
-operator>>(std::string const& str, boost::optional<change>& chg)
+inline void operator>>(std::string const& str, boost::optional<change>& chg)
 {
     /**/ if (str == "up") chg = change::up;
     else if (str == "dn") chg = change::dn;
