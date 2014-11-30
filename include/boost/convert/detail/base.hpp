@@ -47,6 +47,14 @@ struct boost::cnv::detail::cnvbase
     typedef double                    dbl_type;
     typedef long double              ldbl_type;
 
+    // Integration of user-types via operator>>()
+    template<typename type_in, typename type_out>
+    void
+    operator()(type_in const& in, boost::optional<type_out>& out) const
+    {
+        in >> out;
+    }
+
     // Basic type to string
     BOOST_CNV_TO_STRING (  int_type v, optional<string_type>& r) const { to_str_(v, r); }
     BOOST_CNV_TO_STRING ( uint_type v, optional<string_type>& r) const { to_str_(v, r); }

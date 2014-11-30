@@ -40,13 +40,6 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
 
     using base_type::operator();
 
-    template<typename type_in, typename type_out>
-    void
-    operator()(type_in const& in, boost::optional<type_out>& out) const
-    {
-        in >> out;
-    }
-
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<   int_type>& r) const { str_to_i (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<  sint_type>& r) const { str_to_i (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<  lint_type>& r) const { str_to_i (v, r); }
