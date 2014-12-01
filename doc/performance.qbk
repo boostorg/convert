@@ -7,31 +7,27 @@
 [section:performance Performance]
 [section:converters_compared Converters Compared]
 
-The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. A few converters have been tested for string conversions to the `int`, `long int`, `double` builtin types and to a user-defined type. 
+The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. A few converters have been tested for string conversions to basic types and to a user-defined type. 
 
-In turn, the relative and absolute performance of every particular converter depends on the platform, the compiler used and the particular implementation of the underlying conversion component (`std::stream`, `printf`, ['Boost.Spirit], etc.). Consequently, the results below are only a rough guide of ['relative] performance of the mentioned converters on the tested platforms. 
+In turn, the relative and absolute performance of every particular converter depends on the platform, the compiler used and the particular implementation of the underlying conversion component (`std::stream`, `printf`, ['Boost.Spirit], etc.). Consequently, the results below are only an approximate indication of ['relative] performance of the mentioned converters on the tested platforms. 
 
 Compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 tests produced the following relative results:
 
  str-to-int: spirit/strtol/lcast/scanf/stream=   2.06/   2.90/   5.58/  10.96/  11.93 seconds.
- str-to-lng: spirit/strtol/lcast/scanf/stream=   2.32/   3.52/   7.05/  10.86/  11.71 seconds.
  str-to-dbl: spirit/strtol/lcast/scanf/stream=   2.39/   6.37/   8.60/  18.37/  24.19 seconds.
  int-to-str: spirit/strtol/lcast/prntf/stream=   8.99/   8.34/  10.95/  15.53/  12.29 seconds.
- lng-to-str: spirit/strtol/lcast/prntf/stream=   9.10/   8.96/  11.16/  15.70/  12.16 seconds.
  dbl-to-str: spirit/strtol/lcast/prntf/stream=  24.05/  15.62/  69.23/  53.73/  59.27 seconds.
  
 Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following relative results:
 
  str-to-int: spirit/strtol/lcast/scanf/stream=   0.29/   0.47/   1.14/   2.75/   3.15 seconds.
- str-to-lng: spirit/strtol/lcast/scanf/stream=   0.24/   0.72/   1.54/   2.73/   3.23 seconds.
  str-to-dbl: spirit/strtol/lcast/scanf/stream=   0.40/   1.44/   1.70/   4.32/   5.59 seconds.
  int-to-str: spirit/strtol/lcast/prntf/stream=   1.75/   1.53/   2.06/   3.34/   2.73 seconds.
- lng-to-str: spirit/strtol/lcast/prntf/stream=   1.91/   1.63/   2.19/   3.39/   2.77 seconds.
  dbl-to-str: spirit/strtol/lcast/prntf/stream=   5.64/   3.00/  17.89/  14.24/  13.67 seconds.
 
 Based on the results we might conclude that
 
-* the ['Spirit.Qi]-based converter was the fastest for string to `int`, `long` and `double` conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions; ['Spirit.Karma]'s ['to-string] performance was not as impressive;
+* the ['Spirit.Qi]-based converter was the fastest for string to basic (`int`, `double`) conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions; ['Spirit.Karma]'s ['to-string] performance was not as impressive;
 * the `std::stream`-based and the `printf/scanf`-based converters were consistently the slowest. Still, given their maturity and availability, they might be options to consider if conversion performance is not your primary concern;
 * the `strtol`-inspired converter was reasonably fast and with basic formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream`. So, bugs are to be expected.
 
@@ -40,20 +36,12 @@ For user-defined types three converters -- `boost::cnv::lexical_cast`, `std::cnv
  str-to-user-type: lcast/stream/strtol=1.14/0.59/0.23 seconds.
  user-type-to-str: lcast/stream/strtol=1.97/0.39/0.24 seconds.
 
-To provide ['string-to-type] and ['type-to-string] conversions the first two deploy the same `std::stream` conversion engine. Both provide extendible conversion framework where new types can be plugged in to the framework via:
+To provide ['string-to-type] and ['type-to-string] conversions the first two deploy the same standard `std::iostream` library. Unfortunately that comes at a price as `std::iostream`-based conversions of the basic (`int`, etc.) types are comparatively slow. To address that `boost::lexical_cast` implementation has been optimized to avoid `std::stream` for basic types and ['Boost.Convert] addresses that "optimization" need via pluggable converters. Consequently, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['Spirit], `std::to_string/std::stoi`, `strtol`, `boost::lexical_cast` (directly or via the ['Boost.Convert] framework) might be an option to explore.
 
- std::istream& operator>>(std::istream&, TypeOut&);
- std::ostream& operator<<(std::ostream&, TypeIn const&);
+For user-defined types though the `boost::cnv::cstream` converter seems to consistently outperform `boost::lexical_cast` in the tests. These results probably reflect different underlying designs. Namely,
+the standard ['Boost.Convert] deployment pattern is to create a converter or converters once and then re-use them. In turn, `boost::lexical_cast` also deploys the `std::stream` engine for user-defined types. However, due to its design `boost::lexical_cast` creates and then destroys a `std::stream` instance every time the function is called and the [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html `boost::lexical_cast` performance] table indicates that the "std::stringstream ['with construction]" operation is considerably more expensive compared to "std::stringstream ['without construction]".
 
-Unfortunately that extendibility comes at a price as `std::iostream`-based conversions of the basic (`int`, etc.) types are comparatively slow. To address that `boost::lexical_cast` implementation has been optimized to avoid `std::stream` for basic types and ['Boost.Convert] addresses that "optimization" need via pluggable converters. Consequently, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['Spirit], `std::to_string/std::stoi`, `strtol`, `boost::lexical_cast` (directly or via the ['Boost.Convert] framework) might be an option to explore.
-
-For user-defined types though the `boost::cnv::cstream` converter seems to consistently outperform `boost::lexical_cast` in the tests. These results probably reflect different underlying designs.
-
-The standard ['Boost.Convert] deployment pattern is to create a converter or converters once and then re-use them. In turn, `boost::lexical_cast` also deploys the `std::stream` engine for user-defined types. However, due to its design `boost::lexical_cast` creates and then destroys a `std::stream` instance every time the function is called and the [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html `boost::lexical_cast` performance] table indicates that the "std::stringstream ['with construction]" operation is considerably more expensive compared to "std::stringstream ['without construction]".
-
-`boost::cnv::strtol` support for user types has been implemented similarly but without the `std::stream`-related overhead. Namely, new types can be plugged in to the framework via:
-
- void operator>>(TypeIn const&, boost::optional<TypeOut>&);
+`boost::cnv::strtol` support for user types has been implemented similarly but without the `std::stream`-related overhead. That resulted in the best out-of-three performance results.
 
 Based on the performance data, I tend to conclude that, given type-safety and benefits provided by the ['Boost.Convert] framework, it (with appropriate converters) should probably be the first choice for conversion-related tasks.
 
@@ -117,7 +105,7 @@ It produced the following relative results (compiled with `gcc -O3`):
  spirit int-to std::string/small-string: 8.73/2.81 seconds.
  stream int-to std::string/small-string: 12.46/6.94 seconds.
 
-The results demonstrate that for the projects that deal with string conversions and routinely deploy `std::string` facilities the conversion-related overhead will be outweighed (or at least offset as in the case of `boost::cnv::cstream`) by the overhead of `std::string`-related operations.
+The results demonstrate that for the projects that deal with string-related conversions and routinely deploy `std::string` facilities the conversion-related overhead will be outweighed (or at least offset as in the case of `boost::cnv::cstream`) by the overhead of `std::string`-related operations.
 
 [endsect]
 [endsect]

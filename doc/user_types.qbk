@@ -27,21 +27,21 @@ For example,
 [change_declaration]
 [change_stream_operators]
 
-That allows handling conversions of user-defined types with ['`std::iostream`]-based ['`boost::cnv::cstream`] and ['`boost::cnv::lexical_cast`] converters:
+That allows handling conversions of user-defined types with ['`std::iostream`]-based `boost::cnv::cstream` and `boost::cnv::lexical_cast` converters:
 
 [stream_example6]
 
 [heading ['boost::cnv::strtol] and the Like]
 
-In other converters (all based on `boost::cnv::cnvbase`) support for user types has been implemented similarly but without the `std::iostream`-related overhead (see user-types-related part of the [link boost_convert.performance.converters_compared Converters Compared] section). Namely, new types can be plugged in to the framework via:
+In other converters (all based on `boost::cnv::cnvbase`) support for user types has been implemented similarly but without the ['`std::iostream`]-related overhead (see user-types-related part of the [link boost_convert.performance.converters_compared Converters Compared] section). Namely, new types can be plugged in to the framework via:
 
  void operator>>(TypeIn const&, boost::optional<TypeOut>&);
 
-For example, the mentioned ['`change`] class is deployed with ['`boost::cnv::strol`] after the following:
+For example, the mentioned ['`change`] class is deployed with `boost::cnv::strol` after the following:
 
 [change_convert_operators]
 
-That allows handling conversions of user-defined types with ['`boost::cnv::strtol`]:
+That allows handling conversions of user-defined types with `boost::cnv::strtol`:
 
 [strtol_user_type]
 
