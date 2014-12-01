@@ -155,7 +155,7 @@ example5()
 {
 //[algorithm_example5
     /*`And now an example of algorithm-based integer-to-string formatted conversion with
-       `std::hex`, `std::uppercase` and `std::showbase` formatting applied:
+       ['`std::hex`], ['`std::uppercase`] and ['`std::showbase`] formatting applied:
     */
     boost::array<int, 3>     ints = {{ 15, 16, 17 }};
     std::vector<std::string> strs;

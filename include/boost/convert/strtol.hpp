@@ -5,7 +5,7 @@
 #ifndef BOOST_CONVERT_STRTOL_CONVERTER_HPP
 #define BOOST_CONVERT_STRTOL_CONVERTER_HPP
 
-#include <boost/convert/detail/base.hpp>
+#include <boost/convert/base.hpp>
 #include <boost/type_traits/make_unsigned.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <limits>
@@ -21,7 +21,7 @@ namespace boost { namespace cnv
 /// @brief std::strtol-based extended converter
 /// @details The converter offers a fairly decent overall performance and moderate formatting facilities.
 
-struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strtol>
+struct boost::cnv::strtol : public boost::cnv::cnvbase<boost::cnv::strtol>
 {
     // C2. Old C-strings have an advantage over [begin, end) ranges. They do not need the 'end' iterator!
     //     Instead, they provide a sentinel (0 terminator). Consequently, C strings can be traversed
@@ -36,9 +36,13 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     //         bool const     good = ... && cnv_end == str_end;
 
     typedef boost::cnv::strtol                     this_type;
-    typedef boost::cnv::detail::cnvbase<this_type> base_type;
+    typedef boost::cnv::cnvbase<this_type> base_type;
 
     using base_type::operator();
+
+    private:
+
+    friend struct boost::cnv::cnvbase<this_type>;
 
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<   int_type>& r) const { str_to_i (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<  sint_type>& r) const { str_to_i (v, r); }
@@ -53,8 +57,6 @@ struct boost::cnv::strtol : public boost::cnv::detail::cnvbase<boost::cnv::strto
     template <typename char_type> cnv::range<char_type*> to_str ( int_type v, char_type* buf) const { return i_to_str(v, buf); }
     template <typename char_type> cnv::range<char_type*> to_str (lint_type v, char_type* buf) const { return i_to_str(v, buf); }
     template <typename char_type> cnv::range<char_type*> to_str ( dbl_type v, char_type* buf) const;
-
-    private:
 
     template<typename char_type, typename in_type> cnv::range<char_type*> i_to_str (in_type, char_type*) const;
     template<typename string_type, typename out_type> void                str_to_i (cnv::range<string_type>, optional<out_type>&) const;

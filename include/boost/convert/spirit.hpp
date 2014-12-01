@@ -5,7 +5,7 @@
 #ifndef BOOST_CONVERT_SPIRIT_BASED_CONVERTER_HPP
 #define BOOST_CONVERT_SPIRIT_BASED_CONVERTER_HPP
 
-#include <boost/convert/detail/base.hpp>
+#include <boost/convert/base.hpp>
 #include <boost/convert/detail/forward.hpp>
 #include <boost/spirit/include/qi_parse.hpp>
 #include <boost/spirit/include/qi_numeric.hpp>
@@ -29,10 +29,10 @@ namespace boost { namespace cnv
     }
 }}
 
-struct boost::cnv::spirit : public boost::cnv::detail::cnvbase<boost::cnv::spirit>
+struct boost::cnv::spirit : public boost::cnv::cnvbase<boost::cnv::spirit>
 {
     typedef boost::cnv::spirit                     this_type;
-    typedef boost::cnv::detail::cnvbase<this_type> base_type;
+    typedef boost::cnv::cnvbase<this_type> base_type;
 
     using base_type::operator();
 

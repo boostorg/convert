@@ -10,13 +10,12 @@
 #include <cctype>
 #include <cstring>
 
-namespace boost { namespace cnv { namespace detail
+namespace boost { namespace cnv
 {
-    using boost::parameter::aux::tag;
     namespace ARG = boost::cnv::parameter;
 
     template<typename> struct cnvbase;
-}}}
+}}
 
 #define BOOST_CNV_TO_STRING                                             \
     template<typename string_type>                                      \
@@ -29,10 +28,10 @@ namespace boost { namespace cnv { namespace detail
     operator()
 
 #define BOOST_CNV_PARAM(param_name, param_type)                         \
-    derived_type& operator()(tag<ARG::type::param_name, param_type>::type const& arg)
+    derived_type& operator()(boost::parameter::aux::tag<ARG::type::param_name, param_type>::type const& arg)
 
 template<typename derived_type>
-struct boost::cnv::detail::cnvbase
+struct boost::cnv::cnvbase
 {
     typedef cnvbase                  this_type;
     typedef int                       int_type;

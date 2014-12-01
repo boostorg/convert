@@ -6,7 +6,7 @@
 
 [import ../example/lexical_cast.cpp]
 
-[section:lexical_cast_converter boost::cnv::lexical_cast Converter]
+[section:lexical_cast_converter ['boost::cnv::lexical_cast] Converter]
 
 The purpose of the converter is to
 

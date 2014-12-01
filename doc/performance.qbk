@@ -35,17 +35,17 @@ Based on the results we might conclude that
 * the `std::stream`-based and the `printf/scanf`-based converters were consistently the slowest. Still, given their maturity and availability, they might be options to consider if conversion performance is not your primary concern;
 * the `strtol`-inspired converter was reasonably fast and with basic formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream`. So, bugs are to be expected.
 
-For user-defined types three converters -- `boost::cnv::lexical_cast`, `std::cnv::cstream` and `boost::cnv::strtol` -- were tested with the following results:
+For user-defined types three converters -- `boost::cnv::lexical_cast`, `std::cnv::cstream` and `boost::cnv::strtol` -- were tested with the following relative results:
 
- str-to-user-type: lcast/stream/strtol=1.91/0.94/0.41 seconds.
- user-type-to-str: lcast/stream/strtol=3.24/0.63/0.50 seconds.
+ str-to-user-type: lcast/stream/strtol=1.14/0.59/0.23 seconds.
+ user-type-to-str: lcast/stream/strtol=1.97/0.39/0.24 seconds.
 
 To provide ['string-to-type] and ['type-to-string] conversions the first two deploy the same `std::stream` conversion engine. Both provide extendible conversion framework where new types can be plugged in to the framework via:
 
  std::istream& operator>>(std::istream&, TypeOut&);
  std::ostream& operator<<(std::ostream&, TypeIn const&);
 
-Unfortunately that extendibility comes at a price as `std::stream`-based conversions of the basic (`int`, etc.) types are comparatively slow. To address that `boost::lexical_cast` implementation has been optimized to avoid `std::stream` for basic types and ['Boost.Convert] addresses that "optimization" need via pluggable converters. Consequently, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['Spirit], `std::to_string/std::stoi`, `strtol`, `boost::lexical_cast` (directly or via the ['Boost.Convert] framework) might be an option to explore.
+Unfortunately that extendibility comes at a price as `std::iostream`-based conversions of the basic (`int`, etc.) types are comparatively slow. To address that `boost::lexical_cast` implementation has been optimized to avoid `std::stream` for basic types and ['Boost.Convert] addresses that "optimization" need via pluggable converters. Consequently, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['Spirit], `std::to_string/std::stoi`, `strtol`, `boost::lexical_cast` (directly or via the ['Boost.Convert] framework) might be an option to explore.
 
 For user-defined types though the `boost::cnv::cstream` converter seems to consistently outperform `boost::lexical_cast` in the tests. These results probably reflect different underlying designs.
 

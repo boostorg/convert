@@ -4,13 +4,13 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section:return_value Alternative Interface]
+[section Alternative Interface]
 
 As it was indicated previously [@boost:/libs/optional/index.html `boost::optional`] is the actual type returned by `boost::convert()`:
 
  boost::optional<TypeOut> boost::convert(TypeIn const&, Converter const&);
 
-The signature is ['functionally-complete] and is the most efficient in deploying the underlying converter. That said, the following alternative interface might be potentially more suitable
+The signature is ['functionally-complete], routinely elided during compilation and is the most efficient in deploying the underlying converter. That said, the following alternative (and arguably more conventional) interface might be potentially more suitable
 for certain deployment scenarios (or due to personal preferences):
 
  TypeOut convert(TypeIn const&, Converter const&, TypeOut const& fallback_value);
@@ -27,7 +27,7 @@ Still, the described interfaces are convenience wrappers around the main interfa
 
 [getting_serious_example8]
 
-or
+or with the default converter defined:
 
 [getting_serious_default_converter]
 [getting_serious_example9]

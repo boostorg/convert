@@ -4,7 +4,7 @@
   See copy at http://www.boost.org/LICENSE_1_0.txt.
 ]
 
-[section:stream_converter boost::cnv::stream Converter]
+[section:stream_converter ['boost::cnv::stream] Converter]
 
 The purpose of the converter is to provide conversion-related formatting and locale support not available with `boost::lexical_cast`. Advantages of deploying a `std::stream`-based conversion engine are:
 
@@ -98,28 +98,6 @@ constructor can be deployed in type-to-string conversions.
 See [link boost_convert.performance.the_bigger_picture The Bigger Picture] chapter for the discussion of potential advantages of deploying custom strings.
 
 [endsect]
-[endsect]
-[section:integration_of_user_types Integration of User-Defined Types]
-
-As the converter uses `std::stringstream` to do actual conversions it carries over the `std::stringstream`-imposed type requirements. Namely:
-
-* ['TypeIn] needs to be ['Output Streamable];
-* ['TypeOut] needs to be ['Input Streamable];
-
-In practical terms the mechanism for integrating a user-defined type into the ['Boost.Convert] framework (for deployment with this described `std::stringstream`-based converter) should be familiar to those who worked with `boost::lexical_cast`. That is, the respective type needs to have the following operators defined:
-
- std::istream& operator>>(std::istream&, TypeOut&);
- std::ostream& operator<<(std::ostream&, TypeIn const&);
-
-For example,
-
-[change_declaration]
-[change_stream_operators]
-
-That allows handling conversions of user-defined types with `boost::cnv::cstream` converter:
-
-[stream_example6]
-
 [endsect]
 [section The ['Default Constructible] Type Requirement]
 

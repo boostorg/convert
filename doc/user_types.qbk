@@ -1,0 +1,49 @@
+[/
+  Copyright (c) Vladimir Batov 2009-2014
+  Distributed under the Boost Software License, Version 1.0.
+  See copy at http://www.boost.org/LICENSE_1_0.txt.
+]
+
+[import ../test/strtol_converter.cpp]
+
+[section:integration_of_user_types Integration of User-Defined Types]
+
+Strictly speaking, the integration and support of user-defined types is every converter's private business. Every converter is free to implement its own (or re-use an existing) user-type-integration mechanism. 
+
+[heading ['boost::cnv::stream] and the Like]
+
+Unsurprisingly, the converters based on the ['`std::iostream`] library use the mechanism introduced and supported by that library. That is, the respective user-defined type needs to have the following operators defined:
+
+ std::istream& operator>>(std::istream&, Type&);       // For input
+ std::ostream& operator<<(std::ostream&, Type const&); // For output
+
+or, when expressed in the form of requirements,
+
+* for output ['Type] needs to be ['Output Streamable];
+* for input ['Type] needs to be ['Input Streamable];
+
+For example,
+
+[change_declaration]
+[change_stream_operators]
+
+That allows handling conversions of user-defined types with ['`std::iostream`]-based ['`boost::cnv::cstream`] and ['`boost::cnv::lexical_cast`] converters:
+
+[stream_example6]
+
+[heading ['boost::cnv::strtol] and the Like]
+
+In other converters (all based on `boost::cnv::cnvbase`) support for user types has been implemented similarly but without the `std::iostream`-related overhead (see user-types-related part of the [link boost_convert.performance.converters_compared Converters Compared] section). Namely, new types can be plugged in to the framework via:
+
+ void operator>>(TypeIn const&, boost::optional<TypeOut>&);
+
+For example, the mentioned ['`change`] class is deployed with ['`boost::cnv::strol`] after the following:
+
+[change_convert_operators]
+
+That allows handling conversions of user-defined types with ['`boost::cnv::strtol`]:
+
+[strtol_user_type]
+
+[endsect]
+

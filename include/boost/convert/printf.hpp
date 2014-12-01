@@ -5,7 +5,7 @@
 #ifndef BOOST_CONVERT_PRINTF_HPP
 #define BOOST_CONVERT_PRINTF_HPP
 
-#include <boost/convert/detail/base.hpp>
+#include <boost/convert/base.hpp>
 #include <boost/make_default.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/find.hpp>
@@ -18,10 +18,10 @@ namespace boost { namespace cnv
     struct printf;
 }}
 
-struct boost::cnv::printf : public boost::cnv::detail::cnvbase<boost::cnv::printf>
+struct boost::cnv::printf : public boost::cnv::cnvbase<boost::cnv::printf>
 {
-    typedef boost::cnv::printf                     this_type;
-    typedef boost::cnv::detail::cnvbase<this_type> base_type;
+    typedef boost::cnv::printf             this_type;
+    typedef boost::cnv::cnvbase<this_type> base_type;
 
     using base_type::operator();
 

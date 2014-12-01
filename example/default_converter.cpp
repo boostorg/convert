@@ -15,17 +15,17 @@ struct boost::cnv::by_default : public boost::cnv::cstream {};
 //[default_converter_declaration_formatted
 struct boost::cnv::by_default : public boost::cnv::cstream { by_default() { (*this)(std::uppercase)(std::hex); }};
 //]
-//[default_converter_headers1
-using std::string;
-using boost::convert;
-//]
+
 int
 main(int argc, char const* argv[])
 {
     //[default_converter_example1
     // No explicit converter provided. boost::cnv::by_default is used.
-    int    i = convert<int>("F").value();
-    string s = convert<string>(255).value();
+    int         i = boost::convert<int>("F").value_or(-1);
+    std::string s = boost::convert<std::string>(255).value_or("bad");
+
+    // 'i' and 's' are converted using boost::cnv::cstream
+    // with std::uppercase and std::hex formatting applied.
 
     BOOST_TEST(i == 15);   // 15(10) = F(16)
     BOOST_TEST(s == "FF"); // 255(10) = FF(16)

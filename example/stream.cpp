@@ -2,6 +2,9 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
+#include <boost/convert.hpp>
+#include <boost/convert/lexical_cast.hpp>
+
 //[stream_headers1
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
@@ -73,13 +76,15 @@ void
 example6()
 {
     //[stream_example6
-    boost::cnv::cstream cnv;
+    boost::cnv::cstream      cnv1;
+    boost::cnv::lexical_cast cnv2;
 
-    change up = convert<change>("up", cnv, change::no);
-    string s1 = convert<string>(up, cnv, "bad");
-    string s2 = convert<string, change>(change::dn, cnv, "bad");
+    change chg = change::up;
+    string  s1 = convert<string>(chg, cnv1, "bad");                // Input type (change) deduced
+    string  s2 = convert<string, change>(change::dn, cnv1, "bad"); // Input type (change) forced
 
-    BOOST_TEST(up == change::up);
+    BOOST_TEST(convert<change>("up", cnv1, change::no) == change::up);
+    BOOST_TEST(convert<change>("up", cnv2, change::no) == change::up);
     BOOST_TEST(s1 == "up");
     BOOST_TEST(s2 == "dn");
     //]
