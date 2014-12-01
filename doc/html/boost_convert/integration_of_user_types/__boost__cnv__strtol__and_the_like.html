@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<title>boost::cnv::strtol and the Like</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
+<link rel="up" href="../integration_of_user_types.html" title="Integration of User-Defined Types">
+<link rel="prev" href="../integration_of_user_types.html" title="Integration of User-Defined Types">
+<link rel="next" href="../algorithms.html" title="Boost.Convert with Standard Algorithms">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="spirit-nav">
+<a accesskey="p" href="../integration_of_user_types.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../integration_of_user_types.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="../algorithms.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+<div class="section">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="boost_convert.integration_of_user_types.__boost__cnv__strtol__and_the_like"></a><a class="link" href="__boost__cnv__strtol__and_the_like.html" title="boost::cnv::strtol and the Like"><span class="emphasis"><em>boost::cnv::strtol</em></span>
+      and the Like</a>
+</h3></div></div></div>
+<p>
+        In other converters (all based on <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cnvbase</span></code>) support for user types has been
+        implemented similarly but without the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">iostream</span></code>-related
+        overhead (see user-types-related part of the <a class="link" href="../performance.html#boost_convert.performance.converters_compared" title="Converters Compared">Converters
+        Compared</a> section). Namely, new types can be plugged in to the framework
+        via:
+      </p>
+<pre class="programlisting"><span class="keyword">void</span> <span class="keyword">operator</span><span class="special">&gt;&gt;(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">&gt;&amp;);</span>
+</pre>
+<p>
+        For example, the mentioned <span class="emphasis"><em><code class="computeroutput"><span class="identifier">change</span></code></em></span>
+        class is deployed with <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strol</span></code></em></span> after having the following
+        defined:
+      </p>
+<p>
+</p>
+<pre class="programlisting"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="keyword">operator</span><span class="special">&gt;&gt;(</span><span class="identifier">change</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">chg</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;&amp;</span> <span class="identifier">str</span><span class="special">)</span>
+<span class="special">{</span>
+    <span class="identifier">str</span> <span class="special">=</span> <span class="identifier">chg</span><span class="special">.</span><span class="identifier">value</span><span class="special">()</span> <span class="special">==</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">up</span> <span class="special">?</span> <span class="string">"up"</span> <span class="special">:</span> <span class="identifier">chg</span><span class="special">.</span><span class="identifier">value</span><span class="special">()</span> <span class="special">==</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">dn</span> <span class="special">?</span> <span class="string">"dn"</span> <span class="special">:</span> <span class="string">"no"</span><span class="special">;</span>
+<span class="special">}</span>
+
+<span class="keyword">inline</span> <span class="keyword">void</span> <span class="keyword">operator</span><span class="special">&gt;&gt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">str</span><span class="special">,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">change</span><span class="special">&gt;&amp;</span> <span class="identifier">chg</span><span class="special">)</span>
+<span class="special">{</span>
+    <span class="comment">/**/</span> <span class="keyword">if</span> <span class="special">(</span><span class="identifier">str</span> <span class="special">==</span> <span class="string">"up"</span><span class="special">)</span> <span class="identifier">chg</span> <span class="special">=</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">up</span><span class="special">;</span>
+    <span class="keyword">else</span> <span class="keyword">if</span> <span class="special">(</span><span class="identifier">str</span> <span class="special">==</span> <span class="string">"dn"</span><span class="special">)</span> <span class="identifier">chg</span> <span class="special">=</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">dn</span><span class="special">;</span>
+    <span class="keyword">else</span> <span class="keyword">if</span> <span class="special">(</span><span class="identifier">str</span> <span class="special">==</span> <span class="string">"no"</span><span class="special">)</span> <span class="identifier">chg</span> <span class="special">=</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">no</span><span class="special">;</span>
+<span class="special">}</span>
+</pre>
+<p>
+      </p>
+<p>
+        That allows handling conversions of user-defined types with <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span></code>
+        converter:
+      </p>
+<p>
+</p>
+<pre class="programlisting"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span> <span class="identifier">cnv</span><span class="special">;</span>
+<span class="identifier">change</span>          <span class="identifier">up_chg</span> <span class="special">=</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">up</span><span class="special">;</span>
+<span class="identifier">change</span>          <span class="identifier">dn_chg</span> <span class="special">=</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">dn</span><span class="special">;</span>
+
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="identifier">up_chg</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="string">"bad"</span><span class="special">)</span> <span class="special">==</span> <span class="string">"up"</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="identifier">dn_chg</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="string">"bad"</span><span class="special">)</span> <span class="special">==</span> <span class="string">"dn"</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">string</span><span class="special">&gt;(</span>    <span class="number">12</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="string">"bad"</span><span class="special">)</span> <span class="special">==</span> <span class="string">"12"</span><span class="special">);</span>
+
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">change</span><span class="special">&gt;(</span><span class="string">"up"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">no</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">up</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">change</span><span class="special">&gt;(</span><span class="string">"dn"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">no</span><span class="special">)</span> <span class="special">==</span> <span class="identifier">change</span><span class="special">::</span><span class="identifier">dn</span><span class="special">);</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">convert</span><span class="special">&lt;</span>   <span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"12"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="special">-</span><span class="number">1</span><span class="special">)</span> <span class="special">==</span> <span class="number">12</span><span class="special">);</span>
+</pre>
+<p>
+      </p>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2009-2014 Vladimir Batov<p>
+        Distributed under the Boost Software License, Version 1.0. See copy at <a href="http://www.boost.org/LICENSE_1_0.txt" target="_top">http://www.boost.org/LICENSE_1_0.txt</a>.
+      </p>
+</div></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../integration_of_user_types.html"><img src="../../images/prev.png" alt="Prev"></a><a accesskey="u" href="../integration_of_user_types.html"><img src="../../images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../images/home.png" alt="Home"></a><a accesskey="n" href="../algorithms.html"><img src="../../images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

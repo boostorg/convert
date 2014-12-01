@@ -6,12 +6,12 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
-<link rel="prev" href="return_value.html" title="Alternative Interface">
+<link rel="prev" href="integration_of_user_types.html" title="Integration of User-Defined Types">
 <link rel="next" href="converters.html" title="Converters">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <div class="spirit-nav">
-<a accesskey="p" href="return_value.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="converters.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="integration_of_user_types.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="converters.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 <div class="section">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
@@ -127,8 +127,8 @@
 </table></div>
 <p>
       And now an example of algorithm-based integer-to-string formatted conversion
-      with <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span></code>, <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">uppercase</span></code>
-      and <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">showbase</span></code> formatting applied:
+      with <span class="emphasis"><em><code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span></code></em></span>, <span class="emphasis"><em><code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">uppercase</span></code></em></span>
+      and <span class="emphasis"><em><code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">showbase</span></code></em></span> formatting applied:
     </p>
 <p>
 </p>
@@ -149,7 +149,7 @@
 <p>
     </p>
 <p>
-      So far it was sufficient to supply only one type to <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">apply</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">&gt;</span></code>
+      So far it was sufficient to supply only one type to <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">apply</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">&gt;</span></code></em></span>
       -- the target <span class="emphasis"><em>TypeOut</em></span> type. The source <span class="emphasis"><em>TypeIn</em></span>
       type has been provided implicitly through the algorithm and often it all just
       works (as the examples above demonstrate). However, at times more control is
@@ -159,14 +159,11 @@
 <p>
       The following example demonstrates an interesting potential problem related
       to the <span class="emphasis"><em><code class="computeroutput"><span class="identifier">change</span></code></em></span>
-      class (see <a class="link" href="converters/stream_converter/integration_of_user_types.html" title="Integration of User-Defined Types"><code class="computeroutput"><span class="identifier">change</span></code> declaration</a>). The class is
-      essentially a glorified <code class="computeroutput"><span class="keyword">enum</span></code>,
-      a user-friendly (and safer in the C++03 world) convenience wrapper around the
-      actual <code class="computeroutput"><span class="keyword">enum</span> <span class="identifier">value_type</span>
+      class introduced in <a class="link" href="integration_of_user_types.html" title="Integration of User-Defined Types">Integration
+      of User-Defined Types</a>. The class is essentially a glorified <span class="emphasis"><em><code class="computeroutput"><span class="keyword">enum</span></code></em></span>, a user-friendly (and safer
+      in the C++03 world) convenience wrapper around the actual <span class="emphasis"><em><code class="computeroutput"><span class="keyword">enum</span> <span class="identifier">value_type</span>
       <span class="special">{</span> <span class="identifier">no</span><span class="special">,</span> <span class="identifier">up</span><span class="special">,</span>
-      <span class="identifier">dn</span> <span class="special">}</span></code>.
-    </p>
-<p>
+      <span class="identifier">dn</span> <span class="special">}</span></code></em></span>.
       In particular, an array of <span class="emphasis"><em><code class="computeroutput"><span class="identifier">change</span></code></em></span>
       values (<code class="computeroutput"><span class="identifier">chgs1</span></code>) sensibly converts
       to readable "no", "up" and "dn" strings (<code class="computeroutput"><span class="identifier">strs1</span></code>) when an array of <span class="emphasis"><em><code class="computeroutput"><span class="identifier">change</span><span class="special">::</span><span class="identifier">value_type</span></code></em></span> values (<code class="computeroutput"><span class="identifier">chgs2</span></code>) converts to obscure "0",
@@ -200,9 +197,10 @@
 <p>
     </p>
 <p>
-      The explicit <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">apply</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">,</span> <span class="identifier">TypeIn</span><span class="special">&gt;</span></code> comes to the rescue and converts the array
-      of <code class="computeroutput"><span class="identifier">change</span><span class="special">::</span><span class="identifier">value_type</span></code> values (<code class="computeroutput"><span class="identifier">chgs2</span></code>)
-      to sensible "no", "up" and "dn" (<code class="computeroutput"><span class="identifier">strs3</span></code>):
+      The explicit <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">apply</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">,</span> <span class="identifier">TypeIn</span><span class="special">&gt;</span></code></em></span>
+      comes to the rescue and converts the array of <span class="emphasis"><em><code class="computeroutput"><span class="identifier">change</span><span class="special">::</span><span class="identifier">value_type</span></code></em></span>
+      values (<code class="computeroutput"><span class="identifier">chgs2</span></code>) to sensible
+      "no", "up" and "dn" (<code class="computeroutput"><span class="identifier">strs3</span></code>):
     </p>
 <p>
 </p>
@@ -240,7 +238,7 @@
 </tr></table>
 <hr>
 <div class="spirit-nav">
-<a accesskey="p" href="return_value.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="converters.html"><img src="../images/next.png" alt="Next"></a>
+<a accesskey="p" href="integration_of_user_types.html"><img src="../images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../images/home.png" alt="Home"></a><a accesskey="n" href="converters.html"><img src="../images/next.png" alt="Next"></a>
 </div>
 </body>
 </html>
