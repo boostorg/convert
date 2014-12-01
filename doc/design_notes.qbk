@@ -7,6 +7,8 @@
 [#quickbook.ref.design_notes]
 [section:design_notes Design Notes]
 
+[:[*['"The art of simplicity is a puzzle of complexity” Doug Horton]]]
+
 Feel free to skip this section. It is here to document the process and the decisions made during design to be able to review and to reevaluate and to ensure the relevancy and the correctness of those decisions and ultimately the design. Still, this section might be useful for understanding why and how certain decisions have been made and why ['Boost.Convert] is the way it is.
 
 [section Requirements]

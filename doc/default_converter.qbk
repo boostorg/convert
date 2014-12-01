@@ -12,9 +12,9 @@ The explicitly provided converter as in
 
  int i = boost::convert<int>("123", converter).value();
  
-provides considerable flexibility, configurability and efficiency. However, in certain contexts that might be tedious or even error-prone if an application relies on certain consistent behavior associated with one particular converter type and configuration. To accommodate such a scenario ['Boost.Convert] introduces the concept of the ['default converter] and deploys `boost::cnv::by_default` for the purpose. 
+provides considerable flexibility, configurability and efficiency. However, in certain contexts that might be unnecessarily tedious or even error-prone if, for example, an application relies on certain consistent behavior associated with one particular converter type and configuration. To accommodate such a scenario ['Boost.Convert] introduces the concept of the ['default converter] and deploys `boost::cnv::by_default` for the purpose. 
 
-There is ['no default converter] set ['by default] and, consequently, without additional configuration steps the following call will fail to compile: 
+['There is no default converter set ['by default] and, consequently, without additional configuration steps the following call will fail to compile: 
 
  int i = boost::convert<int>("123").value(); // No converter provided
  
@@ -30,7 +30,7 @@ the code compiles and deploys `boost::cnv::cstream` when `boost::convert()` is c
 
 [default_converter_example1]
 
-The trade-off for the convenience is the lack of run-time converter configurability (which in certain contexts might be the desired behavior) and potentially performance impact. When a converter is not provided explicitly, the default converter is created, potentially configured, deployed and destroyed for every `boost::convert()` call. Consequently, if efficiency of this particular component is important, then the implementation of `boost::cnv::by_default` will need to take that into account and to make sure those operations cheap.
+The trade-off for the convenience is the rigid converter configuration (which in certain contexts might be the desired behavior) and potentially performance impact. When a converter is not provided explicitly, the default converter is created, potentially configured, deployed and destroyed for every `boost::convert()` call. Consequently, if efficiency of this particular component is important, then the implementation of `boost::cnv::by_default` will need to take that into account and to make sure those operations are cheap.
 
 [endsect]
 

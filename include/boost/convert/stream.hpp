@@ -33,10 +33,10 @@ struct boost::cnv::basic_stream : boost::noncopyable
 {
     // C01. In string-to-type conversions the "string" must be a CONTIGUOUS ARRAY of
     //      characters because "ibuffer_type" uses/relies on that (it deals with char_type*).
-    // C11. Use the provided "string_in" as the input (read-from) buffer and, consequently,
+    // C02. Use the provided "string_in" as the input (read-from) buffer and, consequently,
     //      avoid the overhead associated with stream_.str(string_in) --
     //      copying of the content into internal buffer.
-    // C12. The "strbuf.gptr() != strbuf.egptr()" check replaces "istream.eof() != true"
+    // C03. The "strbuf.gptr() != strbuf.egptr()" check replaces "istream.eof() != true"
     //      which for some reason does not work when we try converting the "true" string
     //      to "bool" with std::boolalpha set. Seems that istream state gets unsynced compared
     //      to the actual underlying buffer.
@@ -177,14 +177,14 @@ boost::cnv::basic_stream<char_type>::str_to(
     buffer_type*   oldbuf = istream.rdbuf();
     char_type const*  beg = &*string_in.begin();
     std::size_t        sz = string_in.end() - string_in.begin();
-    ibuffer_type   newbuf (beg, sz); //C11
+    ibuffer_type   newbuf (beg, sz); //C02
 
     istream.rdbuf(&newbuf);
     istream.clear(); // Clear the flags
 
     istream >> *(result_out = boost::make_default<out_type>());
 
-    if (istream.fail() || newbuf.gptr() != newbuf.egptr()/*C12*/)
+    if (istream.fail() || newbuf.gptr() != newbuf.egptr()/*C03*/)
         result_out = boost::none;
 
     istream.rdbuf(oldbuf);

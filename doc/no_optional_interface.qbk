@@ -6,7 +6,9 @@
 
 [section Alternative Interface]
 
-As it was indicated previously [@boost:/libs/optional/index.html `boost::optional`] is the actual type returned by `boost::convert()`:
+[:[*['"It's not a question of happiness, it's a requirement. Consider the alternative” Doug Horton]]]
+
+As it was indicated previously [@boost:/libs/optional/index.html `boost::optional`] is the actual type returned by the `boost::convert()` main interface:
 
  boost::optional<TypeOut> boost::convert(TypeIn const&, Converter const&);
 

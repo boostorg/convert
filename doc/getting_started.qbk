@@ -12,14 +12,14 @@
 
 [section Basic Deployment]
 
-For die-hard `boost::lexical_cast` users or as a transition to `boost::convert`, one of `boost::convert` deployments is not that different from `boost::lexical_cast` and, in fact, `boost::lexical_cast` functionality is easily deployed through `boost::convert` interface:
+For die-hard `boost::lexical_cast` users or as a transitional path to `boost::convert`, one of `boost::convert` deployments is not that different from `boost::lexical_cast` and, in fact, `boost::lexical_cast` functionality is easily deployed through `boost::convert` interface:
 
 [getting_started_headers1]
 [getting_started_using]
 [getting_started_default_converter]
 [getting_started_example1]
 
-[important As we explore `boost::convert` behavior and interfaces further, to some they might appear unduly complex, excessive, verbose, etc... nothing like `atoi()`... so famous for all the bad reasons. :-) It is important to fully understand and as fully appreciate the fact that a conversion request is only a ['request] which may succeed but may also fail. `boost::convert` (as `boost::lexical_cast`) behavior and interfaces reflect that.]
+[important As we explore `boost::convert` behavior and interfaces further, to some they might appear unduly complex, excessive, verbose, etc... nothing like `atoi()`... so famous for all the bad reasons. :-) It is important to fully understand and as fully appreciate the fact that a conversion request is only a ['request] which may succeed but may also fail (which might not be as rare or as exceptional as one might hope). `boost::convert` (as well as `boost::lexical_cast`) behavior and interfaces reflect that reality.]
 
 [endsect]
 [section Flexibility and Adaptability to Change]
@@ -31,7 +31,7 @@ Sooner or later (during initial development or in the maintenance phase) flexibi
 [getting_started_using]
 [getting_started_example2]
 
-Or, the code is identified as too slow. Then the performance could be improved with minimal effort by replacing the converter:
+Or, the component is identified as too slow. Then the performance could be improved with minimal effort by replacing the converter:
 
 [getting_started_headers3]
 [getting_started_example3]
