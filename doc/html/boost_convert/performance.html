@@ -33,28 +33,24 @@
 <p>
         The performance of <span class="emphasis"><em>Boost.Convert</em></span> depends entirely on
         the performance of the converter deployed. A few converters have been tested
-        for string conversions to the <code class="computeroutput"><span class="keyword">int</span></code>,
-        <code class="computeroutput"><span class="keyword">long</span> <span class="keyword">int</span></code>,
-        <code class="computeroutput"><span class="keyword">double</span></code> builtin types and to
-        a user-defined type.
+        for string conversions to basic types and to a user-defined type.
       </p>
 <p>
         In turn, the relative and absolute performance of every particular converter
         depends on the platform, the compiler used and the particular implementation
         of the underlying conversion component (<code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>,
         <code class="computeroutput"><span class="identifier">printf</span></code>, <span class="emphasis"><em>Boost.Spirit</em></span>,
-        etc.). Consequently, the results below are only a rough guide of <span class="emphasis"><em>relative</em></span>
-        performance of the mentioned converters on the tested platforms.
+        etc.). Consequently, the results below are only an approximate indication
+        of <span class="emphasis"><em>relative</em></span> performance of the mentioned converters
+        on the tested platforms.
       </p>
 <p>
         Compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 tests produced the following
         relative results:
       </p>
 <pre class="programlisting"><span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="keyword">int</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">2.06</span><span class="special">/</span>   <span class="number">2.90</span><span class="special">/</span>   <span class="number">5.58</span><span class="special">/</span>  <span class="number">10.96</span><span class="special">/</span>  <span class="number">11.93</span> <span class="identifier">seconds</span><span class="special">.</span>
-<span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">lng</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">2.32</span><span class="special">/</span>   <span class="number">3.52</span><span class="special">/</span>   <span class="number">7.05</span><span class="special">/</span>  <span class="number">10.86</span><span class="special">/</span>  <span class="number">11.71</span> <span class="identifier">seconds</span><span class="special">.</span>
 <span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">dbl</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">2.39</span><span class="special">/</span>   <span class="number">6.37</span><span class="special">/</span>   <span class="number">8.60</span><span class="special">/</span>  <span class="number">18.37</span><span class="special">/</span>  <span class="number">24.19</span> <span class="identifier">seconds</span><span class="special">.</span>
 <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">prntf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">8.99</span><span class="special">/</span>   <span class="number">8.34</span><span class="special">/</span>  <span class="number">10.95</span><span class="special">/</span>  <span class="number">15.53</span><span class="special">/</span>  <span class="number">12.29</span> <span class="identifier">seconds</span><span class="special">.</span>
-<span class="identifier">lng</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">prntf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">9.10</span><span class="special">/</span>   <span class="number">8.96</span><span class="special">/</span>  <span class="number">11.16</span><span class="special">/</span>  <span class="number">15.70</span><span class="special">/</span>  <span class="number">12.16</span> <span class="identifier">seconds</span><span class="special">.</span>
 <span class="identifier">dbl</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">prntf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>  <span class="number">24.05</span><span class="special">/</span>  <span class="number">15.62</span><span class="special">/</span>  <span class="number">69.23</span><span class="special">/</span>  <span class="number">53.73</span><span class="special">/</span>  <span class="number">59.27</span> <span class="identifier">seconds</span><span class="special">.</span>
 </pre>
 <p>
@@ -62,10 +58,8 @@
         relative results:
       </p>
 <pre class="programlisting"><span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="keyword">int</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">0.29</span><span class="special">/</span>   <span class="number">0.47</span><span class="special">/</span>   <span class="number">1.14</span><span class="special">/</span>   <span class="number">2.75</span><span class="special">/</span>   <span class="number">3.15</span> <span class="identifier">seconds</span><span class="special">.</span>
-<span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">lng</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">0.24</span><span class="special">/</span>   <span class="number">0.72</span><span class="special">/</span>   <span class="number">1.54</span><span class="special">/</span>   <span class="number">2.73</span><span class="special">/</span>   <span class="number">3.23</span> <span class="identifier">seconds</span><span class="special">.</span>
 <span class="identifier">str</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">dbl</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">scanf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">0.40</span><span class="special">/</span>   <span class="number">1.44</span><span class="special">/</span>   <span class="number">1.70</span><span class="special">/</span>   <span class="number">4.32</span><span class="special">/</span>   <span class="number">5.59</span> <span class="identifier">seconds</span><span class="special">.</span>
 <span class="keyword">int</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">prntf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">1.75</span><span class="special">/</span>   <span class="number">1.53</span><span class="special">/</span>   <span class="number">2.06</span><span class="special">/</span>   <span class="number">3.34</span><span class="special">/</span>   <span class="number">2.73</span> <span class="identifier">seconds</span><span class="special">.</span>
-<span class="identifier">lng</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">prntf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">1.91</span><span class="special">/</span>   <span class="number">1.63</span><span class="special">/</span>   <span class="number">2.19</span><span class="special">/</span>   <span class="number">3.39</span><span class="special">/</span>   <span class="number">2.77</span> <span class="identifier">seconds</span><span class="special">.</span>
 <span class="identifier">dbl</span><span class="special">-</span><span class="identifier">to</span><span class="special">-</span><span class="identifier">str</span><span class="special">:</span> <span class="identifier">spirit</span><span class="special">/</span><span class="identifier">strtol</span><span class="special">/</span><span class="identifier">lcast</span><span class="special">/</span><span class="identifier">prntf</span><span class="special">/</span><span class="identifier">stream</span><span class="special">=</span>   <span class="number">5.64</span><span class="special">/</span>   <span class="number">3.00</span><span class="special">/</span>  <span class="number">17.89</span><span class="special">/</span>  <span class="number">14.24</span><span class="special">/</span>  <span class="number">13.67</span> <span class="identifier">seconds</span><span class="special">.</span>
 </pre>
 <p>
@@ -74,10 +68,10 @@
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
             the <span class="emphasis"><em>Spirit.Qi</em></span>-based converter was the fastest for
-            string to <code class="computeroutput"><span class="keyword">int</span></code>, <code class="computeroutput"><span class="keyword">long</span></code> and <code class="computeroutput"><span class="keyword">double</span></code>
-            conversions. So, it might be a good candidate for the tasks predominantly
-            doing that kind of conversions; <span class="emphasis"><em>Spirit.Karma</em></span>'s
-            <span class="emphasis"><em>to-string</em></span> performance was not as impressive;
+            string to basic (<code class="computeroutput"><span class="keyword">int</span></code>, <code class="computeroutput"><span class="keyword">double</span></code>) conversions. So, it might be a
+            good candidate for the tasks predominantly doing that kind of conversions;
+            <span class="emphasis"><em>Spirit.Karma</em></span>'s <span class="emphasis"><em>to-string</em></span> performance
+            was not as impressive;
           </li>
 <li class="listitem">
             the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>-based and the <code class="computeroutput"><span class="identifier">printf</span><span class="special">/</span><span class="identifier">scanf</span></code>-based converters were consistently
@@ -101,15 +95,8 @@
 </pre>
 <p>
         To provide <span class="emphasis"><em>string-to-type</em></span> and <span class="emphasis"><em>type-to-string</em></span>
-        conversions the first two deploy the same <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>
-        conversion engine. Both provide extendible conversion framework where new
-        types can be plugged in to the framework via:
-      </p>
-<pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">istream</span><span class="special">&amp;</span> <span class="keyword">operator</span><span class="special">&gt;&gt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">istream</span><span class="special">&amp;,</span> <span class="identifier">TypeOut</span><span class="special">&amp;);</span>
-<span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream</span><span class="special">&amp;</span> <span class="keyword">operator</span><span class="special">&lt;&lt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream</span><span class="special">&amp;,</span> <span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;);</span>
-</pre>
-<p>
-        Unfortunately that extendibility comes at a price as <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">iostream</span></code>-based
+        conversions the first two deploy the same standard <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">iostream</span></code>
+        library. Unfortunately that comes at a price as <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">iostream</span></code>-based
         conversions of the basic (<code class="computeroutput"><span class="keyword">int</span></code>,
         etc.) types are comparatively slow. To address that <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
         implementation has been optimized to avoid <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>
@@ -124,11 +111,9 @@
 <p>
         For user-defined types though the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code> converter seems to consistently
         outperform <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> in the tests. These results
-        probably reflect different underlying designs.
-      </p>
-<p>
-        The standard <span class="emphasis"><em>Boost.Convert</em></span> deployment pattern is to
-        create a converter or converters once and then re-use them. In turn, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> also deploys the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>
+        probably reflect different underlying designs. Namely, the standard <span class="emphasis"><em>Boost.Convert</em></span>
+        deployment pattern is to create a converter or converters once and then re-use
+        them. In turn, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> also deploys the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>
         engine for user-defined types. However, due to its design <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
         creates and then destroys a <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>
         instance every time the function is called and the <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> performance</a> table
@@ -139,10 +124,8 @@
 <p>
         <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span></code>
         support for user types has been implemented similarly but without the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>-related
-        overhead. Namely, new types can be plugged in to the framework via:
+        overhead. That resulted in the best out-of-three performance results.
       </p>
-<pre class="programlisting"><span class="keyword">void</span> <span class="keyword">operator</span><span class="special">&gt;&gt;(</span><span class="identifier">TypeIn</span> <span class="keyword">const</span><span class="special">&amp;,</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">&gt;&amp;);</span>
-</pre>
 <p>
         Based on the performance data, I tend to conclude that, given type-safety
         and benefits provided by the <span class="emphasis"><em>Boost.Convert</em></span> framework,

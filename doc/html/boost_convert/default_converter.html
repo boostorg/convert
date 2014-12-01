@@ -28,7 +28,7 @@
       relies on certain consistent behavior associated with one particular converter
       type and configuration. To accommodate such a scenario <span class="emphasis"><em>Boost.Convert</em></span>
       introduces the concept of the <span class="emphasis"><em>default converter</em></span> and deploys
-      <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code></em></span>
+      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code>
       for the purpose.
     </p>
 <p>
@@ -39,7 +39,8 @@
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// No converter provided</span>
 </pre>
 <p>
-      However, after <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code></em></span> is defined simply as:
+      However, after <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code>
+      is defined simply as:
     </p>
 <p>
 </p>
@@ -57,7 +58,7 @@
 <p>
     </p>
 <p>
-      the code compiles and deploys <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code></em></span> when <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> is called without an explicitly supplied
+      the code compiles and deploys <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code> when <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> is called without an explicitly supplied
       converter:
     </p>
 <p>
@@ -79,8 +80,8 @@
       (which in certain contexts might be the desired behavior) and potentially performance
       impact. When a converter is not provided explicitly, the default converter
       is created, potentially configured, deployed and destroyed for every <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> call. Consequently, if efficiency of this
-      particular component is important, then the implementation of <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code></em></span>
-      will need to take that into account and to make those operations cheap.
+      particular component is important, then the implementation of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code>
+      will need to take that into account and to make sure those operations cheap.
     </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>

@@ -88,8 +88,8 @@
     </p>
 <p>
       That allows handling conversions of user-defined types with <span class="emphasis"><em><code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">iostream</span></code></em></span>-based
-      <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code></em></span>
-      and <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span></code></em></span>
+      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code>
+      and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       converters:
     </p>
 <p>
@@ -115,7 +115,7 @@
     </h4>
 <p>
       In other converters (all based on <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cnvbase</span></code>) support for user types has been
-      implemented similarly but without the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">iostream</span></code>-related
+      implemented similarly but without the <span class="emphasis"><em><code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">iostream</span></code></em></span>-related
       overhead (see user-types-related part of the <a class="link" href="performance.html#boost_convert.performance.converters_compared" title="Converters Compared">Converters
       Compared</a> section). Namely, new types can be plugged in to the framework
       via:
@@ -124,7 +124,7 @@
 </pre>
 <p>
       For example, the mentioned <span class="emphasis"><em><code class="computeroutput"><span class="identifier">change</span></code></em></span>
-      class is deployed with <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strol</span></code></em></span> after the following:
+      class is deployed with <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strol</span></code> after the following:
     </p>
 <p>
 </p>
@@ -143,7 +143,7 @@
 <p>
     </p>
 <p>
-      That allows handling conversions of user-defined types with <span class="emphasis"><em><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span></code></em></span>:
+      That allows handling conversions of user-defined types with <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span></code>:
     </p>
 <p>
 </p>
