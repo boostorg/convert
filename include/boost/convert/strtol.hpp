@@ -8,6 +8,7 @@
 #include <boost/convert/base.hpp>
 #include <boost/type_traits/make_unsigned.hpp>
 #include <boost/type_traits/is_same.hpp>
+#include <boost/math/special_functions/round.hpp>
 #include <limits>
 #include <cmath>
 #include <cstdlib>
@@ -108,7 +109,7 @@ boost::cnv::strtol::adjust_fraction(double fraction, int precision)
     fraction *= tens[precision % 8]; //C1
 
 //  return ::rint(fraction); //C4
-    return ::round(fraction); //C4
+    return boost::math::round(fraction); //C4
 }
 
 template <typename char_type>
