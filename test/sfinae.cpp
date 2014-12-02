@@ -211,14 +211,15 @@ int
 main(int argc, char const* argv[])
 {
     //[has_member_usage
-    BOOST_TEST(local::has_begin<local::test1>::value ==  true);
-    BOOST_TEST(local::has_begin<local::test2>::value ==  true);
-    BOOST_TEST(local::has_begin<local::test3>::value ==  true);
-    BOOST_TEST(local::has_begin<local::test4>::value ==  true);
-    BOOST_TEST(local::  has_end<local::test1>::value == false);
-    BOOST_TEST(local::  has_end<local::test2>::value == false);
-    BOOST_TEST(local::  has_end<local::test3>::value == false);
-    BOOST_TEST(local::  has_end<local::test4>::value ==  true);
+    BOOST_TEST(local::has_begin<local::test1>::value == true);
+    BOOST_TEST(local::has_begin<local::test2>::value == true);
+    BOOST_TEST(local::has_begin<local::test3>::value == true);
+    BOOST_TEST(local::has_begin<local::test4>::value == true);
+
+    BOOST_TEST(local::has_end<local::test1>::value == false);
+    BOOST_TEST(local::has_end<local::test2>::value == false);
+    BOOST_TEST(local::has_end<local::test3>::value == false);
+    BOOST_TEST(local::has_end<local::test4>::value ==  true);
 
     BOOST_TEST(local::is_range<local::test1>::value == false);
     BOOST_TEST(local::is_range<local::test2>::value == false);
