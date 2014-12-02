@@ -221,6 +221,8 @@ main(int argc, char const* argv[])
     BOOST_TEST(local::  has_end<local::test4>::value ==  true);
 
     BOOST_TEST(local::is_range<local::test1>::value == false);
+    BOOST_TEST(local::is_range<local::test2>::value == false);
+    BOOST_TEST(local::is_range<local::test3>::value == false);
     BOOST_TEST(local::is_range<local::test4>::value ==  true);
     //]
 
@@ -242,19 +244,6 @@ main(int argc, char const* argv[])
     BOOST_TEST(local::has_begin<only_begin>::value ==  true);
     BOOST_TEST(local::has_begin<yes_range1>::value ==  true);
     BOOST_TEST(local::has_begin<yes_range2>::value ==  true);
-
-    BOOST_TEST(local::is_range<no_range>::value == false);
-    BOOST_TEST(local::is_range<only_end>::value == false);
-    BOOST_TEST(local::is_range<only_begin>::value == false);
-    BOOST_TEST(local::is_range<yes_range1>::value == true);
-    BOOST_TEST(local::is_range<yes_range2>::value == true);
-    BOOST_TEST(local::is_range<yes_range1 const>::value == true);
-    BOOST_TEST(local::is_range<yes_range2 const>::value == true);
-    BOOST_TEST(local::is_range<std::string>::value == true);
-    BOOST_TEST(local::is_range<std::wstring>::value == true);
-//  BOOST_TEST(local::is_range<char*>::value == true);
-//  BOOST_TEST(local::is_range<char[25]>::value == true);
-    BOOST_TEST(local::is_range<my_string>::value == true);
 
     BOOST_TEST(boost::cnv::is_string<direction>::value == false);
     BOOST_TEST(boost::cnv::is_string<std::string>::value == true);
