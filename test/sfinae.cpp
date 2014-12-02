@@ -78,13 +78,13 @@ struct yes_range2
     char* end() { return 0; }
 };
 
-struct no_begin
+struct only_end
 {
     char* end() { return 0; }
     char const* end() const { return 0; }
 };
 
-struct no_end
+struct only_begin
 {
     char* begin() { return 0; }
     char const* begin() const { return 0; }
@@ -231,30 +231,30 @@ main(int argc, char const* argv[])
 
     BOOST_TEST(local::has_funop<local::no1>::value == false);
 
-    BOOST_TEST(local::has_funop<local::yes01>::value ==  true);
-    BOOST_TEST(local::has_funop<local::yes02>::value ==  true);
-    BOOST_TEST(local::has_funop<local::yes03>::value ==  true);
-    BOOST_TEST(local::has_funop<local::yes04>::value ==  true);
-    BOOST_TEST(local::has_funop<local::yes05>::value ==  true);
+    BOOST_TEST(local::has_funop<local::yes01>::value == true);
+    BOOST_TEST(local::has_funop<local::yes02>::value == true);
+    BOOST_TEST(local::has_funop<local::yes03>::value == true);
+    BOOST_TEST(local::has_funop<local::yes04>::value == true);
+    BOOST_TEST(local::has_funop<local::yes05>::value == true);
 
-    BOOST_TEST(local::has_begin<no_range>::value == false);
-    BOOST_TEST(local::has_begin<no_begin>::value == false);
-    BOOST_TEST(local::has_begin<no_end>::value == true);
-    BOOST_TEST(local::has_begin<yes_range1>::value == true);
-    BOOST_TEST(local::has_begin<yes_range2>::value == true);
+    BOOST_TEST(local::has_begin<  no_range>::value == false);
+    BOOST_TEST(local::has_begin<  only_end>::value == false);
+    BOOST_TEST(local::has_begin<only_begin>::value ==  true);
+    BOOST_TEST(local::has_begin<yes_range1>::value ==  true);
+    BOOST_TEST(local::has_begin<yes_range2>::value ==  true);
 
-    BOOST_TEST(boost::cnv::is_range<no_range>::value == false);
-    BOOST_TEST(boost::cnv::is_range<no_begin>::value == false);
-    BOOST_TEST(boost::cnv::is_range<no_end>::value == false);
-    BOOST_TEST(boost::cnv::is_range<yes_range1>::value == true);
-    BOOST_TEST(boost::cnv::is_range<yes_range2>::value == true);
-    BOOST_TEST(boost::cnv::is_range<yes_range1 const>::value == true);
-    BOOST_TEST(boost::cnv::is_range<yes_range2 const>::value == true);
-    BOOST_TEST(boost::cnv::is_range<std::string>::value == true);
-    BOOST_TEST(boost::cnv::is_range<std::wstring>::value == true);
-//  BOOST_TEST(boost::cnv::is_range<char*>::value == true);
-//  BOOST_TEST(boost::cnv::is_range<char[25]>::value == true);
-    BOOST_TEST(boost::cnv::is_range<my_string>::value == true);
+    BOOST_TEST(local::is_range<no_range>::value == false);
+    BOOST_TEST(local::is_range<only_end>::value == false);
+    BOOST_TEST(local::is_range<only_begin>::value == false);
+    BOOST_TEST(local::is_range<yes_range1>::value == true);
+    BOOST_TEST(local::is_range<yes_range2>::value == true);
+    BOOST_TEST(local::is_range<yes_range1 const>::value == true);
+    BOOST_TEST(local::is_range<yes_range2 const>::value == true);
+    BOOST_TEST(local::is_range<std::string>::value == true);
+    BOOST_TEST(local::is_range<std::wstring>::value == true);
+//  BOOST_TEST(local::is_range<char*>::value == true);
+//  BOOST_TEST(local::is_range<char[25]>::value == true);
+    BOOST_TEST(local::is_range<my_string>::value == true);
 
     BOOST_TEST(boost::cnv::is_string<direction>::value == false);
     BOOST_TEST(boost::cnv::is_string<std::string>::value == true);
