@@ -12,7 +12,7 @@
 
 [getting_serious_example1]
 
-The code above is straightforward and self-explanatory but, unfortunately, strictly speaking, is not entirely deterministic as -1 might be the result of a conversion failure or the successful conversion of the "-1" string. Still, in reality "spare" values are quite often available outside the valid\/sensible range to indicate conversion failures. If so, such deployment might be adequate without introducing non-deterministic behavior. Alternatively, it might be not that uncommon to ignore conversion failures altogether and to simply log the failure and to proceed with the supplied fallback value.
+The code above is straightforward and self-explanatory but, unfortunately, strictly speaking, is not entirely deterministic as -1 might be the result of a conversion failure or the successful conversion of the "-1" string. Still, in reality "spare" values are quite often available outside the valid\/sensible range to indicate conversion failures. If so, such simple deployment might be adequate without introducing non-deterministic behavior. Alternatively, it might be not that uncommon to ignore conversion failures altogether and to simply log the failure and to proceed with the supplied fallback value.
 
 Applications outside these mentioned categories still require conversion failure reliably detected and processed accordingly. The `boost::lexical_cast`'s (only) answer is to throw on failure and ['Boost.Convert] supports that behavior as well:
 

@@ -27,8 +27,8 @@ Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following rela
 
 Based on the results we might conclude that
 
-* the ['Spirit.Qi]-based converter was the fastest for string to basic (`int`, `double`) conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions; ['Spirit.Karma]'s ['to-string] performance was not as impressive;
-* the `std::stream`-based and the `printf/scanf`-based converters were consistently the slowest. Still, given their maturity and availability, they might be options to consider if conversion performance is not your primary concern;
+* the ['Spirit.Qi]-based converter was the fastest for string to basic (`int`, `double`) conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions (remembering ['Spirit.Qi] conversion-related limitations); ['Spirit.Karma]'s ['to-string] performance was not as impressive;
+* the `std::iostream`-based and the `printf/scanf`-based converters were consistently the slowest. Still, given their maturity and availability, they might be options to consider if conversion performance is not your primary concern;
 * the `strtol`-inspired converter was reasonably fast and with basic formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream`. So, bugs are to be expected.
 
 For user-defined types three converters -- `boost::cnv::lexical_cast`, `std::cnv::cstream` and `boost::cnv::strtol` -- were tested with the following relative results:

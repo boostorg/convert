@@ -85,7 +85,7 @@ Locale support is similar to the formatting support as demonstrated by the follo
 
 [stream_my_string]
 
-When a string is the source, then it needs to be a ['contiguous sequence] of the corresponding character type (`char` or `wchar_t`). 
+When a string-like type is the source, then it needs to be a ['contiguous sequence] of the corresponding character type (`char` or `wchar_t`) accessible via `begin()` and `end()`. 
 
 `std::stringstream` is implemented entirely in terms of `std::basic_streambuf` which, in turn, operates on a ['contiguous character sequence], also called the ['buffer] (see [@http://en.cppreference.com/w/cpp/io/basic_streambuf `std::basic_streambuf`] for details). For efficiency reasons `boost::cnv::stream` uses the provided (read-only) input string as the ['buffer] and, consequently, requires that provided input string to be a contiguous character sequence.
 
@@ -101,7 +101,7 @@ See [link boost_convert.performance.the_bigger_picture The Bigger Picture] chapt
 [endsect]
 [section The ['Default Constructible] Type Requirement]
 
-Due to `std::stream` design it requires an ['initialized] temporary storage of ['TypeOut] type to put the result of the requested conversion to. The `std::stream`-based converter achieves that with:
+Due to `std::stream` design it requires an ['initialized] temporary storage of ['TypeOut] type to put the result of the requested conversion to. Conceptually `boost::cnv::cstream` achieves that with:
 
  istream_type& istream = stream_;
  TypeOut        result = boost::make_default<TypeOut>();
@@ -133,7 +133,7 @@ However, ['Boost.Convert] is able to handle such a type with little help from th
 
 [direction_declaration_make_default]
 
-Now such class can be deployed with the `std::stream`-based converter:
+Now such class can be deployed with `boost::cnv::cstream`:
 
  direction dir1 = convert<direction>(str, cnv).value(); // Compiles
  direction dir2 = lexical_cast<direction>(str); // Does not compile

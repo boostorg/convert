@@ -17,7 +17,7 @@ It should be noted though that the converter is nowhere as mature as `boost::cnv
 
 [section Formatting Support]
 
-[section Numeric Base]
+[section Numeric Base (bin, oct, dec, hex)]
 [strtol_numeric_base_header]
 [strtol_numeric_base]
 [wide_strtol_numeric_base]

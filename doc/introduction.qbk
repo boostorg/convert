@@ -42,7 +42,7 @@ The collection of pluggable converters is independent of the `boost::convert()` 
 * `printf/scanf`-based,
 * `strtol`-inspired,
 * `std::stringstream`-based,
-* 'boost::spirit`-based.
+* `boost::spirit`-based.
 
 The converters provide new and familiar functionality and demonstrate how existing and independent conversion facilities might be incorporated in to the ['Boost.Convert] framework. For example, the `std::stream`-based converter draws on the standard `std::streams` functionality and provides:
 

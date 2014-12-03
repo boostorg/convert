@@ -19,7 +19,7 @@ For die-hard `boost::lexical_cast` users or as a transitional path to `boost::co
 [getting_started_default_converter]
 [getting_started_example1]
 
-[important As we explore `boost::convert` behavior and interfaces further, to some they might appear unduly complex, excessive, verbose, etc... nothing like `atoi()`... so famous for all the bad reasons. :-) It is important to fully understand and as fully appreciate the fact that a conversion request is only a ['request] which may succeed but may also fail (which might not be as rare or as exceptional as one might hope). `boost::convert` (as well as `boost::lexical_cast`) behavior and interfaces reflect that reality.]
+[important As we explore `boost::convert` behavior and interfaces further, to some they might appear unduly complex, excessive, verbose, etc... nothing like `atoi()`... so famous for all the wrong reasons. :-) It is important to fully understand and as fully appreciate the fact that a conversion request is only a ['request] which may succeed but may also fail (which might not be as rare or as exceptional as one might hope). `boost::convert` (as well as `boost::lexical_cast`) behavior and interfaces reflect that reality.]
 
 [endsect]
 [section Flexibility and Adaptability to Change]
@@ -36,7 +36,7 @@ Or, the component is identified as too slow. Then the performance could be impro
 [getting_started_headers3]
 [getting_started_example3]
 
-If, instead, the requirements change to mandate more input formats or to require a certain output format, then, again, that could be accommodated with:
+If, instead, the requirements change to support more input formats or to require a certain output format, then, again, that could be accommodated with:
 
 [getting_started_headers4]
 [getting_started_example4]
