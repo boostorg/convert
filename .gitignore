@@ -4,22 +4,11 @@ bin.v2/
 bin/
 doc/bin/
 doc/html/
-doc/convert_reference.xml
 doc/doxygen/
 doc/inspect.txt
 convert.pdf
 *.log
 *.bat
-include/boost/none.hpp
-include/boost/none_t.hpp
-include/boost/optional.hpp
-include/boost/optional/
-
-convert.config
-convert.creator
-convert.creator.user
-convert.files
-convert.includes
 
 #################
 ## Eclipse
@@ -28,9 +17,6 @@ convert.includes
 .project
 .settings/
 .cproject
-convert-test
-convert-test-performance
-convert-test-performance-spirit
 
 Debug/
 Release/
