@@ -2,7 +2,7 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#ifdef _MSC_VER
+#ifdef BOOST_MSVC
 #  pragma warning(disable : 4127)  // conditional expression is constant.
 #  pragma warning(disable : 4189)  // local variable is initialized but not referenced.
 #endif

@@ -7,31 +7,17 @@
 
 #include <boost/convert/base.hpp>
 #include <boost/convert/detail/forward.hpp>
-#include <boost/spirit/include/qi_parse.hpp>
-#include <boost/spirit/include/qi_numeric.hpp>
-#include <boost/spirit/include/qi_string.hpp>
-#include <boost/range/as_literal.hpp>
-
-#include <boost/convert/detail/coerce/detail/karma.hpp>
+#include <boost/spirit/include/qi.hpp>
+#include <boost/spirit/include/karma.hpp>
 
 namespace boost { namespace cnv
 {
     struct spirit;
-
-    namespace detail
-    {
-        template <typename Source>
-        struct generator : boost::spirit::traits::create_generator<Source>::type {};
-
-        template <> struct generator<      float> : coerce::detail::real_generator<float> {};
-        template <> struct generator<     double> : coerce::detail::real_generator<double> {};
-        template <> struct generator<long double> : coerce::detail::real_generator<long double> {};
-    }
 }}
 
 struct boost::cnv::spirit : public boost::cnv::cnvbase<boost::cnv::spirit>
 {
-    typedef boost::cnv::spirit                     this_type;
+    typedef boost::cnv::spirit             this_type;
     typedef boost::cnv::cnvbase<this_type> base_type;
 
     using base_type::operator();
@@ -55,7 +41,7 @@ struct boost::cnv::spirit : public boost::cnv::cnvbase<boost::cnv::spirit>
     cnv::range<char*>
     to_str(in_type value_in, char_type* beg) const
     {
-        typedef cnv::detail::generator<in_type> generator;
+        typedef typename boost::spirit::traits::create_generator<in_type>::type generator;
 
         char_type* end = beg;
         bool      good = boost::spirit::karma::generate(end, generator(), value_in);
