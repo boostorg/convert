@@ -56,19 +56,19 @@ struct converter1
 };
 
 //[callable_example4
-struct take_double { void operator()(double const&, boost::optional<string>&) const {}};
-struct    take_int { void operator()(int const&, boost::optional<string>&) const {}};
+struct take_double { void operator()(double, boost::optional<string>&) const {}};
+struct    take_int { void operator()(int, boost::optional<string>&) const {}};
 //]
 
 //[callable_example6
 struct double_only
 {
     // Declared for all types.
-    template<typename TypeIn> void operator()(TypeIn const&, boost::optional<string>&) const;
+    template<typename TypeIn> void operator()(TypeIn, boost::optional<string>&) const;
 };
 
 // Defined only for certain types.
-template<> void double_only::operator()<double>(double const&, boost::optional<string>&) const {}
+template<> void double_only::operator()<double>(double, boost::optional<string>&) const {}
 //]
 
 int
@@ -106,7 +106,7 @@ main(int argc, char const* argv[])
     //]
     //[callable_example7
     convert<string>(11.23, double_only()); // Fine.
-//  convert<string>(11,    double_only()); // Fails: undefined reference to `void double_only::operator()<int>
+//  convert<string>(11,    double_only()); // Fails: undefined reference to double_only::operator()<int>
     //]
 
     return boost::report_errors();

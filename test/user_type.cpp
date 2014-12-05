@@ -63,10 +63,10 @@ test_algorithms()
     boost::cnv::cstream                   cnv;
 
     std::transform(chgs1.begin(), chgs1.end(), std::back_inserter(strs1), 
-        boost::cnv::apply<string>(boost::cref(cnv)));
+        boost::cnv::apply<string>(boost::cref(cnv))); // Deduced TypeIn is 'change'
 
     std::transform(chgs2.begin(), chgs2.end(), std::back_inserter(strs2), 
-        boost::cnv::apply<string>(boost::cref(cnv)));
+        boost::cnv::apply<string>(boost::cref(cnv))); // Deduced TypeIn is 'change::value_type'
 
     BOOST_TEST(strs1.size() == 3);
     BOOST_TEST(strs1[0] == "no");
