@@ -55,8 +55,21 @@ struct converter1
     }
 };
 
+//[callable_example4
 struct take_double { void operator()(double const&, boost::optional<string>&) const {}};
 struct    take_int { void operator()(int const&, boost::optional<string>&) const {}};
+//]
+
+//[callable_example6
+struct double_only
+{
+    // Declared for all types.
+    template<typename TypeIn> void operator()(TypeIn const&, boost::optional<string>&) const;
+};
+
+// Defined only for certain types.
+template<> void double_only::operator()<double>(double const&, boost::optional<string>&) const {}
+//]
 
 int
 main(int argc, char const* argv[])
@@ -81,23 +94,20 @@ main(int argc, char const* argv[])
     BOOST_TEST(v02 == -12);
     BOOST_TEST(v03 == -12);
 
-    converter1  cnv1;
-    take_double cnv2;
-    take_int    cnv3;
-
     convert<int>(str, convert_all<string, int>);
     convert<string>(11, convert_all<int, string>);
-    convert<   int>(str,   cnv1);
-    convert<string>(11,    cnv1);
-    convert<string>(11.23, cnv2);
-    convert<string>(11,    cnv2);
-    convert<string>(11,    cnv3);
-    convert<string>(11.23, cnv3);
-
-    // ^^^^^^^^^^^^^^^^^^^^^^^^
-    // When I call convert<string>(11, take_int());
-    // MSVC8-11 fail to compile lines 84-89.
-    // So, I am trying to figure out what they do not like
+    convert<   int>(str,   converter1());
+    convert<string>(11,    converter1());
+    convert<string>(11.23, take_double());
+    convert<string>(11,    take_int());
+    //[callable_example5
+    convert<string>(11, take_double()); // Compiler applies 'int' to 'double' promotion to call the converter.
+    convert<string>(11.23, take_int()); // Compiler applies 'double' to 'int' implicit truncation.
+    //]
+    //[callable_example7
+    convert<string>(11.23, double_only()); // Fine.
+//  convert<string>(11,    double_only()); // Fails: undefined reference to `void double_only::operator()<int>
+    //]
 
     return boost::report_errors();
 }

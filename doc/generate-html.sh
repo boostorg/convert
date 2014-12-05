@@ -1,10 +1,15 @@
 # boost-no-inspect
 
-export BOOST_ROOT=$HOME/dev/boost_1_56_0
+if [[ -d "$BOOST_ROOT" ]]
+then
+    echo Using BOOST_ROOT=$BOOST_ROOT
+else
+    export BOOST_ROOT=$HOME/dev/boost
+fi
 
 $BOOST_ROOT/bjam --toolset=gcc --enable-index
 
-rm convert_reference.xml
+rm -rf convert_reference.xml
 rm -rf bin
 
 

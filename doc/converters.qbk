@@ -10,6 +10,8 @@
 
 `boost::convert()` API plays its role by providing a ['uniform interface] and ensuring ['consistent behavior]. However, it is the respective converter which does the hard work of turning custom-types into strings and strings into custom-types, etc., i.e. the actual type conversion\/transformation.
 
+['Boost.Convert] provides several converters for common type conversions with varying degrees of formatting support and performance. However, those converters are unlikely to satisfy all imaginable conversion\/transformation-related user requirements. Consequently, ['Boost.Convert] has been designed ['with converter pluggability] in mind and it is an expectation that more generic-purpose and custom-specific converters are to be written and deployed with ['Boost.Convert]. 
+
 For a converter to be plugged in to the ['Boost.Convert] framework it needs to be a ['callable] with the following signature:
 
  template<typename TypeOut, typename TypeIn>
@@ -36,4 +38,18 @@ or an old-fashioned function:
 With regard to converters the ['Boost.Convert] framework has been designed with the following requirements in mind:
 
 [note Converters shall be independent from and must not rely on the ['Boost.Convert] infrastructure.]
+
+[heading Implicit ['TypeIn] Promotions and Conversions]
+
+It probably is worth mentioning that ['TypeIn] in the signature needs not to be interpreted literally but rather in the context of the potential type promotions and value-destroying implicit conversions allowed by the language. Depending on the context the `take_double` and `take_int` converters might not do what is expected of them due to implicit ['int-to-double] promotion and ['double-to-int] conversion applied by the compiler:
+
+[callable_example4]
+[callable_example5]
+
+`boost::convert()` API does not modify ['TypeIn] or interpret it in any way. The passed-in value and its type are delivered to the underlying converter as-is. Consequently, it is the converter's duty to deal with those potential implicit type promotions and conversions. For example, one way to disable implicit conversions might be:  
+
+[callable_example6]
+[callable_example7]
+
+[endsect]
 
