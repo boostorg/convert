@@ -36,8 +36,8 @@ namespace { namespace local
     get_strs()
     {
         static local::strings strings;
-        static bool                filled;
-        static bool              negative = true;
+        static bool            filled;
+        static bool          negative = true;
 
         if (!filled)
         {

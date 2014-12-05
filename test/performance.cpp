@@ -30,7 +30,7 @@ namespace { namespace local
     template<typename Type>
     struct array
     {
-        typedef boost::array<Type, 18> type;
+        typedef boost::array<Type, 20> type;
     };
     template<typename T> static typename array<T>::type const& get();
 
@@ -63,8 +63,7 @@ namespace { namespace local
         if (!filled)
         {
             boost::random::mt19937                     gen (::time(0));
-            boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
-    //      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2,147,483,647
+            boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2,147,483,647
 
             for (size_t k = 0; k < ints.size(); ++k)
                 ints[k] = dist(gen);
@@ -83,8 +82,7 @@ namespace { namespace local
         if (!filled)
         {
             boost::random::mt19937                     gen (::time(0));
-            boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
-    //      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
+            boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
 
             for (size_t k = 0; k < ints.size(); ++k)
                 ints[k] = dist(gen);
@@ -103,8 +101,7 @@ namespace { namespace local
         if (!filled)
         {
             boost::random::mt19937                     gen (::time(0));
-            boost::random::uniform_int_distribution<> dist (SHRT_MIN, SHRT_MAX); // SHRT_MAX(16) = 32767
-    //      boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
+            boost::random::uniform_int_distribution<> dist (INT_MIN, INT_MAX); // INT_MAX(32) = 2147483647
 
             for (size_t k = 0; k < dbls.size(); ++k)
                 dbls[k] = double(dist(gen)) + 0.7654321;
@@ -248,17 +245,6 @@ main(int argc, char const* argv[])
 {
     printf("Started performance tests...\n");
 
-    //[small_string_results
-    printf("strtol int-to std::string/small-string: %.2f/%.2f seconds.\n",
-           local::to_str<std::string, int>(boost::cnv::strtol()),
-           local::to_str<  my_string, int>(boost::cnv::strtol()));
-    printf("spirit int-to std::string/small-string: %.2f/%.2f seconds.\n",
-           local::to_str<std::string, int>(boost::cnv::spirit()),
-           local::to_str<  my_string, int>(boost::cnv::spirit()));
-    printf("stream int-to std::string/small-string: %.2f/%.2f seconds.\n",
-           local::to_str<std::string, int>(boost::cnv::cstream()),
-           local::to_str<  my_string, int>(boost::cnv::cstream()));
-    //]
     printf("str-to-int: spirit/strtol/lcast/scanf/stream=%7.2f/%7.2f/%7.2f/%7.2f/%7.2f seconds.\n",
            local::str_to<int>(boost::cnv::spirit()),
            local::str_to<int>(boost::cnv::strtol()),
@@ -306,6 +292,17 @@ main(int argc, char const* argv[])
            performance_type_to_str(boost::cnv::cstream()),
            performance_type_to_str(boost::cnv::strtol()));
 
+    //[small_string_results
+    printf("strtol int-to std::string/small-string: %.2f/%.2f seconds.\n",
+           local::to_str<std::string, int>(boost::cnv::strtol()),
+           local::to_str<  my_string, int>(boost::cnv::strtol()));
+    printf("spirit int-to std::string/small-string: %.2f/%.2f seconds.\n",
+           local::to_str<std::string, int>(boost::cnv::spirit()),
+           local::to_str<  my_string, int>(boost::cnv::spirit()));
+    printf("stream int-to std::string/small-string: %.2f/%.2f seconds.\n",
+           local::to_str<std::string, int>(boost::cnv::cstream()),
+           local::to_str<  my_string, int>(boost::cnv::cstream()));
+    //]
     performance_comparative(raw_str_to_int_spirit(), boost::cnv::spirit(),       "spirit");
     performance_comparative(raw_str_to_int_lxcast(), boost::cnv::lexical_cast(), "lxcast");
 
