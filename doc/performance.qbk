@@ -13,11 +13,13 @@ In turn, the relative and absolute performance of every particular converter dep
 
 Compiled with gcc-4.8.2 on 32-bit Ubuntu 14.04 tests produced the following relative results:
 
- str-to-int: spirit/strtol/lcast/scanf/stream=   2.06/   2.90/   5.58/  10.96/  11.93 seconds.
- str-to-dbl: spirit/strtol/lcast/scanf/stream=   2.39/   6.37/   8.60/  18.37/  24.19 seconds.
- int-to-str: spirit/strtol/lcast/prntf/stream=   8.99/   8.34/  10.95/  15.53/  12.29 seconds.
- dbl-to-str: spirit/strtol/lcast/prntf/stream=  24.05/  15.62/  69.23/  53.73/  59.27 seconds.
- 
+ str-to-int: spirit/strtol/lcast/scanf/stream=   1.31/   2.15/   3.41/   6.72/   7.24 seconds.
+ str-to-lng: spirit/strtol/lcast/scanf/stream=   1.24/   2.39/   4.18/   6.63/   7.20 seconds.
+ str-to-dbl: spirit/strtol/lcast/scanf/stream=   1.45/   4.07/   5.19/  11.13/  14.47 seconds.
+ int-to-str: spirit/strtol/lcast/prntf/stream=   7.49/   6.48/   8.01/  11.76/   9.31 seconds.
+ lng-to-str: spirit/strtol/lcast/prntf/stream=   7.34/   6.89/   8.43/  11.55/   9.32 seconds.
+ dbl-to-str: spirit/strtol/lcast/prntf/stream=  14.13/  13.56/  50.03/  46.25/  44.72 seconds.
+
 Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following relative results:
 
  str-to-int: spirit/strtol/lcast/scanf/stream=   0.29/   0.47/   1.14/   2.75/   3.15 seconds.
