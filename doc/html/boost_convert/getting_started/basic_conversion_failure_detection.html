@@ -90,6 +90,10 @@
 <pre class="programlisting"><span class="keyword">int</span>
 <span class="identifier">fallback_fun</span><span class="special">(</span><span class="keyword">char</span> <span class="keyword">const</span><span class="special">*</span> <span class="identifier">msg</span><span class="special">,</span> <span class="keyword">int</span> <span class="identifier">fallback_value</span><span class="special">)</span>
 <span class="special">{</span>
+    <span class="comment">// The principal advantage of a fallback_func over a fallback_value</span>
+    <span class="comment">// is that the former is only called when the conversion request fails.</span>
+    <span class="comment">// Consequently, the returned fallback_value is only calculated (which potentially</span>
+    <span class="comment">// might be expensive) when it is absolutely necessary.</span>
     <span class="identifier">log</span><span class="special">(</span><span class="identifier">msg</span><span class="special">);</span> <span class="keyword">return</span> <span class="identifier">fallback_value</span><span class="special">;</span>
 <span class="special">}</span>
 </pre>

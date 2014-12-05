@@ -21,8 +21,8 @@
 <p>
           Due to <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code> design it requires an <span class="emphasis"><em>initialized</em></span>
           temporary storage of <span class="emphasis"><em>TypeOut</em></span> type to put the result
-          of the requested conversion to. The <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>-based
-          converter achieves that with:
+          of the requested conversion to. Conceptually <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code>
+          achieves that with:
         </p>
 <pre class="programlisting"><span class="identifier">istream_type</span><span class="special">&amp;</span> <span class="identifier">istream</span> <span class="special">=</span> <span class="identifier">stream_</span><span class="special">;</span>
 <span class="identifier">TypeOut</span>        <span class="identifier">result</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">make_default</span><span class="special">&lt;</span><span class="identifier">TypeOut</span><span class="special">&gt;();</span>
@@ -122,8 +122,7 @@
 <p>
         </p>
 <p>
-          Now such class can be deployed with the <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stream</span></code>-based
-          converter:
+          Now such class can be deployed with <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code>:
         </p>
 <pre class="programlisting"><span class="identifier">direction</span> <span class="identifier">dir1</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// Compiles</span>
 <span class="identifier">direction</span> <span class="identifier">dir2</span> <span class="special">=</span> <span class="identifier">lexical_cast</span><span class="special">&lt;</span><span class="identifier">direction</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">);</span> <span class="comment">// Does not compile</span>

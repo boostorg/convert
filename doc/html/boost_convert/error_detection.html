@@ -17,6 +17,10 @@
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
 <a name="boost_convert.error_detection"></a><a class="link" href="error_detection.html" title="Better Error Detection">Better Error Detection</a>
 </h2></div></div></div>
+<div class="blockquote"><blockquote class="blockquote"><p>
+        <span class="bold"><strong><span class="emphasis"><em>"Detection is, or ought to be, an exact
+        science, ..." Sir Arthur Conan Doyle</em></span></strong></span>
+      </p></blockquote></div>
 <p>
 </p>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"not an int"</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(-</span><span class="number">1</span><span class="special">);</span> <span class="comment">// after the call i2==-1</span>
@@ -31,7 +35,7 @@
       of a conversion failure or the successful conversion of the "-1"
       string. Still, in reality "spare" values are quite often available
       outside the valid/sensible range to indicate conversion failures. If so, such
-      deployment might be adequate without introducing non-deterministic behavior.
+      simple deployment might be adequate without introducing non-deterministic behavior.
       Alternatively, it might be not that uncommon to ignore conversion failures
       altogether and to simply log the failure and to proceed with the supplied fallback
       value.
@@ -39,8 +43,8 @@
 <p>
       Applications outside these mentioned categories still require conversion failure
       reliably detected and processed accordingly. The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>'s
-      answer is to throw on failure and <span class="emphasis"><em>Boost.Convert</em></span> supports
-      that behavior as well:
+      (only) answer is to throw on failure and <span class="emphasis"><em>Boost.Convert</em></span>
+      supports that behavior as well:
     </p>
 <p>
 </p>
@@ -101,8 +105,20 @@
 <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str2</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">fallback_value</span><span class="special">);</span>
 <span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str3</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or_eval</span><span class="special">(</span><span class="identifier">fallback_function</span><span class="special">);</span>
 </pre>
+<div class="note"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="../images/note.png"></td>
+<th align="left">Note</th>
+</tr>
+<tr><td align="left" valign="top"><p>
+        The potential advantage of <code class="computeroutput"><span class="identifier">value_or_eval</span><span class="special">(</span><span class="identifier">fallback_function</span><span class="special">)</span></code> over <code class="computeroutput"><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">fallback_value</span><span class="special">)</span></code> is that <code class="computeroutput"><span class="identifier">fallback_function</span></code>
+        is only called when/if conversion fails, i.e. the <code class="computeroutput"><span class="identifier">fallback_value</span></code>
+        (ultimately returned by <code class="computeroutput"><span class="identifier">fallback_function</span></code>)
+        is only calculated (which mght be expensive) when needed.
+      </p></td></tr>
+</table></div>
 <p>
-      Still, from the user perspective, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+      From the user perspective, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       processes failure in a somewhat one-dimensional non-negotiable manner. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
       takes a more flexible approach, provides choice and leaves the decision to
       the user. It probably is not unimaginable that, on the library level, propagating

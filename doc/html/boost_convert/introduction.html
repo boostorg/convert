@@ -47,10 +47,6 @@
           Constructibility</em></span></a> requirement;
         </li>
 <li class="listitem">
-          the choice of immediate or delayed exception-throwing and non-throwing
-          conversion-failure processing;
-        </li>
-<li class="listitem">
           four types of the conversion-failure <span class="emphasis"><em>detection</em></span>:
           <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; ">
 <li class="listitem">
@@ -60,6 +56,10 @@
                 as a branched process flow -- exception-based and function-based;
               </li>
 </ul></div>
+        </li>
+<li class="listitem">
+          the choice of immediate or delayed exception-throwing and non-throwing
+          conversion-failure <span class="emphasis"><em>processing</em></span>;
         </li>
 <li class="listitem">
           flexibility of conversion-failure <span class="emphasis"><em>processing</em></span> via:
@@ -97,17 +97,16 @@
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
-          advertises, provides and ensures <span class="emphasis"><em>certain consistent behavior</em></span>;
+          advertises, provides and ensures certain <span class="emphasis"><em>consistent behavior</em></span>;
         </li>
 <li class="listitem">
-          provides <span class="emphasis"><em>one consistent interface</em></span> to various conversion
-          facilities.
+          unifies and provides <span class="emphasis"><em>one consistent interface</em></span> to various
+          conversion facilities.
         </li>
 </ul></div>
 <p>
       The collection of pluggable converters is independent of the <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> API facade and is designed to be <span class="emphasis"><em>extendible</em></span>
-      and extended over time. With the current proposal the following converters
-      are provided:
+      and extended over time. Currently the following converters are provided:
     </p>
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
@@ -123,7 +122,7 @@
           <code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">stringstream</span></code>-based,
         </li>
 <li class="listitem">
-          <span class="emphasis"><em>Boost.Spirit</em></span>-based.
+          <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">spirit</span></code>-based.
         </li>
 </ul></div>
 <p>

@@ -24,17 +24,15 @@
 </pre>
 <p>
       provides considerable flexibility, configurability and efficiency. However,
-      in certain contexts that might be tedious or even error-prone if an application
-      relies on certain consistent behavior associated with one particular converter
-      type and configuration. To accommodate such a scenario <span class="emphasis"><em>Boost.Convert</em></span>
-      introduces the concept of the <span class="emphasis"><em>default converter</em></span> and deploys
-      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code>
-      for the purpose.
+      in certain contexts that might be not that important or even counter-productive
+      if, for example, an application relies on certain consistent behavior associated
+      with one particular converter type and configuration. To accommodate such a
+      scenario <span class="emphasis"><em>Boost.Convert</em></span> introduces the concept of the
+      <span class="emphasis"><em>default converter</em></span> implemented as <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code>.
     </p>
 <p>
-      There is <span class="emphasis"><em>no default converter</em></span> set <span class="emphasis"><em>by default</em></span>
-      and, consequently, without additional configuration steps the following call
-      will fail to compile:
+      <span class="emphasis"><em>There is no default converter set by default</em></span> and, consequently,
+      without additional configuration steps the following call will fail to compile:
     </p>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// No converter provided</span>
 </pre>
@@ -76,12 +74,12 @@
 <p>
     </p>
 <p>
-      The trade-off for the convenience is the lack of run-time converter configurability
-      (which in certain contexts might be the desired behavior) and potentially performance
+      The trade-off for the convenience is the rigid converter configuration (which
+      in certain contexts might be the desired behavior) and potentially performance
       impact. When a converter is not provided explicitly, the default converter
       is created, potentially configured, deployed and destroyed for every <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> call. Consequently, if efficiency of this
       particular component is important, then the implementation of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code>
-      will need to take that into account and to make sure those operations cheap.
+      will need to take that into account and to make sure those operations are cheap.
     </p>
 </div>
 <table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
