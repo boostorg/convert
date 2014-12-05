@@ -46,7 +46,7 @@ For example, the mentioned ['`change`] class is deployed with `boost::cnv::strol
 
 [change_convert_operators]
 
-which are not that dissimilar to previously shown:
+which are not that dissimilar to (but considerably more efficient than) previously shown:
 
  std::istream& operator>>(std::istream&, change&);
  std::ostream& operator<<(std::ostream&, change const&);
