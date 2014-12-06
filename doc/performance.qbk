@@ -27,21 +27,19 @@ Compiled with gcc-4.6.3 on 64-bit Ubuntu 12.04 tests produced the following rela
  int-to-str: spirit/strtol/lcast/prntf/stream=   1.75/   1.53/   2.06/   3.34/   2.73 seconds.
  dbl-to-str: spirit/strtol/lcast/prntf/stream=   5.64/   3.00/  17.89/  14.24/  13.67 seconds.
 
-Based on the results I tend to conclude that (with all things considered) there is no clear winner:
+Based on the results, all things considered, I tend to conclude that there is no clear winner:
 
 * the ['Spirit.Qi]-based converter was the fastest for string to basic (`int`, `double`) conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions (with ['Spirit.Qi] conversion-related limitations in mind); ['Spirit.Karma]'s ['to-string] performance did not seem as impressive;
 * the `std::iostream`-based converter was comparatively slow. Still, given its maturity, availability and formatting support, it might be an option to consider if conversion performance is not your primary concern;
 * the `strtol`-inspired converter was reasonably fast and with formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream`. So, bugs are to be expected.
 
-For user-defined types three converters -- `boost::cnv::lexical_cast`, `std::cnv::cstream` and `boost::cnv::strtol` -- were tested with the following relative results:
+For user-defined types `cnv::lexical_cast`, `cnv::cstream` and `cnv::strtol` were tested with the following relative results:
 
  str-to-user-type: lcast/stream/strtol=1.14/0.59/0.23 seconds.
  user-type-to-str: lcast/stream/strtol=1.97/0.39/0.24 seconds.
 
-To provide ['string-to-type] and ['type-to-string] conversions the first two deploy the same standard `std::iostream` library. Unfortunately that comes at a price as `std::iostream`-based conversions of the basic (`int`, etc.) types are comparatively slow. To address that `boost::lexical_cast` implementation has been optimized to avoid `std::stream` for basic types and ['Boost.Convert] addresses that "optimization" need via pluggable converters. Consequently, if speed is your primary objective and your needs do not go beyond basic types, then deploying ['Spirit], `std::to_string/std::stoi`, `strtol`, `boost::lexical_cast` (directly or via the ['Boost.Convert] framework) might be an option to explore.
-
-For user-defined types though the `boost::cnv::cstream` converter seems to consistently outperform `boost::lexical_cast` in the tests. These results probably reflect different underlying designs. Namely,
-the standard ['Boost.Convert] deployment pattern is to create a converter or converters once and then re-use them. In turn, `boost::lexical_cast` also deploys the `std::stream` engine for user-defined types. However, due to its design `boost::lexical_cast` creates and then destroys a `std::stream` instance every time the function is called and the [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html `boost::lexical_cast` performance] table indicates that the "std::stringstream ['with construction]" operation is considerably more expensive compared to "std::stringstream ['without construction]".
+To provide ['string-to-user-type] and ['user-type-to-string] conversions the first two deploy the same standard `std::iostream` library. However, `boost::cnv::cstream` considerably outperforms `boost::lexical_cast` in these tests. The results probably reflect different underlying designs. Namely,
+the standard ['Boost.Convert] deployment pattern is to create a converter or converters once and then re-use them. `boost::lexical_cast`, on the other hand, due to its design, creates and then destroys a `std::stream` instance every time the function is called and the [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html `boost::lexical_cast` performance] table indicates that the "std::stringstream ['with construction]" operation is considerably more expensive compared to "std::stringstream ['without construction]".
 
 `boost::cnv::strtol` support for user types has been implemented similarly but without the `std::stream`-related overhead. That resulted in the best out-of-three performance results.
 
