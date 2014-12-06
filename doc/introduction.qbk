@@ -8,8 +8,8 @@
 
 ['Boost.Convert] builds on the `boost::lexical_cast` experience and takes those type conversion\/transformation-related ideas further
 
-* to provide a more flexible, configurable and extendible type-conversion framework,
 * to be applicable to a wider range of conversion-related deployment scenarios,
+* to provide a more flexible, configurable and extendible type-conversion framework,
 * to provide generic consistent behavior,
 * to ['unify and to uniformly deploy] various conversion facilities ['through one consistent interface].
 

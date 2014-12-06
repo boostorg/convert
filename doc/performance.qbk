@@ -105,7 +105,7 @@ It produced the following relative results (compiled with `gcc -O3`):
  spirit int-to std::string/small-string: 8.73/2.81 seconds.
  stream int-to std::string/small-string: 12.46/6.94 seconds.
 
-The results demonstrate that for the projects that deal with string-related conversions and routinely deploy `std::string` facilities the conversion-related overhead will be outweighed (or at least offset as in the case of `boost::cnv::cstream`) by the overhead of `std::string`-related operations.
+The results suggest that for the projects that deal with string-related conversions and routinely deploy `std::string` facilities the conversion-related overhead will be outweighed (or at least offset as in the case of `boost::cnv::cstream`) by the overhead of `std::string`-related operations.
 
 [endsect]
 [endsect]

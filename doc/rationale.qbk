@@ -8,9 +8,7 @@
 
 I was using textual configuration files extensively and also was processing and preparing considerable amounts of data in XML. Consequently, I had a need for an ['extendible] library that would provide a ['uniform] interface to convert various data between their internal binary representations and external (predominantly textual) representations. 
 
-The `boost::lexical_cast` library (with its orthogonal and extendible design) looked very promising and was by far the preferred candidate compared to others (see [@http://www.gotw.ca/publications/mill19.htm The String Formatters of Manor Farm] by H. Sutter for the discussion of alternatives). 
-
-Unfortunately, 
+The `boost::lexical_cast` library (with its orthogonal and extendible design) looked very promising compared to others (see [@http://www.gotw.ca/publications/mill19.htm The String Formatters of Manor Farm] by H. Sutter for the discussion of alternatives). Unfortunately, 
 
 * many deployed user types simply did not meet `boost::lexical_cast` requirements (namely, [@http://en.cppreference.com/w/cpp/concept/DefaultConstructible ['Default Constructibility]]); 
 * failure to convert a user-provided configuration parameter was not that rare or exceptional to justify the hassle and the overhead of exception processing; 

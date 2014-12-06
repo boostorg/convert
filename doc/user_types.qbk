@@ -32,13 +32,13 @@ For example,
 [change_declaration]
 [change_stream_operators]
 
-That allows handling conversions of user-defined types with ['`std::iostream`]-based `boost::cnv::cstream` and `boost::cnv::lexical_cast` converters:
+That allows handling conversions of user-defined types with ['`std::iostream`]-based converters:
 
 [stream_example6]
 
 [heading ['boost::cnv::strtol at al.]]
 
-Other converters (based on `boost::cnv::cnvbase` such as `boost::cnv::strtol`) implement support for user types similarly but without the ['`std::iostream`]-related overhead (see [link boost_convert.performance.converters_compared Converters Compared]). Namely, new types are supported by the converters after the following is defined:
+Other converters (based on `boost::cnv::cnvbase`) implement support for user types similarly but without the ['`std::iostream`]-related overhead (see [link boost_convert.performance.converters_compared Converters Compared]). Namely, new types are supported by the converters after the following is defined:
 
  void operator>>(TypeIn const&, boost::optional<TypeOut>&);
 
