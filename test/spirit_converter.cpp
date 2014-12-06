@@ -3,7 +3,7 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include <boost/convert/detail/forward.hpp>
+#include "./test.hpp"
 
 #ifdef BOOST_CONVERT_INTEL_SFINAE_BROKEN
 int main(int, char const* []) { return 0; }
@@ -13,7 +13,6 @@ int main(int, char const* []) { return 0; }
 #include <boost/convert/spirit.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <cstdio>
-#include "./test.hpp"
 
 using std::string;
 using boost::convert;

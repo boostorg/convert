@@ -3,6 +3,9 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
+#include "./test.hpp"
+#include "./prepare.hpp"
+
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
 #include <boost/convert/printf.hpp>
@@ -16,8 +19,6 @@
 #include <boost/random/uniform_int_distribution.hpp>
 #include <cstdlib>
 #include <cstdio>
-#include "./test.hpp"
-#include "./prepare.hpp"
 
 using std::string;
 using boost::convert;

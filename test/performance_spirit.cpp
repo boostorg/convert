@@ -7,7 +7,7 @@
 // This code uses the performance testing framework from libs/spirit/optimization/measure.cpp.
 // See these mentioned files for the copyright notice.
 
-#include <boost/convert/detail/forward.hpp>
+#include "./test.hpp"
 
 #ifdef BOOST_CONVERT_INTEL_SFINAE_BROKEN
 int main(int, char const* []) { return 0; }
@@ -17,7 +17,6 @@ int main(int, char const* []) { return 0; }
 #include <boost/convert/spirit.hpp>
 #include <boost/convert/strtol.hpp>
 #include <boost/convert/lexical_cast.hpp>
-#include "./test.hpp"
 #include "./prepare.hpp"
 
 //#define main() old_str_to_int_test_spirit()

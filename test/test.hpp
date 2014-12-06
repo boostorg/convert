@@ -5,13 +5,13 @@
 #ifndef BOOST_CONVERT_TEST_HPP
 #define BOOST_CONVERT_TEST_HPP
 
+#include <boost/convert/detail/forward.hpp>
 #include <boost/make_default.hpp>
 #include <boost/static_assert.hpp>
 #include <string>
 #include <istream>
 #include <string.h> // For strlen, strcmp, memcpy
 #include <memory.h> // Is needed for 'memset'
-#include <boost/convert/detail/forward.hpp>
 
 #if defined(_MSC_VER)
 #   pragma warning(disable: 4189) // local variable is initialized but not referenced.

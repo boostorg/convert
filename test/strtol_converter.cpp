@@ -3,7 +3,7 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include <boost/convert/detail/forward.hpp>
+#include "./test.hpp"
 
 #ifdef BOOST_CONVERT_INTEL_SFINAE_BROKEN
 int main(int, char const* []) { return 0; }
@@ -17,7 +17,6 @@ int main(int, char const* []) { return 0; }
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/uniform_01.hpp>
 #include <boost/lexical_cast.hpp>
-#include "./test.hpp"
 
 //[strtol_basic_deployment_header
 #include <boost/convert.hpp>

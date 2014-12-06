@@ -3,13 +3,12 @@
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
-#include <boost/convert/detail/forward.hpp>
+#include "./test.hpp"
 
 #ifdef BOOST_CONVERT_INTEL_SFINAE_BROKEN
 int main(int, char const* []) { return 0; }
 #else
 
-#include "./test.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
 #include <boost/detail/lightweight_test.hpp>
