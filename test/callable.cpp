@@ -5,7 +5,7 @@
 
 #include <boost/convert/detail/forward.hpp>
 
-#ifdef BOOST_CONVERT_BROKEN_COMPILER
+#if defined(BOOST_CONVERT_INTEL_SFINAE_BROKEN) && 1 < 0
 int main(int, char const* []) { return 0; }
 #else
 

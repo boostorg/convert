@@ -5,7 +5,7 @@
 
 #include <boost/convert/detail/forward.hpp>
 
-#if defined(BOOST_CONVERT_BROKEN_COMPILER) || defined(BOOST_CONVERT_MSVC_SFINAE_BROKEN)
+#if defined(BOOST_CONVERT_INTEL_SFINAE_BROKEN) || defined(BOOST_CONVERT_MSVC_SFINAE_BROKEN)
 int main(int, char const* []) { return 0; }
 #else
 
