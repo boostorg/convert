@@ -12,7 +12,7 @@
 #   pragma warning(disable: 4180) // qualifier applied to function type has no meaning
 #   pragma warning(disable: 4100) // unreferenced formal parameter
 
-#if _MSC_VER < 1900
+#if _MSC_VER < 1900 /* MSVC-14 defines real snprintf()... just about time! */
 #   define snprintf _snprintf
 #endif
 
@@ -30,11 +30,11 @@
 #define BOOST_CONVERT_CXX11
 #endif
 
-#if defined(BOOST_INTEL) && (BOOST_INTEL <= 1200)
+#if defined(BOOST_INTEL) && (BOOST_INTEL <= 1200) /* Intel 12.0 and lower have broken SFINAE */
 #   define BOOST_CONVERT_INTEL_SFINAE_BROKEN
 #endif
 
-#if defined(BOOST_MSVC) && BOOST_MSVC < 1800
+#if defined(BOOST_MSVC) && (BOOST_MSVC < 1800) /* MSVC-11 and lower have broken SFINAE */
 #   define BOOST_CONVERT_MSVC_SFINAE_BROKEN
 #endif
 
