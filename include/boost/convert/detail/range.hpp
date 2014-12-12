@@ -34,9 +34,9 @@ namespace boost { namespace cnv
     template<typename T>
     struct range<T, typename enable_if_c<is_class<T>::value && is_range<T>::value>::type>
     {
-        typedef typename boost::range_iterator<T>::type    iterator;
-        typedef typename boost::range_iterator<T>::type sentry_type;
-        typedef typename boost::iterator_value<iterator>::type char_type;
+        typedef typename boost::range_iterator<T>::type          iterator;
+        typedef typename boost::range_iterator<T>::type       sentry_type;
+        typedef typename boost::iterator_value<iterator>::type value_type;
 
         range (T& r) : begin_(r.begin()), end_(r.end()) {}
         range (iterator b, iterator e) : begin_(b), end_(e) {}
@@ -56,7 +56,7 @@ namespace boost { namespace cnv
     template<typename T>
     struct range<T*, typename enable_if<cnv::is_char<T>, void>::type>
     {
-        typedef typename remove_const<T>::type char_type;
+        typedef typename remove_const<T>::type value_type;
         typedef T* iterator;
 
         struct sentry_type
@@ -92,7 +92,7 @@ namespace boost { namespace cnv
     {
         // TODO. Should we take advantage of knowing the actual size?
 
-        typedef typename remove_const<T>::type char_type;
+        typedef typename remove_const<T>::type value_type;
         typedef T* iterator;
 
         struct sentry_type

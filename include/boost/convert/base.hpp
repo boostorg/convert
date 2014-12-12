@@ -117,7 +117,7 @@ struct boost::cnv::cnvbase
     void
     to_str_(in_type value_in, optional<string_type>& result_out) const
     {
-        typedef typename cnv::range<string_type>::char_type char_type;
+        typedef typename cnv::range<string_type>::value_type char_type;
 
         char_type buf[bufsize_];
         cnv::range<char_type*> range = dncast().to_str(value_in, buf);

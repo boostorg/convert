@@ -189,6 +189,7 @@ main(int argc, char const* argv[])
     BOOST_TEST(boost::cnv::is_string<std::string>::value == true);
     BOOST_TEST(boost::cnv::is_string<std::wstring>::value == true);
     BOOST_TEST(boost::cnv::is_string<my_string>::value == true);
+    BOOST_TEST(boost::cnv::is_string<int>::value == false);
 
 #ifndef BOOST_CONVERT_MSVC_SFINAE_BROKEN
 
