@@ -30,17 +30,31 @@ namespace boost { namespace cnv
     }
     template<typename T> struct is_range : detail::is_range<typename remove_const<T>::type, boost::is_class<T>::value> {};
     template<typename T, typename enable =void> struct range;
+    template<typename T, typename enable =void> struct iterator;
 
     template<typename T>
-    struct range<T, typename enable_if_c<is_class<T>::value && is_range<T>::value>::type>
+    struct iterator<T, typename enable_if_c<is_class<T>::value && is_range<T>::value>::type>
     {
-        typedef typename boost::range_iterator<T>::type             iterator;
-        typedef typename boost::range_iterator<T const>::type const_iterator;
-        typedef typename boost::range_iterator<T>::type          sentry_type;
-        typedef typename boost::iterator_value<iterator>::type    value_type;
+        typedef typename boost::range_iterator<T>::type             type;
+        typedef typename boost::range_iterator<T const>::type const_type;
+        typedef typename boost::iterator_value<type>::type    value_type;
+    };
+    template<typename T>
+    struct iterator<T*, void>
+    {
+        typedef typename remove_const<T>::type value_type;
+        typedef T*                                   type;
+        typedef value_type const*              const_type;
+    };
+    template<typename T>
+    struct range_base
+    {
+        typedef typename cnv::iterator<T>::value_type     value_type;
+        typedef typename cnv::iterator<T>::type             iterator;
+        typedef typename cnv::iterator<T>::const_type const_iterator;
+        typedef const_iterator                           sentry_type;
 
-        range (T& r) : begin_(r.begin()), end_(r.end()) {}
-        range (iterator b, iterator e) : begin_(b), end_(e) {}
+        range_base (iterator b, iterator e =iterator()) : begin_(b), end_(e) {}
 
         iterator       begin () { return begin_; }
         iterator         end () { return   end_; }
@@ -50,15 +64,27 @@ namespace boost { namespace cnv
         void      operator++ () { ++begin_; }
         void      operator-- () { --end_; }
 
-        private:
+        protected:
 
-        iterator begin_;
-        iterator   end_;
+        iterator       begin_;
+        mutable iterator end_;
     };
 
     template<typename T>
-    struct range<T*, typename enable_if<cnv::is_char<T>, void>::type>
+    struct range<T, typename enable_if_c<is_class<T>::value && is_range<T>::value>::type> : public range_base<T>
     {
+        typedef range         this_type;
+        typedef range_base<T> base_type;
+
+        range (T& r) : base_type(r.begin(), r.end()) {}
+    };
+
+    template<typename T>
+    struct range<T*, typename enable_if<cnv::is_char<T>, void>::type> : public range_base<T*>
+    {
+        typedef range          this_type;
+        typedef range_base<T*> base_type;
+
         typedef typename remove_const<T>::type value_type;
         typedef T*                               iterator;
         typedef value_type const*          const_iterator;
@@ -68,21 +94,12 @@ namespace boost { namespace cnv
             friend bool operator!=(iterator it, sentry_type const&) { return !!*it; }
         };
 
-        range (T* b, T* e =0) : begin_(b), end_(e) {}
+        range (iterator b, iterator e =0) : base_type(b, e) {}
 
-        iterator       begin ()       { return begin_; }
-        iterator         end ()       { return end_ ? end_ : (end_ = begin_ + size()); }
-        const_iterator begin () const { return begin_; }
-        const_iterator   end () const { return end_ ? end_ : (end_ = begin_ + size()); }
+        iterator         end ()       { return base_type::end_ ? base_type::end_ : (base_type::end_ = base_type::begin_ + size()); }
+        const_iterator   end () const { return base_type::end_ ? base_type::end_ : (base_type::end_ = base_type::begin_ + size()); }
         sentry_type   sentry () const { return sentry_type(); }
-        std::size_t     size () const { return std::char_traits<value_type>::length(begin_); }
-        void      operator++ () { ++begin_; }
-        void      operator-- () { --end_; }
-
-        private:
-
-        iterator       begin_;
-        mutable iterator end_; // Calculated when requested.
+        std::size_t     size () const { return std::char_traits<value_type>::length(base_type::begin_); }
     };
     template<typename T>
     struct range<T* const, void> : public range<T*>
