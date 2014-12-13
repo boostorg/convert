@@ -33,7 +33,7 @@ namespace boost { namespace cnv
     template<typename T, typename enable =void> struct iterator;
 
     template<typename T>
-    struct iterator<T, typename enable_if_c<is_class<T>::value && is_range<T>::value>::type>
+    struct iterator<T, typename enable_if<is_range<T> >::type>
     {
         typedef typename boost::range_iterator<T>::type             type;
         typedef typename boost::range_iterator<T const>::type const_type;
@@ -71,7 +71,7 @@ namespace boost { namespace cnv
     };
 
     template<typename T>
-    struct range<T, typename enable_if_c<is_class<T>::value && is_range<T>::value>::type> : public range_base<T>
+    struct range<T, typename enable_if<is_range<T> >::type> : public range_base<T>
     {
         typedef range         this_type;
         typedef range_base<T> base_type;
