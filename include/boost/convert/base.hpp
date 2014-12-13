@@ -102,14 +102,10 @@ struct boost::cnv::cnvbase
     void
     str_to_(string_type const& str, optional<out_type>& result_out) const
     {
-        typedef cnv::range<string_type const>    range_type;
-        typedef typename range_type::iterator iterator_type;
+        cnv::range<string_type const> range (str);
 
-        range_type   range (str);
-        iterator_type& beg = range.begin();
-
-        /**/ if (skipws_) for (; std::isspace(*beg); ++beg);
-        else if (std::isspace(*beg)) return;
+        /**/ if (skipws_) for (; std::isspace(*range.begin()); ++range);
+        else if (std::isspace(*range.begin())) return;
 
         dncast().str_to(range, result_out);
     }

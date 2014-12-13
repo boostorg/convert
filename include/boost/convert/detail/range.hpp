@@ -34,18 +34,21 @@ namespace boost { namespace cnv
     template<typename T>
     struct range<T, typename enable_if_c<is_class<T>::value && is_range<T>::value>::type>
     {
-        typedef typename boost::range_iterator<T>::type          iterator;
-        typedef typename boost::range_iterator<T>::type       sentry_type;
-        typedef typename boost::iterator_value<iterator>::type value_type;
+        typedef typename boost::range_iterator<T>::type             iterator;
+        typedef typename boost::range_iterator<T const>::type const_iterator;
+        typedef typename boost::range_iterator<T>::type          sentry_type;
+        typedef typename boost::iterator_value<iterator>::type    value_type;
 
         range (T& r) : begin_(r.begin()), end_(r.end()) {}
         range (iterator b, iterator e) : begin_(b), end_(e) {}
 
-        iterator&       begin () { return begin_; }
-        iterator&         end () { return   end_; }
-        iterator const& begin () const { return begin_; }
-        iterator const&   end () const { return   end_; }
-        sentry_type    sentry () const { return   end_; }
+        iterator       begin () { return begin_; }
+        iterator         end () { return   end_; }
+        const_iterator begin () const { return begin_; }
+        const_iterator   end () const { return   end_; }
+        sentry_type   sentry () const { return   end_; }
+        void      operator++ () { ++begin_; }
+        void      operator-- () { --end_; }
 
         private:
 
@@ -57,7 +60,8 @@ namespace boost { namespace cnv
     struct range<T*, typename enable_if<cnv::is_char<T>, void>::type>
     {
         typedef typename remove_const<T>::type value_type;
-        typedef T* iterator;
+        typedef T*                               iterator;
+        typedef value_type const*          const_iterator;
 
         struct sentry_type
         {
@@ -66,53 +70,29 @@ namespace boost { namespace cnv
 
         range (T* b, T* e =0) : begin_(b), end_(e) {}
 
-        iterator&       begin ()       { return begin_; }
-        iterator&         end ()       { return end_ ? end_ : (end_ = begin_ + size()); }
-        iterator const& begin () const { return begin_; }
-        iterator const&   end () const { return end_ ? end_ : (end_ = begin_ + size()); }
-        sentry_type    sentry () const { return sentry_type(); }
-        std::size_t      size () const { return std::char_traits<T>::length(begin_); }
+        iterator       begin ()       { return begin_; }
+        iterator         end ()       { return end_ ? end_ : (end_ = begin_ + size()); }
+        const_iterator begin () const { return begin_; }
+        const_iterator   end () const { return end_ ? end_ : (end_ = begin_ + size()); }
+        sentry_type   sentry () const { return sentry_type(); }
+        std::size_t     size () const { return std::char_traits<value_type>::length(begin_); }
+        void      operator++ () { ++begin_; }
+        void      operator-- () { --end_; }
 
         private:
 
         iterator       begin_;
-        mutable iterator end_;
+        mutable iterator end_; // Calculated when requested.
     };
     template<typename T>
-    struct range<T* const, typename enable_if<cnv::is_char<T>, void>::type> : public range<T*>
+    struct range<T* const, void> : public range<T*>
     {
-        typedef range<T* const>             this_type;
-        typedef range<T*>                   base_type;
-        typedef typename base_type::iterator iterator;
-
-        range (T* b, T* e =0) : base_type(b, e) {}
+        range (T* b, T* e =0) : range<T*>(b, e) {}
     };
     template <typename T, std::size_t N>
-    struct range<T [N], typename enable_if<cnv::is_char<T>, void>::type>
+    struct range<T [N], void> : public range<T*>
     {
-        // TODO. Should we take advantage of knowing the actual size?
-
-        typedef typename remove_const<T>::type value_type;
-        typedef T* iterator;
-
-        struct sentry_type
-        {
-            friend bool operator!=(iterator it, sentry_type const&) { return !!*it; }
-        };
-
-        range (T* b, T* e =0) : begin_(b), end_(e) {}
-
-        iterator&       begin ()       { return begin_; }
-        iterator&         end ()       { return end_ ? end_ : (end_ = begin_ + size()); }
-        iterator const& begin () const { return begin_; }
-        iterator const&   end () const { return end_ ? end_ : (end_ = begin_ + size()); }
-        sentry_type    sentry () const { return sentry_type(); }
-        std::size_t      size () const { return std::char_traits<T>::length(begin_); }
-
-        private:
-
-        iterator       begin_;
-        mutable iterator end_;
+        range (T* b, T* e =0) : range<T*>(b, e) {}
     };
 }}
 
