@@ -91,7 +91,7 @@ namespace boost { namespace cnv
 
         struct sentry_type
         {
-            friend bool operator!=(iterator it, sentry_type const&) { return !!*it; }
+            friend bool operator!=(iterator it, sentry_type) { return !!*it; }
         };
 
         range (iterator b, iterator e =0) : base_type(b, e) {}
