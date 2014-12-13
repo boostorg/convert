@@ -12,14 +12,6 @@ namespace boost { namespace cnv
     {
         template<typename T, bool is_class> struct is_range : mpl::false_ {};
 
-//        template<typename T> struct is_range<T*, false>
-//        {
-//            static bool const value = true;
-//        };
-//        template <typename T, std::size_t N> struct is_range<T [N], false>
-//        {
-//            static bool const value = true;
-//        };
         template<typename T> struct is_range<T, /*is_class=*/true>
         {
             BOOST_DECLARE_HAS_MEMBER(has_begin, begin);
@@ -54,7 +46,7 @@ namespace boost { namespace cnv
         typedef typename cnv::iterator<T>::const_type const_iterator;
         typedef const_iterator                           sentry_type;
 
-        range_base (iterator b, iterator e =iterator()) : begin_(b), end_(e) {}
+        range_base (iterator b, iterator e) : begin_(b), end_(e) {}
 
         iterator       begin () { return begin_; }
         iterator         end () { return   end_; }
@@ -80,7 +72,7 @@ namespace boost { namespace cnv
     };
 
     template<typename T>
-    struct range<T*, typename enable_if<cnv::is_char<T>, void>::type> : public range_base<T*>
+    struct range<T*, typename enable_if<cnv::is_char<T> >::type> : public range_base<T*>
     {
         typedef range          this_type;
         typedef range_base<T*> base_type;
@@ -96,10 +88,10 @@ namespace boost { namespace cnv
 
         range (iterator b, iterator e =0) : base_type(b, e) {}
 
-        iterator         end ()       { return base_type::end_ ? base_type::end_ : (base_type::end_ = base_type::begin_ + size()); }
-        const_iterator   end () const { return base_type::end_ ? base_type::end_ : (base_type::end_ = base_type::begin_ + size()); }
-        sentry_type   sentry () const { return sentry_type(); }
-        std::size_t     size () const { return std::char_traits<value_type>::length(base_type::begin_); }
+        iterator       end ()       { return base_type::end_ ? base_type::end_ : (base_type::end_ = base_type::begin_ + size()); }
+        const_iterator end () const { return base_type::end_ ? base_type::end_ : (base_type::end_ = base_type::begin_ + size()); }
+        sentry_type sentry () const { return sentry_type(); }
+        std::size_t   size () const { return std::char_traits<value_type>::length(base_type::begin_); }
     };
     template<typename T>
     struct range<T* const, void> : public range<T*>
