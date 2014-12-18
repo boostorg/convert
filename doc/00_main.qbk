@@ -27,6 +27,7 @@
 [import ../test/performance.cpp]
 [import ../test/sfinae.cpp]
 [import ../test/user_type.cpp]
+[import ../test/has_member.cpp]
 
 [include rationale.qbk]
 [include introduction.qbk]

@@ -14,15 +14,6 @@ int main(int, char const* []) { return 0; }
 #include <boost/convert/detail/is_callable.hpp>
 #include <boost/detail/lightweight_test.hpp>
 
-//[has_member_declaration
-namespace { namespace local
-{
-    BOOST_DECLARE_HAS_MEMBER(has_begin, begin);
-    BOOST_DECLARE_HAS_MEMBER(  has_end, end);
-    BOOST_DECLARE_HAS_MEMBER(has_funop, operator());
-}}
-//]
-
 //[is_callable_declaration
 namespace { namespace local
 {
@@ -30,35 +21,6 @@ namespace { namespace local
     BOOST_DECLARE_IS_CALLABLE(can_call_func, func);
 }}
 //]
-
-//[has_member_classes_tested
-namespace { namespace local
-{
-    template<typename T> struct is_range
-    {
-        static bool const value = local::has_begin<T>::value && local::has_end<T>::value;
-    };
-
-    struct test1 { int   begin; };
-    struct test2 { char* begin() { return 0; } };
-    struct test3 { void  begin(int) {} };
-    struct test4
-    {
-        char* begin() { return 0; }
-        char*   end() { return 0; }
-    };
-}}
-//]
-
-namespace { namespace local
-{
-    struct  no1 { void zoo () {} };
-    struct yes01 { void operator() () {} };
-    struct yes02 { void operator() () const {} };
-    struct yes03 { int  operator() (int) { return 0; } };
-    struct yes04 { int  operator() (int) const { return 0; } };
-    struct yes05 { int  operator() (int) const { return 0; } void operator() () const {} };
-}}
 
 //[is_callable_classes_tested
 namespace { namespace callable
@@ -190,35 +152,6 @@ main(int argc, char const* argv[])
     BOOST_TEST(boost::cnv::is_string<std::wstring>::value == true);
     BOOST_TEST(boost::cnv::is_string<my_string>::value == true);
     BOOST_TEST(boost::cnv::is_string<int>::value == false);
-
-#ifndef BOOST_CONVERT_MSVC_SFINAE_BROKEN
-
-    //[has_member_usage
-    BOOST_TEST(local::has_begin<local::test1>::value == true);
-    BOOST_TEST(local::has_begin<local::test2>::value == true);
-    BOOST_TEST(local::has_begin<local::test3>::value == true);
-    BOOST_TEST(local::has_begin<local::test4>::value == true);
-
-    BOOST_TEST(local::has_end<local::test1>::value == false);
-    BOOST_TEST(local::has_end<local::test2>::value == false);
-    BOOST_TEST(local::has_end<local::test3>::value == false);
-    BOOST_TEST(local::has_end<local::test4>::value ==  true);
-
-    BOOST_TEST(local::is_range<local::test1>::value == false);
-    BOOST_TEST(local::is_range<local::test2>::value == false);
-    BOOST_TEST(local::is_range<local::test3>::value == false);
-    BOOST_TEST(local::is_range<local::test4>::value ==  true);
-    //]
-
-    BOOST_TEST(local::has_funop<local::no1>::value == false);
-
-    BOOST_TEST(local::has_funop<local::yes01>::value == true);
-    BOOST_TEST(local::has_funop<local::yes02>::value == true);
-    BOOST_TEST(local::has_funop<local::yes03>::value == true);
-    BOOST_TEST(local::has_funop<local::yes04>::value == true);
-    BOOST_TEST(local::has_funop<local::yes05>::value == true);
-
-#endif
 
     return boost::report_errors();
 }

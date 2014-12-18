@@ -15,7 +15,7 @@ target_10 = convert-test-encryption
 target_11 = convert-test-user-type
 target_12 = convert-test-str-to-int
 target_13 = convert-test-sfinae
-target_14 = convert-test-has-begin
+target_14 = convert-test-has-member
 
 sources_2  = test/callable.cpp
 sources_3  = test/is_converter.cpp
@@ -29,7 +29,7 @@ sources_10 = test/encryption.cpp
 sources_11 = test/user_type.cpp
 sources_12 = test/str_to_int.cpp
 sources_13 = test/sfinae.cpp
-sources_14 = test/has_begin.cpp
+sources_14 = test/has_member.cpp
 
 target_21 = convert-test-performance
 target_22 = convert-test-performance-spirit
