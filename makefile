@@ -1,6 +1,6 @@
 BOOST_ROOT = $(HOME)/dev/boost
 
-cflags    = -O3 -Iinclude -I$(BOOST_ROOT) -Wno-unused-variable -Wno-uninitialized
+cflags    = -O3 -std=c++11 -Iinclude -I$(BOOST_ROOT) -Wno-unused-variable -Wno-uninitialized
 ldflags   = -L$(HOME)/dev/lib -lboost_timer -lboost_system -lboost_chrono
 
 target_2  = convert-test-callable

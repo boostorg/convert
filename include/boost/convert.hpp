@@ -128,11 +128,12 @@ namespace boost { namespace cnv
     {
         typedef reference this_type;
 
-//#ifdef BOOST_CONVERT_CXX11
-//        reference(Converter&& cnv) : converter_(std::forward<Converter>(cnv)) {}
-//#else
         reference(Converter const& cnv) : converter_(cnv) {}
-//#endif
+
+#ifdef BOOST_CONVERT_CXX11
+        reference(Converter&& cnv) : converter_(std::move(cnv)) {}
+#endif
+
         this_type&
         value_or(TypeOut const& fallback)
         {
@@ -156,11 +157,12 @@ namespace boost { namespace cnv
     {
         typedef reference this_type;
 
-//#ifdef BOOST_CONVERT_CXX11
-//      reference(Converter&& cnv) : converter_(std::forward<Converter>(cnv)) {}
-//#else
         reference(Converter const& cnv) : converter_(cnv) {}
-//#endif
+
+#ifdef BOOST_CONVERT_CXX11
+        reference(Converter&& cnv) : converter_(std::move(cnv)) {}
+#endif
+
         this_type&
         value_or(TypeOut const& fallback)
         {

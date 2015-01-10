@@ -75,10 +75,9 @@ example2()
     */
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     std::vector<int>             ints;
-    boost::cnv::lexical_cast      cnv;
 
     std::transform(strs.begin(), strs.end(), std::back_inserter(ints),
-        boost::cnv::apply<int>(cnv).value_or(-1));
+        boost::cnv::apply<int>(boost::cnv::lexical_cast()).value_or(-1));
 
     BOOST_TEST(ints.size() == 3);
     BOOST_TEST(ints[0] == -1); // Failed conversion does not throw.

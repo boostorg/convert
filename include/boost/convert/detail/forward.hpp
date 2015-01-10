@@ -18,8 +18,6 @@
 
 #endif
 
-#define BOOST_NO_CXX11_REF_QUALIFIERS
-
 #include <boost/config.hpp>
 #include <boost/version.hpp>
 #include <boost/optional.hpp>
