@@ -95,6 +95,6 @@ class __trait_name__                                                            
                                                                                             \
     /* Check the existence of __member_name__ first, then the signature. */                 \
     static bool const value = check<has_member<class_type>::value, signature>::value;       \
-};
+}
 
 #endif // BOOST_CONVERT_IS_CALLABLE_HPP
