@@ -200,7 +200,7 @@ boost::cnv::strtol::str_to_d(cnv::range<string_type> range, optional<out_type>& 
 
     char_type const*   str = &*range.begin(); // Currently only works with 'char'
     char*          cnv_end = 0;
-    ldbl_type const result = std::strtold(str, &cnv_end);
+    ldbl_type const result = ::strtold(str, &cnv_end);
     bool const        good = result != -HUGE_VALL && result != HUGE_VALL && *cnv_end == 0/*C2*/;
     out_type const     max = std::numeric_limits<out_type>::max();
 
