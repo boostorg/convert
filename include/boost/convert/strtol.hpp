@@ -14,6 +14,11 @@
 #include <cstdlib>
 #include <climits>
 
+namespace std
+{
+    using ::strtold; // Tests indicated that gcc-4.2.1 does not have 'strtold'
+}
+
 namespace boost { namespace cnv
 {
     struct strtol;
