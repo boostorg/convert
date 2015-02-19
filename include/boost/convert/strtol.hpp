@@ -14,10 +14,12 @@
 #include <cstdlib>
 #include <climits>
 
+#if __GNUC__ == 4 && __GNUC_MINOR__ <= 2
 namespace std
 {
-    using ::strtold; // Tests indicated that gcc-4.2.1 does not have 'strtold'
+    using ::strtold; // Tests indicated that gcc-4.2.1 does not have 'std::strtold'
 }
+#endif
 
 namespace boost { namespace cnv
 {
