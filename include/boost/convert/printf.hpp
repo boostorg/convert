@@ -30,7 +30,7 @@ struct boost::cnv::printf : public boost::cnv::cnvbase<boost::cnv::printf>
     to_str(in_type value_in, char* buf) const
     {
         char const*     fmt = pformat(pos<in_type>());
-        int const num_chars = ::snprintf(buf, bufsize_, fmt, precision_, value_in);
+        int const num_chars = snprintf(buf, bufsize_, fmt, precision_, value_in);
         bool const  success = num_chars < bufsize_;
 
         return cnv::range<char*>(buf, success ? (buf + num_chars) : buf);
@@ -40,7 +40,7 @@ struct boost::cnv::printf : public boost::cnv::cnvbase<boost::cnv::printf>
     str_to(cnv::range<string_type> range, optional<out_type>& result_out) const
     {
         out_type    result = boost::make_default<out_type>();
-        int const num_read = ::sscanf(&*range.begin(), format(pos<out_type>()), &result);
+        int const num_read = sscanf(&*range.begin(), format(pos<out_type>()), &result);
 
         if (num_read == 1)
             result_out = result;
