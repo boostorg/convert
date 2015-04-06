@@ -43,7 +43,7 @@ struct boost::cnv::strtol : public boost::cnv::cnvbase<boost::cnv::strtol>
     //         ...
     //         bool const     good = ... && cnv_end == str_end;
 
-    typedef boost::cnv::strtol                     this_type;
+    typedef boost::cnv::strtol             this_type;
     typedef boost::cnv::cnvbase<this_type> base_type;
 
     using base_type::operator();
@@ -207,7 +207,7 @@ boost::cnv::strtol::str_to_d(cnv::range<string_type> range, optional<out_type>& 
 
     char_type const*   str = &*range.begin(); // Currently only works with 'char'
     char*          cnv_end = 0;
-    ldbl_type const result = std::strtold(str, &cnv_end);
+    ldbl_type const result = strtold(str, &cnv_end);
     bool const        good = result != -HUGE_VALL && result != HUGE_VALL && *cnv_end == 0/*C2*/;
     out_type const     max = std::numeric_limits<out_type>::max();
 
