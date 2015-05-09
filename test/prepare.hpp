@@ -7,6 +7,8 @@
 #define BOOST_CONVERT_TEST_PREPARE_HPP
 
 #include <boost/array.hpp>
+#include <ctime>
+#include <cstdlib>
 
 namespace { namespace local
 {
@@ -25,10 +27,10 @@ namespace { namespace local
         if (negative)                       // Prepend a '-'
             result += '-';
 
-        result += '1' + (rand()%9);         // The first digit cannot be '0'
+        result += '1' + (std::rand()%9);         // The first digit cannot be '0'
 
         for (int i = 1; i < digits; ++i)    // Generate the remaining digits
-            result += '0' + (rand()%10);
+            result += '0' + (std::rand()%10);
         return result;
     }
 
@@ -42,7 +44,7 @@ namespace { namespace local
         if (!filled)
         {
             // Seed the random generator
-            srand(time(0));
+            std::srand(std::time(0));
 
             for (size_t k = 0; k < strings.size(); ++k)
                 strings[k] = local::gen_int(k/2 + 1, negative = !negative).c_str();
