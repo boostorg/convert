@@ -13,6 +13,7 @@ int main(int, char const* []) { return 0; }
 #include <boost/convert/stream.hpp>
 #include <boost/detail/lightweight_test.hpp>
 #include <cstdio>
+#include <cstdlib>
 
 //[stream_using
 using std::string;
