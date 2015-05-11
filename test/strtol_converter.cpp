@@ -37,8 +37,8 @@ test_str_to_uint()
     string const         neg_str = "-11";
     string const         std_str = "11";
     char const* const      c_str = "12";
-    unsigned int const      imax = std::numeric_limits<unsigned int>::max();
-    unsigned long int const lmax = std::numeric_limits<unsigned long int>::max();
+    unsigned int const      imax = (std::numeric_limits<unsigned int>::max)();
+    unsigned long int const lmax = (std::numeric_limits<unsigned long int>::max)();
     std::string const   imax_str = boost::lexical_cast<std::string>(imax);
     std::string const   lmax_str = boost::lexical_cast<std::string>(lmax);
 

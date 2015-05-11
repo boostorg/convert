@@ -354,7 +354,7 @@ main(int argc, char const* argv[])
     try
     {
         // QNX fails to handle std::skipws for wchat_t.
-    	// Excluding from tests so that I do not have to stare on the yellow box (regression failure)
+        // Excluding from tests so that I do not have to stare on the yellow box (regression failure)
         /*********************/ test_skipws_char();
         if (!test::cnv::is_qnx) test_skipws_wchar();
 

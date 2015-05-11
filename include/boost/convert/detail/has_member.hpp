@@ -19,7 +19,7 @@
 // Now, if we inherit from both -- foo and base -- classes, then the following calls will fail
 //      mixin_ptr(0)->func();
 //      mixin_ptr(0)->func(5, 5);
-// with the error message (gcc): request for member ‘func’ is ambiguous
+// with the error message (gcc): request for member func is ambiguous
 // regardless if we provide any arguments or not even though one might expect that
 // arg-based signature resolution might kick in. The only way to deploy those methods is:
 //

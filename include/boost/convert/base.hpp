@@ -138,7 +138,7 @@ struct boost::cnv::cnvbase
         }
         if (width_)
         {
-            int const num_fillers = std::max(0, int(width_ - (end - beg)));
+            int const num_fillers = (std::max)(0, int(width_ - (end - beg)));
             int const    num_left = adjust_ == boost::cnv::adjust::left ? 0
                                   : adjust_ == boost::cnv::adjust::right ? num_fillers
                                   : (num_fillers / 2);
