@@ -161,7 +161,7 @@ void
 boost::cnv::strtol::str_to_i(cnv::range<string_type> range, boost::optional<out_type>& result_out) const
 {
 
-	typedef typename boost::make_unsigned<out_type>::type unsigned_type;
+    typedef typename boost::make_unsigned<out_type>::type unsigned_type;
     typedef cnv::range<string_type>                          range_type;
     typedef typename range_type::iterator                      iterator;
 
