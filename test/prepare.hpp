@@ -10,6 +10,7 @@
 #include <ctime>
 #include <cstdlib>
 
+// boostinspect:nounnamed
 namespace { namespace local
 {
     // C1. 18 = 9 positive + 9 negative numbers with the number of digits from 1 to 9.
