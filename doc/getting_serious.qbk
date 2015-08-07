@@ -31,8 +31,7 @@ Now [@boost:/libs/optional/index.html `boost::optional`] steps forward as the ac
  int i2 = boost::convert<int>(str2, cnv).value_or(fallback_value);
  int i3 = boost::convert<int>(str3, cnv).value_or_eval(fallback_function);
 
-[note The potential advantage of `value_or_eval(fallback_function)` over `value_or(fallback_value)` is that `fallback_function` is only called when/if conversion fails, i.e. the `fallback_value` (ultimately returned by `fallback_function`) is only calculated (which mght be expensive) when needed.]
-
+[note One notable advantage of `value_or_eval()` over `value_or()` is that the actual calculation of the `fallback_value` is delayed, conditional on the success or failure of the  conversion.]
 
 From the user perspective, `boost::lexical_cast` processes failure in a somewhat one-dimensional non-negotiable manner. `boost::convert` takes a more flexible approach, provides choice and leaves the decision to the user. It probably is not unimaginable that, on the library level, propagating the conversion-failure exception might be the only sensible response. On the application level though, in my personal experience, the choice has overwhelmingly been to handle conversion failures locally, i.e. avoiding conversion-failure exception propagation or, better still, avoiding exceptions altogether with program flows similar to:
 

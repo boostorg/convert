@@ -55,7 +55,7 @@ getting_started_example1()
         int    i1 = lexical_cast<int>("123");          // boost::lexical_cast standard deployment
         int    i2 = convert<int>("123").value();       // boost::convert with the default converter
         int    i3 = convert<int>("123", cnv).value();  // boost::convert with an explicit converter
-        string s1 = lexical_cast<string>(123);
+        string s1 = lexical_cast<string>(123);         // boost::lexical_cast standard deployment
         string s2 = convert<string>(123).value();      // boost::convert with the default converter
         string s3 = convert<string>(123, cnv).value(); // boost::convert with an explicit converter
 
@@ -68,8 +68,8 @@ getting_started_example1()
     }
     catch (std::exception const& ex)
     {
-        // Be aware that the conversion requests above can fail,
-        // so always use try'n'catch blocks to handle any exceptions thrown.
+        // Be aware that the conversion requests above can fail.
+        // Please use try'n'catch blocks to handle any exceptions thrown.
         // Ignore this at your peril!
         std::cerr << "Exception " << ex.what() << std::endl;
     }
