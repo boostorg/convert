@@ -102,8 +102,6 @@
     </p>
 <p>
       That allows handling conversions of user-defined types with <span class="emphasis"><em><code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">iostream</span></code></em></span>-based
-      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span></code>
-      and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       converters:
     </p>
 <p>
@@ -128,7 +126,7 @@
       at al.</em></span></a>
     </h4>
 <p>
-      Other converters (based on <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cnvbase</span></code> such as <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">strtol</span></code>) implement support for user types
+      Other converters (based on <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cnvbase</span></code>) implement support for user types
       similarly but without the <span class="emphasis"><em><code class="computeroutput"><span class="identifier">std</span><span class="special">::</span><span class="identifier">iostream</span></code></em></span>-related
       overhead (see <a class="link" href="performance.html#boost_convert.performance.converters_compared" title="Converters Compared">Converters
       Compared</a>). Namely, new types are supported by the converters after the
@@ -158,7 +156,8 @@
 <p>
     </p>
 <p>
-      which are not that dissimilar to previously shown:
+      which are not that dissimilar to (but considerably more efficient than) previously
+      shown:
     </p>
 <pre class="programlisting"><span class="identifier">std</span><span class="special">::</span><span class="identifier">istream</span><span class="special">&amp;</span> <span class="keyword">operator</span><span class="special">&gt;&gt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">istream</span><span class="special">&amp;,</span> <span class="identifier">change</span><span class="special">&amp;);</span>
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream</span><span class="special">&amp;</span> <span class="keyword">operator</span><span class="special">&lt;&lt;(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">ostream</span><span class="special">&amp;,</span> <span class="identifier">change</span> <span class="keyword">const</span><span class="special">&amp;);</span>

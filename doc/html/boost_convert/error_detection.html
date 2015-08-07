@@ -111,10 +111,9 @@
 <th align="left">Note</th>
 </tr>
 <tr><td align="left" valign="top"><p>
-        The potential advantage of <code class="computeroutput"><span class="identifier">value_or_eval</span><span class="special">(</span><span class="identifier">fallback_function</span><span class="special">)</span></code> over <code class="computeroutput"><span class="identifier">value_or</span><span class="special">(</span><span class="identifier">fallback_value</span><span class="special">)</span></code> is that <code class="computeroutput"><span class="identifier">fallback_function</span></code>
-        is only called when/if conversion fails, i.e. the <code class="computeroutput"><span class="identifier">fallback_value</span></code>
-        (ultimately returned by <code class="computeroutput"><span class="identifier">fallback_function</span></code>)
-        is only calculated (which mght be expensive) when needed.
+        One notable advantage of <code class="computeroutput"><span class="identifier">value_or_eval</span><span class="special">()</span></code> over <code class="computeroutput"><span class="identifier">value_or</span><span class="special">()</span></code> is that the actual calculation of the
+        <code class="computeroutput"><span class="identifier">fallback_value</span></code> is delayed,
+        conditional on the success or failure of the conversion.
       </p></td></tr>
 </table></div>
 <p>
