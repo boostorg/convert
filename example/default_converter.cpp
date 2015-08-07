@@ -13,7 +13,10 @@ struct boost::cnv::by_default : public boost::cnv::cstream {};
 //]
 #endif
 //[default_converter_declaration_formatted
-struct boost::cnv::by_default : public boost::cnv::cstream { by_default() { (*this)(std::uppercase)(std::hex); }};
+struct boost::cnv::by_default : public boost::cnv::cstream 
+{ 
+    by_default() { (*this)(std::uppercase)(std::hex); }
+};
 //]
 
 int
