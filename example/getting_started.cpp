@@ -68,8 +68,8 @@ getting_started_example1()
     }
     catch (std::exception const& ex)
     {
-        // Be aware that the conversion requests above can fail.
-        // Please use try'n'catch blocks to handle any exceptions thrown.
+        // Please be aware that the conversion requests above can fail.
+        // Use try'n'catch blocks to handle any exceptions thrown.
         // Ignore this at your peril!
         std::cerr << "Exception " << ex.what() << std::endl;
     }
@@ -132,10 +132,10 @@ getting_started_example4()
     string       s3 = convert<string>(12.34567, cnv(std::scientific)(std::setprecision(3))).value();
     string expected = local::is_msc ? "1.235e+001" : "1.235e+01";
 
-    BOOST_TEST(i2 == 123);
-    BOOST_TEST(s1 == "12.34567"); // Precision is not configurable.
-    BOOST_TEST(s2 == "12.346");   // Precision was set to 3. Fixed.
-    BOOST_TEST(s3 == expected);   // Precision was set to 3. Scientific.
+    BOOST_TEST(i2 == 123);        // boost::cnv::cstream. Successfull conversion of "   123".
+    BOOST_TEST(s1 == "12.34567"); // boost::lexical_cast. Precision is not configurable.
+    BOOST_TEST(s2 == "12.346");   // boost::cnv::cstream. Precision was set to 3. Fixed.
+    BOOST_TEST(s3 == expected);   // boost::cnv::cstream. Precision was set to 3. Scientific.
     //]
 }
 

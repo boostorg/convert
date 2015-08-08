@@ -8,9 +8,9 @@
 
 [import ../test/callable.cpp]
 
-`boost::convert()` API plays its role by providing a ['uniform interface] and ensuring ['consistent behavior]. However, it is the respective converter which does the hard work of actual type conversion\/transformation.
+The `boost::convert()` API plays its role by providing a ['uniform interface] and ensuring ['consistent behavior]. However, it is the respective converter which does the hard work of actual type conversion\/transformation.
 
-['Boost.Convert] design reflects that no one converter is to satisfy all imaginable conversion\/transformation-related user requirements. Consequently, ['extendibility] and ['converter pluggability] are important properties of ['Boost.Convert]. ['Boost.Convert] provides several converters for common type conversions with varying degrees of formatting support and performance. However, it is an expectation that more generic-purpose and custom-specific converters are to be written and deployed with ['Boost.Convert]. 
+['Boost.Convert] design reflects the fact that no one converter is to satisfy all imaginable conversion\/transformation-related user requirements. Consequently, ['extendibility] and ['converter pluggability] are important properties of ['Boost.Convert]. ['Boost.Convert] provides several converters for common type conversions with varying degrees of formatting support and performance. However, it is an expectation that more generic-purpose and custom-specific converters are to be written and deployed with ['Boost.Convert]. 
 
 For a converter to be plugged in to the ['Boost.Convert] framework it needs to be a ['callable] with one of the signatures:
 
@@ -44,7 +44,7 @@ With regard to converters the ['Boost.Convert] framework has been designed with 
 
 [heading Implicit ['TypeIn] Promotions and Conversions]
 
-It probably is worth mentioning that ['TypeIn] in the signature needs not to be interpreted literally but rather in the context of the potential implicit type promotions and conversions allowed by the language. Depending on the context the `take_double` and `take_int` converters might not do what is expected of them due to implicit ['int-to-double] promotion and value-destroying ['double-to-int] conversion applied by the compiler:
+It is probably worth mentioning that ['TypeIn] in the signature needs not to be interpreted literally but rather in the context of the potential implicit type promotions and conversions allowed ['by the language]. Depending on the context the `take_double` and `take_int` converters might not do what is expected of them due to implicit ['int-to-double] promotion and value-destroying ['double-to-int] conversion applied ['by the compiler]:
 
 [callable_example4]
 [callable_example5]

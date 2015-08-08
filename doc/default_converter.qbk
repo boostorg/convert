@@ -14,7 +14,9 @@ The explicitly provided converter as in
  
 provides considerable flexibility, configurability and efficiency. However, in certain contexts that might be not that important or even counter-productive if, for example, an application relies on certain consistent behavior associated with one particular converter type and configuration. To accommodate such a scenario ['Boost.Convert] introduces the concept of the ['default converter] implemented as  `boost::cnv::by_default`. 
 
-['There is no default converter set by default] and, consequently, without additional configuration steps the following call will fail to compile: 
+[important There is no default converter set by default.] 
+
+Consequently, without additional configuration steps the following call will fail to compile: 
 
  int i = boost::convert<int>("123").value(); // No converter provided
  
