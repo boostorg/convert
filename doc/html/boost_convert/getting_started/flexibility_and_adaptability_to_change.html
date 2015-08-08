@@ -24,10 +24,9 @@
         </p></blockquote></div>
 <p>
         Sooner or later (during initial development or in the maintenance phase)
-        flexibility and adaptability become important. <span class="emphasis"><em>Boost.Convert</em></span>
-        deployment helps to adjust and to change in line with the evolution of the
-        requirements. Say, the program flow would benefit from the non-throwing behavior.
-        Then:
+        flexibility and adaptability become important. Deployment of <span class="emphasis"><em>Boost.Convert</em></span>
+        helps to adjust and to change in line with the evolution of the requirements.
+        Say, the program flow would benefit from the non-throwing behavior. Then:
       </p>
 <p>
 </p>
@@ -97,10 +96,10 @@
 <span class="identifier">string</span>       <span class="identifier">s3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">12.34567</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">scientific</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">setprecision</span><span class="special">(</span><span class="number">3</span><span class="special">))).</span><span class="identifier">value</span><span class="special">();</span>
 <span class="identifier">string</span> <span class="identifier">expected</span> <span class="special">=</span> <span class="identifier">local</span><span class="special">::</span><span class="identifier">is_msc</span> <span class="special">?</span> <span class="string">"1.235e+001"</span> <span class="special">:</span> <span class="string">"1.235e+01"</span><span class="special">;</span>
 
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s1</span> <span class="special">==</span> <span class="string">"12.34567"</span><span class="special">);</span> <span class="comment">// Precision is not configurable.</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s2</span> <span class="special">==</span> <span class="string">"12.346"</span><span class="special">);</span>   <span class="comment">// Precision was set to 3. Fixed.</span>
-<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s3</span> <span class="special">==</span> <span class="identifier">expected</span><span class="special">);</span>   <span class="comment">// Precision was set to 3. Scientific.</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">i2</span> <span class="special">==</span> <span class="number">123</span><span class="special">);</span>        <span class="comment">// boost::cnv::cstream. Successfull conversion of "   123".</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s1</span> <span class="special">==</span> <span class="string">"12.34567"</span><span class="special">);</span> <span class="comment">// boost::lexical_cast. Precision is not configurable.</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s2</span> <span class="special">==</span> <span class="string">"12.346"</span><span class="special">);</span>   <span class="comment">// boost::cnv::cstream. Precision was set to 3. Fixed.</span>
+<span class="identifier">BOOST_TEST</span><span class="special">(</span><span class="identifier">s3</span> <span class="special">==</span> <span class="identifier">expected</span><span class="special">);</span>   <span class="comment">// boost::cnv::cstream. Precision was set to 3. Scientific.</span>
 </pre>
 <p>
       </p>

@@ -18,14 +18,14 @@
 <a name="boost_convert.converters"></a><a class="link" href="converters.html" title="Converters">Converters</a>
 </h2></div></div></div>
 <p>
-      <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
+      The <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code>
       API plays its role by providing a <span class="emphasis"><em>uniform interface</em></span> and
       ensuring <span class="emphasis"><em>consistent behavior</em></span>. However, it is the respective
       converter which does the hard work of actual type conversion/transformation.
     </p>
 <p>
-      <span class="emphasis"><em>Boost.Convert</em></span> design reflects that no one converter is
-      to satisfy all imaginable conversion/transformation-related user requirements.
+      <span class="emphasis"><em>Boost.Convert</em></span> design reflects the fact that no one converter
+      is to satisfy all imaginable conversion/transformation-related user requirements.
       Consequently, <span class="emphasis"><em>extendibility</em></span> and <span class="emphasis"><em>converter pluggability</em></span>
       are important properties of <span class="emphasis"><em>Boost.Convert</em></span>. <span class="emphasis"><em>Boost.Convert</em></span>
       provides several converters for common type conversions with varying degrees
@@ -114,14 +114,14 @@
       <span class="emphasis"><em>TypeIn</em></span> Promotions and Conversions</a>
     </h4>
 <p>
-      It probably is worth mentioning that <span class="emphasis"><em>TypeIn</em></span> in the signature
+      It is probably worth mentioning that <span class="emphasis"><em>TypeIn</em></span> in the signature
       needs not to be interpreted literally but rather in the context of the potential
-      implicit type promotions and conversions allowed by the language. Depending
-      on the context the <code class="computeroutput"><span class="identifier">take_double</span></code>
+      implicit type promotions and conversions allowed <span class="emphasis"><em>by the language</em></span>.
+      Depending on the context the <code class="computeroutput"><span class="identifier">take_double</span></code>
       and <code class="computeroutput"><span class="identifier">take_int</span></code> converters might
       not do what is expected of them due to implicit <span class="emphasis"><em>int-to-double</em></span>
       promotion and value-destroying <span class="emphasis"><em>double-to-int</em></span> conversion
-      applied by the compiler:
+      applied <span class="emphasis"><em>by the compiler</em></span>:
     </p>
 <p>
 </p>

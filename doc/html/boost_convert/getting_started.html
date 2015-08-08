@@ -45,9 +45,10 @@
 <p>
         For die-hard <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> users or as a transitional
         path to <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>, one of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
-        deployments is not that different from <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>.
-        In fact, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code> functionality is easily deployed
-        through <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> interface:
+        deployments is not that different from <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+        and, in fact, the original <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
+        functionality is easily deployed through <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
+        interface:
       </p>
 <p>
 </p>
@@ -93,8 +94,8 @@
 <span class="special">}</span>
 <span class="keyword">catch</span> <span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">exception</span> <span class="keyword">const</span><span class="special">&amp;</span> <span class="identifier">ex</span><span class="special">)</span>
 <span class="special">{</span>
-    <span class="comment">// Be aware that the conversion requests above can fail.</span>
-    <span class="comment">// Please use try'n'catch blocks to handle any exceptions thrown.</span>
+    <span class="comment">// Please be aware that the conversion requests above can fail.</span>
+    <span class="comment">// Use try'n'catch blocks to handle any exceptions thrown.</span>
     <span class="comment">// Ignore this at your peril!</span>
     <span class="identifier">std</span><span class="special">::</span><span class="identifier">cerr</span> <span class="special">&lt;&lt;</span> <span class="string">"Exception "</span> <span class="special">&lt;&lt;</span> <span class="identifier">ex</span><span class="special">.</span><span class="identifier">what</span><span class="special">()</span> <span class="special">&lt;&lt;</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">endl</span><span class="special">;</span>
 <span class="special">}</span>
@@ -108,8 +109,8 @@
 </tr>
 <tr><td align="left" valign="top"><p>
           As we explore <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> behavior and interface further,
-          to some they might appear unduly complex, excessive, verbose, etc... nothing
-          like <code class="computeroutput"><span class="identifier">atoi</span><span class="special">()</span></code>...
+          at first they might appear unduly complex, verbose, etc... nothing like
+          <code class="computeroutput"><span class="identifier">atoi</span><span class="special">()</span></code>...
           so famous for all the wrong reasons. :-) It is important to remember that
           a conversion request is only a <span class="emphasis"><em>request</em></span> which may succeed
           but may also fail... which might not be as rare or as exceptional as one

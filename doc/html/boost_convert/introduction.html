@@ -150,7 +150,7 @@
 </ul></div>
 <p>
       The following code demonstrates conversion of an array of integers from their
-      textual <span class="emphasis"><em>hexadecimal</em></span> representation and assigns -1 to those
+      textual <span class="emphasis"><em>hexadecimal</em></span> representation. It assigns -1 to those
       which fail to convert:
     </p>
 <p>
@@ -159,7 +159,7 @@
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">vector</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;</span>             <span class="identifier">ints</span><span class="special">;</span>
 <span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">cstream</span>           <span class="identifier">cnv</span><span class="special">;</span>
 
-<span class="comment">// Configure converter to read as a string of hexadecimal characters, skip (leading) white spaces.</span>
+<span class="comment">// Configure converter to read hexadecimal, skip (leading) white spaces.</span>
 <span class="identifier">cnv</span><span class="special">(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">hex</span><span class="special">)(</span><span class="identifier">std</span><span class="special">::</span><span class="identifier">skipws</span><span class="special">);</span>
 
 <span class="identifier">std</span><span class="special">::</span><span class="identifier">transform</span><span class="special">(</span><span class="identifier">strs</span><span class="special">.</span><span class="identifier">begin</span><span class="special">(),</span> <span class="identifier">strs</span><span class="special">.</span><span class="identifier">end</span><span class="special">(),</span> <span class="identifier">std</span><span class="special">::</span><span class="identifier">back_inserter</span><span class="special">(</span><span class="identifier">ints</span><span class="special">),</span>

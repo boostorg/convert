@@ -33,8 +33,8 @@
       The code above is straightforward and self-explanatory but, unfortunately,
       strictly speaking, is not entirely deterministic as -1 might be the result
       of a conversion failure or the successful conversion of the "-1"
-      string. Still, in reality "spare" values are quite often available
-      outside the valid/sensible range to indicate conversion failures. If so, such
+      string. Still, in reality "spare" values (outside the valid/sensible
+      range) are quite often available to indicate conversion failures. If so, such
       simple deployment might be adequate without introducing non-deterministic behavior.
       Alternatively, it might be not that uncommon to ignore conversion failures
       altogether and to simply log the failure and to proceed with the supplied fallback
@@ -97,7 +97,7 @@
 <p>
     </p>
 <p>
-      Now <a href="../../../../../libs/optional/index.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code></a>
+      Here <a href="../../../../../libs/optional/index.html" target="_top"><code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">optional</span></code></a>
       steps forward as the actual type returned by <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> which until now we avoided by immediately
       calling its value-accessor methods:
     </p>
@@ -119,13 +119,13 @@
 <p>
       From the user perspective, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
       processes failure in a somewhat one-dimensional non-negotiable manner. <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code>
-      takes a more flexible approach, provides choice and leaves the decision to
-      the user. It probably is not unimaginable that, on the library level, propagating
-      the conversion-failure exception might be the only sensible response. On the
+      takes a more flexible approach. It provides choice and leaves the decision
+      to the user. It is not unimaginable that, on the library level, propagating
+      the conversion-failure exception might be the only available option. On the
       application level though, in my personal experience, the choice has overwhelmingly
-      been to handle conversion failures locally, i.e. avoiding conversion-failure
-      exception propagation or, better still, avoiding exceptions altogether with
-      program flows similar to:
+      been to handle conversion failures <span class="emphasis"><em>locally</em></span>, i.e. avoiding
+      conversion-failure exception propagation or, better still, avoiding exceptions
+      altogether with program flows similar to:
     </p>
 <p>
 </p>
@@ -155,7 +155,7 @@
 </p>
 <pre class="programlisting"><span class="comment">// Fallback function is called when failed</span>
 <span class="keyword">int</span> <span class="identifier">i2</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">).</span><span class="identifier">value_or_eval</span><span class="special">(</span><span class="identifier">fallback_func</span><span class="special">());</span>
-<span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">fallback_func</span><span class="special">());</span>
+<span class="keyword">int</span> <span class="identifier">i3</span> <span class="special">=</span> <span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="identifier">str</span><span class="special">,</span> <span class="identifier">cnv</span><span class="special">,</span> <span class="identifier">fallback_func</span><span class="special">());</span> <span class="comment">// Same as above. Alternative API.</span>
 </pre>
 <p>
     </p>

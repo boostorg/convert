@@ -30,9 +30,18 @@
       scenario <span class="emphasis"><em>Boost.Convert</em></span> introduces the concept of the
       <span class="emphasis"><em>default converter</em></span> implemented as <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code>.
     </p>
+<div class="important"><table border="0" summary="Important">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Important]" src="../images/important.png"></td>
+<th align="left">Important</th>
+</tr>
+<tr><td align="left" valign="top"><p>
+        There is no default converter set by default.
+      </p></td></tr>
+</table></div>
 <p>
-      <span class="emphasis"><em>There is no default converter set by default</em></span> and, consequently,
-      without additional configuration steps the following call will fail to compile:
+      Consequently, without additional configuration steps the following call will
+      fail to compile:
     </p>
 <pre class="programlisting"><span class="keyword">int</span> <span class="identifier">i</span> <span class="special">=</span> <span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">&lt;</span><span class="keyword">int</span><span class="special">&gt;(</span><span class="string">"123"</span><span class="special">).</span><span class="identifier">value</span><span class="special">();</span> <span class="comment">// No converter provided</span>
 </pre>
