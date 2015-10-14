@@ -19,14 +19,14 @@ introduction()
 //[algorithm_introduction
 
    /*`The following code demonstrates conversion of an array of integers from their textual ['hexadecimal]
-      representation and assigns -1 to those which fail to convert:
+      representation. It assigns -1 to those which fail to convert:
    */
 
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     std::vector<int>             ints;
     boost::cnv::cstream           cnv;
 
-    // Configure converter to read as a string of hexadecimal characters, skip (leading) white spaces.
+    // Configure converter to read hexadecimal, skip (leading) white spaces.
     cnv(std::hex)(std::skipws);
 
     std::transform(strs.begin(), strs.end(), std::back_inserter(ints),

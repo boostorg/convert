@@ -28,10 +28,10 @@
 
 ['Boost.Convert] consists of two components:
 
-* the `boost::convert()` user interface;
+* the `boost::convert()` interface;
 * an extendible collection of pluggable converters.
 
-The `boost::convert()` user interface
+The `boost::convert()` interface
 
 * advertises, provides and ensures certain ['consistent behavior];
 * unifies and provides ['one consistent interface] to various conversion facilities.

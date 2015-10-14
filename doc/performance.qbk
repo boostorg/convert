@@ -46,7 +46,7 @@ the standard ['Boost.Convert] deployment pattern is to create a converter or con
 Based on the performance data, I tend to conclude that, given type-safety and benefits provided by the ['Boost.Convert] framework, it (with appropriate converters) should probably be the first choice for conversion-related tasks.
 
 [endsect]
-[section Boost.Convert Performance Overhead]
+[section Boost.Convert Overhead]
 
 ['Boost.Convert] framework adds an additional layer of indirection and some ['Boost.Convert] converters are wrappers around actual conversion facilities such as `boost::lexical_cast`, `boost::spirit`, etc. Consequently, there might be reasonable concerns with regard to the performance overhead introduced by the framework as opposed to deploying conversion facilities directly.
 
@@ -105,7 +105,7 @@ It produced the following relative results (compiled with `gcc -O3`):
  spirit int-to std::string/small-string: 8.73/2.81 seconds.
  stream int-to std::string/small-string: 12.46/6.94 seconds.
 
-The results suggest that for the projects that deal with string-related conversions and routinely deploy `std::string` facilities the conversion-related overhead will be outweighed (or at least offset as in the case of `boost::cnv::cstream`) by the overhead of `std::string`-related operations.
+The results suggest that for the projects that deal with string-related conversions and routinely deploy `std::string` facilities the conversion-related overhead will be outweighed by the overhead of `std::string`-related operations.
 
 [endsect]
 [endsect]

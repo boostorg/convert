@@ -104,7 +104,7 @@ example4()
     //[getting_serious_example6
     // Fallback function is called when failed
     int i2 = convert<int>(str, cnv).value_or_eval(fallback_func());
-    int i3 = convert<int>(str, cnv, fallback_func());
+    int i3 = convert<int>(str, cnv, fallback_func()); // Same as above. Alternative API.
     //]
 }
 

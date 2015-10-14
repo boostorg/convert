@@ -12,15 +12,13 @@ As it was indicated previously [@boost:/libs/optional/index.html `boost::optiona
 
  boost::optional<TypeOut> boost::convert(TypeIn const&, Converter const&);
 
-The signature is ['functionally-complete], routinely elided during compilation and is the most efficient in deploying the underlying converter. That said, the following alternative (and arguably more conventional) interface might be potentially more suitable
-for certain deployment scenarios (or due to personal preferences):
+The signature is ['functionally-complete], routinely elided during compilation and is the most efficient in deploying the underlying converter. That said, the following alternative (and arguably more traditional) interface might be potentially more suitable for certain deployment scenarios (or due to personal preferences):
 
  TypeOut convert(TypeIn const&, Converter const&, TypeOut const& fallback_value);
  TypeOut convert(TypeIn const&, Converter const&, Functor const& fallback_functor);
  TypeOut convert(TypeIn const&, Converter const&, boost::throw_on_failure);
 
-It still provides unambigous behavior and readability, full support for various program flows and various degrees of conversion-failure detection
-and processing and can be deployed in a similar fashion as follows:
+It still provides unambigous behavior and readability, full support for various program flows and various degrees of conversion-failure detection and processing. It can be deployed in a similar fashion as follows:
 
 [getting_serious_example5]
 [getting_serious_example7]

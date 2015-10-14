@@ -81,7 +81,7 @@ example6()
 
     change chg = change::up;
     string  s1 = convert<string>(chg, cnv1, "bad");                // Input type (change) deduced
-    string  s2 = convert<string, change>(change::dn, cnv1, "bad"); // Input type (change) forced
+    string  s2 = convert<string, change>(change::dn, cnv1, "bad"); // Input type (change) enforced
 
     BOOST_TEST(convert<change>("up", cnv1, change::no) == change::up);
     BOOST_TEST(convert<change>("up", cnv2, change::no) == change::up);
