@@ -108,21 +108,25 @@ str_to_int(Converter const& cnv)
     // Testing value() on valid result.
     ////////////////////////////////////////////////////////////////////////////
 
-    int a021 = boost::convert<int>(std_str,   cnv).value();
-    int a022 = boost::convert<int>(c_str,     cnv).value();
-    int a025 = boost::convert<int>(array_str, cnv).value();
+    int a21 = boost::convert<int>(std_str,   cnv).value();
+    int a22 = boost::convert<int>(c_str,     cnv).value();
+    int a25 = boost::convert<int>(array_str, cnv).value();
 
-    BOOST_TEST(a021 ==  -11);
-    BOOST_TEST(a022 == -123);
-    BOOST_TEST(a025 == 3456);
+    BOOST_TEST(a21 ==  -11);
+    BOOST_TEST(a22 == -123);
+    BOOST_TEST(a25 == 3456);
 
-//    for (int k = INT_MIN; k <= INT_MAX; ++k)
-//    {
-//        string str = boost::convert<string>(k, boost::cnv::strtol()).value();
-//        int k_back = boost::convert<int>(str, cnv).value();
-//
-//        BOOST_TEST(k == k_back);
-//    }
+    ////////////////////////////////////////////////////////////////////////////
+    // Testing empty string.
+    ////////////////////////////////////////////////////////////////////////////
+
+    int const a31 = boost::convert<int>(std::string(), cnv).value_or(-1);
+    int const a32 = boost::convert<int>(std::string(""), cnv).value_or(-1);
+    int const a33 = boost::convert<int>("", cnv).value_or(-1);
+
+    BOOST_ASSERT(a31 == -1);
+    BOOST_ASSERT(a32 == -1);
+    BOOST_ASSERT(a33 == -1);
 }
 
 int
