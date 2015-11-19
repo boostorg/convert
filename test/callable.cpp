@@ -71,7 +71,7 @@ template<> void double_only::operator()<double>(double, boost::optional<string>&
 //]
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     typedef boost::function<void (string const& value_in, boost::optional<int>&)> boost_func;
 
