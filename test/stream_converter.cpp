@@ -14,6 +14,7 @@ int main(int, char const* []) { return 0; }
 #include <boost/detail/lightweight_test.hpp>
 #include <cstdio>
 #include <cstdlib>
+#include <stdlib.h>
 
 //[stream_using
 using std::string;
