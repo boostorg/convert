@@ -182,7 +182,7 @@ boost::cnv::strtol::str_to_i(cnv::range<string_type> range, boost::optional<out_
 
     for (; s != range.sentry(); ++s)
     {
-        unsigned int ch = *s;
+        ch = *s;
 
         /**/ if (std::isdigit(ch)) ch -= '0';
         else if (std::isalpha(ch)) ch -= (std::isupper(ch) ? 'A' : 'a') - 10;
