@@ -12,9 +12,9 @@
 
 * GCC. Successfully tested with versions from 4.2.1 through to 5.0. Earlier versions were not tested;
 
-* Intel C++ compiler. Successfully tested with versions from 12.1 forward. Earlier versions fail to compile ['Boost.Convert];
+* Intel C++ compiler. Successfully tested with versions from 12.1 forward. Earlier versions fail to compile ['Boost.Convert] due to lacking full SFINAE support;
 
-* MSVC ... still waiting for the latest results...
+* MSVC. Successfully tested from MSVC 2013 (msvc-12.0) forward. Earlier versions had some components disabled due to lacking full SFINAE support;
 
 Please visit [@http://www.boost.org/development/tests/develop/developer/convert.html ['Boost.Convert] regression test summary] for the latest available report.
 
