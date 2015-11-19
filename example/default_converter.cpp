@@ -20,7 +20,7 @@ struct boost::cnv::by_default : public boost::cnv::cstream
 //]
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     //[default_converter_example1
     // No explicit converter provided. boost::cnv::by_default is used.

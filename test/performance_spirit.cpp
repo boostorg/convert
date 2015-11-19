@@ -89,7 +89,7 @@ namespace
 }
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     // This code has been adapted from libs/spirit/optimization/qi/int_parser.cpp.
     // This code uses the performance testing framework from libs/spirit/optimization/measure.cpp.

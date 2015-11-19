@@ -15,7 +15,7 @@ struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
 //]
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     //[lexical_cast_example1
     int    i1 = lexical_cast<int>("123");         // Throws if the conversion fails.

@@ -278,7 +278,7 @@ test_user_type()
 }
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     dbl_to_str_example();
 

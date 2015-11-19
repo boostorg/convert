@@ -140,7 +140,7 @@ test_is_callable()
 }
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     //[is_callable_usage
     //]

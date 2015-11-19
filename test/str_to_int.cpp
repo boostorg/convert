@@ -130,7 +130,7 @@ str_to_int(Converter const& cnv)
 }
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     boost::cnv::lexical_cast lxcast_cnv;
     boost::cnv::cstream      stream_cnv;

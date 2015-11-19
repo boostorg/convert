@@ -67,7 +67,7 @@ namespace { namespace local
 }}
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     BOOST_TEST(local::has_begin<local::test01>::value     == true);
     BOOST_TEST(local::has_begin<local::test02>::value     == true);

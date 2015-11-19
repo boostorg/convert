@@ -173,7 +173,7 @@ example5()
 }
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     introduction();
     example1();

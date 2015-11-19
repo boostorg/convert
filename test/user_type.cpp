@@ -90,7 +90,7 @@ test_algorithms()
 }
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     test_user_type();
     test_algorithms();

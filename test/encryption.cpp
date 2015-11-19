@@ -21,7 +21,7 @@ my_cypher(std::string const& value_in, boost::optional<std::string>& value_out)
 }
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     ////////////////////////////////////////////////////////////////////////////
     // Testing custom converter.

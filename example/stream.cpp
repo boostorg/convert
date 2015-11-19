@@ -91,7 +91,7 @@ example6()
 }
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     example1();
     example2();

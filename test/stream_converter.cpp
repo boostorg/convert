@@ -350,7 +350,7 @@ test_user_str()
 }
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     try
     {

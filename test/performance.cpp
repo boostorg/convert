@@ -242,7 +242,7 @@ performance_comparative(Raw const& raw, Cnv const& cnv, char const* txt)
 }
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     printf("Started performance tests...\n");
 

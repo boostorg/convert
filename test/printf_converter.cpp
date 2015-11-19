@@ -19,7 +19,7 @@ using boost::convert;
 namespace arg = boost::cnv::parameter;
 
 int
-main(int argc, char const* argv[])
+main(int, char const* [])
 {
     boost::cnv::printf cnv;
 
