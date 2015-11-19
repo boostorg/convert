@@ -55,11 +55,11 @@ main(int argc, char const* argv[])
     local::  called_function_int = false;
     local:: called_function_long = false;
 
-    int i11 = boost::convert<int>("uhm", cnv, functor_int());
-    int i12 = boost::convert<int>("uhm", cnv, functor_double());
-    int i13 = boost::convert<int>("uhm", cnv, boost::bind(&functor_foo::func, foo, 0));
-    int i14 = boost::convert<int>("uhm", cnv, function_int);
-    int i15 = boost::convert<int>("uhm", cnv, function_long);
+    boost::convert<int>("uhm", cnv, functor_int());
+    boost::convert<int>("uhm", cnv, functor_double());
+    boost::convert<int>("uhm", cnv, boost::bind(&functor_foo::func, foo, 0));
+    boost::convert<int>("uhm", cnv, function_int);
+    boost::convert<int>("uhm", cnv, function_long);
 
     BOOST_TEST(local::   called_functor_int && i01 == INT_MAX);
     BOOST_TEST(local::called_functor_double && i02 == INT_MAX);
@@ -69,7 +69,7 @@ main(int argc, char const* argv[])
 
     try
     {
-        int i16 = boost::convert<int>("uhm", cnv, boost::throw_on_failure);
+        boost::convert<int>("uhm", cnv, boost::throw_on_failure);
         BOOST_TEST(0);
     }
     catch (boost::bad_optional_access const&)

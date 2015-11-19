@@ -202,7 +202,6 @@ void
 boost::cnv::strtol::str_to_d(cnv::range<string_type> range, optional<out_type>& result_out) const
 {
     typedef cnv::range<string_type>        range_type;
-    typedef typename range_type::iterator    iterator;
     typedef typename range_type::value_type char_type;
 
     char_type const*   str = &*range.begin(); // Currently only works with 'char'
