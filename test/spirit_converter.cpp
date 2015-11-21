@@ -51,6 +51,8 @@ main(int, char const* [])
     BOOST_TEST( 12345 == convert<long int>(std_wstri).value());
     BOOST_TEST( 12345 == convert<long int>(  my_stri).value());
     BOOST_TEST( 12345 == convert<unsigned long int>(c_stri).value());
+    BOOST_TEST( 12345 == convert<long long int>(c_stri).value());
+    BOOST_TEST( 12345 == convert<unsigned long long int>(c_stri).value());
     BOOST_TEST(123.45 == convert<  double>(   c_strd).value());
     BOOST_TEST(123.45 == convert<  double>(  c_wstrd).value());
 //  BOOST_TEST(123.45 == convert<  double>( std_strd).value());
@@ -64,6 +66,8 @@ main(int, char const* [])
 
     BOOST_TEST(  "1234" == convert<string>(1234).value());
     BOOST_TEST(  "1234" == convert<string>(1234u).value());
+    BOOST_TEST(  "1234" == convert<string>(1234ll).value());
+    BOOST_TEST(  "1234" == convert<string>(1234ull).value());
     BOOST_TEST( L"1234" == convert<wstring>(1234).value());
     BOOST_TEST( "12xxx" == convert<string>(12, cnv(arg::width = 5)
                                                   (arg::fill = 'x')
