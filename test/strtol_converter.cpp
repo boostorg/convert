@@ -147,6 +147,19 @@ test_uint_to_str()
     BOOST_TEST(ullmax_str == convert<std::string> (ullmax).value());
 }
 
+static
+void
+test_empty_str()
+{
+    BOOST_TEST(-1 == convert<int>(std::string()).value_or(-1));
+    BOOST_TEST(-1 == convert<int>(std::string("")).value_or(-1));
+    BOOST_TEST(-1 == convert<int>("").value_or(-1));
+
+    BOOST_TEST(-1 == convert<int>(std::wstring()).value_or(-1));
+    BOOST_TEST(-1 == convert<int>(std::wstring(L"")).value_or(-1));
+    BOOST_TEST(-1 == convert<int>(L"").value_or(-1));
+}
+
 //[strtol_numeric_base_header
 #include <boost/convert.hpp>
 #include <boost/convert/strtol.hpp>
@@ -353,6 +366,7 @@ main(int, char const* [])
 {
     dbl_to_str_example();
 
+    test_empty_str();
     test_str_to_int();
     test_str_to_uint();
     test_int_to_str();

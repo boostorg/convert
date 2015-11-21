@@ -26,6 +26,7 @@ Release/
 *.sdf
 *.opensdf
 a.out
+Jamroot.jam
 
 
 

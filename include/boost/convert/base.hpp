@@ -108,9 +108,11 @@ struct boost::cnv::cnvbase
     {
         cnv::range<string_type const> range (str);
 
-        /**/ if (range.empty()) return;
-        else if (skipws_) for (; std::isspace(*range.begin()); ++range);
-        else if (std::isspace(*range.begin())) return;
+        if (skipws_)
+            for (; !range.empty() && std::isspace(*range.begin()); ++range);
+
+        if (range.empty())                return;
+        if (std::isspace(*range.begin())) return;
 
         dncast().str_to(range, result_out);
     }

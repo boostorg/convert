@@ -75,7 +75,6 @@ main(int, char const* [])
     catch (boost::bad_optional_access const&)
     {
     }
-
     return boost::report_errors();
 }
 
