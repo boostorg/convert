@@ -55,18 +55,25 @@ struct boost::cnv::strtol : public boost::cnv::cnvbase<boost::cnv::strtol>
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<   int_type>& r) const { str_to_i (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<  sint_type>& r) const { str_to_i (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<  lint_type>& r) const { str_to_i (v, r); }
+    template<typename string_type> void str_to(cnv::range<string_type> v, optional< llint_type>& r) const { str_to_i (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<  uint_type>& r) const { str_to_i (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional< usint_type>& r) const { str_to_i (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional< ulint_type>& r) const { str_to_i (v, r); }
+    template<typename string_type> void str_to(cnv::range<string_type> v, optional<ullint_type>& r) const { str_to_i (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<   flt_type>& r) const { str_to_d (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<   dbl_type>& r) const { str_to_d (v, r); }
     template<typename string_type> void str_to(cnv::range<string_type> v, optional<  ldbl_type>& r) const { str_to_d (v, r); }
 
-    template <typename char_type> cnv::range<char_type*> to_str ( int_type v, char_type* buf) const { return i_to_str(v, buf); }
-    template <typename char_type> cnv::range<char_type*> to_str (lint_type v, char_type* buf) const { return i_to_str(v, buf); }
+    template <typename char_type> cnv::range<char_type*> to_str (   int_type v, char_type* buf) const { return i_to_str(v, buf); }
+    template <typename char_type> cnv::range<char_type*> to_str (  uint_type v, char_type* buf) const { return ui_to_str(v, buf); }
+    template <typename char_type> cnv::range<char_type*> to_str (  lint_type v, char_type* buf) const { return i_to_str(v, buf); }
+    template <typename char_type> cnv::range<char_type*> to_str ( ulint_type v, char_type* buf) const { return ui_to_str(v, buf); }
+    template <typename char_type> cnv::range<char_type*> to_str ( llint_type v, char_type* buf) const { return i_to_str(v, buf); }
+    template <typename char_type> cnv::range<char_type*> to_str (ullint_type v, char_type* buf) const { return ui_to_str(v, buf); }
     template <typename char_type> cnv::range<char_type*> to_str ( dbl_type v, char_type* buf) const;
 
     template<typename char_type, typename in_type> cnv::range<char_type*> i_to_str (in_type, char_type*) const;
+    template<typename char_type, typename in_type> cnv::range<char_type*> ui_to_str (in_type, char_type*) const;
     template<typename string_type, typename out_type> void                str_to_i (cnv::range<string_type>, optional<out_type>&) const;
     template<typename string_type, typename out_type> void                str_to_d (cnv::range<string_type>, optional<out_type>&) const;
 
@@ -89,6 +96,21 @@ boost::cnv::strtol::i_to_str(Type value, char_type* buf) const
 
     if (beg == end)  *(--beg) = '0';
     if (is_negative) *(--beg) = '-';
+
+    return cnv::range<char_type*>(beg, end);
+}
+
+template<typename char_type, typename Type>
+boost::cnv::range<char_type*>
+boost::cnv::strtol::ui_to_str(Type value, char_type* buf) const
+{
+    char_type*         beg = buf + bufsize_ / 2;
+    char_type*         end = beg;
+
+    if (base_ == 10) for (; value; *(--beg) = int(value % 10) + '0', value /= 10);
+    else             for (; value; *(--beg) = get_char(value % base_), value /= base_);
+
+    if (beg == end)  *(--beg) = '0';
 
     return cnv::range<char_type*>(beg, end);
 }
