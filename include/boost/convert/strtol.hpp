@@ -86,11 +86,12 @@ boost::cnv::strtol::i_to_str(Type in_value, char_type* buf) const
 {
     // C1. Base=10 optimization improves performance 10%
 
-    typedef boost::make_unsigned<Type>::type unsigned_type;
+    typedef typename boost::make_unsigned<Type>::type unsigned_type;
+
     char_type*         beg = buf + bufsize_ / 2;
     char_type*         end = beg;
-    bool const is_negative = (in_value < 0);
-    unsigned_type value = static_cast<unsigned_type> (is_negative ? -in_value : in_value);
+    bool const is_negative = in_value < 0;
+    unsigned_type    value = static_cast<unsigned_type>(is_negative ? -in_value : in_value);
 
     if (base_ == 10) for (; value; *(--beg) = int(value % 10) + '0', value /= 10); //C1
     else             for (; value; *(--beg) = get_char(value % base_), value /= base_);
@@ -168,7 +169,6 @@ template<typename string_type, typename out_type>
 void
 boost::cnv::strtol::str_to_i(cnv::range<string_type> range, boost::optional<out_type>& result_out) const
 {
-
     typedef typename boost::make_unsigned<out_type>::type unsigned_type;
     typedef cnv::range<string_type>                          range_type;
     typedef typename range_type::iterator                      iterator;
