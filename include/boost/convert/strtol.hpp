@@ -82,13 +82,15 @@ struct boost::cnv::strtol : public boost::cnv::cnvbase<boost::cnv::strtol>
 
 template<typename char_type, typename Type>
 boost::cnv::range<char_type*>
-boost::cnv::strtol::i_to_str(Type value, char_type* buf) const
+boost::cnv::strtol::i_to_str(Type in_value, char_type* buf) const
 {
     // C1. Base=10 optimization improves performance 10%
 
+    typedef boost::make_unsigned<Type>::type unsigned_type;
     char_type*         beg = buf + bufsize_ / 2;
     char_type*         end = beg;
-    bool const is_negative = (value < 0) ? (value = -value, true) : false;
+    bool const is_negative = (in_value < 0);
+    unsigned_type value = static_cast<unsigned_type> (is_negative ? -in_value : in_value);
 
     if (base_ == 10) for (; value; *(--beg) = int(value % 10) + '0', value /= 10); //C1
     else             for (; value; *(--beg) = get_char(value % base_), value /= base_);
