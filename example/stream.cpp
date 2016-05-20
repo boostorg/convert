@@ -63,7 +63,7 @@ example2()
     //]
     //[stream_example4
     ccnv(arg::base = cnv::base::dec)
-        (arg::uppercase = false)
+        (arg::uppercase = true)
         (arg::notation = cnv::notation::scientific);
     //]
     //[stream_example5
