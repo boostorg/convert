@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Default Converter</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="prev" href="error_detection.html" title="Better Error Detection">
@@ -87,7 +87,7 @@
     </p>
 <p>
       The trade-off for the convenience is the rigid converter configuration (which
-      in certain contexts might be the desired behavior) and potentially performance
+      in certain contexts might be the desired behavior) and a potential performance
       impact. When a converter is not provided explicitly, the default converter
       is created, potentially configured, deployed and destroyed for every <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span><span class="special">()</span></code> call. Consequently, if efficiency of this
       particular component is important, then the implementation of <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">cnv</span><span class="special">::</span><span class="identifier">by_default</span></code>

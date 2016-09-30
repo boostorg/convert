@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Basic Conversion-Failure Detection</title>
 <link rel="stylesheet" href="../../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="../../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../getting_started.html" title="Getting Started">
 <link rel="prev" href="flexibility_and_adaptability_to_change.html" title="Flexibility and Adaptability to Change">
@@ -41,7 +41,7 @@
 <p>
       </p>
 <p>
-        The above calls are expressed in English as
+        The above is translated to English as
       </p>
 <div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
 <li class="listitem">
@@ -55,15 +55,12 @@
 </ul></div>
 <p>
         The <code class="computeroutput"><span class="identifier">i1</span></code> and <code class="computeroutput"><span class="identifier">i2</span></code> deployments look sufficiently close
-        and behave identically. Namely, if the requested conversion fails, an exception
-        is thrown. The user instructions do not describe what to do if conversion
-        fails. Consequently, <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">lexical_cast</span></code>
-        and <code class="computeroutput"><span class="identifier">boost</span><span class="special">::</span><span class="identifier">convert</span></code> treat conversion-failure as "exceptional"
-        and throw.
+        and behave identically. Namely, with the user instructions silent about the
+        conversion failure, those are treated as "exceptional" and throw.
       </p>
 <p>
         The <code class="computeroutput"><span class="identifier">i3</span></code> specification, on
-        the other hand, is explicit about conversion failures, so a supplied fallback
+        the other hand, is explicit about conversion failures. The supplied fallback
         value is returned if the requested conversion fails.
       </p>
 <p>
@@ -92,8 +89,8 @@
 <span class="special">{</span>
     <span class="comment">// The principal advantage of a fallback_func over a fallback_value</span>
     <span class="comment">// is that the former is only called when the conversion request fails.</span>
-    <span class="comment">// Consequently, the returned fallback_value is only calculated (which potentially</span>
-    <span class="comment">// might be expensive) when it is absolutely necessary.</span>
+    <span class="comment">// Consequently, the returned fallback_value is only calculated (which</span>
+    <span class="comment">// potentially might be expensive) when it is absolutely necessary.</span>
     <span class="identifier">log</span><span class="special">(</span><span class="identifier">msg</span><span class="special">);</span> <span class="keyword">return</span> <span class="identifier">fallback_value</span><span class="special">;</span>
 <span class="special">}</span>
 </pre>

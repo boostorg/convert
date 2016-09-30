@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Better Error Detection</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="prev" href="getting_started/basic_conversion_failure_detection.html" title="Basic Conversion-Failure Detection">
@@ -30,15 +30,13 @@
 <p>
     </p>
 <p>
-      The code above is straightforward and self-explanatory but, unfortunately,
-      strictly speaking, is not entirely deterministic as -1 might be the result
-      of a conversion failure or the successful conversion of the "-1"
-      string. Still, in reality "spare" values (outside the valid/sensible
-      range) are quite often available to indicate conversion failures. If so, such
-      simple deployment might be adequate without introducing non-deterministic behavior.
-      Alternatively, it might be not that uncommon to ignore conversion failures
-      altogether and to simply log the failure and to proceed with the supplied fallback
-      value.
+      The code above is straightforward and self-explanatory but, strictly speaking,
+      is not entirely correct as -1 might be the result of a conversion failure or
+      the successful conversion of the "-1" string. Still, in reality "spare"
+      values (outside the valid/sensible range) are quite often available to indicate
+      conversion failures. If so, such simple deployment might be adequate. Alternatively,
+      it might be not that uncommon to ignore conversion failures altogether and
+      to simply log the failure and to proceed with the supplied fallback value.
     </p>
 <p>
       Applications outside these mentioned categories still require conversion failure
@@ -112,8 +110,8 @@
 </tr>
 <tr><td align="left" valign="top"><p>
         One notable advantage of <code class="computeroutput"><span class="identifier">value_or_eval</span><span class="special">()</span></code> over <code class="computeroutput"><span class="identifier">value_or</span><span class="special">()</span></code> is that the actual calculation of the
-        <code class="computeroutput"><span class="identifier">fallback_value</span></code> is delayed,
-        conditional on the success or failure of the conversion.
+        <code class="computeroutput"><span class="identifier">fallback_value</span></code> is delayed
+        and conditional on the success or failure of the conversion.
       </p></td></tr>
 </table></div>
 <p>
@@ -123,8 +121,8 @@
       to the user. It is not unimaginable that, on the library level, propagating
       the conversion-failure exception might be the only available option. On the
       application level though, in my personal experience, the choice has overwhelmingly
-      been to handle conversion failures <span class="emphasis"><em>locally</em></span>, i.e. avoiding
-      conversion-failure exception propagation or, better still, avoiding exceptions
+      been to handle conversion failures <span class="emphasis"><em>locally</em></span>, i.e. to avoid
+      conversion-failure exception propagation or, better still, to avoid exceptions
       altogether with program flows similar to:
     </p>
 <p>

@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Converters</title>
 <link rel="stylesheet" href="../boostbook.css" type="text/css">
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="up" href="../index.html" title="Chapter&#160;1.&#160;Boost.Convert 2.0">
 <link rel="prev" href="alternative_interface.html" title="Alternative Interface">
@@ -114,11 +114,11 @@
       <span class="emphasis"><em>TypeIn</em></span> Promotions and Conversions</a>
     </h4>
 <p>
-      It is probably worth mentioning that <span class="emphasis"><em>TypeIn</em></span> in the signature
-      needs not to be interpreted literally but rather in the context of the potential
-      implicit type promotions and conversions allowed <span class="emphasis"><em>by the language</em></span>.
-      Depending on the context the <code class="computeroutput"><span class="identifier">take_double</span></code>
-      and <code class="computeroutput"><span class="identifier">take_int</span></code> converters might
+      It is worth remembering that <span class="emphasis"><em>TypeIn</em></span> in the signature should
+      be interpreted in the context of the potential implicit type promotions and
+      conversions allowed <span class="emphasis"><em>by the language</em></span>. Depending on the
+      context the <code class="computeroutput"><span class="identifier">take_double</span></code> and
+      <code class="computeroutput"><span class="identifier">take_int</span></code> converters below might
       not do what is expected of them due to implicit <span class="emphasis"><em>int-to-double</em></span>
       promotion and value-destroying <span class="emphasis"><em>double-to-int</em></span> conversion
       applied <span class="emphasis"><em>by the compiler</em></span>:
@@ -132,8 +132,8 @@
     </p>
 <p>
 </p>
-<pre class="programlisting"><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">11</span><span class="special">,</span> <span class="identifier">take_double</span><span class="special">());</span> <span class="comment">// Compiler applies 'int' to 'double' promotion to call the converter.</span>
-<span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">11.23</span><span class="special">,</span> <span class="identifier">take_int</span><span class="special">());</span> <span class="comment">// Compiler applies 'double' to 'int' implicit truncation.</span>
+<pre class="programlisting"><span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">11</span><span class="special">,</span> <span class="identifier">take_double</span><span class="special">());</span> <span class="comment">// Compiler applies int-to-double promotion to call the converter.</span>
+<span class="identifier">convert</span><span class="special">&lt;</span><span class="identifier">string</span><span class="special">&gt;(</span><span class="number">11.23</span><span class="special">,</span> <span class="identifier">take_int</span><span class="special">());</span> <span class="comment">// Compiler applies double-to-int implicit truncation.</span>
 </pre>
 <p>
     </p>
