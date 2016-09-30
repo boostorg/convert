@@ -44,7 +44,7 @@ With regard to converters the ['Boost.Convert] framework has been designed with 
 
 [heading Implicit ['TypeIn] Promotions and Conversions]
 
-It is probably worth mentioning that ['TypeIn] in the signature needs not to be interpreted literally but rather in the context of the potential implicit type promotions and conversions allowed ['by the language]. Depending on the context the `take_double` and `take_int` converters might not do what is expected of them due to implicit ['int-to-double] promotion and value-destroying ['double-to-int] conversion applied ['by the compiler]:
+It is worth remembering that ['TypeIn] in the signature should be interpreted in the context of the potential implicit type promotions and conversions allowed ['by the language]. Depending on the context the `take_double` and `take_int` converters below might not do what is expected of them due to implicit ['int-to-double] promotion and value-destroying ['double-to-int] conversion applied ['by the compiler]:
 
 [callable_example4]
 [callable_example5]

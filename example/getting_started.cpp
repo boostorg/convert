@@ -207,8 +207,8 @@ fallback_fun(char const* msg, int fallback_value)
 {
     // The principal advantage of a fallback_func over a fallback_value
     // is that the former is only called when the conversion request fails.
-    // Consequently, the returned fallback_value is only calculated (which potentially
-    // might be expensive) when it is absolutely necessary.
+    // Consequently, the returned fallback_value is only calculated (which
+    // potentially might be expensive) when it is absolutely necessary.
     log(msg); return fallback_value;
 }
 //]

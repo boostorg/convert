@@ -100,8 +100,8 @@ main(int, char const* [])
     convert<string>(11.23, take_double());
     convert<string>(11,    take_int());
     //[callable_example5
-    convert<string>(11, take_double()); // Compiler applies 'int' to 'double' promotion to call the converter.
-    convert<string>(11.23, take_int()); // Compiler applies 'double' to 'int' implicit truncation.
+    convert<string>(11, take_double()); // Compiler applies int-to-double promotion to call the converter.
+    convert<string>(11.23, take_int()); // Compiler applies double-to-int implicit truncation.
     //]
     //[callable_example7
     convert<string>(11.23, double_only()); // Fine.

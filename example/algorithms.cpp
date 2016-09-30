@@ -71,7 +71,7 @@ example2()
 {
 //[algorithm_example2
     /*`If the exception-throwing behavior is the desired behavior, then ['Boost.Convert] supports that.
-      In addition, it also provides a non-throwing process-flow:
+      In addition, it also supports a non-throwing process-flow:
     */
     boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
     std::vector<int>             ints;

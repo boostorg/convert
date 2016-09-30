@@ -47,14 +47,14 @@ If, instead, the requirements change to support more input formats or to require
 [getting_started_using]
 [getting_started_example5]
 
-The above calls are expressed in English as
+The above is translated to English as
 
 * "['convert a string to int]" for `i1` and `i2` and
 * "['convert a string to int and return -1 if the conversion fails]" for `i3`.
 
-The `i1` and `i2` deployments look sufficiently close and behave identically. Namely, if the requested conversion fails, an exception is thrown. The user instructions do not describe what to do if conversion fails. Consequently, `boost::lexical_cast` and `boost::convert` treat conversion-failure as "exceptional" and throw.
+The `i1` and `i2` deployments look sufficiently close and behave identically. Namely, with the user instructions silent about the conversion failure, those are treated as "exceptional" and throw.
 
-The `i3` specification, on the other hand, is explicit about conversion failures, so a supplied fallback value is returned if the requested conversion fails.
+The `i3` specification, on the other hand, is explicit about conversion failures. The supplied fallback value is returned if the requested conversion fails.
 
 That basic error detection and processing might be sufficient for a variety of conversion deployments. For example:
 
