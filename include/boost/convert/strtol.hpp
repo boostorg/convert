@@ -31,18 +31,6 @@ namespace boost { namespace cnv
 
 struct boost::cnv::strtol : public boost::cnv::cnvbase<boost::cnv::strtol>
 {
-    // C2. Old C-strings have an advantage over [begin, end) ranges. They do not need the 'end' iterator!
-    //     Instead, they provide a sentinel (0 terminator). Consequently, C strings can be traversed
-    //     without the need to compare if the 'end' has been reached (i.e. "for (; it != end; ++it)").
-    //     Instead, the current character is checked if it's 0 (i.e. "for (; *p; ++p)") which is faster.
-    //
-    //     So, the implementation takes advantage of the fact. Namely, we simply check if *cnv_end == 0
-    //     instead of traversing once with strlen() to find the end iterator and then comparing to it as in
-    //
-    //         char const* str_end = str + strlen(str); // Unnecessary traversal!
-    //         ...
-    //         bool const     good = ... && cnv_end == str_end;
-
     typedef boost::cnv::strtol             this_type;
     typedef boost::cnv::cnvbase<this_type> base_type;
 
@@ -209,6 +197,12 @@ template<typename string_type, typename out_type>
 void
 boost::cnv::strtol::str_to_d(cnv::range<string_type> range, optional<out_type>& result_out) const
 {
+    // C2. Simply check if the end-of-string was reached -- *cnv_end == 0
+    //     instead of traversing once with strlen() to find the end iterator
+    //     and then comparing to it as in
+    //         char const* str_end = str + strlen(str); // Unnecessary traversal!
+    //         bool const     good = ... && cnv_end == str_end;
+
     typedef cnv::range<string_type>        range_type;
     typedef typename range_type::value_type char_type;
 
