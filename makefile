@@ -1,7 +1,7 @@
 BOOST_ROOT = $(PRJROOT)/boost
 
-cflags    = -O3 -Iinclude -I$(BOOST_ROOT) -Wno-unused-variable -Wno-uninitialized -Wno-sign-compare -Wno-deprecated-declarations 
-ldflags   = -lboost_timer -lboost_system -lboost_chrono
+cflags = -O3 -Iinclude -I$(BOOST_ROOT) -Wno-unused-variable -Wno-uninitialized -Wno-sign-compare -Wno-deprecated-declarations 
+lflags = -L$(BOOST_ROOT)/stage/lib -lboost_timer -lboost_chrono -lboost_system
 
 target_1  = convert-test-callable           test/callable.cpp
 target_2  = convert-test-is-converter       test/is_converter.cpp

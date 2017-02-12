@@ -13,6 +13,7 @@
 #include <string.h> // For strlen, strcmp, memcpy
 #include <memory.h> // Is needed for 'memset'
 #include <stdio.h>
+#include <time.h>
 
 #if defined(_MSC_VER)
 #   pragma warning(disable: 4189) // local variable is initialized but not referenced.
