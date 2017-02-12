@@ -106,6 +106,7 @@ struct boost::cnv::cnvbase
     void
     str_to_(string_type const& str, optional<out_type>& result_out) const
     {
+        if (str.empty()) return;
         cnv::range<string_type const> range (str);
 
         if (skipws_)
