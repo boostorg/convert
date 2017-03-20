@@ -212,6 +212,22 @@ test_base()
 
 static
 void
+test_upper()
+{
+//    boost::cnv::strtol cnv;
+//    char const*    c_lcase =  "abcde";
+//    char const*    c_ucase =  "ABCDE";
+//    wchar_t const* w_lcase = L"abcde";
+//    wchar_t const* w_ucase = L"ABCDE";
+//
+//    BOOST_TEST(c_lcase == convert< string>(c_lcase, cnv(arg::uppercase = false)).value_or(""));
+//    BOOST_TEST(c_ucase == convert< string>(c_lcase, cnv(arg::uppercase =  true)).value_or(""));
+//    BOOST_TEST(w_ucase == convert<wstring>(w_lcase, cnv(arg::uppercase = false)).value_or(""));
+//    BOOST_TEST(w_ucase == convert<wstring>(w_lcase, cnv(arg::uppercase =  true)).value_or(""));
+}
+
+static
+void
 test_skipws()
 {
     //[strtol_skipws
@@ -247,11 +263,13 @@ static
 std::pair<double, int>
 get_random()
 {
-    static boost::random::mt19937                          gen (::time(0));
-    static boost::random::uniform_int_distribution<> precision (0, 6);
-    static boost::random::uniform_int_distribution<>  int_part (0, SHRT_MAX);
-    static boost::random::uniform_01<double>          fraction; // uniform double in [0,1)
-    static bool                                           sign;
+    namespace rdm = boost::random;
+
+    static rdm::mt19937                          gen (::time(0));
+    static rdm::uniform_int_distribution<> precision (0, 6);
+    static rdm::uniform_int_distribution<>  int_part (0, SHRT_MAX);
+    static rdm::uniform_01<double>          fraction; // uniform double in [0,1)
+    static bool                                 sign;
 
     double dbl = (int_part(gen) + fraction(gen)) * ((sign = !sign) ? 1 : -1);
 
@@ -356,6 +374,7 @@ main(int, char const* [])
     test_int_to_str();
     test_uint_to_str();
     test_base();
+    test_upper();
     test_skipws();
     test_dbl_to_str();
     test_width();

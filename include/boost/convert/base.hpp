@@ -108,11 +108,12 @@ struct boost::cnv::cnvbase
     {
         using range_type = cnv::range<string_type const>;
         using  char_type = typename range_type::value_type;
+        using uchar_type = typename boost::make_unsigned<char_type>::type;
 
         range_type range (str);
         auto    is_space = [](char_type ch)
         {
-            return std::isspace(static_cast<unsigned char>(ch));
+            return std::isspace(static_cast<uchar_type>(ch));
         };
         if (skipws_)
             for (; !range.empty() && is_space(*range.begin()); ++range);
@@ -126,35 +127,32 @@ struct boost::cnv::cnvbase
     void
     to_str_(in_type value_in, optional<string_type>& result_out) const
     {
-        using range_type = cnv::range<string_type>;
-        using  char_type = typename range_type::value_type;
+        using  char_type = typename cnv::range<string_type>::value_type;
+        using uchar_type = typename boost::make_unsigned<char_type>::type;
+        using range_type = cnv::range<char_type*>;
+        using   buf_type = char_type[bufsize_];
 
-        char_type buf[bufsize_];
-        cnv::range<char_type*> range = dncast().to_str(value_in, buf);
-        char_type*               beg = range.begin();
-        char_type*               end = range.end();
+        buf_type     buf;
+        range_type range = dncast().to_str(value_in, buf);
+        char_type*   beg = range.begin();
+        char_type*   end = range.end();
+        int     str_size = end - beg;
 
-        if (beg < end)
-            format_(buf, beg, end), result_out = string_type(beg, end);
-    }
+        if (str_size <= 0)
+            return;
 
-    template<typename char_type>
-    void
-    format_(char_type* buf, char_type*& beg, char_type*& end) const
-    {
         if (uppercase_)
-            for (char_type* p = beg; p < end; ++p) *p = std::toupper(*p);
+            for (char_type* p = beg; p < end; ++p) *p = std::toupper(static_cast<uchar_type>(*p));
 
         if (width_)
         {
-            int num_fillers = (std::max)(0, int(width_ - (end - beg)));
-            int    num_left = adjust_ == boost::cnv::adjust::left ? 0
-                            : adjust_ == boost::cnv::adjust::right ? num_fillers
-                            : (num_fillers / 2);
-            int   num_right = num_fillers - num_left;
-            int    str_size = end - beg;
-            bool       move = (beg < buf + num_left) // No room for left fillers
-                           || (buf + bufsize_ < end + num_right); // No room for right fillers
+            int  num_fill = (std::max)(0, int(width_ - (end - beg)));
+            int  num_left = adjust_ == boost::cnv::adjust::left ? 0
+                          : adjust_ == boost::cnv::adjust::right ? num_fill
+                          : (num_fill / 2);
+            int num_right = num_fill - num_left;
+            bool     move = (beg < buf + num_left) // No room for left fillers
+                         || (buf + bufsize_ < end + num_right); // No room for right fillers
             if (move)
             {
                 std::memmove(buf + num_left, beg, str_size * sizeof(char_type));
@@ -164,6 +162,7 @@ struct boost::cnv::cnvbase
             for (int k = 0; k <  num_left; *(--beg) = fill_, ++k);
             for (int k = 0; k < num_right; *(end++) = fill_, ++k);
         }
+        result_out = string_type(beg, end);
     }
 
     derived_type const& dncast () const { return *static_cast<derived_type const*>(this); }

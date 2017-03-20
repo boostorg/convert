@@ -6,6 +6,7 @@
 #define BOOST_CONVERT_FORWARD_HPP
 
 #if defined(_MSC_VER)
+
 //MSVC++ 7.0  _MSC_VER == 1300
 //MSVC++ 7.1  _MSC_VER == 1310 (Visual Studio 2003)
 //MSVC++ 8.0  _MSC_VER == 1400 (Visual Studio 2005)
