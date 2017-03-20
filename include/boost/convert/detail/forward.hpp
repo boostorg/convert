@@ -6,7 +6,6 @@
 #define BOOST_CONVERT_FORWARD_HPP
 
 #if defined(_MSC_VER)
-
 //MSVC++ 7.0  _MSC_VER == 1300
 //MSVC++ 7.1  _MSC_VER == 1310 (Visual Studio 2003)
 //MSVC++ 8.0  _MSC_VER == 1400 (Visual Studio 2005)
@@ -45,7 +44,8 @@
 #endif
 
 #if defined(BOOST_MSVC) && (BOOST_MSVC < 1800) /* MSVC-11 and lower have broken SFINAE */
-#error "Boost.Convert is not supported on this platform due to broken SFINAE."
+//#   error "Boost.Convert is not supported on this platform due to broken SFINAE."
+#   define BOOST_CONVERT_MSVC_SFINAE_BROKEN
 #endif
 
 #endif // BOOST_CONVERT_FORWARD_HPP
