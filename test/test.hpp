@@ -22,6 +22,7 @@
 #   pragma warning(disable: 4714) // marked as __forceinline not #endif
 #   pragma warning(disable: 4706)
 #   pragma warning(disable: 4005)
+#   pragma warning(disable: 4459) // declaration hides global declaration
 #endif
 
 //[change_declaration
