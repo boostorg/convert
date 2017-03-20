@@ -9,10 +9,6 @@
 
 #include "./test.hpp"
 
-#ifdef BOOST_CONVERT_INTEL_SFINAE_BROKEN
-int main(int, char const* []) { return 0; }
-#else
-
 #include <boost/convert.hpp>
 #include <boost/convert/spirit.hpp>
 #include <boost/convert/strtol.hpp>
@@ -108,5 +104,3 @@ main(int, char const* [])
     // unplug the whole test's life support system.
     return test::live_code != 0;
 }
-
-#endif
