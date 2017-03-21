@@ -26,7 +26,7 @@ using std::string;
 using std::wstring;
 using boost::convert;
 
-struct boost::cnv::by_default : public boost::cnv::strtol {};
+struct boost::cnv::by_default : boost::cnv::strtol {};
 //]
 
 static

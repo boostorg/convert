@@ -11,7 +11,7 @@ using std::string;
 using boost::convert;
 using boost::lexical_cast;
 
-struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
+struct boost::cnv::by_default : boost::cnv::lexical_cast {};
 //]
 
 int

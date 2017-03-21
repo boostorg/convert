@@ -16,7 +16,7 @@ int main(int, char const* []) { return 0; }
 using std::string;
 using boost::convert;
 
-struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
+struct boost::cnv::by_default : boost::cnv::lexical_cast {};
 
 static
 void

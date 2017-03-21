@@ -9,11 +9,11 @@
 
 #ifdef ONLY_FOR_DEMONSTRATION_PURPOSES
 //[default_converter_declaration_simple
-struct boost::cnv::by_default : public boost::cnv::cstream {};
+struct boost::cnv::by_default : boost::cnv::cstream {};
 //]
 #endif
 //[default_converter_declaration_formatted
-struct boost::cnv::by_default : public boost::cnv::cstream 
+struct boost::cnv::by_default : boost::cnv::cstream 
 { 
     by_default() { (*this)(std::uppercase)(std::hex); }
 };

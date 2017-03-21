@@ -13,7 +13,7 @@
 using std::string;
 using boost::convert;
 
-struct boost::cnv::by_default : public boost::cnv::cstream {};
+struct boost::cnv::by_default : boost::cnv::cstream {};
 //]
 //[stream_headers2
 namespace cnv = boost::cnv;

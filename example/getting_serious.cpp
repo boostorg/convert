@@ -21,7 +21,7 @@ static void log(...) {}
 static int fallback_function() { return -1; }
 
 //[getting_serious_default_converter
-struct boost::cnv::by_default : public boost::cnv::cstream {};
+struct boost::cnv::by_default : boost::cnv::cstream {};
 //]
 static
 void

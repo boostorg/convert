@@ -21,7 +21,7 @@ using boost::convert;
 namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;
 
-struct boost::cnv::by_default : public boost::cnv::spirit {};
+struct boost::cnv::by_default : boost::cnv::spirit {};
 
 int
 main(int, char const* [])

@@ -78,7 +78,7 @@ namespace boost
     /// @brief Boost.Convert deployment interface with the default converter
     /// @details For example,
     /// @code
-    ///    struct boost::cnv::by_default : public boost::cnv::cstream {};
+    ///    struct boost::cnv::by_default : boost::cnv::cstream {};
     ///
     ///    // boost::cnv::cstream (through boost::cnv::by_default) is deployed
     ///    // as the default converter when no converter is provided explicitly.

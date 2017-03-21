@@ -40,7 +40,7 @@ using boost::convert;
 //]
 //[getting_started_default_converter
 // Definition of the default converter (optional)
-struct boost::cnv::by_default : public boost::cnv::lexical_cast {};
+struct boost::cnv::by_default : boost::cnv::lexical_cast {};
 //]
 
 static
