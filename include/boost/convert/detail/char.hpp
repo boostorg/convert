@@ -6,7 +6,6 @@
 #define BOOST_CONVERT_DETAIL_IS_CHAR_HPP
 
 #include <type_traits>
-#include <boost/type_traits/remove_const.hpp>
 
 namespace boost { namespace cnv
 {
@@ -16,11 +15,11 @@ namespace boost { namespace cnv
 
     namespace detail
     {
-        template<typename T> struct is_char             : std::false_type {};
-        template<>           struct is_char< char_type> : std:: true_type {};
-        template<>           struct is_char<wchar_type> : std:: true_type {};
+        template<typename> struct is_char             : std::false_type {};
+        template<>         struct is_char< char_type> : std:: true_type {};
+        template<>         struct is_char<wchar_type> : std:: true_type {};
     }
-    template <typename T> struct is_char : detail::is_char<typename remove_const<T>::type> {};
+    template <typename T> struct is_char : detail::is_char<typename std::remove_const<T>::type> {};
 
     template<typename char_type> bool      is_space(char_type);
     template<typename char_type> char_type to_upper(char_type);
