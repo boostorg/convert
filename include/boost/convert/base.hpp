@@ -106,10 +106,7 @@ struct boost::cnv::cnvbase
     void
     str_to_(string_type const& str, optional<out_type>& result_out) const
     {
-        using range_type = cnv::range<string_type const>;
-        using  char_type = typename range_type::value_type;
-
-        range_type range (str);
+        cnv::range<string_type const> range (str);
 
         if (skipws_)
             for (; !range.empty() && cnv::is_space(*range.begin()); ++range);
