@@ -108,18 +108,14 @@ struct boost::cnv::cnvbase
     {
         using range_type = cnv::range<string_type const>;
         using  char_type = typename range_type::value_type;
-        using uchar_type = typename boost::make_unsigned<char_type>::type;
 
         range_type range (str);
-        auto    is_space = [](char_type ch)
-        {
-            return std::isspace(static_cast<uchar_type>(ch));
-        };
-        if (skipws_)
-            for (; !range.empty() && is_space(*range.begin()); ++range);
 
-        if (range.empty())            return;
-        if (is_space(*range.begin())) return;
+        if (skipws_)
+            for (; !range.empty() && cnv::is_space(*range.begin()); ++range);
+
+        if (range.empty())                 return;
+        if (cnv::is_space(*range.begin())) return;
 
         dncast().str_to(range, result_out);
     }
@@ -128,7 +124,6 @@ struct boost::cnv::cnvbase
     to_str_(in_type value_in, optional<string_type>& result_out) const
     {
         using  char_type = typename cnv::range<string_type>::value_type;
-        using uchar_type = typename boost::make_unsigned<char_type>::type;
         using range_type = cnv::range<char_type*>;
         using   buf_type = char_type[bufsize_];
 
@@ -142,13 +137,13 @@ struct boost::cnv::cnvbase
             return;
 
         if (uppercase_)
-            for (char_type* p = beg; p < end; ++p) *p = std::toupper(static_cast<uchar_type>(*p));
+            for (char_type* p = beg; p < end; ++p) *p = cnv::to_upper(*p);
 
         if (width_)
         {
             int  num_fill = (std::max)(0, int(width_ - (end - beg)));
-            int  num_left = adjust_ == boost::cnv::adjust::left ? 0
-                          : adjust_ == boost::cnv::adjust::right ? num_fill
+            int  num_left = adjust_ == cnv::adjust::left ? 0
+                          : adjust_ == cnv::adjust::right ? num_fill
                           : (num_fill / 2);
             int num_right = num_fill - num_left;
             bool     move = (beg < buf + num_left) // No room for left fillers

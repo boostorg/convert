@@ -10,13 +10,31 @@
 
 namespace boost { namespace cnv
 {
+    using   char_type = char;
+    using  uchar_type = unsigned char;
+    using  wchar_type = wchar_t;
+    using uwchar_type = unsigned wchar_t;
+
     namespace detail
     {
-        template<typename T> struct is_char          : mpl::false_ {};
-        template<>           struct is_char<char>    : mpl:: true_ {};
-        template<>           struct is_char<wchar_t> : mpl:: true_ {};
+        template<typename T> struct is_char             : mpl::false_ {};
+        template<>           struct is_char< char_type> : mpl:: true_ {};
+        template<>           struct is_char<wchar_type> : mpl:: true_ {};
     }
     template <typename T> struct is_char : detail::is_char<typename remove_const<T>::type> {};
+
+    template<typename char_type> bool      is_space(char_type);
+    template<typename char_type> char_type to_upper(char_type);
+
+    template<> bool is_space (char_type   c) { return std::isspace(static_cast<uchar_type>(c)); }
+    template<> bool is_space (uchar_type  c) { return std::isspace(c); }
+    template<> bool is_space (wchar_type  c) { return std::iswspace(c); }
+    template<> bool is_space (uwchar_type c) { return std::iswspace(c); }
+
+    template<> char_type   to_upper (char_type   c) { return std::toupper(static_cast<uchar_type>(c)); }
+    template<> uchar_type  to_upper (uchar_type  c) { return std::toupper(c); }
+    template<> wchar_type  to_upper (wchar_type  c) { return std::towupper(c); }
+    template<> uwchar_type to_upper (uwchar_type c) { return std::towupper(c); }
 }}
 
 #endif // BOOST_CONVERT_DETAIL_IS_CHAR_HPP
