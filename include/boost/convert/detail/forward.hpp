@@ -46,7 +46,7 @@
 
 #if defined(BOOST_MSVC) && (BOOST_MSVC < 1800) /* MSVC-11 and lower have broken SFINAE */
 //#   error "Boost.Convert is not supported on this platform due to broken SFINAE."
-#   define BOOST_CONVERT_MSVC_SFINAE_BROKEN
+#   define BOOST_CONVERT_IS_NOT_SUPPORTED
 #endif
 
 #endif // BOOST_CONVERT_FORWARD_HPP

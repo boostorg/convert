@@ -5,6 +5,10 @@
 
 #include "./test.hpp"
 
+#if defined(BOOST_CONVERT_IS_NOT_SUPPORTED)
+int main(int, char const* []) { return 0; }
+#else
+
 #include <boost/convert.hpp>
 #include <boost/convert/detail/is_string.hpp>
 #include <boost/convert/detail/is_callable.hpp>
@@ -151,3 +155,5 @@ main(int, char const* [])
 
     return boost::report_errors();
 }
+
+#endif

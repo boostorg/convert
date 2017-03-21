@@ -9,6 +9,10 @@
 
 #include "./test.hpp"
 
+#if defined(BOOST_CONVERT_IS_NOT_SUPPORTED)
+int main(int, char const* []) { return 0; }
+#else
+
 #include <boost/convert.hpp>
 #include <boost/convert/spirit.hpp>
 #include <boost/convert/strtol.hpp>
@@ -104,3 +108,5 @@ main(int, char const* [])
     // unplug the whole test's life support system.
     return test::live_code != 0;
 }
+
+#endif
