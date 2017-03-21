@@ -6,6 +6,7 @@
 #define BOOST_CONVERT_DETAIL_IS_CHAR_HPP
 
 #include <type_traits>
+#include <cctype>
 
 namespace boost { namespace cnv
 {

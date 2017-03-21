@@ -24,7 +24,7 @@ namespace boost { namespace cnv
             static bool const value = has_begin<T>::value && has_end<T>::value;
         };
     }
-    template<typename T> struct is_range : detail::is_range<typename remove_const<T>::type, boost::is_class<T>::value> {};
+    template<typename T> struct is_range : detail::is_range<typename std::remove_const<T>::type, boost::is_class<T>::value> {};
     template<typename T, typename enable =void> struct range;
     template<typename T, typename enable =void> struct iterator;
 
@@ -38,9 +38,9 @@ namespace boost { namespace cnv
     template<typename T>
     struct iterator<T*, void>
     {
-        typedef typename remove_const<T>::type value_type;
-        typedef T*                                   type;
-        typedef value_type const*              const_type;
+        typedef typename std::remove_const<T>::type value_type;
+        typedef T*                                        type;
+        typedef value_type const*                   const_type;
     };
     template<typename T>
     struct range_base
@@ -83,11 +83,11 @@ namespace boost { namespace cnv
     template<typename T>
     struct range<T*, typename enable_if<cnv::is_char<T> >::type> : public range_base<T*>
     {
-        typedef range                           this_type;
-        typedef range_base<T*>                  base_type;
-        typedef typename remove_const<T>::type value_type;
-        typedef T*                               iterator;
-        typedef value_type const*          const_iterator;
+        using      this_type = range;
+        using      base_type = range_base<T*>;
+        using     value_type = typename std::remove_const<T>::type;
+        using       iterator = T*;
+        using const_iterator = value_type const*;
 
         struct sentry_type
         {
