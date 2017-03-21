@@ -14,7 +14,7 @@ namespace boost { namespace cnv
 {
     namespace detail
     {
-        template<typename T, bool is_class> struct is_range : mpl::false_ {};
+        template<typename T, bool is_class> struct is_range : std::false_type {};
 
         template<typename T> struct is_range<T, /*is_class=*/true>
         {
