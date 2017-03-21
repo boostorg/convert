@@ -23,6 +23,7 @@
 #   pragma warning(disable: 4706)
 #   pragma warning(disable: 4005)
 #   pragma warning(disable: 4459) // declaration hides global declaration
+#   pragma warning(disable: 4456) // declaration hides previous local declaration
 #endif
 
 //[change_declaration
