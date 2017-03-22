@@ -38,7 +38,7 @@ or an old-fashioned function:
 [callable_example1]
 [callable_example2]
 
-With regard to converters the ['Boost.Convert] framework has been designed with the following requirements in mind:
+With regard to converters the ['Boost.Convert] framework has been designed with the following requirement in mind:
 
 [note Converters shall be independent from and must not rely on the ['Boost.Convert] infrastructure.]
 
