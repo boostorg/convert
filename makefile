@@ -26,4 +26,4 @@ target_24 = convert-example-getting_started    example/getting_started.cpp
 target_25 = convert-example-lexical_cast       example/lexical_cast.cpp
 target_26 = convert-example-stream             example/stream.cpp
 
-include $(PRJMAKE)/makefile
+include $(PRJROOT)/make/makefile
