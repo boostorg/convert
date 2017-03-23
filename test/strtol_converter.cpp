@@ -22,6 +22,8 @@ int main(int, char const* []) { return 0; }
 #include <boost/convert.hpp>
 #include <boost/convert/strtol.hpp>
 
+#include <time.h>
+
 using std::string;
 using std::wstring;
 using boost::convert;
