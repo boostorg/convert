@@ -76,16 +76,16 @@ boost::cnv::strtol::i_to_str(Type in_value, char_type* buf) const
 
     typedef typename boost::make_unsigned<Type>::type unsigned_type;
 
-    char_type*         beg = buf + bufsize_ / 2;
-    char_type*         end = beg;
-    bool const is_negative = in_value < 0;
-    unsigned_type    value = static_cast<unsigned_type>(is_negative ? -in_value : in_value);
+    char_type*      beg = buf + bufsize_ / 2;
+    char_type*      end = beg;
+    bool const   is_neg = std::is_signed<Type>::value && in_value < 0;
+    unsigned_type value = static_cast<unsigned_type>(is_neg ? -in_value : in_value);
 
     if (base_ == 10) for (; value; *(--beg) = int(value % 10) + '0', value /= 10); //C1
     else             for (; value; *(--beg) = get_char(value % base_), value /= base_);
 
-    if (beg == end)  *(--beg) = '0';
-    if (is_negative) *(--beg) = '-';
+    if (beg == end) *(--beg) = '0';
+    if (is_neg)     *(--beg) = '-';
 
     return cnv::range<char_type*>(beg, end);
 }
