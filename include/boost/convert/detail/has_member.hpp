@@ -40,7 +40,7 @@
     template <typename __boost_has_member_T__> /*C4*/                                       \
     class __trait_name__                                                                    \
     {                                                                                       \
-        typedef typename std::remove_const<__boost_has_member_T__>::type check_type;    \
+        typedef typename boost::remove_const<__boost_has_member_T__>::type check_type;      \
         typedef ::boost::type_traits::yes_type                yes_type;                     \
         typedef ::boost::type_traits:: no_type                 no_type;                     \
                                                                                             \

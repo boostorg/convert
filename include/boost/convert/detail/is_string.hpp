@@ -27,7 +27,7 @@ namespace boost { namespace cnv
         };
     }
     template<typename T> struct is_string : detail::is_string<
-        typename std::remove_const<T>::type,
+        typename boost::remove_const<T>::type,
         boost::is_class<T>::value && boost::cnv::is_range<T>::value> {};
 }}
 

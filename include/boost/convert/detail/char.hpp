@@ -20,7 +20,7 @@ namespace boost { namespace cnv
         template<>         struct is_char< char_type> : std:: true_type {};
         template<>         struct is_char<wchar_type> : std:: true_type {};
     }
-    template <typename T> struct is_char : detail::is_char<typename std::remove_const<T>::type> {};
+    template <typename T> struct is_char : detail::is_char<typename boost::remove_const<T>::type> {};
 
     template<typename char_type> bool      is_space(char_type);
     template<typename char_type> char_type to_upper(char_type);
