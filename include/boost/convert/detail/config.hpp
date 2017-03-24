@@ -28,6 +28,12 @@
 #   define snprintf _snprintf
 #endif
 
+namespace std
+{
+    using ::iswspace;
+    using ::towupper;
+}
+
 #endif
 
 #include <boost/config.hpp>
