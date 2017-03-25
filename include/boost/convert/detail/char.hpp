@@ -5,8 +5,8 @@
 #ifndef BOOST_CONVERT_DETAIL_IS_CHAR_HPP
 #define BOOST_CONVERT_DETAIL_IS_CHAR_HPP
 
+#include <boost/convert/detail/config.hpp>
 #include <type_traits>
-#include <cctype>
 
 namespace boost { namespace cnv
 {

@@ -5,6 +5,26 @@
 #ifndef BOOST_CONVERT_FORWARD_HPP
 #define BOOST_CONVERT_FORWARD_HPP
 
+#include <boost/config.hpp>
+#include <boost/version.hpp>
+#include <boost/optional.hpp>
+#include <cctype>
+
+#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
+#undef BOOST_CONVERT_CXX11
+#else
+#define BOOST_CONVERT_CXX11
+#endif
+
+#if defined(BOOST_INTEL) && (BOOST_INTEL <= 1200) /* Intel 12.0 and lower have broken SFINAE */
+#error "Boost.Convert is not supported on this platform due to broken SFINAE."
+#endif
+
+#if defined(BOOST_MSVC) && (BOOST_MSVC < 1800) /* MSVC-11 and lower have broken SFINAE */
+//#   error "Boost.Convert is not supported on this platform due to broken SFINAE."
+#   define BOOST_CONVERT_IS_NOT_SUPPORTED
+#endif
+
 #if defined(_MSC_VER)
 
 //MSVC++ 7.0  _MSC_VER == 1300
@@ -34,25 +54,6 @@ namespace std
     using ::towupper;
 }
 
-#endif
-
-#include <boost/config.hpp>
-#include <boost/version.hpp>
-#include <boost/optional.hpp>
-
-#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
-#undef BOOST_CONVERT_CXX11
-#else
-#define BOOST_CONVERT_CXX11
-#endif
-
-#if defined(BOOST_INTEL) && (BOOST_INTEL <= 1200) /* Intel 12.0 and lower have broken SFINAE */
-#error "Boost.Convert is not supported on this platform due to broken SFINAE."
-#endif
-
-#if defined(BOOST_MSVC) && (BOOST_MSVC < 1800) /* MSVC-11 and lower have broken SFINAE */
-//#   error "Boost.Convert is not supported on this platform due to broken SFINAE."
-#   define BOOST_CONVERT_IS_NOT_SUPPORTED
 #endif
 
 #endif // BOOST_CONVERT_FORWARD_HPP
