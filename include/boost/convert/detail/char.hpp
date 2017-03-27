@@ -7,6 +7,8 @@
 
 #include <boost/convert/detail/config.hpp>
 #include <type_traits>
+#include <cctype>
+#include <cwctype>
 
 namespace boost { namespace cnv
 {

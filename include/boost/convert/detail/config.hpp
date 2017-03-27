@@ -8,7 +8,6 @@
 #include <boost/config.hpp>
 #include <boost/version.hpp>
 #include <boost/optional.hpp>
-#include <cctype>
 
 #if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
 #undef BOOST_CONVERT_CXX11
@@ -47,12 +46,6 @@
 #if _MSC_VER < 1900 /* MSVC-14 defines real snprintf()... just about time! */
 #   define snprintf _snprintf
 #endif
-
-namespace std
-{
-    using ::iswspace;
-    using ::towupper;
-}
 
 #endif
 
