@@ -15,12 +15,18 @@
 #define BOOST_CONVERT_CXX11
 #endif
 
-#if defined(BOOST_INTEL) && (BOOST_INTEL <= 1200) /* Intel 12.0 and lower have broken SFINAE */
-#error "Boost.Convert is not supported on this platform due to broken SFINAE."
+// Intel 12.0 and lower have broken SFINAE
+#if defined(BOOST_INTEL) && (BOOST_INTEL <= 1200)
+#   define BOOST_CONVERT_IS_NOT_SUPPORTED
 #endif
 
-#if defined(BOOST_MSVC) && (BOOST_MSVC < 1800) /* MSVC-11 and lower have broken SFINAE */
-//#   error "Boost.Convert is not supported on this platform due to broken SFINAE."
+// No C++11 support
+#if defined(BOOST_GCC_VERSION) && (BOOST_GCC_VERSION <= 40600)
+#   define BOOST_CONVERT_IS_NOT_SUPPORTED
+#endif
+
+// MSVC-11 and lower have broken SFINAE
+#if defined(BOOST_MSVC) && (BOOST_MSVC < 1800)
 #   define BOOST_CONVERT_IS_NOT_SUPPORTED
 #endif
 

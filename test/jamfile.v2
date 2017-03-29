@@ -9,6 +9,7 @@ import testing ;
 project convert_test 
     : requirements
         <warnings>on
+        <toolset>clang:<cxxflags>"-std=c++11"
         <toolset>gcc:<warnings>all
         <toolset>gcc:<cxxflags>"-O3 -std=c++0x -Wno-unused-variable -Wno-unused-local-typedefs -Wno-long-long"
         <toolset>msvc:<warnings>all
