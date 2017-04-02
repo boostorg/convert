@@ -125,10 +125,13 @@ namespace boost { namespace cnv
     template<typename Converter, typename TypeOut, typename TypeIn>
     struct reference
     {
-        using this_type = reference;
+        typedef reference this_type;
 
         reference(Converter const& cnv) : converter_(cnv) {}
+
+#ifdef BOOST_CONVERT_CXX11
         reference(Converter&& cnv) : converter_(std::move(cnv)) {}
+#endif
 
         this_type&
         value_or(TypeOut const& fallback)
@@ -151,10 +154,13 @@ namespace boost { namespace cnv
     template<typename Converter, typename TypeOut>
     struct reference<Converter, TypeOut, void>
     {
-        using this_type = reference;
+        typedef reference this_type;
 
         reference(Converter const& cnv) : converter_(cnv) {}
+
+#ifdef BOOST_CONVERT_CXX11
         reference(Converter&& cnv) : converter_(std::move(cnv)) {}
+#endif
 
         this_type&
         value_or(TypeOut const& fallback)

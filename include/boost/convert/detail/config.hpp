@@ -9,8 +9,10 @@
 #include <boost/version.hpp>
 #include <boost/optional.hpp>
 
-#if __cplusplus < 201103L
-#   define BOOST_CONVERT_IS_NOT_SUPPORTED
+#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
+#undef BOOST_CONVERT_CXX11
+#else
+#define BOOST_CONVERT_CXX11
 #endif
 
 // Intel 12.0 and lower have broken SFINAE
