@@ -202,14 +202,14 @@ boost::cnv::strtol::str_to_d(cnv::range<string_type> range, optional<out_type>& 
     //     and then comparing to it as in
     //         char const* end = str + strlen(str); // Unnecessary traversal!
     //         bool const good = ... && cnv_end == end;
-
     typedef cnv::range<string_type>      range_type;
     typedef typename range_type::value_type ch_type;
 
     ch_type const* str = &*range.begin(); // Currently only works with 'char'
     char*      cnv_end = 0;
     ldbl_type   result = strtold(str, &cnv_end);
-    bool          good = result != -HUGE_VALL && result != HUGE_VALL && *cnv_end == 0/*C2*/;
+//  bool          good = result != -HUGE_VALL && result != HUGE_VALL && *cnv_end == 0/*C2*/;
+    bool          good = result != -HUGE_VALL && result != HUGE_VALL;
     out_type       max = (std::numeric_limits<out_type>::max)();
 
     if (good && -max <= result && result <= max)
