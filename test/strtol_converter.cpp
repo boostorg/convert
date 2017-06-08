@@ -17,6 +17,7 @@ int main(int, char const* []) { return 0; }
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/uniform_01.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/utility/string_view.hpp>
 
 //[strtol_basic_deployment_header
 #include <boost/convert.hpp>
@@ -37,6 +38,7 @@ test_str_to_uint()
     string const         neg_str = "-11";
     string const         std_str = "11";
     char const* const      c_str = "12";
+    boost::string_view     v_str = boost::string_view(c_str, 1);
     unsigned int const      imax = (std::numeric_limits<unsigned int>::max)();
     unsigned long int const lmax = (std::numeric_limits<unsigned long int>::max)();
     std::string const   imax_str = boost::lexical_cast<std::string>(imax);
@@ -48,6 +50,7 @@ test_str_to_uint()
     BOOST_TEST( 0 == convert<unsigned long int>(neg_str).value_or(0));
     BOOST_TEST(11 == convert<unsigned int>(std_str).value());
     BOOST_TEST(12 == convert<unsigned int>(  c_str).value());
+    BOOST_TEST( 1 == convert<unsigned int>(  v_str).value_or(0));
     BOOST_TEST(11 == convert<unsigned long int>(std_str).value());
     BOOST_TEST(12 == convert<unsigned long int>(  c_str).value());
     BOOST_TEST(imax == convert<     unsigned int>(imax_str).value());
@@ -59,13 +62,15 @@ void
 test_str_to_int()
 {
     //[strtol_basic_deployment
-    string const    bad_str = "not an int";
-    string const    std_str = "-11";
-    char const* const c_str = "-12";
+    string const     bad_str = "not an int";
+    string const     std_str = "-11";
+    char const* const  c_str = "-12";
+    boost::string_view v_str = boost::string_view(c_str, 2);
 
     BOOST_TEST( -1 == convert<int>(bad_str).value_or(-1));
     BOOST_TEST(-11 == convert<int>(std_str).value());
     BOOST_TEST(-12 == convert<int>(  c_str).value());
+    BOOST_TEST( -1 == convert<int>(  v_str).value_or(0));
     //]
     wstring const      bad_wstr = L"not an int";
     wstring const      wstd_str = L"-11";
@@ -298,6 +303,19 @@ compare(std::pair<double, int> pair)
 
 static
 void
+test_str_to_dbl()
+{
+//    char const* const      c_str = "123";
+//    boost::string_view     v_str = boost::string_view(c_str, 1);
+//
+//    printf("ZZ1: %f\n", convert<float>(v_str).value_or(0));
+//    printf("ZZ2: %f\n", convert<double>(v_str).value_or(0));
+//    printf("ZZ2: %d\n", convert<int>(v_str).value_or(0));
+//    BOOST_TEST( 1 == convert<float>(v_str).value_or(0));
+}
+
+static
+void
 test_dbl_to_str()
 {
 //    double      round_up_abs01 = ::rint(-0.5);
@@ -380,6 +398,7 @@ main(int, char const* [])
     test_base();
     test_upper();
     test_skipws();
+    test_str_to_dbl();
     test_dbl_to_str();
     test_width();
     test_user_string();
