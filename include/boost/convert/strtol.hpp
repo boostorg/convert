@@ -197,20 +197,20 @@ template<typename string_type, typename out_type>
 void
 boost::cnv::strtol::str_to_d(cnv::range<string_type> range, optional<out_type>& result_out) const
 {
-    // C2. Simply check if the end-of-string was reached -- *cnv_end == 0
-    //     instead of traversing once with strlen() to find the end iterator
-    //     and then comparing to it as in
-    //         char const* end = str + strlen(str); // Unnecessary traversal!
-    //         bool const good = ... && cnv_end == end;
+    // C1. Because of strtold() currently only works with 'char'
+    // C2. strtold() does not work with ranges.
+    //     Consequently, we have to copy the supplied range into a string for strtold().
+    // C3. Check if the end-of-string was reached -- *cnv_end == 0.
+
     typedef cnv::range<string_type>      range_type;
     typedef typename range_type::value_type ch_type;
 
-    ch_type const* str = &*range.begin(); // Currently only works with 'char'
-    char*      cnv_end = 0;
-    ldbl_type   result = strtold(str, &cnv_end);
-//  bool          good = result != -HUGE_VALL && result != HUGE_VALL && *cnv_end == 0/*C2*/;
-    bool          good = result != -HUGE_VALL && result != HUGE_VALL;
-    out_type       max = (std::numeric_limits<out_type>::max)();
+    size_t const  sz = 128;
+    ch_type  str[sz] = {0}; std::strncpy(str, &*range.begin(), std::min(sz - 1, range.size()));
+    char*    cnv_end = 0;
+    ldbl_type result = strtold(str, &cnv_end);
+    bool        good = result != -HUGE_VALL && result != HUGE_VALL && *cnv_end == 0; //C3
+    out_type     max = (std::numeric_limits<out_type>::max)();
 
     if (good && -max <= result && result <= max)
         result_out = out_type(result);

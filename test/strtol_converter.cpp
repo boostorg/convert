@@ -305,13 +305,10 @@ static
 void
 test_str_to_dbl()
 {
-//    char const* const      c_str = "123";
-//    boost::string_view     v_str = boost::string_view(c_str, 1);
-//
-//    printf("ZZ1: %f\n", convert<float>(v_str).value_or(0));
-//    printf("ZZ2: %f\n", convert<double>(v_str).value_or(0));
-//    printf("ZZ2: %d\n", convert<int>(v_str).value_or(0));
-//    BOOST_TEST( 1 == convert<float>(v_str).value_or(0));
+    char const* const c_str = "1.23456";
+
+    BOOST_TEST(1.2  == convert<double>(boost::string_view(c_str, 3)).value_or(0));
+    BOOST_TEST(1.23 == convert<double>(boost::string_view(c_str, 4)).value_or(0));
 }
 
 static
