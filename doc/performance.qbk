@@ -9,9 +9,9 @@
 
 The performance of ['Boost.Convert] depends entirely on the performance of the converter deployed. A few converters have been tested for string conversions to basic types and to a user-defined type. 
 
-In turn, the relative and absolute performance of every particular converter depends on the platform, the compiler used and the particular implementation of the underlying conversion component (`std::stream`, `printf`, ['Boost.Spirit], etc.). Consequently, the results below are only an approximate indication of ['relative] performance of the mentioned converters on the tested platforms. 
+In turn, the performance of every particular converter depends on the platform, the compiler used and the particular implementation of the underlying conversion component (`std::stream`, `printf`, ['Boost.Spirit], etc.). Consequently, the results below are only an approximate indication of ['relative] performance of the mentioned converters on the tested platforms. 
 
-Compiled with gcc-5.4.0 on 64-bit Ubuntu 16.04 laptop tests produced the following relative results:
+When compiled with gcc-5.4.0 on 64-bit Ubuntu 16.04, tests produced the following results:
 
  str-to-int: spirit/strtol/lcast/scanf/stream= 0.27/ 0.35/  0.92/  2.11/  2.09 seconds.
  str-to-lng: spirit/strtol/lcast/scanf/stream= 0.69/ 0.31/  1.28/  2.07/  2.50 seconds.
@@ -24,15 +24,15 @@ Based on the results, all things considered, I tend to conclude that there is no
 
 * the ['Spirit.Qi]-based converter was the fastest for string to basic (`int`, `double`) conversions. So, it might be a good candidate for the tasks predominantly doing that kind of conversions (with ['Spirit.Qi] conversion-related limitations in mind); ['Spirit.Karma]'s ['to-string] performance did not seem as impressive;
 * the `std::iostream`-based converter was comparatively slow. Still, given its maturity, availability and formatting support, it might be an option to consider if conversion performance is not your primary concern;
-* the `strtol`-inspired converter was reasonably fast and with formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` and `boost::cnv::stream`. So, bugs are to be expected.
+* the `strtol`-inspired converter was reasonably fast and with formatting support might be an attractive all-rounder. It should be noted that it is nowhere as mature as `boost::cnv::lexical_cast` or `boost::cnv::stream`. So, bugs are to be expected.
 
-For user-defined types `cnv::lexical_cast`, `cnv::cstream` and `cnv::strtol` were tested with the following relative results:
+For user-defined types `cnv::lexical_cast`, `cnv::cstream` and `cnv::strtol` were tested with the following results:
 
  str-to-user-type: lcast/stream/strtol=0.36/0.18/0.07 seconds.
  user-type-to-str: lcast/stream/strtol=0.58/0.09/0.06 seconds.
 
-To provide ['string-to-user-type] and ['user-type-to-string] conversions the first two deploy the same standard `std::iostream` library. However, `boost::cnv::cstream` considerably outperforms `boost::lexical_cast` in these tests. The results probably reflect different underlying designs. Namely,
-the standard ['Boost.Convert] deployment pattern is to create a converter or converters once and then re-use them. `boost::lexical_cast`, on the other hand, due to its design, creates and then destroys a `std::stream` instance every time the function is called and the [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html `boost::lexical_cast` performance] table indicates that the "std::stringstream ['with construction]" operation is considerably more expensive compared to "std::stringstream ['without construction]".
+To provide ['string-to-user-type] and ['user-type-to-string] conversions the first two deploy the same standard `std::iostream` library. However, `boost::cnv::cstream` considerably outperforms `boost::lexical_cast` in these tests. The results reflect different underlying designs. Namely,
+the standard ['Boost.Convert] deployment pattern is to create a converter or converters once and then re-use them. `boost::lexical_cast`, on the other hand, creates and then destroys a `std::stream` instance every time the function is called and the [@http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast/performance.html `boost::lexical_cast` performance] table indicates that the "std::stringstream ['with construction]" operation is considerably more expensive compared to "std::stringstream ['without construction]".
 
 `boost::cnv::strtol` support for user types has been implemented similarly but without the `std::stream`-related overhead. That resulted in the best out-of-three performance results.
 
@@ -82,7 +82,7 @@ The results for consecutive runs varied with deviations of around 2%. Under 2% w
 [endsect]
 [section:the_bigger_picture The Bigger Picture]
 
-The presented conversion-related performance data (and potential performance-related concerns) have to be taken in perspective. A special project with serious high performance requirements is most likely to require special solutions which are most likely to cast out many generic libraries. Still, the existence of such projects did not kill or diminish in any way the existence of generic libraries. And ['Boost.Convert] is one such ['generic] library.
+The presented conversion-related performance data (and potential performance-related concerns) have to be taken in perspective. A special project with serious high performance requirements is most likely to require special solutions which are most likely to cast out many generic libraries. Still, the existence of such projects did not kill or diminish in any way the importance of generic libraries. And ['Boost.Convert] is one such ['generic] library.
 
 More so, if performance is a concern, then, in all likelihood, for the great majority of the mainstream projects ['Boost.Convert] will be far from the top on the performance profiler's list. For example, to measure conversion-related overhead relative to `std::string`-related overhead, `std::string` was replaced with a custom ['small-string] type:
 

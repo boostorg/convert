@@ -14,7 +14,7 @@
 
 [heading Forced ['TypeIn] vs. Deduced]
 
-So far it was sufficient to explicitly specify only one type to `boost::cnv::apply<TypeOut>` -- the target ['TypeOut] type. The source ['TypeIn] type has been provided implicitly through the algorithm and often it all just works (as the examples above demonstrate). However, at times more control is needed regarding the ['TypeIn] type and `boost::cnv::apply()` provides such control via explicit specification of ['TypeIn] -- `boost::cnv::apply<TypeOut, TypeIn>`.
+So far it was sufficient to explicitly specify only one type to `boost::cnv::apply<TypeOut>` -- the target ['TypeOut] type. The source ['TypeIn] type was provided implicitly through the algorithm and often it all just works (as the examples above demonstrate). However, at times more control is needed regarding the ['TypeIn] type and `boost::cnv::apply()` provides such control via explicit specification of ['TypeIn] -- `boost::cnv::apply<TypeOut, TypeIn>`.
 
 The following example demonstrates an interesting issue related to the ['`change`] class introduced in [link boost_convert.integration_of_user_types Integration of User-Defined Types]. The class is essentially a glorified ['`enum`], a user-friendly convenience wrapper around the actual ['`enum value_type { no, up, dn }`]. In the example an array of ['`change`] values (`chgs1`) is sensibly converted to readable "no", "up" and "dn" strings (`strs1`) when an array of ['`change::value_type`] values (`chgs2`) converts to obscure "0", "1" and "2" (`strs2`).
 

@@ -8,7 +8,7 @@
 
 [import ../example/default_converter.cpp]
 
-The explicitly provided converter as in
+The explicit converter as in
 
  int i = boost::convert<int>("123", converter).value();
  
