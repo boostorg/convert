@@ -8,6 +8,7 @@
 #include <boost/convert/parameters.hpp>
 #include <boost/convert/detail/is_string.hpp>
 #include <boost/make_default.hpp>
+#include <boost/noncopyable.hpp>
 #include <sstream>
 #include <iomanip>
 
@@ -116,22 +117,22 @@ struct boost::cnv::basic_stream : boost::noncopyable
     BOOST_CNV_PARAM(base, boost::cnv::base::type const)
     {
         cnv::base::type base = arg[cnv::parameter::base];
-        
+
         /**/ if (base == cnv::base::dec) std::dec(stream_);
         else if (base == cnv::base::hex) std::hex(stream_);
         else if (base == cnv::base::oct) std::oct(stream_);
         else BOOST_ASSERT(!"Not implemented");
-        
+
         return *this;
     }
     BOOST_CNV_PARAM(notation, boost::cnv::notation::type const)
     {
         cnv::notation::type notation = arg[cnv::parameter::notation];
-        
+
         /**/ if (notation == cnv::notation::     fixed)      std::fixed(stream_);
         else if (notation == cnv::notation::scientific) std::scientific(stream_);
         else BOOST_ASSERT(!"Not implemented");
-        
+
         return *this;
     }
 
