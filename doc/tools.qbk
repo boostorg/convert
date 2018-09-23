@@ -42,7 +42,7 @@ As it can be seen from the example the traits only check for the existence of a 
 [endsect]
 [section BOOST_DECLARE_IS_CALLABLE]
 
-The BOOST_DECLARE_IS_CALLABLE macro extends the functonality provided by BOOST_DECLARE_HAS_MEMBER and allows to declare a trait which would then let introspect the existence of a named class member function ['callable with the supplied signature]. 
+The BOOST_DECLARE_IS_CALLABLE macro extends the functionality provided by BOOST_DECLARE_HAS_MEMBER and allows to declare a trait which would then let introspect the existence of a named class member function ['callable with the supplied signature]. 
 
 For example, the following declarations introduce `local::can_call_funop` and `local::can_call_func` traits: 
 
