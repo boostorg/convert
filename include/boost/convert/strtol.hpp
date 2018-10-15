@@ -206,7 +206,7 @@ boost::cnv::strtol::str_to_d(cnv::range<string_type> range, optional<out_type>& 
     typedef typename range_type::value_type ch_type;
 
     size_t const  sz = 128;
-    ch_type  str[sz] = {0}; std::strncpy(str, &*range.begin(), std::min(sz - 1, range.size()));
+    ch_type  str[sz] = {0}; std::strncpy(str, &*range.begin(), (std::min)(sz - 1, range.size()));
     char*    cnv_end = 0;
     ldbl_type result = strtold(str, &cnv_end);
     bool        good = result != -HUGE_VALL && result != HUGE_VALL && *cnv_end == 0; //C3

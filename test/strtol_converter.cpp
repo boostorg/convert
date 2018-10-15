@@ -100,12 +100,12 @@ test_int_to_str()
     BOOST_TEST(L"-123" == convert<std::wstring> ( l_int).value());
     BOOST_TEST(L"-123" == convert<std::wstring> (ll_int).value());
 
-    int const            imin = std::numeric_limits<int>::min();
-    int const            imax = std::numeric_limits<int>::max();
-    long int const       lmin = std::numeric_limits<long int>::min();
-    long int const       lmax = std::numeric_limits<long int>::max();
-    long long int const llmin = std::numeric_limits<long long int>::min();
-    long long int const llmax = std::numeric_limits<long long int>::max();
+    int const            imin = (std::numeric_limits<int>::min)();
+    int const            imax = (std::numeric_limits<int>::max)();
+    long int const       lmin = (std::numeric_limits<long int>::min)();
+    long int const       lmax = (std::numeric_limits<long int>::max)();
+    long long int const llmin = (std::numeric_limits<long long int>::min)();
+    long long int const llmax = (std::numeric_limits<long long int>::max)();
 
     std::string const  imin_str = boost::lexical_cast<std::string>(imin);
     std::string const  imax_str = boost::lexical_cast<std::string>(imax);
