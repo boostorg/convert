@@ -17,9 +17,18 @@
     typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
     operator()
 
+#define BOOST_CNV_PARAM(param_name)                                     \
+    template <typename argument_pack>                                   \
+    void                                                                \
+    _assign(                                                            \
+        argument_pack const& arg                                        \
+      , ::boost::cnv::parameter::type::param_name                       \
+      , ::boost::mpl::true_                                             \
+    )
+
 namespace boost { namespace cnv
 {
-    template <class Char> struct basic_stream;
+    template<class Char> struct basic_stream;
 
     typedef boost::cnv::basic_stream<char>    cstream;
     typedef boost::cnv::basic_stream<wchar_t> wstream;
@@ -29,7 +38,7 @@ namespace boost { namespace cnv
 #include <boost/mpl/bool.hpp>
 #include <boost/mpl/has_key.hpp>
 
-template <class Char>
+template<class Char>
 struct boost::cnv::basic_stream : boost::noncopyable
 {
     // C01. In string-to-type conversions the "string" must be a CONTIGUOUS ARRAY of
@@ -82,114 +91,22 @@ struct boost::cnv::basic_stream : boost::noncopyable
     template<typename type> void operator()(stdstr_type const& s, optional<type>& r) const { str_to(cnv::range<stdstr_type const>(s), r); }
 
     // Formatters
-    template <typename manipulator>
-    typename ::boost::disable_if<
-        ::boost::parameter::is_argument_pack<manipulator>
-      , this_type&
-    >::type
-    operator()(manipulator m)
-    {
-        this->stream_ << m;
-        return *this;
-    }
+    template<typename manipulator> typename ::boost::disable_if< ::boost::parameter::is_argument_pack<manipulator>, this_type&>::type operator()(manipulator m) { return (this->stream_ << m, *this); }
 
     this_type& operator() (manipulator_type m) { return (m(stream_), *this); }
     this_type& operator() (std::locale const& l) { return (stream_.imbue(l), *this); }
 
     private:
 
-    template <typename argument_pack, typename keyword_tag>
-    void _assign(argument_pack const& arg, keyword_tag, ::boost::mpl::false_)
-    {
-    }
+    template<typename argument_pack, typename keyword_tag> void _assign(argument_pack const& arg, keyword_tag, ::boost::mpl::false_) {}
+    BOOST_CNV_PARAM(locale) { this->stream_.imbue(arg[::boost::cnv::parameter::locale]); }
+    BOOST_CNV_PARAM(precision) { this->stream_.precision(arg[::boost::cnv::parameter::precision]); }
+    BOOST_CNV_PARAM(width) { this->stream_.width(arg[::boost::cnv::parameter::width]); }
+    BOOST_CNV_PARAM(fill) { this->stream_.fill(arg[::boost::cnv::parameter::fill]); }
+    BOOST_CNV_PARAM(uppercase) { arg[::boost::cnv::parameter::uppercase] ? (void) this->stream_.setf(::std::ios::uppercase) : this->stream_.unsetf(::std::ios::uppercase); }
+    BOOST_CNV_PARAM(skipws) { arg[::boost::cnv::parameter::skipws] ? (void) this->stream_.setf(::std::ios::skipws) : this->stream_.unsetf(::std::ios::skipws); }
 
-    template <typename argument_pack>
-    void
-    _assign(
-        argument_pack const& arg
-      , ::boost::cnv::parameter::type::locale
-      , ::boost::mpl::true_
-    )
-    {
-        this->stream_.imbue(arg[::boost::cnv::parameter::locale]);
-    }
-
-    template <typename argument_pack>
-    void
-    _assign(
-        argument_pack const& arg
-      , ::boost::cnv::parameter::type::precision
-      , ::boost::mpl::true_
-    )
-    {
-        this->stream_.precision(arg[::boost::cnv::parameter::precision]);
-    }
-
-    template <typename argument_pack>
-    void
-    _assign(
-        argument_pack const& arg
-      , ::boost::cnv::parameter::type::width
-      , ::boost::mpl::true_
-    )
-    {
-        this->stream_.width(arg[::boost::cnv::parameter::width]);
-    }
-
-    template <typename argument_pack>
-    void
-    _assign(
-        argument_pack const& arg
-      , ::boost::cnv::parameter::type::fill
-      , ::boost::mpl::true_
-    )
-    {
-        this->stream_.fill(arg[::boost::cnv::parameter::fill]);
-    }
-
-    template <typename argument_pack>
-    void
-    _assign(
-        argument_pack const& arg
-      , ::boost::cnv::parameter::type::uppercase
-      , ::boost::mpl::true_
-    )
-    {
-        if (arg[::boost::cnv::parameter::uppercase])
-        {
-            this->stream_.setf(::std::ios::uppercase);
-        }
-        else
-        {
-            this->stream_.unsetf(::std::ios::uppercase);
-        }
-    }
-
-    template <typename argument_pack>
-    void
-    _assign(
-        argument_pack const& arg
-      , ::boost::cnv::parameter::type::skipws
-      , ::boost::mpl::true_
-    )
-    {
-        if (arg[::boost::cnv::parameter::skipws])
-        {
-            this->stream_.setf(::std::ios::skipws);
-        }
-        else
-        {
-            this->stream_.unsetf(::std::ios::skipws);
-        }
-    }
-
-    template <typename argument_pack>
-    void
-    _assign(
-        argument_pack const& arg
-      , ::boost::cnv::parameter::type::adjust
-      , ::boost::mpl::true_
-    )
+    BOOST_CNV_PARAM(adjust)
     {
         ::boost::cnv::adjust::type adjust = arg[
             ::boost::cnv::parameter::adjust
@@ -206,13 +123,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
         else BOOST_ASSERT(!"Not implemented");
     }
 
-    template <typename argument_pack>
-    void
-    _assign(
-        argument_pack const& arg
-      , ::boost::cnv::parameter::type::base
-      , ::boost::mpl::true_
-    )
+    BOOST_CNV_PARAM(base)
     {
         ::boost::cnv::base::type base = arg[::boost::cnv::parameter::base];
 
@@ -222,13 +133,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
         else BOOST_ASSERT(!"Not implemented");
     }
 
-    template <typename argument_pack>
-    void
-    _assign(
-        argument_pack const& arg
-      , ::boost::cnv::parameter::type::notation
-      , ::boost::mpl::true_
-    )
+    BOOST_CNV_PARAM(notation)
     {
         ::boost::cnv::notation::type notation = arg[
             ::boost::cnv::parameter::notation
@@ -247,77 +152,16 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
     public:
 
-    template <typename argument_pack>
-    typename ::boost::enable_if<
-        ::boost::parameter::is_argument_pack<argument_pack>
-      , this_type&
-    >::type
-    operator()(argument_pack const& arg)
+    template<typename argument_pack> typename ::boost::enable_if< ::boost::parameter::is_argument_pack<argument_pack>, this_type&>::type operator()(argument_pack const& arg)
     {
-        this->_assign(
-            arg
-          , ::boost::cnv::parameter::type::precision()
-          , typename ::boost::mpl::has_key<
-                argument_pack
-              , ::boost::cnv::parameter::type::precision
-            >::type()
-        );
-        this->_assign(
-            arg
-          , ::boost::cnv::parameter::type::width()
-          , typename ::boost::mpl::has_key<
-                argument_pack
-              , ::boost::cnv::parameter::type::width
-            >::type()
-        );
-        this->_assign(
-            arg
-          , ::boost::cnv::parameter::type::fill()
-          , typename ::boost::mpl::has_key<
-                argument_pack
-              , ::boost::cnv::parameter::type::fill
-            >::type()
-        );
-        this->_assign(
-            arg
-          , ::boost::cnv::parameter::type::uppercase()
-          , typename ::boost::mpl::has_key<
-                argument_pack
-              , ::boost::cnv::parameter::type::uppercase
-            >::type()
-        );
-        this->_assign(
-            arg
-          , ::boost::cnv::parameter::type::skipws()
-          , typename ::boost::mpl::has_key<
-                argument_pack
-              , ::boost::cnv::parameter::type::skipws
-            >::type()
-        );
-        this->_assign(
-            arg
-          , ::boost::cnv::parameter::type::adjust()
-          , typename ::boost::mpl::has_key<
-                argument_pack
-              , ::boost::cnv::parameter::type::adjust
-            >::type()
-        );
-        this->_assign(
-            arg
-          , ::boost::cnv::parameter::type::base()
-          , typename ::boost::mpl::has_key<
-                argument_pack
-              , ::boost::cnv::parameter::type::base
-            >::type()
-        );
-        this->_assign(
-            arg
-          , ::boost::cnv::parameter::type::notation()
-          , typename ::boost::mpl::has_key<
-                argument_pack
-              , ::boost::cnv::parameter::type::notation
-            >::type()
-        );
+        this->_assign(arg, ::boost::cnv::parameter::type::precision(), typename ::boost::mpl::has_key<argument_pack, ::boost::cnv::parameter::type::precision>::type());
+        this->_assign(arg, ::boost::cnv::parameter::type::width(), typename ::boost::mpl::has_key<argument_pack, ::boost::cnv::parameter::type::width>::type());
+        this->_assign(arg, ::boost::cnv::parameter::type::fill(), typename ::boost::mpl::has_key<argument_pack, ::boost::cnv::parameter::type::fill>::type());
+        this->_assign(arg, ::boost::cnv::parameter::type::uppercase(), typename ::boost::mpl::has_key<argument_pack, ::boost::cnv::parameter::type::uppercase>::type());
+        this->_assign(arg, ::boost::cnv::parameter::type::skipws(), typename ::boost::mpl::has_key<argument_pack, ::boost::cnv::parameter::type::skipws>::type());
+        this->_assign(arg, ::boost::cnv::parameter::type::adjust(), typename ::boost::mpl::has_key<argument_pack, ::boost::cnv::parameter::type::adjust>::type());
+        this->_assign(arg, ::boost::cnv::parameter::type::base(), typename ::boost::mpl::has_key<argument_pack, ::boost::cnv::parameter::type::base>::type());
+        this->_assign(arg, ::boost::cnv::parameter::type::notation(), typename ::boost::mpl::has_key<argument_pack, ::boost::cnv::parameter::type::notation>::type());
         return *this;
     }
 
@@ -379,5 +223,6 @@ boost::cnv::basic_stream<char_type>::str_to(
 }
 
 #undef BOOST_CNV_STRING_ENABLE
+#undef BOOST_CNV_PARAM
 
 #endif // BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
