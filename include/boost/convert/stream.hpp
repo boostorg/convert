@@ -117,12 +117,12 @@ struct boost::cnv::basic_stream : boost::noncopyable
     BOOST_CNV_PARAM(uppercase)
     {
         bool uppercase = arg[cnv::parameter::uppercase];
-        uppercase ? (void) this->stream_.setf(std::ios::uppercase) : this->stream_.unsetf(::std::ios::uppercase);
+        uppercase ? (void) stream_.setf(std::ios::uppercase) : stream_.unsetf(::std::ios::uppercase);
     }
     BOOST_CNV_PARAM(skipws)
     {
         bool skipws = arg[cnv::parameter::skipws];
-        skipws ? (void) this->stream_.setf(std::ios::skipws) : this->stream_.unsetf(::std::ios::skipws);
+        skipws ? (void) stream_.setf(std::ios::skipws) : stream_.unsetf(::std::ios::skipws);
     }
     BOOST_CNV_PARAM(adjust)
     {
