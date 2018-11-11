@@ -25,8 +25,8 @@ namespace boost { namespace cnv
 {
     template<class Char> struct basic_stream;
 
-    typedef boost::cnv::basic_stream<char>    cstream;
-    typedef boost::cnv::basic_stream<wchar_t> wstream;
+    using cstream = boost::cnv::basic_stream<char>;
+    using wstream = boost::cnv::basic_stream<wchar_t>;
 }}
 
 template<class Char>
@@ -42,15 +42,15 @@ struct boost::cnv::basic_stream : boost::noncopyable
     //      to "bool" with std::boolalpha set. Seems that istream state gets unsynced compared
     //      to the actual underlying buffer.
 
-    typedef Char                                 char_type;
-    typedef boost::cnv::basic_stream<char_type>  this_type;
-    typedef std::basic_stringstream<char_type> stream_type;
-    typedef std::basic_istream<char_type>     istream_type;
-    typedef std::basic_streambuf<char_type>    buffer_type;
-    typedef std::basic_string<char_type>       stdstr_type;
-    typedef std::ios_base& (*manipulator_type)(std::ios_base&);
+    using        char_type = Char;
+    using        this_type = boost::cnv::basic_stream<char_type>;
+    using      stream_type = std::basic_stringstream<char_type>;
+    using     istream_type = std::basic_istream<char_type>;
+    using      buffer_type = std::basic_streambuf<char_type>;
+    using      stdstr_type = std::basic_string<char_type>;
+    using manipulator_type = std::ios_base& (*)(std::ios_base&);
 
-    struct ibuffer_type : public buffer_type
+    struct ibuffer_type : buffer_type
     {
         using buffer_type::eback;
         using buffer_type::gptr;
@@ -63,7 +63,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
             buffer_type::setg(b, b, b + sz);
         }
     };
-    struct obuffer_type : public buffer_type
+    struct obuffer_type : buffer_type
     {
         using buffer_type::pbase;
         using buffer_type::pptr;
