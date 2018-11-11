@@ -36,7 +36,7 @@ namespace boost { namespace cnv
 #define BOOST_CNV_PARAM_ASSIGN(param_name)                              \
         this->_assign(                                                  \
             arg                                                         \
-          , ::boost::cnv::parameter::type::locale()                     \
+          , ::boost::cnv::parameter::type::param_name()                 \
           , typename ::boost::mpl::has_key<                             \
                 argument_pack                                           \
               , ::boost::cnv::parameter::type::param_name               \
