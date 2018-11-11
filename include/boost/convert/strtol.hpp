@@ -80,9 +80,10 @@ boost::cnv::strtol::i_to_str(Type in_value, char_type* buf) const
     char_type*      end = beg;
     bool const   is_neg = std::is_signed<Type>::value && in_value < 0;
     unsigned_type value = static_cast<unsigned_type>(is_neg ? -in_value : in_value);
+    int            base = int(base_);
 
-    if (base_ == 10) for (; value; *(--beg) = int(value % 10) + '0', value /= 10); //C1
-    else             for (; value; *(--beg) = get_char(value % base_), value /= base_);
+    if (base == 10) for (; value; *(--beg) = int(value % 10) + '0', value /= 10); //C1
+    else            for (; value; *(--beg) = get_char(value % base), value /= base);
 
     if (beg == end) *(--beg) = '0';
     if (is_neg)     *(--beg) = '-';
@@ -165,7 +166,7 @@ boost::cnv::strtol::str_to_i(cnv::range<string_type> range, boost::optional<out_
     unsigned int        ch = *s;
     bool const is_negative = ch == '-' ? (ch = *++s, true) : ch == '+' ? (ch = *++s, false) : false;
     bool const is_unsigned = boost::is_same<out_type, unsigned_type>::value;
-    unsigned int      base = base_;
+    int               base = int(base_);
 
     /**/ if (is_negative && is_unsigned) return;
     else if ((base == 0 || base == 16) && ch == '0' && (*++s == 'x' || *s == 'X')) ++s, base = 16;

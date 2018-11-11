@@ -104,9 +104,9 @@ struct boost::cnv::basic_stream : boost::noncopyable
         skipws ? (void) stream_.setf(std::ios::skipws) : stream_.unsetf(std::ios::skipws);
         return *this;
     }
-    BOOST_CNV_PARAM(adjust, boost::cnv::adjust::type const)
+    BOOST_CNV_PARAM(adjust, boost::cnv::adjust const)
     {
-        cnv::adjust::type adjust = arg[cnv::parameter::adjust];
+        cnv::adjust adjust = arg[cnv::parameter::adjust];
 
         /**/ if (adjust == cnv::adjust:: left) stream_.setf(std::ios::adjustfield, std::ios:: left);
         else if (adjust == cnv::adjust::right) stream_.setf(std::ios::adjustfield, std::ios::right);
@@ -114,9 +114,9 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
         return *this;
     }
-    BOOST_CNV_PARAM(base, boost::cnv::base::type const)
+    BOOST_CNV_PARAM(base, boost::cnv::base const)
     {
-        cnv::base::type base = arg[cnv::parameter::base];
+        cnv::base base = arg[cnv::parameter::base];
 
         /**/ if (base == cnv::base::dec) std::dec(stream_);
         else if (base == cnv::base::hex) std::hex(stream_);
@@ -125,9 +125,9 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
         return *this;
     }
-    BOOST_CNV_PARAM(notation, boost::cnv::notation::type const)
+    BOOST_CNV_PARAM(notation, boost::cnv::notation const)
     {
-        cnv::notation::type notation = arg[cnv::parameter::notation];
+        cnv::notation notation = arg[cnv::parameter::notation];
 
         /**/ if (notation == cnv::notation::     fixed)      std::fixed(stream_);
         else if (notation == cnv::notation::scientific) std::scientific(stream_);
