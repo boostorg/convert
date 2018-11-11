@@ -22,17 +22,17 @@
     void                                                                \
     _assign(                                                            \
         argument_pack const& arg                                        \
-      , ::boost::cnv::parameter::type::param_name                       \
-      , ::boost::mpl::true_                                             \
+      , cnv::parameter::type::param_name                                \
+      , mpl::true_                                                      \
     )
 
 #define BOOST_CNV_PARAM_ASSIGN(param_name)                              \
         this->_assign(                                                  \
             arg                                                         \
-          , ::boost::cnv::parameter::type::param_name()                 \
-          , typename ::boost::mpl::has_key<                             \
+          , cnv::parameter::type::param_name()                          \
+          , typename mpl::has_key<                                      \
                 argument_pack                                           \
-              , ::boost::cnv::parameter::type::param_name               \
+              , cnv::parameter::type::param_name                        \
             >::type()                                                   \
         );
 
