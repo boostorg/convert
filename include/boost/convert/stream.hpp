@@ -120,8 +120,8 @@ struct boost::cnv::basic_stream : boost::noncopyable
     {
         cnv::adjust::type adjust = arg[cnv::parameter::adjust];
 
-        /**/ if (adjust == ::boost::cnv::adjust:: left) stream_.setf(std::ios::adjustfield, std::ios::left);
-        else if (adjust == ::boost::cnv::adjust::right) stream_.setf(std::ios::adjustfield, std::ios::right);
+        /**/ if (adjust == cnv::adjust:: left) stream_.setf(std::ios::adjustfield, std::ios::left);
+        else if (adjust == cnv::adjust::right) stream_.setf(std::ios::adjustfield, std::ios::right);
         else BOOST_ASSERT(!"Not implemented");
     }
     BOOST_CNV_PARAM(base)
@@ -137,15 +137,15 @@ struct boost::cnv::basic_stream : boost::noncopyable
     {
         cnv::notation::type notation = arg[cnv::parameter::notation];
 
-        /**/ if (notation == ::boost::cnv::notation::     fixed) std::fixed(stream_);
-        else if (notation == ::boost::cnv::notation::scientific) std::scientific(stream_);
+        /**/ if (notation == cnv::notation::     fixed) std::fixed(stream_);
+        else if (notation == cnv::notation::scientific) std::scientific(stream_);
         else BOOST_ASSERT(!"Not implemented");
     }
 
     public:
 
     template<typename argument_pack>
-    typename ::boost::enable_if< ::boost::parameter::is_argument_pack<argument_pack>, this_type&>::type operator()(argument_pack const& arg)
+    typename boost::enable_if< boost::parameter::is_argument_pack<argument_pack>, this_type&>::type operator()(argument_pack const& arg)
     {
         BOOST_CNV_PARAM_ASSIGN(precision);
         BOOST_CNV_PARAM_ASSIGN(width);
