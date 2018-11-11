@@ -110,17 +110,25 @@ struct boost::cnv::basic_stream : boost::noncopyable
     private:
 
     template<typename argument_pack, typename keyword_tag> void _assign(argument_pack const& arg, keyword_tag, ::boost::mpl::false_) {}
-    BOOST_CNV_PARAM(locale)    { this->stream_.imbue(arg[::boost::cnv::parameter::locale]); }
-    BOOST_CNV_PARAM(precision) { this->stream_.precision(arg[::boost::cnv::parameter::precision]); }
-    BOOST_CNV_PARAM(width)     { this->stream_.width(arg[::boost::cnv::parameter::width]); }
-    BOOST_CNV_PARAM(fill)      { this->stream_.fill(arg[::boost::cnv::parameter::fill]); }
-    BOOST_CNV_PARAM(uppercase) { arg[::boost::cnv::parameter::uppercase] ? (void) this->stream_.setf(::std::ios::uppercase) : this->stream_.unsetf(::std::ios::uppercase); }
-    BOOST_CNV_PARAM(skipws)    { arg[::boost::cnv::parameter::skipws] ? (void) this->stream_.setf(::std::ios::skipws) : this->stream_.unsetf(::std::ios::skipws); }
+    BOOST_CNV_PARAM(locale)    { stream_.imbue(arg[cnv::parameter::locale]); }
+    BOOST_CNV_PARAM(precision) { stream_.precision(arg[cnv::parameter::precision]); }
+    BOOST_CNV_PARAM(width)     { stream_.width(arg[cnv::parameter::width]); }
+    BOOST_CNV_PARAM(fill)      { stream_.fill(arg[cnv::parameter::fill]); }
+    BOOST_CNV_PARAM(uppercase)
+    {
+        bool uppercase = arg[cnv::parameter::uppercase];
+        uppercase ? (void) this->stream_.setf(std::ios::uppercase) : this->stream_.unsetf(::std::ios::uppercase);
+    }
+    BOOST_CNV_PARAM(skipws)
+    {
+        bool skipws = arg[cnv::parameter::skipws];
+        skipws ? (void) this->stream_.setf(std::ios::skipws) : this->stream_.unsetf(::std::ios::skipws);
+    }
     BOOST_CNV_PARAM(adjust)
     {
         cnv::adjust::type adjust = arg[cnv::parameter::adjust];
 
-        /**/ if (adjust == cnv::adjust:: left) stream_.setf(std::ios::adjustfield, std::ios::left);
+        /**/ if (adjust == cnv::adjust:: left) stream_.setf(std::ios::adjustfield, std::ios:: left);
         else if (adjust == cnv::adjust::right) stream_.setf(std::ios::adjustfield, std::ios::right);
         else BOOST_ASSERT(!"Not implemented");
     }
@@ -137,7 +145,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
     {
         cnv::notation::type notation = arg[cnv::parameter::notation];
 
-        /**/ if (notation == cnv::notation::     fixed) std::fixed(stream_);
+        /**/ if (notation == cnv::notation::     fixed)      std::fixed(stream_);
         else if (notation == cnv::notation::scientific) std::scientific(stream_);
         else BOOST_ASSERT(!"Not implemented");
     }
