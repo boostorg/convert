@@ -100,14 +100,14 @@ struct boost::cnv::cnvbase
     template<typename argument_pack, typename keyword_tag> void _assign(argument_pack const& arg, keyword_tag, ::boost::mpl::false_) {}
 
     // Formatters
-//    BOOST_CNV_PARAM(locale) { this->locale_ = arg[::boost::cnv::parameter::locale]; }
-    BOOST_CNV_PARAM(base) { this->base_ = arg[::boost::cnv::parameter::base]; }
-    BOOST_CNV_PARAM(adjust) { this->adjust_ = arg[::boost::cnv::parameter::adjust]; }
+//    BOOST_CNV_PARAM(locale)    { this->locale_ = arg[::boost::cnv::parameter::locale]; }
+    BOOST_CNV_PARAM(base)      { this->base_ = arg[::boost::cnv::parameter::base]; }
+    BOOST_CNV_PARAM(adjust)    { this->adjust_ = arg[::boost::cnv::parameter::adjust]; }
     BOOST_CNV_PARAM(precision) { this->precision_ = arg[::boost::cnv::parameter::precision]; }
     BOOST_CNV_PARAM(uppercase) { this->uppercase_ = arg[::boost::cnv::parameter::uppercase]; }
-    BOOST_CNV_PARAM(skipws) { this->skipws_ = arg[::boost::cnv::parameter::skipws]; }
-    BOOST_CNV_PARAM(width) { this->width_ = arg[::boost::cnv::parameter::width]; }
-    BOOST_CNV_PARAM(fill) { this->fill_ = arg[::boost::cnv::parameter::fill]; }
+    BOOST_CNV_PARAM(skipws)    { this->skipws_ = arg[::boost::cnv::parameter::skipws]; }
+    BOOST_CNV_PARAM(width)     { this->width_ = arg[::boost::cnv::parameter::width]; }
+    BOOST_CNV_PARAM(fill)      { this->fill_ = arg[::boost::cnv::parameter::fill]; }
 
     public:
 
