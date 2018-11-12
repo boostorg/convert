@@ -33,6 +33,7 @@ namespace boost { namespace cnv
       , mpl::true_                                                      \
     )
 
+#if defined(BOOST_CONVERT_IS_READY_TO_USE_NEW_PARAMETER_PUBLIC_INTERFACE)
 #define BOOST_CNV_PARAM_ASSIGN(param_name)                              \
         this->_assign(                                                  \
             arg                                                         \
@@ -42,9 +43,34 @@ namespace boost { namespace cnv
               , cnv::parameter::type::param_name                        \
             >::type()                                                   \
         );
+#else
+#define BOOST_CNV_PARAM_ASSIGN(param_name)                              \
+        this->_assign(                                                  \
+            arg                                                         \
+          , cnv::parameter::type::param_name()                          \
+          , typename mpl::if_<                                          \
+                boost::is_void<                                         \
+                    typename boost::parameter::binding<                 \
+                        argument_pack                                   \
+                      , cnv::parameter::type::param_name                \
+                      , void                                            \
+                    >::type                                             \
+                >                                                       \
+              , mpl::false_                                             \
+              , mpl::true_                                              \
+            >::type()                                                   \
+        );
+#endif
 
 #include <boost/mpl/bool.hpp>
+
+#if defined(BOOST_CONVERT_IS_READY_TO_USE_NEW_PARAMETER_PUBLIC_INTERFACE)
 #include <boost/mpl/has_key.hpp>
+#else
+#include <boost/mpl/if.hpp>
+#include <boost/parameter/binding.hpp>
+#include <boost/type_traits/is_void.hpp>
+#endif
 
 template<typename derived_type>
 struct boost::cnv::cnvbase

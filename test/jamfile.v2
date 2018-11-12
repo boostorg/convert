@@ -28,8 +28,8 @@ exe convert_test_performance_spirit : performance_spirit.cpp ;
 
 run callable.cpp         :  :  :  : convert_test_callable ;
 run fallbacks.cpp        :  :  :  : convert_test_fallbacks ;
-run spirit_converter.cpp :  :  :  : convert_test_spirit_converter ;
-run stream_converter.cpp :  :  :  : convert_test_stream_converter ;
+run spirit_converter.cpp :  :  : <define>BOOST_CONVERT_IS_READY_TO_USE_NEW_PARAMETER_PUBLIC_INTERFACE : convert_test_spirit_converter ;
+run stream_converter.cpp :  :  : <define>BOOST_CONVERT_IS_READY_TO_USE_NEW_PARAMETER_PUBLIC_INTERFACE : convert_test_stream_converter ;
 run printf_converter.cpp :  :  :  : convert_test_printf_converter ;
 run strtol_converter.cpp :  :  :  : convert_test_strtol_converter ;
 run lcast_converter.cpp  :  :  :  : convert_test_lcast_converter ;
