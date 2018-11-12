@@ -11,8 +11,6 @@
 
 namespace boost { namespace cnv
 {
-    namespace ARG = boost::cnv::parameter;
-
     template<typename> struct cnvbase;
 }}
 
@@ -26,8 +24,27 @@ namespace boost { namespace cnv
     typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
     operator()
 
-#define BOOST_CNV_PARAM(param_name, param_type)                         \
-    derived_type& operator()(boost::parameter::aux::tag<ARG::type::param_name, param_type>::type const& arg)
+#define BOOST_CNV_PARAM(param_name)                                     \
+    template <typename argument_pack>                                   \
+    void                                                                \
+    _assign(                                                            \
+        argument_pack const& arg                                        \
+      , cnv::parameter::type::param_name                                \
+      , mpl::true_                                                      \
+    )
+
+#define BOOST_CNV_PARAM_ASSIGN(param_name)                              \
+        this->_assign(                                                  \
+            arg                                                         \
+          , cnv::parameter::type::param_name()                          \
+          , typename mpl::has_key<                                      \
+                argument_pack                                           \
+              , cnv::parameter::type::param_name                        \
+            >::type()                                                   \
+        );
+
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/has_key.hpp>
 
 template<typename derived_type>
 struct boost::cnv::cnvbase
@@ -77,27 +94,47 @@ struct boost::cnv::cnvbase
     BOOST_CNV_STRING_TO (string_type const& s, optional<   flt_type>& r) const { str_to_(s, r); }
     BOOST_CNV_STRING_TO (string_type const& s, optional<   dbl_type>& r) const { str_to_(s, r); }
     BOOST_CNV_STRING_TO (string_type const& s, optional<  ldbl_type>& r) const { str_to_(s, r); }
+
+    private:
+
+    template<typename argument_pack, typename keyword_tag> void _assign(argument_pack const& arg, keyword_tag, ::boost::mpl::false_) {}
+
     // Formatters
-//  BOOST_CNV_PARAM (locale, std::locale const) { locale_    = arg[ARG::   locale]; return dncast(); }
-    BOOST_CNV_PARAM (base,     cnv::base const) { base_      = arg[ARG::     base]; return dncast(); }
-    BOOST_CNV_PARAM (adjust, cnv::adjust const) { adjust_    = arg[ARG::   adjust]; return dncast(); }
-    BOOST_CNV_PARAM (precision,      int const) { precision_ = arg[ARG::precision]; return dncast(); }
-    BOOST_CNV_PARAM (precision,            int) { precision_ = arg[ARG::precision]; return dncast(); }
-    BOOST_CNV_PARAM (uppercase,     bool const) { uppercase_ = arg[ARG::uppercase]; return dncast(); }
-    BOOST_CNV_PARAM (skipws,        bool const) { skipws_    = arg[ARG::   skipws]; return dncast(); }
-    BOOST_CNV_PARAM (width,          int const) { width_     = arg[ARG::    width]; return dncast(); }
-    BOOST_CNV_PARAM (fill,          char const) {  fill_     = arg[ARG::     fill]; return dncast(); }
+//  BOOST_CNV_PARAM(locale)    { locale_    = arg[cnv::parameter::   locale]; }
+    BOOST_CNV_PARAM(base)      { base_      = arg[cnv::parameter::     base]; }
+    BOOST_CNV_PARAM(adjust)    { adjust_    = arg[cnv::parameter::   adjust]; }
+    BOOST_CNV_PARAM(precision) { precision_ = arg[cnv::parameter::precision]; }
+    BOOST_CNV_PARAM(uppercase) { uppercase_ = arg[cnv::parameter::uppercase]; }
+    BOOST_CNV_PARAM(skipws)    { skipws_    = arg[cnv::parameter::   skipws]; }
+    BOOST_CNV_PARAM(width)     { width_     = arg[cnv::parameter::    width]; }
+    BOOST_CNV_PARAM(fill)      { fill_      = arg[cnv::parameter::     fill]; }
+
+    public:
+
+    template<typename argument_pack>
+    derived_type& operator()(argument_pack const& arg)
+    {
+//      BOOST_CNV_PARAM_ASSIGN(locale);
+        BOOST_CNV_PARAM_ASSIGN(base);
+        BOOST_CNV_PARAM_ASSIGN(adjust);
+        BOOST_CNV_PARAM_ASSIGN(precision);
+        BOOST_CNV_PARAM_ASSIGN(uppercase);
+        BOOST_CNV_PARAM_ASSIGN(skipws);
+        BOOST_CNV_PARAM_ASSIGN(width);
+        BOOST_CNV_PARAM_ASSIGN(fill);
+        return this->dncast();
+    }
 
     protected:
 
     cnvbase()
     :
+        base_       (10),
         skipws_     (false),
         precision_  (0),
         uppercase_  (false),
         width_      (0),
         fill_       (' '),
-        base_       (boost::cnv::base::dec),
         adjust_     (boost::cnv::adjust::right)
     {}
 
@@ -162,18 +199,19 @@ struct boost::cnv::cnvbase
     // ULONG_MAX(8 bytes) = 18446744073709551615 (20(10) or 32(2) characters)
     // double (8 bytes) max is 316 chars
     static int const bufsize_ = 512;
+    int                 base_;
     bool              skipws_;
     int            precision_;
     bool           uppercase_;
     int                width_;
     int                 fill_;
-    cnv::base           base_;
-    cnv::adjust       adjust_;
+    adjust::type      adjust_;
 //  std::locale       locale_;
 };
 
 #undef BOOST_CNV_TO_STRING
 #undef BOOST_CNV_STRING_TO
 #undef BOOST_CNV_PARAM
+#undef BOOST_CNV_PARAM_ASSIGN
 
 #endif // BOOST_CONVERT_CONVERTER_BASE_HPP
