@@ -26,7 +26,6 @@
       , mpl::true_                                                      \
     )
 
-#if defined(BOOST_CONVERT_IS_READY_TO_USE_NEW_PARAMETER_PUBLIC_INTERFACE)
 #define BOOST_CNV_PARAM_ASSIGN(param_name)                              \
         this->_assign(                                                  \
             arg                                                         \
@@ -36,24 +35,6 @@
               , cnv::parameter::type::param_name                        \
             >::type()                                                   \
         );
-#else
-#define BOOST_CNV_PARAM_ASSIGN(param_name)                              \
-        this->_assign(                                                  \
-            arg                                                         \
-          , cnv::parameter::type::param_name()                          \
-          , typename mpl::if_<                                          \
-                boost::is_void<                                         \
-                    typename boost::parameter::binding<                 \
-                        argument_pack                                   \
-                      , cnv::parameter::type::param_name                \
-                      , void                                            \
-                    >::type                                             \
-                >                                                       \
-              , mpl::false_                                             \
-              , mpl::true_                                              \
-            >::type()                                                   \
-        );
-#endif
 
 namespace boost { namespace cnv
 {
@@ -63,32 +44,9 @@ namespace boost { namespace cnv
     using wstream = boost::cnv::basic_stream<wchar_t>;
 }}
 
-#include <boost/mpl/bool.hpp>
-
-#if defined(BOOST_CONVERT_IS_READY_TO_USE_NEW_PARAMETER_PUBLIC_INTERFACE)
-#include <boost/mpl/has_key.hpp>
 #include <boost/parameter/is_argument_pack.hpp>
-#else
-#include <boost/mpl/if.hpp>
-#include <boost/parameter/binding.hpp>
-#include <boost/parameter/aux_/tagged_argument.hpp>
-#include <boost/parameter/aux_/arg_list.hpp>
-#include <boost/type_traits/is_base_of.hpp>
-#include <boost/type_traits/is_void.hpp>
-
-namespace boost { namespace cnv { namespace parameter_detail {
-
-    template <typename T>
-    struct is_argument_pack
-      : mpl::if_<
-            boost::is_base_of<boost::parameter::aux::empty_arg_list,T>
-          , mpl::true_
-          , boost::parameter::aux::is_tagged_argument<T>
-        >::type
-    {
-    };
-}}}
-#endif
+#include <boost/mpl/bool.hpp>
+#include <boost/mpl/has_key.hpp>
 
 template<class Char>
 struct boost::cnv::basic_stream : boost::noncopyable
@@ -144,13 +102,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
     // Formatters
     template<typename manipulator>
-    typename boost::disable_if<
-#if defined(BOOST_CONVERT_IS_READY_TO_USE_NEW_PARAMETER_PUBLIC_INTERFACE)
-        boost::parameter::is_argument_pack<manipulator>
-#else
-        boost::cnv::parameter_detail::is_argument_pack<manipulator>
-#endif
-    , this_type&>::type operator()(manipulator m) { return (this->stream_ << m, *this); }
+    typename boost::disable_if<boost::parameter::is_argument_pack<manipulator>, this_type&>::type operator()(manipulator m) { return (this->stream_ << m, *this); }
 
     this_type& operator() (manipulator_type m) { return (m(stream_), *this); }
     this_type& operator() (std::locale const& l) { return (stream_.imbue(l), *this); }
@@ -201,13 +153,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
     public:
 
     template<typename argument_pack>
-    typename boost::enable_if<
-#if defined(BOOST_CONVERT_IS_READY_TO_USE_NEW_PARAMETER_PUBLIC_INTERFACE)
-        boost::parameter::is_argument_pack<argument_pack>
-#else
-        boost::cnv::parameter_detail::is_argument_pack<argument_pack>
-#endif
-    , this_type&>::type operator()(argument_pack const& arg)
+    typename boost::enable_if<boost::parameter::is_argument_pack<argument_pack>, this_type&>::type operator()(argument_pack const& arg)
     {
         BOOST_CNV_PARAM_ASSIGN(precision);
         BOOST_CNV_PARAM_ASSIGN(width);
