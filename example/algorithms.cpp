@@ -139,8 +139,8 @@ example4()
        the use of `boost::cref` (or `std::cref` in C++11).
 
        It needs to be remembered that with standard algorithms the deployed converter needs to be
-       [@http://en.cppreference.com/w/cpp/concept/TriviallyCopyable copyable] or
-       [@http://en.cppreference.com/w/cpp/concept/MoveAssignable movable (C++11)]
+       [@http://en.cppreference.com/w/cpp/named_req/TriviallyCopyable copyable] or
+       [@http://en.cppreference.com/w/cpp/named_req/MoveAssignable movable (C++11)]
        and is, in fact, copied or moved by the respective algorithm before being used.
        Given that `std::cstringstream` is not copyable, `boost::cnv::cstream` is not copyable either.
        That limitation is routinely worked-around using `boost::ref` or `boost::cref`.]
