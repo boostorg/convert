@@ -158,7 +158,7 @@ boost::cnv::basic_stream<char_type>::to_str(
     if (!(stream_ << value_in).fail())
     {
         buffer_type*     buf = stream_.rdbuf();
-        obuffer_type*   obuf = static_cast<obuffer_type*>(buf);
+        obuffer_type*   obuf = reinterpret_cast<obuffer_type*>(buf);
         char_type const* beg = obuf->pbase();
         char_type const* end = obuf->pptr();
 
