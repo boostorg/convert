@@ -89,7 +89,6 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
     BOOST_CNV_PARAM(locale, std::locale const) { return (stream_.imbue(arg[cnv::parameter::locale]), *this); }
     BOOST_CNV_PARAM(precision,      int const) { return (stream_.precision(arg[cnv::parameter::precision]), *this); }
-    BOOST_CNV_PARAM(precision,            int) { return (stream_.precision(arg[cnv::parameter::precision]), *this); }
     BOOST_CNV_PARAM(width,          int const) { return (stream_.width(arg[cnv::parameter::width]), *this); }
     BOOST_CNV_PARAM(fill,          char const) { return (stream_.fill(arg[cnv::parameter::fill]), *this); }
     BOOST_CNV_PARAM(uppercase,     bool const)
