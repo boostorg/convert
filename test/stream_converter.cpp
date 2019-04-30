@@ -246,19 +246,19 @@ test_locale_example()
 
     char const* eng_locale_name = test::cnv::is_msc ? "English_United States.1251" : "en_US.UTF-8";
     char const* rus_locale_name = test::cnv::is_msc ? "Russian_Russia.1251" : "ru_RU.UTF-8";
-    char const*    rus_expected = test::cnv::is_msc ? "1,235e-002" : "1,235e-02";
-    char const*    eng_expected = test::cnv::is_msc ? "1.235e-002" : "1.235e-02";
-    char const*      double_s01 = test::cnv::is_msc ? "1.2345E-002" : "1.2345E-02";
+    char const*    rus_expected = test::cnv::is_msc ? "1,235e-002"  : "1,235e-02";
+    char const*    eng_expected = test::cnv::is_msc ? "1.235e-002"  : "1.235e-02";
+    char const*    dbl_expected = test::cnv::is_msc ? "1.2345E-002" : "1.2345E-02";
 
 //  cnv(std::setprecision(4))(std::uppercase)(std::scientific);
     cnv(arg::precision = 4)
        (arg::uppercase = true)
        (arg::notation = cnv::notation::scientific);
 
-    double double_v01 = convert<double>(double_s01, cnv).value_or(0);
+    double double_v01 = convert<double>(dbl_expected, cnv).value_or(0);
     string double_s02 = convert<string>(double_v01, cnv).value_or("bad");
 
-    BOOST_TEST(double_s01 == double_s02);
+    BOOST_TEST(dbl_expected == double_s02);
 
     try { rus_locale = std::locale(rus_locale_name); }
     catch (...) { printf("Bad locale %s.\n", rus_locale_name); exit(1); }
@@ -301,22 +301,22 @@ test_locale()
     bool             rus_ignore = false;
     char const* eng_locale_name = test::cnv::is_msc ? "English_United States.1251" : "en_US.UTF-8";
     char const* rus_locale_name = test::cnv::is_msc ? "Russian_Russia.1251" : "ru_RU.UTF-8";
-    char const*    eng_expected = test::cnv::is_old_msc ? "1.235e-002" : "1.235e-02";
-    char const*    rus_expected = test::cnv::is_old_msc ? "1,235e-002" : "1,235e-02";
-    char const*      double_s01 = test::cnv::is_old_msc ? "1.2345E-002" : "1.2345E-02";
+    char const*    eng_expected = test::cnv::is_old_msc ? "1.235e-002"  : "1.235e-02";
+    char const*    rus_expected = test::cnv::is_old_msc ? "1,235e-002"  : "1,235e-02";
+    char const*    dbl_expected = test::cnv::is_old_msc ? "1.2345E-002" : "1.2345E-02";
 
     cnv(arg::precision = 4)
        (arg::uppercase = true)
        (arg::notation = cnv::notation::scientific);
 
-    double const double_v01 = convert<double>(double_s01, cnv).value_or(0);
+    double const double_v01 = convert<double>(dbl_expected, cnv).value_or(0);
     string const double_s02 = convert<string>(double_v01, cnv).value_or("bad");
 
     BOOST_TEST(double_v01 != 0);
-    BOOST_TEST(double_s01 == double_s02);
+    BOOST_TEST(dbl_expected == double_s02);
 
-    if (double_s01 != double_s02)
-        printf("%s [%d]: <%s> != <%s>\n", __FILE__, __LINE__, double_s01, double_s02.c_str());
+    if (dbl_expected != double_s02)
+        printf("%s [%d]: <%s> != <%s>\n", __FILE__, __LINE__, dbl_expected, double_s02.c_str());
 
     try { eng_locale = std::locale(eng_locale_name); }
     catch (...) { printf("Bad locale %s. Ignored.\n", eng_locale_name); eng_ignore = true; }
