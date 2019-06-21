@@ -23,7 +23,7 @@ project convert_test
         <include>../include
     ;  
 
-exe convert_test_performance : performance.cpp /boost/timer//boost_timer ;
+exe convert_test_performance : performance.cpp /boost/timer//boost_timer /boost/chrono//boost_chrono ;
 exe convert_test_performance_spirit : performance_spirit.cpp ;
 
 run callable.cpp         :  :  :  : convert_test_callable ;
