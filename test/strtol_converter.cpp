@@ -1,5 +1,5 @@
 // Boost.Convert test and usage example
-// Copyright (c) 2009-2016 Vladimir Batov.
+// Copyright (c) 2009-2020 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
@@ -289,7 +289,7 @@ get_random()
 
 static
 void
-compare(std::pair<double, int const> pair)
+compare(std::pair<double, int> pair)
 {
     boost::cnv::strtol cnv1;
     boost::cnv::printf cnv2;

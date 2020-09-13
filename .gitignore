@@ -3,7 +3,6 @@
 bin.v2/
 bin/
 doc/bin/
-doc/html/
 doc/doxygen/
 doc/inspect.txt
 convert.pdf
