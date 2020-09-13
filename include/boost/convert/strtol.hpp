@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2016 Vladimir Batov.
+// Copyright (c) 2009-2020 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
@@ -13,13 +13,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <climits>
-
-#if __GNUC__ == 4 && __GNUC_MINOR__ <= 2
-namespace std
-{
-    using ::strtold; // Tests indicated that gcc-4.2.1 does not have 'std::strtold'
-}
-#endif
 
 namespace boost { namespace cnv
 {

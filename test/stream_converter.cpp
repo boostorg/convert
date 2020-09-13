@@ -1,5 +1,5 @@
 // Boost.Convert test and usage example
-// Copyright (c) 2009-2016 Vladimir Batov.
+// Copyright (c) 2009-2020 Vladimir Batov.
 // Use, modification and distribution are subject to the Boost Software License,
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
@@ -197,8 +197,8 @@ static
 void
 test_manipulators()
 {
-    boost::cnv::cstream ccnv;
-    boost::cnv::wstream wcnv;
+    auto ccnv = boost::cnv::cstream();
+    auto wcnv = boost::cnv::wstream();
 
     int const hex_v01 = boost::convert<int>("FF", ccnv(std::hex)).value_or(0);
     int const hex_v02 = boost::convert<int>(L"F", wcnv(std::hex)).value_or(0);

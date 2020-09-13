@@ -1,6 +1,6 @@
 /// @file
 // Boost.Convert
-// Copyright (c) 2009-2016 Vladimir Batov.
+// Copyright (c) 2009-2020 Vladimir Batov.
 //
 // Many thanks to Julian Gonggrijp, Rob Stewart, Andrzej Krzemienski, Matus Chochlik, Jeroen Habraken,
 // Hartmut Kaiser, Joel De Guzman, Thijs (M.A.) van den Berg, Roland Bock, Gavin Lambert, Paul Bristow,
@@ -127,11 +127,8 @@ namespace boost { namespace cnv
     {
         typedef reference this_type;
 
-        reference(Converter const& cnv) : converter_(cnv) {}
-
-#ifdef BOOST_CONVERT_CXX11
-        reference(Converter&& cnv) : converter_(std::move(cnv)) {}
-#endif
+        reference (Converter const& cnv) : converter_(cnv) {}
+        reference (Converter&& cnv) : converter_(std::move(cnv)) {}
 
         this_type&
         value_or(TypeOut const& fallback)
@@ -156,11 +153,8 @@ namespace boost { namespace cnv
     {
         typedef reference this_type;
 
-        reference(Converter const& cnv) : converter_(cnv) {}
-
-#ifdef BOOST_CONVERT_CXX11
-        reference(Converter&& cnv) : converter_(std::move(cnv)) {}
-#endif
+        reference (Converter const& cnv) : converter_(cnv) {}
+        reference (Converter&& cnv) : converter_(std::move(cnv)) {}
 
         this_type&
         value_or(TypeOut const& fallback)
@@ -185,9 +179,9 @@ namespace boost { namespace cnv
     /// @brief Boost.Convert deployment interface with algorithms
     /// @details For example,
     /// @code
-    ///    boost::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
-    ///    std::vector<int>             ints;
-    ///    boost::cnv::cstream           cnv;
+    ///    std::array<char const*, 3> strs = {{ " 5", "0XF", "not an int" }};
+    ///    std::vector<int>           ints;
+    ///    boost::cnv::cstream         cnv;
     ///
     ///    cnv(std::hex)(std::skipws);
     ///
@@ -195,7 +189,7 @@ namespace boost { namespace cnv
     ///        strs.begin(),
     ///        strs.end(),
     ///        std::back_inserter(ints),
-    ///        boost::cnv::apply<int>(boost::cref(cnv)).value_or(-1));
+    ///        boost::cnv::apply<int>(std::cref(cnv)).value_or(-1));
     /// @endcode
 
     template<typename TypeOut, typename TypeIn, typename Converter>
