@@ -8,22 +8,15 @@
 // See these mentioned files for the copyright notice.
 
 #include "./test.hpp"
-
-#if defined(BOOST_CONVERT_IS_NOT_SUPPORTED)
-int main(int, char const* []) { return 0; }
-#else
-
+#include "./prepare.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/spirit.hpp>
 #include <boost/convert/strtol.hpp>
 #include <boost/convert/lexical_cast.hpp>
-#include "./prepare.hpp"
 
 #include <libs/spirit/workbench/measure.hpp>
-#include <string>
-#include <vector>
-#include <cstdlib>
 #include <boost/spirit/include/qi.hpp>
+#include <vector>
 
 namespace
 {
@@ -106,5 +99,3 @@ main(int, char const* [])
     // unplug the whole test's life support system.
     return test::live_code != 0;
 }
-
-#endif

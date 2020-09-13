@@ -4,14 +4,8 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include "./test.hpp"
-
-#if defined(BOOST_CONVERT_IS_NOT_SUPPORTED)
-int main(int, char const* []) { return 0; }
-#else
-
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
-#include <boost/detail/lightweight_test.hpp>
 #include <cstdio>
 #include <cstdlib>
 #include <stdlib.h>
@@ -377,5 +371,3 @@ main(int, char const* [])
     }
     return boost::report_errors();
 }
-
-#endif

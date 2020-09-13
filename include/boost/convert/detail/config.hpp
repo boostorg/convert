@@ -49,4 +49,8 @@
 
 #endif
 
+#if defined(BOOST_CONVERT_IS_NOT_SUPPORTED)
+#error "Compiler is not supported. Boost.Convert requires C++11 support."
+#endif
+
 #endif // BOOST_CONVERT_FORWARD_HPP

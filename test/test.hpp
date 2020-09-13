@@ -7,10 +7,12 @@
 
 #include <boost/convert/detail/config.hpp>
 #include <boost/make_default.hpp>
+#include <boost/detail/lightweight_test.hpp>
 #include <string>
 #include <istream>
-#include <string.h> // For strlen, strcmp, memcpy
-#include <stdio.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring> // For strlen, strcmp, memcpy
 #include <time.h>
 
 #if defined(_MSC_VER)

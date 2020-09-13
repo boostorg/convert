@@ -4,11 +4,6 @@
 // Version 1.0. See http://www.boost.org/LICENSE_1_0.txt.
 
 #include "./test.hpp"
-
-#if defined(BOOST_CONVERT_IS_NOT_SUPPORTED)
-int main(int, char const* []) { return 0; }
-#else
-
 #include "./prepare.hpp"
 #include <boost/convert.hpp>
 #include <boost/convert/stream.hpp>
@@ -16,13 +11,10 @@ int main(int, char const* []) { return 0; }
 #include <boost/convert/strtol.hpp>
 #include <boost/convert/spirit.hpp>
 #include <boost/convert/lexical_cast.hpp>
-#include <boost/detail/lightweight_test.hpp>
 #include <boost/timer/timer.hpp>
-#include <array>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
-#include <cstdlib>
-#include <cstdio>
+#include <array>
 
 using std::string;
 using boost::convert;
@@ -311,5 +303,3 @@ main(int, char const* [])
 
     return boost::report_errors();
 }
-
-#endif
