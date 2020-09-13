@@ -7,8 +7,6 @@
 
 #include <boost/convert/parameters.hpp>
 #include <boost/convert/detail/is_string.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/has_key.hpp>
 #include <cstring>
 
 namespace boost { namespace cnv
@@ -26,16 +24,15 @@ namespace boost { namespace cnv
     typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
     operator()
 
-#define BOOST_CNV_PARAM(param_name)       \
+#define BOOST_CNV_PARAM_SET(param_name)   \
     template <typename argument_pack>     \
-    void                                  \
-    assign_(                              \
+    void set_(                            \
         argument_pack const& arg,         \
         cnv::parameter::type::param_name, \
         mpl::true_)
 
-#define BOOST_CNV_PARAM_ASSIGN(param_name)  \
-    this->assign_(                          \
+#define BOOST_CNV_PARAM_TRY(param_name)     \
+    this->set_(                             \
         arg,                                \
         cnv::parameter::type::param_name(), \
         typename mpl::has_key<              \
@@ -93,14 +90,14 @@ struct boost::cnv::cnvbase
     template<typename argument_pack>
     derived_type& operator()(argument_pack const& arg)
     {
-//      BOOST_CNV_PARAM_ASSIGN(locale);
-        BOOST_CNV_PARAM_ASSIGN(base);
-        BOOST_CNV_PARAM_ASSIGN(adjust);
-        BOOST_CNV_PARAM_ASSIGN(precision);
-        BOOST_CNV_PARAM_ASSIGN(uppercase);
-        BOOST_CNV_PARAM_ASSIGN(skipws);
-        BOOST_CNV_PARAM_ASSIGN(width);
-        BOOST_CNV_PARAM_ASSIGN(fill);
+        BOOST_CNV_PARAM_TRY(base);
+        BOOST_CNV_PARAM_TRY(adjust);
+        BOOST_CNV_PARAM_TRY(precision);
+        BOOST_CNV_PARAM_TRY(uppercase);
+        BOOST_CNV_PARAM_TRY(skipws);
+        BOOST_CNV_PARAM_TRY(width);
+        BOOST_CNV_PARAM_TRY(fill);
+//      BOOST_CNV_PARAM_TRY(locale);
 
         return this->dncast();
     }
@@ -177,17 +174,17 @@ struct boost::cnv::cnvbase
     derived_type&       dncast ()       { return *static_cast<derived_type*>(this); }
 
     template<typename argument_pack, typename keyword_tag>
-    void assign_(argument_pack const&, keyword_tag, mpl::false_) {}
+    void set_(argument_pack const&, keyword_tag, mpl::false_) {}
 
     // Formatters
-//  BOOST_CNV_PARAM(locale)    { locale_    = arg[cnv::parameter::   locale]; }
-    BOOST_CNV_PARAM(base)      { base_      = arg[cnv::parameter::     base]; }
-    BOOST_CNV_PARAM(adjust)    { adjust_    = arg[cnv::parameter::   adjust]; }
-    BOOST_CNV_PARAM(precision) { precision_ = arg[cnv::parameter::precision]; }
-    BOOST_CNV_PARAM(uppercase) { uppercase_ = arg[cnv::parameter::uppercase]; }
-    BOOST_CNV_PARAM(skipws)    { skipws_    = arg[cnv::parameter::   skipws]; }
-    BOOST_CNV_PARAM(width)     { width_     = arg[cnv::parameter::    width]; }
-    BOOST_CNV_PARAM(fill)      { fill_      = arg[cnv::parameter::     fill]; }
+    BOOST_CNV_PARAM_SET(base)      { base_      = arg[cnv::parameter::     base]; }
+    BOOST_CNV_PARAM_SET(adjust)    { adjust_    = arg[cnv::parameter::   adjust]; }
+    BOOST_CNV_PARAM_SET(precision) { precision_ = arg[cnv::parameter::precision]; }
+    BOOST_CNV_PARAM_SET(uppercase) { uppercase_ = arg[cnv::parameter::uppercase]; }
+    BOOST_CNV_PARAM_SET(skipws)    { skipws_    = arg[cnv::parameter::   skipws]; }
+    BOOST_CNV_PARAM_SET(width)     { width_     = arg[cnv::parameter::    width]; }
+    BOOST_CNV_PARAM_SET(fill)      { fill_      = arg[cnv::parameter::     fill]; }
+//  BOOST_CNV_PARAM_SET(locale)    { locale_    = arg[cnv::parameter::   locale]; }
 
     // ULONG_MAX(8 bytes) = 18446744073709551615 (20(10) or 32(2) characters)
     // double (8 bytes) max is 316 chars
@@ -205,7 +202,7 @@ struct boost::cnv::cnvbase
 
 #undef BOOST_CNV_TO_STRING
 #undef BOOST_CNV_STRING_TO
-#undef BOOST_CNV_PARAM
-#undef BOOST_CNV_PARAM_ASSIGN
+#undef BOOST_CNV_PARAM_SET
+#undef BOOST_CNV_PARAM_TRY
 
 #endif // BOOST_CONVERT_BASE_HPP

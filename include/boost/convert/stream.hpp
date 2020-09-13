@@ -17,21 +17,19 @@
     typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
     operator()
 
-#define BOOST_CNV_PARAM(param_name)       \
+#define BOOST_CNV_PARAM_SET(param_name)   \
     template <typename argument_pack>     \
-    void                                  \
-    assign_(                              \
+    void set_(                            \
         argument_pack const& arg,         \
         cnv::parameter::type::param_name, \
         mpl::true_)
 
-#define BOOST_CNV_PARAM_ASSIGN(param_name)                  \
-    this->assign_(                                          \
-        arg,                                                \
-        cnv::parameter::type::param_name(),                 \
-        typename mpl::has_key<                              \
-            argument_pack, cnv::parameter::type::param_name \
-        >::type());
+#define BOOST_CNV_PARAM_TRY(param_name)     \
+    this->set_(                             \
+        arg,                                \
+        cnv::parameter::type::param_name(), \
+        typename mpl::has_key<              \
+            argument_pack, cnv::parameter::type::param_name>::type());
 
 namespace boost { namespace cnv
 {
@@ -40,10 +38,6 @@ namespace boost { namespace cnv
     using cstream = boost::cnv::basic_stream<char>;
     using wstream = boost::cnv::basic_stream<wchar_t>;
 }}
-
-#include <boost/parameter/is_argument_pack.hpp>
-#include <boost/mpl/bool.hpp>
-#include <boost/mpl/has_key.hpp>
 
 template<class Char>
 struct boost::cnv::basic_stream : boost::noncopyable
@@ -91,6 +85,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
 
     BOOST_CNV_STRING_ENABLE(type const& v, optional<string_type>& s) const { to_str(v, s); }
     BOOST_CNV_STRING_ENABLE(string_type const& s, optional<type>& r) const { str_to(cnv::range<string_type const>(s), r); }
+
     // Resolve ambiguity of string-to-string
     template<typename type> void operator()(  char_type const* s, optional<type>& r) const { str_to(cnv::range< char_type const*>(s), r); }
     template<typename type> void operator()(stdstr_type const& s, optional<type>& r) const { str_to(cnv::range<stdstr_type const>(s), r); }
@@ -107,14 +102,14 @@ struct boost::cnv::basic_stream : boost::noncopyable
     typename boost::enable_if<boost::parameter::is_argument_pack<argument_pack>, this_type&>::type
     operator()(argument_pack const& arg)
     {
-        BOOST_CNV_PARAM_ASSIGN(precision);
-        BOOST_CNV_PARAM_ASSIGN(width);
-        BOOST_CNV_PARAM_ASSIGN(fill);
-        BOOST_CNV_PARAM_ASSIGN(uppercase);
-        BOOST_CNV_PARAM_ASSIGN(skipws);
-        BOOST_CNV_PARAM_ASSIGN(adjust);
-        BOOST_CNV_PARAM_ASSIGN(base);
-        BOOST_CNV_PARAM_ASSIGN(notation);
+        BOOST_CNV_PARAM_TRY(precision);
+        BOOST_CNV_PARAM_TRY(width);
+        BOOST_CNV_PARAM_TRY(fill);
+        BOOST_CNV_PARAM_TRY(uppercase);
+        BOOST_CNV_PARAM_TRY(skipws);
+        BOOST_CNV_PARAM_TRY(adjust);
+        BOOST_CNV_PARAM_TRY(base);
+        BOOST_CNV_PARAM_TRY(notation);
 
         return *this;
     }
@@ -122,23 +117,23 @@ struct boost::cnv::basic_stream : boost::noncopyable
     private:
 
     template<typename argument_pack, typename keyword_tag>
-    void assign_(argument_pack const&, keyword_tag, mpl::false_) {}
+    void set_(argument_pack const&, keyword_tag, mpl::false_) {}
 
-    BOOST_CNV_PARAM (locale)    { stream_.imbue(arg[cnv::parameter::locale]); }
-    BOOST_CNV_PARAM (precision) { stream_.precision(arg[cnv::parameter::precision]); }
-    BOOST_CNV_PARAM (width)     { stream_.width(arg[cnv::parameter::width]); }
-    BOOST_CNV_PARAM (fill)      { stream_.fill(arg[cnv::parameter::fill]); }
-    BOOST_CNV_PARAM (uppercase)
+    BOOST_CNV_PARAM_SET (locale)    { stream_.imbue(arg[cnv::parameter::locale]); }
+    BOOST_CNV_PARAM_SET (precision) { stream_.precision(arg[cnv::parameter::precision]); }
+    BOOST_CNV_PARAM_SET (width)     { stream_.width(arg[cnv::parameter::width]); }
+    BOOST_CNV_PARAM_SET (fill)      { stream_.fill(arg[cnv::parameter::fill]); }
+    BOOST_CNV_PARAM_SET (uppercase)
     {
         bool uppercase = arg[cnv::parameter::uppercase];
         uppercase ? (void) stream_.setf(std::ios::uppercase) : stream_.unsetf(std::ios::uppercase);
     }
-    BOOST_CNV_PARAM (skipws)
+    BOOST_CNV_PARAM_SET (skipws)
     {
         bool skipws = arg[cnv::parameter::skipws];
         skipws ? (void) stream_.setf(std::ios::skipws) : stream_.unsetf(std::ios::skipws);
     }
-    BOOST_CNV_PARAM (adjust)
+    BOOST_CNV_PARAM_SET (adjust)
     {
         cnv::adjust adjust = arg[cnv::parameter::adjust];
 
@@ -146,7 +141,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
         else if (adjust == cnv::adjust::right) stream_.setf(std::ios::adjustfield, std::ios::right);
         else BOOST_ASSERT(!"Not implemented");
     }
-    BOOST_CNV_PARAM (base)
+    BOOST_CNV_PARAM_SET (base)
     {
         cnv::base base = arg[cnv::parameter::base];
 
@@ -155,7 +150,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
         else if (base == cnv::base::oct) std::oct(stream_);
         else BOOST_ASSERT(!"Not implemented");
     }
-    BOOST_CNV_PARAM (notation)
+    BOOST_CNV_PARAM_SET (notation)
     {
         cnv::notation notation = arg[cnv::parameter::notation];
 
@@ -220,7 +215,7 @@ boost::cnv::basic_stream<char_type>::str_to(
 }
 
 #undef BOOST_CNV_STRING_ENABLE
-#undef BOOST_CNV_PARAM
-#undef BOOST_CNV_PARAM_ASSIGN
+#undef BOOST_CNV_PARAM_SET
+#undef BOOST_CNV_PARAM_TRY
 
 #endif // BOOST_CONVERT_STRINGSTREAM_BASED_CONVERTER_HPP
