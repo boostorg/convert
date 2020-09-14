@@ -40,9 +40,9 @@
     template <typename __boost_has_member_T__> /*C4*/                                       \
     class __trait_name__                                                                    \
     {                                                                                       \
-        typedef typename boost::remove_const<__boost_has_member_T__>::type check_type;      \
-        typedef ::boost::type_traits::yes_type                yes_type;                     \
-        typedef ::boost::type_traits:: no_type                 no_type;                     \
+        using check_type = typename boost::remove_const<__boost_has_member_T__>::type;      \
+        using   yes_type = ::boost::type_traits::yes_type;                                  \
+        using    no_type = ::boost::type_traits:: no_type;                                  \
                                                                                             \
         struct  base { void __member_name__(/*C2*/) {}};                                    \
         struct mixin : public base, public check_type {};                                   \

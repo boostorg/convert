@@ -13,7 +13,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring> // For strlen, strcmp, memcpy
-#include <time.h>
+#include <climits>
+#include <ctime>
 
 #if defined(_MSC_VER)
 #   pragma warning(disable: 4189) // local variable is initialized but not referenced.

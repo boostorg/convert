@@ -26,7 +26,7 @@
 #define BOOST_CONVERT_HPP
 
 #include <boost/convert/detail/is_fun.hpp>
-#include <boost/ref.hpp>
+#include <boost/core/ref.hpp>
 
 namespace boost
 {
@@ -106,14 +106,14 @@ namespace boost
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter, typename Fallback>
-    typename enable_if<is_convertible<Fallback, TypeOut>, TypeOut>::type
+    typename std::enable_if<is_convertible<Fallback, TypeOut>::value, TypeOut>::type
     convert(TypeIn const& value_in, Converter const& converter, Fallback const& fallback)
     {
         return convert<TypeOut>(value_in, converter).value_or(fallback);
     }
 
     template<typename TypeOut, typename TypeIn, typename Converter, typename Fallback>
-    typename enable_if<cnv::is_fun<Fallback, TypeOut>, TypeOut>::type
+    typename std::enable_if<cnv::is_fun<Fallback, TypeOut>::value, TypeOut>::type
     convert(TypeIn const& value_in, Converter const& converter, Fallback fallback)
     {
         return convert<TypeOut>(value_in, converter).value_or_eval(fallback);
@@ -125,7 +125,7 @@ namespace boost { namespace cnv
     template<typename Converter, typename TypeOut, typename TypeIn>
     struct reference
     {
-        typedef reference this_type;
+        using this_type = reference;
 
         reference (Converter const& cnv) : converter_(cnv) {}
         reference (Converter&& cnv) : converter_(std::move(cnv)) {}
@@ -151,7 +151,7 @@ namespace boost { namespace cnv
     template<typename Converter, typename TypeOut>
     struct reference<Converter, TypeOut, void>
     {
-        typedef reference this_type;
+        using this_type = reference;
 
         reference (Converter const& cnv) : converter_(cnv) {}
         reference (Converter&& cnv) : converter_(std::move(cnv)) {}

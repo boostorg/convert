@@ -14,14 +14,14 @@ namespace boost { namespace cnv
     template<typename> struct cnvbase;
 }}
 
-#define BOOST_CNV_TO_STRING                                             \
-    template<typename string_type>                                      \
-    typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
+#define BOOST_CNV_TO_STRING                                                 \
+    template<typename string_type>                                          \
+    typename std::enable_if<cnv::is_string<string_type>::value, void>::type \
     operator()
 
-#define BOOST_CNV_STRING_TO                                             \
-    template<typename string_type>                                      \
-    typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
+#define BOOST_CNV_STRING_TO                                                 \
+    template<typename string_type>                                          \
+    typename std::enable_if<cnv::is_string<string_type>::value, void>::type \
     operator()
 
 #define BOOST_CNV_PARAM_SET(param_name)   \

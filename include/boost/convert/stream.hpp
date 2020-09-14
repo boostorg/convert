@@ -8,13 +8,12 @@
 #include <boost/convert/parameters.hpp>
 #include <boost/convert/detail/is_string.hpp>
 #include <boost/make_default.hpp>
-#include <boost/noncopyable.hpp>
 #include <sstream>
 #include <iomanip>
 
-#define BOOST_CNV_STRING_ENABLE                                         \
-    template<typename string_type, typename type>                       \
-    typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
+#define BOOST_CNV_STRING_ENABLE                                             \
+    template<typename string_type, typename type>                           \
+    typename std::enable_if<cnv::is_string<string_type>::value, void>::type \
     operator()
 
 #define BOOST_CNV_PARAM_SET(param_name)   \
@@ -40,7 +39,7 @@ namespace boost { namespace cnv
 }}
 
 template<class Char>
-struct boost::cnv::basic_stream : boost::noncopyable
+struct boost::cnv::basic_stream
 {
     // C01. In string-to-type conversions the "string" must be a CONTIGUOUS ARRAY of
     //      characters because "ibuffer_type" uses/relies on that (it deals with char_type*).
@@ -80,8 +79,11 @@ struct boost::cnv::basic_stream : boost::noncopyable
         using buffer_type::epptr;
     };
 
-    basic_stream() : stream_(std::ios_base::in | std::ios_base::out) {}
-    basic_stream(this_type&& other) : stream_(std::move(other.stream_)) {}
+    basic_stream () : stream_(std::ios_base::in | std::ios_base::out) {}
+    basic_stream (this_type&& other) : stream_(std::move(other.stream_)) {}
+
+    basic_stream(this_type const&) = delete;
+    this_type& operator=(this_type const&) = delete;
 
     BOOST_CNV_STRING_ENABLE(type const& v, optional<string_type>& s) const { to_str(v, s); }
     BOOST_CNV_STRING_ENABLE(string_type const& s, optional<type>& r) const { str_to(cnv::range<string_type const>(s), r); }
@@ -99,7 +101,7 @@ struct boost::cnv::basic_stream : boost::noncopyable
     this_type& operator() (std::locale const& l) { return (stream_.imbue(l), *this); }
 
     template<typename argument_pack>
-    typename boost::enable_if<boost::parameter::is_argument_pack<argument_pack>, this_type&>::type
+    typename std::enable_if<boost::parameter::is_argument_pack<argument_pack>::value, this_type&>::type
     operator()(argument_pack const& arg)
     {
         BOOST_CNV_PARAM_TRY(precision);
