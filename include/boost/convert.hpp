@@ -26,7 +26,6 @@
 #define BOOST_CONVERT_HPP
 
 #include <boost/convert/detail/is_fun.hpp>
-#include <boost/core/ref.hpp>
 
 namespace boost
 {
@@ -60,7 +59,7 @@ namespace boost
     convert(TypeIn const& value_in, Converter const& converter)
     {
         optional<TypeOut> result;
-        boost::unwrap_ref(converter)(value_in, result);
+        converter(value_in, result);
         return result;
     }
 
@@ -137,7 +136,7 @@ namespace boost { namespace cnv
         }
 
         TypeOut
-        operator()(TypeIn const& value_in)
+        operator()(TypeIn const& value_in) const
         {
             optional<TypeOut> result = convert<TypeOut>(value_in, converter_);
             return result ? result.get() : fallback_.value();
@@ -164,7 +163,7 @@ namespace boost { namespace cnv
 
         template<typename TypeIn>
         TypeOut
-        operator()(TypeIn const& value_in)
+        operator()(TypeIn const& value_in) const
         {
             optional<TypeOut> result = convert<TypeOut>(value_in, converter_);
             return result ? result.get() : fallback_.value();

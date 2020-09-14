@@ -22,12 +22,13 @@
 //MSVC++ 14.0 _MSC_VER == 1900 (Visual Studio 2015)
 //MSVC++ 15.0 _MSC_VER == 1910 (Visual Studio 2017)
 
-#   pragma warning(disable: 4244)
-#   pragma warning(disable: 4224)
-#   pragma warning(disable: 4996)
-#   pragma warning(disable: 4180) // qualifier applied to function type has no meaning
 #   pragma warning(disable: 4100) // unreferenced formal parameter
 #   pragma warning(disable: 4146) // unary minus operator applied to unsigned type
+#   pragma warning(disable: 4180) // qualifier applied to function type has no meaning
+#   pragma warning(disable: 4224)
+#   pragma warning(disable: 4244)
+#   pragma warning(disable: 4800) // forcing value to bool
+#   pragma warning(disable: 4996)
 
 #if _MSC_VER < 1900 /* MSVC-14 defines real snprintf()... just about time! */
 #   define snprintf _snprintf

@@ -7,6 +7,7 @@
 
 #include <boost/convert/parameters.hpp>
 #include <boost/convert/detail/is_string.hpp>
+#include <algorithm>
 #include <cstring>
 
 namespace boost { namespace cnv

@@ -8,6 +8,7 @@
 #include <boost/convert/detail/config.hpp>
 #include <boost/convert/detail/is_callable.hpp>
 #include <boost/type_traits/function_traits.hpp>
+#include <boost/core/ref.hpp>
 
 namespace boost { namespace cnv
 {
