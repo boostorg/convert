@@ -189,7 +189,7 @@ struct boost::cnv::cnvbase
 
     // ULONG_MAX(8 bytes) = 18446744073709551615 (20(10) or 32(2) characters)
     // double (8 bytes) max is 316 chars
-    static int constexpr bufsize_ = 512;
+    static int BOOST_CONSTEXPR_OR_CONST bufsize_ = 512;
 
     bool        skipws_;
     int      precision_;
