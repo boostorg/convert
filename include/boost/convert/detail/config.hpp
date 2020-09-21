@@ -10,6 +10,27 @@
 #include <boost/optional.hpp>
 #include <type_traits>
 
+#if defined(BOOST_NO_CXX11_VARIADIC_TEMPLATES) || defined(BOOST_NO_CXX11_RVALUE_REFERENCES)
+#undef BOOST_CONVERT_CXX11
+#else
+#define BOOST_CONVERT_CXX11
+#endif
+
+// Intel 12.0 and lower have broken SFINAE
+#if defined(BOOST_INTEL) && (BOOST_INTEL <= 1200)
+#   define BOOST_CONVERT_IS_NOT_SUPPORTED
+#endif
+
+// No C++11 support
+#if defined(BOOST_GCC_VERSION) && (BOOST_GCC_VERSION <= 40600)
+#   define BOOST_CONVERT_IS_NOT_SUPPORTED
+#endif
+
+// MSVC-11 and lower have broken SFINAE
+#if defined(BOOST_MSVC) && (BOOST_MSVC < 1800)
+#   define BOOST_CONVERT_IS_NOT_SUPPORTED
+#endif
+
 #if defined(_MSC_VER)
 
 //MSVC++ 7.0  _MSC_VER == 1300
@@ -34,25 +55,6 @@
 #   define snprintf _snprintf
 #endif
 
-#endif
-
-// Intel 12.0 and lower have broken SFINAE
-#if defined(BOOST_INTEL) && (BOOST_INTEL <= 1200)
-#   define BOOST_CONVERT_IS_NOT_SUPPORTED
-#endif
-
-// No C++11 support
-#if defined(BOOST_GCC_VERSION) && (BOOST_GCC_VERSION <= 40600)
-#   define BOOST_CONVERT_IS_NOT_SUPPORTED
-#endif
-
-// MSVC-11 and lower have broken SFINAE
-#if defined(BOOST_MSVC) && (BOOST_MSVC < 1800)
-#   define BOOST_CONVERT_IS_NOT_SUPPORTED
-#endif
-
-#if defined(BOOST_CONVERT_IS_NOT_SUPPORTED)
-#error Compiler is not supported. Boost.Convert requires C++11 support.
 #endif
 
 #endif // BOOST_CONVERT_FORWARD_HPP
