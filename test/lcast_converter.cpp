@@ -11,7 +11,6 @@ int main(int, char const* []) { return 0; }
 
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
-#include <boost/detail/lightweight_test.hpp>
 
 using std::string;
 using boost::convert;

@@ -6,7 +6,6 @@
 #define BOOST_CONVERT_DETAIL_IS_CHAR_HPP
 
 #include <boost/convert/detail/config.hpp>
-#include <type_traits>
 #include <cctype>
 #include <cwctype>
 

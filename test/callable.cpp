@@ -11,7 +11,6 @@ int main(int, char const* []) { return 0; }
 
 #include <boost/convert.hpp>
 #include <boost/convert/lexical_cast.hpp>
-#include <boost/detail/lightweight_test.hpp>
 #include <functional>
 
 using std::string;
@@ -86,7 +85,7 @@ main(int, char const* [])
     //[callable_example3
     int v03 = convert<int>(str,
                   std::bind(assign<int>, std::placeholders::_2,
-                      std::bind(lexical_cast<int, string>, std::placeholders::_1))).value_or(-1);
+                      std::bind(boost::lexical_cast<int, string>, std::placeholders::_1))).value_or(-1);
     //]
     BOOST_TEST(v01 == -12);
     BOOST_TEST(v02 == -12);

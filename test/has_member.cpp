@@ -10,7 +10,6 @@ int main(int, char const* []) { return 0; }
 #else
 
 #include <boost/convert.hpp>
-#include <boost/detail/lightweight_test.hpp>
 #include <vector>
 #include <iostream>
 

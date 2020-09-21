@@ -8,6 +8,33 @@
 #include <boost/config.hpp>
 #include <boost/version.hpp>
 #include <boost/optional.hpp>
+#include <type_traits>
+
+#if defined(_MSC_VER)
+
+//MSVC++ 7.0  _MSC_VER == 1300
+//MSVC++ 7.1  _MSC_VER == 1310 (Visual Studio 2003)
+//MSVC++ 8.0  _MSC_VER == 1400 (Visual Studio 2005)
+//MSVC++ 9.0  _MSC_VER == 1500 (Visual Studio 2008)
+//MSVC++ 10.0 _MSC_VER == 1600 (Visual Studio 2010)
+//MSVC++ 11.0 _MSC_VER == 1700 (Visual Studio 2012)
+//MSVC++ 12.0 _MSC_VER == 1800 (Visual Studio 2013)
+//MSVC++ 14.0 _MSC_VER == 1900 (Visual Studio 2015)
+//MSVC++ 15.0 _MSC_VER == 1910 (Visual Studio 2017)
+
+#   pragma warning(disable: 4100) // unreferenced formal parameter
+#   pragma warning(disable: 4146) // unary minus operator applied to unsigned type
+#   pragma warning(disable: 4180) // qualifier applied to function type has no meaning
+#   pragma warning(disable: 4224)
+#   pragma warning(disable: 4244)
+#   pragma warning(disable: 4800) // forcing value to bool
+#   pragma warning(disable: 4996)
+
+#if _MSC_VER < 1900 /* MSVC-14 defines real snprintf()... just about time! */
+#   define snprintf _snprintf
+#endif
+
+#endif
 
 // Intel 12.0 and lower have broken SFINAE
 #if defined(BOOST_INTEL) && (BOOST_INTEL <= 1200)
@@ -24,29 +51,8 @@
 #   define BOOST_CONVERT_IS_NOT_SUPPORTED
 #endif
 
-#if defined(_MSC_VER)
-
-//MSVC++ 7.0  _MSC_VER == 1300
-//MSVC++ 7.1  _MSC_VER == 1310 (Visual Studio 2003)
-//MSVC++ 8.0  _MSC_VER == 1400 (Visual Studio 2005)
-//MSVC++ 9.0  _MSC_VER == 1500 (Visual Studio 2008)
-//MSVC++ 10.0 _MSC_VER == 1600 (Visual Studio 2010)
-//MSVC++ 11.0 _MSC_VER == 1700 (Visual Studio 2012)
-//MSVC++ 12.0 _MSC_VER == 1800 (Visual Studio 2013)
-//MSVC++ 14.0 _MSC_VER == 1900 (Visual Studio 2015)
-//MSVC++ 15.0 _MSC_VER == 1910 (Visual Studio 2017)
-
-#   pragma warning(disable: 4244)
-#   pragma warning(disable: 4224)
-#   pragma warning(disable: 4996)
-#   pragma warning(disable: 4180) // qualifier applied to function type has no meaning
-#   pragma warning(disable: 4100) // unreferenced formal parameter
-#   pragma warning(disable: 4146) // unary minus operator applied to unsigned type
-
-#if _MSC_VER < 1900 /* MSVC-14 defines real snprintf()... just about time! */
-#   define snprintf _snprintf
-#endif
-
+#if defined(BOOST_CONVERT_IS_NOT_SUPPORTED)
+#error Compiler is not supported. Boost.Convert requires C++11 support.
 #endif
 
 #endif // BOOST_CONVERT_FORWARD_HPP

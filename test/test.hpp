@@ -7,11 +7,14 @@
 
 #include <boost/convert/detail/config.hpp>
 #include <boost/make_default.hpp>
+#include <boost/detail/lightweight_test.hpp>
 #include <string>
 #include <istream>
-#include <string.h> // For strlen, strcmp, memcpy
-#include <stdio.h>
-#include <time.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring> // For strlen, strcmp, memcpy
+#include <climits>
+#include <ctime>
 
 #if defined(_MSC_VER)
 #   pragma warning(disable: 4189) // local variable is initialized but not referenced.

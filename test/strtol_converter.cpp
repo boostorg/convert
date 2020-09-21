@@ -12,7 +12,6 @@ int main(int, char const* []) { return 0; }
 #include <boost/convert.hpp>
 #include <boost/convert/printf.hpp>
 #include <boost/convert/stream.hpp>
-#include <boost/detail/lightweight_test.hpp>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/uniform_01.hpp>

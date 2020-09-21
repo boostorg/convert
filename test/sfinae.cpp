@@ -12,7 +12,6 @@ int main(int, char const* []) { return 0; }
 #include <boost/convert.hpp>
 #include <boost/convert/detail/is_string.hpp>
 #include <boost/convert/detail/is_callable.hpp>
-#include <boost/detail/lightweight_test.hpp>
 
 //[is_callable_declaration
 namespace { namespace local

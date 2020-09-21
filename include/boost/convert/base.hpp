@@ -7,6 +7,7 @@
 
 #include <boost/convert/parameters.hpp>
 #include <boost/convert/detail/is_string.hpp>
+#include <algorithm>
 #include <cstring>
 
 namespace boost { namespace cnv
@@ -14,14 +15,14 @@ namespace boost { namespace cnv
     template<typename> struct cnvbase;
 }}
 
-#define BOOST_CNV_TO_STRING                                             \
-    template<typename string_type>                                      \
-    typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
+#define BOOST_CNV_TO_STRING                                                 \
+    template<typename string_type>                                          \
+    typename std::enable_if<cnv::is_string<string_type>::value, void>::type \
     operator()
 
-#define BOOST_CNV_STRING_TO                                             \
-    template<typename string_type>                                      \
-    typename boost::enable_if<cnv::is_string<string_type>, void>::type  \
+#define BOOST_CNV_STRING_TO                                                 \
+    template<typename string_type>                                          \
+    typename std::enable_if<cnv::is_string<string_type>::value, void>::type \
     operator()
 
 #define BOOST_CNV_PARAM_SET(param_name)   \
@@ -188,7 +189,7 @@ struct boost::cnv::cnvbase
 
     // ULONG_MAX(8 bytes) = 18446744073709551615 (20(10) or 32(2) characters)
     // double (8 bytes) max is 316 chars
-    static int constexpr bufsize_ = 512;
+    static int BOOST_CONSTEXPR_OR_CONST bufsize_ = 512;
 
     bool        skipws_;
     int      precision_;
