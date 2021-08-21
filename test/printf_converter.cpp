@@ -30,6 +30,9 @@ main(int, char const* [])
     BOOST_TEST(-11 == convert<int>(std_str,     cnv).value_or(-1));
     BOOST_TEST(-12 == convert<int>(c_str,       cnv).value_or(-1));
 
+    BOOST_TEST( float(3.14) == convert< float>("3.14", cnv(arg::precision = 2)).value_or(-1));
+    BOOST_TEST(double(3.14) == convert<double>("3.14", cnv(arg::precision = 2)).value_or(-1));
+
     BOOST_TEST("255" == convert<std::string>(255, cnv(arg::base = boost::cnv::base::dec)).value());
     BOOST_TEST( "ff" == convert<std::string>(255, cnv(arg::base = boost::cnv::base::hex)).value());
     BOOST_TEST("377" == convert<std::string>(255, cnv(arg::base = boost::cnv::base::oct)).value());
