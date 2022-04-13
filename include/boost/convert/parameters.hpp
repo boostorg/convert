@@ -13,7 +13,7 @@ namespace boost { namespace cnv
 {
     enum class   adjust { left, right, center };
     enum class     base { bin =2, oct =8, dec =10, hex =16 };
-    enum class notation { fixed, scientific };
+    enum class notation { fixed, scientific, hex };
 
     namespace parameter
     {

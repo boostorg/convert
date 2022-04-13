@@ -45,7 +45,7 @@ struct boost::cnv::spirit : public boost::cnv::cnvbase<boost::cnv::spirit>
 
         char_type* end = beg;
         bool      good = boost::spirit::karma::generate(end, generator(), value_in);
-        
+
         return cnv::range<char_type*>(beg, good ? end : beg);
     }
 };
