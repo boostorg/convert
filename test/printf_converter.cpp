@@ -11,11 +11,32 @@ int main(int, char const* []) { return 0; }
 
 #include <boost/convert.hpp>
 #include <boost/convert/printf.hpp>
+#include <boost/test/tools/floating_point_comparison.hpp>
 
 using std::string;
 using boost::convert;
 
+namespace cnv = boost::cnv;
 namespace arg = boost::cnv::parameter;
+
+static
+void
+test_notation()
+{
+    //[charconv_notation
+    boost::cnv::printf cnv;
+
+    BOOST_TEST(    "-3.14159" == convert<string>(-3.14159, cnv(arg::notation = cnv::notation::fixed)(arg::precision = 5)).value());
+    BOOST_TEST(  "-3.142e+00" == convert<string>(-3.14159, cnv(arg::notation = cnv::notation::scientific)(arg::precision = 3)).value());
+    BOOST_TEST("-0x1.9220p+1" == convert<string>(-3.14159, cnv(arg::notation = cnv::notation::hex)(arg::precision = 4)).value());
+
+    const auto close = boost::math::fpc::close_at_tolerance<double>(1);
+
+    BOOST_TEST_WITH(-3.14159, convert<double>("-3.14159", cnv(arg::notation = cnv::notation::fixed)).value(), close);
+    BOOST_TEST_WITH(-3.14159, convert<double>("-3.142e+00", cnv(arg::notation = cnv::notation::scientific)).value(), close);
+    BOOST_TEST_WITH(-3.14159, convert<double>("-0x1.9220p+1", cnv(arg::notation = cnv::notation::hex)).value(), close);
+    //]
+}
 
 int
 main(int, char const* [])
@@ -42,6 +63,8 @@ main(int, char const* [])
 
     BOOST_TEST(s01 == "12.345600");
     BOOST_TEST(s02 == "12.346");
+
+    test_notation();
 
     return boost::report_errors();
 }
