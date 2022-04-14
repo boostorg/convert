@@ -9,7 +9,7 @@
 #include <boost/convert/detail/char.hpp>
 #include <boost/range/iterator.hpp>
 
-namespace boost { namespace cnv
+namespace boost::cnv
 {
     namespace detail
     {
@@ -20,7 +20,7 @@ namespace boost { namespace cnv
             BOOST_DECLARE_HAS_MEMBER(has_begin, begin);
             BOOST_DECLARE_HAS_MEMBER(  has_end, end);
 
-            static bool BOOST_CONSTEXPR_OR_CONST value = has_begin<T>::value && has_end<T>::value;
+            static bool constexpr value = has_begin<T>::value && has_end<T>::value;
         };
     }
     template<typename T> struct is_range : detail::is_range<typename boost::remove_const<T>::type, boost::is_class<T>::value> {};
@@ -112,6 +112,6 @@ namespace boost { namespace cnv
     {
         range (T* b, T* e =0) : range<T*>(b, e) {}
     };
-}}
+}
 
 #endif // BOOST_CONVERT_DETAIL_RANGE_HPP

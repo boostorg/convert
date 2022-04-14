@@ -10,7 +10,7 @@
 #include <boost/type_traits/function_traits.hpp>
 #include <boost/core/ref.hpp>
 
-namespace boost { namespace cnv
+namespace boost::cnv
 {
     template<typename, typename, typename, typename =void>
     struct is_cnv { BOOST_STATIC_CONSTANT(bool, value = false); };
@@ -28,7 +28,7 @@ namespace boost { namespace cnv
 
     template<typename Function, typename TypeIn, typename TypeOut>
     struct is_cnv<Function, TypeIn, TypeOut,
-        typename enable_if_c<is_function<Function>::value && function_types::function_arity<Function>::value == 2,
+        typename enable_if_c<std::is_function<Function>::value && function_types::function_arity<Function>::value == 2,
         void>::type>
     {
         using       in_type = TypeIn;
@@ -40,7 +40,7 @@ namespace boost { namespace cnv
         BOOST_STATIC_CONSTANT(bool, out_good = (is_same<out_type, func_out_type>::value));
         BOOST_STATIC_CONSTANT(bool,    value = (in_good && out_good));
     };
-}}
+}
 
 #endif // BOOST_CONVERT_IS_CONVERTER_HPP
 

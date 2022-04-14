@@ -32,17 +32,17 @@ namespace { namespace local
     template<typename Type>
     struct array
     {
-        typedef std::array<Type, 20> type;
+        using type = std::array<Type, 20>;
     };
     template<typename T> static typename array<T>::type const& get();
 
-    static int const num_cycles = 1000000;
-    int                     sum = 0;
+    int constexpr num_cycles = 1000000;
+    int                  sum = 0;
 
-    struct timer : public boost::timer::cpu_timer
+    struct timer : boost::timer::cpu_timer
     {
-        typedef timer                   this_type;
-        typedef boost::timer::cpu_timer base_type;
+        using this_type = timer;
+        using base_type = boost::timer::cpu_timer;
 
         double value() const
         {

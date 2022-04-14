@@ -10,10 +10,7 @@
 #include <algorithm>
 #include <cstring>
 
-namespace boost { namespace cnv
-{
-    template<typename> struct cnvbase;
-}}
+namespace boost::cnv { template<typename> struct cnvbase; }
 
 #define BOOST_CNV_TO_STRING                                                 \
     template<typename string_type>                                          \
@@ -183,7 +180,7 @@ struct boost::cnv::cnvbase
 
     // ULONG_MAX(8 bytes) = 18446744073709551615 (20(10) or 32(2) characters)
     // double (8 bytes) max is 316 chars
-    static int inline BOOST_CONSTEXPR_OR_CONST bufsize_ = 512;
+    static int inline constexpr bufsize_ = 512;
 
     bool            skipws_ = false;
     int          precision_ = 0;

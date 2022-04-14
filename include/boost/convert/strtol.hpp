@@ -11,15 +11,12 @@
 #include <climits>
 #include <cstdlib>
 
-namespace boost { namespace cnv
-{
-    struct strtol;
-}}
+namespace boost::cnv { struct strtol; }
 
 /// @brief std::strtol-based extended converter
 /// @details The converter offers a fairly decent overall performance and moderate formatting facilities.
 
-struct boost::cnv::strtol : public boost::cnv::cnvbase<boost::cnv::strtol>
+struct boost::cnv::strtol : boost::cnv::cnvbase<boost::cnv::strtol>
 {
     using this_type = boost::cnv::strtol;
     using base_type = boost::cnv::cnvbase<this_type>;
