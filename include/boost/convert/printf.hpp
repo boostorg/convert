@@ -59,65 +59,55 @@ struct boost::cnv::printf : boost::cnv::cnvbase<boost::cnv::printf>
 
         return type_pos::value;
     }
-    char_cptr fmt(
-        int pos,
-        fmt_type fxd_d_fmt, fmt_type fxd_x_fmt, fmt_type fxd_o_fmt,
-        fmt_type sci_d_fmt, fmt_type sci_x_fmt, fmt_type sci_o_fmt,
-        fmt_type hex_d_fmt, fmt_type hex_x_fmt, fmt_type hex_o_fmt) const
-    {
-        if (notation_ == notation::fixed)
-            return base_ == base::dec ? fxd_d_fmt[pos]
-                 : base_ == base::hex ? fxd_x_fmt[pos]
-                 : base_ == base::oct ? fxd_o_fmt[pos]
-                 : (BOOST_ASSERT(0), nullptr);
-
-        if (notation_ == notation::scientific)
-            return base_ == base::dec ? sci_d_fmt[pos]
-                 : base_ == base::hex ? sci_x_fmt[pos]
-                 : base_ == base::oct ? sci_o_fmt[pos]
-                 : (BOOST_ASSERT(0), nullptr);
-
-        if (notation_ == notation::hex)
-            return base_ == base::dec ? hex_d_fmt[pos]
-                 : base_ == base::hex ? hex_x_fmt[pos]
-                 : base_ == base::oct ? hex_o_fmt[pos]
-                 : (BOOST_ASSERT(0), nullptr);
-
-        return (BOOST_ASSERT(0), nullptr);
-    }
     char_cptr printf_format(int pos) const
     {
-        char_cptr constexpr fxd_d_fmt[] = { "%.*f", "%.*f", "%.*d", "%.*u", "%.*hd", "%.*hu", "%.*ld", "%.*lu" }; // Must match managed_types
-        char_cptr constexpr fxd_x_fmt[] = { "%.*f", "%.*f", "%.*x", "%.*x", "%.*hx", "%.*hx", "%.*lx", "%.*lx" }; // Must match managed_types
-        char_cptr constexpr fxd_o_fmt[] = { "%.*f", "%.*f", "%.*o", "%.*o", "%.*ho", "%.*ho", "%.*lo", "%.*lo" }; // Must match managed_types
-        char_cptr constexpr sci_d_fmt[] = { "%.*e", "%.*e", "%.*d", "%.*u", "%.*hd", "%.*hu", "%.*ld", "%.*lu" }; // Must match managed_types
-        char_cptr constexpr sci_x_fmt[] = { "%.*e", "%.*e", "%.*x", "%.*x", "%.*hx", "%.*hx", "%.*lx", "%.*lx" }; // Must match managed_types
-        char_cptr constexpr sci_o_fmt[] = { "%.*e", "%.*e", "%.*o", "%.*o", "%.*ho", "%.*ho", "%.*lo", "%.*lo" }; // Must match managed_types
-        char_cptr constexpr hex_d_fmt[] = { "%.*a", "%.*a", "%.*d", "%.*u", "%.*hd", "%.*hu", "%.*ld", "%.*lu" }; // Must match managed_types
-        char_cptr constexpr hex_x_fmt[] = { "%.*a", "%.*a", "%.*x", "%.*x", "%.*hx", "%.*hx", "%.*lx", "%.*lx" }; // Must match managed_types
-        char_cptr constexpr hex_o_fmt[] = { "%.*a", "%.*a", "%.*o", "%.*o", "%.*ho", "%.*ho", "%.*lo", "%.*lo" }; // Must match managed_types
-
-        return fmt(pos,
-                   fxd_d_fmt, fxd_x_fmt, fxd_o_fmt,
-                   sci_d_fmt, sci_x_fmt, sci_o_fmt,
-                   hex_d_fmt, hex_x_fmt, hex_o_fmt);
+        char_cptr constexpr d_fmt[3][8] =
+        {
+    /*fxd*/ { "%.*f", "%.*f", "%.*d", "%.*u", "%.*hd", "%.*hu", "%.*ld", "%.*lu" }, // Must match managed_types
+    /*sci*/ { "%.*e", "%.*e", "%.*d", "%.*u", "%.*hd", "%.*hu", "%.*ld", "%.*lu" }, // Must match managed_types
+    /*hex*/ { "%.*a", "%.*a", "%.*d", "%.*u", "%.*hd", "%.*hu", "%.*ld", "%.*lu" }  // Must match managed_types
+        };
+        char_cptr constexpr x_fmt[3][8] =
+        {
+            { "%.*f", "%.*f", "%.*x", "%.*x", "%.*hx", "%.*hx", "%.*lx", "%.*lx" }, // Must match managed_types
+            { "%.*e", "%.*e", "%.*x", "%.*x", "%.*hx", "%.*hx", "%.*lx", "%.*lx" }, // Must match managed_types
+            { "%.*a", "%.*a", "%.*x", "%.*x", "%.*hx", "%.*hx", "%.*lx", "%.*lx" }  // Must match managed_types
+        };
+        char_cptr constexpr o_fmt[3][8] =
+        {
+            { "%.*f", "%.*f", "%.*o", "%.*o", "%.*ho", "%.*ho", "%.*lo", "%.*lo" }, // Must match managed_types
+            { "%.*e", "%.*e", "%.*o", "%.*o", "%.*ho", "%.*ho", "%.*lo", "%.*lo" }, // Must match managed_types
+            { "%.*a", "%.*a", "%.*o", "%.*o", "%.*ho", "%.*ho", "%.*lo", "%.*lo" }  // Must match managed_types
+        };
+        return base_ == base::dec ? d_fmt[int(notation_)][pos]
+             : base_ == base::hex ? x_fmt[int(notation_)][pos]
+             : base_ == base::oct ? o_fmt[int(notation_)][pos]
+             : (BOOST_ASSERT(0), nullptr);
     }
     char_cptr sscanf_format(int pos) const
     {
-        char_cptr constexpr fxd_d_fmt[] = { "%lf", "%f", "%d", "%u", "%hd", "%hu", "%ld", "%lu" }; // Must match managed_types
-        char_cptr constexpr fxd_x_fmt[] = { "%lf", "%f", "%x", "%x", "%hx", "%hx", "%lx", "%lx" }; // Must match managed_types
-        char_cptr constexpr fxd_o_fmt[] = { "%lf", "%f", "%o", "%o", "%ho", "%ho", "%lo", "%lo" }; // Must match managed_types
-        char_cptr constexpr sci_d_fmt[] = { "%le", "%e", "%d", "%u", "%hd", "%hu", "%ld", "%lu" }; // Must match managed_types
-        char_cptr constexpr sci_x_fmt[] = { "%le", "%e", "%x", "%x", "%hx", "%hx", "%lx", "%lx" }; // Must match managed_types
-        char_cptr constexpr sci_o_fmt[] = { "%le", "%e", "%o", "%o", "%ho", "%ho", "%lo", "%lo" }; // Must match managed_types
-        char_cptr constexpr hex_d_fmt[] = { "%la", "%a", "%d", "%u", "%hd", "%hu", "%ld", "%lu" }; // Must match managed_types
-        char_cptr constexpr hex_x_fmt[] = { "%la", "%a", "%x", "%x", "%hx", "%hx", "%lx", "%lx" }; // Must match managed_types
-        char_cptr constexpr hex_o_fmt[] = { "%la", "%a", "%o", "%o", "%ho", "%ho", "%lo", "%lo" }; // Must match managed_types
-
-        return fmt(pos,
-                   fxd_d_fmt, fxd_x_fmt, fxd_o_fmt,
-                   sci_d_fmt, sci_x_fmt, sci_o_fmt,
-                   hex_d_fmt, hex_x_fmt, hex_o_fmt);
+        char_cptr constexpr d_fmt[3][8] =
+        {
+            { "%lf", "%f", "%d", "%u", "%hd", "%hu", "%ld", "%lu" }, // Must match managed_types
+            { "%le", "%e", "%d", "%u", "%hd", "%hu", "%ld", "%lu" }, // Must match managed_types
+            { "%la", "%a", "%d", "%u", "%hd", "%hu", "%ld", "%lu" }  // Must match managed_types
+        };
+        char_cptr constexpr x_fmt[3][8] =
+        {
+            { "%lf", "%f", "%x", "%x", "%hx", "%hx", "%lx", "%lx" }, // Must match managed_types
+            { "%le", "%e", "%x", "%x", "%hx", "%hx", "%lx", "%lx" }, // Must match managed_types
+            { "%la", "%a", "%x", "%x", "%hx", "%hx", "%lx", "%lx" }  // Must match managed_types
+        };
+        char_cptr constexpr o_fmt[3][8] =
+        {
+            { "%lf", "%f", "%o", "%o", "%ho", "%ho", "%lo", "%lo" }, // Must match managed_types
+            { "%le", "%e", "%o", "%o", "%ho", "%ho", "%lo", "%lo" }, // Must match managed_types
+            { "%la", "%a", "%o", "%o", "%ho", "%ho", "%lo", "%lo" }  // Must match managed_types
+        };
+        return base_ == base::dec ? d_fmt[int(notation_)][pos]
+             : base_ == base::hex ? x_fmt[int(notation_)][pos]
+             : base_ == base::oct ? o_fmt[int(notation_)][pos]
+             : (BOOST_ASSERT(0), nullptr);
     }
 };
 
