@@ -4,7 +4,6 @@ cflags := -O3 -I./include -I$(BOOST_ROOT) -Wno-unused-variable -Wno-uninitialize
 lflags := -L$(BOOST_ROOT)/stage/lib -lboost_timer -lboost_chrono -lboost_system
 
 target_1  = convert-test-callable           test/callable.cpp
-target_2  = convert-test-is-converter       test/is_converter.cpp
 target_3  = convert-test-fallbacks          test/fallbacks.cpp
 target_4  = convert-test-spirit-converter   test/spirit_converter.cpp
 target_5  = convert-test-stream-converter   test/stream_converter.cpp
