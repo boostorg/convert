@@ -27,7 +27,7 @@
 #endif
 
 // MSVC-11 and lower have broken SFINAE
-#if defined(BOOST_MSVC) && (BOOST_MSVC < 1800)
+#if defined(_MSVC_VER) && (_MSVC_VER < 1800)
 #   define BOOST_CONVERT_IS_NOT_SUPPORTED
 #endif
 
