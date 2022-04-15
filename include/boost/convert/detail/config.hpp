@@ -22,7 +22,7 @@
 #endif
 
 // No C++11 support
-#if defined(BOOST_GCC_VERSION) && (BOOST_GCC_VERSION <= 40600)
+#if defined(__GNUC__) && (__GNUC__ < 6)
 #   define BOOST_CONVERT_IS_NOT_SUPPORTED
 #endif
 

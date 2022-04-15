@@ -28,7 +28,7 @@ namespace boost::cnv
         static yes_type test (TypeOut const&);
         static no_type  test (...);
 
-        static bool constexpr value = sizeof(yes_type) == sizeof(test(((Functor*) 0)->operator()()));
+        static bool BOOST_CONSTEXPR_OR_CONST value = sizeof(yes_type) == sizeof(test(((Functor*) 0)->operator()()));
     };
     template<typename Functor, typename TypeOut>
     struct is_fun<Functor, TypeOut,

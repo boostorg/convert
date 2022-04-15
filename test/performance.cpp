@@ -36,7 +36,7 @@ namespace { namespace local
     };
     template<typename T> static typename array<T>::type const& get();
 
-    int constexpr num_cycles = 1000000;
+    int BOOST_CONSTEXPR_OR_CONST num_cycles = 1000000;
     int                  sum = 0;
 
     struct timer : boost::timer::cpu_timer

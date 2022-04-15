@@ -15,15 +15,15 @@ namespace boost::cnv
 
         template<typename T> struct is_string<T*, false>
         {
-            static bool constexpr value = cnv::is_char<T>::value;
+            static bool BOOST_CONSTEXPR_OR_CONST value = cnv::is_char<T>::value;
         };
         template <typename T, std::size_t N> struct is_string<T [N], false>
         {
-            static bool constexpr value = cnv::is_char<T>::value;
+            static bool BOOST_CONSTEXPR_OR_CONST value = cnv::is_char<T>::value;
         };
         template<typename T> struct is_string<T, /*is_range_class=*/true>
         {
-            static bool constexpr value = cnv::is_char<typename T::value_type>::value;
+            static bool BOOST_CONSTEXPR_OR_CONST value = cnv::is_char<typename T::value_type>::value;
         };
     }
     template<typename T>

@@ -73,7 +73,7 @@ class __trait_name__                                                            
     {                                                                                       \
         using a1 = typename boost::decay<Arg1>::type*;                                      \
                                                                                             \
-        static bool constexpr value =                                                       \
+        static bool BOOST_CONSTEXPR_OR_CONST value =                                                       \
             sizeof(boost::type_traits::yes_type) ==                                         \
             sizeof(boost::cnv::detail::redirect<class_type, R>::test(                       \
                 (mixin_ptr(0)->__member_name__(*a1(0)),                                     \
@@ -85,7 +85,7 @@ class __trait_name__                                                            
         using a1 = typename boost::decay<Arg1>::type*;                                      \
         using a2 = typename boost::decay<Arg2>::type*;                                      \
                                                                                             \
-        static bool constexpr value =                                                       \
+        static bool BOOST_CONSTEXPR_OR_CONST value =                                                       \
             sizeof(boost::type_traits::yes_type) ==                                         \
             sizeof(boost::cnv::detail::redirect<class_type, R>::test(                       \
                 (mixin_ptr(0)->__member_name__(*a1(0), *a2(0)),                             \
@@ -95,7 +95,7 @@ class __trait_name__                                                            
     public:                                                                                 \
                                                                                             \
     /* Check the existence of __member_name__ first, then the signature. */                 \
-    static bool constexpr value = check<has_member<class_type>::value, signature>::value;   \
+    static bool BOOST_CONSTEXPR_OR_CONST value = check<has_member<class_type>::value, signature>::value;   \
 }
 
 #endif // BOOST_CONVERT_IS_CALLABLE_HPP

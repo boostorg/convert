@@ -20,7 +20,7 @@ namespace boost::cnv
             BOOST_DECLARE_HAS_MEMBER(has_begin, begin);
             BOOST_DECLARE_HAS_MEMBER(  has_end, end);
 
-            static bool constexpr value = has_begin<T>::value && has_end<T>::value;
+            static bool BOOST_CONSTEXPR_OR_CONST value = has_begin<T>::value && has_end<T>::value;
         };
     }
     template<typename T> struct is_range : detail::is_range<typename boost::remove_const<T>::type, boost::is_class<T>::value> {};
