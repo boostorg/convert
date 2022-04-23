@@ -9,6 +9,7 @@
 !scan ../include/boost/convert/spirit.hpp
 !scan ../include/boost/convert/stream.hpp
 !scan ../include/boost/convert/strtol.hpp
+!scan ../include/boost/convert/charconv.hpp
 !scan ../include/boost/make_default.hpp
 !scan ../include/boost/convert.hpp
 

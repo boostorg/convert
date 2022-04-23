@@ -353,7 +353,7 @@ static
 void
 test_notation()
 {
-    //[charconv_notation
+    //[stream_notation
     boost::cnv::cstream cnv;
 
     BOOST_TEST(  "-3.14159" == convert<string>(-3.14159, cnv(arg::notation = cnv::notation::fixed)(arg::precision = 5)).value());

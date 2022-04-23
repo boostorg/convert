@@ -13,4 +13,7 @@ if(HAVE_BOOST_TEST)
     boost_test(TYPE run NAME convert_test_str_to_int SOURCES str_to_int.cpp LINK_LIBRARIES Boost::convert)
     boost_test(TYPE run NAME convert_test_sfinae SOURCES sfinae.cpp LINK_LIBRARIES Boost::convert)
     boost_test(TYPE run NAME convert_test_has_member SOURCES has_member.cpp LINK_LIBRARIES Boost::convert)
+
+    # these tests require C++17
+    boost_test(TYPE run NAME convert_test_charconv_converter SOURCES charconv_converter.cpp LINK_LIBRARIES Boost::convert Boost::included_unit_test_framework COMPILE_FEATURES cxx_std_17)
 endif()
