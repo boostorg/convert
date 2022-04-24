@@ -5,6 +5,7 @@
 
 # bring in the rules for testing
 import testing ;
+import ../../config/checks/config : requires ;
 
 project convert_test 
     : requirements
@@ -41,3 +42,10 @@ run printf_converter.cpp :
 run stream_converter.cpp :
       /boost/test/included_unit_test_framework  :  :  : convert_test_stream_converter ;
 
+# these tests require C++17
+run charconv_converter.cpp 
+    : /boost/test//included_unit_test_framework
+    :  
+    : [ requires cxx17_hdr_charconv cxx17_structured_bindings cxx17_if_constexpr ]
+      <toolset>gcc:<cxxflags>"-O3 -std=c++17 -Wno-unused-variable -Wno-unused-local-typedefs -Wno-long-long -Wno-nonnull"
+    : convert_test_charconv_converter ;

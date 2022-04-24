@@ -189,5 +189,5 @@ namespace test
     };
 }
 
-#endif // BOOST_CONVERT_TEST_HPP
+#endif
 #endif // BOOST_CONVERT_TEST_HPP

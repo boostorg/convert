@@ -46,6 +46,7 @@
 [include lexcast_converter.qbk]
 [include stream_converter.qbk]
 [include strtol_converter.qbk]
+[include charconv_converter.qbk]
 [include section-end.qbk]
 [include design_notes.qbk]
 [include tools.qbk]
