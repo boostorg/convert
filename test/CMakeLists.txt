@@ -17,3 +17,17 @@ if(HAVE_BOOST_TEST)
     # these tests require C++17
     boost_test(TYPE run NAME convert_test_charconv_converter SOURCES charconv_converter.cpp LINK_LIBRARIES Boost::convert Boost::included_unit_test_framework COMPILE_FEATURES cxx_std_17)
 endif()
+
+function(boost_exe)
+    cmake_parse_arguments("BOOST_EXE" "" "NAME" "SOURCES;LINK_LIBRARIES;COMPILE_DEFINITIONS;COMPILE_OPTIONS;COMPILE_FEATURES;INCLUDE_DIRECTORIES" ${ARGN})
+
+    add_executable(${BOOST_EXE_NAME} EXCLUDE_FROM_ALL ${BOOST_EXE_SOURCES})
+    target_link_libraries(${BOOST_EXE_NAME} PRIVATE ${BOOST_EXE_LINK_LIBRARIES})
+    target_include_directories(${BOOST_EXE_NAME} PRIVATE ${BOOST_EXE_INCLUDE_DIRECTORIES})
+    target_compile_definitions(${BOOST_EXE_NAME} PRIVATE ${BOOST_EXE_COMPILE_DEFINITIONS})
+    target_compile_options(${BOOST_EXE_NAME} PRIVATE ${BOOST_EXE_COMPILE_OPTIONS})
+    target_compile_features(${BOOST_EXE_NAME} PRIVATE ${BOOST_EXE_COMPILE_FEATURES})
+endfunction()
+
+boost_exe(NAME convert_test_performance SOURCES performance.cpp LINK_LIBRARIES Boost::convert Boost::timer Boost::chrono)
+boost_exe(NAME convert_test_performance_spirit SOURCES performance_spirit.cpp LINK_LIBRARIES Boost::convert INCLUDE_DIRECTORIES ${Boost_SOURCE_DIR} COMPILE_FEATURES cxx_std_17)

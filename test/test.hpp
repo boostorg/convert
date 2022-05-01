@@ -134,6 +134,11 @@ struct my_string
 
     static size_t const size_ = 12;
     char storage_[size_];
+
+    friend std::ostream& operator<<(std::ostream& ost, const my_string& str)
+    {
+        return ost << str.c_str();
+    }
 };
 //]
 inline
