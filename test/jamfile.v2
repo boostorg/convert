@@ -3,9 +3,13 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See copy at http://www.boost.org/LICENSE_1_0.txt.
 
+require-b2 5.0.1 ;
+
+import-search /boost/config/checks ;
+
 # bring in the rules for testing
 import testing ;
-import ../../config/checks/config : requires ;
+import config : requires ;
 
 project convert_test 
     : requirements
