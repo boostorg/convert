@@ -18,6 +18,7 @@ target_13 = convert-test-has-member         test/has_member.cpp
 target_14 = convert-test-performance        test/performance.cpp
 target_15 = convert-test-performance-spirit test/performance_spirit.cpp
 target_16 = convert-test-charconv-converter test/charconv_converter.cpp
+target_17 = convert-test-63 				test/issue-63.cpp
 
 target_21 = convert-example-algorithms         example/algorithms.cpp
 target_22 = convert-example-default_converter  example/default_converter.cpp
