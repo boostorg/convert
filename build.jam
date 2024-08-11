@@ -10,7 +10,7 @@ constant boost_dependencies :
     /boost/core//boost_core
     /boost/function_types//boost_function_types
     /boost/lexical_cast//boost_lexical_cast
-    /boost/math//boost_math
+    /boost/math//boost_math_tr1
     /boost/mpl//boost_mpl
     /boost/optional//boost_optional
     /boost/parameter//boost_parameter
